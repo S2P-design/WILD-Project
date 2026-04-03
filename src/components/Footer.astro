@@ -2,6 +2,7 @@
 <div class="footer">
   <p>&copy; 2026 Wild Project — René Wild</p>
   <p style="margin-top: 8px; color: var(--grey-dark);">Design &middot; Perform &middot; Succeed</p>
+  <p class="card-link"><a href="/card">Digitale Visitenkarte</a></p>
   <p style="margin-top: 10px;"><a href="/impressum">Impressum</a> &middot; <a href="/datenschutz">Datenschutz</a></p>
 </div>
 
@@ -16,6 +17,22 @@
   }
   .footer a { color: var(--grey-mid); transition: color 0.2s; }
   .footer a:hover { color: var(--orange); }
+  .card-link {
+    margin-top: 10px;
+    display: none;
+  }
+  .card-link a {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.2);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .card-link a:hover { color: var(--orange); }
+
+  @media (min-width: 701px) {
+    .card-link { display: block; }
+  }
 
   @media (max-width: 700px) {
     .footer { padding: 20px 1.5rem 32px; }
