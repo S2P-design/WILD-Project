@@ -1,0 +1,148 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  pageTitle: string;
+  intro: string;
+}
+
+const { title, description, pageTitle, intro } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="icon" type="image/png" href="/wp-logo.png">
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand"><img src="/wp-logo.png" alt="Wild Project" class="nav-logo"></a>
+  <a href="/" class="nav-back">&larr; Zur&uuml;ck</a>
+</nav>
+
+<div class="page">
+  <h1 class="page-title">{pageTitle}<span>.</span></h1>
+  <p class="page-intro">{intro}</p>
+
+  <slot />
+
+  <div class="footer">
+    <p>&copy; 2026 Wild Project — Ren&eacute; Wild</p>
+    <p style="margin-top: 8px;"><a href="/">Startseite</a> &middot; <a href="/impressum">Impressum</a> &middot; <a href="/datenschutz">Datenschutz</a></p>
+  </div>
+</div>
+
+</body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>
+
+<style>
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 3rem;
+    position: sticky; top: 0;
+    background: rgba(5,5,5,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 10;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .nav-brand { display: flex; align-items: center; }
+  .nav-logo { height: 36px; width: auto; }
+  .nav-back {
+    font-size: 11px; font-weight: 400;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--grey-mid);
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--orange); opacity: 1; }
+
+  .page { max-width: 680px; margin: 0 auto; padding: 60px 2rem 40px; }
+
+  .page-title {
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .page-title span { color: var(--orange); }
+  .page-intro {
+    font-size: 14px;
+    color: var(--grey-mid);
+    margin-bottom: 40px;
+    font-style: italic;
+  }
+
+  :global(h2) {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+  :global(h2::before) {
+    content: '';
+    display: inline-block;
+    width: 16px; height: 1.5px;
+    background: var(--orange);
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  :global(h3) {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--silver);
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  :global(p), :global(ul) { font-size: 14px; color: var(--grey-mid); margin-bottom: 12px; }
+  :global(ul) { padding-left: 20px; }
+  :global(li) { margin-bottom: 6px; }
+  :global(strong) { color: var(--silver); font-weight: 500; }
+
+  :global(.legal-box) {
+    background: rgba(255,255,255,0.03);
+    border-left: 2px solid var(--orange);
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  :global(.legal-box p) { margin-bottom: 4px; }
+
+  :global(.side-note) {
+    font-size: 12px;
+    color: var(--grey-dark);
+    margin-top: -4px;
+    margin-bottom: 16px;
+  }
+
+  :global(a) { color: var(--orange); text-decoration: none; transition: opacity 0.2s; }
+  :global(a:hover) { opacity: 0.7; }
+
+  .footer {
+    text-align: center;
+    padding: 40px 2rem 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 48px;
+  }
+  .footer p { font-size: 10px; color: var(--grey-dark); letter-spacing: 1px; }
+  .footer a { color: var(--grey-mid); }
+  .footer a:hover { color: var(--orange); opacity: 1; }
+
+  @media (max-width: 700px) {
+    nav { padding: 14px 1.5rem; }
+    .page { padding: 40px 1.5rem 24px; }
+  }
+</style>
