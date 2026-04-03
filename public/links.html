@@ -72,6 +72,21 @@
     margin-top: 4px;
     letter-spacing: 0.3px;
   }
+  .header-tagline {
+    font-family: monospace;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 10px;
+    display: inline-block;
+    overflow: hidden;
+    border-right: 2px solid #FC5000;
+    white-space: nowrap;
+    width: 0;
+    animation: typing 2.5s steps(32) 1.2s forwards, blink 0.6s step-end infinite 1.2s;
+  }
+
   .header-claim {
     font-size: 8px;
     font-weight: 300;
@@ -80,6 +95,13 @@
     margin-top: 14px;
   }
   .header-claim .o { color: #FC5000; }
+
+  @keyframes typing {
+    to { width: 25.5em; }
+  }
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
 
   /* ── Section ── */
   .section {
@@ -323,7 +345,7 @@
     <div class="header-brand"><span class="o">WILD</span> PROJECT</div>
     <h1 class="header-name">René <span>Wild</span></h1>
     <p class="header-role">Development Coach · Podcaster · Ästhetik Junkie</p>
-    <p class="header-claim"><span class="o">D</span>ESIGN. <span class="o">P</span>ERFORM. <span class="o">S</span>UCCEED.</p>
+    <p class="header-tagline">LIVE BY DESIGN, NOT BY DEFAULT.</p>
   </div>
 
   <!-- ══════ WILD PROJECT ══════ -->
