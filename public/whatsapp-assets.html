@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp Assets — Wild Project</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #0a0a0a;
+    color: #F5F5F3;
+    padding: 40px;
+  }
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+  .subtitle { font-size: 12px; color: #666; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px; }
+
+  .section { margin-bottom: 60px; }
+  .section-title {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: #FC5000; margin-bottom: 20px;
+  }
+  .section-desc {
+    font-size: 13px; color: #888; line-height: 1.7; margin-bottom: 20px; max-width: 500px;
+  }
+
+  .asset-row { display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap; }
+
+  /* Wallpaper preview */
+  .wallpaper-wrap {
+    width: 220px;
+    text-align: center;
+  }
+  .wallpaper-label {
+    font-size: 9px; color: #666; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px;
+  }
+  canvas { border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+
+  /* Profile pic preview */
+  .pfp-wrap { text-align: center; }
+  .pfp-label {
+    font-size: 9px; color: #666; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px;
+  }
+
+  /* Download buttons */
+  .dl-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  .dl-btn:hover {
+    color: #FC5000;
+    border-color: rgba(252,80,0,0.3);
+    background: rgba(252,80,0,0.06);
+  }
+
+  /* Tips */
+  .tips {
+    max-width: 560px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 28px 32px;
+  }
+  .tips h3 {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: #FC5000; margin-bottom: 16px;
+  }
+  .tip {
+    display: flex; gap: 12px;
+    margin-bottom: 16px;
+    font-size: 13px; color: #999; line-height: 1.7;
+  }
+  .tip:last-child { margin-bottom: 0; }
+  .tip-num {
+    font-size: 11px; font-weight: 600;
+    color: #FC5000; min-width: 20px; padding-top: 2px;
+  }
+  .tip strong { color: #F5F5F3; font-weight: 500; }
+  .tip code {
+    background: rgba(252,80,0,0.1);
+    color: #FC5000;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+  }
+</style>
+</head>
+<body>
+
+<h1>WhatsApp Assets — Wild Project</h1>
+<p class="subtitle">Wallpaper · Profilbild · Profil-Tipps</p>
+
+<!-- ══════ WALLPAPER ══════ -->
+<div class="section">
+  <div class="section-title">Wallpaper</div>
+  <div class="section-desc">Dark Gradient mit subtle Orange Glow. Optimiert für iPhone (1290 × 2796px). Passt zu jedem Chat ohne abzulenken.</div>
+  <div class="asset-row">
+    <div class="wallpaper-wrap">
+      <p class="wallpaper-label">Variante 1 — Subtle Glow</p>
+      <canvas id="wp1" width="220" height="476"></canvas>
+      <br><a class="dl-btn" id="dlWp1">↓ Download</a>
+    </div>
+    <div class="wallpaper-wrap">
+      <p class="wallpaper-label">Variante 2 — Center Beam</p>
+      <canvas id="wp2" width="220" height="476"></canvas>
+      <br><a class="dl-btn" id="dlWp2">↓ Download</a>
+    </div>
+    <div class="wallpaper-wrap">
+      <p class="wallpaper-label">Variante 3 — Minimal Dark</p>
+      <canvas id="wp3" width="220" height="476"></canvas>
+      <br><a class="dl-btn" id="dlWp3">↓ Download</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ PROFILBILD ══════ -->
+<div class="section">
+  <div class="section-title">Profilbild</div>
+  <div class="section-desc">WP-Monogramm im Brand-Look. 1000×1000px, optimiert für WhatsApp-Rundschnitt.</div>
+  <div class="asset-row">
+    <div class="pfp-wrap">
+      <p class="pfp-label">Dark — Orange Logo</p>
+      <canvas id="pfp1" width="200" height="200" style="border-radius: 50%;"></canvas>
+      <br><a class="dl-btn" id="dlPfp1">↓ Download</a>
+    </div>
+    <div class="pfp-wrap">
+      <p class="pfp-label">Orange Gradient</p>
+      <canvas id="pfp2" width="200" height="200" style="border-radius: 50%;"></canvas>
+      <br><a class="dl-btn" id="dlPfp2">↓ Download</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ PROFIL TIPPS ══════ -->
+<div class="section">
+  <div class="section-title">WhatsApp Business Profil — Tipps</div>
+  <div class="tips">
+    <h3>Optimales Setup</h3>
+    <div class="tip">
+      <span class="tip-num">01</span>
+      <div><strong>Name:</strong> René Wild — Wild Project<br>Persönlich + Brand in einem. WhatsApp zeigt nur ~25 Zeichen.</div>
+    </div>
+    <div class="tip">
+      <span class="tip-num">02</span>
+      <div><strong>Info/Status:</strong> <code>Design. Perform. Succeed.</code><br>Claim als Status — kurz, prägnant, branded. Alternativ: <code>Development Coach · Podcaster</code></div>
+    </div>
+    <div class="tip">
+      <span class="tip-num">03</span>
+      <div><strong>Kategorie:</strong> <code>Trainer/in</code> passt — oder <code>Coaching</code> wenn verfügbar.</div>
+    </div>
+    <div class="tip">
+      <span class="tip-num">04</span>
+      <div><strong>Beschreibung:</strong> Kurz und klar:<br><code>Nachwuchs-Eishockeytrainer · Shift2Pro Podcast · Starbulls Rosenheim</code><br>Max 256 Zeichen. Keine Emojis — Understatement.</div>
+    </div>
+    <div class="tip">
+      <span class="tip-num">05</span>
+      <div><strong>Website:</strong> <code>wildproject.pro/card</code><br>Nicht die Hauptseite — direkt die Digital Card. Der Empfänger kann sofort connecten.</div>
+    </div>
+    <div class="tip">
+      <span class="tip-num">06</span>
+      <div><strong>Adresse:</strong> Optional. Wenn ja: nur Rosenheim, kein volles Format.</div>
+    </div>
+    <div class="tip">
+      <span class="tip-num">07</span>
+      <div><strong>Profilbild:</strong> Entweder das WP-Monogramm (Brand) oder ein persönliches Foto (Vertrauen). Für Business-Kontakte: Logo. Für persönliche Kontakte: Foto. Du kannst mit WhatsApp Channels beides haben.</div>
+    </div>
+    <div class="tip">
+      <span class="tip-num">08</span>
+      <div><strong>Geschäftszeiten:</strong> Setze realistische Zeiten. Zeigt Professionalität und setzt Erwartungen.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+//  WALLPAPER GENERATOR (1290 × 2796)
+// ══════════════════════════════════════
+const W = 1290, H = 2796;
+
+function createWallpaper1() {
+  // Subtle orange glow — top left + bottom right
+  const c = document.getElementById('wp1');
+  const preview = c.getContext('2d');
+  const offscreen = new OffscreenCanvas(W, H);
+  const ctx = offscreen.getContext('2d');
+
+  // Base
+  ctx.fillStyle = '#050505';
+  ctx.fillRect(0, 0, W, H);
+
+  // Top-left glow
+  const g1 = ctx.createRadialGradient(0, 0, 0, 0, 0, W * 0.9);
+  g1.addColorStop(0, 'rgba(252,80,0,0.08)');
+  g1.addColorStop(0.5, 'rgba(252,80,0,0.03)');
+  g1.addColorStop(1, 'transparent');
+  ctx.fillStyle = g1;
+  ctx.fillRect(0, 0, W, H);
+
+  // Bottom-right glow
+  const g2 = ctx.createRadialGradient(W, H, 0, W, H, W * 0.8);
+  g2.addColorStop(0, 'rgba(252,80,0,0.06)');
+  g2.addColorStop(0.5, 'rgba(252,80,0,0.02)');
+  g2.addColorStop(1, 'transparent');
+  ctx.fillStyle = g2;
+  ctx.fillRect(0, 0, W, H);
+
+  // Subtle noise texture
+  addNoise(ctx, W, H, 0.015);
+
+  // Preview
+  preview.drawImage(offscreen, 0, 0, 220, 476);
+  return offscreen;
+}
+
+function createWallpaper2() {
+  // Center beam — vertical orange light
+  const c = document.getElementById('wp2');
+  const preview = c.getContext('2d');
+  const offscreen = new OffscreenCanvas(W, H);
+  const ctx = offscreen.getContext('2d');
+
+  ctx.fillStyle = '#050505';
+  ctx.fillRect(0, 0, W, H);
+
+  // Center vertical beam
+  const g1 = ctx.createRadialGradient(W/2, H * 0.35, 0, W/2, H * 0.35, W * 0.5);
+  g1.addColorStop(0, 'rgba(252,80,0,0.1)');
+  g1.addColorStop(0.3, 'rgba(252,80,0,0.04)');
+  g1.addColorStop(1, 'transparent');
+  ctx.fillStyle = g1;
+  ctx.fillRect(0, 0, W, H);
+
+  // Bottom fade
+  const g2 = ctx.createLinearGradient(0, H * 0.7, 0, H);
+  g2.addColorStop(0, 'transparent');
+  g2.addColorStop(1, 'rgba(252,80,0,0.04)');
+  ctx.fillStyle = g2;
+  ctx.fillRect(0, 0, W, H);
+
+  // Thin vertical accent line
+  const g3 = ctx.createLinearGradient(0, 0, 0, H);
+  g3.addColorStop(0, 'transparent');
+  g3.addColorStop(0.3, 'rgba(252,80,0,0.08)');
+  g3.addColorStop(0.7, 'rgba(252,80,0,0.08)');
+  g3.addColorStop(1, 'transparent');
+  ctx.fillStyle = g3;
+  ctx.fillRect(W/2 - 0.5, 0, 1, H);
+
+  addNoise(ctx, W, H, 0.012);
+  preview.drawImage(offscreen, 0, 0, 220, 476);
+  return offscreen;
+}
+
+function createWallpaper3() {
+  // Minimal dark — almost black with very subtle warmth
+  const c = document.getElementById('wp3');
+  const preview = c.getContext('2d');
+  const offscreen = new OffscreenCanvas(W, H);
+  const ctx = offscreen.getContext('2d');
+
+  // Slight gradient — not pure black
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#080808');
+  bg.addColorStop(0.5, '#050505');
+  bg.addColorStop(1, '#060504');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Very subtle center warmth
+  const g1 = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W);
+  g1.addColorStop(0, 'rgba(252,80,0,0.025)');
+  g1.addColorStop(1, 'transparent');
+  ctx.fillStyle = g1;
+  ctx.fillRect(0, 0, W, H);
+
+  addNoise(ctx, W, H, 0.02);
+  preview.drawImage(offscreen, 0, 0, 220, 476);
+  return offscreen;
+}
+
+function addNoise(ctx, w, h, opacity) {
+  const imageData = ctx.getImageData(0, 0, w, h);
+  const data = imageData.data;
+  for (let i = 0; i < data.length; i += 4) {
+    const noise = (Math.random() - 0.5) * 255 * opacity;
+    data[i] += noise;
+    data[i+1] += noise;
+    data[i+2] += noise;
+  }
+  ctx.putImageData(imageData, 0, 0);
+}
+
+// ══════════════════════════════════════
+//  PROFILE PICTURE GENERATOR (1000×1000)
+// ══════════════════════════════════════
+const PFP = 1000;
+
+function createPfp1() {
+  const c = document.getElementById('pfp1');
+  const preview = c.getContext('2d');
+  const offscreen = new OffscreenCanvas(PFP, PFP);
+  const ctx = offscreen.getContext('2d');
+
+  // Dark background with subtle gradient
+  const bg = ctx.createRadialGradient(PFP/2, PFP/2, 0, PFP/2, PFP/2, PFP * 0.6);
+  bg.addColorStop(0, '#0a0a0a');
+  bg.addColorStop(1, '#050505');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, PFP, PFP);
+
+  // Subtle orange glow behind text
+  const glow = ctx.createRadialGradient(PFP/2, PFP/2, 0, PFP/2, PFP/2, PFP * 0.35);
+  glow.addColorStop(0, 'rgba(252,80,0,0.08)');
+  glow.addColorStop(1, 'transparent');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, PFP, PFP);
+
+  // WP text
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  // W
+  ctx.font = '700 220px Poppins, sans-serif';
+  ctx.fillStyle = '#FC5000';
+  ctx.fillText('W', PFP/2 - 80, PFP/2 - 10);
+
+  // P
+  ctx.font = '300 220px Poppins, sans-serif';
+  ctx.fillStyle = 'rgba(245,245,243,0.7)';
+  ctx.fillText('P', PFP/2 + 100, PFP/2 - 10);
+
+  addNoise(ctx, PFP, PFP, 0.01);
+  preview.drawImage(offscreen, 0, 0, 200, 200);
+  return offscreen;
+}
+
+function createPfp2() {
+  const c = document.getElementById('pfp2');
+  const preview = c.getContext('2d');
+  const offscreen = new OffscreenCanvas(PFP, PFP);
+  const ctx = offscreen.getContext('2d');
+
+  // Orange gradient background
+  const bg = ctx.createLinearGradient(0, 0, PFP, PFP);
+  bg.addColorStop(0, '#FC5000');
+  bg.addColorStop(0.5, '#d44400');
+  bg.addColorStop(1, '#a33500');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, PFP, PFP);
+
+  // Overlay for depth
+  const overlay = ctx.createRadialGradient(PFP * 0.3, PFP * 0.3, 0, PFP/2, PFP/2, PFP * 0.7);
+  overlay.addColorStop(0, 'rgba(255,255,255,0.1)');
+  overlay.addColorStop(1, 'rgba(0,0,0,0.15)');
+  ctx.fillStyle = overlay;
+  ctx.fillRect(0, 0, PFP, PFP);
+
+  // WP text — white
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  ctx.font = '700 220px Poppins, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.95)';
+  ctx.fillText('W', PFP/2 - 80, PFP/2 - 10);
+
+  ctx.font = '300 220px Poppins, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.7)';
+  ctx.fillText('P', PFP/2 + 100, PFP/2 - 10);
+
+  addNoise(ctx, PFP, PFP, 0.008);
+  preview.drawImage(offscreen, 0, 0, 200, 200);
+  return offscreen;
+}
+
+// ══════════════════════════════════════
+//  INIT + DOWNLOAD
+// ══════════════════════════════════════
+let wp1, wp2, wp3, pfp1, pfp2;
+
+window.addEventListener('load', () => {
+  // Small delay for font loading
+  setTimeout(() => {
+    wp1 = createWallpaper1();
+    wp2 = createWallpaper2();
+    wp3 = createWallpaper3();
+    pfp1 = createPfp1();
+    pfp2 = createPfp2();
+  }, 500);
+});
+
+function downloadCanvas(offscreen, filename) {
+  offscreen.convertToBlob({ type: 'image/png' }).then(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+}
+
+document.getElementById('dlWp1').addEventListener('click', () => downloadCanvas(wp1, 'WP-Wallpaper-SubtleGlow.png'));
+document.getElementById('dlWp2').addEventListener('click', () => downloadCanvas(wp2, 'WP-Wallpaper-CenterBeam.png'));
+document.getElementById('dlWp3').addEventListener('click', () => downloadCanvas(wp3, 'WP-Wallpaper-MinimalDark.png'));
+document.getElementById('dlPfp1').addEventListener('click', () => downloadCanvas(pfp1, 'WP-Profilbild-Dark.png'));
+document.getElementById('dlPfp2').addEventListener('click', () => downloadCanvas(pfp2, 'WP-Profilbild-Orange.png'));
+</script>
+
+</body>
+</html>

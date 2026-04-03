@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wallpaper Generator — Wild Project</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #050505;
+    color: #F5F5F3;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .sub { font-size: 10px; color: #666; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 32px; }
+
+  .preview-row {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+  .preview-item { text-align: center; }
+  .preview-label {
+    font-size: 9px; color: #666; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .preview-wrap {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .preview-wrap canvas {
+    display: block;
+  }
+
+  .dl-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 12px 28px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  .dl-btn:hover {
+    color: #FC5000;
+    border-color: rgba(252,80,0,0.3);
+    background: rgba(252,80,0,0.06);
+  }
+
+  .loading {
+    font-size: 11px; color: #666; letter-spacing: 1px;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<h1>iPhone Wallpaper — Wild Project</h1>
+<p class="sub">1290 × 2796px · Brand Design</p>
+
+<div class="preview-row">
+  <div class="preview-item">
+    <p class="preview-label">Aurora Ember</p>
+    <div class="preview-wrap">
+      <canvas id="c1" width="258" height="559"></canvas>
+    </div>
+    <a class="dl-btn" id="dl1">↓ Download Full Res</a>
+  </div>
+
+  <div class="preview-item">
+    <p class="preview-label">Monolith</p>
+    <div class="preview-wrap">
+      <canvas id="c2" width="258" height="559"></canvas>
+    </div>
+    <a class="dl-btn" id="dl2">↓ Download Full Res</a>
+  </div>
+
+  <div class="preview-item">
+    <p class="preview-label">Horizon</p>
+    <div class="preview-wrap">
+      <canvas id="c3" width="258" height="559"></canvas>
+    </div>
+    <a class="dl-btn" id="dl3">↓ Download Full Res</a>
+  </div>
+</div>
+
+<p class="loading" id="status">Rendering...</p>
+
+<script>
+const W = 1290, H = 2796;
+const ORANGE = '#FC5000';
+
+// ── Utility functions ──
+function addNoise(ctx, w, h, intensity) {
+  const img = ctx.getImageData(0, 0, w, h);
+  const d = img.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const n = (Math.random() - 0.5) * 255 * intensity;
+    d[i] += n;
+    d[i+1] += n;
+    d[i+2] += n;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+function drawSoftCircle(ctx, x, y, r, color) {
+  const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+  g.addColorStop(0, color);
+  g.addColorStop(1, 'transparent');
+  ctx.fillStyle = g;
+  ctx.fillRect(x - r, y - r, r * 2, r * 2);
+}
+
+// ══════════════════════════════════════
+//  1. AURORA EMBER
+// ══════════════════════════════════════
+function renderAurora() {
+  const off = new OffscreenCanvas(W, H);
+  const ctx = off.getContext('2d');
+
+  // Deep black base with warm undertone
+  const base = ctx.createLinearGradient(0, 0, 0, H);
+  base.addColorStop(0, '#050505');
+  base.addColorStop(0.4, '#050505');
+  base.addColorStop(0.6, '#070504');
+  base.addColorStop(1, '#050505');
+  ctx.fillStyle = base;
+  ctx.fillRect(0, 0, W, H);
+
+  // Large aurora glow — top area
+  ctx.globalCompositeOperation = 'screen';
+
+  // Primary ember — upper third, off-center
+  drawSoftCircle(ctx, W * 0.35, H * 0.22, W * 1.1, 'rgba(252,80,0,0.07)');
+  drawSoftCircle(ctx, W * 0.3, H * 0.18, W * 0.6, 'rgba(252,80,0,0.06)');
+  drawSoftCircle(ctx, W * 0.45, H * 0.25, W * 0.35, 'rgba(252,100,20,0.05)');
+
+  // Secondary warm spot — lower
+  drawSoftCircle(ctx, W * 0.7, H * 0.72, W * 0.8, 'rgba(252,80,0,0.04)');
+  drawSoftCircle(ctx, W * 0.65, H * 0.7, W * 0.4, 'rgba(252,60,0,0.03)');
+
+  // Cool accent — hint of deep red
+  drawSoftCircle(ctx, W * 0.15, H * 0.55, W * 0.5, 'rgba(180,30,0,0.02)');
+
+  // Bright hot spot
+  drawSoftCircle(ctx, W * 0.38, H * 0.2, W * 0.15, 'rgba(255,120,40,0.04)');
+
+  ctx.globalCompositeOperation = 'source-over';
+
+  // Flowing aurora streaks using bezier curves
+  ctx.globalCompositeOperation = 'screen';
+  for (let i = 0; i < 8; i++) {
+    ctx.beginPath();
+    const yBase = H * (0.15 + i * 0.03);
+    const xOff = Math.sin(i * 0.8) * W * 0.2;
+    ctx.moveTo(-100, yBase + xOff);
+    ctx.bezierCurveTo(
+      W * 0.25, yBase - W * 0.08 + xOff,
+      W * 0.75, yBase + W * 0.12 + xOff,
+      W + 100, yBase - W * 0.05 + xOff
+    );
+    const opacity = 0.015 + Math.random() * 0.015;
+    ctx.strokeStyle = `rgba(252,80,0,${opacity})`;
+    ctx.lineWidth = 40 + Math.random() * 80;
+    ctx.filter = `blur(${20 + Math.random() * 30}px)`;
+    ctx.stroke();
+  }
+  ctx.filter = 'none';
+  ctx.globalCompositeOperation = 'source-over';
+
+  // Subtle geometric lines — thin, diagonal
+  ctx.globalCompositeOperation = 'screen';
+  for (let i = 0; i < 5; i++) {
+    ctx.beginPath();
+    const x1 = W * (0.1 + i * 0.2);
+    const y1 = 0;
+    const x2 = x1 - W * 0.15;
+    const y2 = H;
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = `rgba(252,80,0,${0.008 + i * 0.003})`;
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+  }
+  ctx.globalCompositeOperation = 'source-over';
+
+  // Vignette
+  const vig = ctx.createRadialGradient(W/2, H/2, W * 0.3, W/2, H/2, W * 0.9);
+  vig.addColorStop(0, 'transparent');
+  vig.addColorStop(1, 'rgba(0,0,0,0.4)');
+  ctx.fillStyle = vig;
+  ctx.fillRect(0, 0, W, H);
+
+  // Film grain
+  addNoise(ctx, W, H, 0.018);
+
+  return off;
+}
+
+// ══════════════════════════════════════
+//  2. MONOLITH
+// ══════════════════════════════════════
+function renderMonolith() {
+  const off = new OffscreenCanvas(W, H);
+  const ctx = off.getContext('2d');
+
+  // Base
+  ctx.fillStyle = '#040404';
+  ctx.fillRect(0, 0, W, H);
+
+  // Central vertical light column
+  ctx.globalCompositeOperation = 'screen';
+  const col = ctx.createLinearGradient(W/2 - W*0.15, 0, W/2 + W*0.15, 0);
+  col.addColorStop(0, 'transparent');
+  col.addColorStop(0.3, 'rgba(252,80,0,0.015)');
+  col.addColorStop(0.5, 'rgba(252,80,0,0.04)');
+  col.addColorStop(0.7, 'rgba(252,80,0,0.015)');
+  col.addColorStop(1, 'transparent');
+  ctx.fillStyle = col;
+  ctx.fillRect(0, 0, W, H);
+
+  // Bright center point
+  drawSoftCircle(ctx, W/2, H * 0.42, W * 0.4, 'rgba(252,80,0,0.08)');
+  drawSoftCircle(ctx, W/2, H * 0.42, W * 0.18, 'rgba(255,100,20,0.06)');
+  drawSoftCircle(ctx, W/2, H * 0.42, W * 0.06, 'rgba(255,140,60,0.04)');
+
+  // Horizontal light flares from center
+  for (let i = 0; i < 12; i++) {
+    const angle = (i / 12) * Math.PI * 2;
+    const len = W * (0.3 + Math.random() * 0.5);
+    const cx = W/2;
+    const cy = H * 0.42;
+    const ex = cx + Math.cos(angle) * len;
+    const ey = cy + Math.sin(angle) * len * 0.3;
+
+    const flare = ctx.createLinearGradient(cx, cy, ex, ey);
+    flare.addColorStop(0, `rgba(252,80,0,${0.03 + Math.random() * 0.02})`);
+    flare.addColorStop(1, 'transparent');
+
+    ctx.beginPath();
+    ctx.moveTo(cx - 1, cy);
+    ctx.lineTo(ex, ey - 2);
+    ctx.lineTo(ex, ey + 2);
+    ctx.closePath();
+    ctx.fillStyle = flare;
+    ctx.fill();
+  }
+
+  // Thin orange horizontal line through center
+  const hLine = ctx.createLinearGradient(0, 0, W, 0);
+  hLine.addColorStop(0, 'transparent');
+  hLine.addColorStop(0.2, 'rgba(252,80,0,0.02)');
+  hLine.addColorStop(0.5, 'rgba(252,80,0,0.12)');
+  hLine.addColorStop(0.8, 'rgba(252,80,0,0.02)');
+  hLine.addColorStop(1, 'transparent');
+  ctx.fillStyle = hLine;
+  ctx.fillRect(0, H * 0.42 - 0.5, W, 1);
+
+  // Grid dots — very subtle
+  for (let x = 0; x < W; x += 80) {
+    for (let y = 0; y < H; y += 80) {
+      const dist = Math.hypot(x - W/2, (y - H*0.42) * 2) / W;
+      const opacity = Math.max(0, 0.04 - dist * 0.04);
+      if (opacity > 0.005) {
+        ctx.beginPath();
+        ctx.arc(x, y, 0.8, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(252,80,0,${opacity})`;
+        ctx.fill();
+      }
+    }
+  }
+
+  ctx.globalCompositeOperation = 'source-over';
+
+  // Top + bottom fade to black
+  const topFade = ctx.createLinearGradient(0, 0, 0, H * 0.15);
+  topFade.addColorStop(0, 'rgba(4,4,4,0.9)');
+  topFade.addColorStop(1, 'transparent');
+  ctx.fillStyle = topFade;
+  ctx.fillRect(0, 0, W, H * 0.15);
+
+  const botFade = ctx.createLinearGradient(0, H * 0.85, 0, H);
+  botFade.addColorStop(0, 'transparent');
+  botFade.addColorStop(1, 'rgba(4,4,4,0.9)');
+  ctx.fillStyle = botFade;
+  ctx.fillRect(0, H * 0.85, W, H * 0.15);
+
+  // Vignette
+  const vig = ctx.createRadialGradient(W/2, H * 0.42, W * 0.15, W/2, H * 0.42, W);
+  vig.addColorStop(0, 'transparent');
+  vig.addColorStop(1, 'rgba(0,0,0,0.5)');
+  ctx.fillStyle = vig;
+  ctx.fillRect(0, 0, W, H);
+
+  addNoise(ctx, W, H, 0.015);
+  return off;
+}
+
+// ══════════════════════════════════════
+//  3. HORIZON
+// ══════════════════════════════════════
+function renderHorizon() {
+  const off = new OffscreenCanvas(W, H);
+  const ctx = off.getContext('2d');
+
+  // Gradient base — deep dark with warm zone
+  const base = ctx.createLinearGradient(0, 0, 0, H);
+  base.addColorStop(0, '#030303');
+  base.addColorStop(0.35, '#050505');
+  base.addColorStop(0.52, '#0a0604');
+  base.addColorStop(0.55, '#080503');
+  base.addColorStop(0.7, '#050505');
+  base.addColorStop(1, '#030303');
+  ctx.fillStyle = base;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.globalCompositeOperation = 'screen';
+
+  // Horizon glow — wide band
+  const horizonY = H * 0.53;
+  drawSoftCircle(ctx, W/2, horizonY, W * 1.2, 'rgba(252,80,0,0.05)');
+  drawSoftCircle(ctx, W/2, horizonY, W * 0.6, 'rgba(252,80,0,0.04)');
+  drawSoftCircle(ctx, W * 0.4, horizonY, W * 0.3, 'rgba(255,100,20,0.03)');
+
+  // Sun-like orb at horizon
+  drawSoftCircle(ctx, W/2, horizonY, W * 0.12, 'rgba(252,80,0,0.1)');
+  drawSoftCircle(ctx, W/2, horizonY, W * 0.05, 'rgba(255,140,60,0.08)');
+  drawSoftCircle(ctx, W/2, horizonY, W * 0.02, 'rgba(255,180,100,0.06)');
+
+  // Horizontal streaks — atmosphere layers
+  for (let i = 0; i < 20; i++) {
+    const y = horizonY + (i - 10) * H * 0.008;
+    const hGrad = ctx.createLinearGradient(0, 0, W, 0);
+    const op = 0.02 * Math.exp(-Math.abs(i - 10) * 0.2);
+    hGrad.addColorStop(0, 'transparent');
+    hGrad.addColorStop(0.15, `rgba(252,80,0,${op * 0.3})`);
+    hGrad.addColorStop(0.5, `rgba(252,80,0,${op})`);
+    hGrad.addColorStop(0.85, `rgba(252,80,0,${op * 0.3})`);
+    hGrad.addColorStop(1, 'transparent');
+    ctx.fillStyle = hGrad;
+    ctx.fillRect(0, y - 2, W, 4 + Math.random() * 4);
+  }
+
+  // Mountain/ridge silhouette
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.beginPath();
+  ctx.moveTo(0, horizonY + 20);
+  // Generate jagged mountain line
+  const points = [];
+  for (let x = 0; x <= W; x += 4) {
+    const base = horizonY + 15;
+    const mountain = Math.sin(x * 0.003) * 30
+      + Math.sin(x * 0.008) * 15
+      + Math.sin(x * 0.02) * 8
+      + Math.sin(x * 0.05) * 3;
+    points.push({ x, y: base - Math.abs(mountain) });
+  }
+  ctx.moveTo(0, H);
+  ctx.lineTo(0, points[0].y);
+  points.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(W, H);
+  ctx.closePath();
+  ctx.fillStyle = '#030303';
+  ctx.fill();
+
+  // Subtle ridge highlight
+  ctx.globalCompositeOperation = 'screen';
+  ctx.beginPath();
+  points.forEach((p, i) => {
+    if (i === 0) ctx.moveTo(p.x, p.y);
+    else ctx.lineTo(p.x, p.y);
+  });
+  const ridgeGrad = ctx.createLinearGradient(0, 0, W, 0);
+  ridgeGrad.addColorStop(0, 'transparent');
+  ridgeGrad.addColorStop(0.3, 'rgba(252,80,0,0.06)');
+  ridgeGrad.addColorStop(0.5, 'rgba(252,80,0,0.12)');
+  ridgeGrad.addColorStop(0.7, 'rgba(252,80,0,0.06)');
+  ridgeGrad.addColorStop(1, 'transparent');
+  ctx.strokeStyle = ridgeGrad;
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Stars above horizon
+  ctx.globalCompositeOperation = 'screen';
+  for (let i = 0; i < 120; i++) {
+    const sx = Math.random() * W;
+    const sy = Math.random() * horizonY * 0.9;
+    const sr = 0.3 + Math.random() * 1;
+    const so = 0.05 + Math.random() * 0.15;
+    ctx.beginPath();
+    ctx.arc(sx, sy, sr, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${so})`;
+    ctx.fill();
+  }
+
+  // Reflection below horizon — subtle
+  drawSoftCircle(ctx, W/2, horizonY + H * 0.1, W * 0.5, 'rgba(252,80,0,0.015)');
+
+  ctx.globalCompositeOperation = 'source-over';
+
+  // Vignette
+  const vig = ctx.createRadialGradient(W/2, horizonY, W * 0.2, W/2, horizonY, W);
+  vig.addColorStop(0, 'transparent');
+  vig.addColorStop(1, 'rgba(0,0,0,0.45)');
+  ctx.fillStyle = vig;
+  ctx.fillRect(0, 0, W, H);
+
+  addNoise(ctx, W, H, 0.016);
+  return off;
+}
+
+// ══════════════════════════════════════
+//  RENDER ALL + DOWNLOAD
+// ══════════════════════════════════════
+let canvases = {};
+
+async function init() {
+  const status = document.getElementById('status');
+
+  status.textContent = 'Rendering Aurora Ember...';
+  await new Promise(r => setTimeout(r, 50));
+  canvases.c1 = renderAurora();
+  document.getElementById('c1').getContext('2d').drawImage(canvases.c1, 0, 0, 258, 559);
+
+  status.textContent = 'Rendering Monolith...';
+  await new Promise(r => setTimeout(r, 50));
+  canvases.c2 = renderMonolith();
+  document.getElementById('c2').getContext('2d').drawImage(canvases.c2, 0, 0, 258, 559);
+
+  status.textContent = 'Rendering Horizon...';
+  await new Promise(r => setTimeout(r, 50));
+  canvases.c3 = renderHorizon();
+  document.getElementById('c3').getContext('2d').drawImage(canvases.c3, 0, 0, 258, 559);
+
+  status.textContent = 'Ready — tap to download';
+}
+
+function download(key, name) {
+  canvases[key].convertToBlob({ type: 'image/png' }).then(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+}
+
+document.getElementById('dl1').addEventListener('click', () => download('c1', 'WildProject-AuroraEmber-1290x2796.png'));
+document.getElementById('dl2').addEventListener('click', () => download('c2', 'WildProject-Monolith-1290x2796.png'));
+document.getElementById('dl3').addEventListener('click', () => download('c3', 'WildProject-Horizon-1290x2796.png'));
+
+window.addEventListener('load', () => setTimeout(init, 300));
+</script>
+
+</body>
+</html>
