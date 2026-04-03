@@ -50,28 +50,27 @@
     opacity: 0.8;
     margin-bottom: 16px;
   }
-  .header-brand {
-    font-size: 10px;
-    font-weight: 300;
-    letter-spacing: 5px;
-    color: rgba(255,255,255,0.4);
-    margin-bottom: 6px;
+  .header-title {
+    font-family: monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 8px;
   }
-  .header-brand .o { color: #FC5000; }
-  .header-name {
-    font-size: 28px;
+  .header-title .aka { color: rgba(255,255,255,0.25); }
+  .header-title .name { color: #FC5000; }
+  .header-title .slash { color: rgba(255,255,255,0.15); margin: 0 4px; }
+  .header-title .ws { color: rgba(255,255,255,0.3); font-style: italic; }
+  .header-headline {
+    font-size: clamp(22px, 6vw, 32px);
     font-weight: 700;
+    line-height: 1.2;
     letter-spacing: -0.5px;
     color: var(--white, #F5F5F3);
-  }
-  .header-name span { color: #FC5000; }
-  .header-role {
-    font-size: 11px;
-    font-weight: 300;
-    color: rgba(255,255,255,0.3);
     margin-top: 4px;
-    letter-spacing: 0.3px;
   }
+  .header-headline .wild { color: #FC5000; }
   .header-tagline {
     font-family: monospace;
     font-size: 10px;
@@ -342,9 +341,8 @@
   <!-- ══════ HEADER ══════ -->
   <div class="header">
     <img src="/wp-logo.png" alt="WP" class="header-logo">
-    <div class="header-brand"><span class="o">WILD</span> PROJECT</div>
-    <h1 class="header-name">René <span>Wild</span></h1>
-    <p class="header-role">Development Coach · Podcaster · Ästhetik Junkie</p>
+    <p class="header-title">WILD PROJECT <span class="aka">AKA</span> <span class="name">RENÉ WILD</span> <span class="slash">//</span> <span class="ws">workspace</span></p>
+    <h1 class="header-headline">ALLES WIRD GUT<br>SOLANGE DU <span class="wild">WILD</span> BIST.</h1>
     <p class="header-tagline">LIVE BY DESIGN, NOT BY DEFAULT.</p>
   </div>
 
