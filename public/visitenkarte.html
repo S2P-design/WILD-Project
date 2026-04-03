@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Visitenkarte — Wild Project</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Poppins', Arial, sans-serif; background: #f0f0f0; padding: 40px; color: #333; }
+
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .subtitle { font-size: 12px; color: #999; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px; }
+
+  .card-pair { display: flex; gap: 40px; margin-bottom: 48px; flex-wrap: wrap; align-items: flex-start; }
+  .card-wrap { text-align: center; }
+  .card-label { font-size: 10px; color: #999; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+
+  .card {
+    width: 321px;
+    height: 208px;
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+
+  /* ══════════════════════════════════════ */
+  /*  VORDERSEITE — nur Logo, nichts sonst */
+  /* ══════════════════════════════════════ */
+  .card-front {
+    background: #050505;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-front .wp-logo {
+    width: 46px;
+    height: 46px;
+    opacity: 0.9;
+  }
+
+  /* ══════════════════════════════════════ */
+  /*  RÜCKSEITE — clean, kein Orange       */
+  /* ══════════════════════════════════════ */
+  .card-back {
+    background: #050505;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-align: right;
+    padding: 0 32px 28px;
+  }
+  /* ── Orangener Streifen: 0.9mm breit, volle Höhe, links ── */
+  .card-back .stripe {
+    position: absolute;
+    top: 0;
+    left: 24px;
+    width: 3px;
+    height: 100%;
+    background: #FC5000;
+  }
+  .card-back .name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #F5F5F3;
+    letter-spacing: 0.2px;
+  }
+  .card-back .title {
+    font-size: 6.5px;
+    font-weight: 300;
+    color: #666;
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
+  .card-back .spacer {
+    height: 16px;
+  }
+  .card-back .contact {
+    font-size: 7px;
+    font-weight: 300;
+    color: #888;
+    line-height: 2;
+  }
+  .card-back .claim {
+    font-size: 5px;
+    font-weight: 300;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.25);
+    margin-top: 10px;
+  }
+  .card-back .claim .o {
+    color: #FC5000;
+  }
+
+  /* ══════════════════════════════════════ */
+  /*  DRUCKSPEZIFIKATIONEN                 */
+  /* ══════════════════════════════════════ */
+  .specs {
+    max-width: 680px;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 28px 32px;
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #555;
+  }
+  .specs h2 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  .specs h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  .specs table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 8px 0 16px;
+    font-size: 12px;
+  }
+  .specs td {
+    padding: 6px 12px;
+    border-bottom: 1px solid #eee;
+  }
+  .specs td:first-child {
+    font-weight: 600;
+    color: #333;
+    width: 180px;
+  }
+  .color-dot {
+    display: inline-block;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 8px;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+  .note {
+    font-size: 11px;
+    color: #999;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+  }
+</style>
+</head>
+<body>
+
+<h1>Visitenkarte — Wild Project</h1>
+<p class="subtitle">Druckvorlage · 85 × 55 mm</p>
+
+<!-- ══════ KARTEN-VORSCHAU ══════ -->
+
+<div class="card-pair">
+  <div class="card-wrap">
+    <p class="card-label">Vorderseite</p>
+    <div class="card card-front">
+      <img src="/wp-logo.png" alt="WP" class="wp-logo">
+    </div>
+  </div>
+
+  <div class="card-wrap">
+    <p class="card-label">Rückseite</p>
+    <div class="card card-back">
+      <div class="stripe"></div>
+      <div class="name">René Wild</div>
+      <div class="title">Development Coach · Podcaster · Ästhetik Junkie</div>
+      <div class="spacer"></div>
+      <div class="contact">
+        +43 664 427 2020<br>
+        rene@wildproject.pro<br>
+        wildproject.pro
+      </div>
+      <div class="claim"><span class="o">D</span>ESIGN. <span class="o">P</span>ERFORM. <span class="o">S</span>UCCEED.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ DRUCKSPEZIFIKATIONEN ══════ -->
+
+<div class="specs">
+  <h2>Druckspezifikationen</h2>
+
+  <h3>Format</h3>
+  <table>
+    <tr><td>Endformat</td><td>85 × 55 mm (Standard Europa)</td></tr>
+    <tr><td>Beschnitt (Bleed)</td><td>3 mm umlaufend → 91 × 61 mm</td></tr>
+    <tr><td>Sicherheitszone</td><td>3 mm vom Rand → Text/Logo innerhalb 79 × 49 mm</td></tr>
+    <tr><td>Eckenradius</td><td>Optional: 2 mm Rundung</td></tr>
+  </table>
+
+  <h3>Farben (CMYK für Druck)</h3>
+  <table>
+    <tr>
+      <td><span class="color-dot" style="background: #050505;"></span>Midnight Shadow</td>
+      <td>HEX #050505 → CMYK 0 / 0 / 0 / 100</td>
+    </tr>
+    <tr>
+      <td><span class="color-dot" style="background: #FC5000;"></span>Flameburst Orange</td>
+      <td>HEX #FC5000 → CMYK 0 / 78 / 100 / 0 (nur Logo)</td>
+    </tr>
+    <tr>
+      <td><span class="color-dot" style="background: #F5F5F3;"></span>Off-White</td>
+      <td>HEX #F5F5F3 → Name auf Rückseite</td>
+    </tr>
+  </table>
+
+  <h3>Typografie</h3>
+  <table>
+    <tr><td>Name</td><td>Poppins SemiBold, 8pt, Off-White (#F5F5F3)</td></tr>
+    <tr><td>Jobtitel</td><td>Poppins Light, 5pt, Dunkelgrau (#666666)</td></tr>
+    <tr><td>Kontaktdaten</td><td>Poppins Light, 5pt, Grau (#888888)</td></tr>
+    <tr><td>Claim</td><td>Poppins Light, 3.5pt, Weiß 12% Opacity, Spacing 2.5pt</td></tr>
+  </table>
+
+  <h3>Veredelung</h3>
+  <table>
+    <tr><td>Material</td><td>400g schwarzer Karton oder schwarzer Kern</td></tr>
+    <tr><td>Oberfläche</td><td>Soft-Touch-Laminierung (beidseitig)</td></tr>
+    <tr><td>Spot-UV</td><td>Optional: WP-Logo auf Vorderseite (subtil erhaben, gleicher Glanzgrad)</td></tr>
+  </table>
+
+  <h3>Logo</h3>
+  <table>
+    <tr><td>Vorderseite</td><td>WP-Monogramm in Orange, ca. 10 × 10 mm, zentriert</td></tr>
+    <tr><td>Dateiformat</td><td>Vektorgrafik (SVG/AI/EPS) für Druck verwenden</td></tr>
+  </table>
+
+  <p class="note">
+    <strong>Hinweis:</strong> Diese Vorschau ist für den Bildschirm optimiert. Für den Druck benötigst du die Dateien als PDF/X-4 mit eingebetteten Schriften und CMYK-Farbraum. Die meisten Online-Druckereien (z.B. flyeralarm.com, wir-machen-druck.de, moo.com) bieten Templates im richtigen Format an — übertrage die Specs einfach dorthin.
+  </p>
+</div>
+
+</body>
+</html>
