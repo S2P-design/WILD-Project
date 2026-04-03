@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ice Hockey Rink — Blueprint</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #F2F0ED; color: #333;
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 48px 24px 80px;
+  }
+  h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .sub { font-size: 10px; color: #999; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+  .size-info { font-size: 9px; color: #bbb; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+
+  .frame-container { display: inline-block; margin-bottom: 32px; }
+  .frame-shadow { box-shadow: 8px 12px 32px rgba(0,0,0,0.15), 2px 3px 8px rgba(0,0,0,0.08); }
+  .frame {
+    border: 6px solid #C5A55A; background: #C5A55A;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.3), inset 0 0 0 2px rgba(0,0,0,0.1);
+  }
+  .mat { background: #050505; padding: 16px; }
+  canvas { display: block; }
+
+  .dl-btn {
+    display: inline-block; padding: 12px 28px;
+    font-family: 'Poppins', sans-serif; font-size: 10px; font-weight: 400;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: #888; background: white; border: 1px solid #ddd;
+    border-radius: 8px; cursor: pointer; transition: all 0.2s; text-decoration: none;
+  }
+  .dl-btn:hover { color: #050505; border-color: #050505; }
+</style>
+</head>
+<body>
+
+<h1>Ice Hockey Rink — Blueprint</h1>
+<p class="sub">Technical Art Print · Wild Project Brand ID</p>
+<p class="size-info">5400 × 7200px · 300 DPI · Print Ready</p>
+
+<div class="frame-container">
+  <div class="frame-shadow">
+    <div class="frame">
+      <div class="mat">
+        <canvas id="rink" width="540" height="720"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a class="dl-btn" id="dlPrint">↓ Download Print (PNG)</a>
+
+<script>
+const FULL_W = 5400, FULL_H = 7200;
+
+const BG      = '#050505';
+const LINE    = 'rgba(228,228,228,0.7)';
+const LINE_D  = 'rgba(228,228,228,0.3)';
+const LINE_DD = 'rgba(228,228,228,0.15)';
+const ORANGE  = '#FC5000';
+const ORG_50  = 'rgba(252,80,0,0.5)';
+const TXT     = 'rgba(228,228,228,0.6)';
+const TXT_D   = 'rgba(228,228,228,0.3)';
+const WHITE   = '#E4E4E4';
+
+let fullCanvas = null;
+
+function draw(ctx, W, H) {
+  const S = W / 5400; // scale
+  ctx.fillStyle = BG;
+  ctx.fillRect(0, 0, W, H);
+
+  // ── Real IIHF rink: 60m long × 30m wide ──
+  // We draw portrait: long axis vertical
+  // All measurements in meters, converted to pixels
+
+  const marginT = 500 * S;
+  const marginB = 350 * S;
+  const marginL = 420 * S;
+  const marginR = 420 * S;
+
+  // Available area
+  const aW = W - marginL - marginR;
+  const aH = H - marginT - marginB;
+
+  // Fit 60×30 rink (2:1 ratio, long = vertical)
+  let rW, rH;
+  if (aH / aW >= 2) {
+    rW = aW;
+    rH = rW * 2;
+  } else {
+    rH = aH;
+    rW = rH / 2;
+  }
+  const rX = marginL + (aW - rW) / 2;
+  const rY = marginT + (aH - rH) / 2;
+
+  // Meters to pixels
+  const m = rH / 60; // 1 meter in pixels
+  const lw = Math.max(1, 2 * S);
+
+  // Corner radius: 8.5m
+  const cR = 8.5 * m;
+
+  function font(size, weight) {
+    ctx.font = `${weight || 400} ${Math.round(size * S)}px Poppins, sans-serif`;
+  }
+
+  // ── Rink outline path ──
+  function rinkPath() {
+    ctx.beginPath();
+    ctx.moveTo(rX + cR, rY);
+    ctx.lineTo(rX + rW - cR, rY);
+    ctx.arcTo(rX + rW, rY, rX + rW, rY + cR, cR);
+    ctx.lineTo(rX + rW, rY + rH - cR);
+    ctx.arcTo(rX + rW, rY + rH, rX + rW - cR, rY + rH, cR);
+    ctx.lineTo(rX + cR, rY + rH);
+    ctx.arcTo(rX, rY + rH, rX, rY + rH - cR, cR);
+    ctx.lineTo(rX, rY + cR);
+    ctx.arcTo(rX, rY, rX + cR, rY, cR);
+    ctx.closePath();
+  }
+
+  // ── Draw rink outline ──
+  rinkPath();
+  ctx.strokeStyle = LINE;
+  ctx.lineWidth = lw * 2;
+  ctx.stroke();
+
+  // ── Clip ──
+  ctx.save();
+  rinkPath();
+  ctx.clip();
+
+  // Key Y positions (from top of rink)
+  const goalLine1 = rY + 4 * m;         // 4m from end
+  const blueLine1 = rY + 17.23 * m;     // 17.23m from end
+  const centerLine = rY + 30 * m;       // 30m = center
+  const blueLine2 = rY + (60 - 17.23) * m;
+  const goalLine2 = rY + (60 - 4) * m;
+
+  // Center X
+  const cX = rX + rW / 2;
+
+  // ── Goal lines (thin, white) ──
+  ctx.strokeStyle = LINE_D;
+  ctx.lineWidth = lw * 1.5;
+  [goalLine1, goalLine2].forEach(y => {
+    ctx.beginPath(); ctx.moveTo(rX, y); ctx.lineTo(rX + rW, y); ctx.stroke();
+  });
+
+  // ── Blue/Zone lines (orange, thick) ──
+  ctx.strokeStyle = ORANGE;
+  ctx.lineWidth = lw * 3;
+  [blueLine1, blueLine2].forEach(y => {
+    ctx.beginPath(); ctx.moveTo(rX, y); ctx.lineTo(rX + rW, y); ctx.stroke();
+  });
+
+  // ── Center line (orange, dashed) ──
+  ctx.strokeStyle = ORANGE;
+  ctx.lineWidth = lw * 3;
+  ctx.setLineDash([12 * S, 8 * S]);
+  ctx.beginPath(); ctx.moveTo(rX, centerLine); ctx.lineTo(rX + rW, centerLine); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // ── Center circle (4.5m radius) ──
+  const circR = 4.5 * m;
+  ctx.strokeStyle = ORANGE;
+  ctx.lineWidth = lw * 1.8;
+  ctx.beginPath();
+  ctx.arc(cX, centerLine, circR, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Center dot
+  ctx.fillStyle = ORANGE;
+  ctx.beginPath();
+  ctx.arc(cX, centerLine, 4 * S, 0, Math.PI * 2);
+  ctx.fill();
+
+  // ── Faceoff circles (4.5m radius) in end zones ──
+  // Centers: 6m from center across, 6m from goal line along
+  const fcOffX = 7 * m; // from center, across
+  const fcOffY = 6 * m; // from goal line, into zone
+
+  const fcPositions = [
+    [cX - fcOffX, goalLine1 + fcOffY],
+    [cX + fcOffX, goalLine1 + fcOffY],
+    [cX - fcOffX, goalLine2 - fcOffY],
+    [cX + fcOffX, goalLine2 - fcOffY],
+  ];
+
+  fcPositions.forEach(([fx, fy]) => {
+    // Circle
+    ctx.strokeStyle = LINE_D;
+    ctx.lineWidth = lw * 1.2;
+    ctx.beginPath();
+    ctx.arc(fx, fy, circR, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Dot
+    ctx.fillStyle = ORANGE;
+    ctx.beginPath();
+    ctx.arc(fx, fy, 3.5 * S, 0, Math.PI * 2);
+    ctx.fill();
+
+    // L-shaped hash marks (4 pairs)
+    const hOut = circR + 3 * S;
+    const hLen = 18 * S;
+    const hSide = 10 * S;
+    ctx.strokeStyle = LINE_D;
+    ctx.lineWidth = lw * 0.8;
+
+    [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx, sy]) => {
+      const hx = fx + sx * (fcOffX > circR ? circR * 0.55 : circR * 0.6);
+      const hy = fy + sy * hOut;
+      ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(hx, hy + sy * hLen); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(hx, hy + sy * hLen); ctx.lineTo(hx + sx * hSide, hy + sy * hLen); ctx.stroke();
+    });
+  });
+
+  // ── Neutral zone dots ──
+  const nzDotY1 = blueLine1 + (centerLine - blueLine1) * 0.45;
+  const nzDotY2 = centerLine + (blueLine2 - centerLine) * 0.55;
+
+  [[cX - fcOffX, nzDotY1], [cX + fcOffX, nzDotY1],
+   [cX - fcOffX, nzDotY2], [cX + fcOffX, nzDotY2]].forEach(([dx, dy]) => {
+    ctx.fillStyle = ORANGE;
+    ctx.beginPath();
+    ctx.arc(dx, dy, 3 * S, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // ── Goal creases (semicircle, 1.83m radius) ──
+  const creaseR = 1.83 * m;
+
+  ctx.strokeStyle = LINE_D;
+  ctx.lineWidth = lw * 1.2;
+  // Top
+  ctx.beginPath();
+  ctx.arc(cX, goalLine1, creaseR, 0, Math.PI);
+  ctx.closePath();
+  ctx.stroke();
+  // Bottom
+  ctx.beginPath();
+  ctx.arc(cX, goalLine2, creaseR, Math.PI, 0);
+  ctx.closePath();
+  ctx.stroke();
+
+  // ── Goal nets (1.83m wide × 0.91m deep) ──
+  const netW = 1.83 * m;
+  const netD = 0.91 * m;
+  ctx.strokeStyle = LINE;
+  ctx.lineWidth = lw;
+
+  // Top net
+  ctx.strokeRect(cX - netW / 2, goalLine1 - netD, netW, netD);
+  // Bottom net
+  ctx.strokeRect(cX - netW / 2, goalLine2, netW, netD);
+
+  // ── Trapezoid (behind goals) ──
+  const trapNarrow = 1.83 * m; // same as goal width
+  const trapWide = 3.4 * m;
+  ctx.strokeStyle = LINE_DD;
+  ctx.lineWidth = lw * 0.7;
+
+  // Top trap
+  ctx.beginPath(); ctx.moveTo(cX - trapNarrow/2, goalLine1); ctx.lineTo(cX - trapWide/2, rY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cX + trapNarrow/2, goalLine1); ctx.lineTo(cX + trapWide/2, rY); ctx.stroke();
+  // Bottom trap
+  ctx.beginPath(); ctx.moveTo(cX - trapNarrow/2, goalLine2); ctx.lineTo(cX - trapWide/2, rY + rH); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cX + trapNarrow/2, goalLine2); ctx.lineTo(cX + trapWide/2, rY + rH); ctx.stroke();
+
+  ctx.restore(); // unclip
+
+  // ══════════════════════════════════════
+  //  LABELS
+  // ══════════════════════════════════════
+  ctx.textAlign = 'center';
+
+  // ── Title ──
+  font(80, 700);
+  ctx.fillStyle = WHITE;
+  ctx.fillText('ICE HOCKEY RINK', W / 2, 130 * S);
+
+  font(28, 300);
+  ctx.fillStyle = TXT_D;
+  ctx.fillText('IIHF International: 60 m × 30 m  ·  North American: 200 ft × 85 ft', W / 2, 185 * S);
+
+  // ── Zone labels ──
+  font(32, 600);
+  ctx.fillStyle = TXT;
+  ctx.fillText('ATTACKING ZONE', cX, goalLine1 + (blueLine1 - goalLine1) / 2 + 4 * S);
+
+  font(32, 600);
+  ctx.fillText('NEUTRAL ZONE', cX, centerLine + circR + 35 * S);
+
+  font(32, 600);
+  ctx.fillText('DEFENDING ZONE', cX, goalLine2 - (goalLine2 - blueLine2) / 2 + 4 * S);
+
+  // ── Line labels ──
+  font(22, 300);
+  ctx.fillStyle = ORG_50;
+  ctx.textAlign = 'right';
+  ctx.fillText('Blue line', rX - 14 * S, blueLine1 + 5 * S);
+  ctx.fillText('Blue line', rX - 14 * S, blueLine2 + 5 * S);
+
+  ctx.fillText('Center (red) line', rX - 14 * S, centerLine + 5 * S);
+
+  ctx.fillStyle = TXT_D;
+  ctx.fillText('Goal line', rX - 14 * S, goalLine1 + 5 * S);
+  ctx.fillText('Goal line', rX - 14 * S, goalLine2 + 5 * S);
+
+  // ── Goal labels ──
+  font(20, 300);
+  ctx.fillStyle = TXT_D;
+  ctx.textAlign = 'center';
+  ctx.fillText('Goal', cX, goalLine1 - netD - 12 * S);
+  ctx.fillText('Goal crease', cX + creaseR + 40 * S, goalLine1 + creaseR / 2);
+  ctx.fillText('Goal', cX, goalLine2 + netD + 20 * S);
+
+  // ── Faceoff labels ──
+  font(18, 300);
+  ctx.fillStyle = TXT_D;
+  ctx.fillText('End zone faceoff', fcPositions[0][0], fcPositions[0][1] + circR + 18 * S);
+  ctx.fillText('spot and circle', fcPositions[0][0], fcPositions[0][1] + circR + 34 * S);
+
+  ctx.fillText('Neutral zone', cX + fcOffX, nzDotY1 + 16 * S);
+  ctx.fillText('faceoff spot', cX + fcOffX, nzDotY1 + 30 * S);
+
+  ctx.fillText('Center ice faceoff', cX, centerLine - circR - 18 * S);
+  ctx.fillText('spot and circle', cX, centerLine - circR - 4 * S);
+
+  // ── Player positions (X markers + labels) ──
+  const xSize = 8 * S;
+  function drawX(x, y) {
+    ctx.strokeStyle = WHITE;
+    ctx.lineWidth = lw * 1.5;
+    ctx.beginPath(); ctx.moveTo(x - xSize, y - xSize); ctx.lineTo(x + xSize, y + xSize); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x + xSize, y - xSize); ctx.lineTo(x - xSize, y + xSize); ctx.stroke();
+  }
+
+  font(16, 600);
+  ctx.fillStyle = TXT;
+  ctx.textAlign = 'center';
+
+  // Goalie
+  const goY = goalLine2 - 1.5 * m;
+  drawX(cX, goY);
+  ctx.fillText('GOALIE', cX, goY + 20 * S);
+
+  // Defensemen
+  const defY = goalLine2 - 5 * m;
+  drawX(cX - 6 * m, defY);
+  ctx.save(); ctx.translate(cX - 6 * m, defY + 18 * S);
+  font(14, 500); ctx.fillText('LEFT', 0, 0); ctx.fillText('DEFENSEMAN', 0, 14 * S);
+  ctx.restore();
+
+  drawX(cX + 6 * m, defY);
+  ctx.save(); ctx.translate(cX + 6 * m, defY + 18 * S);
+  font(14, 500); ctx.fillStyle = TXT; ctx.textAlign = 'center';
+  ctx.fillText('RIGHT', 0, 0); ctx.fillText('DEFENSEMAN', 0, 14 * S);
+  ctx.restore();
+
+  // Forwards
+  const fwdY = centerLine + 4 * m;
+  drawX(cX, fwdY);
+  font(14, 500); ctx.fillStyle = TXT; ctx.textAlign = 'center';
+  ctx.fillText('CENTER', cX, fwdY + 20 * S);
+
+  drawX(cX - 7 * m, fwdY);
+  ctx.fillText('LEFT', cX - 7 * m, fwdY + 18 * S);
+  ctx.fillText('WING', cX - 7 * m, fwdY + 32 * S);
+
+  drawX(cX + 7 * m, fwdY);
+  ctx.fillText('RIGHT', cX + 7 * m, fwdY + 18 * S);
+  ctx.fillText('WING', cX + 7 * m, fwdY + 32 * S);
+
+  // ── Bench labels (sides, rotated) ──
+  ctx.save();
+  font(22, 400); ctx.fillStyle = TXT_D; ctx.textAlign = 'center';
+  ctx.translate(rX + rW + 50 * S, centerLine - 8 * m);
+  ctx.rotate(Math.PI / 2);
+  ctx.fillText('PLAYERS BENCH', 0, 0);
+  ctx.restore();
+
+  ctx.save();
+  font(22, 400); ctx.fillStyle = TXT_D; ctx.textAlign = 'center';
+  ctx.translate(rX + rW + 50 * S, centerLine + 8 * m);
+  ctx.rotate(Math.PI / 2);
+  ctx.fillText('PLAYERS BENCH', 0, 0);
+  ctx.restore();
+
+  ctx.save();
+  font(18, 300); ctx.fillStyle = TXT_D; ctx.textAlign = 'center';
+  ctx.translate(rX - 38 * S, centerLine - 5 * m);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('PENALTY BENCH', 0, 0);
+  ctx.restore();
+
+  ctx.save();
+  font(18, 300); ctx.fillStyle = TXT_D; ctx.textAlign = 'center';
+  ctx.translate(rX - 38 * S, centerLine + 2 * m);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText("SCORER'S TABLE", 0, 0);
+  ctx.restore();
+
+  ctx.save();
+  font(18, 300); ctx.fillStyle = TXT_D; ctx.textAlign = 'center';
+  ctx.translate(rX - 38 * S, centerLine + 9 * m);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('PENALTY BENCH', 0, 0);
+  ctx.restore();
+
+  // ── Direction of play arrow (right side) ──
+  ctx.save();
+  font(20, 400); ctx.fillStyle = TXT_D; ctx.textAlign = 'center';
+  ctx.translate(rX + rW + 110 * S, centerLine);
+  ctx.rotate(Math.PI / 2);
+  ctx.fillText('DIRECTION OF PLAY', 0, 0);
+  ctx.restore();
+
+  // Arrow line
+  const arrX = rX + rW + 110 * S;
+  const arrTop = centerLine - 80 * S;
+  const arrBot = centerLine + 80 * S;
+  ctx.strokeStyle = LINE_DD;
+  ctx.lineWidth = lw;
+  ctx.beginPath(); ctx.moveTo(arrX, arrTop + 30 * S); ctx.lineTo(arrX, arrBot - 30 * S); ctx.stroke();
+  // Arrowhead up
+  ctx.beginPath(); ctx.moveTo(arrX, arrTop + 30 * S);
+  ctx.lineTo(arrX - 4 * S, arrTop + 38 * S); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(arrX, arrTop + 30 * S);
+  ctx.lineTo(arrX + 4 * S, arrTop + 38 * S); ctx.stroke();
+
+  // ── Dimension: width at top ──
+  font(24, 300); ctx.fillStyle = TXT_D; ctx.textAlign = 'center';
+  const dimTopY = rY - 50 * S;
+  ctx.strokeStyle = LINE_DD; ctx.lineWidth = lw * 0.5;
+  // Line
+  ctx.beginPath(); ctx.moveTo(rX, dimTopY); ctx.lineTo(rX + rW, dimTopY); ctx.stroke();
+  // Ticks
+  ctx.beginPath(); ctx.moveTo(rX, dimTopY - 6*S); ctx.lineTo(rX, dimTopY + 6*S); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(rX+rW, dimTopY - 6*S); ctx.lineTo(rX+rW, dimTopY + 6*S); ctx.stroke();
+  // Dashed extensions
+  ctx.setLineDash([3*S, 3*S]);
+  ctx.beginPath(); ctx.moveTo(rX, rY); ctx.lineTo(rX, dimTopY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(rX+rW, rY); ctx.lineTo(rX+rW, dimTopY); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillText('30 m (~98 ft)', cX, dimTopY - 10 * S);
+
+  // ── Dimension: height on right ──
+  const dimRX = rX + rW + 160 * S;
+  ctx.beginPath(); ctx.moveTo(dimRX, rY); ctx.lineTo(dimRX, rY + rH); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(dimRX - 6*S, rY); ctx.lineTo(dimRX + 6*S, rY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(dimRX - 6*S, rY+rH); ctx.lineTo(dimRX + 6*S, rY+rH); ctx.stroke();
+  ctx.setLineDash([3*S, 3*S]);
+  ctx.beginPath(); ctx.moveTo(rX+rW, rY); ctx.lineTo(dimRX, rY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(rX+rW, rY+rH); ctx.lineTo(dimRX, rY+rH); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.save();
+  ctx.translate(dimRX + 18 * S, centerLine);
+  ctx.rotate(-Math.PI / 2);
+  font(24, 300); ctx.fillStyle = TXT_D; ctx.textAlign = 'center';
+  ctx.fillText('60 m (~200 ft)', 0, 0);
+  ctx.restore();
+
+  // ── Dimension: goal line to end ──
+  const dimLX = rX - 70 * S;
+  ctx.strokeStyle = LINE_DD; ctx.lineWidth = lw * 0.5;
+  ctx.beginPath(); ctx.moveTo(dimLX, rY); ctx.lineTo(dimLX, goalLine1); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(dimLX - 5*S, rY); ctx.lineTo(dimLX + 5*S, rY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(dimLX - 5*S, goalLine1); ctx.lineTo(dimLX + 5*S, goalLine1); ctx.stroke();
+  ctx.setLineDash([3*S, 3*S]);
+  ctx.beginPath(); ctx.moveTo(rX, goalLine1); ctx.lineTo(dimLX, goalLine1); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.save();
+  ctx.translate(dimLX - 12 * S, (rY + goalLine1) / 2);
+  ctx.rotate(-Math.PI / 2);
+  font(20, 300); ctx.fillStyle = TXT_D; ctx.textAlign = 'center';
+  ctx.fillText('4 m', 0, 0);
+  ctx.restore();
+
+  // ── Dimension: goal line to blue line ──
+  const dimLX2 = rX - 110 * S;
+  ctx.strokeStyle = LINE_DD; ctx.lineWidth = lw * 0.5;
+  ctx.beginPath(); ctx.moveTo(dimLX2, goalLine1); ctx.lineTo(dimLX2, blueLine1); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(dimLX2 - 5*S, goalLine1); ctx.lineTo(dimLX2 + 5*S, goalLine1); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(dimLX2 - 5*S, blueLine1); ctx.lineTo(dimLX2 + 5*S, blueLine1); ctx.stroke();
+  ctx.setLineDash([3*S, 3*S]);
+  ctx.beginPath(); ctx.moveTo(rX, blueLine1); ctx.lineTo(dimLX2, blueLine1); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.save();
+  ctx.translate(dimLX2 - 12 * S, (goalLine1 + blueLine1) / 2);
+  ctx.rotate(-Math.PI / 2);
+  font(20, 300); ctx.fillStyle = TXT_D; ctx.textAlign = 'center';
+  ctx.fillText('13.23 m', 0, 0);
+  ctx.restore();
+
+  // ── Neutral zone width ──
+  const nzDimX = rX - 70 * S;
+  ctx.strokeStyle = LINE_DD; ctx.lineWidth = lw * 0.5;
+  ctx.beginPath(); ctx.moveTo(nzDimX, blueLine1); ctx.lineTo(nzDimX, blueLine2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(nzDimX - 5*S, blueLine1); ctx.lineTo(nzDimX + 5*S, blueLine1); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(nzDimX - 5*S, blueLine2); ctx.lineTo(nzDimX + 5*S, blueLine2); ctx.stroke();
+  ctx.save();
+  ctx.translate(nzDimX - 12 * S, centerLine);
+  ctx.rotate(-Math.PI / 2);
+  font(20, 300); ctx.fillStyle = TXT_D; ctx.textAlign = 'center';
+  ctx.fillText('25.54 m', 0, 0);
+  ctx.restore();
+
+  // ── BOARDS label ──
+  font(26, 500); ctx.fillStyle = TXT_D; ctx.textAlign = 'center';
+  ctx.fillText('BOARDS', cX, rY - 16 * S);
+  ctx.fillText('BOARDS', cX, rY + rH + 28 * S);
+
+  // ── Corner radius indicator ──
+  font(18, 300); ctx.fillStyle = TXT_D; ctx.textAlign = 'left';
+  ctx.fillText('r = 8.5 m', rX + rW - cR * 0.3, rY + cR * 0.45);
+  ctx.strokeStyle = LINE_DD; ctx.lineWidth = lw * 0.4;
+  ctx.setLineDash([2*S, 2*S]);
+  ctx.beginPath();
+  ctx.arc(rX + rW - cR, rY + cR, cR * 0.6, -Math.PI * 0.35, -Math.PI * 0.15);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // ── Claim at bottom ──
+  font(20, 300);
+  const claimY = H - 90 * S;
+  const claimText = 'DESIGN. PERFORM. SUCCEED.';
+  ctx.textAlign = 'center';
+  let totalW = 0;
+  totalW = ctx.measureText(claimText).width;
+  let curX = W / 2 - totalW / 2;
+  const orangeAt = [0, 8, 17]; // D, P, S
+  claimText.split('').forEach((ch, i) => {
+    font(20, 300);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = orangeAt.includes(i) ? ORG_50 : 'rgba(228,228,228,0.1)';
+    ctx.fillText(ch, curX, claimY);
+    curX += ctx.measureText(ch).width;
+  });
+
+  font(16, 300); ctx.fillStyle = 'rgba(228,228,228,0.06)';
+  ctx.textAlign = 'center';
+  ctx.fillText('wildproject.pro', W / 2, H - 50 * S);
+
+  // ── Grain ──
+  const img = ctx.getImageData(0, 0, W, H);
+  const d = img.data;
+  for (let i = 0; i < d.length; i += 32) {
+    const n = (Math.random() - 0.5) * 5;
+    d[i] += n; d[i+1] += n; d[i+2] += n;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+function init() {
+  const c = document.getElementById('rink');
+  draw(c.getContext('2d'), 540, 720);
+  fullCanvas = new OffscreenCanvas(FULL_W, FULL_H);
+  draw(fullCanvas.getContext('2d'), FULL_W, FULL_H);
+}
+
+document.getElementById('dlPrint').addEventListener('click', () => {
+  fullCanvas.convertToBlob({ type: 'image/png' }).then(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'WP-IceHockey-Blueprint-5400x7200.png';
+    a.click(); URL.revokeObjectURL(url);
+  });
+});
+
+window.addEventListener('load', () => setTimeout(init, 300));
+</script>
+</body>
+</html>

@@ -3,468 +3,1018 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wallpaper Generator — Wild Project</title>
+<title>Wallpaper — Wild Project</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700&family=SF+Pro+Display:wght@200;300;700&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: 'Poppins', sans-serif;
-    background: #050505;
+    background: #0a0a0a;
     color: #F5F5F3;
-    min-height: 100vh;
+    padding: 48px 24px 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 20px;
   }
-  h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-  .sub { font-size: 10px; color: #666; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 32px; }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .sub { font-size: 10px; color: #666; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 48px; }
 
-  .preview-row {
+  .row-title {
+    font-size: 9px; font-weight: 500;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: #FC5000; margin-bottom: 20px;
+    max-width: 1100px; width: 100%;
+  }
+  .row-desc {
+    font-size: 11px; color: #555; max-width: 1100px; width: 100%;
+    margin-top: -14px; margin-bottom: 20px; line-height: 1.6;
+  }
+
+  .wallpaper-row {
     display: flex;
     gap: 32px;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 40px;
+    margin-bottom: 56px;
+    max-width: 1100px;
   }
-  .preview-item { text-align: center; }
-  .preview-label {
-    font-size: 9px; color: #666; letter-spacing: 2px;
-    text-transform: uppercase; margin-bottom: 12px;
+
+  .wp-item { text-align: center; }
+  .wp-label {
+    font-size: 9px; color: #555; letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 10px;
   }
-  .preview-wrap {
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  .wp-size {
+    font-size: 8px; color: #333; letter-spacing: 1px; margin-top: 6px;
+  }
+
+  /* Phone mockup frame */
+  .phone-mock {
     position: relative;
+    width: 210px;
+    height: 454px;
+    border-radius: 28px;
+    border: 3px solid #333;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
   }
-  .preview-wrap canvas {
+  .phone-mock canvas {
     display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* iOS overlay elements */
+  .ios-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Dynamic Island */
+  .ios-island {
+    position: absolute;
+    top: 10px; left: 50%;
+    transform: translateX(-50%);
+    width: 72px; height: 22px;
+    background: #000;
+    border-radius: 12px;
+  }
+
+  /* Clock */
+  .ios-clock {
+    position: absolute;
+    top: 46px; left: 0; right: 0;
+    text-align: center;
+    font-family: 'Poppins', -apple-system, sans-serif;
+    font-size: 48px;
+    font-weight: 200;
+    color: white;
+    letter-spacing: 2px;
+    line-height: 1;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  }
+
+  /* Date */
+  .ios-date {
+    position: absolute;
+    top: 36px; left: 0; right: 0;
+    text-align: center;
+    font-family: 'Poppins', -apple-system, sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+
+  /* Widgets */
+  .ios-widgets {
+    position: absolute;
+    top: 108px; left: 18px; right: 18px;
+    display: flex;
+    gap: 6px;
+  }
+  .ios-widget {
+    flex: 1;
+    height: 44px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 5px;
+  }
+  .ios-widget-icon {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.15);
+  }
+  .ios-widget-text {
+    font-size: 5px; color: rgba(255,255,255,0.7);
+    font-family: 'Poppins', sans-serif;
+  }
+  .ios-widget-num {
+    font-size: 11px; font-weight: 600;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* App icons grid */
+  .ios-icons {
+    position: absolute;
+    bottom: 80px; left: 16px; right: 16px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px 0;
+    justify-items: center;
+  }
+  .ios-icon {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(6px);
+  }
+  .ios-icon.orange { background: rgba(252,80,0,0.5); }
+  .ios-icon.dark { background: rgba(40,40,40,0.7); }
+  .ios-icon.silver { background: rgba(181,175,166,0.35); }
+
+  /* Dock */
+  .ios-dock {
+    position: absolute;
+    bottom: 16px; left: 14px; right: 14px;
+    height: 48px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 0 12px;
+  }
+  .ios-dock-icon {
+    width: 28px; height: 28px;
+    border-radius: 7px;
+    background: rgba(255,255,255,0.15);
+  }
+  .ios-dock-icon.green { background: rgba(48,209,88,0.5); }
+  .ios-dock-icon.blue { background: rgba(10,132,255,0.5); }
+
+  /* Home indicator */
+  .ios-home {
+    position: absolute;
+    bottom: 5px; left: 50%;
+    transform: translateX(-50%);
+    width: 76px; height: 3px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+  }
+
+  /* Flashlight + Camera (lock screen) */
+  .ios-lock-btns {
+    position: absolute;
+    bottom: 16px; left: 16px; right: 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .ios-lock-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
   }
 
   .dl-btn {
     display: inline-block;
-    margin-top: 16px;
-    padding: 12px 28px;
+    margin-top: 14px;
+    padding: 10px 24px;
     font-family: 'Poppins', sans-serif;
     font-size: 10px; font-weight: 400;
     letter-spacing: 2px; text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px;
+    color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s;
     text-decoration: none;
   }
   .dl-btn:hover {
     color: #FC5000;
-    border-color: rgba(252,80,0,0.3);
-    background: rgba(252,80,0,0.06);
+    border-color: rgba(252,80,0,0.25);
+    background: rgba(252,80,0,0.04);
   }
 
-  .loading {
-    font-size: 11px; color: #666; letter-spacing: 1px;
-    margin-top: 20px;
+  /* MacBook */
+  .mac-mock {
+    position: relative;
+    width: 400px;
+    height: 250px;
+    border-radius: 10px;
+    border: 3px solid #333;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  }
+  .mac-mock canvas { display: block; width: 100%; height: 100%; }
+
+  .mac-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none; z-index: 2;
+  }
+  .mac-menubar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 16px;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 4px;
+  }
+  .mac-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+  }
+  .mac-dot.r { background: rgba(255,255,255,0.2); }
+  .mac-menubar-text {
+    font-size: 4px; color: rgba(255,255,255,0.5);
+    margin-left: 6px; letter-spacing: 0.5px;
+    font-family: 'Poppins', sans-serif;
+  }
+  .mac-dock-bar {
+    position: absolute;
+    bottom: 4px; left: 50%;
+    transform: translateX(-50%);
+    height: 24px;
+    padding: 0 8px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .mac-dock-icon {
+    width: 16px; height: 16px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.12);
+  }
+
+  .colors-ref {
+    max-width: 1100px; width: 100%;
+    display: flex; gap: 16px; flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+  .color-chip {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+  }
+  .color-dot {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .color-name { font-size: 10px; color: #888; }
+  .color-hex { font-size: 9px; color: #555; margin-left: 4px; }
+
+  .status { font-size: 11px; color: #444; letter-spacing: 1px; margin-top: 20px; }
+
+  @media (max-width: 600px) {
+    .wallpaper-row { gap: 20px; }
+    .phone-mock { width: 160px; height: 346px; }
+    .mac-mock { width: 320px; height: 200px; }
   }
 </style>
 </head>
 <body>
 
-<h1>iPhone Wallpaper — Wild Project</h1>
-<p class="sub">1290 × 2796px · Brand Design</p>
+<h1>Wallpaper — Wild Project</h1>
+<p class="sub">iPhone · MacBook · Brand Colors · iOS-optimiert</p>
 
-<div class="preview-row">
-  <div class="preview-item">
-    <p class="preview-label">Aurora Ember</p>
-    <div class="preview-wrap">
-      <canvas id="c1" width="258" height="559"></canvas>
-    </div>
-    <a class="dl-btn" id="dl1">↓ Download Full Res</a>
-  </div>
-
-  <div class="preview-item">
-    <p class="preview-label">Monolith</p>
-    <div class="preview-wrap">
-      <canvas id="c2" width="258" height="559"></canvas>
-    </div>
-    <a class="dl-btn" id="dl2">↓ Download Full Res</a>
-  </div>
-
-  <div class="preview-item">
-    <p class="preview-label">Horizon</p>
-    <div class="preview-wrap">
-      <canvas id="c3" width="258" height="559"></canvas>
-    </div>
-    <a class="dl-btn" id="dl3">↓ Download Full Res</a>
-  </div>
+<div class="colors-ref">
+  <div class="color-chip"><div class="color-dot" style="background:#B5AFA6;"></div><span class="color-name">Silver Stone</span><span class="color-hex">#B5AFA6</span></div>
+  <div class="color-chip"><div class="color-dot" style="background:#FC5000;"></div><span class="color-name">Flameburst Orange</span><span class="color-hex">#FC5000</span></div>
+  <div class="color-chip"><div class="color-dot" style="background:#3A3A3A;"></div><span class="color-name">Dark Charcoal</span><span class="color-hex">#3A3A3A</span></div>
+  <div class="color-chip"><div class="color-dot" style="background:#1A1A1A;"></div><span class="color-name">Midnight Shadow</span><span class="color-hex">#1A1A1A</span></div>
 </div>
 
-<p class="loading" id="status">Rendering...</p>
+<!-- ══════ iPHONE LOCK SCREEN ══════ -->
+<p class="row-title">iPhone — Lock Screen</p>
+<p class="row-desc">Uhr + Widgets oben auf dem dunklen Bereich, Orange-Stripe als Akzent im sichtbaren Bereich zwischen Widgets und Lock-Buttons.</p>
+<div class="wallpaper-row">
+
+  <div class="wp-item">
+    <p class="wp-label">Dark Top</p>
+    <div class="phone-mock">
+      <canvas id="lock1"></canvas>
+      <div class="ios-overlay">
+        <div class="ios-island"></div>
+        <div class="ios-date">Donnerstag, 3. April</div>
+        <div class="ios-clock">18:27</div>
+        <div class="ios-widgets">
+          <div class="ios-widget">
+            <div class="ios-widget-icon"></div>
+            <div><div class="ios-widget-num">8°</div><div class="ios-widget-text">Rosenheim</div></div>
+          </div>
+          <div class="ios-widget">
+            <div class="ios-widget-icon"></div>
+            <div><div class="ios-widget-num">3</div><div class="ios-widget-text">Events</div></div>
+          </div>
+        </div>
+        <div class="ios-lock-btns">
+          <div class="ios-lock-btn"></div>
+          <div class="ios-lock-btn"></div>
+        </div>
+        <div class="ios-home"></div>
+      </div>
+    </div>
+    <p class="wp-size">1290 × 2796</p>
+    <a class="dl-btn" id="dlL1">↓ Download</a>
+  </div>
+
+  <div class="wp-item">
+    <p class="wp-label">Center Accent</p>
+    <div class="phone-mock">
+      <canvas id="lock2"></canvas>
+      <div class="ios-overlay">
+        <div class="ios-island"></div>
+        <div class="ios-date">Donnerstag, 3. April</div>
+        <div class="ios-clock">18:27</div>
+        <div class="ios-widgets">
+          <div class="ios-widget">
+            <div class="ios-widget-icon"></div>
+            <div><div class="ios-widget-num">8°</div><div class="ios-widget-text">Rosenheim</div></div>
+          </div>
+          <div class="ios-widget">
+            <div class="ios-widget-icon"></div>
+            <div><div class="ios-widget-num">3</div><div class="ios-widget-text">Events</div></div>
+          </div>
+        </div>
+        <div class="ios-lock-btns">
+          <div class="ios-lock-btn"></div>
+          <div class="ios-lock-btn"></div>
+        </div>
+        <div class="ios-home"></div>
+      </div>
+    </div>
+    <p class="wp-size">1290 × 2796</p>
+    <a class="dl-btn" id="dlL2">↓ Download</a>
+  </div>
+
+  <div class="wp-item">
+    <p class="wp-label">Stealth</p>
+    <div class="phone-mock">
+      <canvas id="lock3"></canvas>
+      <div class="ios-overlay">
+        <div class="ios-island"></div>
+        <div class="ios-date">Donnerstag, 3. April</div>
+        <div class="ios-clock">18:27</div>
+        <div class="ios-widgets">
+          <div class="ios-widget">
+            <div class="ios-widget-icon"></div>
+            <div><div class="ios-widget-num">8°</div><div class="ios-widget-text">Rosenheim</div></div>
+          </div>
+          <div class="ios-widget">
+            <div class="ios-widget-icon"></div>
+            <div><div class="ios-widget-num">3</div><div class="ios-widget-text">Events</div></div>
+          </div>
+        </div>
+        <div class="ios-lock-btns">
+          <div class="ios-lock-btn"></div>
+          <div class="ios-lock-btn"></div>
+        </div>
+        <div class="ios-home"></div>
+      </div>
+    </div>
+    <p class="wp-size">1290 × 2796</p>
+    <a class="dl-btn" id="dlL3">↓ Download</a>
+  </div>
+
+</div>
+
+<!-- ══════ iPHONE HOME SCREEN ══════ -->
+<p class="row-title">iPhone — Home Screen</p>
+<p class="row-desc">Stripe positioniert zwischen Icon-Reihen. Kontrast optimiert für App-Labels und Dock.</p>
+<div class="wallpaper-row">
+
+  <div class="wp-item">
+    <p class="wp-label">Split</p>
+    <div class="phone-mock">
+      <canvas id="home1"></canvas>
+      <div class="ios-overlay">
+        <div class="ios-island"></div>
+        <div class="ios-icons">
+          <div class="ios-icon dark"></div><div class="ios-icon silver"></div><div class="ios-icon dark"></div><div class="ios-icon orange"></div>
+          <div class="ios-icon silver"></div><div class="ios-icon dark"></div><div class="ios-icon dark"></div><div class="ios-icon silver"></div>
+          <div class="ios-icon dark"></div><div class="ios-icon orange"></div><div class="ios-icon silver"></div><div class="ios-icon dark"></div>
+        </div>
+        <div class="ios-dock">
+          <div class="ios-dock-icon green"></div>
+          <div class="ios-dock-icon"></div>
+          <div class="ios-dock-icon blue"></div>
+          <div class="ios-dock-icon"></div>
+        </div>
+        <div class="ios-home"></div>
+      </div>
+    </div>
+    <p class="wp-size">1290 × 2796</p>
+    <a class="dl-btn" id="dlH1">↓ Download</a>
+  </div>
+
+  <div class="wp-item">
+    <p class="wp-label">Edge Accent</p>
+    <div class="phone-mock">
+      <canvas id="home2"></canvas>
+      <div class="ios-overlay">
+        <div class="ios-island"></div>
+        <div class="ios-icons">
+          <div class="ios-icon dark"></div><div class="ios-icon silver"></div><div class="ios-icon dark"></div><div class="ios-icon orange"></div>
+          <div class="ios-icon silver"></div><div class="ios-icon dark"></div><div class="ios-icon dark"></div><div class="ios-icon silver"></div>
+          <div class="ios-icon dark"></div><div class="ios-icon orange"></div><div class="ios-icon silver"></div><div class="ios-icon dark"></div>
+        </div>
+        <div class="ios-dock">
+          <div class="ios-dock-icon green"></div>
+          <div class="ios-dock-icon"></div>
+          <div class="ios-dock-icon blue"></div>
+          <div class="ios-dock-icon"></div>
+        </div>
+        <div class="ios-home"></div>
+      </div>
+    </div>
+    <p class="wp-size">1290 × 2796</p>
+    <a class="dl-btn" id="dlH2">↓ Download</a>
+  </div>
+
+  <div class="wp-item">
+    <p class="wp-label">Minimal</p>
+    <div class="phone-mock">
+      <canvas id="home3"></canvas>
+      <div class="ios-overlay">
+        <div class="ios-island"></div>
+        <div class="ios-icons">
+          <div class="ios-icon dark"></div><div class="ios-icon silver"></div><div class="ios-icon dark"></div><div class="ios-icon orange"></div>
+          <div class="ios-icon silver"></div><div class="ios-icon dark"></div><div class="ios-icon dark"></div><div class="ios-icon silver"></div>
+          <div class="ios-icon dark"></div><div class="ios-icon orange"></div><div class="ios-icon silver"></div><div class="ios-icon dark"></div>
+        </div>
+        <div class="ios-dock">
+          <div class="ios-dock-icon green"></div>
+          <div class="ios-dock-icon"></div>
+          <div class="ios-dock-icon blue"></div>
+          <div class="ios-dock-icon"></div>
+        </div>
+        <div class="ios-home"></div>
+      </div>
+    </div>
+    <p class="wp-size">1290 × 2796</p>
+    <a class="dl-btn" id="dlH3">↓ Download</a>
+  </div>
+
+</div>
+
+<!-- ══════ MACBOOK ══════ -->
+<p class="row-title">MacBook</p>
+<p class="row-desc">Stripe vertikal im linken Drittel — Dock und Menubar bleiben clean.</p>
+<div class="wallpaper-row">
+
+  <div class="wp-item">
+    <p class="wp-label">Classic</p>
+    <div class="mac-mock">
+      <canvas id="mac1"></canvas>
+      <div class="mac-overlay">
+        <div class="mac-menubar">
+          <div class="mac-dot r"></div><div class="mac-dot r"></div><div class="mac-dot r"></div>
+          <span class="mac-menubar-text">Wild Project</span>
+        </div>
+        <div class="mac-dock-bar">
+          <div class="mac-dock-icon"></div><div class="mac-dock-icon"></div><div class="mac-dock-icon"></div>
+          <div class="mac-dock-icon"></div><div class="mac-dock-icon"></div><div class="mac-dock-icon"></div>
+        </div>
+      </div>
+    </div>
+    <p class="wp-size">3024 × 1890</p>
+    <a class="dl-btn" id="dlM1">↓ Download</a>
+  </div>
+
+  <div class="wp-item">
+    <p class="wp-label">Off-Center</p>
+    <div class="mac-mock">
+      <canvas id="mac2"></canvas>
+      <div class="mac-overlay">
+        <div class="mac-menubar">
+          <div class="mac-dot r"></div><div class="mac-dot r"></div><div class="mac-dot r"></div>
+          <span class="mac-menubar-text">Wild Project</span>
+        </div>
+        <div class="mac-dock-bar">
+          <div class="mac-dock-icon"></div><div class="mac-dock-icon"></div><div class="mac-dock-icon"></div>
+          <div class="mac-dock-icon"></div><div class="mac-dock-icon"></div><div class="mac-dock-icon"></div>
+        </div>
+      </div>
+    </div>
+    <p class="wp-size">3024 × 1890</p>
+    <a class="dl-btn" id="dlM2">↓ Download</a>
+  </div>
+
+</div>
+
+<p class="status" id="status">Rendering...</p>
 
 <script>
-const W = 1290, H = 2796;
-const ORANGE = '#FC5000';
+const SILVER   = '#B5AFA6';
+const ORANGE   = '#FC5000';
+const CHARCOAL = '#3A3A3A';
+const DARK     = '#1A1A1A';
+const BLACK    = '#0D0D0D';
 
-// ── Utility functions ──
-function addNoise(ctx, w, h, intensity) {
+const IPW = 1290, IPH = 2796;
+const MBW = 3024, MBH = 1890;
+
+function noise(ctx, w, h, a) {
   const img = ctx.getImageData(0, 0, w, h);
   const d = img.data;
-  for (let i = 0; i < d.length; i += 4) {
-    const n = (Math.random() - 0.5) * 255 * intensity;
-    d[i] += n;
-    d[i+1] += n;
-    d[i+2] += n;
+  for (let i = 0; i < d.length; i += 16) {
+    const n = (Math.random() - 0.5) * 255 * a;
+    d[i] += n; d[i+1] += n; d[i+2] += n;
   }
   ctx.putImageData(img, 0, 0);
 }
 
-function drawSoftCircle(ctx, x, y, r, color) {
-  const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-  g.addColorStop(0, color);
+function edgeShadow(ctx, x, w, h) {
+  const g = ctx.createLinearGradient(x - 4, 0, x + 12, 0);
+  g.addColorStop(0, 'rgba(0,0,0,0.12)');
   g.addColorStop(1, 'transparent');
   ctx.fillStyle = g;
-  ctx.fillRect(x - r, y - r, r * 2, r * 2);
+  ctx.fillRect(x - 4, 0, 16, h);
 }
 
 // ══════════════════════════════════════
-//  1. AURORA EMBER
+//  LOCK SCREEN 1: Dark Top
+//  Top 55% dark (clock + widgets)
+//  Horizontal orange stripe at ~55%
+//  Silver bottom 40% (clean, no clutter)
 // ══════════════════════════════════════
-function renderAurora() {
-  const off = new OffscreenCanvas(W, H);
+function lockScreen1(w, h) {
+  const off = new OffscreenCanvas(w, h);
   const ctx = off.getContext('2d');
 
-  // Deep black base with warm undertone
-  const base = ctx.createLinearGradient(0, 0, 0, H);
-  base.addColorStop(0, '#050505');
-  base.addColorStop(0.4, '#050505');
-  base.addColorStop(0.6, '#070504');
-  base.addColorStop(1, '#050505');
-  ctx.fillStyle = base;
-  ctx.fillRect(0, 0, W, H);
+  // Dark top — clock, widgets readable
+  const split = Math.round(h * 0.55);
+  ctx.fillStyle = DARK;
+  ctx.fillRect(0, 0, w, split);
 
-  // Large aurora glow — top area
-  ctx.globalCompositeOperation = 'screen';
+  // Orange horizontal stripe
+  const stripeH = Math.round(h * 0.018);
+  ctx.fillStyle = ORANGE;
+  ctx.fillRect(0, split, w, stripeH);
 
-  // Primary ember — upper third, off-center
-  drawSoftCircle(ctx, W * 0.35, H * 0.22, W * 1.1, 'rgba(252,80,0,0.07)');
-  drawSoftCircle(ctx, W * 0.3, H * 0.18, W * 0.6, 'rgba(252,80,0,0.06)');
-  drawSoftCircle(ctx, W * 0.45, H * 0.25, W * 0.35, 'rgba(252,100,20,0.05)');
+  // Charcoal transition
+  const charH = Math.round(h * 0.012);
+  ctx.fillStyle = CHARCOAL;
+  ctx.fillRect(0, split + stripeH, w, charH);
 
-  // Secondary warm spot — lower
-  drawSoftCircle(ctx, W * 0.7, H * 0.72, W * 0.8, 'rgba(252,80,0,0.04)');
-  drawSoftCircle(ctx, W * 0.65, H * 0.7, W * 0.4, 'rgba(252,60,0,0.03)');
+  // Silver bottom
+  ctx.fillStyle = SILVER;
+  ctx.fillRect(0, split + stripeH + charH, w, h - split - stripeH - charH);
 
-  // Cool accent — hint of deep red
-  drawSoftCircle(ctx, W * 0.15, H * 0.55, W * 0.5, 'rgba(180,30,0,0.02)');
+  // Subtle gradient on dark area
+  const darkGrad = ctx.createLinearGradient(0, 0, 0, split);
+  darkGrad.addColorStop(0, 'rgba(0,0,0,0.12)');
+  darkGrad.addColorStop(0.5, 'transparent');
+  darkGrad.addColorStop(1, 'rgba(0,0,0,0.05)');
+  ctx.fillStyle = darkGrad;
+  ctx.fillRect(0, 0, w, split);
 
-  // Bright hot spot
-  drawSoftCircle(ctx, W * 0.38, H * 0.2, W * 0.15, 'rgba(255,120,40,0.04)');
+  // Silver depth
+  const silGrad = ctx.createLinearGradient(0, split + stripeH + charH, 0, h);
+  silGrad.addColorStop(0, 'rgba(0,0,0,0.06)');
+  silGrad.addColorStop(0.4, 'rgba(255,255,255,0.02)');
+  silGrad.addColorStop(1, 'rgba(0,0,0,0.04)');
+  ctx.fillStyle = silGrad;
+  ctx.fillRect(0, split + stripeH + charH, w, h - split - stripeH - charH);
 
-  ctx.globalCompositeOperation = 'source-over';
-
-  // Flowing aurora streaks using bezier curves
-  ctx.globalCompositeOperation = 'screen';
-  for (let i = 0; i < 8; i++) {
-    ctx.beginPath();
-    const yBase = H * (0.15 + i * 0.03);
-    const xOff = Math.sin(i * 0.8) * W * 0.2;
-    ctx.moveTo(-100, yBase + xOff);
-    ctx.bezierCurveTo(
-      W * 0.25, yBase - W * 0.08 + xOff,
-      W * 0.75, yBase + W * 0.12 + xOff,
-      W + 100, yBase - W * 0.05 + xOff
-    );
-    const opacity = 0.015 + Math.random() * 0.015;
-    ctx.strokeStyle = `rgba(252,80,0,${opacity})`;
-    ctx.lineWidth = 40 + Math.random() * 80;
-    ctx.filter = `blur(${20 + Math.random() * 30}px)`;
-    ctx.stroke();
-  }
-  ctx.filter = 'none';
-  ctx.globalCompositeOperation = 'source-over';
-
-  // Subtle geometric lines — thin, diagonal
-  ctx.globalCompositeOperation = 'screen';
-  for (let i = 0; i < 5; i++) {
-    ctx.beginPath();
-    const x1 = W * (0.1 + i * 0.2);
-    const y1 = 0;
-    const x2 = x1 - W * 0.15;
-    const y2 = H;
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.strokeStyle = `rgba(252,80,0,${0.008 + i * 0.003})`;
-    ctx.lineWidth = 0.5;
-    ctx.stroke();
-  }
-  ctx.globalCompositeOperation = 'source-over';
-
-  // Vignette
-  const vig = ctx.createRadialGradient(W/2, H/2, W * 0.3, W/2, H/2, W * 0.9);
-  vig.addColorStop(0, 'transparent');
-  vig.addColorStop(1, 'rgba(0,0,0,0.4)');
-  ctx.fillStyle = vig;
-  ctx.fillRect(0, 0, W, H);
-
-  // Film grain
-  addNoise(ctx, W, H, 0.018);
-
+  noise(ctx, w, h, 0.008);
   return off;
 }
 
 // ══════════════════════════════════════
-//  2. MONOLITH
+//  LOCK SCREEN 2: Center Accent
+//  Dark top, vertical orange at 35%
+//  Right side silver below ~60%
 // ══════════════════════════════════════
-function renderMonolith() {
-  const off = new OffscreenCanvas(W, H);
+function lockScreen2(w, h) {
+  const off = new OffscreenCanvas(w, h);
   const ctx = off.getContext('2d');
 
-  // Base
-  ctx.fillStyle = '#040404';
-  ctx.fillRect(0, 0, W, H);
+  // Full dark base
+  ctx.fillStyle = DARK;
+  ctx.fillRect(0, 0, w, h);
 
-  // Central vertical light column
+  // Vertical orange stripe at ~35% from left
+  // Starts at 45% height (below clock+widgets) to not interfere
+  const stripeX = Math.round(w * 0.35);
+  const stripeW = Math.round(w * 0.04);
+  const stripeTop = Math.round(h * 0.0); // full height for visual impact
+
+  ctx.fillStyle = ORANGE;
+  ctx.fillRect(stripeX, stripeTop, stripeW, h - stripeTop);
+
+  // Charcoal beside orange
+  ctx.fillStyle = CHARCOAL;
+  ctx.fillRect(stripeX + stripeW, stripeTop, Math.round(w * 0.03), h - stripeTop);
+
+  // Silver block bottom-right
+  const silverTop = Math.round(h * 0.58);
+  const silverLeft = stripeX + stripeW + Math.round(w * 0.03);
+  ctx.fillStyle = SILVER;
+  ctx.fillRect(silverLeft, silverTop, w - silverLeft, h - silverTop);
+
+  // Silver depth
+  const sg = ctx.createLinearGradient(silverLeft, silverTop, w, h);
+  sg.addColorStop(0, 'rgba(0,0,0,0.06)');
+  sg.addColorStop(1, 'rgba(255,255,255,0.02)');
+  ctx.fillStyle = sg;
+  ctx.fillRect(silverLeft, silverTop, w - silverLeft, h - silverTop);
+
+  // Orange glow
   ctx.globalCompositeOperation = 'screen';
-  const col = ctx.createLinearGradient(W/2 - W*0.15, 0, W/2 + W*0.15, 0);
-  col.addColorStop(0, 'transparent');
-  col.addColorStop(0.3, 'rgba(252,80,0,0.015)');
-  col.addColorStop(0.5, 'rgba(252,80,0,0.04)');
-  col.addColorStop(0.7, 'rgba(252,80,0,0.015)');
-  col.addColorStop(1, 'transparent');
-  ctx.fillStyle = col;
-  ctx.fillRect(0, 0, W, H);
+  const glow = ctx.createRadialGradient(stripeX + stripeW/2, h * 0.5, 0, stripeX + stripeW/2, h * 0.5, w * 0.25);
+  glow.addColorStop(0, 'rgba(252,80,0,0.03)');
+  glow.addColorStop(1, 'transparent');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, w, h);
+  ctx.globalCompositeOperation = 'source-over';
 
-  // Bright center point
-  drawSoftCircle(ctx, W/2, H * 0.42, W * 0.4, 'rgba(252,80,0,0.08)');
-  drawSoftCircle(ctx, W/2, H * 0.42, W * 0.18, 'rgba(255,100,20,0.06)');
-  drawSoftCircle(ctx, W/2, H * 0.42, W * 0.06, 'rgba(255,140,60,0.04)');
+  noise(ctx, w, h, 0.008);
+  return off;
+}
 
-  // Horizontal light flares from center
-  for (let i = 0; i < 12; i++) {
-    const angle = (i / 12) * Math.PI * 2;
-    const len = W * (0.3 + Math.random() * 0.5);
-    const cx = W/2;
-    const cy = H * 0.42;
-    const ex = cx + Math.cos(angle) * len;
-    const ey = cy + Math.sin(angle) * len * 0.3;
+// ══════════════════════════════════════
+//  LOCK SCREEN 3: Stealth
+//  Almost full dark, thin orange line
+// ══════════════════════════════════════
+function lockScreen3(w, h) {
+  const off = new OffscreenCanvas(w, h);
+  const ctx = off.getContext('2d');
 
-    const flare = ctx.createLinearGradient(cx, cy, ex, ey);
-    flare.addColorStop(0, `rgba(252,80,0,${0.03 + Math.random() * 0.02})`);
-    flare.addColorStop(1, 'transparent');
+  ctx.fillStyle = BLACK;
+  ctx.fillRect(0, 0, w, h);
 
-    ctx.beginPath();
-    ctx.moveTo(cx - 1, cy);
-    ctx.lineTo(ex, ey - 2);
-    ctx.lineTo(ex, ey + 2);
-    ctx.closePath();
-    ctx.fillStyle = flare;
-    ctx.fill();
+  // Slightly lighter left area
+  ctx.fillStyle = '#111111';
+  ctx.fillRect(0, 0, Math.round(w * 0.42), h);
+
+  // Thin orange line at split
+  const lineX = Math.round(w * 0.42);
+  ctx.fillStyle = ORANGE;
+  ctx.fillRect(lineX, 0, Math.round(w * 0.015), h);
+
+  // Hairline charcoal
+  ctx.fillStyle = '#222222';
+  ctx.fillRect(lineX + Math.round(w * 0.015), 0, Math.round(w * 0.02), h);
+
+  // Orange glow
+  ctx.globalCompositeOperation = 'screen';
+  const g = ctx.createRadialGradient(lineX, h * 0.35, 0, lineX, h * 0.35, w * 0.3);
+  g.addColorStop(0, 'rgba(252,80,0,0.04)');
+  g.addColorStop(1, 'transparent');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, w, h);
+  ctx.globalCompositeOperation = 'source-over';
+
+  noise(ctx, w, h, 0.012);
+  return off;
+}
+
+// ══════════════════════════════════════
+//  HOME SCREEN 1: Split
+//  Silver left, orange vertical, dark right
+//  Icons sit on both sides — contrast works
+// ══════════════════════════════════════
+function homeScreen1(w, h) {
+  const off = new OffscreenCanvas(w, h);
+  const ctx = off.getContext('2d');
+
+  const split = Math.round(w * 0.44);
+  ctx.fillStyle = SILVER;
+  ctx.fillRect(0, 0, split, h);
+
+  ctx.fillStyle = ORANGE;
+  ctx.fillRect(split, 0, Math.round(w * 0.05), h);
+
+  ctx.fillStyle = CHARCOAL;
+  ctx.fillRect(split + Math.round(w * 0.05), 0, Math.round(w * 0.04), h);
+
+  ctx.fillStyle = DARK;
+  ctx.fillRect(split + Math.round(w * 0.09), 0, w, h);
+
+  // Silver depth
+  const sg = ctx.createLinearGradient(0, 0, split, 0);
+  sg.addColorStop(0, 'rgba(0,0,0,0.04)');
+  sg.addColorStop(0.5, 'rgba(255,255,255,0.02)');
+  sg.addColorStop(1, 'rgba(0,0,0,0.06)');
+  ctx.fillStyle = sg;
+  ctx.fillRect(0, 0, split, h);
+
+  edgeShadow(ctx, split + Math.round(w * 0.05), w, h);
+  noise(ctx, w, h, 0.008);
+  return off;
+}
+
+// ══════════════════════════════════════
+//  HOME SCREEN 2: Edge Accent
+//  Dark base, orange stripe at left edge
+// ══════════════════════════════════════
+function homeScreen2(w, h) {
+  const off = new OffscreenCanvas(w, h);
+  const ctx = off.getContext('2d');
+
+  ctx.fillStyle = DARK;
+  ctx.fillRect(0, 0, w, h);
+
+  // Orange stripe at left edge ~8%
+  ctx.fillStyle = ORANGE;
+  ctx.fillRect(0, 0, Math.round(w * 0.04), h);
+
+  // Charcoal next
+  ctx.fillStyle = CHARCOAL;
+  ctx.fillRect(Math.round(w * 0.04), 0, Math.round(w * 0.03), h);
+
+  // Subtle gradient
+  const g = ctx.createLinearGradient(0, 0, w * 0.3, 0);
+  g.addColorStop(0, 'rgba(252,80,0,0.04)');
+  g.addColorStop(1, 'transparent');
+  ctx.fillStyle = g;
+  ctx.fillRect(Math.round(w * 0.07), 0, w * 0.3, h);
+
+  noise(ctx, w, h, 0.01);
+  return off;
+}
+
+// ══════════════════════════════════════
+//  HOME SCREEN 3: Minimal
+//  Near black, thin orange horizontal at top
+// ══════════════════════════════════════
+function homeScreen3(w, h) {
+  const off = new OffscreenCanvas(w, h);
+  const ctx = off.getContext('2d');
+
+  ctx.fillStyle = '#0E0E0E';
+  ctx.fillRect(0, 0, w, h);
+
+  // Thin orange line at ~18% from top (between status bar and icons)
+  const lineY = Math.round(h * 0.18);
+  ctx.fillStyle = ORANGE;
+  ctx.fillRect(Math.round(w * 0.15), lineY, Math.round(w * 0.7), Math.round(h * 0.003));
+
+  // Subtle glow
+  ctx.globalCompositeOperation = 'screen';
+  const g = ctx.createRadialGradient(w/2, lineY, 0, w/2, lineY, w * 0.4);
+  g.addColorStop(0, 'rgba(252,80,0,0.03)');
+  g.addColorStop(1, 'transparent');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, w, h);
+  ctx.globalCompositeOperation = 'source-over';
+
+  noise(ctx, w, h, 0.012);
+  return off;
+}
+
+// ══════════════════════════════════════
+//  CLAIM RENDERER
+// ══════════════════════════════════════
+function drawClaim(ctx, w, h, darkStart, isLeft) {
+  ctx.save();
+  ctx.textBaseline = 'alphabetic';
+
+  const fontSize = Math.round(w * 0.012); // ~36px at 3024w
+  const spacing = fontSize * 0.35;
+  const claimY = h - Math.round(h * 0.08);
+
+  let claimX;
+  if (isLeft) {
+    // Left-aligned on dark side
+    claimX = Math.round(w * 0.04);
+    ctx.textAlign = 'left';
+  } else {
+    // Right-aligned on dark side
+    claimX = w - Math.round(w * 0.04);
+    ctx.textAlign = 'right';
   }
 
-  // Thin orange horizontal line through center
-  const hLine = ctx.createLinearGradient(0, 0, W, 0);
-  hLine.addColorStop(0, 'transparent');
-  hLine.addColorStop(0.2, 'rgba(252,80,0,0.02)');
-  hLine.addColorStop(0.5, 'rgba(252,80,0,0.12)');
-  hLine.addColorStop(0.8, 'rgba(252,80,0,0.02)');
-  hLine.addColorStop(1, 'transparent');
-  ctx.fillStyle = hLine;
-  ctx.fillRect(0, H * 0.42 - 0.5, W, 1);
+  // Draw each word with orange first letter
+  const words = [
+    { text: 'DESIGN.', letter: 'D' },
+    { text: 'PERFORM.', letter: 'P' },
+    { text: 'SUCCEED.', letter: 'S' }
+  ];
 
-  // Grid dots — very subtle
-  for (let x = 0; x < W; x += 80) {
-    for (let y = 0; y < H; y += 80) {
-      const dist = Math.hypot(x - W/2, (y - H*0.42) * 2) / W;
-      const opacity = Math.max(0, 0.04 - dist * 0.04);
-      if (opacity > 0.005) {
-        ctx.beginPath();
-        ctx.arc(x, y, 0.8, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(252,80,0,${opacity})`;
-        ctx.fill();
-      }
+  const wordSpacing = fontSize * 1.8;
+  const totalWidth = words.length * wordSpacing - wordSpacing + words.reduce((a, w) => a + measureWord(ctx, w.text, fontSize, spacing), 0) / words.length * 0;
+
+  // Measure total for alignment
+  ctx.font = `300 ${fontSize}px Poppins, sans-serif`;
+  ctx.letterSpacing = `${spacing}px`;
+
+  // Build full claim and draw letter by letter
+  const claimParts = [];
+  words.forEach((word, wi) => {
+    for (let i = 0; i < word.text.length; i++) {
+      claimParts.push({
+        char: word.text[i],
+        isFirst: i === 0,
+        addGap: i === 0 && wi > 0
+      });
     }
+  });
+
+  // Measure total width
+  let totalW = 0;
+  ctx.font = `300 ${fontSize}px Poppins, sans-serif`;
+  claimParts.forEach(p => {
+    if (p.addGap) totalW += fontSize * 0.8;
+    totalW += ctx.measureText(p.char).width + spacing;
+  });
+
+  // Starting X based on alignment
+  let curX;
+  if (isLeft) {
+    curX = claimX;
+  } else {
+    curX = claimX - totalW;
   }
 
-  ctx.globalCompositeOperation = 'source-over';
+  // Draw characters
+  claimParts.forEach(p => {
+    if (p.addGap) curX += fontSize * 0.8;
 
-  // Top + bottom fade to black
-  const topFade = ctx.createLinearGradient(0, 0, 0, H * 0.15);
-  topFade.addColorStop(0, 'rgba(4,4,4,0.9)');
-  topFade.addColorStop(1, 'transparent');
-  ctx.fillStyle = topFade;
-  ctx.fillRect(0, 0, W, H * 0.15);
+    ctx.font = `300 ${fontSize}px Poppins, sans-serif`;
+    if (p.isFirst) {
+      ctx.fillStyle = 'rgba(252,80,0,0.6)';
+    } else {
+      ctx.fillStyle = 'rgba(255,255,255,0.18)';
+    }
+    ctx.fillText(p.char, curX, claimY);
+    curX += ctx.measureText(p.char).width + spacing;
+  });
 
-  const botFade = ctx.createLinearGradient(0, H * 0.85, 0, H);
-  botFade.addColorStop(0, 'transparent');
-  botFade.addColorStop(1, 'rgba(4,4,4,0.9)');
-  ctx.fillStyle = botFade;
-  ctx.fillRect(0, H * 0.85, W, H * 0.15);
+  ctx.restore();
+}
 
-  // Vignette
-  const vig = ctx.createRadialGradient(W/2, H * 0.42, W * 0.15, W/2, H * 0.42, W);
-  vig.addColorStop(0, 'transparent');
-  vig.addColorStop(1, 'rgba(0,0,0,0.5)');
-  ctx.fillStyle = vig;
-  ctx.fillRect(0, 0, W, H);
-
-  addNoise(ctx, W, H, 0.015);
-  return off;
+function measureWord(ctx, text, fontSize, spacing) {
+  ctx.font = `300 ${fontSize}px Poppins, sans-serif`;
+  return ctx.measureText(text).width + text.length * spacing;
 }
 
 // ══════════════════════════════════════
-//  3. HORIZON
+//  MACBOOK WALLPAPERS
 // ══════════════════════════════════════
-function renderHorizon() {
-  const off = new OffscreenCanvas(W, H);
+function macClassic(w, h) {
+  const off = new OffscreenCanvas(w, h);
   const ctx = off.getContext('2d');
 
-  // Gradient base — deep dark with warm zone
-  const base = ctx.createLinearGradient(0, 0, 0, H);
-  base.addColorStop(0, '#030303');
-  base.addColorStop(0.35, '#050505');
-  base.addColorStop(0.52, '#0a0604');
-  base.addColorStop(0.55, '#080503');
-  base.addColorStop(0.7, '#050505');
-  base.addColorStop(1, '#030303');
-  ctx.fillStyle = base;
-  ctx.fillRect(0, 0, W, H);
+  const split = Math.round(w * 0.38);
+  ctx.fillStyle = SILVER;
+  ctx.fillRect(0, 0, split, h);
 
-  ctx.globalCompositeOperation = 'screen';
+  ctx.fillStyle = ORANGE;
+  ctx.fillRect(split, 0, Math.round(w * 0.04), h);
 
-  // Horizon glow — wide band
-  const horizonY = H * 0.53;
-  drawSoftCircle(ctx, W/2, horizonY, W * 1.2, 'rgba(252,80,0,0.05)');
-  drawSoftCircle(ctx, W/2, horizonY, W * 0.6, 'rgba(252,80,0,0.04)');
-  drawSoftCircle(ctx, W * 0.4, horizonY, W * 0.3, 'rgba(255,100,20,0.03)');
+  ctx.fillStyle = CHARCOAL;
+  ctx.fillRect(split + Math.round(w * 0.04), 0, Math.round(w * 0.03), h);
 
-  // Sun-like orb at horizon
-  drawSoftCircle(ctx, W/2, horizonY, W * 0.12, 'rgba(252,80,0,0.1)');
-  drawSoftCircle(ctx, W/2, horizonY, W * 0.05, 'rgba(255,140,60,0.08)');
-  drawSoftCircle(ctx, W/2, horizonY, W * 0.02, 'rgba(255,180,100,0.06)');
+  ctx.fillStyle = DARK;
+  ctx.fillRect(split + Math.round(w * 0.07), 0, w, h);
 
-  // Horizontal streaks — atmosphere layers
-  for (let i = 0; i < 20; i++) {
-    const y = horizonY + (i - 10) * H * 0.008;
-    const hGrad = ctx.createLinearGradient(0, 0, W, 0);
-    const op = 0.02 * Math.exp(-Math.abs(i - 10) * 0.2);
-    hGrad.addColorStop(0, 'transparent');
-    hGrad.addColorStop(0.15, `rgba(252,80,0,${op * 0.3})`);
-    hGrad.addColorStop(0.5, `rgba(252,80,0,${op})`);
-    hGrad.addColorStop(0.85, `rgba(252,80,0,${op * 0.3})`);
-    hGrad.addColorStop(1, 'transparent');
-    ctx.fillStyle = hGrad;
-    ctx.fillRect(0, y - 2, W, 4 + Math.random() * 4);
-  }
+  const sg = ctx.createLinearGradient(0, 0, split, 0);
+  sg.addColorStop(0, 'rgba(0,0,0,0.04)');
+  sg.addColorStop(0.5, 'rgba(255,255,255,0.02)');
+  sg.addColorStop(1, 'rgba(0,0,0,0.06)');
+  ctx.fillStyle = sg;
+  ctx.fillRect(0, 0, split, h);
 
-  // Mountain/ridge silhouette
-  ctx.globalCompositeOperation = 'source-over';
-  ctx.beginPath();
-  ctx.moveTo(0, horizonY + 20);
-  // Generate jagged mountain line
-  const points = [];
-  for (let x = 0; x <= W; x += 4) {
-    const base = horizonY + 15;
-    const mountain = Math.sin(x * 0.003) * 30
-      + Math.sin(x * 0.008) * 15
-      + Math.sin(x * 0.02) * 8
-      + Math.sin(x * 0.05) * 3;
-    points.push({ x, y: base - Math.abs(mountain) });
-  }
-  ctx.moveTo(0, H);
-  ctx.lineTo(0, points[0].y);
-  points.forEach(p => ctx.lineTo(p.x, p.y));
-  ctx.lineTo(W, H);
-  ctx.closePath();
-  ctx.fillStyle = '#030303';
-  ctx.fill();
+  // Claim on dark side — bottom right, dezent
+  drawClaim(ctx, w, h, split + Math.round(w * 0.07));
 
-  // Subtle ridge highlight
-  ctx.globalCompositeOperation = 'screen';
-  ctx.beginPath();
-  points.forEach((p, i) => {
-    if (i === 0) ctx.moveTo(p.x, p.y);
-    else ctx.lineTo(p.x, p.y);
-  });
-  const ridgeGrad = ctx.createLinearGradient(0, 0, W, 0);
-  ridgeGrad.addColorStop(0, 'transparent');
-  ridgeGrad.addColorStop(0.3, 'rgba(252,80,0,0.06)');
-  ridgeGrad.addColorStop(0.5, 'rgba(252,80,0,0.12)');
-  ridgeGrad.addColorStop(0.7, 'rgba(252,80,0,0.06)');
-  ridgeGrad.addColorStop(1, 'transparent');
-  ctx.strokeStyle = ridgeGrad;
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
+  noise(ctx, w, h, 0.007);
+  return off;
+}
 
-  // Stars above horizon
-  ctx.globalCompositeOperation = 'screen';
-  for (let i = 0; i < 120; i++) {
-    const sx = Math.random() * W;
-    const sy = Math.random() * horizonY * 0.9;
-    const sr = 0.3 + Math.random() * 1;
-    const so = 0.05 + Math.random() * 0.15;
-    ctx.beginPath();
-    ctx.arc(sx, sy, sr, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255,255,255,${so})`;
-    ctx.fill();
-  }
+function macOffCenter(w, h) {
+  const off = new OffscreenCanvas(w, h);
+  const ctx = off.getContext('2d');
 
-  // Reflection below horizon — subtle
-  drawSoftCircle(ctx, W/2, horizonY + H * 0.1, W * 0.5, 'rgba(252,80,0,0.015)');
+  ctx.fillStyle = DARK;
+  ctx.fillRect(0, 0, w, h);
 
-  ctx.globalCompositeOperation = 'source-over';
+  const split = Math.round(w * 0.62);
+  ctx.fillStyle = CHARCOAL;
+  ctx.fillRect(split, 0, Math.round(w * 0.03), h);
 
-  // Vignette
-  const vig = ctx.createRadialGradient(W/2, horizonY, W * 0.2, W/2, horizonY, W);
-  vig.addColorStop(0, 'transparent');
-  vig.addColorStop(1, 'rgba(0,0,0,0.45)');
-  ctx.fillStyle = vig;
-  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = ORANGE;
+  ctx.fillRect(split + Math.round(w * 0.03), 0, Math.round(w * 0.035), h);
 
-  addNoise(ctx, W, H, 0.016);
+  ctx.fillStyle = SILVER;
+  ctx.fillRect(split + Math.round(w * 0.065), 0, w, h);
+
+  // Claim on dark side — bottom left area
+  drawClaim(ctx, w, h, 0, true);
+
+  const sg = ctx.createLinearGradient(split + Math.round(w * 0.065), 0, w, 0);
+  sg.addColorStop(0, 'rgba(0,0,0,0.06)');
+  sg.addColorStop(0.5, 'rgba(255,255,255,0.02)');
+  sg.addColorStop(1, 'rgba(0,0,0,0.03)');
+  ctx.fillStyle = sg;
+  ctx.fillRect(split + Math.round(w * 0.065), 0, w, h);
+
+  noise(ctx, w, h, 0.007);
   return off;
 }
 
 // ══════════════════════════════════════
-//  RENDER ALL + DOWNLOAD
+//  RENDER ALL
 // ══════════════════════════════════════
-let canvases = {};
+const store = {};
+
+function render(fn, w, h, canvasId) {
+  const off = fn(w, h);
+  const c = document.getElementById(canvasId);
+  c.width = c.clientWidth * 2;
+  c.height = c.clientHeight * 2;
+  c.getContext('2d').drawImage(off, 0, 0, c.width, c.height);
+  store[canvasId] = off;
+}
 
 async function init() {
-  const status = document.getElementById('status');
+  const s = document.getElementById('status');
 
-  status.textContent = 'Rendering Aurora Ember...';
-  await new Promise(r => setTimeout(r, 50));
-  canvases.c1 = renderAurora();
-  document.getElementById('c1').getContext('2d').drawImage(canvases.c1, 0, 0, 258, 559);
+  s.textContent = 'Rendering Lock Screens...';
+  await new Promise(r => setTimeout(r, 30));
+  render(lockScreen1, IPW, IPH, 'lock1');
+  render(lockScreen2, IPW, IPH, 'lock2');
+  render(lockScreen3, IPW, IPH, 'lock3');
 
-  status.textContent = 'Rendering Monolith...';
-  await new Promise(r => setTimeout(r, 50));
-  canvases.c2 = renderMonolith();
-  document.getElementById('c2').getContext('2d').drawImage(canvases.c2, 0, 0, 258, 559);
+  s.textContent = 'Rendering Home Screens...';
+  await new Promise(r => setTimeout(r, 30));
+  render(homeScreen1, IPW, IPH, 'home1');
+  render(homeScreen2, IPW, IPH, 'home2');
+  render(homeScreen3, IPW, IPH, 'home3');
 
-  status.textContent = 'Rendering Horizon...';
-  await new Promise(r => setTimeout(r, 50));
-  canvases.c3 = renderHorizon();
-  document.getElementById('c3').getContext('2d').drawImage(canvases.c3, 0, 0, 258, 559);
+  s.textContent = 'Rendering MacBook...';
+  await new Promise(r => setTimeout(r, 30));
+  render(macClassic, MBW, MBH, 'mac1');
+  render(macOffCenter, MBW, MBH, 'mac2');
 
-  status.textContent = 'Ready — tap to download';
+  s.textContent = 'Ready — tap to download';
 }
 
-function download(key, name) {
-  canvases[key].convertToBlob({ type: 'image/png' }).then(blob => {
+function dl(id, name) {
+  store[id].convertToBlob({ type: 'image/png' }).then(blob => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = name;
-    a.click();
+    a.href = url; a.download = name; a.click();
     URL.revokeObjectURL(url);
   });
 }
 
-document.getElementById('dl1').addEventListener('click', () => download('c1', 'WildProject-AuroraEmber-1290x2796.png'));
-document.getElementById('dl2').addEventListener('click', () => download('c2', 'WildProject-Monolith-1290x2796.png'));
-document.getElementById('dl3').addEventListener('click', () => download('c3', 'WildProject-Horizon-1290x2796.png'));
+// Lock screen downloads
+document.getElementById('dlL1').addEventListener('click', () => dl('lock1', 'WP-Lock-DarkTop-1290x2796.png'));
+document.getElementById('dlL2').addEventListener('click', () => dl('lock2', 'WP-Lock-CenterAccent-1290x2796.png'));
+document.getElementById('dlL3').addEventListener('click', () => dl('lock3', 'WP-Lock-Stealth-1290x2796.png'));
+
+// Home screen downloads
+document.getElementById('dlH1').addEventListener('click', () => dl('home1', 'WP-Home-Split-1290x2796.png'));
+document.getElementById('dlH2').addEventListener('click', () => dl('home2', 'WP-Home-EdgeAccent-1290x2796.png'));
+document.getElementById('dlH3').addEventListener('click', () => dl('home3', 'WP-Home-Minimal-1290x2796.png'));
+
+// MacBook downloads
+document.getElementById('dlM1').addEventListener('click', () => dl('mac1', 'WP-MacBook-Classic-3024x1890.png'));
+document.getElementById('dlM2').addEventListener('click', () => dl('mac2', 'WP-MacBook-OffCenter-3024x1890.png'));
 
 window.addEventListener('load', () => setTimeout(init, 300));
 </script>
