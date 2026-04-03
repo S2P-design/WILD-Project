@@ -49,6 +49,11 @@ import Footer from '../components/Footer.astro';
         <LinkItem href="https://www.cherrysgraph.de/" icon="LK" title="Lukas Kirsch" desc="Fotografie & Visual Storytelling — die Bilder hinter Shift2Pro" />
       </div>
 
+      <!-- CONNECTOR LINE -->
+      <div class="connector-line">
+        <div class="connector-line-inner"></div>
+      </div>
+
       <!-- CONTACT -->
       <div class="contact-row">
         <a href="mailto:rene@wildproject.pro" class="contact-pill">rene@wildproject.pro</a>
@@ -185,13 +190,35 @@ import Footer from '../components/Footer.astro';
     margin-bottom: 16px;
   }
 
+  /* ── CONNECTOR LINE ─────────────── */
+  .connector-line {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+  }
+  .connector-line-inner {
+    width: 1px;
+    height: 0;
+    background: linear-gradient(to bottom, var(--orange), rgba(252,80,0,0.05));
+    transition: height 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .connector-line.visible .connector-line-inner {
+    height: 36px;
+  }
+
   /* ── CONTACT ROW ─────────────────── */
   .contact-row {
-    margin-top: 24px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255,255,255,0.08);
+    margin-top: 0;
+    padding-top: 8px;
     display: flex; align-items: center; justify-content: center;
     gap: 20px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s;
+  }
+  .contact-row.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
   .contact-pill {
     font-size: 11px; font-weight: 400;
@@ -238,7 +265,9 @@ import Footer from '../components/Footer.astro';
     .about-toggle { padding: 6px 0; }
     .about-toggle-label { font-size: 9px; }
     .about-stats { flex-wrap: wrap; }
-    .contact-row { flex-direction: column; gap: 4px; margin-top: 8px; padding-top: 8px; }
+    .connector-line { padding: 4px 0; }
+    .connector-line.visible .connector-line-inner { height: 24px; }
+    .contact-row { flex-direction: column; gap: 4px; margin-top: 0; padding-top: 4px; }
     .contact-pill { width: 100%; text-align: center; padding: 6px 12px; font-size: 9px; }
   }
 </style>
@@ -249,6 +278,22 @@ import Footer from '../components/Footer.astro';
     this.classList.toggle('open');
     document.getElementById('aboutBody')?.classList.toggle('open');
   });
+
+  // Connector line + contact row reveal on scroll
+  const connector = document.querySelector('.connector-line');
+  const contactRow = document.querySelector('.contact-row');
+  if (connector) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          connector.classList.add('visible');
+          contactRow?.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    obs.observe(connector);
+  }
 
   // Scroll-based background brightness
   (function() {

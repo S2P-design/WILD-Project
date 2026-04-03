@@ -1,41 +1,108 @@
 
-<div class="footer">
-  <p>&copy; 2026 Wild Project — René Wild</p>
-  <p style="margin-top: 8px; color: var(--grey-dark);">Design &middot; Perform &middot; Succeed</p>
-  <p class="card-link"><a href="/card">Digitale Visitenkarte</a></p>
-  <p style="margin-top: 10px;"><a href="/impressum">Impressum</a> &middot; <a href="/datenschutz">Datenschutz</a></p>
-</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <p class="copyright">&copy; 2026 Wild Project — René Wild</p>
+      <p class="footer-links">
+        <a href="/impressum">Impressum</a>
+        <span class="sep">&middot;</span>
+        <a href="/datenschutz">Datenschutz</a>
+        <span class="sep">&middot;</span>
+        <a href="/card">Digitale Visitenkarte</a>
+      </p>
+    </div>
+    <div class="footer-right">
+      <img src="/wp-logo.png" alt="WP" class="footer-logo">
+      <p class="footer-claim"><span class="o">D</span>ESIGN. <span class="o">P</span>ERFORM. <span class="o">S</span>UCCEED.</p>
+      <p class="footer-coords">47.8561° N &nbsp; 12.1289° E</p>
+    </div>
+  </div>
+</footer>
 
 <style>
   .footer {
-    text-align: center;
-    padding: 32px 40px;
+    padding: 28px 3rem 32px;
+    background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 100%);
+    padding-top: 40px;
+    position: relative;
   }
-  .footer p {
-    font-size: 10px; color: var(--grey-dark);
-    letter-spacing: 1px;
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
   }
-  .footer a { color: var(--grey-mid); transition: color 0.2s; }
-  .footer a:hover { color: var(--orange); }
-  .card-link {
-    margin-top: 10px;
-    display: none;
+
+  /* ── Links: Copyright + Links ── */
+  .footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
-  .card-link a {
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    color: rgba(255,255,255,0.2);
+  .copyright {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.5px;
+  }
+  .footer-links {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+  .footer-links a {
+    color: rgba(255,255,255,0.55);
     text-decoration: none;
     transition: color 0.2s;
   }
-  .card-link a:hover { color: var(--orange); }
-
-  @media (min-width: 701px) {
-    .card-link { display: block; }
+  .footer-links a:hover { color: var(--orange); }
+  .footer-links .sep {
+    color: rgba(255,255,255,0.2);
+    margin: 0 5px;
   }
 
+  /* ── Rechts: Logo + Claim + Coords ── */
+  .footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .footer-logo {
+    width: 24px;
+    height: 24px;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+    margin-bottom: 2px;
+  }
+  .footer-logo:hover { opacity: 0.9; }
+  .footer-claim {
+    font-size: 9px;
+    font-weight: 300;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.5);
+  }
+  .footer-claim .o { color: var(--orange); }
+  .footer-coords {
+    font-size: 7px;
+    font-weight: 300;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.35);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Mobile ── */
   @media (max-width: 700px) {
-    .footer { padding: 20px 1.5rem 32px; }
-    .footer p { font-size: 8px; letter-spacing: 0.5px; }
+    .footer { padding: 20px 1.5rem 36px; }
+    .footer-inner {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+    .footer-left { align-items: center; gap: 8px; }
+    .footer-right { align-items: center; }
+    .copyright { font-size: 10px; }
+    .footer-links { font-size: 10px; }
+    .footer-claim { font-size: 8px; letter-spacing: 2px; }
+    .footer-coords { font-size: 7px; }
+    .footer-logo { width: 22px; height: 22px; }
   }
 </style>
