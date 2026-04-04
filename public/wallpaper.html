@@ -806,89 +806,44 @@ function homeScreen3(w, h) {
 }
 
 // ══════════════════════════════════════
-//  CLAIM RENDERER
+//  MINDSET TAGLINE RENDERER
 // ══════════════════════════════════════
 function drawClaim(ctx, w, h, darkStart, isLeft) {
   ctx.save();
   ctx.textBaseline = 'alphabetic';
 
-  const fontSize = Math.round(w * 0.012); // ~36px at 3024w
-  const spacing = fontSize * 0.35;
+  const text = 'LIVE BY DESIGN, NOT BY DEFAULT.';
+  const fontSize = Math.round(w * 0.01); // ~30px at 3024w
+  const spacing = fontSize * 0.25;
   const claimY = h - Math.round(h * 0.08);
+
+  ctx.font = `400 ${fontSize}px monospace`;
 
   let claimX;
   if (isLeft) {
-    // Left-aligned on dark side
     claimX = Math.round(w * 0.04);
-    ctx.textAlign = 'left';
   } else {
-    // Right-aligned on dark side
     claimX = w - Math.round(w * 0.04);
-    ctx.textAlign = 'right';
   }
-
-  // Draw each word with orange first letter
-  const words = [
-    { text: 'DESIGN.', letter: 'D' },
-    { text: 'PERFORM.', letter: 'P' },
-    { text: 'SUCCEED.', letter: 'S' }
-  ];
-
-  const wordSpacing = fontSize * 1.8;
-  const totalWidth = words.length * wordSpacing - wordSpacing + words.reduce((a, w) => a + measureWord(ctx, w.text, fontSize, spacing), 0) / words.length * 0;
-
-  // Measure total for alignment
-  ctx.font = `300 ${fontSize}px Poppins, sans-serif`;
-  ctx.letterSpacing = `${spacing}px`;
-
-  // Build full claim and draw letter by letter
-  const claimParts = [];
-  words.forEach((word, wi) => {
-    for (let i = 0; i < word.text.length; i++) {
-      claimParts.push({
-        char: word.text[i],
-        isFirst: i === 0,
-        addGap: i === 0 && wi > 0
-      });
-    }
-  });
 
   // Measure total width
   let totalW = 0;
-  ctx.font = `300 ${fontSize}px Poppins, sans-serif`;
-  claimParts.forEach(p => {
-    if (p.addGap) totalW += fontSize * 0.8;
-    totalW += ctx.measureText(p.char).width + spacing;
-  });
-
-  // Starting X based on alignment
-  let curX;
-  if (isLeft) {
-    curX = claimX;
-  } else {
-    curX = claimX - totalW;
+  for (let i = 0; i < text.length; i++) {
+    totalW += ctx.measureText(text[i]).width + spacing;
   }
 
-  // Draw characters
-  claimParts.forEach(p => {
-    if (p.addGap) curX += fontSize * 0.8;
+  // Starting X
+  let curX = isLeft ? claimX : claimX - totalW;
 
-    ctx.font = `300 ${fontSize}px Poppins, sans-serif`;
-    if (p.isFirst) {
-      ctx.fillStyle = 'rgba(252,80,0,0.6)';
-    } else {
-      ctx.fillStyle = 'rgba(255,255,255,0.18)';
-    }
-    ctx.fillText(p.char, curX, claimY);
-    curX += ctx.measureText(p.char).width + spacing;
-  });
+  // Draw character by character
+  for (let i = 0; i < text.length; i++) {
+    ctx.font = `400 ${fontSize}px monospace`;
+    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.fillText(text[i], curX, claimY);
+    curX += ctx.measureText(text[i]).width + spacing;
+  }
 
   ctx.restore();
-}
-
-function measureWord(ctx, text, fontSize, spacing) {
-  ctx.font = `300 ${fontSize}px Poppins, sans-serif`;
-  return ctx.measureText(text).width + text.length * spacing;
 }
 
 // ══════════════════════════════════════

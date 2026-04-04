@@ -4,73 +4,170 @@
 <meta charset="UTF-8">
 <title>E-Mail Signatur — René Wild</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 <style>
-  body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 40px; }
-  .preview-label { font-size: 12px; color: #999; margin-bottom: 12px; letter-spacing: 1px; }
-  .preview-box { background: #fff; padding: 40px; max-width: 600px; border: 1px solid #ddd; }
-  .preview-dark { background: #1a1a1a; padding: 40px; max-width: 600px; border: 1px solid #333; margin-top: 40px; }
-  .instructions { max-width: 600px; margin-top: 40px; padding: 24px; background: #fff; border: 1px solid #ddd; font-size: 14px; color: #555; line-height: 1.8; }
-  .instructions h3 { color: #333; margin-bottom: 12px; }
-  .instructions ol { padding-left: 20px; }
-  .instructions li { margin-bottom: 8px; }
-  code { background: #f0f0f0; padding: 2px 6px; font-size: 13px; }
+  body { font-family: -apple-system, sans-serif; background: #f0f0f0; padding: 40px 24px; margin: 0; }
+  .page-title { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #999; text-align: center; margin-bottom: 32px; }
+  .preview-wrap { max-width: 640px; margin: 0 auto 48px; }
+  .preview-label {
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    color: #aaa; margin-bottom: 10px; padding-left: 4px;
+    font-family: monospace;
+  }
+  .preview-box {
+    padding: 32px 40px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .preview-box.light { background: #ffffff; }
+  .preview-box.dark { background: #1a1a1a; }
+
+  .instructions {
+    max-width: 640px; margin: 0 auto;
+    padding: 28px 32px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    font-size: 13px; color: #555; line-height: 1.8;
+  }
+  .instructions h3 { color: #333; margin-bottom: 12px; font-size: 14px; }
+  .instructions ol { padding-left: 20px; margin: 0; }
+  .instructions li { margin-bottom: 6px; }
+  .instructions code { background: #f0f0f0; padding: 2px 6px; font-size: 12px; border-radius: 3px; }
+  .instructions .hint { font-size: 11px; color: #999; margin-top: 16px; font-style: italic; }
 </style>
 </head>
 <body>
 
-<p class="preview-label">VORSCHAU — HELLER HINTERGRUND</p>
-<div class="preview-box">
+<p class="page-title">E-Mail Signatur — Wild Project</p>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- LIGHT MODE PREVIEW                         -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="preview-wrap">
+  <p class="preview-label">// light mode</p>
+  <div class="preview-box light">
 
 <!-- ══════ SIGNATUR START — KOPIERE AB HIER ══════ -->
-<table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #333; line-height: 1.5;">
-  <tr>
-    <td style="vertical-align: top;">
-      <div style="font-size: 16px; font-weight: bold; color: #050505;">René Wild</div>
-      <div style="font-size: 12px; color: #777; margin-top: 2px;">Development Coach · Podcaster · Ästhetik Junkie</div>
-      <div style="margin-top: 10px; font-size: 12px; color: #555;">
-        <span style="color: #FC5000;">M</span>&nbsp; <a href="tel:+436644272020" style="color: #555; text-decoration: none;">+43 664 427 2020</a><br>
-        <span style="color: #FC5000;">E</span>&nbsp; <a href="mailto:rene@wildproject.pro" style="color: #555; text-decoration: none;">rene@wildproject.pro</a><br>
-        <span style="color: #FC5000;">W</span>&nbsp; <a href="https://www.wildproject.pro" style="color: #555; text-decoration: none;">wildproject.pro</a>
-      </div>
-      <div style="margin-top: 10px; font-size: 10px; color: #aaa; letter-spacing: 2px;"><span style="color: #FC5000;">D</span>ESIGN. <span style="color: #FC5000;">P</span>ERFORM. <span style="color: #FC5000;">S</span>UCCEED.</div>
-    </td>
-  </tr>
+<table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; line-height: 1.4; border-collapse: collapse;">
+  <tr><td style="padding-bottom: 12px;">
+    <div style="font-size: 17px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.3px;">René Wild</div>
+    <div style="font-size: 11px; color: #999; margin-top: 2px; letter-spacing: 0.3px;">Coach · Creator · Podcaster · Ästhetik Junkie</div>
+  </td></tr>
+  <tr><td style="padding-bottom: 12px;">
+    <div style="width: 40px; height: 2px; background-color: #FC5000;"></div>
+  </td></tr>
+  <tr><td style="padding-bottom: 14px; font-size: 12px; color: #666;">
+    <table cellpadding="0" cellspacing="0" border="0"><tr>
+      <td style="font-size: 12px; color: #FC5000; padding-right: 8px; font-family: monospace; vertical-align: top;">M</td>
+      <td style="font-size: 12px; padding-bottom: 3px;"><a href="tel:+436644272020" style="color: #666; text-decoration: none;">+43 664 427 2020</a></td>
+    </tr><tr>
+      <td style="font-size: 12px; color: #FC5000; padding-right: 8px; font-family: monospace; vertical-align: top;">E</td>
+      <td style="font-size: 12px; padding-bottom: 3px;"><a href="mailto:rene@wildproject.pro" style="color: #666; text-decoration: none;">rene@wildproject.pro</a></td>
+    </tr><tr>
+      <td style="font-size: 12px; color: #FC5000; padding-right: 8px; font-family: monospace; vertical-align: top;">W</td>
+      <td style="font-size: 12px;"><a href="https://www.wildproject.pro" style="color: #666; text-decoration: none;">wildproject.pro</a></td>
+    </tr></table>
+  </td></tr>
+  <tr><td>
+    <div style="font-family: monospace; font-size: 9px; color: #bbb; letter-spacing: 1.5px;">LIVE BY DESIGN, NOT BY DEFAULT.</div>
+  </td></tr>
 </table>
 <!-- ══════ SIGNATUR ENDE ══════ -->
 
+  </div>
 </div>
 
-<p class="preview-label" style="margin-top: 40px;">VORSCHAU — DUNKLER HINTERGRUND (für Dark-Mode E-Mail-Clients)</p>
-<div class="preview-dark">
+<!-- ═══════════════════════════════════════════ -->
+<!-- DARK MODE PREVIEW                          -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="preview-wrap">
+  <p class="preview-label">// dark mode</p>
+  <div class="preview-box dark">
 
-<table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #ccc; line-height: 1.5;">
-  <tr>
-    <td style="vertical-align: top;">
-      <div style="font-size: 16px; font-weight: bold; color: #F5F5F3;">René Wild</div>
-      <div style="font-size: 12px; color: #777; margin-top: 2px;">Development Coach · Podcaster · Ästhetik Junkie</div>
-      <div style="margin-top: 10px; font-size: 12px; color: #aaa;">
-        <span style="color: #FC5000;">M</span>&nbsp; <a href="tel:+436644272020" style="color: #aaa; text-decoration: none;">+43 664 427 2020</a><br>
-        <span style="color: #FC5000;">E</span>&nbsp; <a href="mailto:rene@wildproject.pro" style="color: #aaa; text-decoration: none;">rene@wildproject.pro</a><br>
-        <span style="color: #FC5000;">W</span>&nbsp; <a href="https://www.wildproject.pro" style="color: #aaa; text-decoration: none;">wildproject.pro</a>
-      </div>
-      <div style="margin-top: 10px; font-size: 10px; color: #555; letter-spacing: 2px;"><span style="color: #FC5000;">D</span>ESIGN. <span style="color: #FC5000;">P</span>ERFORM. <span style="color: #FC5000;">S</span>UCCEED.</div>
-    </td>
-  </tr>
+<table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; line-height: 1.4; border-collapse: collapse;">
+  <tr><td style="padding-bottom: 12px;">
+    <div style="font-size: 17px; font-weight: 700; color: #F5F5F3; letter-spacing: -0.3px;">René Wild</div>
+    <div style="font-size: 11px; color: #777; margin-top: 2px; letter-spacing: 0.3px;">Coach · Creator · Podcaster · Ästhetik Junkie</div>
+  </td></tr>
+  <tr><td style="padding-bottom: 12px;">
+    <div style="width: 40px; height: 2px; background-color: #FC5000;"></div>
+  </td></tr>
+  <tr><td style="padding-bottom: 14px; font-size: 12px; color: #aaa;">
+    <table cellpadding="0" cellspacing="0" border="0"><tr>
+      <td style="font-size: 12px; color: #FC5000; padding-right: 8px; font-family: monospace; vertical-align: top;">M</td>
+      <td style="font-size: 12px; padding-bottom: 3px;"><a href="tel:+436644272020" style="color: #aaa; text-decoration: none;">+43 664 427 2020</a></td>
+    </tr><tr>
+      <td style="font-size: 12px; color: #FC5000; padding-right: 8px; font-family: monospace; vertical-align: top;">E</td>
+      <td style="font-size: 12px; padding-bottom: 3px;"><a href="mailto:rene@wildproject.pro" style="color: #aaa; text-decoration: none;">rene@wildproject.pro</a></td>
+    </tr><tr>
+      <td style="font-size: 12px; color: #FC5000; padding-right: 8px; font-family: monospace; vertical-align: top;">W</td>
+      <td style="font-size: 12px;"><a href="https://www.wildproject.pro" style="color: #aaa; text-decoration: none;">wildproject.pro</a></td>
+    </tr></table>
+  </td></tr>
+  <tr><td>
+    <div style="font-family: monospace; font-size: 9px; color: #555; letter-spacing: 1.5px;">LIVE BY DESIGN, NOT BY DEFAULT.</div>
+  </td></tr>
 </table>
 
+  </div>
 </div>
 
+<!-- ═══════════════════════════════════════════ -->
+<!-- ADAPTIVE VERSION (für Apple Mail / iOS)    -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="preview-wrap">
+  <p class="preview-label">// adaptive version — diese kopieren</p>
+  <div class="preview-box light" id="copy-sig">
+
+<style>
+  @media (prefers-color-scheme: dark) {
+    .sig-name { color: #F5F5F3 !important; }
+    .sig-role { color: #777 !important; }
+    .sig-link { color: #aaa !important; }
+    .sig-tagline { color: #555 !important; }
+  }
+</style>
+<table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; line-height: 1.4; border-collapse: collapse;">
+  <tr><td style="padding-bottom: 12px;">
+    <div class="sig-name" style="font-size: 17px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.3px;">René Wild</div>
+    <div class="sig-role" style="font-size: 11px; color: #999; margin-top: 2px; letter-spacing: 0.3px;">Coach · Creator · Podcaster · Ästhetik Junkie</div>
+  </td></tr>
+  <tr><td style="padding-bottom: 12px;">
+    <div style="width: 40px; height: 2px; background-color: #FC5000;"></div>
+  </td></tr>
+  <tr><td style="padding-bottom: 14px; font-size: 12px;">
+    <table cellpadding="0" cellspacing="0" border="0"><tr>
+      <td style="font-size: 12px; color: #FC5000; padding-right: 8px; font-family: monospace; vertical-align: top;">M</td>
+      <td style="font-size: 12px; padding-bottom: 3px;"><a class="sig-link" href="tel:+436644272020" style="color: #666; text-decoration: none;">+43 664 427 2020</a></td>
+    </tr><tr>
+      <td style="font-size: 12px; color: #FC5000; padding-right: 8px; font-family: monospace; vertical-align: top;">E</td>
+      <td style="font-size: 12px; padding-bottom: 3px;"><a class="sig-link" href="mailto:rene@wildproject.pro" style="color: #666; text-decoration: none;">rene@wildproject.pro</a></td>
+    </tr><tr>
+      <td style="font-size: 12px; color: #FC5000; padding-right: 8px; font-family: monospace; vertical-align: top;">W</td>
+      <td style="font-size: 12px;"><a class="sig-link" href="https://www.wildproject.pro" style="color: #666; text-decoration: none;">wildproject.pro</a></td>
+    </tr></table>
+  </td></tr>
+  <tr><td>
+    <div class="sig-tagline" style="font-family: monospace; font-size: 9px; color: #bbb; letter-spacing: 1.5px;">LIVE BY DESIGN, NOT BY DEFAULT.</div>
+  </td></tr>
+</table>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- ANLEITUNG                                  -->
+<!-- ═══════════════════════════════════════════ -->
 <div class="instructions">
   <h3>So fügst du die Signatur ein:</h3>
   <ol>
-    <li>Öffne diese Datei im Browser</li>
-    <li>Markiere die Signatur (von "René Wild" bis "DESIGN. PERFORM. SUCCEED.")</li>
+    <li>Markiere die <strong>adaptive Version</strong> oben (von „René Wild" bis „NOT BY DEFAULT.")</li>
     <li>Kopiere mit <code>Cmd + C</code></li>
-    <li><strong>Apple Mail:</strong> Einstellungen → Signaturen → Neue Signatur → Einfügen</li>
+    <li><strong>Apple Mail:</strong> Einstellungen → Signaturen → Neue Signatur → Einfügen mit <code>Cmd + V</code></li>
     <li><strong>Gmail:</strong> Einstellungen → Alle Einstellungen → Signatur → Einfügen</li>
     <li><strong>Outlook:</strong> Einstellungen → E-Mail → Verfassen → Signatur → Einfügen</li>
   </ol>
+  <p class="hint">Die adaptive Version passt sich automatisch an Hell-/Dunkelmodus an (Apple Mail, iOS Mail, Outlook neu). In Gmail werden die Light-Mode-Farben verwendet.</p>
 </div>
 
 </body>
