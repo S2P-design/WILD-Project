@@ -619,7 +619,7 @@ function lockScreen1(w, h) {
   ctx.fillRect(0, split + stripeH + charH, w, h - split - stripeH - charH);
 
   noise(ctx, w, h, 0.008);
-  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.5), y: Math.round(h * 0.48), color: 'rgba(252,80,0,0.08)' });
+  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.5), y: Math.round(h * 0.48), color: 'rgba(252,80,0,0.45)' });
   return off;
 }
 
@@ -672,7 +672,7 @@ function lockScreen2(w, h) {
   ctx.globalCompositeOperation = 'source-over';
 
   noise(ctx, w, h, 0.008);
-  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.28), y: Math.round(h * 0.5), vertical: true, color: 'rgba(252,80,0,0.07)' });
+  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.28), y: Math.round(h * 0.5), vertical: true, color: 'rgba(252,80,0,0.4)' });
   return off;
 }
 
@@ -710,7 +710,7 @@ function lockScreen3(w, h) {
   ctx.globalCompositeOperation = 'source-over';
 
   noise(ctx, w, h, 0.012);
-  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.21), y: Math.round(h * 0.92), align: 'center', color: 'rgba(252,80,0,0.06)' });
+  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.21), y: Math.round(h * 0.92), align: 'center', color: 'rgba(252,80,0,0.35)' });
   return off;
 }
 
@@ -746,7 +746,7 @@ function homeScreen1(w, h) {
 
   edgeShadow(ctx, split + Math.round(w * 0.05), w, h);
   noise(ctx, w, h, 0.008);
-  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.75), y: Math.round(h * 0.5), vertical: true, color: 'rgba(252,80,0,0.06)' });
+  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.75), y: Math.round(h * 0.5), vertical: true, color: 'rgba(252,80,0,0.35)' });
   return off;
 }
 
@@ -777,7 +777,7 @@ function homeScreen2(w, h) {
   ctx.fillRect(Math.round(w * 0.07), 0, w * 0.3, h);
 
   noise(ctx, w, h, 0.01);
-  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.5), y: Math.round(h * 0.93), color: 'rgba(252,80,0,0.06)' });
+  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.5), y: Math.round(h * 0.93), color: 'rgba(252,80,0,0.35)' });
   return off;
 }
 
@@ -807,7 +807,7 @@ function homeScreen3(w, h) {
   ctx.globalCompositeOperation = 'source-over';
 
   noise(ctx, w, h, 0.012);
-  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.5), y: Math.round(h * 0.21), color: 'rgba(252,80,0,0.07)' });
+  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.5), y: Math.round(h * 0.21), color: 'rgba(252,80,0,0.4)' });
   return off;
 }
 
@@ -882,7 +882,7 @@ function drawClaim(ctx, w, h, darkStart, isLeft) {
   // Draw character by character
   for (let i = 0; i < text.length; i++) {
     ctx.font = `400 ${fontSize}px monospace`;
-    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.fillStyle = 'rgba(252,80,0,0.4)';
     ctx.fillText(text[i], curX, claimY);
     curX += ctx.measureText(text[i]).width + spacing;
   }
