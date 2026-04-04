@@ -37,6 +37,77 @@
     position: relative;
   }
 
+  /* ── Login Gate ── */
+  .login-gate {
+    position: fixed;
+    inset: 0;
+    background: #050505;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .login-gate.hidden {
+    opacity: 0;
+    transform: scale(1.02);
+    pointer-events: none;
+  }
+  .login-logo {
+    width: 48px; height: 48px;
+    opacity: 0.7;
+    margin-bottom: 24px;
+  }
+  .login-label {
+    font-family: monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .login-input-wrap {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .login-digit {
+    width: 44px; height: 56px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    color: #FC5000;
+    font-family: monospace;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    outline: none;
+    caret-color: #FC5000;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .login-digit:focus {
+    border-color: rgba(252,80,0,0.4);
+    background: rgba(252,80,0,0.04);
+  }
+  .login-digit::selection { background: rgba(252,80,0,0.2); }
+  .login-error {
+    font-family: monospace;
+    font-size: 10px;
+    color: rgba(252,80,0,0.6);
+    letter-spacing: 1px;
+    height: 16px;
+    margin-top: 4px;
+  }
+  .login-hint {
+    font-family: monospace;
+    font-size: 8px;
+    color: rgba(255,255,255,0.15);
+    letter-spacing: 1.5px;
+    margin-top: 32px;
+  }
+  .container.locked { display: none; }
+
   /* ── Header ── */
   .header {
     text-align: center;
@@ -336,7 +407,21 @@
 </head>
 <body>
 
-<div class="container">
+<!-- ══════ LOGIN GATE ══════ -->
+<div class="login-gate" id="loginGate">
+  <img src="/wp-logo.png" alt="WP" class="login-logo">
+  <p class="login-label">// workspace access</p>
+  <div class="login-input-wrap">
+    <input type="tel" maxlength="1" class="login-digit" id="d1" autocomplete="off" inputmode="numeric">
+    <input type="tel" maxlength="1" class="login-digit" id="d2" autocomplete="off" inputmode="numeric">
+    <input type="tel" maxlength="1" class="login-digit" id="d3" autocomplete="off" inputmode="numeric">
+    <input type="tel" maxlength="1" class="login-digit" id="d4" autocomplete="off" inputmode="numeric">
+  </div>
+  <p class="login-error" id="loginError"></p>
+  <p class="login-hint">WILD PROJECT — PRIVATE WORKSPACE</p>
+</div>
+
+<div class="container locked" id="mainContent">
 
   <!-- ══════ HEADER ══════ -->
   <div class="header">
@@ -493,6 +578,83 @@
   </footer>
 
 </div>
+
+<script>
+(function() {
+  const CODE = '2026';
+  const STORAGE_KEY = 'wp_workspace_auth';
+  const gate = document.getElementById('loginGate');
+  const content = document.getElementById('mainContent');
+  const error = document.getElementById('loginError');
+  const digits = [document.getElementById('d1'), document.getElementById('d2'), document.getElementById('d3'), document.getElementById('d4')];
+
+  // Check if already authenticated
+  if (sessionStorage.getItem(STORAGE_KEY) === 'true') {
+    unlock();
+  } else {
+    digits[0].focus();
+  }
+
+  // Handle input on each digit
+  digits.forEach((input, i) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/[^0-9]/g, '');
+      if (input.value && i < 3) {
+        digits[i + 1].focus();
+      }
+      // Check code when all 4 digits filled
+      if (digits.every(d => d.value.length === 1)) {
+        const entered = digits.map(d => d.value).join('');
+        if (entered === CODE) {
+          sessionStorage.setItem(STORAGE_KEY, 'true');
+          error.textContent = '';
+          unlock();
+        } else {
+          error.textContent = 'WRONG CODE';
+          digits.forEach(d => {
+            d.value = '';
+            d.style.borderColor = 'rgba(252,80,0,0.5)';
+          });
+          setTimeout(() => {
+            digits.forEach(d => d.style.borderColor = '');
+            digits[0].focus();
+          }, 600);
+        }
+      }
+    });
+
+    // Handle backspace
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !input.value && i > 0) {
+        digits[i - 1].focus();
+        digits[i - 1].value = '';
+      }
+    });
+
+    // Handle paste
+    input.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const paste = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 4);
+      paste.split('').forEach((ch, j) => {
+        if (digits[j]) digits[j].value = ch;
+      });
+      if (paste.length >= 4) {
+        const entered = digits.map(d => d.value).join('');
+        if (entered === CODE) {
+          sessionStorage.setItem(STORAGE_KEY, 'true');
+          unlock();
+        }
+      }
+    });
+  });
+
+  function unlock() {
+    gate.classList.add('hidden');
+    content.classList.remove('locked');
+    setTimeout(() => gate.style.display = 'none', 500);
+  }
+})();
+</script>
 
 </body>
 </html>
