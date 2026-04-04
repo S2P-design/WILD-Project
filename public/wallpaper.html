@@ -619,6 +619,7 @@ function lockScreen1(w, h) {
   ctx.fillRect(0, split + stripeH + charH, w, h - split - stripeH - charH);
 
   noise(ctx, w, h, 0.008);
+  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.5), y: Math.round(h * 0.48), color: 'rgba(252,80,0,0.08)' });
   return off;
 }
 
@@ -671,6 +672,7 @@ function lockScreen2(w, h) {
   ctx.globalCompositeOperation = 'source-over';
 
   noise(ctx, w, h, 0.008);
+  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.28), y: Math.round(h * 0.5), vertical: true, color: 'rgba(252,80,0,0.07)' });
   return off;
 }
 
@@ -708,6 +710,7 @@ function lockScreen3(w, h) {
   ctx.globalCompositeOperation = 'source-over';
 
   noise(ctx, w, h, 0.012);
+  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.21), y: Math.round(h * 0.92), align: 'center', color: 'rgba(252,80,0,0.06)' });
   return off;
 }
 
@@ -743,6 +746,7 @@ function homeScreen1(w, h) {
 
   edgeShadow(ctx, split + Math.round(w * 0.05), w, h);
   noise(ctx, w, h, 0.008);
+  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.75), y: Math.round(h * 0.5), vertical: true, color: 'rgba(252,80,0,0.06)' });
   return off;
 }
 
@@ -773,6 +777,7 @@ function homeScreen2(w, h) {
   ctx.fillRect(Math.round(w * 0.07), 0, w * 0.3, h);
 
   noise(ctx, w, h, 0.01);
+  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.5), y: Math.round(h * 0.93), color: 'rgba(252,80,0,0.06)' });
   return off;
 }
 
@@ -802,11 +807,50 @@ function homeScreen3(w, h) {
   ctx.globalCompositeOperation = 'source-over';
 
   noise(ctx, w, h, 0.012);
+  drawPhoneTagline(ctx, w, h, { x: Math.round(w * 0.5), y: Math.round(h * 0.21), color: 'rgba(252,80,0,0.07)' });
   return off;
 }
 
 // ══════════════════════════════════════
-//  MINDSET TAGLINE RENDERER
+//  iPHONE TAGLINE RENDERER
+// ══════════════════════════════════════
+function drawPhoneTagline(ctx, w, h, opts = {}) {
+  ctx.save();
+  const text = 'LIVE BY DESIGN, NOT BY DEFAULT.';
+  const fontSize = Math.round(w * 0.018); // ~23px at 1290w
+  const spacing = fontSize * 0.12;
+
+  // Position: bottom area above dock safe zone
+  const x = opts.x || Math.round(w * 0.5);
+  const y = opts.y || Math.round(h * 0.88);
+  const align = opts.align || 'center';
+  const vertical = opts.vertical || false;
+  const color = opts.color || 'rgba(252,80,0,0.12)';
+
+  ctx.font = `400 ${fontSize}px monospace`;
+  ctx.textBaseline = 'middle';
+
+  if (vertical) {
+    // Vertical text — rotated 90°
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center';
+    ctx.fillStyle = color;
+    ctx.letterSpacing = `${spacing * 3}px`;
+    ctx.fillText(text, 0, 0);
+  } else {
+    // Horizontal text
+    ctx.textAlign = align;
+    ctx.fillStyle = color;
+    ctx.letterSpacing = `${spacing * 2}px`;
+    ctx.fillText(text, x, y);
+  }
+
+  ctx.restore();
+}
+
+// ══════════════════════════════════════
+//  MACBOOK TAGLINE RENDERER
 // ══════════════════════════════════════
 function drawClaim(ctx, w, h, darkStart, isLeft) {
   ctx.save();
