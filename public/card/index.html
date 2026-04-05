@@ -495,8 +495,44 @@
   /* ══════════════════════════════════════ */
   /*  MOBILE — no phone frame              */
   /* ══════════════════════════════════════ */
+  /* ── Close Button ── */
+  .close-btn {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 100;
+    width: 36px; height: 36px;
+    border: none;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 1.2s forwards;
+  }
+  .close-btn::before,
+  .close-btn::after {
+    content: '';
+    position: absolute;
+    width: 14px; height: 1px;
+    background: rgba(255,255,255,0.35);
+    transition: background 0.3s;
+  }
+  .close-btn::before { transform: rotate(45deg); }
+  .close-btn::after { transform: rotate(-45deg); }
+  .close-btn:hover {
+    background: rgba(252,80,0,0.1);
+  }
+  .close-btn:hover::before,
+  .close-btn:hover::after {
+    background: #FC5000;
+  }
+
   @media (max-width: 500px) {
     body { padding: 24px; overflow: auto; }
+    .close-btn { top: 16px; right: 16px; width: 32px; height: 32px; }
+    .close-btn::before, .close-btn::after { width: 12px; }
 
     .iphone-frame {
       all: unset;
@@ -549,6 +585,9 @@
 </style>
 </head>
 <body>
+
+<!-- ══════ CLOSE BUTTON ══════ -->
+<a href="/" class="close-btn" title="Schließen"></a>
 
 <!-- ══════ iPHONE 17 PRO FRAME ══════ -->
 <div class="iphone-frame">
