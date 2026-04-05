@@ -18,9 +18,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 24px 80px;
+    justify-content: center;
+    padding: 24px;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow: hidden;
   }
 
   /* ── Ambient glow ── */
@@ -29,9 +30,8 @@
     position: fixed;
     top: -30%; left: -20%;
     width: 70%; height: 70%;
-    background: radial-gradient(ellipse, rgba(252,80,0,0.03) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(252,80,0,0.04) 0%, transparent 70%);
     pointer-events: none;
-    z-index: 0;
   }
 
   /* ── Header ── */
@@ -40,24 +40,27 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 920px;
-    margin-bottom: 24px;
+    max-width: 860px;
+    margin-bottom: 16px;
     position: relative;
     z-index: 10;
   }
   .nb-brand {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     text-decoration: none;
   }
   .nb-logo {
     height: 32px;
     width: auto;
-    opacity: 0.8;
-    transition: opacity 0.3s;
+    opacity: 0.7;
+    transition: all 0.3s;
   }
-  .nb-brand:hover .nb-logo { opacity: 1; }
+  .nb-brand:hover .nb-logo {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(252,80,0,0.4));
+  }
   .nb-title {
     font-family: monospace;
     font-size: 9px;
@@ -69,7 +72,7 @@
   .nb-controls {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
   }
   .nb-btn {
     border: none;
@@ -79,57 +82,93 @@
     font-size: 8px;
     font-weight: 400;
     letter-spacing: 2px;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.35);
     transition: all 0.3s;
     padding: 4px 0;
     text-transform: uppercase;
   }
   .nb-btn:hover { color: #FC5000; }
-  .nb-btn.active { color: #FC5000; }
 
-  .nb-page-info {
-    font-family: monospace;
-    font-size: 8px;
-    letter-spacing: 2px;
-    color: rgba(255,255,255,0.2);
-  }
-
-  /* ── Notebook Container ── */
-  .notebook-wrap {
+  /* ── Notebook ── */
+  .notebook-scene {
+    perspective: 1800px;
+    width: 100%;
+    max-width: 860px;
     position: relative;
     z-index: 1;
-    width: 100%;
-    max-width: 920px;
   }
 
-  /* A5 landscape ratio: 210mm × 148mm ≈ 1.42:1 */
-  .notebook-page {
+  .notebook-book {
     position: relative;
     width: 100%;
     aspect-ratio: 210 / 148;
-    background: #0E0E0E;
+    transform-style: preserve-3d;
+  }
+
+  /* ── Page ── */
+  .nb-page {
+    position: absolute;
+    inset: 0;
+    background: #0C0C0C;
     border: 1px solid rgba(255,255,255,0.04);
     border-radius: 4px;
     overflow: hidden;
-    box-shadow:
-      0 1px 3px rgba(0,0,0,0.3),
-      0 8px 32px rgba(0,0,0,0.2),
-      inset 0 1px 0 rgba(255,255,255,0.02);
+    transform-origin: left center;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+    backface-visibility: hidden;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  }
+  .nb-page.flipped {
+    transform: rotateY(-180deg);
+    pointer-events: none;
+  }
+  .nb-page.behind {
+    opacity: 0;
+    pointer-events: none;
   }
 
-  /* ── Dot Grid (CSS) ── */
+  /* Stack effect — pages underneath slightly visible */
+  .nb-page::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 2px; bottom: 2px;
+    width: 3px;
+    background: linear-gradient(180deg,
+      transparent,
+      rgba(255,255,255,0.02) 20%,
+      rgba(255,255,255,0.02) 80%,
+      transparent
+    );
+    z-index: 5;
+  }
+
+  /* ── Spine ── */
+  .nb-spine {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(252,80,0,0.2) 15%,
+      rgba(252,80,0,0.2) 85%,
+      transparent 100%
+    );
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  /* ── Dot Grid ── */
   .dot-grid {
     position: absolute;
     inset: 0;
-    /* 5mm dot spacing scaled to page — ~28 dots across A5 landscape */
-    background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
-    background-size: 24px 24px;
-    background-position: 20px 20px;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.06) 0.8px, transparent 0.8px);
+    background-size: 22px 22px;
+    background-position: 18px 18px;
     pointer-events: none;
     z-index: 1;
   }
 
-  /* ── Canvas for drawing ── */
+  /* ── Canvas ── */
   .draw-canvas {
     position: absolute;
     inset: 0;
@@ -140,140 +179,137 @@
     touch-action: none;
   }
 
-  /* ── Spine / Binding detail ── */
-  .notebook-page::before {
-    content: '';
+  /* ── Page number ── */
+  .page-num {
     position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: linear-gradient(180deg,
-      transparent 0%,
-      rgba(252,80,0,0.15) 10%,
-      rgba(252,80,0,0.15) 90%,
-      transparent 100%
-    );
+    bottom: 12px;
+    right: 16px;
+    font-family: monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.1);
     z-index: 3;
+    pointer-events: none;
   }
 
-  /* ── Page corner ── */
-  .notebook-page::after {
-    content: '';
+  /* ── Navigation arrows (on page) ── */
+  .page-nav {
     position: absolute;
-    bottom: 0; right: 0;
-    width: 24px; height: 24px;
-    background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.015) 50%);
-    z-index: 3;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    width: 40px;
+    height: 60px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
   }
+  .notebook-book:hover .page-nav { opacity: 1; }
+  .page-nav svg {
+    width: 20px;
+    height: 20px;
+    stroke: rgba(255,255,255,0.15);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.2s;
+  }
+  .page-nav:hover svg { stroke: #FC5000; }
+  .page-nav-prev { left: 8px; }
+  .page-nav-next { right: 8px; }
 
   /* ── Toolbar ── */
   .nb-toolbar {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    margin-top: 20px;
+    gap: 2px;
+    margin-top: 16px;
     position: relative;
     z-index: 10;
   }
+
   .tool-btn {
     width: 32px;
     height: 32px;
-    border: 1px solid rgba(255,255,255,0.06);
-    background: rgba(255,255,255,0.02);
+    border: none;
+    background: transparent;
     border-radius: 6px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
-    position: relative;
   }
-  .tool-btn:hover {
-    background: rgba(252,80,0,0.06);
-    border-color: rgba(252,80,0,0.15);
-  }
-  .tool-btn.active {
-    background: rgba(252,80,0,0.08);
-    border-color: rgba(252,80,0,0.3);
-  }
+  .tool-btn:hover { background: rgba(255,255,255,0.04); }
+  .tool-btn.active { background: rgba(252,80,0,0.08); }
   .tool-btn svg {
     width: 14px;
     height: 14px;
-    stroke: rgba(255,255,255,0.4);
+    stroke: rgba(255,255,255,0.3);
     fill: none;
     stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
   .tool-btn.active svg { stroke: #FC5000; }
-  .tool-btn:hover svg { stroke: rgba(255,255,255,0.6); }
+  .tool-btn:hover svg { stroke: rgba(255,255,255,0.5); }
   .tool-btn.active:hover svg { stroke: #FC5000; }
 
   .tool-sep {
     width: 1px;
     height: 16px;
-    background: rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.05);
     margin: 0 6px;
   }
 
-  /* ── Stroke Size Indicator ── */
-  .stroke-indicator {
-    font-family: monospace;
-    font-size: 8px;
-    color: rgba(255,255,255,0.2);
-    letter-spacing: 1px;
-    margin-left: 4px;
-  }
-
-  /* ── Color Swatches ── */
   .color-swatch {
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    border: 1.5px solid rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.06);
     cursor: pointer;
     transition: all 0.2s;
+    margin: 0 1px;
   }
-  .color-swatch:hover { transform: scale(1.15); }
+  .color-swatch:hover { transform: scale(1.2); }
   .color-swatch.active {
-    border-color: rgba(255,255,255,0.3);
-    box-shadow: 0 0 6px rgba(252,80,0,0.2);
+    border-color: #FC5000;
+    box-shadow: 0 0 6px rgba(252,80,0,0.3);
   }
 
-  /* ── Pages nav ── */
-  .nb-pages {
+  /* ── Page dots ── */
+  .nb-dots {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin-top: 16px;
-    position: relative;
+    gap: 8px;
+    margin-top: 14px;
     z-index: 10;
   }
-  .page-btn {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    font-family: monospace;
-    font-size: 9px;
-    letter-spacing: 1px;
-    color: rgba(255,255,255,0.25);
-    padding: 4px 8px;
-    transition: color 0.2s;
-  }
-  .page-btn:hover { color: rgba(255,255,255,0.5); }
-  .page-dot {
-    width: 6px;
-    height: 6px;
+  .nb-dot {
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.08);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.25s;
+    border: none;
+    padding: 0;
   }
-  .page-dot.active { background: #FC5000; }
-  .page-dot:hover { background: rgba(255,255,255,0.25); }
+  .nb-dot.active {
+    background: #FC5000;
+    box-shadow: 0 0 6px rgba(252,80,0,0.3);
+  }
+  .nb-dot:hover { background: rgba(255,255,255,0.2); }
 
-  /* ── Close button ── */
+  /* ── Close ── */
   .close-btn {
     position: fixed;
     top: 20px;
@@ -288,7 +324,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
+    transition: all 0.2s;
   }
   .close-btn::before,
   .close-btn::after {
@@ -296,8 +332,8 @@
     position: absolute;
     width: 14px;
     height: 1px;
-    background: rgba(255,255,255,0.3);
-    transition: background 0.2s;
+    background: rgba(255,255,255,0.25);
+    transition: all 0.2s;
   }
   .close-btn::before { transform: rotate(45deg); }
   .close-btn::after { transform: rotate(-45deg); }
@@ -305,87 +341,72 @@
   .close-btn:hover::before,
   .close-btn:hover::after { background: #FC5000; }
 
-  /* ── Light Mode ── */
+  /* ══════════════════════════════ */
+  /* ── Light Mode                 */
+  /* ══════════════════════════════ */
   body.light {
     background: #F5F5F3;
     color: #1a1a1a;
   }
-  body.light::before {
-    background: radial-gradient(ellipse, rgba(252,80,0,0.03) 0%, transparent 70%);
-  }
-  body.light .nb-title { color: rgba(0,0,0,0.3); }
+  body.light .nb-title { color: rgba(0,0,0,0.25); }
   body.light .nb-btn { color: rgba(0,0,0,0.3); }
   body.light .nb-btn:hover { color: #FC5000; }
-  body.light .nb-btn.active { color: #FC5000; }
-  body.light .nb-page-info { color: rgba(0,0,0,0.2); }
 
-  body.light .notebook-page {
-    background: #FFFFFF;
+  body.light .nb-page {
+    background: #FAFAFA;
     border-color: rgba(0,0,0,0.06);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  }
+  body.light .nb-page::after {
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.02) 20%, rgba(0,0,0,0.02) 80%, transparent);
   }
   body.light .dot-grid {
-    background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(0,0,0,0.08) 0.8px, transparent 0.8px);
   }
-  body.light .notebook-page::before {
-    background: linear-gradient(180deg,
-      transparent 0%,
-      rgba(252,80,0,0.12) 10%,
-      rgba(252,80,0,0.12) 90%,
-      transparent 100%
-    );
+  body.light .nb-spine {
+    background: linear-gradient(180deg, transparent 0%, rgba(252,80,0,0.15) 15%, rgba(252,80,0,0.15) 85%, transparent 100%);
   }
-  body.light .notebook-page::after {
-    background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.015) 50%);
-  }
+  body.light .page-num { color: rgba(0,0,0,0.1); }
+  body.light .page-nav svg { stroke: rgba(0,0,0,0.12); }
+  body.light .page-nav:hover svg { stroke: #FC5000; }
 
-  body.light .tool-btn {
-    border-color: rgba(0,0,0,0.06);
-    background: rgba(0,0,0,0.02);
-  }
-  body.light .tool-btn:hover {
-    background: rgba(252,80,0,0.04);
-    border-color: rgba(252,80,0,0.12);
-  }
-  body.light .tool-btn.active {
-    background: rgba(252,80,0,0.06);
-    border-color: rgba(252,80,0,0.25);
-  }
-  body.light .tool-btn svg { stroke: rgba(0,0,0,0.35); }
+  body.light .tool-btn:hover { background: rgba(0,0,0,0.03); }
+  body.light .tool-btn.active { background: rgba(252,80,0,0.06); }
+  body.light .tool-btn svg { stroke: rgba(0,0,0,0.25); }
   body.light .tool-btn.active svg { stroke: #FC5000; }
-  body.light .tool-btn:hover svg { stroke: rgba(0,0,0,0.55); }
-  body.light .tool-sep { background: rgba(0,0,0,0.06); }
-  body.light .stroke-indicator { color: rgba(0,0,0,0.2); }
-  body.light .color-swatch { border-color: rgba(0,0,0,0.1); }
-  body.light .color-swatch.active { border-color: rgba(0,0,0,0.3); }
+  body.light .tool-btn:hover svg { stroke: rgba(0,0,0,0.45); }
+  body.light .tool-sep { background: rgba(0,0,0,0.05); }
+  body.light .color-swatch { border-color: rgba(0,0,0,0.08); }
+  body.light .color-swatch.active { border-color: #FC5000; }
 
-  body.light .page-btn { color: rgba(0,0,0,0.25); }
-  body.light .page-btn:hover { color: rgba(0,0,0,0.5); }
-  body.light .page-dot { background: rgba(0,0,0,0.1); }
-  body.light .page-dot:hover { background: rgba(0,0,0,0.25); }
+  body.light .nb-dot { background: rgba(0,0,0,0.08); }
+  body.light .nb-dot:hover { background: rgba(0,0,0,0.2); }
 
   body.light .close-btn { background: rgba(0,0,0,0.04); }
   body.light .close-btn::before,
-  body.light .close-btn::after { background: rgba(0,0,0,0.3); }
+  body.light .close-btn::after { background: rgba(0,0,0,0.25); }
   body.light .close-btn:hover { background: rgba(252,80,0,0.06); }
   body.light .close-btn:hover::before,
   body.light .close-btn:hover::after { background: #FC5000; }
 
   /* ── Responsive ── */
   @media (max-width: 700px) {
-    body { padding: 20px 12px 60px; }
-    .nb-header { margin-bottom: 16px; }
-    .nb-logo { height: 24px; }
+    body { padding: 16px 12px; }
+    .nb-header { margin-bottom: 12px; }
+    .nb-logo { height: 26px; }
     .nb-title { font-size: 7px; letter-spacing: 2px; }
     .nb-btn { font-size: 7px; }
     .dot-grid {
-      background-size: 18px 18px;
-      background-position: 14px 14px;
+      background-size: 16px 16px;
+      background-position: 12px 12px;
     }
     .tool-btn { width: 28px; height: 28px; }
     .tool-btn svg { width: 12px; height: 12px; }
     .color-swatch { width: 14px; height: 14px; }
-    .close-btn { width: 32px; height: 32px; top: 14px; right: 14px; }
+    .page-nav { width: 30px; height: 44px; }
+    .page-nav svg { width: 16px; height: 16px; }
+    .page-num { font-size: 7px; bottom: 8px; right: 10px; }
+    .close-btn { width: 32px; height: 32px; top: 12px; right: 12px; }
     .close-btn::before, .close-btn::after { width: 12px; }
   }
 </style>
@@ -395,243 +416,297 @@
 </head>
 <body>
 
-<button class="close-btn" onclick="window.location.href='/workspace.html'" title="Zurück"></button>
+<button class="close-btn" onclick="window.location.href='https://www.wildproject.pro/workspace.html'" title="Zurück"></button>
 
 <!-- ── Header ── -->
 <div class="nb-header">
-  <a href="/workspace.html" class="nb-brand">
+  <a href="https://www.wildproject.pro/workspace.html" class="nb-brand">
     <img src="/wp-logo.png" alt="WP" class="nb-logo">
     <span class="nb-title">Notebook</span>
   </a>
   <div class="nb-controls">
-    <span class="nb-page-info" id="pageInfo">01 / 05</span>
     <button class="nb-btn" id="themeToggle">DARK</button>
   </div>
 </div>
 
-<!-- ── Notebook Page ── -->
-<div class="notebook-wrap">
-  <div class="notebook-page" id="notebookPage">
-    <div class="dot-grid"></div>
-    <canvas class="draw-canvas" id="drawCanvas"></canvas>
+<!-- ── Notebook ── -->
+<div class="notebook-scene">
+  <div class="notebook-book" id="book">
+    <div class="nb-spine"></div>
+    <!-- Pages rendered by JS -->
   </div>
+  <!-- Nav arrows ON the book -->
+  <button class="page-nav page-nav-prev" id="prevPage" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);z-index:20;">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="page-nav page-nav-next" id="nextPage" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);z-index:20;">
+    <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+  </button>
 </div>
 
 <!-- ── Toolbar ── -->
 <div class="nb-toolbar">
-  <!-- Pen -->
   <button class="tool-btn active" id="toolPen" title="Stift">
     <svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
   </button>
-  <!-- Eraser -->
   <button class="tool-btn" id="toolEraser" title="Radierer">
     <svg viewBox="0 0 24 24"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>
   </button>
 
   <div class="tool-sep"></div>
 
-  <!-- Stroke sizes -->
   <button class="tool-btn active" id="strokeThin" title="Dünn">
-    <svg viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12" stroke-width="1"/></svg>
+    <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" stroke-width="1"/></svg>
   </button>
   <button class="tool-btn" id="strokeMed" title="Mittel">
-    <svg viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12" stroke-width="2.5"/></svg>
+    <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" stroke-width="2.5"/></svg>
   </button>
   <button class="tool-btn" id="strokeThick" title="Dick">
-    <svg viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12" stroke-width="4"/></svg>
+    <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" stroke-width="4"/></svg>
   </button>
 
   <div class="tool-sep"></div>
 
-  <!-- Colors -->
-  <div class="color-swatch active" data-color="default" id="colorDefault" title="Standard" style="background: rgba(255,255,255,0.6);"></div>
+  <div class="color-swatch active" data-color="default" id="colorDefault" title="Standard" style="background: rgba(255,255,255,0.55);"></div>
   <div class="color-swatch" data-color="orange" id="colorOrange" title="Orange" style="background: #FC5000;"></div>
-  <div class="color-swatch" data-color="grey" id="colorGrey" title="Grau" style="background: #666;"></div>
+  <div class="color-swatch" data-color="grey" id="colorGrey" title="Grau" style="background: #555;"></div>
 
   <div class="tool-sep"></div>
 
-  <!-- Clear -->
   <button class="tool-btn" id="toolClear" title="Seite löschen">
     <svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
   </button>
 </div>
 
-<!-- ── Page Navigation ── -->
-<div class="nb-pages" id="pagesNav">
-  <button class="page-btn" id="prevPage">&larr;</button>
-  <div class="page-dot active" data-page="0"></div>
-  <div class="page-dot" data-page="1"></div>
-  <div class="page-dot" data-page="2"></div>
-  <div class="page-dot" data-page="3"></div>
-  <div class="page-dot" data-page="4"></div>
-  <button class="page-btn" id="nextPage">&rarr;</button>
-</div>
+<!-- ── Page dots ── -->
+<div class="nb-dots" id="pageDots"></div>
 
 <script>
 (function() {
-  const TOTAL_PAGES = 5;
-  const STORAGE_KEY = 'wp_notebook';
-  let currentPage = 0;
-  let tool = 'pen'; // pen | eraser
+  const TOTAL = 8;
+  const KEY = 'wp_notebook';
+  let current = 0;
+  let tool = 'pen';
   let strokeWidth = 1.5;
   let strokeColor = 'default';
   let isDrawing = false;
   let lastX = 0, lastY = 0;
 
-  const canvas = document.getElementById('drawCanvas');
-  const ctx = canvas.getContext('2d');
-  const pageInfo = document.getElementById('pageInfo');
+  const book = document.getElementById('book');
+  const dotsWrap = document.getElementById('pageDots');
 
-  // ── Page data storage ──
-  let pages = loadPages();
+  // ── Build pages ──
+  let pages = [];
+  let canvases = [];
+  let contexts = [];
+  let pageData = loadData();
 
-  function loadPages() {
+  function loadData() {
     try {
-      const d = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      if (d && d.length === TOTAL_PAGES) return d;
+      const d = JSON.parse(localStorage.getItem(KEY));
+      if (d && d.length === TOTAL) return d;
     } catch(e) {}
-    return Array.from({ length: TOTAL_PAGES }, () => null);
+    return Array.from({ length: TOTAL }, () => null);
   }
-  function savePages() {
-    pages[currentPage] = canvas.toDataURL('image/png');
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(pages));
+  function saveData() {
+    pageData[current] = canvases[current].toDataURL('image/png');
+    localStorage.setItem(KEY, JSON.stringify(pageData));
   }
 
-  // ── Canvas sizing ──
-  function resizeCanvas() {
-    const rect = canvas.parentElement.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    // Save current drawing
-    const tempData = pages[currentPage] || canvas.toDataURL('image/png');
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    canvas.style.width = rect.width + 'px';
-    canvas.style.height = rect.height + 'px';
-    ctx.scale(dpr, dpr);
-    // Restore drawing
-    if (tempData) {
-      const img = new Image();
-      img.onload = () => {
-        ctx.clearRect(0, 0, rect.width, rect.height);
-        ctx.drawImage(img, 0, 0, rect.width, rect.height);
-      };
-      img.src = tempData;
+  for (let i = 0; i < TOTAL; i++) {
+    // Page element
+    const page = document.createElement('div');
+    page.className = 'nb-page';
+    page.style.zIndex = TOTAL - i;
+    if (i > 0) page.classList.add('behind');
+
+    const grid = document.createElement('div');
+    grid.className = 'dot-grid';
+    page.appendChild(grid);
+
+    const cvs = document.createElement('canvas');
+    cvs.className = 'draw-canvas';
+    page.appendChild(cvs);
+
+    const num = document.createElement('div');
+    num.className = 'page-num';
+    num.textContent = String(i + 1).padStart(2, '0');
+    page.appendChild(num);
+
+    book.appendChild(page);
+    pages.push(page);
+    canvases.push(cvs);
+    contexts.push(cvs.getContext('2d'));
+
+    // Dot
+    const dot = document.createElement('button');
+    dot.className = 'nb-dot' + (i === 0 ? ' active' : '');
+    dot.dataset.page = i;
+    dotsWrap.appendChild(dot);
+  }
+
+  // ── Size all canvases ──
+  function sizeCanvases() {
+    pages.forEach((p, i) => {
+      const rect = p.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvases[i].width = rect.width * dpr;
+      canvases[i].height = rect.height * dpr;
+      canvases[i].style.width = rect.width + 'px';
+      canvases[i].style.height = rect.height + 'px';
+      contexts[i].scale(dpr, dpr);
+      // Restore
+      if (pageData[i]) {
+        const img = new Image();
+        const ctx = contexts[i];
+        const w = rect.width, h = rect.height;
+        img.onload = () => ctx.drawImage(img, 0, 0, w, h);
+        img.src = pageData[i];
+      }
+    });
+  }
+
+  // ── Navigate ──
+  function goTo(idx) {
+    if (idx < 0 || idx >= TOTAL || idx === current) return;
+    // Save current
+    saveData();
+
+    const goingForward = idx > current;
+
+    if (goingForward) {
+      // Flip pages forward
+      for (let i = current; i < idx; i++) {
+        pages[i].classList.add('flipped');
+        pages[i].classList.remove('behind');
+      }
+      // Show target
+      pages[idx].classList.remove('behind', 'flipped');
+      // Hide pages after target
+      for (let i = idx + 1; i < TOTAL; i++) {
+        pages[i].classList.add('behind');
+        pages[i].classList.remove('flipped');
+      }
+    } else {
+      // Unflip pages backward
+      for (let i = current; i > idx; i--) {
+        pages[i].classList.add('behind');
+        pages[i].classList.remove('flipped');
+      }
+      // Show target
+      pages[idx].classList.remove('behind', 'flipped');
+      // Pages before target stay flipped
+      for (let i = 0; i < idx; i++) {
+        pages[i].classList.add('flipped');
+        pages[i].classList.remove('behind');
+      }
     }
+
+    // z-index management
+    pages.forEach((p, i) => {
+      if (i < idx) p.style.zIndex = i + 1; // flipped: lower
+      else if (i === idx) p.style.zIndex = TOTAL; // current: top
+      else p.style.zIndex = TOTAL - i; // behind: stacked
+    });
+
+    current = idx;
+    updateDots();
   }
 
-  function loadPage(index) {
-    currentPage = index;
-    const rect = canvas.parentElement.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    canvas.style.width = rect.width + 'px';
-    canvas.style.height = rect.height + 'px';
-    ctx.scale(dpr, dpr);
-    ctx.clearRect(0, 0, rect.width, rect.height);
-    if (pages[index]) {
-      const img = new Image();
-      img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
-      img.src = pages[index];
-    }
-    updatePageUI();
-  }
-
-  function updatePageUI() {
-    pageInfo.textContent = String(currentPage + 1).padStart(2, '0') + ' / ' + String(TOTAL_PAGES).padStart(2, '0');
-    document.querySelectorAll('.page-dot').forEach((d, i) => {
-      d.classList.toggle('active', i === currentPage);
+  function updateDots() {
+    dotsWrap.querySelectorAll('.nb-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
     });
   }
 
   // ── Drawing ──
   function getPos(e) {
-    const rect = canvas.getBoundingClientRect();
+    const rect = canvases[current].getBoundingClientRect();
     const t = e.touches ? e.touches[0] : e;
     return { x: t.clientX - rect.left, y: t.clientY - rect.top };
   }
-
-  function getResolvedColor() {
+  function getColor() {
     const isLight = document.body.classList.contains('light');
     if (strokeColor === 'orange') return '#FC5000';
-    if (strokeColor === 'grey') return '#666';
-    // default
-    return isLight ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.6)';
+    if (strokeColor === 'grey') return isLight ? '#999' : '#555';
+    return isLight ? 'rgba(0,0,0,0.65)' : 'rgba(255,255,255,0.55)';
   }
-
   function startDraw(e) {
+    if (e.target.closest('.page-nav')) return;
     e.preventDefault();
     isDrawing = true;
     const pos = getPos(e);
-    lastX = pos.x;
-    lastY = pos.y;
+    lastX = pos.x; lastY = pos.y;
   }
-
   function draw(e) {
     if (!isDrawing) return;
     e.preventDefault();
     const pos = getPos(e);
-
+    const ctx = contexts[current];
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
     ctx.lineTo(pos.x, pos.y);
-
     if (tool === 'eraser') {
       ctx.globalCompositeOperation = 'destination-out';
       ctx.strokeStyle = 'rgba(0,0,0,1)';
       ctx.lineWidth = strokeWidth * 8;
     } else {
       ctx.globalCompositeOperation = 'source-over';
-      ctx.strokeStyle = getResolvedColor();
+      ctx.strokeStyle = getColor();
       ctx.lineWidth = strokeWidth;
     }
-
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.stroke();
-
-    lastX = pos.x;
-    lastY = pos.y;
+    lastX = pos.x; lastY = pos.y;
   }
-
   function endDraw() {
     if (!isDrawing) return;
     isDrawing = false;
-    savePages();
+    saveData();
   }
 
-  // ── Events ──
-  canvas.addEventListener('mousedown', startDraw);
-  canvas.addEventListener('mousemove', draw);
-  canvas.addEventListener('mouseup', endDraw);
-  canvas.addEventListener('mouseleave', endDraw);
-  canvas.addEventListener('touchstart', startDraw, { passive: false });
-  canvas.addEventListener('touchmove', draw, { passive: false });
-  canvas.addEventListener('touchend', endDraw);
-
-  window.addEventListener('resize', () => {
-    savePages();
-    resizeCanvas();
+  // Bind drawing to each canvas
+  canvases.forEach((cvs, i) => {
+    cvs.addEventListener('mousedown', startDraw);
+    cvs.addEventListener('mousemove', draw);
+    cvs.addEventListener('mouseup', endDraw);
+    cvs.addEventListener('mouseleave', endDraw);
+    cvs.addEventListener('touchstart', startDraw, { passive: false });
+    cvs.addEventListener('touchmove', draw, { passive: false });
+    cvs.addEventListener('touchend', endDraw);
   });
 
-  // ── Tool buttons ──
+  // ── Nav ──
+  document.getElementById('prevPage').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('nextPage').addEventListener('click', () => goTo(current + 1));
+  dotsWrap.addEventListener('click', e => {
+    const dot = e.target.closest('.nb-dot');
+    if (dot) goTo(parseInt(dot.dataset.page));
+  });
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') goTo(current + 1);
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+  });
+
+  // ── Tools ──
   const toolPen = document.getElementById('toolPen');
   const toolEraser = document.getElementById('toolEraser');
-
   toolPen.addEventListener('click', () => {
     tool = 'pen';
     toolPen.classList.add('active');
     toolEraser.classList.remove('active');
-    canvas.style.cursor = 'crosshair';
+    canvases.forEach(c => c.style.cursor = 'crosshair');
   });
   toolEraser.addEventListener('click', () => {
     tool = 'eraser';
     toolEraser.classList.add('active');
     toolPen.classList.remove('active');
-    canvas.style.cursor = 'grab';
+    canvases.forEach(c => c.style.cursor = 'grab');
   });
 
-  // ── Stroke size ──
   const strokeBtns = [
     { el: document.getElementById('strokeThin'), size: 1.5 },
     { el: document.getElementById('strokeMed'), size: 3 },
@@ -645,61 +720,43 @@
     });
   });
 
-  // ── Colors ──
-  const colorBtns = document.querySelectorAll('.color-swatch');
-  colorBtns.forEach(swatch => {
+  document.querySelectorAll('.color-swatch').forEach(swatch => {
     swatch.addEventListener('click', () => {
       strokeColor = swatch.dataset.color;
-      colorBtns.forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
       swatch.classList.add('active');
     });
   });
 
-  // Update default swatch color based on theme
   function updateDefaultSwatch() {
     const isLight = document.body.classList.contains('light');
-    document.getElementById('colorDefault').style.background = isLight ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.6)';
+    document.getElementById('colorDefault').style.background = isLight ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.55)';
   }
 
-  // ── Clear page ──
   document.getElementById('toolClear').addEventListener('click', () => {
-    const rect = canvas.parentElement.getBoundingClientRect();
-    ctx.clearRect(0, 0, rect.width, rect.height);
-    pages[currentPage] = null;
-    savePages();
+    const rect = canvases[current].parentElement.getBoundingClientRect();
+    contexts[current].clearRect(0, 0, rect.width, rect.height);
+    pageData[current] = null;
+    saveData();
   });
 
-  // ── Page navigation ──
-  document.getElementById('prevPage').addEventListener('click', () => {
-    if (currentPage > 0) { savePages(); loadPage(currentPage - 1); }
-  });
-  document.getElementById('nextPage').addEventListener('click', () => {
-    if (currentPage < TOTAL_PAGES - 1) { savePages(); loadPage(currentPage + 1); }
-  });
-  document.querySelectorAll('.page-dot').forEach(dot => {
-    dot.addEventListener('click', () => {
-      const p = parseInt(dot.dataset.page);
-      if (p !== currentPage) { savePages(); loadPage(p); }
-    });
-  });
-
-  // ── Theme toggle ──
+  // ── Theme ──
   const themeBtn = document.getElementById('themeToggle');
-  function updateThemeLabel() {
+  function updateTheme() {
     const isLight = document.body.classList.contains('light');
     themeBtn.textContent = isLight ? 'LIGHT' : 'DARK';
     updateDefaultSwatch();
   }
   themeBtn.addEventListener('click', () => {
     document.body.classList.toggle('light');
-    const isLight = document.body.classList.contains('light');
-    localStorage.setItem('wp_theme', isLight ? 'light' : 'dark');
-    updateThemeLabel();
+    localStorage.setItem('wp_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    updateTheme();
   });
 
   // ── Init ──
-  updateThemeLabel();
-  loadPage(0);
+  updateTheme();
+  window.addEventListener('resize', () => { saveData(); sizeCanvases(); });
+  requestAnimationFrame(() => sizeCanvases());
 })();
 </script>
 
