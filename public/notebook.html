@@ -270,6 +270,7 @@
     transition: all 0.15s;
     border-left: 2px solid transparent;
     margin-bottom: 2px;
+    position: relative;
   }
 
   .note-item:hover {
@@ -279,6 +280,32 @@
   .note-item.active {
     background: var(--accent-dim);
     border-left-color: var(--accent);
+  }
+
+  .note-item-del {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    line-height: 1;
+    color: var(--text-dimmer);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: transparent;
+    border: none;
+    font-family: monospace;
+    z-index: 2;
+  }
+  .note-item:hover .note-item-del { display: flex; }
+  .note-item-del:hover {
+    color: var(--accent);
+    background: var(--accent-dim);
   }
 
   .note-item-title {
@@ -291,6 +318,7 @@
     text-overflow: ellipsis;
     margin-bottom: 3px;
     line-height: 1.3;
+    padding-right: 20px;
   }
 
   .note-item-date {
@@ -859,13 +887,47 @@
       const isActive = n.id === activeId;
       const date = formatDate(n.updated);
       const preview = stripHtml(n.content).substring(0, 80);
-      return '<div class="note-item' + (isActive ? ' active' : '') + '" data-id="' + n.id + '" onclick="selectNote(\'' + n.id + '\')">' +
+      return '<div class="note-item' + (isActive ? ' active' : '') + '" data-id="' + n.id + '">' +
+        '<button class="note-item-del" data-del="' + n.id + '" title="Löschen">×</button>' +
         '<div class="note-item-title">' + escHtml(n.title || 'Ohne Titel') + '</div>' +
         '<div class="note-item-date">' + date + '</div>' +
         '<div class="note-item-preview">' + escHtml(preview) + '</div>' +
       '</div>';
     }).join('');
+
+    // Click handlers for note items
+    container.querySelectorAll('.note-item').forEach(function(item) {
+      item.addEventListener('click', function(e) {
+        if (e.target.classList.contains('note-item-del')) return;
+        selectNote(item.dataset.id);
+      });
+    });
+    // Delete handlers
+    container.querySelectorAll('.note-item-del').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        deleteNoteById(btn.dataset.del);
+      });
+    });
   };
+
+  function deleteNoteById(id) {
+    const idx = notes.findIndex(n => n.id === id);
+    if (idx === -1) return;
+    notes.splice(idx, 1);
+    if (activeId === id) {
+      activeId = null;
+      document.getElementById('editorToolbar').style.display = 'none';
+      document.getElementById('editorScroll').style.display = 'none';
+      document.getElementById('emptyState').style.display = 'flex';
+      if (notes.length > 0) {
+        selectNote(notes[0].id);
+        return;
+      }
+    }
+    saveNotes();
+    renderNotesList();
+  }
 
   function stripHtml(html) {
     const tmp = document.createElement('div');
@@ -1027,6 +1089,21 @@
       return null;
     }
 
+    // Robust: try multiple sources to find checklist context
+    function getActiveCheckItem() {
+      var sel = window.getSelection();
+      if (!sel.rangeCount) return null;
+      var item = findCheckItem(sel.anchorNode);
+      if (item) return item;
+      item = findCheckItem(sel.focusNode);
+      if (item) return item;
+      var range = sel.getRangeAt(0);
+      item = findCheckItem(range.startContainer);
+      if (item) return item;
+      item = findCheckItem(range.commonAncestorContainer);
+      return item;
+    }
+
     editor.addEventListener('keydown', function(e) {
       // Tab support
       if (e.key === 'Tab') {
@@ -1038,7 +1115,7 @@
       // Checklist keyboard handling
       var sel = window.getSelection();
       if (!sel.rangeCount) return;
-      var checkItem = findCheckItem(sel.anchorNode);
+      var checkItem = getActiveCheckItem();
 
       if (checkItem) {
         // Enter → new checklist item

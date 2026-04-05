@@ -517,11 +517,34 @@
     border-left: none;
     border-right: none;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
   }
   .note-tab:hover { color: rgba(255,255,255,0.6); }
   .note-tab.active {
     color: #FC5000;
     border-bottom-color: #FC5000;
+  }
+  .note-tab-del {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    line-height: 1;
+    color: rgba(255,255,255,0.15);
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .note-tab:hover .note-tab-del { display: flex; }
+  .note-tab-del:hover {
+    color: #FC5000;
+    background: rgba(252,80,0,0.1);
   }
   .note-tab-add {
     font-family: monospace;
@@ -707,6 +730,8 @@
   body.light .note-tab { color: rgba(0,0,0,0.35); }
   body.light .note-tab:hover { color: rgba(0,0,0,0.6); }
   body.light .note-tab.active { color: #FC5000; border-bottom-color: #FC5000; }
+  body.light .note-tab-del { color: rgba(0,0,0,0.15); }
+  body.light .note-tab-del:hover { color: #FC5000; background: rgba(252,80,0,0.08); }
   body.light .note-tab-add { color: rgba(0,0,0,0.15); }
   body.light .note-tab-add:hover { color: #FC5000; }
   body.light .notes-toolbar { border-bottom-color: rgba(0,0,0,0.04); }
@@ -875,6 +900,167 @@
     color: rgba(0,0,0,0.7);
   }
   body.light .bookmark-input::placeholder { color: rgba(0,0,0,0.25); }
+
+  /* ── Calendar Widget ── */
+  .cal-widget {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .cal-nav {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.25);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.15s;
+    font-family: monospace;
+  }
+  .cal-nav:hover { color: #FC5000; background: rgba(252,80,0,0.06); }
+  .cal-month-label {
+    font-family: monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .cal-month-label:hover { color: #FC5000; }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: 28px repeat(7, 1fr);
+    padding: 4px 8px 8px;
+    gap: 1px;
+  }
+  .cal-weekday {
+    font-family: monospace;
+    font-size: 8px;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.2);
+    text-align: center;
+    padding: 6px 0 4px;
+    text-transform: uppercase;
+  }
+  .cal-kw-header {
+    font-family: monospace;
+    font-size: 7px;
+    color: rgba(255,255,255,0.12);
+    text-align: center;
+    padding: 6px 0 4px;
+  }
+  .cal-kw {
+    font-family: monospace;
+    font-size: 7px;
+    color: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.3px;
+  }
+  .cal-day {
+    font-family: monospace;
+    font-size: 11px;
+    text-align: center;
+    padding: 6px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    color: rgba(255,255,255,0.45);
+    transition: all 0.15s;
+    position: relative;
+  }
+  .cal-day:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.8); }
+  .cal-day.today {
+    background: rgba(252,80,0,0.12);
+    color: #FC5000;
+    font-weight: 600;
+  }
+  .cal-day.other-month { color: rgba(255,255,255,0.08); }
+  .cal-day.other-month:hover { color: rgba(255,255,255,0.2); }
+  .cal-day.holiday { color: #FC5000; opacity: 0.7; }
+  .cal-day.holiday.today { opacity: 1; }
+  .cal-day.has-note::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #FC5000;
+  }
+  .cal-day.selected {
+    background: rgba(252,80,0,0.15);
+    color: #FC5000;
+  }
+  .cal-day.weekend { color: rgba(255,255,255,0.25); }
+  .cal-day.weekend:hover { color: rgba(255,255,255,0.6); }
+  .cal-detail {
+    border-top: 1px solid rgba(255,255,255,0.04);
+    padding: 10px 14px;
+    display: none;
+  }
+  .cal-detail.show { display: block; }
+  .cal-detail-date {
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .cal-detail-holiday {
+    font-family: monospace;
+    font-size: 10px;
+    color: #FC5000;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+  .cal-detail-note {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.6;
+    resize: none;
+    min-height: 32px;
+  }
+  .cal-detail-note::placeholder { color: rgba(255,255,255,0.15); }
+
+  /* Light mode calendar */
+  body.light .cal-widget { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.06); }
+  body.light .cal-header { border-bottom-color: rgba(0,0,0,0.04); }
+  body.light .cal-nav { color: rgba(0,0,0,0.25); }
+  body.light .cal-nav:hover { color: #FC5000; background: rgba(252,80,0,0.06); }
+  body.light .cal-month-label { color: rgba(0,0,0,0.5); }
+  body.light .cal-weekday { color: rgba(0,0,0,0.25); }
+  body.light .cal-kw-header { color: rgba(0,0,0,0.15); }
+  body.light .cal-kw { color: rgba(0,0,0,0.12); }
+  body.light .cal-day { color: rgba(0,0,0,0.5); }
+  body.light .cal-day:hover { background: rgba(0,0,0,0.04); color: rgba(0,0,0,0.8); }
+  body.light .cal-day.today { background: rgba(252,80,0,0.1); color: #FC5000; }
+  body.light .cal-day.other-month { color: rgba(0,0,0,0.1); }
+  body.light .cal-day.weekend { color: rgba(0,0,0,0.25); }
+  body.light .cal-day.weekend:hover { color: rgba(0,0,0,0.5); }
+  body.light .cal-day.selected { background: rgba(252,80,0,0.12); color: #FC5000; }
+  body.light .cal-detail { border-top-color: rgba(0,0,0,0.04); }
+  body.light .cal-detail-date { color: rgba(0,0,0,0.35); }
+  body.light .cal-detail-note { color: rgba(0,0,0,0.6); }
+  body.light .cal-detail-note::placeholder { color: rgba(0,0,0,0.2); }
 
   /* ── Mobile ── */
   @media (max-width: 500px) {
@@ -1070,7 +1256,25 @@
     </a>
   </div>
 
-  <!-- ══════ 4. NOTES ══════ -->
+  <!-- ══════ 4. KALENDER ══════ -->
+  <div class="section">
+    <div class="section-label">Kalender</div>
+    <div class="cal-widget">
+      <div class="cal-header">
+        <button class="cal-nav" id="calPrev">‹</button>
+        <span class="cal-month-label" id="calLabel" title="Zurück zu Heute"></span>
+        <button class="cal-nav" id="calNext">›</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-detail" id="calDetail">
+        <div class="cal-detail-date" id="calDetailDate"></div>
+        <div class="cal-detail-holiday" id="calDetailHoliday"></div>
+        <textarea class="cal-detail-note" id="calDetailNote" placeholder="Notiz für diesen Tag ..." rows="2"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ 5. NOTES ══════ -->
   <div class="section">
     <div class="section-label">Notes</div>
     <div class="notes-widget">
@@ -1423,6 +1627,234 @@
   renderItems();
 })();
 
+// ── Calendar Widget ──
+(function() {
+  var CAL_KEY = 'wp_cal_notes';
+  var calGrid = document.getElementById('calGrid');
+  var calLabel = document.getElementById('calLabel');
+  var calDetail = document.getElementById('calDetail');
+  var calDetailDate = document.getElementById('calDetailDate');
+  var calDetailHoliday = document.getElementById('calDetailHoliday');
+  var calDetailNote = document.getElementById('calDetailNote');
+  var calNotes = {};
+  var viewYear, viewMonth, selectedDate = null;
+
+  var DAYS = ['MO', 'DI', 'MI', 'DO', 'FR', 'SA', 'SO'];
+  var MONTHS = ['JANUAR', 'FEBRUAR', 'MÄRZ', 'APRIL', 'MAI', 'JUNI', 'JULI', 'AUGUST', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DEZEMBER'];
+  var DAYS_LONG = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  var MONTHS_LONG = ['Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+
+  // Load/save calendar notes
+  function loadCalNotes() {
+    try { calNotes = JSON.parse(localStorage.getItem(CAL_KEY)) || {}; } catch(e) { calNotes = {}; }
+  }
+  function saveCalNotes() {
+    localStorage.setItem(CAL_KEY, JSON.stringify(calNotes));
+  }
+
+  // ISO week number
+  function getWeek(d) {
+    var date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
+    var yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    return Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+  }
+
+  // Easter (Gauss algorithm)
+  function getEaster(year) {
+    var a = year % 19, b = Math.floor(year / 100), c = year % 100;
+    var d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25);
+    var g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30;
+    var i = Math.floor(c / 4), k = c % 4;
+    var l = (32 + 2 * e + 2 * i - h - k) % 7;
+    var m = Math.floor((a + 11 * h + 22 * l) / 451);
+    var month = Math.floor((h + l - 7 * m + 114) / 31);
+    var day = ((h + l - 7 * m + 114) % 31) + 1;
+    return new Date(year, month - 1, day);
+  }
+
+  // Austrian holidays for a given year
+  function getHolidays(year) {
+    var easter = getEaster(year);
+    var easterMs = easter.getTime();
+    var day = 86400000;
+    var holidays = {};
+    function add(d, name) {
+      var key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      holidays[key] = name;
+    }
+    // Fixed holidays
+    add(new Date(year, 0, 1), 'Neujahr');
+    add(new Date(year, 0, 6), 'Heilige Drei Könige');
+    add(new Date(year, 4, 1), 'Staatsfeiertag');
+    add(new Date(year, 7, 15), 'Mariä Himmelfahrt');
+    add(new Date(year, 9, 26), 'Nationalfeiertag');
+    add(new Date(year, 10, 1), 'Allerheiligen');
+    add(new Date(year, 11, 8), 'Mariä Empfängnis');
+    add(new Date(year, 11, 24), 'Heiligabend');
+    add(new Date(year, 11, 25), 'Christtag');
+    add(new Date(year, 11, 26), 'Stefanitag');
+    add(new Date(year, 11, 31), 'Silvester');
+    // Easter-based
+    add(new Date(easterMs - 2 * day), 'Karfreitag');
+    add(easter, 'Ostersonntag');
+    add(new Date(easterMs + 1 * day), 'Ostermontag');
+    add(new Date(easterMs + 39 * day), 'Christi Himmelfahrt');
+    add(new Date(easterMs + 49 * day), 'Pfingstsonntag');
+    add(new Date(easterMs + 50 * day), 'Pfingstmontag');
+    add(new Date(easterMs + 60 * day), 'Fronleichnam');
+    return holidays;
+  }
+
+  function dateKey(y, m, d) {
+    return y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+  }
+
+  function render() {
+    var today = new Date();
+    var todayKey = dateKey(today.getFullYear(), today.getMonth(), today.getDate());
+    var holidays = getHolidays(viewYear);
+
+    // Month label
+    calLabel.textContent = MONTHS[viewMonth] + ' ' + viewYear;
+
+    // First day of month (adjusted: Monday = 0)
+    var firstDay = new Date(viewYear, viewMonth, 1).getDay();
+    firstDay = (firstDay + 6) % 7; // shift so Monday = 0
+    var daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+    var daysInPrev = new Date(viewYear, viewMonth, 0).getDate();
+
+    var html = '<div class="cal-kw-header">KW</div>';
+    DAYS.forEach(function(d) { html += '<div class="cal-weekday">' + d + '</div>'; });
+
+    var dayNum = 1;
+    var nextDayNum = 1;
+    var rows = Math.ceil((firstDay + daysInMonth) / 7);
+
+    for (var row = 0; row < rows; row++) {
+      // KW for this row
+      var kwDate;
+      if (row === 0 && firstDay > 0) {
+        kwDate = new Date(viewYear, viewMonth, 1);
+      } else {
+        kwDate = new Date(viewYear, viewMonth, row * 7 - firstDay + 1);
+      }
+      html += '<div class="cal-kw">' + getWeek(kwDate) + '</div>';
+
+      for (var col = 0; col < 7; col++) {
+        var cellIndex = row * 7 + col;
+        var classes = 'cal-day';
+        var dayLabel = '';
+        var key = '';
+        var title = '';
+
+        if (cellIndex < firstDay) {
+          // Previous month
+          var prevDay = daysInPrev - firstDay + cellIndex + 1;
+          var pm = viewMonth === 0 ? 11 : viewMonth - 1;
+          var py = viewMonth === 0 ? viewYear - 1 : viewYear;
+          key = dateKey(py, pm, prevDay);
+          dayLabel = prevDay;
+          classes += ' other-month';
+        } else if (dayNum > daysInMonth) {
+          // Next month
+          var nm = viewMonth === 11 ? 0 : viewMonth + 1;
+          var ny = viewMonth === 11 ? viewYear + 1 : viewYear;
+          key = dateKey(ny, nm, nextDayNum);
+          dayLabel = nextDayNum;
+          classes += ' other-month';
+          nextDayNum++;
+        } else {
+          key = dateKey(viewYear, viewMonth, dayNum);
+          dayLabel = dayNum;
+          if (key === todayKey) classes += ' today';
+          if (col >= 5) classes += ' weekend';
+          dayNum++;
+        }
+
+        if (holidays[key]) {
+          classes += ' holiday';
+          title = holidays[key];
+        }
+        if (calNotes[key]) classes += ' has-note';
+        if (key === selectedDate) classes += ' selected';
+
+        html += '<div class="' + classes + '" data-date="' + key + '"' + (title ? ' title="' + title + '"' : '') + '>' + dayLabel + '</div>';
+      }
+    }
+
+    calGrid.innerHTML = html;
+
+    // Click handlers
+    calGrid.querySelectorAll('.cal-day').forEach(function(el) {
+      el.addEventListener('click', function() {
+        selectDay(el.dataset.date);
+      });
+    });
+  }
+
+  function selectDay(key) {
+    selectedDate = key;
+    var parts = key.split('-');
+    var d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    var dayName = DAYS_LONG[d.getDay()];
+    var monthName = MONTHS_LONG[d.getMonth()];
+
+    calDetailDate.textContent = dayName + ', ' + d.getDate() + '. ' + monthName + ' ' + d.getFullYear();
+
+    var holidays = getHolidays(d.getFullYear());
+    if (holidays[key]) {
+      calDetailHoliday.textContent = holidays[key];
+      calDetailHoliday.style.display = 'block';
+    } else {
+      calDetailHoliday.style.display = 'none';
+    }
+
+    calDetailNote.value = calNotes[key] || '';
+    calDetail.classList.add('show');
+    render();
+  }
+
+  // Save note on input
+  calDetailNote.addEventListener('input', function() {
+    if (!selectedDate) return;
+    if (calDetailNote.value.trim()) {
+      calNotes[selectedDate] = calDetailNote.value;
+    } else {
+      delete calNotes[selectedDate];
+    }
+    saveCalNotes();
+    render();
+  });
+
+  // Navigation
+  document.getElementById('calPrev').addEventListener('click', function() {
+    viewMonth--;
+    if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+    render();
+  });
+  document.getElementById('calNext').addEventListener('click', function() {
+    viewMonth++;
+    if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+    render();
+  });
+  calLabel.addEventListener('click', function() {
+    var now = new Date();
+    viewYear = now.getFullYear();
+    viewMonth = now.getMonth();
+    selectedDate = null;
+    calDetail.classList.remove('show');
+    render();
+  });
+
+  // Init
+  loadCalNotes();
+  var now = new Date();
+  viewYear = now.getFullYear();
+  viewMonth = now.getMonth();
+  render();
+})();
+
 // ── Notes Widget (synced with wp_notes) ──
 (function() {
   const NOTES_KEY = 'wp_notes';
@@ -1461,18 +1893,47 @@
     notes.sort((a, b) => new Date(b.updated) - new Date(a.updated));
     notes.forEach(function(n) {
       const title = (n.title || 'Ohne Titel').substring(0, 20);
-      html += '<button class="note-tab' + (n.id === activeId ? ' active' : '') + '" data-id="' + n.id + '">' + escHtml(title) + '</button>';
+      html += '<button class="note-tab' + (n.id === activeId ? ' active' : '') + '" data-id="' + n.id + '">'
+        + '<span class="note-tab-title">' + escHtml(title) + '</span>'
+        + '<span class="note-tab-del" data-del="' + n.id + '" title="Löschen">×</span>'
+        + '</button>';
     });
     html += '<button class="note-tab-add" title="Neue Notiz">+</button>';
     tabsEl.innerHTML = html;
 
     // Tab click handlers
     tabsEl.querySelectorAll('.note-tab').forEach(function(tab) {
-      tab.addEventListener('click', function() {
+      tab.addEventListener('click', function(e) {
+        // Don't switch note if delete button was clicked
+        if (e.target.classList.contains('note-tab-del')) return;
         selectNote(tab.dataset.id);
       });
     });
+    // Delete handlers
+    tabsEl.querySelectorAll('.note-tab-del').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        deleteNote(btn.dataset.del);
+      });
+    });
     tabsEl.querySelector('.note-tab-add').addEventListener('click', createNote);
+  }
+
+  function deleteNote(id) {
+    var idx = notes.findIndex(function(n) { return n.id === id; });
+    if (idx === -1) return;
+    notes.splice(idx, 1);
+    if (activeId === id) {
+      activeId = null;
+      if (notes.length > 0) {
+        selectNote(notes[0].id);
+        return;
+      } else {
+        editor.innerHTML = '';
+      }
+    }
+    saveNotes();
+    renderTabs();
   }
 
   // Strip old onclick attributes from stored notes
@@ -1588,6 +2049,24 @@
     return null;
   }
 
+  // Robust: try multiple sources to find checklist context
+  function getActiveCheckItem() {
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return null;
+    // Try anchorNode first
+    var item = findCheckItem(sel.anchorNode);
+    if (item) return item;
+    // Try focusNode
+    item = findCheckItem(sel.focusNode);
+    if (item) return item;
+    // Try range container
+    var range = sel.getRangeAt(0);
+    item = findCheckItem(range.startContainer);
+    if (item) return item;
+    item = findCheckItem(range.commonAncestorContainer);
+    return item;
+  }
+
   // Editor events
   editor.addEventListener('input', debouncedSave);
 
@@ -1617,7 +2096,7 @@
 
     var sel = window.getSelection();
     if (!sel.rangeCount) return;
-    var checkItem = findCheckItem(sel.anchorNode);
+    var checkItem = getActiveCheckItem();
 
     if (checkItem) {
       var textEl = checkItem.querySelector('.checklist-text');
