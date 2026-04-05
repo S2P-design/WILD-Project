@@ -2,6 +2,7 @@
 <div class="nav-loader"></div>
 <nav>
   <a href="/" class="nav-brand"><img src="/wp-logo.png" alt="Wild Project" class="nav-logo"></a>
+  <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark" aria-label="Toggle theme"><span id="themeLabel">DARK</span></button>
 </nav>
 
 <style>
@@ -43,7 +44,50 @@
     filter: drop-shadow(0 0 8px rgba(252,80,0,0.5)) drop-shadow(0 0 20px rgba(252,80,0,0.2));
   }
 
+  /* ── Theme Toggle (technical) ── */
+  .theme-toggle {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.2);
+    transition: all 0.3s;
+    opacity: 0;
+    animation: logoFadeIn 0.6s ease 1.5s forwards;
+    z-index: 50;
+    padding: 4px 0;
+  }
+  .theme-toggle:hover {
+    color: var(--orange);
+  }
+  :global(body.light) .theme-toggle {
+    color: rgba(0,0,0,0.2);
+  }
+  :global(body.light) .theme-toggle:hover {
+    color: var(--orange);
+  }
+
   @media (max-width: 700px) {
     nav { padding: 14px 1.5rem; }
+    .theme-toggle { font-size: 7px; letter-spacing: 1.5px; }
   }
 </style>
+
+<script>
+  const btn = document.getElementById('themeToggle');
+  const KEY = 'wp_theme';
+  const saved = localStorage.getItem(KEY);
+  const label = document.getElementById('themeLabel');
+  if (saved === 'light') {
+    document.body.classList.add('light');
+    if (label) label.textContent = 'LIGHT';
+  }
+  btn?.addEventListener('click', () => {
+    const isLight = document.body.classList.toggle('light');
+    if (label) label.textContent = isLight ? 'LIGHT' : 'DARK';
+    localStorage.setItem(KEY, isLight ? 'light' : 'dark');
+  });
+</script>

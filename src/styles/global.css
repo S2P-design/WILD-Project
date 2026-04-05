@@ -57,6 +57,21 @@
   --orange: #FC5000;
 }
 
+/* ── LIGHT MODE OVERRIDES ─────────── */
+body.light {
+  --black: #F5F5F3;
+  --dark: #ECECEA;
+  --charcoal: #E0E0DE;
+  --grey-dark: #999;
+  --grey-mid: #666;
+  --grey-light: #444;
+  --silver: #2A2A2A;
+  --white: #1A1A1A;
+}
+
+/* Flash prevention — apply light bg before body paints */
+html.light-pre { background: #F5F5F3; }
+
 html { scroll-behavior: smooth; }
 
 body {

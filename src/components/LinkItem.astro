@@ -74,6 +74,28 @@ const { href, icon, title, desc } = Astro.props;
     transform: translateX(3px);
   }
 
+  /* ── Light Mode ── */
+  :global(body.light) .link-item {
+    background: rgba(0,0,0,0.02);
+    border-color: rgba(0,0,0,0.05);
+  }
+  :global(body.light) .link-item:hover {
+    background: rgba(252,80,0,0.03);
+    border-color: rgba(252,80,0,0.15);
+    transform: translateX(6px);
+  }
+  :global(body.light) .link-icon {
+    background: rgba(252,80,0,0.07);
+  }
+  :global(body.light) .link-item:hover .link-icon {
+    background: var(--orange);
+    color: #fff;
+  }
+  :global(body.light) .link-title { color: #1a1a1a; }
+  :global(body.light) .link-desc { color: rgba(0,0,0,0.4); }
+  :global(body.light) .link-arrow { color: rgba(0,0,0,0.15); }
+  :global(body.light) .link-item:hover .link-arrow { color: var(--orange); }
+
   @media (max-width: 700px) {
     .link-item { padding: 8px 10px; margin-bottom: 3px; }
     .link-icon { width: 26px; height: 26px; font-size: 9px; }

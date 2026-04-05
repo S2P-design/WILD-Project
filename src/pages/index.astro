@@ -31,10 +31,10 @@ import Footer from '../components/Footer.astro';
               <div class="stat-number">30+</div>
               <div class="stat-label">Jahre Erfahrung</div>
             </div>
-            <div class="stat">
+            <a href="https://www.shift2pro.com" target="_blank" rel="noopener" class="stat stat-link">
               <div class="stat-number">S2P</div>
               <div class="stat-label">Podcast</div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -176,6 +176,7 @@ import Footer from '../components/Footer.astro';
     background: rgba(252,80,0,0.08);
     transform: translateY(-2px);
   }
+  .stat-link { text-decoration: none; color: inherit; }
   .stat-number {
     font-size: 20px; font-weight: 700;
     color: var(--orange);
@@ -265,6 +266,54 @@ import Footer from '../components/Footer.astro';
     box-shadow: 0 4px 16px rgba(252,80,0,0.08);
   }
 
+  /* ── LIGHT MODE ───────────────────── */
+  :global(body.light) .page-bg {
+    filter: grayscale(0.3) brightness(1.1);
+  }
+  :global(body.light) .page-bg::after {
+    background: linear-gradient(to bottom, rgba(245,245,243,0.1) 0%, rgba(245,245,243,0.3) 40%, rgba(245,245,243,0.85) 75%, rgba(245,245,243,0.98) 100%);
+  }
+  :global(body.light) .about-toggle {
+    border-top-color: rgba(0,0,0,0.08);
+  }
+  :global(body.light) .about-toggle-label { color: var(--orange); }
+  :global(body.light) .about-toggle:hover .about-toggle-label { color: #1a1a1a; }
+  :global(body.light) .about-toggle-icon {
+    border-color: rgba(0,0,0,0.12);
+    color: rgba(0,0,0,0.35);
+  }
+  :global(body.light) .about-text { color: rgba(0,0,0,0.55); }
+  :global(body.light) .stat {
+    background: rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  :global(body.light) .stat:hover {
+    background: rgba(252,80,0,0.05);
+    border-color: rgba(252,80,0,0.12);
+  }
+  :global(body.light) .stat-number { color: var(--orange); }
+  :global(body.light) .stat-label { color: rgba(0,0,0,0.4); }
+  :global(body.light) .links-section {
+    border-top-color: rgba(0,0,0,0.06);
+  }
+  :global(body.light) .links-label { color: var(--orange); }
+  :global(body.light) .connector-line-inner {
+    background: linear-gradient(to bottom, var(--orange), rgba(252,80,0,0.05));
+  }
+  :global(body.light) .contact-pill {
+    color: rgba(0,0,0,0.45);
+    border-color: rgba(0,0,0,0.08);
+  }
+  :global(body.light) .contact-pill:hover {
+    color: #1a1a1a;
+    border-color: rgba(252,80,0,0.25);
+    background: rgba(252,80,0,0.04);
+  }
+  :global(body.light) .contact-pill::before,
+  :global(body.light) .contact-pill::after {
+    background: linear-gradient(90deg, transparent, var(--orange), transparent);
+  }
+
   /* ── RESPONSIVE ──────────────────── */
   @media (max-width: 700px) {
     .page-bg { background-position: center 45%; }
@@ -316,8 +365,14 @@ import Footer from '../components/Footer.astro';
       const scrollY = window.scrollY;
       const trigger = window.innerHeight * 0.8;
       const progress = Math.min(scrollY / trigger, 1);
-      const brightness = brightMax - (brightMax - brightMin) * progress;
-      bg.style.filter = 'grayscale(1) brightness(' + brightness + ')';
+      const isLight = document.body.classList.contains('light');
+      if (isLight) {
+        const brightness = 1.1 - 0.3 * progress;
+        bg.style.filter = 'grayscale(0.3) brightness(' + brightness + ')';
+      } else {
+        const brightness = brightMax - (brightMax - brightMin) * progress;
+        bg.style.filter = 'grayscale(1) brightness(' + brightness + ')';
+      }
       ticking = false;
     }
 

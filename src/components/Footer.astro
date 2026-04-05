@@ -99,6 +99,17 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* ── Light Mode ── */
+  :global(body.light) .footer {
+    background: linear-gradient(180deg, transparent 0%, rgba(245,245,243,0.9) 100%);
+  }
+  :global(body.light) .copyright { color: rgba(0,0,0,0.45); }
+  :global(body.light) .footer-links a { color: rgba(0,0,0,0.4); }
+  :global(body.light) .footer-links a:hover { color: var(--orange); }
+  :global(body.light) .footer-links .sep { color: rgba(0,0,0,0.15); }
+  :global(body.light) .footer-tagline { color: rgba(0,0,0,0.3); border-right-color: var(--orange); }
+  :global(body.light) .footer-coords { color: rgba(0,0,0,0.2); }
+
   /* ── Mobile ── */
   @media (max-width: 700px) {
     .footer { padding: 20px 1.5rem 36px; }
