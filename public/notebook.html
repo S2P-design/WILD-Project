@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notebook — Wild Project</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Poppins', -apple-system, sans-serif;
+    background: #050505;
+    color: #F5F5F3;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 24px 80px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── Ambient glow ── */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -30%; left: -20%;
+    width: 70%; height: 70%;
+    background: radial-gradient(ellipse, rgba(252,80,0,0.03) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Header ── */
+  .nb-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 920px;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 10;
+  }
+  .nb-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .nb-logo {
+    height: 32px;
+    width: auto;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
+  .nb-brand:hover .nb-logo { opacity: 1; }
+  .nb-title {
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .nb-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .nb-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.3);
+    transition: all 0.3s;
+    padding: 4px 0;
+    text-transform: uppercase;
+  }
+  .nb-btn:hover { color: #FC5000; }
+  .nb-btn.active { color: #FC5000; }
+
+  .nb-page-info {
+    font-family: monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.2);
+  }
+
+  /* ── Notebook Container ── */
+  .notebook-wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 920px;
+  }
+
+  /* A5 landscape ratio: 210mm × 148mm ≈ 1.42:1 */
+  .notebook-page {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 210 / 148;
+    background: #0E0E0E;
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow:
+      0 1px 3px rgba(0,0,0,0.3),
+      0 8px 32px rgba(0,0,0,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.02);
+  }
+
+  /* ── Dot Grid (CSS) ── */
+  .dot-grid {
+    position: absolute;
+    inset: 0;
+    /* 5mm dot spacing scaled to page — ~28 dots across A5 landscape */
+    background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-position: 20px 20px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Canvas for drawing ── */
+  .draw-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  /* ── Spine / Binding detail ── */
+  .notebook-page::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(252,80,0,0.15) 10%,
+      rgba(252,80,0,0.15) 90%,
+      transparent 100%
+    );
+    z-index: 3;
+  }
+
+  /* ── Page corner ── */
+  .notebook-page::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 24px; height: 24px;
+    background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.015) 50%);
+    z-index: 3;
+  }
+
+  /* ── Toolbar ── */
+  .nb-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 10;
+  }
+  .tool-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .tool-btn:hover {
+    background: rgba(252,80,0,0.06);
+    border-color: rgba(252,80,0,0.15);
+  }
+  .tool-btn.active {
+    background: rgba(252,80,0,0.08);
+    border-color: rgba(252,80,0,0.3);
+  }
+  .tool-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: rgba(255,255,255,0.4);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .tool-btn.active svg { stroke: #FC5000; }
+  .tool-btn:hover svg { stroke: rgba(255,255,255,0.6); }
+  .tool-btn.active:hover svg { stroke: #FC5000; }
+
+  .tool-sep {
+    width: 1px;
+    height: 16px;
+    background: rgba(255,255,255,0.06);
+    margin: 0 6px;
+  }
+
+  /* ── Stroke Size Indicator ── */
+  .stroke-indicator {
+    font-family: monospace;
+    font-size: 8px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 1px;
+    margin-left: 4px;
+  }
+
+  /* ── Color Swatches ── */
+  .color-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.08);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .color-swatch:hover { transform: scale(1.15); }
+  .color-swatch.active {
+    border-color: rgba(255,255,255,0.3);
+    box-shadow: 0 0 6px rgba(252,80,0,0.2);
+  }
+
+  /* ── Pages nav ── */
+  .nb-pages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    position: relative;
+    z-index: 10;
+  }
+  .page-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.25);
+    padding: 4px 8px;
+    transition: color 0.2s;
+  }
+  .page-btn:hover { color: rgba(255,255,255,0.5); }
+  .page-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .page-dot.active { background: #FC5000; }
+  .page-dot:hover { background: rgba(255,255,255,0.25); }
+
+  /* ── Close button ── */
+  .close-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .close-btn::before,
+  .close-btn::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 1px;
+    background: rgba(255,255,255,0.3);
+    transition: background 0.2s;
+  }
+  .close-btn::before { transform: rotate(45deg); }
+  .close-btn::after { transform: rotate(-45deg); }
+  .close-btn:hover { background: rgba(252,80,0,0.08); }
+  .close-btn:hover::before,
+  .close-btn:hover::after { background: #FC5000; }
+
+  /* ── Light Mode ── */
+  body.light {
+    background: #F5F5F3;
+    color: #1a1a1a;
+  }
+  body.light::before {
+    background: radial-gradient(ellipse, rgba(252,80,0,0.03) 0%, transparent 70%);
+  }
+  body.light .nb-title { color: rgba(0,0,0,0.3); }
+  body.light .nb-btn { color: rgba(0,0,0,0.3); }
+  body.light .nb-btn:hover { color: #FC5000; }
+  body.light .nb-btn.active { color: #FC5000; }
+  body.light .nb-page-info { color: rgba(0,0,0,0.2); }
+
+  body.light .notebook-page {
+    background: #FFFFFF;
+    border-color: rgba(0,0,0,0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.04);
+  }
+  body.light .dot-grid {
+    background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px);
+  }
+  body.light .notebook-page::before {
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(252,80,0,0.12) 10%,
+      rgba(252,80,0,0.12) 90%,
+      transparent 100%
+    );
+  }
+  body.light .notebook-page::after {
+    background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.015) 50%);
+  }
+
+  body.light .tool-btn {
+    border-color: rgba(0,0,0,0.06);
+    background: rgba(0,0,0,0.02);
+  }
+  body.light .tool-btn:hover {
+    background: rgba(252,80,0,0.04);
+    border-color: rgba(252,80,0,0.12);
+  }
+  body.light .tool-btn.active {
+    background: rgba(252,80,0,0.06);
+    border-color: rgba(252,80,0,0.25);
+  }
+  body.light .tool-btn svg { stroke: rgba(0,0,0,0.35); }
+  body.light .tool-btn.active svg { stroke: #FC5000; }
+  body.light .tool-btn:hover svg { stroke: rgba(0,0,0,0.55); }
+  body.light .tool-sep { background: rgba(0,0,0,0.06); }
+  body.light .stroke-indicator { color: rgba(0,0,0,0.2); }
+  body.light .color-swatch { border-color: rgba(0,0,0,0.1); }
+  body.light .color-swatch.active { border-color: rgba(0,0,0,0.3); }
+
+  body.light .page-btn { color: rgba(0,0,0,0.25); }
+  body.light .page-btn:hover { color: rgba(0,0,0,0.5); }
+  body.light .page-dot { background: rgba(0,0,0,0.1); }
+  body.light .page-dot:hover { background: rgba(0,0,0,0.25); }
+
+  body.light .close-btn { background: rgba(0,0,0,0.04); }
+  body.light .close-btn::before,
+  body.light .close-btn::after { background: rgba(0,0,0,0.3); }
+  body.light .close-btn:hover { background: rgba(252,80,0,0.06); }
+  body.light .close-btn:hover::before,
+  body.light .close-btn:hover::after { background: #FC5000; }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    body { padding: 20px 12px 60px; }
+    .nb-header { margin-bottom: 16px; }
+    .nb-logo { height: 24px; }
+    .nb-title { font-size: 7px; letter-spacing: 2px; }
+    .nb-btn { font-size: 7px; }
+    .dot-grid {
+      background-size: 18px 18px;
+      background-position: 14px 14px;
+    }
+    .tool-btn { width: 28px; height: 28px; }
+    .tool-btn svg { width: 12px; height: 12px; }
+    .color-swatch { width: 14px; height: 14px; }
+    .close-btn { width: 32px; height: 32px; top: 14px; right: 14px; }
+    .close-btn::before, .close-btn::after { width: 12px; }
+  }
+</style>
+<script>
+  if (localStorage.getItem('wp_theme') === 'light') document.body.classList.add('light');
+</script>
+</head>
+<body>
+
+<button class="close-btn" onclick="window.location.href='/workspace.html'" title="Zurück"></button>
+
+<!-- ── Header ── -->
+<div class="nb-header">
+  <a href="/workspace.html" class="nb-brand">
+    <img src="/wp-logo.png" alt="WP" class="nb-logo">
+    <span class="nb-title">Notebook</span>
+  </a>
+  <div class="nb-controls">
+    <span class="nb-page-info" id="pageInfo">01 / 05</span>
+    <button class="nb-btn" id="themeToggle">DARK</button>
+  </div>
+</div>
+
+<!-- ── Notebook Page ── -->
+<div class="notebook-wrap">
+  <div class="notebook-page" id="notebookPage">
+    <div class="dot-grid"></div>
+    <canvas class="draw-canvas" id="drawCanvas"></canvas>
+  </div>
+</div>
+
+<!-- ── Toolbar ── -->
+<div class="nb-toolbar">
+  <!-- Pen -->
+  <button class="tool-btn active" id="toolPen" title="Stift">
+    <svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+  </button>
+  <!-- Eraser -->
+  <button class="tool-btn" id="toolEraser" title="Radierer">
+    <svg viewBox="0 0 24 24"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>
+  </button>
+
+  <div class="tool-sep"></div>
+
+  <!-- Stroke sizes -->
+  <button class="tool-btn active" id="strokeThin" title="Dünn">
+    <svg viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12" stroke-width="1"/></svg>
+  </button>
+  <button class="tool-btn" id="strokeMed" title="Mittel">
+    <svg viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12" stroke-width="2.5"/></svg>
+  </button>
+  <button class="tool-btn" id="strokeThick" title="Dick">
+    <svg viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12" stroke-width="4"/></svg>
+  </button>
+
+  <div class="tool-sep"></div>
+
+  <!-- Colors -->
+  <div class="color-swatch active" data-color="default" id="colorDefault" title="Standard" style="background: rgba(255,255,255,0.6);"></div>
+  <div class="color-swatch" data-color="orange" id="colorOrange" title="Orange" style="background: #FC5000;"></div>
+  <div class="color-swatch" data-color="grey" id="colorGrey" title="Grau" style="background: #666;"></div>
+
+  <div class="tool-sep"></div>
+
+  <!-- Clear -->
+  <button class="tool-btn" id="toolClear" title="Seite löschen">
+    <svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+  </button>
+</div>
+
+<!-- ── Page Navigation ── -->
+<div class="nb-pages" id="pagesNav">
+  <button class="page-btn" id="prevPage">&larr;</button>
+  <div class="page-dot active" data-page="0"></div>
+  <div class="page-dot" data-page="1"></div>
+  <div class="page-dot" data-page="2"></div>
+  <div class="page-dot" data-page="3"></div>
+  <div class="page-dot" data-page="4"></div>
+  <button class="page-btn" id="nextPage">&rarr;</button>
+</div>
+
+<script>
+(function() {
+  const TOTAL_PAGES = 5;
+  const STORAGE_KEY = 'wp_notebook';
+  let currentPage = 0;
+  let tool = 'pen'; // pen | eraser
+  let strokeWidth = 1.5;
+  let strokeColor = 'default';
+  let isDrawing = false;
+  let lastX = 0, lastY = 0;
+
+  const canvas = document.getElementById('drawCanvas');
+  const ctx = canvas.getContext('2d');
+  const pageInfo = document.getElementById('pageInfo');
+
+  // ── Page data storage ──
+  let pages = loadPages();
+
+  function loadPages() {
+    try {
+      const d = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (d && d.length === TOTAL_PAGES) return d;
+    } catch(e) {}
+    return Array.from({ length: TOTAL_PAGES }, () => null);
+  }
+  function savePages() {
+    pages[currentPage] = canvas.toDataURL('image/png');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(pages));
+  }
+
+  // ── Canvas sizing ──
+  function resizeCanvas() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    // Save current drawing
+    const tempData = pages[currentPage] || canvas.toDataURL('image/png');
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    ctx.scale(dpr, dpr);
+    // Restore drawing
+    if (tempData) {
+      const img = new Image();
+      img.onload = () => {
+        ctx.clearRect(0, 0, rect.width, rect.height);
+        ctx.drawImage(img, 0, 0, rect.width, rect.height);
+      };
+      img.src = tempData;
+    }
+  }
+
+  function loadPage(index) {
+    currentPage = index;
+    const rect = canvas.parentElement.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, rect.width, rect.height);
+    if (pages[index]) {
+      const img = new Image();
+      img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
+      img.src = pages[index];
+    }
+    updatePageUI();
+  }
+
+  function updatePageUI() {
+    pageInfo.textContent = String(currentPage + 1).padStart(2, '0') + ' / ' + String(TOTAL_PAGES).padStart(2, '0');
+    document.querySelectorAll('.page-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === currentPage);
+    });
+  }
+
+  // ── Drawing ──
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+  }
+
+  function getResolvedColor() {
+    const isLight = document.body.classList.contains('light');
+    if (strokeColor === 'orange') return '#FC5000';
+    if (strokeColor === 'grey') return '#666';
+    // default
+    return isLight ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.6)';
+  }
+
+  function startDraw(e) {
+    e.preventDefault();
+    isDrawing = true;
+    const pos = getPos(e);
+    lastX = pos.x;
+    lastY = pos.y;
+  }
+
+  function draw(e) {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const pos = getPos(e);
+
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(pos.x, pos.y);
+
+    if (tool === 'eraser') {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.strokeStyle = 'rgba(0,0,0,1)';
+      ctx.lineWidth = strokeWidth * 8;
+    } else {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.strokeStyle = getResolvedColor();
+      ctx.lineWidth = strokeWidth;
+    }
+
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+
+    lastX = pos.x;
+    lastY = pos.y;
+  }
+
+  function endDraw() {
+    if (!isDrawing) return;
+    isDrawing = false;
+    savePages();
+  }
+
+  // ── Events ──
+  canvas.addEventListener('mousedown', startDraw);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', endDraw);
+  canvas.addEventListener('mouseleave', endDraw);
+  canvas.addEventListener('touchstart', startDraw, { passive: false });
+  canvas.addEventListener('touchmove', draw, { passive: false });
+  canvas.addEventListener('touchend', endDraw);
+
+  window.addEventListener('resize', () => {
+    savePages();
+    resizeCanvas();
+  });
+
+  // ── Tool buttons ──
+  const toolPen = document.getElementById('toolPen');
+  const toolEraser = document.getElementById('toolEraser');
+
+  toolPen.addEventListener('click', () => {
+    tool = 'pen';
+    toolPen.classList.add('active');
+    toolEraser.classList.remove('active');
+    canvas.style.cursor = 'crosshair';
+  });
+  toolEraser.addEventListener('click', () => {
+    tool = 'eraser';
+    toolEraser.classList.add('active');
+    toolPen.classList.remove('active');
+    canvas.style.cursor = 'grab';
+  });
+
+  // ── Stroke size ──
+  const strokeBtns = [
+    { el: document.getElementById('strokeThin'), size: 1.5 },
+    { el: document.getElementById('strokeMed'), size: 3 },
+    { el: document.getElementById('strokeThick'), size: 5 },
+  ];
+  strokeBtns.forEach(btn => {
+    btn.el.addEventListener('click', () => {
+      strokeWidth = btn.size;
+      strokeBtns.forEach(b => b.el.classList.remove('active'));
+      btn.el.classList.add('active');
+    });
+  });
+
+  // ── Colors ──
+  const colorBtns = document.querySelectorAll('.color-swatch');
+  colorBtns.forEach(swatch => {
+    swatch.addEventListener('click', () => {
+      strokeColor = swatch.dataset.color;
+      colorBtns.forEach(s => s.classList.remove('active'));
+      swatch.classList.add('active');
+    });
+  });
+
+  // Update default swatch color based on theme
+  function updateDefaultSwatch() {
+    const isLight = document.body.classList.contains('light');
+    document.getElementById('colorDefault').style.background = isLight ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.6)';
+  }
+
+  // ── Clear page ──
+  document.getElementById('toolClear').addEventListener('click', () => {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    ctx.clearRect(0, 0, rect.width, rect.height);
+    pages[currentPage] = null;
+    savePages();
+  });
+
+  // ── Page navigation ──
+  document.getElementById('prevPage').addEventListener('click', () => {
+    if (currentPage > 0) { savePages(); loadPage(currentPage - 1); }
+  });
+  document.getElementById('nextPage').addEventListener('click', () => {
+    if (currentPage < TOTAL_PAGES - 1) { savePages(); loadPage(currentPage + 1); }
+  });
+  document.querySelectorAll('.page-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      const p = parseInt(dot.dataset.page);
+      if (p !== currentPage) { savePages(); loadPage(p); }
+    });
+  });
+
+  // ── Theme toggle ──
+  const themeBtn = document.getElementById('themeToggle');
+  function updateThemeLabel() {
+    const isLight = document.body.classList.contains('light');
+    themeBtn.textContent = isLight ? 'LIGHT' : 'DARK';
+    updateDefaultSwatch();
+  }
+  themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    localStorage.setItem('wp_theme', isLight ? 'light' : 'dark');
+    updateThemeLabel();
+  });
+
+  // ── Init ──
+  updateThemeLabel();
+  loadPage(0);
+})();
+</script>
+
+</body>
+</html>
