@@ -106,14 +106,14 @@
   .nb-page {
     position: absolute;
     inset: 0;
-    background: #0C0C0C;
-    border: 1px solid rgba(255,255,255,0.04);
+    background: #151515;
+    border: 1px solid rgba(255,255,255,0.07);
     border-radius: 4px;
     overflow: hidden;
     transform-origin: left center;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
     backface-visibility: hidden;
-    box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
   }
   .nb-page.flipped { transform: rotateY(-180deg); pointer-events: none; }
   .nb-page.behind { opacity: 0; pointer-events: none; }
@@ -130,7 +130,7 @@
     position: absolute;
     left: 0; top: 0; bottom: 0;
     width: 2px;
-    background: linear-gradient(180deg, transparent 0%, rgba(252,80,0,0.2) 15%, rgba(252,80,0,0.2) 85%, transparent 100%);
+    background: linear-gradient(180deg, transparent 0%, rgba(252,80,0,0.3) 15%, rgba(252,80,0,0.3) 85%, transparent 100%);
     z-index: 10;
     pointer-events: none;
   }
@@ -138,7 +138,7 @@
   .dot-grid {
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.06) 0.8px, transparent 0.8px);
+    background-image: radial-gradient(circle, rgba(255,255,255,0.1) 0.8px, transparent 0.8px);
     background-size: 22px 22px;
     background-position: 18px 18px;
     pointer-events: none;
@@ -162,7 +162,7 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 8px;
     letter-spacing: 2px;
-    color: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.15);
     z-index: 3;
     pointer-events: none;
   }
@@ -241,7 +241,7 @@
   .tool-btn.active { background: rgba(252,80,0,0.08); }
   .tool-btn svg {
     width: 14px; height: 14px;
-    stroke: rgba(255,255,255,0.3);
+    stroke: rgba(255,255,255,0.4);
     fill: none;
     stroke-width: 1.5;
     stroke-linecap: round;
@@ -256,7 +256,7 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     font-weight: 500;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.4);
     line-height: 1;
   }
   .tool-btn.active .tool-letter { color: #FC5000; }
