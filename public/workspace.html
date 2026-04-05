@@ -1062,6 +1062,164 @@
   body.light .cal-detail-note { color: rgba(0,0,0,0.6); }
   body.light .cal-detail-note::placeholder { color: rgba(0,0,0,0.2); }
 
+  /* ── To-Do Widget ── */
+  .todo-widget {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .todo-add-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .todo-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    padding: 4px 0;
+  }
+  .todo-input::placeholder { color: rgba(255,255,255,0.15); }
+  .todo-add-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.2);
+    font-size: 14px;
+    font-family: monospace;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .todo-add-btn:hover {
+    border-color: #FC5000;
+    color: #FC5000;
+    background: rgba(252,80,0,0.06);
+  }
+  .todo-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .todo-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    transition: background 0.15s;
+  }
+  .todo-item:last-child { border-bottom: none; }
+  .todo-item:hover { background: rgba(255,255,255,0.02); }
+  .todo-check {
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background: transparent;
+    flex-shrink: 0;
+  }
+  .todo-check:hover {
+    border-color: #FC5000;
+    background: rgba(252,80,0,0.06);
+  }
+  .todo-check.done {
+    background: #FC5000;
+    border-color: #FC5000;
+  }
+  .todo-check::after {
+    content: '';
+    width: 6px;
+    height: 4px;
+    border-left: 1.5px solid #fff;
+    border-bottom: 1.5px solid #fff;
+    transform: rotate(-45deg) translateY(-0.5px);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .todo-check.done::after { opacity: 1; }
+  .todo-text {
+    flex: 1;
+    font-family: monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.4;
+    word-break: break-word;
+  }
+  .todo-item.completed .todo-text {
+    text-decoration: line-through;
+    opacity: 0.3;
+  }
+  .todo-del {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: rgba(255,255,255,0.1);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: monospace;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .todo-item:hover .todo-del { display: flex; }
+  .todo-del:hover { color: #FC5000; background: rgba(252,80,0,0.08); }
+  .todo-count {
+    font-family: monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.15);
+    padding: 6px 12px;
+    text-align: right;
+  }
+  .todo-empty {
+    padding: 20px 12px;
+    text-align: center;
+    font-family: monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.1);
+    letter-spacing: 1px;
+  }
+
+  /* Light mode todo */
+  body.light .todo-widget { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.06); }
+  body.light .todo-add-row { border-bottom-color: rgba(0,0,0,0.04); }
+  body.light .todo-input { color: rgba(0,0,0,0.7); }
+  body.light .todo-input::placeholder { color: rgba(0,0,0,0.2); }
+  body.light .todo-add-btn { border-color: rgba(0,0,0,0.1); color: rgba(0,0,0,0.25); }
+  body.light .todo-add-btn:hover { border-color: #FC5000; color: #FC5000; }
+  body.light .todo-item { border-bottom-color: rgba(0,0,0,0.03); }
+  body.light .todo-item:hover { background: rgba(0,0,0,0.02); }
+  body.light .todo-check { border-color: rgba(0,0,0,0.2); }
+  body.light .todo-check:hover { border-color: #FC5000; background: rgba(252,80,0,0.05); }
+  body.light .todo-text { color: rgba(0,0,0,0.6); }
+  body.light .todo-del { color: rgba(0,0,0,0.1); }
+  body.light .todo-del:hover { color: #FC5000; }
+  body.light .todo-count { color: rgba(0,0,0,0.15); }
+  body.light .todo-empty { color: rgba(0,0,0,0.12); }
+
   /* ── Mobile ── */
   @media (max-width: 500px) {
     body { padding: 40px 16px 60px; }
@@ -1301,6 +1459,19 @@
         <span class="notes-status-text" id="notesSaved">GESPEICHERT</span>
         <a href="https://www.wildproject.pro/notebook.html" target="_blank" class="notes-open-btn">VOLLANSICHT →</a>
       </div>
+    </div>
+  </div>
+
+  <!-- ══════ TO DO ══════ -->
+  <div class="section">
+    <div class="section-label">To Do</div>
+    <div class="todo-widget">
+      <div class="todo-add-row">
+        <input type="text" class="todo-input" id="todoInput" placeholder="Neue Aufgabe ..." maxlength="200">
+        <button class="todo-add-btn" id="todoAddBtn" title="Hinzufügen">+</button>
+      </div>
+      <ul class="todo-list" id="todoList"></ul>
+      <div class="todo-count" id="todoCount"></div>
     </div>
   </div>
 
@@ -1852,6 +2023,108 @@
   var now = new Date();
   viewYear = now.getFullYear();
   viewMonth = now.getMonth();
+  render();
+})();
+
+// ── To-Do Widget ──
+(function() {
+  var TODO_KEY = 'wp_todos';
+  var listEl = document.getElementById('todoList');
+  var inputEl = document.getElementById('todoInput');
+  var addBtn = document.getElementById('todoAddBtn');
+  var countEl = document.getElementById('todoCount');
+  var todos = [];
+
+  function load() {
+    try { todos = JSON.parse(localStorage.getItem(TODO_KEY)) || []; } catch(e) { todos = []; }
+  }
+
+  function save() {
+    localStorage.setItem(TODO_KEY, JSON.stringify(todos));
+  }
+
+  function render() {
+    if (todos.length === 0) {
+      listEl.innerHTML = '<div class="todo-empty">KEINE AUFGABEN</div>';
+      countEl.textContent = '';
+      return;
+    }
+
+    var open = todos.filter(function(t) { return !t.done; }).length;
+    var total = todos.length;
+
+    // Sort: open first, then done — within each group keep original order
+    var sorted = todos.slice().sort(function(a, b) {
+      if (a.done === b.done) return 0;
+      return a.done ? 1 : -1;
+    });
+
+    listEl.innerHTML = sorted.map(function(t) {
+      return '<li class="todo-item' + (t.done ? ' completed' : '') + '" data-id="' + t.id + '">'
+        + '<span class="todo-check' + (t.done ? ' done' : '') + '" data-toggle="' + t.id + '"></span>'
+        + '<span class="todo-text">' + escHtml(t.text) + '</span>'
+        + '<button class="todo-del" data-del="' + t.id + '" title="Löschen">×</button>'
+        + '</li>';
+    }).join('');
+
+    countEl.textContent = open + ' OFFEN · ' + total + ' GESAMT';
+
+    // Toggle handlers
+    listEl.querySelectorAll('.todo-check').forEach(function(el) {
+      el.addEventListener('click', function() {
+        toggleTodo(el.dataset.toggle);
+      });
+    });
+    // Delete handlers
+    listEl.querySelectorAll('.todo-del').forEach(function(el) {
+      el.addEventListener('click', function() {
+        deleteTodo(el.dataset.del);
+      });
+    });
+  }
+
+  function addTodo() {
+    var text = inputEl.value.trim();
+    if (!text) return;
+    todos.push({
+      id: 't_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+      text: text,
+      done: false,
+      created: new Date().toISOString()
+    });
+    inputEl.value = '';
+    save();
+    render();
+    inputEl.focus();
+  }
+
+  function toggleTodo(id) {
+    var t = todos.find(function(t) { return t.id === id; });
+    if (t) {
+      t.done = !t.done;
+      save();
+      render();
+    }
+  }
+
+  function deleteTodo(id) {
+    todos = todos.filter(function(t) { return t.id !== id; });
+    save();
+    render();
+  }
+
+  function escHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  addBtn.addEventListener('click', addTodo);
+  inputEl.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') addTodo();
+  });
+
+  load();
   render();
 })();
 
