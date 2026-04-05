@@ -19,7 +19,7 @@ import Footer from '../components/Footer.astro';
     <div class="lower">
       <!-- STATUS BAR -->
       <div class="status-bar" id="statusBar">
-        <span class="status-item"><span class="status-icon" id="weatherIcon">—</span> <span class="status-val" id="weatherTemp">···</span></span>
+        <span class="status-item"><span id="weatherDesc">···</span> <span class="status-val" id="weatherTemp">···</span></span>
         <span class="status-sep">·</span>
         <span class="status-item" id="statusDate">···</span>
         <span class="status-sep">·</span>
@@ -134,7 +134,6 @@ import Footer from '../components/Footer.astro';
   }
   .status-val { color: rgba(255,255,255,0.4); }
   .status-sep { color: rgba(255,255,255,0.1); }
-  .status-icon { font-size: 11px; }
   :global(body.light) .status-bar { color: rgba(0,0,0,0.25); }
   :global(body.light) .status-val { color: rgba(0,0,0,0.4); }
   :global(body.light) .status-sep { color: rgba(0,0,0,0.1); }
@@ -349,7 +348,7 @@ import Footer from '../components/Footer.astro';
   @media (max-width: 700px) {
     .page-bg { background-position: center 45%; }
     .lower { padding: 0 1.5rem 40px; }
-    .status-bar { font-size: 8px; gap: 6px; padding: 10px 0; }
+    .status-bar { font-size: 8px; gap: 6px; padding: 10px 0; justify-content: flex-start; }
     .links-section { margin-top: 2px; padding-top: 6px; }
     .links-label { margin-bottom: 4px; font-size: 9px; }
     .about-toggle { padding: 6px 0; }
@@ -434,14 +433,14 @@ import Footer from '../components/Footer.astro';
   // Weather (Open-Meteo, Rosenheim)
   (function() {
     const tempEl = document.getElementById('weatherTemp');
-    const iconEl = document.getElementById('weatherIcon');
-    const WMO: Record<number,string> = {0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',71:'🌨',73:'🌨',75:'❄️',80:'🌦',81:'🌧',82:'⛈',95:'⛈',96:'⛈',99:'⛈'};
+    const descEl = document.getElementById('weatherDesc');
+    const WMO: Record<number,string> = {0:'KLAR',1:'HEITER',2:'BEWÖLKT',3:'BEDECKT',45:'NEBEL',48:'NEBEL',51:'NIESEL',53:'NIESEL',55:'REGEN',61:'REGEN',63:'REGEN',65:'REGEN',71:'SCHNEE',73:'SCHNEE',75:'SCHNEE',80:'SCHAUER',81:'SCHAUER',82:'GEWITTER',95:'GEWITTER',96:'GEWITTER',99:'GEWITTER'};
     fetch('https://api.open-meteo.com/v1/forecast?latitude=47.856&longitude=12.129&current=temperature_2m,weather_code&timezone=Europe%2FBerlin')
       .then(r => r.json())
       .then(data => {
         tempEl!.textContent = Math.round(data.current.temperature_2m) + '°C';
-        iconEl!.textContent = WMO[data.current.weather_code] || '🌡';
+        descEl!.textContent = WMO[data.current.weather_code] || 'WETTER';
       })
-      .catch(() => { tempEl!.textContent = '—'; iconEl!.textContent = '🌡'; });
+      .catch(() => { tempEl!.textContent = '—'; descEl!.textContent = '—'; });
   })();
 </script>

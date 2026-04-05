@@ -179,10 +179,6 @@
   .status-item .val {
     color: rgba(255,255,255,0.6);
   }
-  .status-item .icon {
-    font-size: 14px;
-    opacity: 0.6;
-  }
   .status-divider {
     width: 1px;
     height: 14px;
@@ -417,27 +413,27 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── Theme Toggle ── */
+  /* ── Theme Toggle (technical) ── */
   .theme-toggle {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 24px;
+    right: 24px;
     z-index: 100;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: rgba(255,255,255,0.04);
+    border: none;
+    background: transparent;
     cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
+    font-family: monospace;
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.35);
     transition: all 0.3s;
     opacity: 0;
-    animation: fadeUp 0.5s ease 1.2s forwards;
+    animation: fadeUp 0.5s ease 1.5s forwards;
+    padding: 4px 0;
   }
   .theme-toggle:hover {
-    border-color: rgba(252,80,0,0.3);
-    background: rgba(252,80,0,0.06);
-    transform: scale(1.1);
+    color: #FC5000;
   }
 
   /* ── Light Mode ── */
@@ -493,8 +489,8 @@
   body.light .footer-links .dot { color: rgba(0,0,0,0.15); }
   body.light .footer-tagline { color: rgba(0,0,0,0.3); }
   body.light .footer-coords { color: rgba(0,0,0,0.25); }
-  body.light .theme-toggle { border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.04); }
-  body.light .theme-toggle:hover { border-color: rgba(252,80,0,0.3); background: rgba(252,80,0,0.06); }
+  body.light .theme-toggle { color: rgba(0,0,0,0.35); }
+  body.light .theme-toggle:hover { color: #FC5000; }
 
   /* ── Quick Notes ── */
   .notes-area {
@@ -651,7 +647,7 @@
     .link-title { font-size: 13px; }
     .link-desc { font-size: 10px; }
     .contact-pill { font-size: 10px; padding: 8px 16px; }
-    .theme-toggle { top: 12px; right: 12px; width: 32px; height: 32px; font-size: 12px; }
+    .theme-toggle { top: 14px; right: 16px; font-size: 7px; letter-spacing: 1.5px; }
     .notes-area { min-height: 100px; font-size: 11px; }
     .checklist-text { font-size: 11px; }
     .footer { padding-top: 28px; }
@@ -683,7 +679,7 @@
 </div>
 
 <!-- ══════ THEME TOGGLE ══════ -->
-<button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark">☀️</button>
+<button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark"><span id="themeLabel">DARK</span></button>
 
 <div class="container locked" id="mainContent">
 
@@ -698,7 +694,7 @@
   <!-- ══════ STATUS BAR ══════ -->
   <div class="status-bar" id="statusBar">
     <div class="status-item">
-      <span class="icon" id="weatherIcon">—</span>
+      <span id="weatherDesc">···</span>
       <span class="val" id="weatherTemp">···</span>
     </div>
     <div class="status-divider"></div>
@@ -1035,15 +1031,16 @@
 // ── Theme Toggle ──
 (function() {
   const btn = document.getElementById('themeToggle');
+  const label = document.getElementById('themeLabel');
   const KEY = 'wp_workspace_theme';
   const saved = localStorage.getItem(KEY);
   if (saved === 'light') {
     document.body.classList.add('light');
-    btn.textContent = '🌙';
+    if (label) label.textContent = 'LIGHT';
   }
   btn.addEventListener('click', () => {
     const isLight = document.body.classList.toggle('light');
-    btn.textContent = isLight ? '🌙' : '☀️';
+    if (label) label.textContent = isLight ? 'LIGHT' : 'DARK';
     localStorage.setItem(KEY, isLight ? 'light' : 'dark');
   });
 })();
@@ -1145,28 +1142,26 @@
 // ── Weather (Open-Meteo, Rosenheim) ──
 (function() {
   const tempEl = document.getElementById('weatherTemp');
-  const iconEl = document.getElementById('weatherIcon');
+  const descEl = document.getElementById('weatherDesc');
   const WMO = {
-    0: '☀️', 1: '🌤', 2: '⛅', 3: '☁️',
-    45: '🌫', 48: '🌫',
-    51: '🌦', 53: '🌦', 55: '🌧',
-    61: '🌧', 63: '🌧', 65: '🌧',
-    71: '🌨', 73: '🌨', 75: '❄️',
-    80: '🌦', 81: '🌧', 82: '⛈',
-    95: '⛈', 96: '⛈', 99: '⛈'
+    0:'KLAR',1:'HEITER',2:'BEWÖLKT',3:'BEDECKT',
+    45:'NEBEL',48:'NEBEL',
+    51:'NIESEL',53:'NIESEL',55:'REGEN',
+    61:'REGEN',63:'REGEN',65:'REGEN',
+    71:'SCHNEE',73:'SCHNEE',75:'SCHNEE',
+    80:'SCHAUER',81:'SCHAUER',82:'GEWITTER',
+    95:'GEWITTER',96:'GEWITTER',99:'GEWITTER'
   };
 
   fetch('https://api.open-meteo.com/v1/forecast?latitude=47.856&longitude=12.129&current=temperature_2m,weather_code&timezone=Europe%2FBerlin')
     .then(r => r.json())
     .then(data => {
-      const temp = Math.round(data.current.temperature_2m);
-      const code = data.current.weather_code;
-      tempEl.textContent = temp + '°C';
-      iconEl.textContent = WMO[code] || '🌡';
+      tempEl.textContent = Math.round(data.current.temperature_2m) + '°C';
+      descEl.textContent = WMO[data.current.weather_code] || 'WETTER';
     })
     .catch(() => {
       tempEl.textContent = '—';
-      iconEl.textContent = '🌡';
+      descEl.textContent = '—';
     });
 })();
 </script>
