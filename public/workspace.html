@@ -1040,6 +1040,59 @@
     min-height: 32px;
   }
   .cal-detail-note::placeholder { color: rgba(255,255,255,0.15); }
+  .cal-detail-fields {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .cal-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .cal-field-label {
+    font-family: monospace;
+    font-size: 7px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.15);
+  }
+  .cal-field-input {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-family: monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .cal-field-input:focus { border-color: rgba(252,80,0,0.3); }
+  .cal-field-input::placeholder { color: rgba(255,255,255,0.12); }
+  .cal-export-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    padding: 5px 10px;
+    font-family: monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .cal-export-btn:hover {
+    color: #FC5000;
+    border-color: rgba(252,80,0,0.3);
+    background: rgba(252,80,0,0.06);
+  }
 
   /* Light mode calendar */
   body.light .cal-widget { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.06); }
@@ -1061,6 +1114,12 @@
   body.light .cal-detail-date { color: rgba(0,0,0,0.35); }
   body.light .cal-detail-note { color: rgba(0,0,0,0.6); }
   body.light .cal-detail-note::placeholder { color: rgba(0,0,0,0.2); }
+  body.light .cal-field-label { color: rgba(0,0,0,0.2); }
+  body.light .cal-field-input { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.08); color: rgba(0,0,0,0.6); }
+  body.light .cal-field-input:focus { border-color: rgba(252,80,0,0.3); }
+  body.light .cal-field-input::placeholder { color: rgba(0,0,0,0.15); }
+  body.light .cal-export-btn { color: rgba(0,0,0,0.25); background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.08); }
+  body.light .cal-export-btn:hover { color: #FC5000; border-color: rgba(252,80,0,0.3); background: rgba(252,80,0,0.05); }
 
   /* ── To-Do Widget ── */
   .todo-widget {
@@ -1426,7 +1485,22 @@
       <div class="cal-detail" id="calDetail">
         <div class="cal-detail-date" id="calDetailDate"></div>
         <div class="cal-detail-holiday" id="calDetailHoliday"></div>
-        <textarea class="cal-detail-note" id="calDetailNote" placeholder="Notiz für diesen Tag ..." rows="2"></textarea>
+        <textarea class="cal-detail-note" id="calDetailNote" placeholder="Notiz / Titel ..." rows="2"></textarea>
+        <div class="cal-detail-fields">
+          <div class="cal-field">
+            <label class="cal-field-label">VON</label>
+            <input type="time" class="cal-field-input" id="calTimeStart" value="09:00">
+          </div>
+          <div class="cal-field">
+            <label class="cal-field-label">BIS</label>
+            <input type="time" class="cal-field-input" id="calTimeEnd" value="10:00">
+          </div>
+          <div class="cal-field" style="flex:2;">
+            <label class="cal-field-label">ORT</label>
+            <input type="text" class="cal-field-input" id="calLocation" placeholder="Optional ...">
+          </div>
+        </div>
+        <button class="cal-export-btn" id="calExportBtn" title="In Apple Kalender exportieren">↗ IN KALENDER EXPORTIEREN</button>
       </div>
     </div>
   </div>
@@ -1995,6 +2069,58 @@
     }
     saveCalNotes();
     render();
+  });
+
+  // ICS Export
+  document.getElementById('calExportBtn').addEventListener('click', function() {
+    if (!selectedDate) return;
+    var title = calDetailNote.value.trim() || 'Termin';
+    var startTime = document.getElementById('calTimeStart').value || '09:00';
+    var endTime = document.getElementById('calTimeEnd').value || '10:00';
+    var location = document.getElementById('calLocation').value.trim();
+
+    var parts = selectedDate.split('-');
+    var y = parts[0], m = parts[1], d = parts[2];
+
+    var sh = startTime.split(':'), eh = endTime.split(':');
+    var dtStart = y + m + d + 'T' + sh[0] + sh[1] + '00';
+    var dtEnd = y + m + d + 'T' + eh[0] + eh[1] + '00';
+
+    var uid = 'wp-' + Date.now() + '@wildproject.pro';
+    var now = new Date();
+    var stamp = now.getUTCFullYear()
+      + String(now.getUTCMonth() + 1).padStart(2, '0')
+      + String(now.getUTCDate()).padStart(2, '0') + 'T'
+      + String(now.getUTCHours()).padStart(2, '0')
+      + String(now.getUTCMinutes()).padStart(2, '0')
+      + String(now.getUTCSeconds()).padStart(2, '0') + 'Z';
+
+    var ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Wild Project//Workspace//DE',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      'UID:' + uid,
+      'DTSTAMP:' + stamp,
+      'DTSTART;TZID=Europe/Vienna:' + dtStart,
+      'DTEND;TZID=Europe/Vienna:' + dtEnd,
+      'SUMMARY:' + title.replace(/[,;\\]/g, ' '),
+      location ? 'LOCATION:' + location.replace(/[,;\\]/g, ' ') : '',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].filter(Boolean).join('\r\n');
+
+    var blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = title.replace(/[^a-zA-Z0-9äöüÄÖÜß ]/g, '').substring(0, 30).trim() + '.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   });
 
   // Navigation
