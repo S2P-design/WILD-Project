@@ -1475,12 +1475,23 @@
     tabsEl.querySelector('.note-tab-add').addEventListener('click', createNote);
   }
 
+  // Strip old onclick attributes from stored notes
+  function sanitizeChecklist(container) {
+    container.querySelectorAll('.checklist-box[onclick]').forEach(function(box) {
+      box.removeAttribute('onclick');
+    });
+    container.querySelectorAll('.checklist-text[contenteditable]').forEach(function(t) {
+      t.removeAttribute('contenteditable');
+    });
+  }
+
   function selectNote(id) {
     if (activeId) saveCurrentNote();
     activeId = id;
     var note = notes.find(function(n) { return n.id === id; });
     if (!note) return;
     editor.innerHTML = note.content || '';
+    sanitizeChecklist(editor);
     renderTabs();
   }
 
@@ -1566,19 +1577,33 @@
     debouncedSave();
   }
 
+  // Find checklist-item ancestor from any node
+  function findCheckItem(node) {
+    if (!node) return null;
+    var el = node.nodeType === 3 ? node.parentElement : node;
+    while (el && el !== editor) {
+      if (el.classList && el.classList.contains('checklist-item')) return el;
+      el = el.parentElement;
+    }
+    return null;
+  }
+
   // Editor events
   editor.addEventListener('input', debouncedSave);
 
   editor.addEventListener('click', function(e) {
-    if (e.target.classList.contains('checklist-box')) {
+    var box = e.target.closest('.checklist-box');
+    if (box) {
       e.preventDefault();
       e.stopPropagation();
-      toggleCheck(e.target);
+      if (!box.hasAttribute('onclick')) {
+        toggleCheck(box);
+      }
     }
   });
 
   editor.addEventListener('mousedown', function(e) {
-    if (e.target.classList.contains('checklist-box')) {
+    if (e.target.closest('.checklist-box')) {
       e.preventDefault();
     }
   });
@@ -1592,8 +1617,7 @@
 
     var sel = window.getSelection();
     if (!sel.rangeCount) return;
-    var node = sel.anchorNode;
-    var checkItem = node && (node.nodeType === 3 ? node.parentElement : node).closest('.checklist-item');
+    var checkItem = findCheckItem(sel.anchorNode);
 
     if (checkItem) {
       var textEl = checkItem.querySelector('.checklist-text');

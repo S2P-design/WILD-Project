@@ -908,6 +908,7 @@
     empty.style.display = 'none';
 
     editor.innerHTML = note.content || '';
+    sanitizeChecklist(editor);
     editor.style.fontFamily = note.font || "'Poppins', sans-serif";
 
     // Set font selector
@@ -1000,10 +1001,32 @@
     }, 400);
   }
 
+  // ── Sanitize old onclick attributes from stored notes ──
+  function sanitizeChecklist(container) {
+    container.querySelectorAll('.checklist-box[onclick]').forEach(function(box) {
+      box.removeAttribute('onclick');
+    });
+    container.querySelectorAll('.checklist-text[contenteditable]').forEach(function(t) {
+      t.removeAttribute('contenteditable');
+    });
+  }
+
   // ── Editor Events ──
   function setupEditorEvents() {
     const editor = document.getElementById('editorContent');
     editor.addEventListener('input', debouncedSave);
+
+    // Find the checklist-item ancestor from any node inside the editor
+    function findCheckItem(node) {
+      if (!node) return null;
+      var el = node.nodeType === 3 ? node.parentElement : node;
+      while (el && el !== editor) {
+        if (el.classList && el.classList.contains('checklist-item')) return el;
+        el = el.parentElement;
+      }
+      return null;
+    }
+
     editor.addEventListener('keydown', function(e) {
       // Tab support
       if (e.key === 'Tab') {
@@ -1013,25 +1036,21 @@
       }
 
       // Checklist keyboard handling
-      const sel = window.getSelection();
+      var sel = window.getSelection();
       if (!sel.rangeCount) return;
-      const node = sel.anchorNode;
-      const checkItem = node && (node.nodeType === 3 ? node.parentElement : node).closest('.checklist-item');
+      var checkItem = findCheckItem(sel.anchorNode);
 
       if (checkItem) {
-        const textEl = checkItem.querySelector('.checklist-text');
-
         // Enter → new checklist item
         if (e.key === 'Enter') {
           e.preventDefault();
           e.stopPropagation();
-          const newItem = document.createElement('div');
+          var newItem = document.createElement('div');
           newItem.className = 'checklist-item';
           newItem.innerHTML = '<span class="checklist-box"></span><span class="checklist-text"><br></span>';
           checkItem.after(newItem);
-          // Place cursor in new item
-          const newText = newItem.querySelector('.checklist-text');
-          const range = document.createRange();
+          var newText = newItem.querySelector('.checklist-text');
+          var range = document.createRange();
           range.setStart(newText, 0);
           range.collapse(true);
           sel.removeAllRanges();
@@ -1041,46 +1060,47 @@
         }
 
         // Backspace on empty item → remove it
-        if (e.key === 'Backspace' && textEl) {
-          const text = textEl.textContent.trim();
-          if (text === '') {
-            e.preventDefault();
-            e.stopPropagation();
-            const prevItem = checkItem.previousElementSibling;
-            const nextItem = checkItem.nextElementSibling;
-            checkItem.remove();
-            // Move cursor to previous item or next
-            const target = prevItem && prevItem.classList.contains('checklist-item')
-              ? prevItem.querySelector('.checklist-text')
-              : nextItem && nextItem.classList.contains('checklist-item')
-                ? nextItem.querySelector('.checklist-text')
-                : null;
-            if (target) {
-              const range = document.createRange();
-              range.selectNodeContents(target);
-              range.collapse(false); // end
-              sel.removeAllRanges();
-              sel.addRange(range);
-            }
-            debouncedSave();
-            return;
+        var textEl = checkItem.querySelector('.checklist-text');
+        if (e.key === 'Backspace' && textEl && textEl.textContent.trim() === '') {
+          e.preventDefault();
+          e.stopPropagation();
+          var prevItem = checkItem.previousElementSibling;
+          var nextItem = checkItem.nextElementSibling;
+          checkItem.remove();
+          var target = (prevItem && prevItem.classList.contains('checklist-item'))
+            ? prevItem.querySelector('.checklist-text')
+            : (nextItem && nextItem.classList.contains('checklist-item'))
+              ? nextItem.querySelector('.checklist-text')
+              : null;
+          if (target) {
+            var r = document.createRange();
+            r.selectNodeContents(target);
+            r.collapse(false);
+            sel.removeAllRanges();
+            sel.addRange(r);
           }
+          debouncedSave();
+          return;
         }
       }
     });
 
     // Handle clicks on checklist boxes via delegation
     editor.addEventListener('click', function(e) {
-      if (e.target.classList.contains('checklist-box')) {
+      var box = e.target.closest('.checklist-box');
+      if (box) {
         e.preventDefault();
         e.stopPropagation();
-        toggleCheck(e.target);
+        // Only toggle if not already handled by inline onclick
+        if (!box.hasAttribute('onclick')) {
+          toggleCheck(box);
+        }
       }
     });
 
     // Prevent checklist-box from stealing focus
     editor.addEventListener('mousedown', function(e) {
-      if (e.target.classList.contains('checklist-box')) {
+      if (e.target.closest('.checklist-box')) {
         e.preventDefault();
       }
     });
