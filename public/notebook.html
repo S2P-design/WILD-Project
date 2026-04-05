@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Caveat:wght@400;500&family=IBM+Plex+Mono:wght@300;400&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -24,7 +25,6 @@
     overflow: hidden;
   }
 
-  /* ── Ambient glow ── */
   body::before {
     content: '';
     position: fixed;
@@ -68,7 +68,6 @@
     text-transform: uppercase;
     color: rgba(255,255,255,0.3);
   }
-
   .nb-controls {
     display: flex;
     align-items: center;
@@ -97,7 +96,6 @@
     position: relative;
     z-index: 1;
   }
-
   .notebook-book {
     position: relative;
     width: 100%;
@@ -105,7 +103,6 @@
     transform-style: preserve-3d;
   }
 
-  /* ── Page ── */
   .nb-page {
     position: absolute;
     inset: 0;
@@ -118,46 +115,26 @@
     backface-visibility: hidden;
     box-shadow: 0 1px 8px rgba(0,0,0,0.3);
   }
-  .nb-page.flipped {
-    transform: rotateY(-180deg);
-    pointer-events: none;
-  }
-  .nb-page.behind {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  /* Stack effect — pages underneath slightly visible */
+  .nb-page.flipped { transform: rotateY(-180deg); pointer-events: none; }
+  .nb-page.behind { opacity: 0; pointer-events: none; }
   .nb-page::after {
     content: '';
     position: absolute;
     right: 0; top: 2px; bottom: 2px;
     width: 3px;
-    background: linear-gradient(180deg,
-      transparent,
-      rgba(255,255,255,0.02) 20%,
-      rgba(255,255,255,0.02) 80%,
-      transparent
-    );
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.02) 20%, rgba(255,255,255,0.02) 80%, transparent);
     z-index: 5;
   }
 
-  /* ── Spine ── */
   .nb-spine {
     position: absolute;
     left: 0; top: 0; bottom: 0;
     width: 2px;
-    background: linear-gradient(180deg,
-      transparent 0%,
-      rgba(252,80,0,0.2) 15%,
-      rgba(252,80,0,0.2) 85%,
-      transparent 100%
-    );
+    background: linear-gradient(180deg, transparent 0%, rgba(252,80,0,0.2) 15%, rgba(252,80,0,0.2) 85%, transparent 100%);
     z-index: 10;
     pointer-events: none;
   }
 
-  /* ── Dot Grid ── */
   .dot-grid {
     position: absolute;
     inset: 0;
@@ -168,7 +145,6 @@
     z-index: 1;
   }
 
-  /* ── Canvas ── */
   .draw-canvas {
     position: absolute;
     inset: 0;
@@ -179,12 +155,11 @@
     touch-action: none;
   }
 
-  /* ── Page number ── */
   .page-num {
     position: absolute;
     bottom: 12px;
     right: 16px;
-    font-family: monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 8px;
     letter-spacing: 2px;
     color: rgba(255,255,255,0.1);
@@ -192,7 +167,24 @@
     pointer-events: none;
   }
 
-  /* ── Navigation arrows (on page) ── */
+  /* ── Text input overlay ── */
+  .text-input {
+    position: absolute;
+    z-index: 4;
+    background: transparent;
+    border: 1px dashed rgba(252,80,0,0.3);
+    border-radius: 2px;
+    padding: 4px 6px;
+    outline: none;
+    resize: none;
+    min-width: 40px;
+    min-height: 20px;
+    overflow: hidden;
+    line-height: 1.5;
+    caret-color: #FC5000;
+  }
+
+  /* ── Nav arrows ── */
   .page-nav {
     position: absolute;
     top: 50%;
@@ -209,10 +201,9 @@
     opacity: 0;
     transition: opacity 0.3s;
   }
-  .notebook-book:hover .page-nav { opacity: 1; }
+  .notebook-scene:hover .page-nav { opacity: 1; }
   .page-nav svg {
-    width: 20px;
-    height: 20px;
+    width: 20px; height: 20px;
     stroke: rgba(255,255,255,0.15);
     fill: none;
     stroke-width: 1.5;
@@ -221,8 +212,6 @@
     transition: stroke 0.2s;
   }
   .page-nav:hover svg { stroke: #FC5000; }
-  .page-nav-prev { left: 8px; }
-  .page-nav-next { right: 8px; }
 
   /* ── Toolbar ── */
   .nb-toolbar {
@@ -246,12 +235,12 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
+    position: relative;
   }
   .tool-btn:hover { background: rgba(255,255,255,0.04); }
   .tool-btn.active { background: rgba(252,80,0,0.08); }
   .tool-btn svg {
-    width: 14px;
-    height: 14px;
+    width: 14px; height: 14px;
     stroke: rgba(255,255,255,0.3);
     fill: none;
     stroke-width: 1.5;
@@ -262,16 +251,26 @@
   .tool-btn:hover svg { stroke: rgba(255,255,255,0.5); }
   .tool-btn.active:hover svg { stroke: #FC5000; }
 
+  /* Text label for tool buttons */
+  .tool-btn .tool-letter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.3);
+    line-height: 1;
+  }
+  .tool-btn.active .tool-letter { color: #FC5000; }
+  .tool-btn:hover .tool-letter { color: rgba(255,255,255,0.5); }
+  .tool-btn.active:hover .tool-letter { color: #FC5000; }
+
   .tool-sep {
-    width: 1px;
-    height: 16px;
+    width: 1px; height: 16px;
     background: rgba(255,255,255,0.05);
     margin: 0 6px;
   }
 
   .color-swatch {
-    width: 16px;
-    height: 16px;
+    width: 16px; height: 16px;
     border-radius: 50%;
     border: 1.5px solid rgba(255,255,255,0.06);
     cursor: pointer;
@@ -284,6 +283,60 @@
     box-shadow: 0 0 6px rgba(252,80,0,0.3);
   }
 
+  /* ── Font selector (appears when text tool active) ── */
+  .font-bar {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 8px;
+    z-index: 10;
+  }
+  .font-bar.visible { display: flex; }
+  .font-btn {
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 4px 10px;
+    transition: all 0.2s;
+    color: rgba(255,255,255,0.3);
+    font-size: 11px;
+    line-height: 1.3;
+  }
+  .font-btn:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.5); }
+  .font-btn.active { background: rgba(252,80,0,0.08); color: #FC5000; }
+  .font-btn span {
+    display: block;
+    font-size: 7px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-top: 1px;
+  }
+
+  /* Font previews */
+  .font-btn[data-font="jetbrains"] { font-family: 'JetBrains Mono', monospace; }
+  .font-btn[data-font="ibm"] { font-family: 'IBM Plex Mono', monospace; }
+  .font-btn[data-font="system"] { font-family: monospace; }
+  .font-btn[data-font="caveat"] { font-family: 'Caveat', cursive; font-size: 14px; }
+
+  /* ── Size buttons for text ── */
+  .size-btn {
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.3);
+    transition: all 0.2s;
+  }
+  .size-btn:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.5); }
+  .size-btn.active { background: rgba(252,80,0,0.08); color: #FC5000; }
+
   /* ── Page dots ── */
   .nb-dots {
     display: flex;
@@ -294,8 +347,7 @@
     z-index: 10;
   }
   .nb-dot {
-    width: 5px;
-    height: 5px;
+    width: 5px; height: 5px;
     border-radius: 50%;
     background: rgba(255,255,255,0.08);
     cursor: pointer;
@@ -303,51 +355,28 @@
     border: none;
     padding: 0;
   }
-  .nb-dot.active {
-    background: #FC5000;
-    box-shadow: 0 0 6px rgba(252,80,0,0.3);
-  }
+  .nb-dot.active { background: #FC5000; box-shadow: 0 0 6px rgba(252,80,0,0.3); }
   .nb-dot:hover { background: rgba(255,255,255,0.2); }
 
   /* ── Close ── */
   .close-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 100;
-    width: 36px;
-    height: 36px;
-    border: none;
-    background: rgba(255,255,255,0.04);
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: fixed; top: 20px; right: 20px; z-index: 100;
+    width: 36px; height: 36px; border: none;
+    background: rgba(255,255,255,0.04); border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
     transition: all 0.2s;
   }
-  .close-btn::before,
-  .close-btn::after {
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 1px;
-    background: rgba(255,255,255,0.25);
-    transition: all 0.2s;
+  .close-btn::before, .close-btn::after {
+    content: ''; position: absolute; width: 14px; height: 1px;
+    background: rgba(255,255,255,0.25); transition: all 0.2s;
   }
   .close-btn::before { transform: rotate(45deg); }
   .close-btn::after { transform: rotate(-45deg); }
   .close-btn:hover { background: rgba(252,80,0,0.08); }
-  .close-btn:hover::before,
-  .close-btn:hover::after { background: #FC5000; }
+  .close-btn:hover::before, .close-btn:hover::after { background: #FC5000; }
 
-  /* ══════════════════════════════ */
-  /* ── Light Mode                 */
-  /* ══════════════════════════════ */
-  body.light {
-    background: #F5F5F3;
-    color: #1a1a1a;
-  }
+  /* ══════ Light Mode ══════ */
+  body.light { background: #F5F5F3; color: #1a1a1a; }
   body.light .nb-title { color: rgba(0,0,0,0.25); }
   body.light .nb-btn { color: rgba(0,0,0,0.3); }
   body.light .nb-btn:hover { color: #FC5000; }
@@ -375,19 +404,28 @@
   body.light .tool-btn svg { stroke: rgba(0,0,0,0.25); }
   body.light .tool-btn.active svg { stroke: #FC5000; }
   body.light .tool-btn:hover svg { stroke: rgba(0,0,0,0.45); }
+  body.light .tool-btn .tool-letter { color: rgba(0,0,0,0.25); }
+  body.light .tool-btn.active .tool-letter { color: #FC5000; }
+  body.light .tool-btn:hover .tool-letter { color: rgba(0,0,0,0.45); }
   body.light .tool-sep { background: rgba(0,0,0,0.05); }
   body.light .color-swatch { border-color: rgba(0,0,0,0.08); }
   body.light .color-swatch.active { border-color: #FC5000; }
 
+  body.light .font-btn { color: rgba(0,0,0,0.3); }
+  body.light .font-btn:hover { background: rgba(0,0,0,0.03); color: rgba(0,0,0,0.5); }
+  body.light .font-btn.active { background: rgba(252,80,0,0.06); color: #FC5000; }
+  body.light .size-btn { color: rgba(0,0,0,0.3); }
+  body.light .size-btn:hover { background: rgba(0,0,0,0.03); color: rgba(0,0,0,0.5); }
+  body.light .size-btn.active { background: rgba(252,80,0,0.06); color: #FC5000; }
+
+  body.light .text-input { border-color: rgba(252,80,0,0.25); }
+
   body.light .nb-dot { background: rgba(0,0,0,0.08); }
   body.light .nb-dot:hover { background: rgba(0,0,0,0.2); }
-
   body.light .close-btn { background: rgba(0,0,0,0.04); }
-  body.light .close-btn::before,
-  body.light .close-btn::after { background: rgba(0,0,0,0.25); }
+  body.light .close-btn::before, body.light .close-btn::after { background: rgba(0,0,0,0.25); }
   body.light .close-btn:hover { background: rgba(252,80,0,0.06); }
-  body.light .close-btn:hover::before,
-  body.light .close-btn:hover::after { background: #FC5000; }
+  body.light .close-btn:hover::before, body.light .close-btn:hover::after { background: #FC5000; }
 
   /* ── Responsive ── */
   @media (max-width: 700px) {
@@ -396,18 +434,18 @@
     .nb-logo { height: 26px; }
     .nb-title { font-size: 7px; letter-spacing: 2px; }
     .nb-btn { font-size: 7px; }
-    .dot-grid {
-      background-size: 16px 16px;
-      background-position: 12px 12px;
-    }
+    .dot-grid { background-size: 16px 16px; background-position: 12px 12px; }
     .tool-btn { width: 28px; height: 28px; }
     .tool-btn svg { width: 12px; height: 12px; }
+    .tool-btn .tool-letter { font-size: 9px; }
     .color-swatch { width: 14px; height: 14px; }
     .page-nav { width: 30px; height: 44px; }
     .page-nav svg { width: 16px; height: 16px; }
     .page-num { font-size: 7px; bottom: 8px; right: 10px; }
     .close-btn { width: 32px; height: 32px; top: 12px; right: 12px; }
     .close-btn::before, .close-btn::after { width: 12px; }
+    .font-btn { padding: 3px 6px; font-size: 9px; }
+    .font-btn span { font-size: 6px; }
   }
 </style>
 <script>
@@ -418,7 +456,6 @@
 
 <button class="close-btn" onclick="window.location.href='https://www.wildproject.pro/workspace.html'" title="Zurück"></button>
 
-<!-- ── Header ── -->
 <div class="nb-header">
   <a href="https://www.wildproject.pro/workspace.html" class="nb-brand">
     <img src="/wp-logo.png" alt="WP" class="nb-logo">
@@ -433,43 +470,52 @@
 <div class="notebook-scene">
   <div class="notebook-book" id="book">
     <div class="nb-spine"></div>
-    <!-- Pages rendered by JS -->
   </div>
-  <!-- Nav arrows ON the book -->
-  <button class="page-nav page-nav-prev" id="prevPage" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);z-index:20;">
+  <button class="page-nav" id="prevPage" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);z-index:20;">
     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
   </button>
-  <button class="page-nav page-nav-next" id="nextPage" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);z-index:20;">
+  <button class="page-nav" id="nextPage" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);z-index:20;">
     <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
   </button>
 </div>
 
 <!-- ── Toolbar ── -->
 <div class="nb-toolbar">
-  <button class="tool-btn active" id="toolPen" title="Stift">
+  <!-- Text tool -->
+  <button class="tool-btn" id="toolText" title="Text">
+    <span class="tool-letter">T</span>
+  </button>
+
+  <div class="tool-sep"></div>
+
+  <!-- Pens — branded -->
+  <button class="tool-btn active" id="toolLamy" title="Lamy Füllfeder — fein, elegant">
     <svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
   </button>
+  <button class="tool-btn" id="toolMontblanc" title="Montblanc Meisterstück — kräftig, luxuriös">
+    <svg viewBox="0 0 24 24"><path d="M4 20h4L18.5 9.5a2.83 2.83 0 0 0-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/><path d="M2 22h6"/></svg>
+  </button>
+  <button class="tool-btn" id="toolSharpie" title="Sharpie — bold, permanent">
+    <svg viewBox="0 0 24 24"><path d="M18.4 2.6a2.17 2.17 0 0 1 3 3L8.7 18.3l-5.4 1.1 1.1-5.4z"/></svg>
+  </button>
+  <button class="tool-btn" id="toolHighlight" title="Stabilo Highlighter">
+    <svg viewBox="0 0 24 24"><path d="m9 11-6 6v3h9l3-3" opacity="0.4"/><path d="m22 2-7 7-4 4 3 3 4-4 7-7z"/></svg>
+  </button>
+
+  <div class="tool-sep"></div>
+
+  <!-- Eraser -->
   <button class="tool-btn" id="toolEraser" title="Radierer">
     <svg viewBox="0 0 24 24"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>
   </button>
 
   <div class="tool-sep"></div>
 
-  <button class="tool-btn active" id="strokeThin" title="Dünn">
-    <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" stroke-width="1"/></svg>
-  </button>
-  <button class="tool-btn" id="strokeMed" title="Mittel">
-    <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" stroke-width="2.5"/></svg>
-  </button>
-  <button class="tool-btn" id="strokeThick" title="Dick">
-    <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" stroke-width="4"/></svg>
-  </button>
-
-  <div class="tool-sep"></div>
-
+  <!-- Colors -->
   <div class="color-swatch active" data-color="default" id="colorDefault" title="Standard" style="background: rgba(255,255,255,0.55);"></div>
   <div class="color-swatch" data-color="orange" id="colorOrange" title="Orange" style="background: #FC5000;"></div>
   <div class="color-swatch" data-color="grey" id="colorGrey" title="Grau" style="background: #555;"></div>
+  <div class="color-swatch" data-color="blue" id="colorBlue" title="Blau" style="background: #3B82F6;"></div>
 
   <div class="tool-sep"></div>
 
@@ -478,7 +524,28 @@
   </button>
 </div>
 
-<!-- ── Page dots ── -->
+<!-- ── Font bar (visible when text tool active) ── -->
+<div class="font-bar" id="fontBar">
+  <button class="font-btn active" data-font="jetbrains" title="JetBrains Mono">
+    Aa<span>JetBrains</span>
+  </button>
+  <button class="font-btn" data-font="ibm" title="IBM Plex Mono">
+    Aa<span>IBM Plex</span>
+  </button>
+  <button class="font-btn" data-font="system" title="System Mono">
+    Aa<span>System</span>
+  </button>
+  <button class="font-btn" data-font="caveat" title="Caveat Handschrift">
+    Aa<span>Hand</span>
+  </button>
+
+  <div class="tool-sep"></div>
+
+  <button class="size-btn active" data-size="12" title="Klein">S</button>
+  <button class="size-btn" data-size="16" title="Mittel">M</button>
+  <button class="size-btn" data-size="22" title="Gross">L</button>
+</div>
+
 <div class="nb-dots" id="pageDots"></div>
 
 <script>
@@ -486,19 +553,38 @@
   const TOTAL = 8;
   const KEY = 'wp_notebook';
   let current = 0;
-  let tool = 'pen';
-  let strokeWidth = 1.5;
+  let activeTool = 'lamy'; // text | lamy | montblanc | sharpie | highlight | eraser
   let strokeColor = 'default';
   let isDrawing = false;
   let lastX = 0, lastY = 0;
 
+  // Text settings
+  let textFont = "'JetBrains Mono', monospace";
+  let textFontKey = 'jetbrains';
+  let textSize = 12;
+  let activeTextarea = null;
+
+  const FONTS = {
+    jetbrains: "'JetBrains Mono', monospace",
+    ibm: "'IBM Plex Mono', monospace",
+    system: "monospace",
+    caveat: "'Caveat', cursive"
+  };
+
+  // Pen configs — each pen has unique character
+  const PEN = {
+    lamy:      { width: 1.5, opacity: 0.85, cap: 'round' },   // Lamy Füllfeder — fein, elegant
+    montblanc: { width: 3,   opacity: 1,    cap: 'round' },   // Montblanc — kräftig, sattes Schriftbild
+    sharpie:   { width: 5,   opacity: 0.9,  cap: 'round' },   // Sharpie — bold, permanent marker
+    highlight: { width: 16,  opacity: 0.18, cap: 'square' },  // Stabilo — breiter Highlighter
+    eraser:    { width: 18,  opacity: 1,    cap: 'round' }
+  };
+
   const book = document.getElementById('book');
   const dotsWrap = document.getElementById('pageDots');
+  const fontBar = document.getElementById('fontBar');
 
-  // ── Build pages ──
-  let pages = [];
-  let canvases = [];
-  let contexts = [];
+  let pages = [], canvases = [], contexts = [];
   let pageData = loadData();
 
   function loadData() {
@@ -513,8 +599,8 @@
     localStorage.setItem(KEY, JSON.stringify(pageData));
   }
 
+  // ── Build pages ──
   for (let i = 0; i < TOTAL; i++) {
-    // Page element
     const page = document.createElement('div');
     page.className = 'nb-page';
     page.style.zIndex = TOTAL - i;
@@ -538,14 +624,13 @@
     canvases.push(cvs);
     contexts.push(cvs.getContext('2d'));
 
-    // Dot
     const dot = document.createElement('button');
     dot.className = 'nb-dot' + (i === 0 ? ' active' : '');
     dot.dataset.page = i;
     dotsWrap.appendChild(dot);
   }
 
-  // ── Size all canvases ──
+  // ── Canvas sizing ──
   function sizeCanvases() {
     pages.forEach((p, i) => {
       const rect = p.getBoundingClientRect();
@@ -555,7 +640,6 @@
       canvases[i].style.width = rect.width + 'px';
       canvases[i].style.height = rect.height + 'px';
       contexts[i].scale(dpr, dpr);
-      // Restore
       if (pageData[i]) {
         const img = new Image();
         const ctx = contexts[i];
@@ -569,54 +653,40 @@
   // ── Navigate ──
   function goTo(idx) {
     if (idx < 0 || idx >= TOTAL || idx === current) return;
-    // Save current
+    commitText();
     saveData();
-
-    const goingForward = idx > current;
-
-    if (goingForward) {
-      // Flip pages forward
-      for (let i = current; i < idx; i++) {
-        pages[i].classList.add('flipped');
-        pages[i].classList.remove('behind');
-      }
-      // Show target
+    if (idx > current) {
+      for (let i = current; i < idx; i++) { pages[i].classList.add('flipped'); pages[i].classList.remove('behind'); }
       pages[idx].classList.remove('behind', 'flipped');
-      // Hide pages after target
-      for (let i = idx + 1; i < TOTAL; i++) {
-        pages[i].classList.add('behind');
-        pages[i].classList.remove('flipped');
-      }
+      for (let i = idx + 1; i < TOTAL; i++) { pages[i].classList.add('behind'); pages[i].classList.remove('flipped'); }
     } else {
-      // Unflip pages backward
-      for (let i = current; i > idx; i--) {
-        pages[i].classList.add('behind');
-        pages[i].classList.remove('flipped');
-      }
-      // Show target
+      for (let i = current; i > idx; i--) { pages[i].classList.add('behind'); pages[i].classList.remove('flipped'); }
       pages[idx].classList.remove('behind', 'flipped');
-      // Pages before target stay flipped
-      for (let i = 0; i < idx; i++) {
-        pages[i].classList.add('flipped');
-        pages[i].classList.remove('behind');
-      }
+      for (let i = 0; i < idx; i++) { pages[i].classList.add('flipped'); pages[i].classList.remove('behind'); }
     }
-
-    // z-index management
     pages.forEach((p, i) => {
-      if (i < idx) p.style.zIndex = i + 1; // flipped: lower
-      else if (i === idx) p.style.zIndex = TOTAL; // current: top
-      else p.style.zIndex = TOTAL - i; // behind: stacked
+      if (i < idx) p.style.zIndex = i + 1;
+      else if (i === idx) p.style.zIndex = TOTAL;
+      else p.style.zIndex = TOTAL - i;
     });
-
     current = idx;
-    updateDots();
+    dotsWrap.querySelectorAll('.nb-dot').forEach((d, i) => d.classList.toggle('active', i === current));
   }
 
-  function updateDots() {
-    dotsWrap.querySelectorAll('.nb-dot').forEach((d, i) => {
-      d.classList.toggle('active', i === current);
-    });
+  // ── Colors ──
+  function getColor() {
+    const isLight = document.body.classList.contains('light');
+    if (strokeColor === 'orange') return '#FC5000';
+    if (strokeColor === 'grey') return isLight ? '#999' : '#555';
+    if (strokeColor === 'blue') return '#3B82F6';
+    return isLight ? 'rgba(0,0,0,0.65)' : 'rgba(255,255,255,0.55)';
+  }
+  function getTextColor() {
+    const isLight = document.body.classList.contains('light');
+    if (strokeColor === 'orange') return '#FC5000';
+    if (strokeColor === 'grey') return isLight ? '#999' : '#666';
+    if (strokeColor === 'blue') return '#3B82F6';
+    return isLight ? '#1a1a1a' : '#E8E8E6';
   }
 
   // ── Drawing ──
@@ -625,49 +695,130 @@
     const t = e.touches ? e.touches[0] : e;
     return { x: t.clientX - rect.left, y: t.clientY - rect.top };
   }
-  function getColor() {
-    const isLight = document.body.classList.contains('light');
-    if (strokeColor === 'orange') return '#FC5000';
-    if (strokeColor === 'grey') return isLight ? '#999' : '#555';
-    return isLight ? 'rgba(0,0,0,0.65)' : 'rgba(255,255,255,0.55)';
-  }
+
   function startDraw(e) {
-    if (e.target.closest('.page-nav')) return;
+    if (e.target.closest('.page-nav') || e.target.closest('.text-input')) return;
+    if (activeTool === 'text') {
+      handleTextClick(e);
+      return;
+    }
     e.preventDefault();
     isDrawing = true;
     const pos = getPos(e);
     lastX = pos.x; lastY = pos.y;
+
+    // Draw a dot for single click
+    const ctx = contexts[current];
+    const pen = PEN[activeTool] || PEN.lamy;
+    ctx.globalCompositeOperation = activeTool === 'eraser' ? 'destination-out' : 'source-over';
+    ctx.globalAlpha = activeTool === 'eraser' ? 1 : pen.opacity;
+    ctx.fillStyle = activeTool === 'eraser' ? 'rgba(0,0,0,1)' : getColor();
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, pen.width / 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
   }
+
   function draw(e) {
     if (!isDrawing) return;
     e.preventDefault();
     const pos = getPos(e);
     const ctx = contexts[current];
+    const pen = PEN[activeTool] || PEN.lamy;
+
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
     ctx.lineTo(pos.x, pos.y);
-    if (tool === 'eraser') {
+
+    if (activeTool === 'eraser') {
       ctx.globalCompositeOperation = 'destination-out';
       ctx.strokeStyle = 'rgba(0,0,0,1)';
-      ctx.lineWidth = strokeWidth * 8;
+      ctx.lineWidth = pen.width;
+      ctx.globalAlpha = 1;
     } else {
       ctx.globalCompositeOperation = 'source-over';
       ctx.strokeStyle = getColor();
-      ctx.lineWidth = strokeWidth;
+      ctx.lineWidth = pen.width;
+      ctx.globalAlpha = pen.opacity;
     }
-    ctx.lineCap = 'round';
+    ctx.lineCap = pen.cap;
     ctx.lineJoin = 'round';
     ctx.stroke();
+    ctx.globalAlpha = 1;
+
     lastX = pos.x; lastY = pos.y;
   }
+
   function endDraw() {
     if (!isDrawing) return;
     isDrawing = false;
     saveData();
   }
 
-  // Bind drawing to each canvas
-  canvases.forEach((cvs, i) => {
+  // ── Text Tool ──
+  function handleTextClick(e) {
+    e.preventDefault();
+    commitText();
+    const pos = getPos(e);
+    const page = pages[current];
+
+    const ta = document.createElement('textarea');
+    ta.className = 'text-input';
+    ta.style.left = pos.x + 'px';
+    ta.style.top = pos.y + 'px';
+    ta.style.fontFamily = textFont;
+    ta.style.fontSize = textSize + 'px';
+    ta.style.fontWeight = textFontKey === 'caveat' ? '500' : '400';
+    ta.style.color = getTextColor();
+    ta.style.width = 'auto';
+    ta.style.maxWidth = (page.getBoundingClientRect().width - pos.x - 20) + 'px';
+
+    page.appendChild(ta);
+    activeTextarea = ta;
+    ta.focus();
+
+    // Auto-resize
+    ta.addEventListener('input', () => {
+      ta.style.height = 'auto';
+      ta.style.height = ta.scrollHeight + 'px';
+    });
+
+    // Commit on Escape
+    ta.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape') { commitText(); }
+    });
+  }
+
+  function commitText() {
+    if (!activeTextarea) return;
+    const ta = activeTextarea;
+    const text = ta.value.trim();
+    if (text) {
+      const ctx = contexts[current];
+      const rect = canvases[current].getBoundingClientRect();
+      const pageRect = pages[current].getBoundingClientRect();
+      const x = parseFloat(ta.style.left);
+      const y = parseFloat(ta.style.top);
+
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = getTextColor();
+      ctx.font = (ta.style.fontWeight || '400') + ' ' + textSize + 'px ' + textFont;
+      ctx.textBaseline = 'top';
+
+      const lines = text.split('\n');
+      const lineH = textSize * 1.5;
+      lines.forEach((line, i) => {
+        ctx.fillText(line, x + 6, y + 5 + i * lineH);
+      });
+      saveData();
+    }
+    ta.remove();
+    activeTextarea = null;
+  }
+
+  // ── Bind events ──
+  canvases.forEach(cvs => {
     cvs.addEventListener('mousedown', startDraw);
     cvs.addEventListener('mousemove', draw);
     cvs.addEventListener('mouseup', endDraw);
@@ -677,54 +828,88 @@
     cvs.addEventListener('touchend', endDraw);
   });
 
-  // ── Nav ──
+  // Click outside text to commit
+  document.addEventListener('mousedown', (e) => {
+    if (activeTextarea && !e.target.closest('.text-input') && !e.target.closest('.font-bar') && !e.target.closest('.nb-toolbar')) {
+      commitText();
+    }
+  });
+
+  // ── Navigation ──
   document.getElementById('prevPage').addEventListener('click', () => goTo(current - 1));
   document.getElementById('nextPage').addEventListener('click', () => goTo(current + 1));
   dotsWrap.addEventListener('click', e => {
     const dot = e.target.closest('.nb-dot');
     if (dot) goTo(parseInt(dot.dataset.page));
   });
-
-  // Keyboard
   document.addEventListener('keydown', e => {
+    if (activeTextarea) return; // don't nav while typing
     if (e.key === 'ArrowRight') goTo(current + 1);
     if (e.key === 'ArrowLeft') goTo(current - 1);
   });
 
-  // ── Tools ──
-  const toolPen = document.getElementById('toolPen');
-  const toolEraser = document.getElementById('toolEraser');
-  toolPen.addEventListener('click', () => {
-    tool = 'pen';
-    toolPen.classList.add('active');
-    toolEraser.classList.remove('active');
-    canvases.forEach(c => c.style.cursor = 'crosshair');
-  });
-  toolEraser.addEventListener('click', () => {
-    tool = 'eraser';
-    toolEraser.classList.add('active');
-    toolPen.classList.remove('active');
-    canvases.forEach(c => c.style.cursor = 'grab');
+  // ── Tool buttons ──
+  const toolBtns = {
+    text:      document.getElementById('toolText'),
+    lamy:      document.getElementById('toolLamy'),
+    montblanc: document.getElementById('toolMontblanc'),
+    sharpie:   document.getElementById('toolSharpie'),
+    highlight: document.getElementById('toolHighlight'),
+    eraser:    document.getElementById('toolEraser')
+  };
+
+  function setTool(name) {
+    commitText();
+    activeTool = name;
+    Object.values(toolBtns).forEach(b => b.classList.remove('active'));
+    toolBtns[name].classList.add('active');
+
+    // Update cursors
+    const cursor = name === 'text' ? 'text' : name === 'eraser' ? 'grab' : 'crosshair';
+    canvases.forEach(c => c.style.cursor = cursor);
+
+    // Show/hide font bar
+    fontBar.classList.toggle('visible', name === 'text');
+  }
+
+  Object.keys(toolBtns).forEach(name => {
+    toolBtns[name].addEventListener('click', () => setTool(name));
   });
 
-  const strokeBtns = [
-    { el: document.getElementById('strokeThin'), size: 1.5 },
-    { el: document.getElementById('strokeMed'), size: 3 },
-    { el: document.getElementById('strokeThick'), size: 5 },
-  ];
-  strokeBtns.forEach(btn => {
-    btn.el.addEventListener('click', () => {
-      strokeWidth = btn.size;
-      strokeBtns.forEach(b => b.el.classList.remove('active'));
-      btn.el.classList.add('active');
+  // ── Font buttons ──
+  document.querySelectorAll('.font-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.font;
+      textFont = FONTS[key];
+      textFontKey = key;
+      document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (activeTextarea) {
+        activeTextarea.style.fontFamily = textFont;
+        activeTextarea.style.fontWeight = key === 'caveat' ? '500' : '400';
+      }
     });
   });
 
+  // ── Size buttons ──
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      textSize = parseInt(btn.dataset.size);
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (activeTextarea) {
+        activeTextarea.style.fontSize = textSize + 'px';
+      }
+    });
+  });
+
+  // ── Colors ──
   document.querySelectorAll('.color-swatch').forEach(swatch => {
     swatch.addEventListener('click', () => {
       strokeColor = swatch.dataset.color;
       document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
       swatch.classList.add('active');
+      if (activeTextarea) activeTextarea.style.color = getTextColor();
     });
   });
 
@@ -733,7 +918,9 @@
     document.getElementById('colorDefault').style.background = isLight ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.55)';
   }
 
+  // ── Clear ──
   document.getElementById('toolClear').addEventListener('click', () => {
+    commitText();
     const rect = canvases[current].parentElement.getBoundingClientRect();
     contexts[current].clearRect(0, 0, rect.width, rect.height);
     pageData[current] = null;
@@ -755,7 +942,7 @@
 
   // ── Init ──
   updateTheme();
-  window.addEventListener('resize', () => { saveData(); sizeCanvases(); });
+  window.addEventListener('resize', () => { commitText(); saveData(); sizeCanvases(); });
   requestAnimationFrame(() => sizeCanvases());
 })();
 </script>
