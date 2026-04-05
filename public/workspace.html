@@ -485,47 +485,243 @@
   body.light .theme-toggle { color: rgba(0,0,0,0.35); }
   body.light .theme-toggle:hover { color: #FC5000; }
 
-  /* ── Quick Notes ── */
-  .notes-area {
-    width: 100%;
-    min-height: 120px;
-    max-height: 300px;
-    background: rgba(255,255,255,0.03);
+  /* ── Embedded Notes ── */
+  .notes-widget {
+    background: rgba(255,255,255,0.02);
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 10px;
+    overflow: hidden;
+  }
+  .notes-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .notes-tabs::-webkit-scrollbar { display: none; }
+  .note-tab {
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    padding: 10px 14px;
+    color: rgba(255,255,255,0.3);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 1.5px solid transparent;
+    transition: all 0.2s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    flex-shrink: 0;
+  }
+  .note-tab:hover { color: rgba(255,255,255,0.6); }
+  .note-tab.active {
+    color: #FC5000;
+    border-bottom-color: #FC5000;
+  }
+  .note-tab-add {
+    font-family: monospace;
+    font-size: 14px;
+    padding: 6px 12px;
+    color: rgba(255,255,255,0.15);
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: color 0.2s;
+    flex-shrink: 0;
+  }
+  .note-tab-add:hover { color: #FC5000; }
+  .notes-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 6px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .nt-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    color: rgba(255,255,255,0.3);
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 10px;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .nt-btn:hover {
+    background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.6);
+  }
+  .nt-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .nt-sep {
+    width: 1px;
+    height: 16px;
+    background: rgba(255,255,255,0.04);
+    margin: 0 4px;
+  }
+  .notes-editor {
+    min-height: 140px;
+    max-height: 350px;
+    overflow-y: auto;
     padding: 14px 16px;
     font-family: monospace;
     font-size: 12px;
     line-height: 1.7;
     color: rgba(255,255,255,0.7);
-    resize: vertical;
     outline: none;
-    transition: border-color 0.3s;
   }
-  .notes-area:focus {
-    border-color: rgba(252,80,0,0.25);
+  .notes-editor:empty::before {
+    content: 'Gedanken, Ideen, Checklisten ...';
+    color: rgba(255,255,255,0.15);
+    pointer-events: none;
   }
-  .notes-area::placeholder {
-    color: rgba(255,255,255,0.2);
+  .notes-editor h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    margin: 8px 0 4px;
+    font-family: 'Poppins', sans-serif;
   }
-  .notes-saved {
+  .notes-editor h2 {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    margin: 6px 0 2px;
+    font-family: 'Poppins', sans-serif;
+  }
+  .notes-editor hr {
+    border: none;
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin: 12px 0;
+  }
+  .notes-editor ul {
+    padding-left: 18px;
+  }
+  /* Checklist in workspace notes */
+  .notes-editor .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 3px 0;
+    line-height: 1.6;
+  }
+  .notes-editor .checklist-box {
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    border-radius: 3px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .notes-editor .checklist-box:hover {
+    border-color: #FC5000;
+    background: rgba(252,80,0,0.08);
+  }
+  .notes-editor .checklist-box.checked {
+    background: #FC5000;
+    border-color: #FC5000;
+  }
+  .notes-editor .checklist-box::after {
+    content: '';
+    width: 7px;
+    height: 4px;
+    border-left: 1.5px solid #fff;
+    border-bottom: 1.5px solid #fff;
+    transform: rotate(-45deg) translateY(-1px);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .notes-editor .checklist-box.checked::after {
+    opacity: 1;
+  }
+  .notes-editor .checklist-text {
+    flex: 1;
+    outline: none;
+    min-width: 20px;
+    word-break: break-word;
+  }
+  .notes-editor .checklist-item.done .checklist-text {
+    text-decoration: line-through;
+    opacity: 0.35;
+  }
+  .notes-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .notes-status-text {
     font-family: monospace;
     font-size: 8px;
     letter-spacing: 1.5px;
     color: rgba(252,80,0,0.4);
-    margin-top: 6px;
-    text-align: right;
     opacity: 0;
     transition: opacity 0.3s;
   }
-  .notes-saved.show { opacity: 1; }
-  body.light .notes-area {
-    background: rgba(0,0,0,0.03);
-    border-color: rgba(0,0,0,0.08);
-    color: rgba(0,0,0,0.7);
+  .notes-status-text.show { opacity: 1; }
+  .notes-open-btn {
+    font-family: monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.2);
+    text-decoration: none;
+    transition: color 0.2s;
   }
-  body.light .notes-area:focus { border-color: rgba(252,80,0,0.3); }
-  body.light .notes-area::placeholder { color: rgba(0,0,0,0.25); }
+  .notes-open-btn:hover { color: #FC5000; }
+
+  /* Light mode notes */
+  body.light .notes-widget {
+    background: rgba(0,0,0,0.02);
+    border-color: rgba(0,0,0,0.06);
+  }
+  body.light .notes-tabs { border-bottom-color: rgba(0,0,0,0.04); }
+  body.light .note-tab { color: rgba(0,0,0,0.35); }
+  body.light .note-tab:hover { color: rgba(0,0,0,0.6); }
+  body.light .note-tab.active { color: #FC5000; border-bottom-color: #FC5000; }
+  body.light .note-tab-add { color: rgba(0,0,0,0.15); }
+  body.light .note-tab-add:hover { color: #FC5000; }
+  body.light .notes-toolbar { border-bottom-color: rgba(0,0,0,0.04); }
+  body.light .nt-btn { color: rgba(0,0,0,0.35); }
+  body.light .nt-btn:hover { background: rgba(0,0,0,0.04); color: rgba(0,0,0,0.6); }
+  body.light .nt-sep { background: rgba(0,0,0,0.06); }
+  body.light .notes-editor { color: rgba(0,0,0,0.7); }
+  body.light .notes-editor:empty::before { color: rgba(0,0,0,0.2); }
+  body.light .notes-editor h1 { color: rgba(0,0,0,0.9); }
+  body.light .notes-editor h2 { color: rgba(0,0,0,0.7); }
+  body.light .notes-editor hr { background: rgba(0,0,0,0.08); }
+  body.light .notes-editor .checklist-box { border-color: rgba(0,0,0,0.25); }
+  body.light .notes-editor .checklist-box:hover { border-color: #FC5000; background: rgba(252,80,0,0.06); }
+  body.light .notes-status { border-top-color: rgba(0,0,0,0.04); }
+  body.light .notes-open-btn { color: rgba(0,0,0,0.25); }
 
   /* ── Bookmarks ── */
   .bookmarks-grid {
@@ -750,7 +946,7 @@
     </div>
   </div>
 
-  <!-- ══════ WILD PROJECT ══════ -->
+  <!-- ══════ 1. BRAND GUIDE ══════ -->
   <div class="section">
     <div class="section-label">Brand Guide</div>
 
@@ -799,17 +995,9 @@
       <div class="link-arrow">→</div>
     </a>
 
-    <a href="https://www.wildproject.pro/notebook.html" class="link-card" target="_blank">
-      <div class="link-icon">NT</div>
-      <div class="link-text">
-        <div class="link-title">Notes</div>
-        <div class="link-desc">Notizen — Formatierung, Checklisten, Schriften</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
   </div>
 
-  <!-- ══════ PROJEKTE ══════ -->
+  <!-- ══════ 2. AKTUELLE PROJEKTE ══════ -->
   <div class="section">
     <div class="section-label">Aktuelle Projekte</div>
 
@@ -830,18 +1018,102 @@
       </div>
       <div class="link-arrow">→</div>
     </a>
+  </div>
 
-    <div class="link-card" style="opacity: 0.4; pointer-events: none; cursor: default;">
-      <div class="link-icon" style="border-color: rgba(252,80,0,0.15);">NB</div>
+  <!-- ══════ 3. WORKFLOW ══════ -->
+  <div class="section">
+    <div class="section-label">Workflow</div>
+
+    <a href="https://claude.ai" class="link-card" target="_blank">
+      <div class="link-icon">AI</div>
       <div class="link-text">
-        <div class="link-title">Notebooks <span style="font-size: 8px; color: rgba(255,255,255,0.25); letter-spacing: 1px; margin-left: 6px;">COMING SOON</span></div>
-        <div class="link-desc">Digitale Notizbücher — Coaching, Planung, Reflexion</div>
+        <div class="link-title">Claude</div>
+        <div class="link-desc">AI Assistant — Brainstorming, Content, Code</div>
       </div>
       <div class="link-arrow">→</div>
+    </a>
+
+    <a href="https://www.canva.com" class="link-card" target="_blank">
+      <div class="link-icon">CV</div>
+      <div class="link-text">
+        <div class="link-title">Canva</div>
+        <div class="link-desc">Design — Grafiken, Präsentationen, Social Media</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <a href="notes://" class="link-card">
+      <div class="link-icon">AN</div>
+      <div class="link-text">
+        <div class="link-title">Apple Notizen</div>
+        <div class="link-desc">Schnelle Gedanken, Skizzen, Listen</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <a href="x-apple-reminderkit://" class="link-card">
+      <div class="link-icon">AE</div>
+      <div class="link-text">
+        <div class="link-title">Apple Erinnerungen</div>
+        <div class="link-desc">Tasks, Deadlines, Routinen</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <a href="ical://" class="link-card">
+      <div class="link-icon">AK</div>
+      <div class="link-text">
+        <div class="link-title">Apple Kalender</div>
+        <div class="link-desc">Termine, Trainingsplan, Podcast-Schedule</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+  </div>
+
+  <!-- ══════ 4. NOTES ══════ -->
+  <div class="section">
+    <div class="section-label">Notes</div>
+    <div class="notes-widget">
+      <div class="notes-tabs" id="notesTabs"></div>
+      <div class="notes-toolbar">
+        <button class="nt-btn" onclick="ntFormat('bold')" title="Fett"><span style="font-weight:700;">B</span></button>
+        <button class="nt-btn" onclick="ntFormat('italic')" title="Kursiv"><span style="font-style:italic;">I</span></button>
+        <span class="nt-sep"></span>
+        <button class="nt-btn" onclick="ntFormat('h1')" title="H1" style="font-size:9px;">H1</button>
+        <button class="nt-btn" onclick="ntFormat('h2')" title="H2" style="font-size:9px;">H2</button>
+        <span class="nt-sep"></span>
+        <button class="nt-btn" onclick="ntFormat('ul')" title="Liste">
+          <svg viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="5" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="5" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
+        </button>
+        <button class="nt-btn" onclick="ntFormat('checklist')" title="Checkliste">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><polyline points="5 7 6.5 9 10 4" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1"/><line x1="14" y1="6" x2="21" y2="6"/><line x1="14" y1="17.5" x2="21" y2="17.5"/></svg>
+        </button>
+        <button class="nt-btn" onclick="ntFormat('hr')" title="Trennlinie">
+          <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/></svg>
+        </button>
+      </div>
+      <div class="notes-editor" id="notesEditor" contenteditable="true"></div>
+      <div class="notes-status">
+        <span class="notes-status-text" id="notesSaved">GESPEICHERT</span>
+        <a href="https://www.wildproject.pro/notebook.html" target="_blank" class="notes-open-btn">VOLLANSICHT →</a>
+      </div>
     </div>
   </div>
 
-  <!-- ══════ BRANDS & FRIENDS ══════ -->
+  <!-- ══════ 5. BOOKMARKS ══════ -->
+  <div class="section">
+    <div class="section-label">Bookmarks</div>
+    <div class="bookmark-filters" id="bmFilters"></div>
+    <div id="bookmarksGrid"></div>
+    <div class="bookmark-add-row">
+      <input type="text" class="bookmark-input" id="bmTitle" placeholder="Name" maxlength="40">
+      <input type="url" class="bookmark-input" id="bmUrl" placeholder="https://..." maxlength="200" style="flex: 1.5;">
+      <select class="bookmark-input" id="bmCat" style="flex: 0.6; font-family: monospace; font-size: 10px; appearance: auto; background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.5);"></select>
+      <button class="bookmark-add-btn" id="bmAdd">+</button>
+    </div>
+  </div>
+
+  <!-- ══════ 6. BRANDS & FRIENDS ══════ -->
   <div class="section">
     <div class="section-label">Brands & Friends</div>
 
@@ -873,7 +1145,7 @@
     </a>
   </div>
 
-  <!-- ══════ FOTOGRAFIE ══════ -->
+  <!-- ══════ 7. FOTOGRAFIE ══════ -->
   <div class="section">
     <div class="section-label">Fotografie</div>
 
@@ -887,97 +1159,9 @@
     </a>
   </div>
 
-  <!-- ══════ WORKFLOW TOOLS ══════ -->
-  <div class="section">
-    <div class="section-label">Workflow</div>
-
-    <a href="https://claude.ai" class="link-card" target="_blank">
-      <div class="link-icon">AI</div>
-      <div class="link-text">
-        <div class="link-title">Claude</div>
-        <div class="link-desc">AI Assistant — Brainstorming, Content, Code</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="https://www.canva.com" class="link-card" target="_blank">
-      <div class="link-icon">CV</div>
-      <div class="link-text">
-        <div class="link-title">Canva</div>
-        <div class="link-desc">Design — Grafiken, Präsentationen, Social Media</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="https://www.notion.so" class="link-card" target="_blank">
-      <div class="link-icon">NT</div>
-      <div class="link-text">
-        <div class="link-title">Notion</div>
-        <div class="link-desc">Workspace — Docs, Wikis, Projektplanung</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="notes://" class="link-card">
-      <div class="link-icon">AN</div>
-      <div class="link-text">
-        <div class="link-title">Apple Notizen</div>
-        <div class="link-desc">Schnelle Gedanken, Skizzen, Listen</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="x-apple-reminderkit://" class="link-card">
-      <div class="link-icon">AE</div>
-      <div class="link-text">
-        <div class="link-title">Apple Erinnerungen</div>
-        <div class="link-desc">Tasks, Deadlines, Routinen</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="ical://" class="link-card">
-      <div class="link-icon">AK</div>
-      <div class="link-text">
-        <div class="link-title">Apple Kalender</div>
-        <div class="link-desc">Termine, Trainingsplan, Podcast-Schedule</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="https://drive.google.com" class="link-card" target="_blank">
-      <div class="link-icon">GD</div>
-      <div class="link-text">
-        <div class="link-title">Google Drive</div>
-        <div class="link-desc">Cloud Storage — Dateien, Sheets, Docs</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-  </div>
-
-  <!-- ══════ BOOKMARKS ══════ -->
-  <div class="section">
-    <div class="section-label">Bookmarks</div>
-    <div class="bookmark-filters" id="bmFilters"></div>
-    <div id="bookmarksGrid"></div>
-    <div class="bookmark-add-row">
-      <input type="text" class="bookmark-input" id="bmTitle" placeholder="Name" maxlength="40">
-      <input type="url" class="bookmark-input" id="bmUrl" placeholder="https://..." maxlength="200" style="flex: 1.5;">
-      <select class="bookmark-input" id="bmCat" style="flex: 0.6; font-family: monospace; font-size: 10px; appearance: auto; background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.5);"></select>
-      <button class="bookmark-add-btn" id="bmAdd">+</button>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-label">Quick Notes</div>
-    <textarea class="notes-area" id="quickNotes" placeholder="Gedanken, Ideen, was auch immer ..."></textarea>
-    <div class="notes-saved" id="notesSaved">GESPEICHERT</div>
-  </div>
-
-
   <div class="sep"></div>
 
-  <!-- ══════ KONTAKT ══════ -->
+  <!-- ══════ 8. KONTAKT ══════ -->
   <div class="section">
     <div class="section-label">Kontakt</div>
     <div class="contact-row">
@@ -1239,19 +1423,226 @@
   renderItems();
 })();
 
-// ── Quick Notes ──
+// ── Notes Widget (synced with wp_notes) ──
 (function() {
-  const area = document.getElementById('quickNotes');
-  const saved = document.getElementById('notesSaved');
-  const KEY = 'wp_workspace_notes';
-  let timeout;
-  area.value = localStorage.getItem(KEY) || '';
-  area.addEventListener('input', () => {
-    localStorage.setItem(KEY, area.value);
-    saved.classList.add('show');
-    clearTimeout(timeout);
-    timeout = setTimeout(() => saved.classList.remove('show'), 1500);
+  const NOTES_KEY = 'wp_notes';
+  const editor = document.getElementById('notesEditor');
+  const tabsEl = document.getElementById('notesTabs');
+  const savedEl = document.getElementById('notesSaved');
+  let notes = [];
+  let activeId = null;
+  let saveTimer = null;
+
+  function loadNotes() {
+    try {
+      const raw = localStorage.getItem(NOTES_KEY);
+      if (raw) notes = JSON.parse(raw);
+    } catch(e) { notes = []; }
+    if (notes.length === 0) {
+      const now = new Date().toISOString();
+      notes.push({
+        id: 'n_default',
+        title: 'Quick Note',
+        content: '<p>Gedanken, Ideen, was auch immer ...</p>',
+        created: now,
+        updated: now,
+        font: 'Poppins'
+      });
+      saveNotes();
+    }
+  }
+
+  function saveNotes() {
+    localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+  }
+
+  function renderTabs() {
+    let html = '';
+    notes.sort((a, b) => new Date(b.updated) - new Date(a.updated));
+    notes.forEach(function(n) {
+      const title = (n.title || 'Ohne Titel').substring(0, 20);
+      html += '<button class="note-tab' + (n.id === activeId ? ' active' : '') + '" data-id="' + n.id + '">' + escHtml(title) + '</button>';
+    });
+    html += '<button class="note-tab-add" title="Neue Notiz">+</button>';
+    tabsEl.innerHTML = html;
+
+    // Tab click handlers
+    tabsEl.querySelectorAll('.note-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        selectNote(tab.dataset.id);
+      });
+    });
+    tabsEl.querySelector('.note-tab-add').addEventListener('click', createNote);
+  }
+
+  function selectNote(id) {
+    if (activeId) saveCurrentNote();
+    activeId = id;
+    var note = notes.find(function(n) { return n.id === id; });
+    if (!note) return;
+    editor.innerHTML = note.content || '';
+    renderTabs();
+  }
+
+  function createNote() {
+    if (activeId) saveCurrentNote();
+    var now = new Date().toISOString();
+    var note = {
+      id: 'n_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+      title: 'Neue Notiz',
+      content: '',
+      created: now,
+      updated: now,
+      font: 'Poppins'
+    };
+    notes.unshift(note);
+    saveNotes();
+    selectNote(note.id);
+    editor.focus();
+  }
+
+  function saveCurrentNote() {
+    if (!activeId) return;
+    var note = notes.find(function(n) { return n.id === activeId; });
+    if (!note) return;
+    note.content = editor.innerHTML;
+    note.updated = new Date().toISOString();
+    // Extract title
+    var titleEl = editor.querySelector('h1, h2');
+    if (titleEl && titleEl.textContent.trim()) {
+      note.title = titleEl.textContent.trim().substring(0, 100);
+    } else {
+      var tmp = document.createElement('div');
+      tmp.innerHTML = editor.innerHTML;
+      var plain = (tmp.textContent || '').trim();
+      note.title = plain.substring(0, 60) || 'Ohne Titel';
+    }
+    saveNotes();
+  }
+
+  function debouncedSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function() {
+      saveCurrentNote();
+      renderTabs();
+      savedEl.classList.add('show');
+      setTimeout(function() { savedEl.classList.remove('show'); }, 1500);
+    }, 400);
+  }
+
+  function escHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  // Formatting
+  window.ntFormat = function(cmd) {
+    editor.focus();
+    switch(cmd) {
+      case 'bold': document.execCommand('bold'); break;
+      case 'italic': document.execCommand('italic'); break;
+      case 'h1': document.execCommand('formatBlock', false, '<h1>'); break;
+      case 'h2': document.execCommand('formatBlock', false, '<h2>'); break;
+      case 'ul': document.execCommand('insertUnorderedList'); break;
+      case 'hr': document.execCommand('insertHTML', false, '<hr><p><br></p>'); break;
+      case 'checklist':
+        document.execCommand('insertHTML', false, '<div class="checklist-item"><span class="checklist-box"></span><span class="checklist-text">Aufgabe</span></div><p><br></p>');
+        break;
+    }
+    debouncedSave();
+  };
+
+  function toggleCheck(box) {
+    var item = box.closest('.checklist-item');
+    if (!item) return;
+    if (box.classList.contains('checked')) {
+      box.classList.remove('checked');
+      item.classList.remove('done');
+    } else {
+      box.classList.add('checked');
+      item.classList.add('done');
+    }
+    debouncedSave();
+  }
+
+  // Editor events
+  editor.addEventListener('input', debouncedSave);
+
+  editor.addEventListener('click', function(e) {
+    if (e.target.classList.contains('checklist-box')) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleCheck(e.target);
+    }
   });
+
+  editor.addEventListener('mousedown', function(e) {
+    if (e.target.classList.contains('checklist-box')) {
+      e.preventDefault();
+    }
+  });
+
+  editor.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      document.execCommand('insertText', false, '    ');
+      return;
+    }
+
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    var node = sel.anchorNode;
+    var checkItem = node && (node.nodeType === 3 ? node.parentElement : node).closest('.checklist-item');
+
+    if (checkItem) {
+      var textEl = checkItem.querySelector('.checklist-text');
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        e.stopPropagation();
+        var newItem = document.createElement('div');
+        newItem.className = 'checklist-item';
+        newItem.innerHTML = '<span class="checklist-box"></span><span class="checklist-text"><br></span>';
+        checkItem.after(newItem);
+        var newText = newItem.querySelector('.checklist-text');
+        var range = document.createRange();
+        range.setStart(newText, 0);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        debouncedSave();
+        return;
+      }
+      if (e.key === 'Backspace' && textEl && textEl.textContent.trim() === '') {
+        e.preventDefault();
+        e.stopPropagation();
+        var prevItem = checkItem.previousElementSibling;
+        var nextItem = checkItem.nextElementSibling;
+        checkItem.remove();
+        var target = (prevItem && prevItem.classList.contains('checklist-item'))
+          ? prevItem.querySelector('.checklist-text')
+          : (nextItem && nextItem.classList.contains('checklist-item'))
+            ? nextItem.querySelector('.checklist-text')
+            : null;
+        if (target) {
+          var r = document.createRange();
+          r.selectNodeContents(target);
+          r.collapse(false);
+          sel.removeAllRanges();
+          sel.addRange(r);
+        }
+        debouncedSave();
+        return;
+      }
+    }
+  });
+
+  // Init
+  loadNotes();
+  if (notes.length > 0) {
+    selectNote(notes[0].id);
+  }
+  renderTabs();
 })();
 
 // ── Date & Time ──

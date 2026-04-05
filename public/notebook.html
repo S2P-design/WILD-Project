@@ -509,28 +509,33 @@
   .checklist-item {
     display: flex;
     align-items: flex-start;
-    gap: 8px;
-    padding: 3px 0;
+    gap: 10px;
+    padding: 4px 0;
     line-height: 1.6;
+    position: relative;
   }
 
   .checklist-box {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
     border: 1.5px solid var(--text-dim);
-    border-radius: 3px;
+    border-radius: 4px;
     cursor: pointer;
     flex-shrink: 0;
-    margin-top: 4px;
+    margin-top: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.15s;
+    transition: all 0.2s ease;
     background: transparent;
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   .checklist-box:hover {
     border-color: var(--accent);
+    background: var(--accent-dim);
   }
 
   .checklist-box.checked {
@@ -538,24 +543,36 @@
     border-color: var(--accent);
   }
 
-  .checklist-box.checked::after {
+  .checklist-box.checked:hover {
+    background: #e04800;
+    border-color: #e04800;
+  }
+
+  .checklist-box::after {
     content: '';
     width: 8px;
     height: 5px;
-    border-left: 1.5px solid #fff;
-    border-bottom: 1.5px solid #fff;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
     transform: rotate(-45deg) translateY(-1px);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .checklist-box.checked::after {
+    opacity: 1;
   }
 
   .checklist-text {
     flex: 1;
     outline: none;
     min-width: 20px;
+    word-break: break-word;
   }
 
   .checklist-item.done .checklist-text {
     text-decoration: line-through;
-    opacity: 0.4;
+    opacity: 0.35;
   }
 
   /* Empty state */
@@ -771,7 +788,7 @@
     const defaultNote = {
       id: generateId(),
       title: 'Willkommen',
-      content: '<h1>Willkommen bei WP Notes</h1><p>Dein persoenlicher Notizblock im Wild Project Workspace.</p><h2>Formatierung</h2><p>Du kannst <b>fetten Text</b> und <i>kursiven Text</i> verwenden.</p><ul><li>Aufzaehlungen erstellen</li><li>Ideen festhalten</li><li>Gedanken ordnen</li></ul><h2>Checkliste</h2><div class="checklist-item"><span class="checklist-box" onclick="toggleCheck(this)"></span><span class="checklist-text" contenteditable="true">Neue Idee notieren</span></div><div class="checklist-item done"><span class="checklist-box checked" onclick="toggleCheck(this)"></span><span class="checklist-text" contenteditable="true">Wild Project Workspace einrichten</span></div><div class="checklist-item"><span class="checklist-box" onclick="toggleCheck(this)"></span><span class="checklist-text" contenteditable="true">Notizen synchronisieren</span></div><hr><p>Waehle eine Schriftart aus der Toolbar oder erstelle eine neue Notiz mit dem + Button.</p>',
+      content: '<h1>Willkommen bei WP Notes</h1><p>Dein persoenlicher Notizblock im Wild Project Workspace.</p><h2>Formatierung</h2><p>Du kannst <b>fetten Text</b> und <i>kursiven Text</i> verwenden.</p><ul><li>Aufzaehlungen erstellen</li><li>Ideen festhalten</li><li>Gedanken ordnen</li></ul><h2>Checkliste</h2><div class="checklist-item"><span class="checklist-box"></span><span class="checklist-text">Neue Idee notieren</span></div><div class="checklist-item done"><span class="checklist-box checked"></span><span class="checklist-text">Wild Project Workspace einrichten</span></div><div class="checklist-item"><span class="checklist-box"></span><span class="checklist-text">Notizen synchronisieren</span></div><hr><p>Waehle eine Schriftart aus der Toolbar oder erstelle eine neue Notiz mit dem + Button.</p>',
       created: now,
       updated: now,
       font: 'Poppins'
@@ -992,12 +1009,79 @@
       if (e.key === 'Tab') {
         e.preventDefault();
         document.execCommand('insertText', false, '    ');
+        return;
+      }
+
+      // Checklist keyboard handling
+      const sel = window.getSelection();
+      if (!sel.rangeCount) return;
+      const node = sel.anchorNode;
+      const checkItem = node && (node.nodeType === 3 ? node.parentElement : node).closest('.checklist-item');
+
+      if (checkItem) {
+        const textEl = checkItem.querySelector('.checklist-text');
+
+        // Enter → new checklist item
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          e.stopPropagation();
+          const newItem = document.createElement('div');
+          newItem.className = 'checklist-item';
+          newItem.innerHTML = '<span class="checklist-box"></span><span class="checklist-text"><br></span>';
+          checkItem.after(newItem);
+          // Place cursor in new item
+          const newText = newItem.querySelector('.checklist-text');
+          const range = document.createRange();
+          range.setStart(newText, 0);
+          range.collapse(true);
+          sel.removeAllRanges();
+          sel.addRange(range);
+          debouncedSave();
+          return;
+        }
+
+        // Backspace on empty item → remove it
+        if (e.key === 'Backspace' && textEl) {
+          const text = textEl.textContent.trim();
+          if (text === '') {
+            e.preventDefault();
+            e.stopPropagation();
+            const prevItem = checkItem.previousElementSibling;
+            const nextItem = checkItem.nextElementSibling;
+            checkItem.remove();
+            // Move cursor to previous item or next
+            const target = prevItem && prevItem.classList.contains('checklist-item')
+              ? prevItem.querySelector('.checklist-text')
+              : nextItem && nextItem.classList.contains('checklist-item')
+                ? nextItem.querySelector('.checklist-text')
+                : null;
+            if (target) {
+              const range = document.createRange();
+              range.selectNodeContents(target);
+              range.collapse(false); // end
+              sel.removeAllRanges();
+              sel.addRange(range);
+            }
+            debouncedSave();
+            return;
+          }
+        }
       }
     });
+
     // Handle clicks on checklist boxes via delegation
     editor.addEventListener('click', function(e) {
       if (e.target.classList.contains('checklist-box')) {
+        e.preventDefault();
+        e.stopPropagation();
         toggleCheck(e.target);
+      }
+    });
+
+    // Prevent checklist-box from stealing focus
+    editor.addEventListener('mousedown', function(e) {
+      if (e.target.classList.contains('checklist-box')) {
+        e.preventDefault();
       }
     });
   }
@@ -1034,12 +1118,27 @@
   };
 
   function insertChecklist() {
-    const html = '<div class="checklist-item"><span class="checklist-box" onclick="toggleCheck(this)"></span><span class="checklist-text" contenteditable="true">Aufgabe</span></div>';
+    const html = '<div class="checklist-item"><span class="checklist-box"></span><span class="checklist-text">Aufgabe</span></div><p><br></p>';
     document.execCommand('insertHTML', false, html);
+    // Select the text "Aufgabe" so user can type over it
+    setTimeout(function() {
+      const editor = document.getElementById('editorContent');
+      const items = editor.querySelectorAll('.checklist-text');
+      if (items.length > 0) {
+        const last = items[items.length - 1];
+        if (last.textContent === 'Aufgabe') {
+          const range = document.createRange();
+          range.selectNodeContents(last);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+      }
+    }, 10);
   }
 
   window.toggleCheck = function(box) {
-    const item = box.parentElement;
+    const item = box.closest('.checklist-item');
     if (!item) return;
     const isDone = box.classList.contains('checked');
     if (isDone) {
