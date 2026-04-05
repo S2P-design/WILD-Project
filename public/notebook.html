@@ -3,26 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notebook — Wild Project</title>
+<title>Notes — Wild Project</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Caveat:wght@400;500&family=IBM+Plex+Mono:wght@300;400&display=swap');
+
+  :root {
+    --bg: #050505;
+    --bg-sidebar: #0A0A0A;
+    --bg-editor: #050505;
+    --text: #F5F5F3;
+    --text-dim: rgba(255,255,255,0.35);
+    --text-dimmer: rgba(255,255,255,0.15);
+    --border: rgba(255,255,255,0.04);
+    --border-hover: rgba(255,255,255,0.08);
+    --accent: #FC5000;
+    --accent-dim: rgba(252,80,0,0.08);
+    --accent-glow: rgba(252,80,0,0.04);
+    --silver: #E4E4E4;
+    --hover-bg: rgba(255,255,255,0.03);
+    --toolbar-hover: rgba(255,255,255,0.04);
+  }
+
+  .light {
+    --bg: #F5F5F3;
+    --bg-sidebar: #EAEAE8;
+    --bg-editor: #F5F5F3;
+    --text: #1A1A1A;
+    --text-dim: rgba(0,0,0,0.4);
+    --text-dimmer: rgba(0,0,0,0.15);
+    --border: rgba(0,0,0,0.06);
+    --border-hover: rgba(0,0,0,0.1);
+    --accent: #FC5000;
+    --accent-dim: rgba(252,80,0,0.08);
+    --accent-glow: rgba(252,80,0,0.03);
+    --hover-bg: rgba(0,0,0,0.03);
+    --toolbar-hover: rgba(0,0,0,0.04);
+  }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     font-family: 'Poppins', -apple-system, sans-serif;
-    background: #050505;
-    color: #F5F5F3;
-    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
     -webkit-font-smoothing: antialiased;
     overflow: hidden;
+    transition: background 0.3s, color 0.3s;
   }
 
   body::before {
@@ -30,50 +61,65 @@
     position: fixed;
     top: -30%; left: -20%;
     width: 70%; height: 70%;
-    background: radial-gradient(ellipse, rgba(252,80,0,0.04) 0%, transparent 70%);
+    background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
     pointer-events: none;
+    z-index: 0;
   }
 
   /* ── Header ── */
-  .nb-header {
+  .app-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
-    max-width: 860px;
-    margin-bottom: 16px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
     position: relative;
-    z-index: 10;
+    z-index: 100;
+    flex-shrink: 0;
+    transition: background 0.3s, border-color 0.3s;
   }
-  .nb-brand {
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .brand-link {
     display: flex;
     align-items: center;
     gap: 14px;
     text-decoration: none;
   }
-  .nb-logo {
+
+  .brand-logo {
     height: 32px;
     width: auto;
     opacity: 0.7;
     transition: all 0.3s;
   }
-  .nb-brand:hover .nb-logo {
+
+  .brand-link:hover .brand-logo {
     opacity: 1;
     filter: drop-shadow(0 0 8px rgba(252,80,0,0.4));
   }
-  .nb-title {
+
+  .brand-label {
     font-family: monospace;
     font-size: 9px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
+    color: var(--text-dim);
   }
-  .nb-controls {
+
+  .header-right {
     display: flex;
     align-items: center;
     gap: 20px;
   }
-  .nb-btn {
+
+  .header-btn {
     border: none;
     background: transparent;
     cursor: pointer;
@@ -81,865 +127,956 @@
     font-size: 8px;
     font-weight: 400;
     letter-spacing: 2px;
-    color: rgba(255,255,255,0.35);
+    color: var(--text-dim);
     transition: all 0.3s;
     padding: 4px 0;
     text-transform: uppercase;
+    text-decoration: none;
   }
-  .nb-btn:hover { color: #FC5000; }
 
-  /* ── Notebook ── */
-  .notebook-scene {
-    perspective: 1800px;
-    width: 100%;
-    max-width: 860px;
+  .header-btn:hover { color: var(--accent); }
+
+  /* ── Main Layout ── */
+  .app-main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
     position: relative;
     z-index: 1;
   }
-  .notebook-book {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 210 / 148;
-    transform-style: preserve-3d;
-  }
 
-  .nb-page {
-    position: absolute;
-    inset: 0;
-    background: #151515;
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 4px;
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s, border-color 0.3s;
     overflow: hidden;
-    transform-origin: left center;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
-    backface-visibility: hidden;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-  }
-  .nb-page.flipped { transform: rotateY(-180deg); pointer-events: none; }
-  .nb-page.behind { opacity: 0; pointer-events: none; }
-  .nb-page::after {
-    content: '';
-    position: absolute;
-    right: 0; top: 2px; bottom: 2px;
-    width: 3px;
-    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.02) 20%, rgba(255,255,255,0.02) 80%, transparent);
-    z-index: 5;
   }
 
-  .nb-spine {
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg, transparent 0%, rgba(252,80,0,0.3) 15%, rgba(252,80,0,0.3) 85%, transparent 100%);
-    z-index: 10;
-    pointer-events: none;
+  .sidebar-header {
+    padding: 16px 16px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
   }
 
-  .dot-grid {
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.1) 0.8px, transparent 0.8px);
-    background-size: 22px 22px;
-    background-position: 18px 18px;
-    pointer-events: none;
-    z-index: 1;
+  .sidebar-label {
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
   }
 
-  .draw-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    cursor: crosshair;
-    touch-action: none;
+  .sidebar-actions {
+    display: flex;
+    gap: 8px;
   }
 
-  .page-num {
-    position: absolute;
-    bottom: 12px;
-    right: 16px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 8px;
-    letter-spacing: 2px;
-    color: rgba(255,255,255,0.15);
-    z-index: 3;
-    pointer-events: none;
-  }
-
-  /* ── Text input overlay ── */
-  .text-input {
-    position: absolute;
-    z-index: 4;
-    background: transparent;
-    border: 1px dashed rgba(252,80,0,0.3);
-    border-radius: 2px;
-    padding: 4px 6px;
-    outline: none;
-    resize: none;
-    min-width: 40px;
-    min-height: 20px;
-    overflow: hidden;
-    line-height: 1.5;
-    caret-color: #FC5000;
-  }
-
-  /* ── Nav arrows ── */
-  .page-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 20;
-    width: 40px;
-    height: 60px;
+  .icon-btn {
+    width: 28px;
+    height: 28px;
     border: none;
     background: transparent;
+    border-radius: 6px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s;
+    transition: all 0.2s;
+    color: var(--text-dim);
   }
-  .notebook-scene:hover .page-nav { opacity: 1; }
-  .page-nav svg {
-    width: 20px; height: 20px;
-    stroke: rgba(255,255,255,0.15);
+
+  .icon-btn:hover {
+    background: var(--toolbar-hover);
+    color: var(--accent);
+  }
+
+  .icon-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
     fill: none;
     stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
-    transition: stroke 0.2s;
   }
-  .page-nav:hover svg { stroke: #FC5000; }
 
-  /* ── Toolbar ── */
-  .nb-toolbar {
+  .search-wrap {
+    padding: 0 12px 12px;
+    flex-shrink: 0;
+  }
+
+  .search-input {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: transparent;
+    border-radius: 6px;
+    padding: 7px 10px 7px 30px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-input::placeholder {
+    color: var(--text-dimmer);
+  }
+
+  .search-input:focus {
+    border-color: rgba(252,80,0,0.3);
+  }
+
+  .search-wrap {
+    position: relative;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 22px;
+    top: 50%;
+    transform: translateY(-calc(50% + 6px));
+    top: 9px;
+    width: 14px;
+    height: 14px;
+    stroke: var(--text-dimmer);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
+
+  .notes-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 8px 12px;
+  }
+
+  .notes-list::-webkit-scrollbar { width: 4px; }
+  .notes-list::-webkit-scrollbar-track { background: transparent; }
+  .notes-list::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
+
+  .note-item {
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    margin-bottom: 2px;
+  }
+
+  .note-item:hover {
+    background: var(--hover-bg);
+  }
+
+  .note-item.active {
+    background: var(--accent-dim);
+    border-left-color: var(--accent);
+  }
+
+  .note-item-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 3px;
+    line-height: 1.3;
+  }
+
+  .note-item-date {
+    font-family: monospace;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .note-item-preview {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+  }
+
+  .no-notes {
+    padding: 24px 16px;
+    text-align: center;
+    color: var(--text-dimmer);
+    font-size: 12px;
+  }
+
+  /* ── Editor Area ── */
+  .editor-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: background 0.3s;
+    background: var(--bg-editor);
+  }
+
+  .editor-toolbar {
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: 8px 16px;
     gap: 2px;
-    margin-top: 16px;
-    position: relative;
-    z-index: 10;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    transition: border-color 0.3s;
   }
 
   .tool-btn {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
     border: none;
     background: transparent;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
     position: relative;
+    color: var(--text-dim);
   }
-  .tool-btn:hover { background: rgba(255,255,255,0.04); }
-  .tool-btn.active { background: rgba(252,80,0,0.08); }
+
+  .tool-btn:hover {
+    background: var(--toolbar-hover);
+  }
+
+  .tool-btn.active {
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+
   .tool-btn svg {
-    width: 16px; height: 16px;
-    stroke: rgba(255,255,255,0.4);
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
     fill: none;
     stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-  .tool-btn.active svg { stroke: #FC5000; }
-  .tool-btn:hover svg { stroke: rgba(255,255,255,0.5); }
-  .tool-btn.active:hover svg { stroke: #FC5000; }
 
-  /* Text label for tool buttons */
   .tool-btn .tool-letter {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
-    color: rgba(255,255,255,0.4);
+    color: currentColor;
     line-height: 1;
   }
-  .tool-btn.active .tool-letter { color: #FC5000; }
-  .tool-btn:hover .tool-letter { color: rgba(255,255,255,0.5); }
-  .tool-btn.active:hover .tool-letter { color: #FC5000; }
 
   .tool-sep {
-    width: 1px; height: 16px;
-    background: rgba(255,255,255,0.05);
+    width: 1px;
+    height: 16px;
+    background: var(--border);
     margin: 0 6px;
+    flex-shrink: 0;
   }
 
-  .color-swatch {
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(255,255,255,0.06);
+  .font-select {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    font-family: monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 5px 8px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s;
-    margin: 0 2px;
-  }
-  .color-swatch:hover { transform: scale(1.2); }
-  .color-swatch.active {
-    border-color: #FC5000;
-    box-shadow: 0 0 6px rgba(252,80,0,0.3);
+    outline: none;
+    margin-left: 6px;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
-  /* ── Font selector (appears when text tool active) ── */
-  .font-bar {
-    display: none;
+  .font-select:focus { border-color: rgba(252,80,0,0.3); }
+  .font-select option { background: #151515; color: #F5F5F3; }
+
+  .toolbar-right {
+    margin-left: auto;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 2px;
-    margin-top: 8px;
-    z-index: 10;
+    gap: 8px;
   }
-  .font-bar.visible { display: flex; }
-  .font-btn {
+
+  .delete-btn {
+    width: 34px;
+    height: 34px;
     border: none;
     background: transparent;
     border-radius: 6px;
     cursor: pointer;
-    padding: 4px 10px;
-    transition: all 0.2s;
-    color: rgba(255,255,255,0.3);
-    font-size: 11px;
-    line-height: 1.3;
-  }
-  .font-btn:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.5); }
-  .font-btn.active { background: rgba(252,80,0,0.08); color: #FC5000; }
-  .font-btn span {
-    display: block;
-    font-size: 7px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    opacity: 0.5;
-    margin-top: 1px;
-  }
-
-  /* Font previews */
-  .font-btn[data-font="jetbrains"] { font-family: 'JetBrains Mono', monospace; }
-  .font-btn[data-font="ibm"] { font-family: 'IBM Plex Mono', monospace; }
-  .font-btn[data-font="system"] { font-family: monospace; }
-  .font-btn[data-font="caveat"] { font-family: 'Caveat', cursive; font-size: 14px; }
-
-  /* ── Size buttons for text ── */
-  .size-btn {
-    border: none;
-    background: transparent;
-    border-radius: 6px;
-    cursor: pointer;
-    padding: 4px 8px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 8px;
-    letter-spacing: 1px;
-    color: rgba(255,255,255,0.3);
-    transition: all 0.2s;
-  }
-  .size-btn:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.5); }
-  .size-btn.active { background: rgba(252,80,0,0.08); color: #FC5000; }
-
-  /* ── Page dots ── */
-  .nb-dots {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    margin-top: 14px;
-    z-index: 10;
-  }
-  .nb-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.08);
-    cursor: pointer;
-    transition: all 0.25s;
-    border: none;
-    padding: 0;
-  }
-  .nb-dot.active { background: #FC5000; box-shadow: 0 0 6px rgba(252,80,0,0.3); }
-  .nb-dot:hover { background: rgba(255,255,255,0.2); }
-
-  /* ── Close ── */
-  .close-btn {
-    position: fixed; top: 20px; right: 20px; z-index: 100;
-    width: 36px; height: 36px; border: none;
-    background: rgba(255,255,255,0.04); border-radius: 50%;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
     transition: all 0.2s;
+    color: var(--text-dimmer);
   }
-  .close-btn::before, .close-btn::after {
-    content: ''; position: absolute; width: 14px; height: 1px;
-    background: rgba(255,255,255,0.25); transition: all 0.2s;
+
+  .delete-btn:hover {
+    background: rgba(220,38,38,0.08);
+    color: #DC2626;
   }
-  .close-btn::before { transform: rotate(45deg); }
-  .close-btn::after { transform: rotate(-45deg); }
-  .close-btn:hover { background: rgba(252,80,0,0.08); }
-  .close-btn:hover::before, .close-btn:hover::after { background: #FC5000; }
 
-  /* ══════ Light Mode ══════ */
-  body.light { background: #F5F5F3; color: #1a1a1a; }
-  body.light .nb-title { color: rgba(0,0,0,0.25); }
-  body.light .nb-btn { color: rgba(0,0,0,0.3); }
-  body.light .nb-btn:hover { color: #FC5000; }
-
-  body.light .nb-page {
-    background: #FAFAFA;
-    border-color: rgba(0,0,0,0.06);
-    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  .delete-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  body.light .nb-page::after {
-    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.02) 20%, rgba(0,0,0,0.02) 80%, transparent);
+
+  /* ── Editor Content ── */
+  .editor-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 40px 60px;
   }
-  body.light .dot-grid {
-    background-image: radial-gradient(circle, rgba(0,0,0,0.08) 0.8px, transparent 0.8px);
+
+  .editor-scroll::-webkit-scrollbar { width: 4px; }
+  .editor-scroll::-webkit-scrollbar-track { background: transparent; }
+  .editor-scroll::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
+
+  .editor-content {
+    outline: none;
+    min-height: 200px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+    caret-color: var(--accent);
+    max-width: 720px;
   }
-  body.light .nb-spine {
-    background: linear-gradient(180deg, transparent 0%, rgba(252,80,0,0.15) 15%, rgba(252,80,0,0.15) 85%, transparent 100%);
+
+  .editor-content:empty::before {
+    content: 'Neue Notiz...';
+    color: var(--text-dimmer);
+    pointer-events: none;
   }
-  body.light .page-num { color: rgba(0,0,0,0.1); }
-  body.light .page-nav svg { stroke: rgba(0,0,0,0.12); }
-  body.light .page-nav:hover svg { stroke: #FC5000; }
 
-  body.light .tool-btn:hover { background: rgba(0,0,0,0.03); }
-  body.light .tool-btn.active { background: rgba(252,80,0,0.06); }
-  body.light .tool-btn svg { stroke: rgba(0,0,0,0.25); }
-  body.light .tool-btn.active svg { stroke: #FC5000; }
-  body.light .tool-btn:hover svg { stroke: rgba(0,0,0,0.45); }
-  body.light .tool-btn .tool-letter { color: rgba(0,0,0,0.25); }
-  body.light .tool-btn.active .tool-letter { color: #FC5000; }
-  body.light .tool-btn:hover .tool-letter { color: rgba(0,0,0,0.45); }
-  body.light .tool-sep { background: rgba(0,0,0,0.05); }
-  body.light .color-swatch { border-color: rgba(0,0,0,0.08); }
-  body.light .color-swatch.active { border-color: #FC5000; }
+  .editor-content h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    line-height: 1.3;
+    color: var(--text);
+  }
 
-  body.light .font-btn { color: rgba(0,0,0,0.3); }
-  body.light .font-btn:hover { background: rgba(0,0,0,0.03); color: rgba(0,0,0,0.5); }
-  body.light .font-btn.active { background: rgba(252,80,0,0.06); color: #FC5000; }
-  body.light .size-btn { color: rgba(0,0,0,0.3); }
-  body.light .size-btn:hover { background: rgba(0,0,0,0.03); color: rgba(0,0,0,0.5); }
-  body.light .size-btn.active { background: rgba(252,80,0,0.06); color: #FC5000; }
+  .editor-content h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 16px 0 6px;
+    line-height: 1.3;
+    color: var(--text);
+  }
 
-  body.light .text-input { border-color: rgba(252,80,0,0.25); }
+  .editor-content ul, .editor-content ol {
+    padding-left: 20px;
+    margin: 6px 0;
+  }
 
-  body.light .nb-dot { background: rgba(0,0,0,0.08); }
-  body.light .nb-dot:hover { background: rgba(0,0,0,0.2); }
-  body.light .close-btn { background: rgba(0,0,0,0.04); }
-  body.light .close-btn::before, body.light .close-btn::after { background: rgba(0,0,0,0.25); }
-  body.light .close-btn:hover { background: rgba(252,80,0,0.06); }
-  body.light .close-btn:hover::before, body.light .close-btn:hover::after { background: #FC5000; }
+  .editor-content li { margin: 3px 0; }
 
-  /* ── Responsive ── */
-  @media (max-width: 700px) {
-    body { padding: 16px 12px; }
-    .nb-header { margin-bottom: 12px; }
-    .nb-logo { height: 26px; }
-    .nb-title { font-size: 7px; letter-spacing: 2px; }
-    .nb-btn { font-size: 7px; }
-    .dot-grid { background-size: 16px 16px; background-position: 12px 12px; }
-    .tool-btn { width: 28px; height: 28px; }
-    .tool-btn svg { width: 12px; height: 12px; }
-    .tool-btn .tool-letter { font-size: 9px; }
-    .color-swatch { width: 14px; height: 14px; }
-    .page-nav { width: 30px; height: 44px; }
-    .page-nav svg { width: 16px; height: 16px; }
-    .page-num { font-size: 7px; bottom: 8px; right: 10px; }
-    .close-btn { width: 32px; height: 32px; top: 12px; right: 12px; }
-    .close-btn::before, .close-btn::after { width: 12px; }
-    .font-btn { padding: 3px 6px; font-size: 9px; }
-    .font-btn span { font-size: 6px; }
+  .editor-content hr {
+    border: none;
+    border-top: 1px solid var(--border-hover);
+    margin: 20px 0;
+  }
+
+  /* Checklist */
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 3px 0;
+    line-height: 1.6;
+  }
+
+  .checklist-box {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--text-dim);
+    border-radius: 3px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    background: transparent;
+  }
+
+  .checklist-box:hover {
+    border-color: var(--accent);
+  }
+
+  .checklist-box.checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .checklist-box.checked::after {
+    content: '';
+    width: 8px;
+    height: 5px;
+    border-left: 1.5px solid #fff;
+    border-bottom: 1.5px solid #fff;
+    transform: rotate(-45deg) translateY(-1px);
+  }
+
+  .checklist-text {
+    flex: 1;
+    outline: none;
+    min-width: 20px;
+  }
+
+  .checklist-item.done .checklist-text {
+    text-decoration: line-through;
+    opacity: 0.4;
+  }
+
+  /* Empty state */
+  .empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dimmer);
+    gap: 12px;
+  }
+
+  .empty-state svg {
+    width: 48px;
+    height: 48px;
+    stroke: var(--text-dimmer);
+    fill: none;
+    stroke-width: 1;
+    opacity: 0.5;
+  }
+
+  .empty-state-text {
+    font-family: monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── Mobile ── */
+  .mobile-back {
+    display: none;
+  }
+
+  @media (max-width: 680px) {
+    .sidebar {
+      width: 100%;
+      position: absolute;
+      inset: 0;
+      z-index: 50;
+      transition: transform 0.25s ease;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
+
+    .editor-area {
+      position: absolute;
+      inset: 0;
+      z-index: 40;
+    }
+
+    .mobile-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: var(--accent);
+      padding: 0;
+      text-transform: uppercase;
+      margin-right: 8px;
+    }
+
+    .mobile-back svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .editor-scroll {
+      padding: 20px 20px 40px;
+    }
+
+    .app-main {
+      position: relative;
+    }
+  }
+
+  /* ── Selection ── */
+  ::selection {
+    background: rgba(252,80,0,0.2);
   }
 </style>
-<script>
-  if (localStorage.getItem('wp_theme') === 'light') document.body.classList.add('light');
-</script>
 </head>
 <body>
 
-<button class="close-btn" onclick="window.location.href='https://www.wildproject.pro/workspace.html'" title="Zurück"></button>
-
-<div class="nb-header">
-  <a href="https://www.wildproject.pro/workspace.html" class="nb-brand">
-    <img src="/wp-logo.png" alt="WP" class="nb-logo">
-    <span class="nb-title">Notebook</span>
-  </a>
-  <div class="nb-controls">
-    <button class="nb-btn" id="themeToggle">DARK</button>
+<!-- ── Header ── -->
+<header class="app-header">
+  <div class="header-left">
+    <a href="https://www.wildproject.pro/" class="brand-link">
+      <img src="/wp-logo.png" alt="WP" class="brand-logo">
+      <span class="brand-label">NOTES</span>
+    </a>
   </div>
-</div>
-
-<!-- ── Notebook ── -->
-<div class="notebook-scene">
-  <div class="notebook-book" id="book">
-    <div class="nb-spine"></div>
+  <div class="header-right">
+    <button class="header-btn" id="themeToggle" onclick="toggleTheme()">DARK</button>
+    <a href="https://www.wildproject.pro/workspace.html" class="header-btn">X</a>
   </div>
-  <button class="page-nav" id="prevPage" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);z-index:20;">
-    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-  </button>
-  <button class="page-nav" id="nextPage" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);z-index:20;">
-    <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
-  </button>
-</div>
+</header>
 
-<!-- ── Toolbar ── -->
-<div class="nb-toolbar">
-  <!-- Text tool -->
-  <button class="tool-btn" id="toolText" title="Text">
-    <span class="tool-letter">T</span>
-  </button>
+<!-- ── Main ── -->
+<main class="app-main">
 
-  <div class="tool-sep"></div>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-label">NOTIZEN</span>
+      <div class="sidebar-actions">
+        <button class="icon-btn" onclick="createNote()" title="Neue Notiz">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-input" id="searchInput" placeholder="Suchen..." oninput="renderNotesList()">
+    </div>
+    <div class="notes-list" id="notesList"></div>
+  </aside>
 
-  <!-- Pens — branded -->
-  <button class="tool-btn active" id="toolLamy" title="Lamy Füllfeder — fein, elegant">
-    <svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-  </button>
-  <button class="tool-btn" id="toolMontblanc" title="Montblanc Meisterstück — kräftig, luxuriös">
-    <svg viewBox="0 0 24 24"><path d="M4 20h4L18.5 9.5a2.83 2.83 0 0 0-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/><path d="M2 22h6"/></svg>
-  </button>
-  <button class="tool-btn" id="toolSharpie" title="Sharpie — bold, permanent">
-    <svg viewBox="0 0 24 24"><path d="M18.4 2.6a2.17 2.17 0 0 1 3 3L8.7 18.3l-5.4 1.1 1.1-5.4z"/></svg>
-  </button>
-  <button class="tool-btn" id="toolHighlight" title="Stabilo Highlighter">
-    <svg viewBox="0 0 24 24"><path d="m9 11-6 6v3h9l3-3" opacity="0.4"/><path d="m22 2-7 7-4 4 3 3 4-4 7-7z"/></svg>
-  </button>
+  <!-- Editor -->
+  <section class="editor-area" id="editorArea">
+    <div class="editor-toolbar" id="editorToolbar" style="display:none;">
+      <button class="mobile-back" id="mobileBack" onclick="showSidebar()">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        LISTE
+      </button>
+      <button class="tool-btn" onclick="execFormat('bold')" title="Fett">
+        <span class="tool-letter" style="font-weight:700;">B</span>
+      </button>
+      <button class="tool-btn" onclick="execFormat('italic')" title="Kursiv">
+        <span class="tool-letter" style="font-style:italic;">I</span>
+      </button>
+      <div class="tool-sep"></div>
+      <button class="tool-btn" onclick="execFormat('h1')" title="Heading 1">
+        <span class="tool-letter" style="font-size:11px;">H1</span>
+      </button>
+      <button class="tool-btn" onclick="execFormat('h2')" title="Heading 2">
+        <span class="tool-letter" style="font-size:11px;">H2</span>
+      </button>
+      <div class="tool-sep"></div>
+      <button class="tool-btn" onclick="execFormat('ul')" title="Liste">
+        <svg viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="5" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="5" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
+      </button>
+      <button class="tool-btn" onclick="execFormat('checklist')" title="Checkliste">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><polyline points="5 7 6.5 9 10 4" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1"/><line x1="14" y1="6" x2="21" y2="6"/><line x1="14" y1="17.5" x2="21" y2="17.5"/></svg>
+      </button>
+      <button class="tool-btn" onclick="execFormat('hr')" title="Trennlinie">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/></svg>
+      </button>
+      <div class="tool-sep"></div>
+      <select class="font-select" id="fontSelect" onchange="changeFont()">
+        <option value="Poppins" style="font-family:'Poppins'">Poppins</option>
+        <option value="JetBrains Mono" style="font-family:'JetBrains Mono'">JetBrains Mono</option>
+        <option value="IBM Plex Mono" style="font-family:'IBM Plex Mono'">IBM Plex Mono</option>
+        <option value="ui-monospace, monospace" style="font-family:monospace">System Mono</option>
+        <option value="Caveat" style="font-family:'Caveat'">Caveat</option>
+      </select>
+      <div class="toolbar-right">
+        <button class="delete-btn" onclick="deleteNote()" title="Notiz entfernen">
+          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="editor-scroll" id="editorScroll" style="display:none;">
+      <div class="editor-content" id="editorContent" contenteditable="true"></div>
+    </div>
+    <div class="empty-state" id="emptyState">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <span class="empty-state-text">Notiz auswaehlen oder erstellen</span>
+    </div>
+  </section>
 
-  <div class="tool-sep"></div>
-
-  <!-- Eraser -->
-  <button class="tool-btn" id="toolEraser" title="Radierer">
-    <svg viewBox="0 0 24 24"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>
-  </button>
-
-  <div class="tool-sep"></div>
-
-  <!-- Colors -->
-  <div class="color-swatch active" data-color="default" id="colorDefault" title="Midnight Shadow" style="background: rgba(255,255,255,0.55);"></div>
-  <div class="color-swatch" data-color="orange" id="colorOrange" title="Flameburst Orange" style="background: #FC5000;"></div>
-  <div class="color-swatch" data-color="silver" id="colorSilver" title="Silver Mist" style="background: #E4E4E4;"></div>
-
-  <div class="tool-sep"></div>
-
-  <button class="tool-btn" id="toolClear" title="Seite löschen">
-    <svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-  </button>
-</div>
-
-<!-- ── Font bar (visible when text tool active) ── -->
-<div class="font-bar" id="fontBar">
-  <button class="font-btn active" data-font="jetbrains" title="JetBrains Mono">
-    Aa<span>JetBrains</span>
-  </button>
-  <button class="font-btn" data-font="ibm" title="IBM Plex Mono">
-    Aa<span>IBM Plex</span>
-  </button>
-  <button class="font-btn" data-font="system" title="System Mono">
-    Aa<span>System</span>
-  </button>
-  <button class="font-btn" data-font="caveat" title="Caveat Handschrift">
-    Aa<span>Hand</span>
-  </button>
-
-  <div class="tool-sep"></div>
-
-  <button class="size-btn active" data-size="12" title="Klein">S</button>
-  <button class="size-btn" data-size="16" title="Mittel">M</button>
-  <button class="size-btn" data-size="22" title="Gross">L</button>
-</div>
-
-<div class="nb-dots" id="pageDots"></div>
+</main>
 
 <script>
 (function() {
-  const TOTAL = 8;
-  const KEY = 'wp_notebook';
-  let current = 0;
-  let activeTool = 'lamy'; // text | lamy | montblanc | sharpie | highlight | eraser
-  let strokeColor = 'default';
-  let isDrawing = false;
-  let lastX = 0, lastY = 0;
+  'use strict';
 
-  // Text settings
-  let textFont = "'JetBrains Mono', monospace";
-  let textFontKey = 'jetbrains';
-  let textSize = 12;
-  let activeTextarea = null;
+  const STORAGE_KEY = 'wp_notes';
+  const THEME_KEY = 'wp_theme';
+  let notes = [];
+  let activeId = null;
+  let saveTimer = null;
 
-  const FONTS = {
-    jetbrains: "'JetBrains Mono', monospace",
-    ibm: "'IBM Plex Mono', monospace",
-    system: "monospace",
-    caveat: "'Caveat', cursive"
-  };
-
-  // Pen configs — each pen has unique character
-  const PEN = {
-    lamy:      { width: 1.5, opacity: 0.85, cap: 'round' },   // Lamy Füllfeder — fein, elegant
-    montblanc: { width: 3,   opacity: 1,    cap: 'round' },   // Montblanc — kräftig, sattes Schriftbild
-    sharpie:   { width: 5,   opacity: 0.9,  cap: 'round' },   // Sharpie — bold, permanent marker
-    highlight: { width: 16,  opacity: 0.18, cap: 'square' },  // Stabilo — breiter Highlighter
-    eraser:    { width: 18,  opacity: 1,    cap: 'round' }
-  };
-
-  const book = document.getElementById('book');
-  const dotsWrap = document.getElementById('pageDots');
-  const fontBar = document.getElementById('fontBar');
-
-  let pages = [], canvases = [], contexts = [];
-  let pageData = loadData();
-
-  function loadData() {
-    try {
-      const d = JSON.parse(localStorage.getItem(KEY));
-      if (d && d.length === TOTAL) return d;
-    } catch(e) {}
-    return Array.from({ length: TOTAL }, () => null);
-  }
-  function saveData() {
-    pageData[current] = canvases[current].toDataURL('image/png');
-    localStorage.setItem(KEY, JSON.stringify(pageData));
-  }
-
-  // ── Build pages ──
-  for (let i = 0; i < TOTAL; i++) {
-    const page = document.createElement('div');
-    page.className = 'nb-page';
-    page.style.zIndex = TOTAL - i;
-    if (i > 0) page.classList.add('behind');
-
-    const grid = document.createElement('div');
-    grid.className = 'dot-grid';
-    page.appendChild(grid);
-
-    const cvs = document.createElement('canvas');
-    cvs.className = 'draw-canvas';
-    page.appendChild(cvs);
-
-    const num = document.createElement('div');
-    num.className = 'page-num';
-    num.textContent = String(i + 1).padStart(2, '0');
-    page.appendChild(num);
-
-    book.appendChild(page);
-    pages.push(page);
-    canvases.push(cvs);
-    contexts.push(cvs.getContext('2d'));
-
-    const dot = document.createElement('button');
-    dot.className = 'nb-dot' + (i === 0 ? ' active' : '');
-    dot.dataset.page = i;
-    dotsWrap.appendChild(dot);
-  }
-
-  // ── Canvas sizing ──
-  function sizeCanvases() {
-    pages.forEach((p, i) => {
-      const rect = p.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      canvases[i].width = rect.width * dpr;
-      canvases[i].height = rect.height * dpr;
-      canvases[i].style.width = rect.width + 'px';
-      canvases[i].style.height = rect.height + 'px';
-      contexts[i].scale(dpr, dpr);
-      if (pageData[i]) {
-        const img = new Image();
-        const ctx = contexts[i];
-        const w = rect.width, h = rect.height;
-        img.onload = () => ctx.drawImage(img, 0, 0, w, h);
-        img.src = pageData[i];
-      }
-    });
-  }
-
-  // ── Navigate ──
-  function goTo(idx) {
-    if (idx < 0 || idx >= TOTAL || idx === current) return;
-    commitText();
-    saveData();
-    if (idx > current) {
-      for (let i = current; i < idx; i++) { pages[i].classList.add('flipped'); pages[i].classList.remove('behind'); }
-      pages[idx].classList.remove('behind', 'flipped');
-      for (let i = idx + 1; i < TOTAL; i++) { pages[i].classList.add('behind'); pages[i].classList.remove('flipped'); }
-    } else {
-      for (let i = current; i > idx; i--) { pages[i].classList.add('behind'); pages[i].classList.remove('flipped'); }
-      pages[idx].classList.remove('behind', 'flipped');
-      for (let i = 0; i < idx; i++) { pages[i].classList.add('flipped'); pages[i].classList.remove('behind'); }
+  // ── Init ──
+  function init() {
+    loadTheme();
+    loadNotes();
+    if (notes.length === 0) {
+      createDefaultNote();
     }
-    pages.forEach((p, i) => {
-      if (i < idx) p.style.zIndex = i + 1;
-      else if (i === idx) p.style.zIndex = TOTAL;
-      else p.style.zIndex = TOTAL - i;
-    });
-    current = idx;
-    dotsWrap.querySelectorAll('.nb-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    renderNotesList();
+    // Select first note
+    if (notes.length > 0) {
+      selectNote(notes[0].id);
+    }
+    setupEditorEvents();
   }
 
-  // ── Colors ──
-  function getColor() {
-    const isLight = document.body.classList.contains('light');
-    if (strokeColor === 'orange') return '#FC5000';
-    if (strokeColor === 'silver') return isLight ? '#999' : '#E4E4E4';
-    // default: Midnight Shadow / light ink
-    return isLight ? '#050505' : 'rgba(245,245,243,0.6)';
-  }
-  function getTextColor() {
-    const isLight = document.body.classList.contains('light');
-    if (strokeColor === 'orange') return '#FC5000';
-    if (strokeColor === 'silver') return isLight ? '#999' : '#E4E4E4';
-    return isLight ? '#050505' : '#F5F5F3';
-  }
-
-  // ── Drawing ──
-  function getPos(e) {
-    const rect = canvases[current].getBoundingClientRect();
-    const t = e.touches ? e.touches[0] : e;
-    return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+  function createDefaultNote() {
+    const now = new Date().toISOString();
+    const defaultNote = {
+      id: generateId(),
+      title: 'Willkommen',
+      content: '<h1>Willkommen bei WP Notes</h1><p>Dein persoenlicher Notizblock im Wild Project Workspace.</p><h2>Formatierung</h2><p>Du kannst <b>fetten Text</b> und <i>kursiven Text</i> verwenden.</p><ul><li>Aufzaehlungen erstellen</li><li>Ideen festhalten</li><li>Gedanken ordnen</li></ul><h2>Checkliste</h2><div class="checklist-item"><span class="checklist-box" onclick="toggleCheck(this)"></span><span class="checklist-text" contenteditable="true">Neue Idee notieren</span></div><div class="checklist-item done"><span class="checklist-box checked" onclick="toggleCheck(this)"></span><span class="checklist-text" contenteditable="true">Wild Project Workspace einrichten</span></div><div class="checklist-item"><span class="checklist-box" onclick="toggleCheck(this)"></span><span class="checklist-text" contenteditable="true">Notizen synchronisieren</span></div><hr><p>Waehle eine Schriftart aus der Toolbar oder erstelle eine neue Notiz mit dem + Button.</p>',
+      created: now,
+      updated: now,
+      font: 'Poppins'
+    };
+    notes.push(defaultNote);
+    saveNotes();
   }
 
-  function handlePointerDown(e) {
-    // Ignore clicks on nav/text overlays
-    if (e.target.closest('.page-nav') || e.target.closest('.text-input')) return;
-    // Only handle events on the active canvas
-    if (!e.target.closest('.draw-canvas')) return;
+  function generateId() {
+    return 'n_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+  }
 
-    if (activeTool === 'text') {
-      e.preventDefault();
-      e.stopPropagation();
-      commitText();
-      const pos = getPos(e);
-      const page = pages[current];
+  // ── Persistence ──
+  function loadNotes() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) notes = JSON.parse(raw);
+    } catch(e) { notes = []; }
+  }
 
-      const ta = document.createElement('textarea');
-      ta.className = 'text-input';
-      ta.style.left = pos.x + 'px';
-      ta.style.top = pos.y + 'px';
-      ta.style.fontFamily = textFont;
-      ta.style.fontSize = textSize + 'px';
-      ta.style.fontWeight = textFontKey === 'caveat' ? '500' : '400';
-      ta.style.color = getTextColor();
-      ta.style.width = 'auto';
-      ta.style.maxWidth = (page.getBoundingClientRect().width - pos.x - 20) + 'px';
+  function saveNotes() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+  }
 
-      page.appendChild(ta);
-      activeTextarea = ta;
+  // ── Theme ──
+  function loadTheme() {
+    const saved = localStorage.getItem(THEME_KEY) || 'dark';
+    applyTheme(saved);
+  }
 
-      // Small delay to ensure DOM is ready
-      requestAnimationFrame(() => ta.focus());
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      document.body.classList.add('light');
+    } else {
+      document.body.classList.remove('light');
+    }
+    document.getElementById('themeToggle').textContent = theme === 'light' ? 'LIGHT' : 'DARK';
+    localStorage.setItem(THEME_KEY, theme);
+  }
 
-      ta.addEventListener('input', () => {
-        ta.style.height = 'auto';
-        ta.style.height = ta.scrollHeight + 'px';
+  window.toggleTheme = function() {
+    const current = localStorage.getItem(THEME_KEY) || 'dark';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  };
+
+  // ── Notes List ──
+  window.renderNotesList = function() {
+    const container = document.getElementById('notesList');
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+
+    let filtered = notes;
+    if (query) {
+      filtered = notes.filter(n => {
+        const plainContent = stripHtml(n.content).toLowerCase();
+        return n.title.toLowerCase().includes(query) || plainContent.includes(query);
       });
-      ta.addEventListener('keydown', (ev) => {
-        if (ev.key === 'Escape') commitText();
-      });
+    }
+
+    // Sort by updated desc
+    filtered.sort((a, b) => new Date(b.updated) - new Date(a.updated));
+
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="no-notes">' + (query ? 'Keine Ergebnisse' : 'Keine Notizen') + '</div>';
       return;
     }
 
-    e.preventDefault();
-    isDrawing = true;
-    const pos = getPos(e);
-    lastX = pos.x; lastY = pos.y;
-
-    // Draw dot on click
-    const ctx = contexts[current];
-    const pen = PEN[activeTool] || PEN.lamy;
-    ctx.globalCompositeOperation = activeTool === 'eraser' ? 'destination-out' : 'source-over';
-    ctx.globalAlpha = activeTool === 'eraser' ? 1 : pen.opacity;
-    ctx.fillStyle = activeTool === 'eraser' ? 'rgba(0,0,0,1)' : getColor();
-    ctx.beginPath();
-    ctx.arc(pos.x, pos.y, pen.width / 2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-  }
-
-  function handlePointerMove(e) {
-    if (!isDrawing) return;
-    e.preventDefault();
-    const pos = getPos(e);
-    const ctx = contexts[current];
-    const pen = PEN[activeTool] || PEN.lamy;
-
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    ctx.lineTo(pos.x, pos.y);
-
-    if (activeTool === 'eraser') {
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.strokeStyle = 'rgba(0,0,0,1)';
-      ctx.lineWidth = pen.width;
-      ctx.globalAlpha = 1;
-    } else {
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.strokeStyle = getColor();
-      ctx.lineWidth = pen.width;
-      ctx.globalAlpha = pen.opacity;
-    }
-    ctx.lineCap = pen.cap;
-    ctx.lineJoin = 'round';
-    ctx.stroke();
-    ctx.globalAlpha = 1;
-
-    lastX = pos.x; lastY = pos.y;
-  }
-
-  function handlePointerUp() {
-    if (!isDrawing) return;
-    isDrawing = false;
-    saveData();
-  }
-
-  function commitText() {
-    if (!activeTextarea) return;
-    const ta = activeTextarea;
-    const text = ta.value.trim();
-    if (text) {
-      const ctx = contexts[current];
-      const x = parseFloat(ta.style.left);
-      const y = parseFloat(ta.style.top);
-
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = getTextColor();
-      ctx.font = (ta.style.fontWeight || '400') + ' ' + textSize + 'px ' + textFont;
-      ctx.textBaseline = 'top';
-
-      const lines = text.split('\n');
-      const lineH = textSize * 1.5;
-      lines.forEach((line, i) => {
-        ctx.fillText(line, x + 6, y + 5 + i * lineH);
-      });
-      saveData();
-    }
-    ta.remove();
-    activeTextarea = null;
-  }
-
-  // ── Bind events on book container (event delegation) ──
-  book.addEventListener('mousedown', handlePointerDown);
-  book.addEventListener('mousemove', handlePointerMove);
-  book.addEventListener('mouseup', handlePointerUp);
-  book.addEventListener('mouseleave', handlePointerUp);
-  book.addEventListener('touchstart', handlePointerDown, { passive: false });
-  book.addEventListener('touchmove', handlePointerMove, { passive: false });
-  book.addEventListener('touchend', handlePointerUp);
-
-  // Click outside text to commit
-  document.addEventListener('mousedown', (e) => {
-    if (activeTextarea && !e.target.closest('.text-input') && !e.target.closest('.font-bar') && !e.target.closest('.nb-toolbar') && !e.target.closest('.draw-canvas')) {
-      commitText();
-    }
-  });
-
-  // ── Navigation ──
-  document.getElementById('prevPage').addEventListener('click', () => goTo(current - 1));
-  document.getElementById('nextPage').addEventListener('click', () => goTo(current + 1));
-  dotsWrap.addEventListener('click', e => {
-    const dot = e.target.closest('.nb-dot');
-    if (dot) goTo(parseInt(dot.dataset.page));
-  });
-  document.addEventListener('keydown', e => {
-    if (activeTextarea) return; // don't nav while typing
-    if (e.key === 'ArrowRight') goTo(current + 1);
-    if (e.key === 'ArrowLeft') goTo(current - 1);
-  });
-
-  // ── Tool buttons ──
-  const toolBtns = {
-    text:      document.getElementById('toolText'),
-    lamy:      document.getElementById('toolLamy'),
-    montblanc: document.getElementById('toolMontblanc'),
-    sharpie:   document.getElementById('toolSharpie'),
-    highlight: document.getElementById('toolHighlight'),
-    eraser:    document.getElementById('toolEraser')
+    container.innerHTML = filtered.map(n => {
+      const isActive = n.id === activeId;
+      const date = formatDate(n.updated);
+      const preview = stripHtml(n.content).substring(0, 80);
+      return '<div class="note-item' + (isActive ? ' active' : '') + '" data-id="' + n.id + '" onclick="selectNote(\'' + n.id + '\')">' +
+        '<div class="note-item-title">' + escHtml(n.title || 'Ohne Titel') + '</div>' +
+        '<div class="note-item-date">' + date + '</div>' +
+        '<div class="note-item-preview">' + escHtml(preview) + '</div>' +
+      '</div>';
+    }).join('');
   };
 
-  function setTool(name) {
-    commitText();
-    activeTool = name;
-    Object.values(toolBtns).forEach(b => b.classList.remove('active'));
-    toolBtns[name].classList.add('active');
-
-    // Update cursors
-    const cursor = name === 'text' ? 'text' : name === 'eraser' ? 'grab' : 'crosshair';
-    canvases.forEach(c => c.style.cursor = cursor);
-
-    // Show/hide font bar
-    fontBar.classList.toggle('visible', name === 'text');
+  function stripHtml(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html || '';
+    return tmp.textContent || tmp.innerText || '';
   }
 
-  Object.keys(toolBtns).forEach(name => {
-    toolBtns[name].addEventListener('click', () => setTool(name));
-  });
+  function escHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
 
-  // ── Font buttons ──
-  document.querySelectorAll('.font-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const key = btn.dataset.font;
-      textFont = FONTS[key];
-      textFontKey = key;
-      document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      if (activeTextarea) {
-        activeTextarea.style.fontFamily = textFont;
-        activeTextarea.style.fontWeight = key === 'caveat' ? '500' : '400';
+  function formatDate(iso) {
+    const d = new Date(iso);
+    const day = String(d.getDate()).padStart(2, '0');
+    const mon = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const h = String(d.getHours()).padStart(2, '0');
+    const m = String(d.getMinutes()).padStart(2, '0');
+    return day + '.' + mon + '.' + year + '  ' + h + ':' + m;
+  }
+
+  // ── Select Note ──
+  window.selectNote = function(id) {
+    // Save current note first
+    if (activeId) saveCurrentNote();
+
+    activeId = id;
+    const note = notes.find(n => n.id === id);
+    if (!note) return;
+
+    const editor = document.getElementById('editorContent');
+    const toolbar = document.getElementById('editorToolbar');
+    const scroll = document.getElementById('editorScroll');
+    const empty = document.getElementById('emptyState');
+
+    toolbar.style.display = 'flex';
+    scroll.style.display = 'block';
+    empty.style.display = 'none';
+
+    editor.innerHTML = note.content || '';
+    editor.style.fontFamily = note.font || "'Poppins', sans-serif";
+
+    // Set font selector
+    const fontSelect = document.getElementById('fontSelect');
+    const fontVal = note.font || 'Poppins';
+    for (let i = 0; i < fontSelect.options.length; i++) {
+      if (fontSelect.options[i].value === fontVal) {
+        fontSelect.selectedIndex = i;
+        break;
+      }
+    }
+
+    renderNotesList();
+
+    // Mobile: hide sidebar
+    if (window.innerWidth <= 680) {
+      document.getElementById('sidebar').classList.add('hidden');
+    }
+  };
+
+  // ── Create Note ──
+  window.createNote = function() {
+    const now = new Date().toISOString();
+    const note = {
+      id: generateId(),
+      title: 'Neue Notiz',
+      content: '',
+      created: now,
+      updated: now,
+      font: 'Poppins'
+    };
+    notes.unshift(note);
+    saveNotes();
+    selectNote(note.id);
+    // Focus editor
+    setTimeout(function() {
+      document.getElementById('editorContent').focus();
+    }, 50);
+  };
+
+  // ── Delete Note ──
+  window.deleteNote = function() {
+    if (!activeId) return;
+    const idx = notes.findIndex(n => n.id === activeId);
+    if (idx === -1) return;
+
+    notes.splice(idx, 1);
+    activeId = null;
+    saveNotes();
+
+    document.getElementById('editorToolbar').style.display = 'none';
+    document.getElementById('editorScroll').style.display = 'none';
+    document.getElementById('emptyState').style.display = 'flex';
+
+    renderNotesList();
+
+    // Select next note if available
+    if (notes.length > 0) {
+      selectNote(notes[0].id);
+    }
+  };
+
+  // ── Save Current Note ──
+  function saveCurrentNote() {
+    if (!activeId) return;
+    const note = notes.find(n => n.id === activeId);
+    if (!note) return;
+
+    const editor = document.getElementById('editorContent');
+    note.content = editor.innerHTML;
+    note.updated = new Date().toISOString();
+
+    // Extract title from first heading or first line
+    const titleEl = editor.querySelector('h1, h2');
+    if (titleEl && titleEl.textContent.trim()) {
+      note.title = titleEl.textContent.trim().substring(0, 100);
+    } else {
+      const plain = stripHtml(editor.innerHTML).trim();
+      note.title = plain.substring(0, 60) || 'Ohne Titel';
+    }
+
+    saveNotes();
+  }
+
+  function debouncedSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function() {
+      saveCurrentNote();
+      renderNotesList();
+    }, 400);
+  }
+
+  // ── Editor Events ──
+  function setupEditorEvents() {
+    const editor = document.getElementById('editorContent');
+    editor.addEventListener('input', debouncedSave);
+    editor.addEventListener('keydown', function(e) {
+      // Tab support
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        document.execCommand('insertText', false, '    ');
       }
     });
-  });
-
-  // ── Size buttons ──
-  document.querySelectorAll('.size-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      textSize = parseInt(btn.dataset.size);
-      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      if (activeTextarea) {
-        activeTextarea.style.fontSize = textSize + 'px';
+    // Handle clicks on checklist boxes via delegation
+    editor.addEventListener('click', function(e) {
+      if (e.target.classList.contains('checklist-box')) {
+        toggleCheck(e.target);
       }
     });
-  });
-
-  // ── Colors ──
-  document.querySelectorAll('.color-swatch').forEach(swatch => {
-    swatch.addEventListener('click', () => {
-      strokeColor = swatch.dataset.color;
-      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-      swatch.classList.add('active');
-      if (activeTextarea) activeTextarea.style.color = getTextColor();
-    });
-  });
-
-  function updateDefaultSwatch() {
-    const isLight = document.body.classList.contains('light');
-    document.getElementById('colorDefault').style.background = isLight ? '#050505' : '#F5F5F3';
   }
 
-  // ── Clear ──
-  document.getElementById('toolClear').addEventListener('click', () => {
-    commitText();
-    const rect = canvases[current].parentElement.getBoundingClientRect();
-    contexts[current].clearRect(0, 0, rect.width, rect.height);
-    pageData[current] = null;
-    saveData();
-  });
+  // ── Formatting ──
+  window.execFormat = function(cmd) {
+    const editor = document.getElementById('editorContent');
+    editor.focus();
 
-  // ── Theme ──
-  const themeBtn = document.getElementById('themeToggle');
-  function updateTheme() {
-    const isLight = document.body.classList.contains('light');
-    themeBtn.textContent = isLight ? 'LIGHT' : 'DARK';
-    updateDefaultSwatch();
+    switch(cmd) {
+      case 'bold':
+        document.execCommand('bold');
+        break;
+      case 'italic':
+        document.execCommand('italic');
+        break;
+      case 'h1':
+        document.execCommand('formatBlock', false, '<h1>');
+        break;
+      case 'h2':
+        document.execCommand('formatBlock', false, '<h2>');
+        break;
+      case 'ul':
+        document.execCommand('insertUnorderedList');
+        break;
+      case 'hr':
+        document.execCommand('insertHTML', false, '<hr><p><br></p>');
+        break;
+      case 'checklist':
+        insertChecklist();
+        break;
+    }
+    debouncedSave();
+  };
+
+  function insertChecklist() {
+    const html = '<div class="checklist-item"><span class="checklist-box" onclick="toggleCheck(this)"></span><span class="checklist-text" contenteditable="true">Aufgabe</span></div>';
+    document.execCommand('insertHTML', false, html);
   }
-  themeBtn.addEventListener('click', () => {
-    document.body.classList.toggle('light');
-    localStorage.setItem('wp_theme', document.body.classList.contains('light') ? 'light' : 'dark');
-    updateTheme();
-  });
 
-  // ── Init ──
-  updateTheme();
-  window.addEventListener('resize', () => { commitText(); saveData(); sizeCanvases(); });
-  requestAnimationFrame(() => sizeCanvases());
+  window.toggleCheck = function(box) {
+    const item = box.parentElement;
+    if (!item) return;
+    const isDone = box.classList.contains('checked');
+    if (isDone) {
+      box.classList.remove('checked');
+      item.classList.remove('done');
+    } else {
+      box.classList.add('checked');
+      item.classList.add('done');
+    }
+    debouncedSave();
+  };
+
+  // ── Font ──
+  window.changeFont = function() {
+    const fontSelect = document.getElementById('fontSelect');
+    const font = fontSelect.value;
+    const editor = document.getElementById('editorContent');
+    editor.style.fontFamily = "'" + font + "', sans-serif";
+
+    if (activeId) {
+      const note = notes.find(n => n.id === activeId);
+      if (note) {
+        note.font = font;
+        saveNotes();
+      }
+    }
+  };
+
+  // ── Mobile ──
+  window.showSidebar = function() {
+    document.getElementById('sidebar').classList.remove('hidden');
+  };
+
+  // ── Start ──
+  init();
+
 })();
 </script>
-
 </body>
 </html>
