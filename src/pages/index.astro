@@ -17,6 +17,15 @@ import Footer from '../components/Footer.astro';
     <Hero />
 
     <div class="lower">
+      <!-- STATUS BAR -->
+      <div class="status-bar" id="statusBar">
+        <span class="status-item"><span class="status-icon" id="weatherIcon">—</span> <span class="status-val" id="weatherTemp">···</span></span>
+        <span class="status-sep">·</span>
+        <span class="status-item" id="statusDate">···</span>
+        <span class="status-sep">·</span>
+        <span class="status-item status-val" id="statusTime">···</span>
+      </div>
+
       <!-- ABOUT (collapsible) -->
       <div class="about-toggle" id="aboutToggle">
         <span class="about-toggle-label">Über mich</span>
@@ -108,6 +117,28 @@ import Footer from '../components/Footer.astro';
     margin: 0 auto;
     width: 100%;
   }
+
+  /* ── STATUS BAR ──────────────────── */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 0;
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.25);
+    opacity: 0;
+    animation: fadeIn 0.6s ease 2.5s forwards;
+  }
+  .status-val { color: rgba(255,255,255,0.4); }
+  .status-sep { color: rgba(255,255,255,0.1); }
+  .status-icon { font-size: 11px; }
+  :global(body.light) .status-bar { color: rgba(0,0,0,0.25); }
+  :global(body.light) .status-val { color: rgba(0,0,0,0.4); }
+  :global(body.light) .status-sep { color: rgba(0,0,0,0.1); }
+  @keyframes fadeIn { to { opacity: 1; } }
 
   /* ── ABOUT TOGGLE ────────────────── */
   .about-toggle {
@@ -318,6 +349,7 @@ import Footer from '../components/Footer.astro';
   @media (max-width: 700px) {
     .page-bg { background-position: center 45%; }
     .lower { padding: 0 1.5rem 40px; }
+    .status-bar { font-size: 8px; gap: 6px; padding: 10px 0; }
     .links-section { margin-top: 2px; padding-top: 6px; }
     .links-label { margin-bottom: 4px; font-size: 9px; }
     .about-toggle { padding: 6px 0; }
@@ -382,5 +414,34 @@ import Footer from '../components/Footer.astro';
         ticking = true;
       }
     });
+  })();
+
+  // Date & Time
+  (function() {
+    const dateEl = document.getElementById('statusDate');
+    const timeEl = document.getElementById('statusTime');
+    const days = ['SO','MO','DI','MI','DO','FR','SA'];
+    const months = ['JAN','FEB','MÄR','APR','MAI','JUN','JUL','AUG','SEP','OKT','NOV','DEZ'];
+    function update() {
+      const now = new Date();
+      dateEl!.textContent = days[now.getDay()] + ' ' + String(now.getDate()).padStart(2,'0') + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+      timeEl!.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    }
+    update();
+    setInterval(update, 10000);
+  })();
+
+  // Weather (Open-Meteo, Rosenheim)
+  (function() {
+    const tempEl = document.getElementById('weatherTemp');
+    const iconEl = document.getElementById('weatherIcon');
+    const WMO: Record<number,string> = {0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',71:'🌨',73:'🌨',75:'❄️',80:'🌦',81:'🌧',82:'⛈',95:'⛈',96:'⛈',99:'⛈'};
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=47.856&longitude=12.129&current=temperature_2m,weather_code&timezone=Europe%2FBerlin')
+      .then(r => r.json())
+      .then(data => {
+        tempEl!.textContent = Math.round(data.current.temperature_2m) + '°C';
+        iconEl!.textContent = WMO[data.current.weather_code] || '🌡';
+      })
+      .catch(() => { tempEl!.textContent = '—'; iconEl!.textContent = '🌡'; });
   })();
 </script>
