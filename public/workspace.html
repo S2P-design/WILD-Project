@@ -1356,6 +1356,7 @@
     .cal-field { min-width: 80px; }
     /* Planner mobile */
     .planner-year-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .planner-stats { grid-template-columns: repeat(2, 1fr) !important; }
   }
 
   /* ══════════════════════════════════════════════
@@ -1396,8 +1397,8 @@
 
   .planner-stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
     margin-bottom: 8px;
   }
   .planner-stat {
@@ -1409,12 +1410,13 @@
   }
   .planner-stat-val {
     display: block;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     color: #FC5000;
     line-height: 1;
     margin-bottom: 4px;
   }
+  .planner-stat { padding: 10px 4px; }
   .planner-stat-lbl {
     font-size: 7px;
     letter-spacing: 1px;
@@ -1599,10 +1601,13 @@
     color: rgba(245,245,243,0.4);
     cursor: default;
   }
-  .planner-mini-day.we     { color: rgba(245,245,243,0.2); }
+  .planner-mini-day.we     { color: rgba(228,228,228,0.2); }
   .planner-mini-day.holiday{ background: rgba(252,80,0,0.55); color: #E4E4E4; font-weight: 600; }
-  .planner-mini-day.ferien { background: rgba(252,80,0,0.18); color: rgba(255,255,255,0.75); }
+  .planner-mini-day.ferien { background: rgba(252,80,0,0.18); color: rgba(228,228,228,0.75); }
+  .planner-mini-day.iihf   { box-shadow: inset 0 -2px 0 0 rgba(228,228,228,0.4); }
+  .planner-mini-day.event  { outline: 1.5px solid #FC5000; outline-offset: -1.5px; color: #FC5000; font-weight: 700; cursor: help; }
   .planner-mini-day.holiday.ferien { background: rgba(252,80,0,0.55); }
+  .planner-mini-day.event.holiday  { outline-color: #E4E4E4; }
 
   .planner-disclaimer {
     font-size: 8px;
@@ -2327,6 +2332,8 @@
   }
   function saveCalNotes() {
     localStorage.setItem(CAL_KEY, JSON.stringify(calNotes));
+    // Notify Jahresplanung widget about changes
+    document.dispatchEvent(new CustomEvent('wp:cal-update'));
   }
 
   // ISO week number
@@ -3153,14 +3160,33 @@
     return null;
   }
 
-  // ── IIHF Breaks 2026/27 (approximate) ──
+  // ── IIHF Breaks 2026/27 (approximate — verify before binding planning) ──
   var IIHF = [
-    { name: 'Deutschland Cup',          start: '2026-11-05', end: '2026-11-08' },
-    { name: 'Channel One Cup',          start: '2026-12-17', end: '2026-12-20' },
-    { name: 'Olympia-Pause (Reserve)',  start: '2027-02-04', end: '2027-02-21' },
-    { name: 'Swiss / Beijer Games',     start: '2027-02-11', end: '2027-02-14' },
-    { name: 'IIHF WM 2027',             start: '2027-05-07', end: '2027-05-23' }
+    { name: 'Deutschland Cup (Senior)',     start: '2026-11-05', end: '2026-11-08', cat: 'sen' },
+    { name: 'U20 WM Div 1A / 1B',           start: '2026-12-14', end: '2026-12-20', cat: 'u20' },
+    { name: 'Channel One Cup (Senior)',     start: '2026-12-17', end: '2026-12-20', cat: 'sen' },
+    { name: 'U20 WM Top Division',          start: '2026-12-26', end: '2027-01-05', cat: 'u20' },
+    { name: 'Swiss / Beijer Games (Senior)', start: '2027-02-11', end: '2027-02-14', cat: 'sen' },
+    { name: 'U18 WM Div 1A / 1B',           start: '2027-04-13', end: '2027-04-19', cat: 'u18' },
+    { name: 'U18 WM Top Division',          start: '2027-04-22', end: '2027-05-02', cat: 'u18' },
+    { name: 'IIHF WM 2027 (Senior)',        start: '2027-05-07', end: '2027-05-23', cat: 'sen' }
   ];
+
+  // Build a date-keyed lookup for IIHF days
+  function buildIihfDays() {
+    var days = {};
+    IIHF.forEach(function(b) {
+      var s = new Date(b.start + 'T12:00:00');
+      var e = new Date(b.end + 'T12:00:00');
+      var d = new Date(s);
+      while (d <= e) {
+        days[key(d)] = b.cat;
+        d = addD(d, 1);
+      }
+    });
+    return days;
+  }
+  var IIHF_DAYS = buildIihfDays();
 
   // ── Hockey Phase (René's cycle) ──
   // Off:  Mai-Jul (4,5,6) — Kopf weg vom Sport
@@ -3257,6 +3283,12 @@
   yearSel.value   = localStorage.getItem('wp_planner_year')   || '2026';
   vacInp.value    = localStorage.getItem('wp_planner_vac')    || '25';
 
+  // Read calendar events from localStorage
+  function loadCalEvents() {
+    try { return JSON.parse(localStorage.getItem('wp_cal_notes')) || {}; }
+    catch(e) { return {}; }
+  }
+
   function render() {
     var region = regionSel.value;
     var year   = parseInt(yearSel.value, 10);
@@ -3272,11 +3304,18 @@
       return dow !== 0 && dow !== 6;
     });
 
-    // Stats
+    // Calendar events (from upper Kalender widget)
+    var calEvents = loadCalEvents();
+    var eventCount = Object.keys(calEvents).filter(function(k) {
+      return k.indexOf(year + '-') === 0;
+    }).length;
+
+    // Stats (4 columns)
     statsEl.innerHTML =
       '<div class="planner-stat"><span class="planner-stat-val">' + Object.keys(H).length + '</span><span class="planner-stat-lbl">Feiertage</span></div>' +
       '<div class="planner-stat"><span class="planner-stat-val">' + weekdayFTs.length + '</span><span class="planner-stat-lbl">Werktag-FT</span></div>' +
-      '<div class="planner-stat"><span class="planner-stat-val">' + vac + '</span><span class="planner-stat-lbl">Urlaubstage</span></div>';
+      '<div class="planner-stat"><span class="planner-stat-val">' + vac + '</span><span class="planner-stat-lbl">Urlaub</span></div>' +
+      '<div class="planner-stat"><span class="planner-stat-val">' + eventCount + '</span><span class="planner-stat-lbl">Termine</span></div>';
 
     // Hockey phase bar
     var pHtml = '';
@@ -3333,8 +3372,15 @@
         if (dow === 0 || dow === 6) cls += ' we';
         var fname = isInFerien(dt, region, year);
         if (fname) cls += ' ferien';
+        if (IIHF_DAYS[k]) cls += ' iihf';
         if (H[k]) cls += ' holiday';
-        var title = (H[k] ? H[k] : '') + (fname ? (H[k] ? ' · ' : '') + fname + '-Ferien' : '');
+        if (calEvents[k]) cls += ' event';
+        var titleParts = [];
+        if (H[k]) titleParts.push('🇦🇹 ' + H[k]);
+        if (fname) titleParts.push('🏖 ' + fname + '-Ferien');
+        if (IIHF_DAYS[k]) titleParts.push('🏒 IIHF Break');
+        if (calEvents[k]) titleParts.push('★ ' + String(calEvents[k]).substring(0, 40));
+        var title = titleParts.join(' · ');
         gHtml += '<div class="' + cls + '"' + (title ? ' title="' + title + '"' : '') + '>' + dd + '</div>';
       }
       gHtml += '</div></div>';
@@ -3345,6 +3391,14 @@
   regionSel.addEventListener('change', render);
   yearSel.addEventListener('change', render);
   vacInp.addEventListener('input', render);
+
+  // Live-Sync mit Kalender-Widget (gleiche Seite)
+  document.addEventListener('wp:cal-update', render);
+  // Cross-Tab Sync (anderes Browser-Tab ändert Notes)
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'wp_cal_notes') render();
+  });
+
   render();
 })();
 </script>
