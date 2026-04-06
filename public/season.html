@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Season — Wild Project</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+
+<!-- Shared design system -->
+<link rel="stylesheet" href="/wp-shell.css">
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#050505">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WP Season">
+<link rel="apple-touch-icon" href="/favicon-180.png">
+
+<style>
+  /* ════════════════════════════════════════
+     SEASON — Mikrozyklus / Wochen-Plan
+     ════════════════════════════════════════ */
+  body { display: flex; flex-direction: column; min-height: 100vh; }
+  main {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    padding: 32px 32px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ── Top bar with week navigation ── */
+  .se-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .se-week-nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .se-nav-btn {
+    background: var(--wp-surface-2);
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text-mute);
+    width: 36px;
+    height: 36px;
+    border-radius: var(--wp-radius);
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s var(--wp-ease);
+  }
+  .se-nav-btn:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+  .se-week-label {
+    font-family: var(--wp-font-sans);
+    font-size: 24px;
+    font-weight: 200;
+    color: var(--wp-text);
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+  .se-week-label strong { color: var(--wp-flame); font-weight: 700; }
+  .se-week-meta {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+    margin-top: 2px;
+  }
+  .se-phase-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: var(--wp-radius);
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-left: 10px;
+  }
+  .se-phase-pill.off { background: rgba(252,80,0,0.4); color: var(--wp-text); }
+  .se-phase-pill.pre { background: rgba(252,80,0,0.18); color: var(--wp-text); }
+  .se-phase-pill.in  { background: rgba(255,255,255,0.06); color: var(--wp-text-mute); border: 1px solid var(--wp-border-strong); }
+  body.light .se-phase-pill.in { background: rgba(0,0,0,0.06); }
+
+  /* ── Week stats strip ── */
+  .se-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .se-stat {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .se-stat-val {
+    display: block;
+    font-family: var(--wp-font-sans);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--wp-flame);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .se-stat-lbl {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+  }
+
+  /* ── 7-day microcycle grid ── */
+  .se-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .se-day {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-lg);
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    min-height: 380px;
+    transition: border-color 0.2s var(--wp-ease);
+  }
+  .se-day.today { border-color: var(--wp-flame); box-shadow: 0 0 0 1px var(--wp-flame-glow); }
+  .se-day-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--wp-border);
+  }
+  .se-day-name {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+  }
+  .se-day-num {
+    font-family: var(--wp-font-sans);
+    font-size: 22px;
+    font-weight: 200;
+    color: var(--wp-text);
+    line-height: 1;
+  }
+  .se-day.today .se-day-num { color: var(--wp-flame); font-weight: 700; }
+
+  /* ── Slots within a day ── */
+  .se-slots {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .se-slot {
+    background: var(--wp-surface-2);
+    border: 1px solid var(--wp-border);
+    border-left: 2px solid var(--wp-flame);
+    border-radius: var(--wp-radius-sm);
+    padding: 8px 10px;
+    font-size: 11px;
+    color: var(--wp-text);
+    cursor: text;
+    transition: all 0.15s var(--wp-ease);
+    position: relative;
+  }
+  .se-slot:hover { border-color: var(--wp-border-strong); background: var(--wp-surface-3); }
+  .se-slot.cat-ice      { border-left-color: #FC5000; }
+  .se-slot.cat-dryland  { border-left-color: #E4E4E4; }
+  .se-slot.cat-game     { border-left-color: #FC5000; background: var(--wp-flame-glow); font-weight: 700; }
+  .se-slot.cat-video    { border-left-color: rgba(252,80,0,0.5); }
+  .se-slot.cat-meeting  { border-left-color: rgba(228,228,228,0.4); }
+  .se-slot.cat-recovery { border-left-color: rgba(228,228,228,0.25); opacity: 0.75; }
+  .se-slot.cat-off      { border-left-color: transparent; opacity: 0.5; font-style: italic; }
+  .se-slot-time {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 0.8px;
+    color: var(--wp-text-faint);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .se-slot-text {
+    background: transparent;
+    border: none;
+    color: var(--wp-text);
+    font-family: var(--wp-font-sans);
+    font-size: 11px;
+    width: 100%;
+    outline: none;
+    resize: none;
+    line-height: 1.3;
+    overflow: hidden;
+  }
+  .se-slot-del {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: transparent;
+    border: none;
+    color: var(--wp-text-ghost);
+    cursor: pointer;
+    font-size: 10px;
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .se-slot:hover .se-slot-del { display: flex; }
+  .se-slot-del:hover { color: var(--wp-flame); }
+
+  .se-add-slot {
+    background: transparent;
+    border: 1px dashed var(--wp-border-strong);
+    color: var(--wp-text-ghost);
+    border-radius: var(--wp-radius-sm);
+    padding: 6px;
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+    margin-top: 4px;
+  }
+  .se-add-slot:hover {
+    color: var(--wp-flame);
+    border-color: var(--wp-flame);
+    border-style: solid;
+  }
+
+  /* ── Notes box ── */
+  .se-notes {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-lg);
+    padding: 18px 22px;
+    margin-bottom: 24px;
+  }
+  .se-notes-head {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+    margin-bottom: 10px;
+  }
+  .se-notes textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--wp-text);
+    font-family: var(--wp-font-sans);
+    font-size: 13px;
+    line-height: 1.6;
+    outline: none;
+    resize: vertical;
+    min-height: 80px;
+  }
+  .se-notes textarea::placeholder { color: var(--wp-text-ghost); }
+
+  /* ── Slot category picker (modal-ish) ── */
+  .se-cat-picker {
+    display: none;
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border-strong);
+    border-radius: var(--wp-radius-lg);
+    padding: 18px;
+    z-index: 200;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    min-width: 280px;
+  }
+  .se-cat-picker.show { display: block; }
+  .se-cat-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 199;
+  }
+  .se-cat-backdrop.show { display: block; }
+  .se-cat-title {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+    margin-bottom: 14px;
+  }
+  .se-cat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .se-cat-btn {
+    background: var(--wp-surface-2);
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text);
+    padding: 10px 12px;
+    border-radius: var(--wp-radius-sm);
+    font-family: var(--wp-font-sans);
+    font-size: 11px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+    border-left-width: 3px;
+  }
+  .se-cat-btn:hover { border-color: var(--wp-flame); }
+  .se-cat-btn.cat-ice      { border-left-color: #FC5000; }
+  .se-cat-btn.cat-dryland  { border-left-color: #E4E4E4; }
+  .se-cat-btn.cat-game     { border-left-color: #FC5000; background: var(--wp-flame-glow); }
+  .se-cat-btn.cat-video    { border-left-color: rgba(252,80,0,0.5); }
+  .se-cat-btn.cat-meeting  { border-left-color: rgba(228,228,228,0.4); }
+  .se-cat-btn.cat-recovery { border-left-color: rgba(228,228,228,0.25); }
+  .se-cat-btn.cat-off      { border-left-color: transparent; font-style: italic; }
+
+  /* ── Mobile ── */
+  @media (max-width: 1100px) {
+    .se-week { grid-template-columns: repeat(4, 1fr); }
+    .se-day { min-height: 280px; }
+  }
+  @media (max-width: 800px) {
+    main { padding: 24px 16px 60px; }
+    .se-week { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .se-stats { grid-template-columns: repeat(2, 1fr); }
+    .se-week-label { font-size: 18px; }
+    .se-day { min-height: 240px; padding: 12px 10px; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: white !important; color: black !important; }
+    body::before { display: none; }
+    .wp-shell-header, .wp-shell-footer { display: none !important; }
+    .se-week { grid-template-columns: repeat(7, 1fr); }
+    .se-day { background: white; border-color: #ccc; min-height: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ HEADER ══════ -->
+<header class="wp-shell-header">
+  <a href="/workspace.html" class="wp-shell-brand">
+    <img src="/wp-logo.png" alt="WP">
+    <span>← WORKSPACE</span>
+  </a>
+  <div class="wp-shell-title">Season · Mikrozyklus</div>
+  <div class="wp-shell-actions">
+    <button class="wp-btn icon-only" id="themeToggle" title="Theme wechseln">◐</button>
+    <button class="wp-btn icon-only" onclick="window.print()" title="Drucken">⎙</button>
+  </div>
+</header>
+
+<!-- ══════ MAIN ══════ -->
+<main>
+
+  <!-- Top bar -->
+  <div class="se-topbar">
+    <div class="se-week-nav">
+      <button class="se-nav-btn" id="prevWeek" title="Vorherige Woche">‹</button>
+      <div>
+        <div class="se-week-label">KW <strong id="kwNum">—</strong> <span class="se-phase-pill" id="phasePill">—</span></div>
+        <div class="se-week-meta" id="weekRange">— bis —</div>
+      </div>
+      <button class="se-nav-btn" id="nextWeek" title="Nächste Woche">›</button>
+      <button class="se-nav-btn" id="todayBtn" title="Aktuelle Woche">●</button>
+    </div>
+  </div>
+
+  <!-- Week stats -->
+  <div class="se-stats" id="weekStats"></div>
+
+  <!-- 7-day grid -->
+  <div class="se-week" id="weekGrid"></div>
+
+  <!-- Notes -->
+  <div class="se-notes">
+    <div class="se-notes-head">Wochenfokus · Notes</div>
+    <textarea id="weekNotes" placeholder="Was ist diese Woche wichtig · Schwerpunkte · Spieler-Updates · Erkenntnisse ..."></textarea>
+  </div>
+
+</main>
+
+<!-- ══════ FOOTER ══════ -->
+<footer class="wp-shell-footer">
+  Wild Project · Live by Design, not by Default · <a href="/workspace.html">Workspace</a> · <a href="/planner.html">Planner</a> · <a href="/journal.html">Journal</a>
+</footer>
+
+<!-- Category picker -->
+<div class="se-cat-backdrop" id="catBackdrop"></div>
+<div class="se-cat-picker" id="catPicker">
+  <div class="se-cat-title">Slot-Typ wählen</div>
+  <div class="se-cat-grid">
+    <button class="se-cat-btn cat-ice" data-cat="ice">⛸ Eistraining</button>
+    <button class="se-cat-btn cat-dryland" data-cat="dryland">💪 Dryland</button>
+    <button class="se-cat-btn cat-game" data-cat="game">🏒 Spiel</button>
+    <button class="se-cat-btn cat-video" data-cat="video">▶ Video</button>
+    <button class="se-cat-btn cat-meeting" data-cat="meeting">◉ Meeting</button>
+    <button class="se-cat-btn cat-recovery" data-cat="recovery">≈ Recovery</button>
+    <button class="se-cat-btn cat-off" data-cat="off">— Off-Day</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var STORE_KEY = 'wp_season_weeks';
+  var THEME_KEY = 'wp_workspace_theme';
+  var DAYS = ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'];
+  var DAYS_SHORT = ['MO','DI','MI','DO','FR','SA','SO'];
+
+  var weekState = {};   // store: { 'YYYY-WW': { days: [{slots: [...]}, ...], notes: '' } }
+  var viewDate;         // a Date inside the currently-viewed week
+  var currentSlot = null;
+
+  // ── Storage ──
+  function load() {
+    try { weekState = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+    catch(e) { weekState = {}; }
+  }
+  function save() { localStorage.setItem(STORE_KEY, JSON.stringify(weekState)); }
+  function uid() { return 's-' + Date.now() + '-' + Math.random().toString(36).slice(2,7); }
+
+  // ── Date helpers ──
+  function isoWeek(d) {
+    var date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
+    var yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    var wk = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+    return { year: date.getUTCFullYear(), week: wk };
+  }
+  function weekKey(d) {
+    var iw = isoWeek(d);
+    return iw.year + '-W' + String(iw.week).padStart(2, '0');
+  }
+  function mondayOf(d) {
+    var x = new Date(d);
+    var dow = (x.getDay() + 6) % 7; // Mo=0
+    x.setDate(x.getDate() - dow);
+    x.setHours(12, 0, 0, 0);
+    return x;
+  }
+  function addDays(d, n) {
+    var x = new Date(d); x.setDate(x.getDate() + n); return x;
+  }
+  function fmtDate(d) {
+    return String(d.getDate()).padStart(2,'0') + '.' + String(d.getMonth()+1).padStart(2,'0') + '.';
+  }
+  function dateKey(d) {
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+
+  // Hockey phase (René's cycle)
+  function phaseOf(d) {
+    var m = d.getMonth();
+    if (m >= 4 && m <= 6) return 'off';
+    if (m === 7) return 'pre';
+    return 'in';
+  }
+  function phaseLabel(p) {
+    return p === 'off' ? 'Off-Season' : (p === 'pre' ? 'Pre-Season' : 'In-Season');
+  }
+
+  // Get-or-create week data
+  function getWeek(d) {
+    var k = weekKey(d);
+    if (!weekState[k]) {
+      weekState[k] = {
+        days: [
+          { slots: [] }, { slots: [] }, { slots: [] },
+          { slots: [] }, { slots: [] }, { slots: [] }, { slots: [] }
+        ],
+        notes: ''
+      };
+    }
+    // Backwards safety
+    if (!weekState[k].days) weekState[k].days = [];
+    while (weekState[k].days.length < 7) weekState[k].days.push({ slots: [] });
+    return weekState[k];
+  }
+
+  // ── Render ──
+  function render() {
+    var monday = mondayOf(viewDate);
+    var sunday = addDays(monday, 6);
+    var iw = isoWeek(viewDate);
+
+    document.getElementById('kwNum').textContent = iw.week + '/' + iw.year;
+    document.getElementById('weekRange').textContent = fmtDate(monday) + ' – ' + fmtDate(sunday);
+
+    // Phase pill
+    var p = phaseOf(monday);
+    var pill = document.getElementById('phasePill');
+    pill.className = 'se-phase-pill ' + p;
+    pill.textContent = phaseLabel(p);
+
+    // Pull calendar events from workspace (read-only awareness)
+    var calEvents = {};
+    try { calEvents = JSON.parse(localStorage.getItem('wp_cal_notes')) || {}; }
+    catch(e) {}
+
+    var wk = getWeek(viewDate);
+    var todayK = dateKey(new Date());
+
+    // Stats
+    var counts = { ice: 0, dryland: 0, game: 0, video: 0, total: 0 };
+    wk.days.forEach(function(day) {
+      day.slots.forEach(function(s) {
+        counts.total++;
+        if (counts[s.cat] !== undefined) counts[s.cat]++;
+      });
+    });
+    document.getElementById('weekStats').innerHTML =
+      '<div class="se-stat"><span class="se-stat-val">' + counts.ice + '</span><span class="se-stat-lbl">Eis</span></div>' +
+      '<div class="se-stat"><span class="se-stat-val">' + counts.dryland + '</span><span class="se-stat-lbl">Dryland</span></div>' +
+      '<div class="se-stat"><span class="se-stat-val">' + counts.game + '</span><span class="se-stat-lbl">Spiele</span></div>' +
+      '<div class="se-stat"><span class="se-stat-val">' + counts.video + '</span><span class="se-stat-lbl">Video</span></div>' +
+      '<div class="se-stat"><span class="se-stat-val">' + counts.total + '</span><span class="se-stat-lbl">Slots gesamt</span></div>';
+
+    // Day cards
+    var html = '';
+    for (var i = 0; i < 7; i++) {
+      var d = addDays(monday, i);
+      var dk = dateKey(d);
+      var todayCls = dk === todayK ? ' today' : '';
+      html += '<div class="se-day' + todayCls + '" data-day="' + i + '">' +
+              '<div class="se-day-head">' +
+                '<span class="se-day-name">' + DAYS_SHORT[i] + '</span>' +
+                '<span class="se-day-num">' + d.getDate() + '</span>' +
+              '</div><div class="se-slots">';
+
+      // Slots
+      wk.days[i].slots.forEach(function(s) {
+        html += '<div class="se-slot cat-' + s.cat + '" data-day="' + i + '" data-id="' + s.id + '">' +
+                '<button class="se-slot-del" title="Löschen">×</button>' +
+                '<span class="se-slot-time">' + (s.time || '—') + '</span>' +
+                '<textarea class="se-slot-text" rows="2" placeholder="Beschreibung ...">' + (s.text || '') + '</textarea>' +
+                '</div>';
+      });
+
+      // Show calendar events from workspace as faint indicators
+      if (calEvents[dk]) {
+        var evList = Array.isArray(calEvents[dk]) ? calEvents[dk] : [calEvents[dk]];
+        evList.forEach(function(ev) {
+          var t = (ev && (ev.text || ev)) || '';
+          if (t) {
+            html += '<div class="se-slot cat-meeting" style="opacity:0.55;font-size:10px;" title="Aus Workspace-Kalender">' +
+                    '<span class="se-slot-time">📅 ' + (ev.start || 'cal') + '</span>' + t.substring(0,30) + '</div>';
+          }
+        });
+      }
+
+      html += '<button class="se-add-slot" data-day="' + i + '">+ Slot</button></div></div>';
+    }
+    document.getElementById('weekGrid').innerHTML = html;
+
+    // Notes
+    document.getElementById('weekNotes').value = wk.notes || '';
+
+    attachHandlers();
+  }
+
+  function attachHandlers() {
+    // Add slot
+    document.querySelectorAll('.se-add-slot').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        currentSlot = { day: parseInt(btn.dataset.day, 10), id: null };
+        showCatPicker();
+      });
+    });
+
+    // Slot text edit
+    document.querySelectorAll('.se-slot-text').forEach(function(el) {
+      el.addEventListener('input', function() {
+        var slotEl = el.closest('.se-slot');
+        if (!slotEl) return;
+        var dayI = parseInt(slotEl.dataset.day, 10);
+        var id = slotEl.dataset.id;
+        var wk = getWeek(viewDate);
+        var slot = wk.days[dayI].slots.find(function(s) { return s.id === id; });
+        if (slot) { slot.text = el.value; save(); }
+      });
+    });
+
+    // Slot delete
+    document.querySelectorAll('.se-slot-del').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var slotEl = btn.closest('.se-slot');
+        if (!slotEl) return;
+        var dayI = parseInt(slotEl.dataset.day, 10);
+        var id = slotEl.dataset.id;
+        var wk = getWeek(viewDate);
+        wk.days[dayI].slots = wk.days[dayI].slots.filter(function(s) { return s.id !== id; });
+        save();
+        render();
+      });
+    });
+
+    // Time edit (click on time → prompt)
+    document.querySelectorAll('.se-slot-time').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var slotEl = el.closest('.se-slot');
+        if (!slotEl || !slotEl.dataset.id) return;
+        var dayI = parseInt(slotEl.dataset.day, 10);
+        var id = slotEl.dataset.id;
+        var wk = getWeek(viewDate);
+        var slot = wk.days[dayI].slots.find(function(s) { return s.id === id; });
+        if (!slot) return;
+        var t = prompt('Uhrzeit (z.B. 09:00 oder 09:00–11:00)', slot.time || '');
+        if (t !== null) { slot.time = t.trim(); save(); render(); }
+      });
+    });
+  }
+
+  // ── Category picker ──
+  function showCatPicker() {
+    document.getElementById('catBackdrop').classList.add('show');
+    document.getElementById('catPicker').classList.add('show');
+  }
+  function hideCatPicker() {
+    document.getElementById('catBackdrop').classList.remove('show');
+    document.getElementById('catPicker').classList.remove('show');
+  }
+  document.getElementById('catBackdrop').addEventListener('click', hideCatPicker);
+  document.querySelectorAll('.se-cat-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (!currentSlot) return;
+      var wk = getWeek(viewDate);
+      var newSlot = { id: uid(), cat: btn.dataset.cat, time: '', text: '' };
+      wk.days[currentSlot.day].slots.push(newSlot);
+      save();
+      hideCatPicker();
+      render();
+      // Focus the new slot's textarea
+      setTimeout(function() {
+        var sel = document.querySelector('.se-slot[data-id="' + newSlot.id + '"] .se-slot-text');
+        if (sel) sel.focus();
+      }, 30);
+    });
+  });
+
+  // ── Notes save ──
+  document.getElementById('weekNotes').addEventListener('input', function() {
+    var wk = getWeek(viewDate);
+    wk.notes = this.value;
+    save();
+  });
+
+  // ── Navigation ──
+  document.getElementById('prevWeek').addEventListener('click', function() {
+    viewDate = addDays(viewDate, -7); render();
+  });
+  document.getElementById('nextWeek').addEventListener('click', function() {
+    viewDate = addDays(viewDate, 7); render();
+  });
+  document.getElementById('todayBtn').addEventListener('click', function() {
+    viewDate = new Date(); render();
+  });
+
+  // ── Theme ──
+  function applyTheme(t) { document.body.classList.toggle('light', t === 'light'); }
+  applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var t = document.body.classList.contains('light') ? 'dark' : 'light';
+    localStorage.setItem(THEME_KEY, t);
+    applyTheme(t);
+  });
+
+  // ── Cross-tab sync ──
+  window.addEventListener('storage', function(e) {
+    if (e.key === STORE_KEY || e.key === 'wp_cal_notes') {
+      load(); render();
+    }
+  });
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+    if (e.key === 'ArrowLeft')  { viewDate = addDays(viewDate, -7); render(); }
+    if (e.key === 'ArrowRight') { viewDate = addDays(viewDate,  7); render(); }
+    if (e.key === 't' || e.key === 'T') { viewDate = new Date(); render(); }
+    if (e.key === 'Escape') hideCatPicker();
+  });
+
+  // ── Init ──
+  load();
+  viewDate = new Date();
+  render();
+})();
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function() {});
+    });
+  }
+</script>
+</body>
+</html>

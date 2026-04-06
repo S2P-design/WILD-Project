@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Journal — Wild Project</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+
+<!-- Shared design system -->
+<link rel="stylesheet" href="/wp-shell.css">
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#050505">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WP Journal">
+<link rel="apple-touch-icon" href="/favicon-180.png">
+
+<style>
+  /* ════════════════════════════════════════
+     JOURNAL — Coaching & Training Log
+     ════════════════════════════════════════ */
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  main {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    align-items: start;
+  }
+
+  /* ── Sidebar: Entry list ── */
+  .jr-sidebar {
+    position: sticky;
+    top: 51px;
+    align-self: start;
+    height: calc(100vh - 51px);
+    background: var(--wp-surface-1);
+    border-right: 1px solid var(--wp-border);
+    display: flex;
+    flex-direction: column;
+  }
+  .jr-side-head {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--wp-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .jr-side-head .wp-label { margin: 0; }
+  .jr-new-btn {
+    background: transparent;
+    border: 1px solid var(--wp-border-strong);
+    color: var(--wp-text-faint);
+    width: 26px;
+    height: 26px;
+    border-radius: var(--wp-radius-sm);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s var(--wp-ease);
+  }
+  .jr-new-btn:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+
+  .jr-filter-bar {
+    display: flex;
+    gap: 4px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--wp-border);
+    flex-wrap: wrap;
+  }
+  .jr-filter {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    background: transparent;
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-sm);
+    color: var(--wp-text-faint);
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .jr-filter:hover { color: var(--wp-text); border-color: var(--wp-border-strong); }
+  .jr-filter.active {
+    color: var(--wp-flame);
+    border-color: var(--wp-flame);
+    background: var(--wp-flame-glow);
+  }
+
+  .jr-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  .jr-list-empty {
+    padding: 40px 20px;
+    text-align: center;
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--wp-text-ghost);
+    text-transform: uppercase;
+  }
+  .jr-entry-item {
+    display: block;
+    padding: 12px 20px;
+    border-left: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+    border-bottom: 1px solid var(--wp-border);
+  }
+  .jr-entry-item:hover { background: var(--wp-surface-2); }
+  .jr-entry-item.active {
+    background: var(--wp-surface-2);
+    border-left-color: var(--wp-flame);
+  }
+  .jr-entry-date {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .jr-entry-phase {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 7px;
+    letter-spacing: 0.8px;
+  }
+  .jr-entry-phase.off { background: rgba(252,80,0,0.4); color: var(--wp-text); }
+  .jr-entry-phase.pre { background: rgba(252,80,0,0.18); color: var(--wp-text); }
+  .jr-entry-phase.in  { background: rgba(255,255,255,0.06); color: var(--wp-text-mute); }
+  body.light .jr-entry-phase.in { background: rgba(0,0,0,0.06); }
+  .jr-entry-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--wp-text);
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .jr-entry-meta {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    color: var(--wp-text-ghost);
+    margin-top: 3px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Editor area ── */
+  .jr-editor {
+    padding: 32px 48px 80px;
+    max-width: 880px;
+    width: 100%;
+  }
+  .jr-empty-state {
+    padding: 80px 20px;
+    text-align: center;
+    color: var(--wp-text-faint);
+  }
+  .jr-empty-state h2 {
+    font-family: var(--wp-font-sans);
+    font-size: 22px;
+    font-weight: 200;
+    margin-bottom: 8px;
+  }
+  .jr-empty-state p {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-ghost);
+  }
+
+  .jr-meta-row {
+    display: grid;
+    grid-template-columns: 200px 200px 1fr auto;
+    gap: 14px;
+    margin-bottom: 24px;
+    align-items: end;
+  }
+  .jr-meta-field { display: flex; flex-direction: column; gap: 6px; }
+  .jr-meta-field .wp-input,
+  .jr-meta-field .wp-select { width: 100%; }
+  .jr-delete-btn {
+    background: transparent;
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text-faint);
+    padding: 9px 14px;
+    border-radius: var(--wp-radius);
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s var(--wp-ease);
+  }
+  .jr-delete-btn:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+
+  .jr-title-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    font-family: var(--wp-font-sans);
+    font-size: 32px;
+    font-weight: 200;
+    color: var(--wp-text);
+    letter-spacing: 0.5px;
+    padding: 0;
+    margin-bottom: 24px;
+    outline: none;
+  }
+  .jr-title-input::placeholder { color: var(--wp-text-ghost); }
+
+  .jr-tag-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .jr-tag {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    background: var(--wp-surface-2);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-sm);
+    color: var(--wp-text-mute);
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .jr-tag:hover { color: var(--wp-text); border-color: var(--wp-border-strong); }
+  .jr-tag.active {
+    color: var(--wp-flame);
+    border-color: var(--wp-flame);
+    background: var(--wp-flame-glow);
+  }
+
+  /* Metric grid (Energy, Mood, Sleep, Load) */
+  .jr-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .jr-metric {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 14px;
+  }
+  .jr-metric-lbl {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+    margin-bottom: 10px;
+  }
+  .jr-metric-bar {
+    display: flex;
+    gap: 4px;
+  }
+  .jr-metric-dot {
+    flex: 1;
+    aspect-ratio: 1;
+    max-width: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--wp-border-strong);
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .jr-metric-dot:hover { border-color: var(--wp-flame); }
+  .jr-metric-dot.filled {
+    background: var(--wp-flame);
+    border-color: var(--wp-flame);
+  }
+
+  /* Body textarea */
+  .jr-body {
+    width: 100%;
+    min-height: 280px;
+    background: transparent;
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 18px 20px;
+    color: var(--wp-text);
+    font-family: var(--wp-font-sans);
+    font-size: 14px;
+    line-height: 1.7;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s var(--wp-ease);
+  }
+  .jr-body:focus { border-color: var(--wp-border-strong); }
+  .jr-body::placeholder { color: var(--wp-text-ghost); }
+
+  .jr-save-status {
+    margin-top: 14px;
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-ghost);
+    text-align: right;
+  }
+  .jr-save-status.saved { color: var(--wp-flame); }
+
+  /* ── Mobile ── */
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+    .jr-sidebar {
+      position: relative;
+      top: 0;
+      height: auto;
+      max-height: 320px;
+      border-right: none;
+      border-bottom: 1px solid var(--wp-border);
+    }
+    .jr-editor { padding: 24px 16px 60px; }
+    .jr-meta-row { grid-template-columns: 1fr 1fr; }
+    .jr-metrics { grid-template-columns: repeat(2, 1fr); }
+    .jr-title-input { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ HEADER ══════ -->
+<header class="wp-shell-header">
+  <a href="/workspace.html" class="wp-shell-brand">
+    <img src="/wp-logo.png" alt="WP">
+    <span>← WORKSPACE</span>
+  </a>
+  <div class="wp-shell-title">Journal</div>
+  <div class="wp-shell-actions">
+    <button class="wp-btn icon-only" id="themeToggle" title="Theme wechseln">◐</button>
+    <button class="wp-btn icon-only" id="exportBtn" title="Export JSON">↓</button>
+  </div>
+</header>
+
+<!-- ══════ MAIN ══════ -->
+<main>
+
+  <!-- Sidebar: Entry list -->
+  <aside class="jr-sidebar">
+    <div class="jr-side-head">
+      <span class="wp-label">Einträge</span>
+      <button class="jr-new-btn" id="newEntryBtn" title="Neuer Eintrag">+</button>
+    </div>
+    <div class="jr-filter-bar">
+      <button class="jr-filter active" data-filter="all">Alle</button>
+      <button class="jr-filter" data-filter="off">Off</button>
+      <button class="jr-filter" data-filter="pre">Pre</button>
+      <button class="jr-filter" data-filter="in">In</button>
+    </div>
+    <div class="jr-list" id="entryList"></div>
+  </aside>
+
+  <!-- Editor -->
+  <section class="jr-editor" id="editorPane">
+    <div class="jr-empty-state" id="emptyState">
+      <h2>Noch kein Eintrag</h2>
+      <p>+ klicken um zu starten</p>
+    </div>
+    <div id="editorView" style="display:none;">
+
+      <div class="jr-meta-row">
+        <div class="jr-meta-field">
+          <label class="wp-label">Datum</label>
+          <input type="date" class="wp-input" id="entryDate">
+        </div>
+        <div class="jr-meta-field">
+          <label class="wp-label">Typ</label>
+          <select class="wp-select" id="entryType">
+            <option value="training">Training</option>
+            <option value="game">Spiel</option>
+            <option value="video">Video</option>
+            <option value="meeting">Meeting</option>
+            <option value="recovery">Recovery</option>
+            <option value="off">Off-Day</option>
+            <option value="reflection">Reflexion</option>
+          </select>
+        </div>
+        <div class="jr-meta-field">
+          <label class="wp-label">Dauer (min)</label>
+          <input type="number" class="wp-input" id="entryDuration" min="0" max="600" placeholder="0">
+        </div>
+        <button class="jr-delete-btn" id="deleteBtn">🗑 Löschen</button>
+      </div>
+
+      <input type="text" class="jr-title-input" id="entryTitle" placeholder="Titel des Eintrags …">
+
+      <div class="jr-tag-row" id="tagRow">
+        <button class="jr-tag" data-tag="ice">⛸ Ice</button>
+        <button class="jr-tag" data-tag="dryland">💪 Dryland</button>
+        <button class="jr-tag" data-tag="tactics">▦ Tactics</button>
+        <button class="jr-tag" data-tag="video">▶ Video</button>
+        <button class="jr-tag" data-tag="team">◉ Team</button>
+        <button class="jr-tag" data-tag="individual">◆ Individual</button>
+        <button class="jr-tag" data-tag="travel">✈ Travel</button>
+      </div>
+
+      <div class="jr-metrics">
+        <div class="jr-metric">
+          <div class="jr-metric-lbl">Energie</div>
+          <div class="jr-metric-bar" data-metric="energy"></div>
+        </div>
+        <div class="jr-metric">
+          <div class="jr-metric-lbl">Mood</div>
+          <div class="jr-metric-bar" data-metric="mood"></div>
+        </div>
+        <div class="jr-metric">
+          <div class="jr-metric-lbl">Schlaf</div>
+          <div class="jr-metric-bar" data-metric="sleep"></div>
+        </div>
+        <div class="jr-metric">
+          <div class="jr-metric-lbl">Load</div>
+          <div class="jr-metric-bar" data-metric="load"></div>
+        </div>
+      </div>
+
+      <textarea class="jr-body" id="entryBody" placeholder="Was lief gut · Was lief nicht · Was nehme ich mit · Insights für morgen ..."></textarea>
+      <div class="jr-save-status" id="saveStatus">—</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══════ FOOTER ══════ -->
+<footer class="wp-shell-footer">
+  Wild Project · Live by Design, not by Default · <a href="/workspace.html">Workspace</a> · <a href="/planner.html">Planner</a>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── Storage ──
+  var STORE_KEY = 'wp_journal_entries';
+  var THEME_KEY = 'wp_workspace_theme';
+  var entries = [];
+  var currentId = null;
+  var currentFilter = 'all';
+  var saveTimer = null;
+
+  function load() {
+    try { entries = JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
+    catch(e) { entries = []; }
+  }
+  function save() {
+    localStorage.setItem(STORE_KEY, JSON.stringify(entries));
+    showSaved();
+  }
+  function uid() { return 'jr-' + Date.now() + '-' + Math.random().toString(36).slice(2,7); }
+
+  // Hockey phase
+  function phaseOf(dateStr) {
+    var m = new Date(dateStr + 'T12:00:00').getMonth();
+    if (m >= 4 && m <= 6) return 'off';
+    if (m === 7) return 'pre';
+    return 'in';
+  }
+  function phaseLbl(p) { return p === 'off' ? 'OFF' : (p === 'pre' ? 'PRE' : 'IN'); }
+
+  // ── DOM ──
+  var listEl     = document.getElementById('entryList');
+  var emptyEl    = document.getElementById('emptyState');
+  var editorEl   = document.getElementById('editorView');
+  var dateInp    = document.getElementById('entryDate');
+  var typeSel    = document.getElementById('entryType');
+  var durInp     = document.getElementById('entryDuration');
+  var titleInp   = document.getElementById('entryTitle');
+  var bodyInp    = document.getElementById('entryBody');
+  var tagRow     = document.getElementById('tagRow');
+  var saveStatus = document.getElementById('saveStatus');
+
+  // ── Render entry list ──
+  function renderList() {
+    var visible = entries.slice().sort(function(a, b) {
+      return (b.date || '').localeCompare(a.date || '');
+    });
+    if (currentFilter !== 'all') {
+      visible = visible.filter(function(e) { return phaseOf(e.date || todayStr()) === currentFilter; });
+    }
+    if (visible.length === 0) {
+      listEl.innerHTML = '<div class="jr-list-empty">— Keine Einträge —</div>';
+      return;
+    }
+    listEl.innerHTML = visible.map(function(e) {
+      var p = phaseOf(e.date || todayStr());
+      var d = new Date((e.date || todayStr()) + 'T12:00:00');
+      var dStr = String(d.getDate()).padStart(2,'0') + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + d.getFullYear();
+      var meta = (e.type || 'entry').toUpperCase();
+      if (e.duration) meta += ' · ' + e.duration + ' MIN';
+      return '<div class="jr-entry-item ' + (e.id === currentId ? 'active' : '') + '" data-id="' + e.id + '">' +
+             '<div class="jr-entry-date">' + dStr + '<span class="jr-entry-phase ' + p + '">' + phaseLbl(p) + '</span></div>' +
+             '<div class="jr-entry-title">' + (e.title || '— ohne Titel —') + '</div>' +
+             '<div class="jr-entry-meta">' + meta + '</div>' +
+             '</div>';
+    }).join('');
+
+    listEl.querySelectorAll('.jr-entry-item').forEach(function(el) {
+      el.addEventListener('click', function() { selectEntry(el.dataset.id); });
+    });
+  }
+
+  function todayStr() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+
+  // ── Editor sync ──
+  function getCurrent() { return entries.find(function(e) { return e.id === currentId; }); }
+
+  function loadIntoEditor(e) {
+    dateInp.value     = e.date || todayStr();
+    typeSel.value     = e.type || 'training';
+    durInp.value      = e.duration || '';
+    titleInp.value    = e.title || '';
+    bodyInp.value     = e.body || '';
+    // Tags
+    tagRow.querySelectorAll('.jr-tag').forEach(function(t) {
+      t.classList.toggle('active', (e.tags || []).indexOf(t.dataset.tag) > -1);
+    });
+    // Metrics
+    ['energy','mood','sleep','load'].forEach(function(m) {
+      renderMetric(m, (e.metrics && e.metrics[m]) || 0);
+    });
+  }
+
+  function renderMetric(name, value) {
+    var bar = tagRow.parentNode.querySelector('[data-metric="' + name + '"]');
+    if (!bar) return;
+    var html = '';
+    for (var i = 1; i <= 5; i++) {
+      html += '<div class="jr-metric-dot ' + (i <= value ? 'filled' : '') + '" data-val="' + i + '"></div>';
+    }
+    bar.innerHTML = html;
+    bar.querySelectorAll('.jr-metric-dot').forEach(function(d) {
+      d.addEventListener('click', function() {
+        var v = parseInt(d.dataset.val, 10);
+        var cur = getCurrent();
+        if (!cur) return;
+        cur.metrics = cur.metrics || {};
+        // Toggle: clicking the same value clears it
+        cur.metrics[name] = cur.metrics[name] === v ? 0 : v;
+        renderMetric(name, cur.metrics[name]);
+        scheduleSave();
+      });
+    });
+  }
+
+  function selectEntry(id) {
+    currentId = id;
+    var e = getCurrent();
+    if (!e) {
+      emptyEl.style.display = 'block';
+      editorEl.style.display = 'none';
+      return;
+    }
+    emptyEl.style.display = 'none';
+    editorEl.style.display = 'block';
+    loadIntoEditor(e);
+    renderList();
+  }
+
+  function createEntry() {
+    var e = {
+      id: uid(),
+      date: todayStr(),
+      type: 'training',
+      duration: '',
+      title: '',
+      body: '',
+      tags: [],
+      metrics: { energy: 0, mood: 0, sleep: 0, load: 0 },
+      created: Date.now()
+    };
+    entries.unshift(e);
+    save();
+    selectEntry(e.id);
+    setTimeout(function() { titleInp.focus(); }, 50);
+  }
+
+  function deleteEntry() {
+    if (!currentId) return;
+    if (!confirm('Diesen Eintrag wirklich löschen?')) return;
+    entries = entries.filter(function(e) { return e.id !== currentId; });
+    save();
+    currentId = entries.length > 0 ? entries[0].id : null;
+    if (currentId) selectEntry(currentId);
+    else {
+      emptyEl.style.display = 'block';
+      editorEl.style.display = 'none';
+      renderList();
+    }
+  }
+
+  // ── Save handlers ──
+  function scheduleSave() {
+    saveStatus.textContent = '· tippt ·';
+    saveStatus.classList.remove('saved');
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function() {
+      var e = getCurrent();
+      if (!e) return;
+      e.date     = dateInp.value;
+      e.type     = typeSel.value;
+      e.duration = durInp.value;
+      e.title    = titleInp.value;
+      e.body     = bodyInp.value;
+      // tags read from active state
+      e.tags = Array.prototype.slice.call(tagRow.querySelectorAll('.jr-tag.active')).map(function(t) { return t.dataset.tag; });
+      save();
+      renderList();
+    }, 400);
+  }
+  function showSaved() {
+    saveStatus.textContent = '✓ Gespeichert · ' + new Date().toLocaleTimeString('de-DE', { hour:'2-digit', minute:'2-digit' });
+    saveStatus.classList.add('saved');
+  }
+
+  ['input','change'].forEach(function(evt) {
+    [dateInp, typeSel, durInp, titleInp, bodyInp].forEach(function(el) {
+      el.addEventListener(evt, scheduleSave);
+    });
+  });
+  tagRow.addEventListener('click', function(e) {
+    var t = e.target.closest('.jr-tag');
+    if (!t) return;
+    t.classList.toggle('active');
+    scheduleSave();
+  });
+
+  // ── Filters ──
+  document.querySelectorAll('.jr-filter').forEach(function(b) {
+    b.addEventListener('click', function() {
+      document.querySelectorAll('.jr-filter').forEach(function(x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      currentFilter = b.dataset.filter;
+      renderList();
+    });
+  });
+
+  document.getElementById('newEntryBtn').addEventListener('click', createEntry);
+  document.getElementById('deleteBtn').addEventListener('click', deleteEntry);
+
+  // ── Export ──
+  document.getElementById('exportBtn').addEventListener('click', function() {
+    var blob = new Blob([JSON.stringify(entries, null, 2)], { type: 'application/json' });
+    var url  = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'journal-export-' + todayStr() + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  // ── Theme ──
+  function applyTheme(t) { document.body.classList.toggle('light', t === 'light'); }
+  applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var t = document.body.classList.contains('light') ? 'dark' : 'light';
+    localStorage.setItem(THEME_KEY, t);
+    applyTheme(t);
+  });
+
+  // ── Cross-tab sync ──
+  window.addEventListener('storage', function(e) {
+    if (e.key === STORE_KEY) { load(); renderList(); }
+  });
+
+  // ── Init ──
+  load();
+  renderList();
+  if (entries.length > 0) {
+    selectEntry(entries[0].id);
+  }
+})();
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function() {});
+    });
+  }
+</script>
+</body>
+</html>

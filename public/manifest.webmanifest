@@ -38,6 +38,21 @@
   ],
   "shortcuts": [
     {
+      "name": "Season",
+      "short_name": "Season",
+      "url": "/season.html"
+    },
+    {
+      "name": "Journal",
+      "short_name": "Journal",
+      "url": "/journal.html"
+    },
+    {
+      "name": "Jahresplanung",
+      "short_name": "Planner",
+      "url": "/planner.html"
+    },
+    {
       "name": "Notebook",
       "short_name": "Notes",
       "url": "/notebook.html"

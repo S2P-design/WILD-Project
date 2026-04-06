@@ -256,7 +256,109 @@
     color: #FC5000;
     margin-bottom: 14px;
     padding-left: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
+  .section-fullscreen {
+    color: rgba(228,228,228,0.35);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    transition: all 0.15s ease;
+    line-height: 1;
+  }
+  .section-fullscreen:hover {
+    color: #FC5000;
+    background: rgba(252,80,0,0.08);
+    transform: translateX(1px) translateY(-1px);
+  }
+  body.light .section-fullscreen { color: rgba(0,0,0,0.35); }
+  body.light .section-fullscreen:hover { color: #FC5000; background: rgba(252,80,0,0.08); }
+
+  /* ══════ TOOLS / APP LAUNCHER ══════ */
+  .tools-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tool-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: #FC5000;
+    transform: translateX(-2px);
+    transition: transform 0.2s ease;
+  }
+  .tool-card:hover {
+    background: #131313;
+    border-color: rgba(252,80,0,0.25);
+    transform: translateX(2px);
+  }
+  .tool-card:hover::before { transform: translateX(0); }
+  .tool-ico {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(252,80,0,0.08);
+    border-radius: 8px;
+    color: #FC5000;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .tool-meta { flex: 1; min-width: 0; }
+  .tool-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #E4E4E4;
+    margin-bottom: 2px;
+    letter-spacing: 0.2px;
+  }
+  .tool-desc {
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    color: rgba(228,228,228,0.4);
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .tool-arrow {
+    font-size: 14px;
+    color: rgba(228,228,228,0.25);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .tool-card:hover .tool-arrow {
+    color: #FC5000;
+    transform: translateX(2px) translateY(-2px);
+  }
+  body.light .tool-card { background: #ECECEC; border-color: rgba(0,0,0,0.06); }
+  body.light .tool-card:hover { background: #E4E4E4; border-color: rgba(252,80,0,0.25); }
+  body.light .tool-title { color: #050505; }
+  body.light .tool-desc { color: rgba(0,0,0,0.4); }
+  body.light .tool-arrow { color: rgba(0,0,0,0.25); }
 
   /* ── Link Card ── */
   .link-card {
@@ -404,7 +506,7 @@
     color: rgba(255,255,255,0.4);
     text-decoration: none;
     transition: color 0.2s;
-    background: rgba(255,255,255,0.05);
+    background: #0a0a0a;
     padding: 2px 8px;
     border-radius: 3px;
   }
@@ -518,7 +620,7 @@
   }
   body.light .footer { border-top-color: rgba(0,0,0,0.06); }
   body.light .footer-copy { color: rgba(0,0,0,0.5); }
-  body.light .footer-links a { color: rgba(0,0,0,0.4); background: rgba(0,0,0,0.05); }
+  body.light .footer-links a { color: rgba(0,0,0,0.4); background: #ECECEC; }
   body.light .footer-links a:hover { color: #FC5000; background: rgba(252,80,0,0.08); }
   body.light .footer-links .dot { color: rgba(0,0,0,0.15); }
   body.light .footer-tagline { color: rgba(0,0,0,0.3); }
@@ -1135,6 +1237,100 @@
     background: rgba(252,80,0,0.06);
   }
 
+  /* Multi-Event chips */
+  .cal-events-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+    align-items: center;
+  }
+  .cal-event-chip {
+    background: #131313;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.55);
+    padding: 4px 9px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cal-event-chip:hover { border-color: rgba(252,80,0,0.4); color: #E4E4E4; }
+  .cal-event-chip.active {
+    background: #FC5000;
+    border-color: #FC5000;
+    color: #050505;
+    font-weight: 600;
+  }
+  .cal-add-event {
+    background: transparent;
+    border: 1px dashed rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.4);
+    padding: 4px 9px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .cal-add-event:hover {
+    border-color: #FC5000;
+    color: #FC5000;
+    border-style: solid;
+  }
+  .cal-detail-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .cal-detail-actions .cal-export-btn { flex: 1; margin-top: 0; }
+  .cal-delete-event {
+    padding: 5px 10px;
+    font-family: monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .cal-delete-event:hover {
+    color: #FC5000;
+    border-color: rgba(252,80,0,0.3);
+    background: rgba(252,80,0,0.06);
+  }
+  /* Multi-event indicator on day cell */
+  .cal-day.has-note.multi::after {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #FC5000;
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 6px 0 0 #FC5000, -6px 0 0 #FC5000;
+  }
+  body.light .cal-event-chip { background: #ECECEC; border-color: rgba(0,0,0,0.08); color: rgba(0,0,0,0.5); }
+  body.light .cal-event-chip:hover { color: #050505; border-color: rgba(252,80,0,0.4); }
+  body.light .cal-event-chip.active { background: #FC5000; border-color: #FC5000; color: #050505; }
+  body.light .cal-add-event { color: rgba(0,0,0,0.4); border-color: rgba(0,0,0,0.18); }
+  body.light .cal-delete-event { color: rgba(0,0,0,0.25); background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.08); }
+
   /* Light mode calendar */
   body.light .cal-widget { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.06); }
   body.light .cal-header { border-bottom-color: rgba(0,0,0,0.04); }
@@ -1327,6 +1523,16 @@
       gap: 0;
     }
     .full-width { max-width: 100%; }
+    /* Footer stacks early — matches the 1-column layout collapse */
+    .footer-inner {
+      flex-direction: column-reverse;
+      align-items: center;
+      text-align: center;
+      gap: 24px;
+    }
+    .footer-left  { align-items: center; gap: 8px; }
+    .footer-right { align-items: center; gap: 6px; }
+    .footer-logo  { width: 28px; height: 28px; opacity: 0.6; }
   }
 
   /* ── Mobile ── */
@@ -1343,14 +1549,7 @@
     .bookmark-title { font-size: 10px; }
     .notes-area { min-height: 100px; font-size: 11px; }
     .footer { padding-top: 28px; }
-    .footer-inner {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 20px;
-    }
-    .footer-left { align-items: center; gap: 6px; }
-    .footer-right { align-items: center; }
+    .footer-inner { gap: 18px; }
     /* Calendar mobile fixes */
     .cal-detail-fields { flex-wrap: wrap; }
     .cal-field { min-width: 80px; }
@@ -1697,7 +1896,8 @@
   .todo-widget,
   .planner-widget,
   .bookmark-item,
-  .bookmark-input {
+  .bookmark-input,
+  .tool-card {
     background-color: #0a0a0a;
   }
   .link-card:hover { background-color: #131313; }
@@ -1985,6 +2185,53 @@
     <!-- ───────── RIGHT COLUMN: WORKSPACE TOOLS ───────── -->
     <div class="workspace-col">
 
+      <!-- ══════ TOOLS / APP LAUNCHER ══════ -->
+      <div class="section">
+        <div class="section-label">Tools</div>
+        <div class="tools-grid">
+          <a href="/planner.html" class="tool-card" title="Jahresplanung im Vollbild">
+            <div class="tool-ico">▦</div>
+            <div class="tool-meta">
+              <div class="tool-title">Jahresplanung</div>
+              <div class="tool-desc">12 Monate · Hockey-Cycle · Brücken</div>
+            </div>
+            <div class="tool-arrow">↗</div>
+          </a>
+          <a href="/season.html" class="tool-card" title="Wochen-Mikrozyklus">
+            <div class="tool-ico">⛸</div>
+            <div class="tool-meta">
+              <div class="tool-title">Season</div>
+              <div class="tool-desc">Mikrozyklus · 7 Tage · Trainings-Slots</div>
+            </div>
+            <div class="tool-arrow">↗</div>
+          </a>
+          <a href="/journal.html" class="tool-card" title="Coaching Journal">
+            <div class="tool-ico">✦</div>
+            <div class="tool-meta">
+              <div class="tool-title">Journal</div>
+              <div class="tool-desc">Reflexion · Tags · Energie/Mood</div>
+            </div>
+            <div class="tool-arrow">↗</div>
+          </a>
+          <a href="/notebook.html" class="tool-card" title="Notebook im Vollbild">
+            <div class="tool-ico">✎</div>
+            <div class="tool-meta">
+              <div class="tool-title">Notebook</div>
+              <div class="tool-desc">Fokussiertes Schreiben</div>
+            </div>
+            <div class="tool-arrow">↗</div>
+          </a>
+          <a href="/brand-guide.html" class="tool-card" title="Brand Guide">
+            <div class="tool-ico">◈</div>
+            <div class="tool-meta">
+              <div class="tool-title">Brand Guide</div>
+              <div class="tool-desc">Identität · Farben · Typo</div>
+            </div>
+            <div class="tool-arrow">↗</div>
+          </a>
+        </div>
+      </div>
+
       <!-- ══════ KALENDER ══════ -->
       <div class="section">
         <div class="section-label">Kalender</div>
@@ -1998,6 +2245,7 @@
           <div class="cal-detail" id="calDetail">
             <div class="cal-detail-date" id="calDetailDate"></div>
             <div class="cal-detail-holiday" id="calDetailHoliday"></div>
+            <div class="cal-events-list" id="calEventsList"></div>
             <textarea class="cal-detail-note" id="calDetailNote" placeholder="Notiz / Titel ..." rows="2"></textarea>
             <label class="cal-allday">
               <input type="checkbox" id="calAllDay">
@@ -2017,7 +2265,10 @@
                 <input type="text" class="cal-field-input" id="calLocation" placeholder="Optional ...">
               </div>
             </div>
-            <button class="cal-export-btn" id="calExportBtn" title="In Apple Kalender exportieren">↗ IN KALENDER EXPORTIEREN</button>
+            <div class="cal-detail-actions">
+              <button class="cal-delete-event" id="calDeleteEvent" title="Diesen Termin löschen">🗑 LÖSCHEN</button>
+              <button class="cal-export-btn" id="calExportBtn" title="In Apple Kalender exportieren">↗ IN KALENDER EXPORTIEREN</button>
+            </div>
           </div>
         </div>
       </div>
@@ -2067,7 +2318,7 @@
 
       <!-- ══════ JAHRESPLANUNG ══════ -->
       <div class="section">
-        <div class="section-label">Jahresplanung</div>
+        <div class="section-label">Jahresplanung <a href="/planner.html" class="section-fullscreen" title="Vollbild öffnen">↗</a></div>
         <div class="planner-widget">
           <div class="planner-controls">
             <select class="planner-select" id="plannerRegion" title="Region"></select>
@@ -2384,9 +2635,13 @@
     document.dispatchEvent(new CustomEvent('wp:cal-update'));
   }
 
-  // Normalize note format (backward compat: old = string, new = object)
+  // Default empty event
+  function blankEvent() {
+    return { text: '', allDay: false, start: '09:00', end: '10:00', loc: '' };
+  }
+  // Normalize a single value into an event object
   function normNote(v) {
-    if (!v) return { text: '', allDay: false, start: '09:00', end: '10:00', loc: '' };
+    if (!v) return blankEvent();
     if (typeof v === 'string') return { text: v, allDay: false, start: '09:00', end: '10:00', loc: '' };
     return {
       text:   v.text || '',
@@ -2395,6 +2650,17 @@
       end:    v.end   || '10:00',
       loc:    v.loc   || ''
     };
+  }
+  // Normalize stored value into an array of events (backward compat:
+  // legacy string OR single object becomes a one-element array).
+  function normEvents(v) {
+    if (!v) return [];
+    if (Array.isArray(v)) return v.map(normNote);
+    return [normNote(v)];
+  }
+  // Get events array for a date (always returns an array, possibly empty)
+  function getEvents(key) {
+    return normEvents(calNotes[key]);
   }
 
   // ISO week number
@@ -2521,7 +2787,11 @@
           classes += ' holiday';
           title = holidays[key];
         }
-        if (calNotes[key]) classes += ' has-note';
+        var dayEvents = getEvents(key);
+        if (dayEvents.length > 0) {
+          classes += ' has-note';
+          if (dayEvents.length > 1) classes += ' multi';
+        }
         if (key === selectedDate) classes += ' selected';
 
         html += '<div class="' + classes + '" data-date="' + key + '"' + (title ? ' title="' + title + '"' : '') + '>' + dayLabel + '</div>';
@@ -2538,7 +2808,50 @@
     });
   }
 
+  // Currently-edited event index within the selectedDate's events array
+  var currentEventIdx = 0;
+  var calEventsList = document.getElementById('calEventsList');
+
+  function renderEventChips() {
+    if (!selectedDate) { calEventsList.innerHTML = ''; return; }
+    var events = getEvents(selectedDate);
+    var html = '';
+    events.forEach(function(ev, i) {
+      var label = (ev.text || '— Neu —').substring(0, 24);
+      if (!ev.allDay && ev.start) label = ev.start + ' · ' + label;
+      html += '<div class="cal-event-chip' + (i === currentEventIdx ? ' active' : '') +
+              '" data-idx="' + i + '" title="' + (ev.text || 'Neuer Termin') + '">' + label + '</div>';
+    });
+    // Virtual "new" chip when editing a not-yet-saved event
+    if (currentEventIdx >= events.length) {
+      html += '<div class="cal-event-chip active" data-idx="' + events.length + '" title="Neuer Termin">— NEU —</div>';
+    }
+    html += '<button class="cal-add-event" id="calAddEventBtn" title="Weiteren Termin hinzufügen">+ TERMIN</button>';
+    calEventsList.innerHTML = html;
+
+    calEventsList.querySelectorAll('.cal-event-chip').forEach(function(el) {
+      el.addEventListener('click', function() {
+        currentEventIdx = parseInt(el.dataset.idx, 10);
+        loadEventIntoForm();
+        renderEventChips();
+      });
+    });
+    document.getElementById('calAddEventBtn').addEventListener('click', addNewEvent);
+  }
+
+  function loadEventIntoForm() {
+    var events = getEvents(selectedDate);
+    var ev = events[currentEventIdx] || blankEvent();
+    calDetailNote.value = ev.text;
+    document.getElementById('calAllDay').checked = ev.allDay;
+    document.getElementById('calTimeStart').value = ev.start;
+    document.getElementById('calTimeEnd').value = ev.end;
+    document.getElementById('calLocation').value = ev.loc;
+    document.getElementById('calTimeFields').classList.toggle('allday-on', ev.allDay);
+  }
+
   function selectDay(key) {
+    if (key !== selectedDate) currentEventIdx = 0;
     selectedDate = key;
     var parts = key.split('-');
     var d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
@@ -2555,35 +2868,95 @@
       calDetailHoliday.style.display = 'none';
     }
 
-    var note = normNote(calNotes[key]);
-    calDetailNote.value = note.text;
-    document.getElementById('calAllDay').checked = note.allDay;
-    document.getElementById('calTimeStart').value = note.start;
-    document.getElementById('calTimeEnd').value = note.end;
-    document.getElementById('calLocation').value = note.loc;
-    document.getElementById('calTimeFields').classList.toggle('allday-on', note.allDay);
+    // Ensure at least one (blank) event slot exists for editing
+    var events = getEvents(key);
+    if (events.length === 0) {
+      currentEventIdx = 0;
+    } else {
+      currentEventIdx = Math.min(currentEventIdx, events.length - 1);
+      if (currentEventIdx < 0) currentEventIdx = 0;
+    }
+    loadEventIntoForm();
+    renderEventChips();
     calDetail.classList.add('show');
     render();
   }
 
-  // Save note + all related fields on any change
+  // Save the currently-edited event into the events array for selectedDate
   function persistNote() {
     if (!selectedDate) return;
     var text = calDetailNote.value.trim();
+    var events = getEvents(selectedDate);
+
+    // Build the current event object from form
+    var ev = {
+      text: text,
+      allDay: document.getElementById('calAllDay').checked,
+      start: document.getElementById('calTimeStart').value,
+      end:   document.getElementById('calTimeEnd').value,
+      loc:   document.getElementById('calLocation').value.trim()
+    };
+
     if (!text) {
+      // Empty title → drop this event from the array
+      if (currentEventIdx < events.length) {
+        events.splice(currentEventIdx, 1);
+      }
+    } else {
+      if (currentEventIdx >= events.length) {
+        events.push(ev);
+        currentEventIdx = events.length - 1;
+      } else {
+        events[currentEventIdx] = ev;
+      }
+    }
+
+    if (events.length === 0) {
       delete calNotes[selectedDate];
     } else {
-      calNotes[selectedDate] = {
-        text: text,
-        allDay: document.getElementById('calAllDay').checked,
-        start: document.getElementById('calTimeStart').value,
-        end:   document.getElementById('calTimeEnd').value,
-        loc:   document.getElementById('calLocation').value.trim()
-      };
+      calNotes[selectedDate] = events;
     }
     saveCalNotes();
+    renderEventChips();
     render();
   }
+
+  function addNewEvent() {
+    if (!selectedDate) return;
+    var events = getEvents(selectedDate);
+    // Place currentEventIdx one past the end → a virtual blank slot.
+    // persistNote() will push it into the array as soon as the user types a title.
+    currentEventIdx = events.length;
+    // Reset form to blank
+    calDetailNote.value = '';
+    document.getElementById('calAllDay').checked = false;
+    document.getElementById('calTimeStart').value = '09:00';
+    document.getElementById('calTimeEnd').value = '10:00';
+    document.getElementById('calLocation').value = '';
+    document.getElementById('calTimeFields').classList.remove('allday-on');
+    renderEventChips();
+    calDetailNote.focus();
+  }
+
+  function deleteCurrentEvent() {
+    if (!selectedDate) return;
+    var events = getEvents(selectedDate);
+    if (currentEventIdx < events.length) {
+      events.splice(currentEventIdx, 1);
+    }
+    if (events.length === 0) {
+      delete calNotes[selectedDate];
+      currentEventIdx = 0;
+    } else {
+      calNotes[selectedDate] = events;
+      if (currentEventIdx >= events.length) currentEventIdx = events.length - 1;
+    }
+    saveCalNotes();
+    loadEventIntoForm();
+    renderEventChips();
+    render();
+  }
+
   calDetailNote.addEventListener('input', persistNote);
   document.getElementById('calTimeStart').addEventListener('change', persistNote);
   document.getElementById('calTimeEnd').addEventListener('change', persistNote);
@@ -2592,36 +2965,34 @@
     document.getElementById('calTimeFields').classList.toggle('allday-on', this.checked);
     persistNote();
   });
+  document.getElementById('calDeleteEvent').addEventListener('click', deleteCurrentEvent);
 
-  // ICS Export
+  // ICS Export — exports ALL events of the selected day in one .ics file
   document.getElementById('calExportBtn').addEventListener('click', function() {
     if (!selectedDate) return;
-    var title = calDetailNote.value.trim() || 'Termin';
-    var allDay = document.getElementById('calAllDay').checked;
-    var startTime = document.getElementById('calTimeStart').value || '09:00';
-    var endTime = document.getElementById('calTimeEnd').value || '10:00';
-    var location = document.getElementById('calLocation').value.trim();
+    // Persist any pending edits first
+    persistNote();
+
+    var events = getEvents(selectedDate);
+    // Fallback: if nothing saved yet, use the current form state
+    if (events.length === 0) {
+      var formText = calDetailNote.value.trim() || 'Termin';
+      events = [{
+        text: formText,
+        allDay: document.getElementById('calAllDay').checked,
+        start: document.getElementById('calTimeStart').value || '09:00',
+        end:   document.getElementById('calTimeEnd').value || '10:00',
+        loc:   document.getElementById('calLocation').value.trim()
+      }];
+    }
 
     var parts = selectedDate.split('-');
     var y = parts[0], m = parts[1], d = parts[2];
+    var endDate = new Date(parseInt(y), parseInt(m) - 1, parseInt(d) + 1);
+    var ey = endDate.getFullYear();
+    var em = String(endDate.getMonth() + 1).padStart(2, '0');
+    var ed = String(endDate.getDate()).padStart(2, '0');
 
-    // Build DTSTART/DTEND lines (all-day uses VALUE=DATE format)
-    var dtStartLine, dtEndLine;
-    if (allDay) {
-      // All-day: DTEND must be the day AFTER (exclusive end)
-      var endDate = new Date(parseInt(y), parseInt(m) - 1, parseInt(d) + 1);
-      var ey = endDate.getFullYear();
-      var em = String(endDate.getMonth() + 1).padStart(2, '0');
-      var ed = String(endDate.getDate()).padStart(2, '0');
-      dtStartLine = 'DTSTART;VALUE=DATE:' + y + m + d;
-      dtEndLine   = 'DTEND;VALUE=DATE:' + ey + em + ed;
-    } else {
-      var sh = startTime.split(':'), eh = endTime.split(':');
-      dtStartLine = 'DTSTART;TZID=Europe/Vienna:' + y + m + d + 'T' + sh[0] + sh[1] + '00';
-      dtEndLine   = 'DTEND;TZID=Europe/Vienna:'   + y + m + d + 'T' + eh[0] + eh[1] + '00';
-    }
-
-    var uid = 'wp-' + Date.now() + '@wildproject.pro';
     var now = new Date();
     var stamp = now.getUTCFullYear()
       + String(now.getUTCMonth() + 1).padStart(2, '0')
@@ -2630,28 +3001,46 @@
       + String(now.getUTCMinutes()).padStart(2, '0')
       + String(now.getUTCSeconds()).padStart(2, '0') + 'Z';
 
-    var ics = [
+    var lines = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
       'PRODID:-//Wild Project//Workspace//DE',
       'CALSCALE:GREGORIAN',
-      'METHOD:PUBLISH',
-      'BEGIN:VEVENT',
-      'UID:' + uid,
-      'DTSTAMP:' + stamp,
-      dtStartLine,
-      dtEndLine,
-      'SUMMARY:' + title.replace(/[,;\\]/g, ' '),
-      location ? 'LOCATION:' + location.replace(/[,;\\]/g, ' ') : '',
-      'END:VEVENT',
-      'END:VCALENDAR'
-    ].filter(Boolean).join('\r\n');
+      'METHOD:PUBLISH'
+    ];
 
+    events.forEach(function(ev, idx) {
+      var title = (ev.text || 'Termin').replace(/[,;\\]/g, ' ');
+      var dtStartLine, dtEndLine;
+      if (ev.allDay) {
+        dtStartLine = 'DTSTART;VALUE=DATE:' + y + m + d;
+        dtEndLine   = 'DTEND;VALUE=DATE:' + ey + em + ed;
+      } else {
+        var sh = (ev.start || '09:00').split(':'), eh = (ev.end || '10:00').split(':');
+        dtStartLine = 'DTSTART;TZID=Europe/Vienna:' + y + m + d + 'T' + sh[0] + sh[1] + '00';
+        dtEndLine   = 'DTEND;TZID=Europe/Vienna:'   + y + m + d + 'T' + eh[0] + eh[1] + '00';
+      }
+      var uid = 'wp-' + Date.now() + '-' + idx + '@wildproject.pro';
+      lines.push('BEGIN:VEVENT');
+      lines.push('UID:' + uid);
+      lines.push('DTSTAMP:' + stamp);
+      lines.push(dtStartLine);
+      lines.push(dtEndLine);
+      lines.push('SUMMARY:' + title);
+      if (ev.loc) lines.push('LOCATION:' + ev.loc.replace(/[,;\\]/g, ' '));
+      lines.push('END:VEVENT');
+    });
+    lines.push('END:VCALENDAR');
+
+    var ics = lines.join('\r\n');
     var blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
+    var fname = events.length === 1
+      ? (events[0].text || 'Termin').replace(/[^a-zA-Z0-9äöüÄÖÜß ]/g, '').substring(0, 30).trim()
+      : selectedDate + '_' + events.length + '_Termine';
     a.href = url;
-    a.download = title.replace(/[^a-zA-Z0-9äöüÄÖÜß ]/g, '').substring(0, 30).trim() + '.ics';
+    a.download = (fname || 'Termin') + '.ics';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -2702,6 +3091,15 @@
   viewYear = now.getFullYear();
   viewMonth = now.getMonth();
   render();
+
+  // Pickup goto-date from another tool (e.g. /planner.html)
+  var pendingGoto = localStorage.getItem('wp_goto_date');
+  if (pendingGoto) {
+    localStorage.removeItem('wp_goto_date');
+    setTimeout(function() {
+      document.dispatchEvent(new CustomEvent('wp:goto-date', { detail: pendingGoto }));
+    }, 200);
+  }
 })();
 
 // ── To-Do Widget ──
@@ -3419,9 +3817,29 @@
 
     // Calendar events (from upper Kalender widget)
     var calEvents = loadCalEvents();
-    var eventCount = Object.keys(calEvents).filter(function(k) {
-      return k.indexOf(year + '-') === 0;
-    }).length;
+    // Helper: count individual events for a stored value (array | object | string)
+    function eventCountFor(v) {
+      if (!v) return 0;
+      if (Array.isArray(v)) return v.length;
+      return 1;
+    }
+    // Helper: extract first event title for tooltip
+    function firstEventText(v) {
+      if (!v) return '';
+      if (Array.isArray(v)) return (v[0] && v[0].text) || '';
+      if (typeof v === 'string') return v;
+      return v.text || '';
+    }
+    function isAllDayFirst(v) {
+      if (!v) return false;
+      if (Array.isArray(v)) return !!(v[0] && v[0].allDay);
+      if (typeof v === 'object') return !!v.allDay;
+      return false;
+    }
+    var eventCount = 0;
+    Object.keys(calEvents).forEach(function(k) {
+      if (k.indexOf(year + '-') === 0) eventCount += eventCountFor(calEvents[k]);
+    });
 
     // Stats (4 columns)
     statsEl.innerHTML =
@@ -3493,9 +3911,13 @@
         if (fname) titleParts.push('🏖 ' + fname + '-Ferien');
         if (IIHF_DAYS[k]) titleParts.push('🏒 IIHF Break');
         if (calEvents[k]) {
-          var et = typeof calEvents[k] === 'string' ? calEvents[k] : (calEvents[k].text || '');
-          var allDayMark = (typeof calEvents[k] === 'object' && calEvents[k].allDay) ? '⏺ ' : '★ ';
-          if (et) titleParts.push(allDayMark + et.substring(0, 40));
+          var n = eventCountFor(calEvents[k]);
+          var et = firstEventText(calEvents[k]);
+          var allDayMark = isAllDayFirst(calEvents[k]) ? '⏺ ' : '★ ';
+          if (et) {
+            var suffix = n > 1 ? ' (+' + (n - 1) + ')' : '';
+            titleParts.push(allDayMark + et.substring(0, 40) + suffix);
+          }
         }
         titleParts.push('Klick → im Kalender öffnen');
         var title = titleParts.join(' · ');

@@ -3,22 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notes — Wild Project</title>
+<title>Notebook — Wild Project</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+
+<!-- Shared design system -->
+<link rel="stylesheet" href="/wp-shell.css">
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#050505">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WP Notebook">
+<link rel="apple-touch-icon" href="/favicon-180.png">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Caveat:wght@400;500&family=IBM+Plex+Mono:wght@300;400&display=swap');
 
+  /* Notebook tokens — aliased to wp-shell brand variables */
   :root {
-    --bg: #050505;
-    --bg-sidebar: #0A0A0A;
-    --bg-editor: #050505;
-    --text: #F5F5F3;
+    --bg: var(--wp-midnight, #050505);
+    --bg-sidebar: var(--wp-surface-1, #0a0a0a);
+    --bg-editor: var(--wp-midnight, #050505);
+    --text: var(--wp-text, #E4E4E4);
     --text-dim: rgba(255,255,255,0.35);
     --text-dimmer: rgba(255,255,255,0.15);
     --border: rgba(255,255,255,0.04);
     --border-hover: rgba(255,255,255,0.08);
-    --accent: #FC5000;
+    --accent: var(--wp-flame, #FC5000);
     --accent-dim: rgba(252,80,0,0.08);
     --accent-glow: rgba(252,80,0,0.04);
     --silver: #E4E4E4;
@@ -27,10 +40,10 @@
   }
 
   .light {
-    --bg: #F5F5F3;
-    --bg-sidebar: #EAEAE8;
-    --bg-editor: #F5F5F3;
-    --text: #1A1A1A;
+    --bg: #FAFAFA;
+    --bg-sidebar: #ECECEC;
+    --bg-editor: #FAFAFA;
+    --text: #050505;
     --text-dim: rgba(0,0,0,0.4);
     --text-dimmer: rgba(0,0,0,0.15);
     --border: rgba(0,0,0,0.06);
@@ -436,7 +449,7 @@
   }
 
   .font-select:focus { border-color: rgba(252,80,0,0.3); }
-  .font-select option { background: #151515; color: #F5F5F3; }
+  .font-select option { background: #151515; color: #E4E4E4; }
 
   .toolbar-right {
     margin-left: auto;
@@ -707,7 +720,7 @@
   </div>
   <div class="header-right">
     <button class="header-btn" id="themeToggle" onclick="toggleTheme()">DARK</button>
-    <a href="https://www.wildproject.pro/workspace.html" class="header-btn">X</a>
+    <a href="/workspace.html" class="header-btn" title="Zurück zum Workspace">←</a>
   </div>
 </header>
 

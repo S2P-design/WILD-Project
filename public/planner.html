@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Jahresplanung — Wild Project</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+
+<!-- Shared design system -->
+<link rel="stylesheet" href="/wp-shell.css">
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#050505">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WP Planner">
+<link rel="apple-touch-icon" href="/favicon-180.png">
+
+<style>
+  /* ════════════════════════════════════════
+     PLANNER LAYOUT
+     ════════════════════════════════════════ */
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  main {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 0;
+    align-items: start;
+  }
+  .pl-sidebar {
+    position: sticky;
+    top: 51px; /* below header */
+    align-self: start;
+    padding: 28px 24px;
+    border-right: 1px solid var(--wp-border);
+    height: calc(100vh - 51px);
+    overflow-y: auto;
+    background: var(--wp-surface-1);
+  }
+  .pl-content {
+    padding: 28px 32px;
+    min-width: 0;
+  }
+  .pl-content-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .pl-content-title {
+    font-family: var(--wp-font-sans);
+    font-size: 32px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    color: var(--wp-text);
+  }
+  .pl-content-title strong {
+    color: var(--wp-flame);
+    font-weight: 700;
+  }
+  .pl-content-sub {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+  }
+
+  /* ── Sidebar groups ── */
+  .pl-side-group { margin-bottom: 28px; }
+  .pl-side-group:last-child { margin-bottom: 0; }
+  .pl-side-group .wp-label { margin-bottom: 8px; }
+  .pl-side-field { margin-bottom: 14px; }
+  .pl-side-field .wp-input,
+  .pl-side-field .wp-select { width: 100%; }
+
+  /* ── Legend ── */
+  .pl-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 0.8px;
+    color: var(--wp-text-faint);
+    text-transform: uppercase;
+  }
+  .pl-legend span { display: flex; align-items: center; gap: 8px; }
+  .pl-legend span::before {
+    content: '';
+    width: 11px; height: 11px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .pl-legend .lg-off::before { background: rgba(252,80,0,0.55); }
+  .pl-legend .lg-pre::before { background: rgba(252,80,0,0.18); }
+  .pl-legend .lg-in::before  { background: rgba(255,255,255,0.08); border: 1px solid var(--wp-border); }
+  .pl-legend .lg-fer::before { background: rgba(252,80,0,0.18); }
+  .pl-legend .lg-iihf::before { background: var(--wp-surface-2); box-shadow: inset 0 -3px 0 0 rgba(228,228,228,0.4); }
+  .pl-legend .lg-evt::before { background: transparent; outline: 2px solid var(--wp-flame); outline-offset: -2px; }
+
+  /* ── Stats Strip ── */
+  .pl-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .pl-stat {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 16px 14px;
+    text-align: center;
+  }
+  .pl-stat-val {
+    display: block;
+    font-family: var(--wp-font-sans);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--wp-flame);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .pl-stat-lbl {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+  }
+
+  /* ── Phase Bar ── */
+  .pl-phase-bar {
+    display: flex;
+    height: 38px;
+    border-radius: var(--wp-radius);
+    overflow: hidden;
+    border: 1px solid var(--wp-border);
+    margin-bottom: 24px;
+  }
+  .pl-phase {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--wp-text-mute);
+    border-right: 1px solid rgba(0,0,0,0.3);
+  }
+  .pl-phase:last-child { border-right: none; }
+  .pl-phase.off { background: rgba(252,80,0,0.4); color: var(--wp-text); }
+  .pl-phase.pre { background: rgba(252,80,0,0.18); }
+  .pl-phase.in  { background: rgba(255,255,255,0.04); }
+  body.light .pl-phase.in { background: rgba(0,0,0,0.04); }
+
+  /* ── Year Grid (12 months) ── */
+  .pl-year-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .pl-month {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-lg);
+    padding: 14px 12px;
+  }
+  .pl-month-name {
+    font-family: var(--wp-font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--wp-text-mute);
+    margin-bottom: 10px;
+  }
+  .pl-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  .pl-mini-dow {
+    font-family: var(--wp-font-mono);
+    font-size: 7px;
+    text-align: center;
+    color: var(--wp-text-ghost);
+    padding-bottom: 4px;
+  }
+  .pl-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--wp-font-mono);
+    font-size: 10px;
+    border-radius: 3px;
+    color: var(--wp-text-mute);
+    cursor: default;
+    transition: transform 0.1s var(--wp-ease), background 0.15s var(--wp-ease);
+  }
+  .pl-day.we     { color: var(--wp-text-ghost); }
+  .pl-day.holiday{ background: rgba(252,80,0,0.55); color: var(--wp-text); font-weight: 700; }
+  .pl-day.ferien { background: rgba(252,80,0,0.18); color: var(--wp-text); }
+  .pl-day.iihf   { box-shadow: inset 0 -3px 0 0 rgba(228,228,228,0.5); }
+  .pl-day.event  { outline: 2px solid var(--wp-flame); outline-offset: -2px; color: var(--wp-flame); font-weight: 700; }
+  .pl-day.holiday.ferien { background: rgba(252,80,0,0.55); }
+  .pl-day.event.holiday  { outline-color: var(--wp-text); }
+  .pl-day[data-date] { cursor: pointer; }
+  .pl-day[data-date]:hover {
+    background: rgba(228,228,228,0.12);
+    transform: scale(1.2);
+    z-index: 1;
+    position: relative;
+  }
+  .pl-day[data-date].holiday:hover { background: rgba(252,80,0,0.75); }
+  body.light .pl-day[data-date]:hover { background: rgba(0,0,0,0.12); }
+
+  /* ── Section divider ── */
+  .pl-section-h {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--wp-text-mute);
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--wp-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pl-section-h::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--wp-border);
+  }
+
+  /* ── Lower row: Bridges + IIHF ── */
+  .pl-bottom-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 1100px) {
+    .pl-bottom-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Bridges ── */
+  .pl-bridges { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 700px) { .pl-bridges { grid-template-columns: 1fr; } }
+  .pl-bridge {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-left: 3px solid var(--wp-flame);
+    border-radius: var(--wp-radius);
+    padding: 14px 16px;
+    transition: background 0.2s var(--wp-ease);
+  }
+  .pl-bridge:hover { background: var(--wp-surface-2); }
+  .pl-bridge.in-season { border-left-color: rgba(255,255,255,0.2); opacity: 0.65; }
+  .pl-bridge.pre-season { border-left-color: rgba(252,80,0,0.4); opacity: 0.85; }
+  .pl-bridge-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .pl-bridge-title { font-size: 13px; font-weight: 600; color: var(--wp-text); }
+  .pl-bridge-ratio { font-size: 11px; font-weight: 700; color: var(--wp-flame); white-space: nowrap; font-family: var(--wp-font-mono); }
+  .pl-bridge-desc { font-size: 11px; color: var(--wp-text-mute); }
+  .pl-bridge-meta {
+    font-family: var(--wp-font-mono);
+    font-size: 7px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--wp-text-faint);
+    margin-top: 8px;
+  }
+  .pl-summary {
+    grid-column: 1 / -1;
+    background: var(--wp-flame-glow);
+    border: 1px solid rgba(252,80,0,0.15);
+    border-radius: var(--wp-radius);
+    padding: 14px 16px;
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--wp-text-mute);
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+  .pl-summary strong { color: var(--wp-flame); font-weight: 700; }
+
+  /* ── IIHF list ── */
+  .pl-iihf {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .pl-iihf-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--wp-flame-glow);
+    border-left: 2px solid var(--wp-flame);
+    border-radius: var(--wp-radius);
+  }
+  .pl-iihf-name { color: var(--wp-text); font-size: 11px; font-weight: 500; }
+  .pl-iihf-date { color: var(--wp-text-faint); font-size: 9px; font-family: var(--wp-font-mono); white-space: nowrap; }
+
+  /* ── Disclaimer ── */
+  .pl-disclaimer {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    color: var(--wp-text-ghost);
+    text-align: center;
+    margin-top: 24px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+    .pl-sidebar {
+      position: relative;
+      top: 0;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--wp-border);
+      padding: 20px 16px;
+    }
+    .pl-content { padding: 24px 16px; }
+    .pl-content-title { font-size: 24px; }
+    .pl-year-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .pl-stats { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .pl-year-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white !important; color: black !important; }
+    body::before { display: none; }
+    .wp-shell-header, .wp-shell-footer, .pl-sidebar { display: none !important; }
+    main { grid-template-columns: 1fr; }
+    .pl-content { padding: 20px; }
+    .pl-month { break-inside: avoid; border-color: #ccc; }
+    .pl-day { color: #333; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ HEADER ══════ -->
+<header class="wp-shell-header">
+  <a href="/workspace.html" class="wp-shell-brand">
+    <img src="/wp-logo.png" alt="WP">
+    <span>← WORKSPACE</span>
+  </a>
+  <div class="wp-shell-title">Jahresplanung</div>
+  <div class="wp-shell-actions">
+    <button class="wp-btn icon-only" id="themeToggle" title="Theme wechseln">◐</button>
+    <button class="wp-btn icon-only" onclick="window.print()" title="Drucken">⎙</button>
+  </div>
+</header>
+
+<!-- ══════ MAIN ══════ -->
+<main>
+
+  <!-- ── Sidebar ── -->
+  <aside class="pl-sidebar">
+
+    <div class="pl-side-group">
+      <label class="wp-label">Region</label>
+      <div class="pl-side-field">
+        <select class="wp-select" id="plRegion"></select>
+      </div>
+    </div>
+
+    <div class="pl-side-group">
+      <label class="wp-label">Jahr</label>
+      <div class="pl-side-field">
+        <select class="wp-select" id="plYear"></select>
+      </div>
+    </div>
+
+    <div class="pl-side-group">
+      <label class="wp-label">Urlaubstage</label>
+      <div class="pl-side-field">
+        <input class="wp-input" type="number" id="plVac" min="1" max="60" value="25">
+      </div>
+    </div>
+
+    <div class="pl-side-group">
+      <label class="wp-label">Hockey-Saison</label>
+      <div class="pl-legend">
+        <span class="lg-off">Off-Season — Mai · Jun · Jul</span>
+        <span class="lg-pre">Pre-Season — August</span>
+        <span class="lg-in">In-Season — Sep – Apr</span>
+      </div>
+    </div>
+
+    <div class="pl-side-group">
+      <label class="wp-label">Legende</label>
+      <div class="pl-legend">
+        <span class="lg-off">Feiertag</span>
+        <span class="lg-fer">Schulferien</span>
+        <span class="lg-iihf">IIHF Break</span>
+        <span class="lg-evt">Termin (Kalender)</span>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── Content ── -->
+  <section class="pl-content">
+
+    <div class="pl-content-head">
+      <h1 class="pl-content-title">Jahresplanung <strong id="plTitleYear">2026</strong></h1>
+      <div class="pl-content-sub" id="plSubLabel">Region · Hockey-Cycle · Bridges</div>
+    </div>
+
+    <!-- Stats -->
+    <div class="pl-stats" id="plStats"></div>
+
+    <!-- Hockey Phase Bar -->
+    <h2 class="pl-section-h">Eishockey-Saison</h2>
+    <div class="pl-phase-bar" id="plPhaseBar"></div>
+
+    <!-- Year Grid -->
+    <h2 class="pl-section-h">Jahresübersicht</h2>
+    <div class="pl-year-grid" id="plYearGrid"></div>
+
+    <!-- Bottom: Bridges + IIHF -->
+    <div class="pl-bottom-grid">
+      <div>
+        <h2 class="pl-section-h">Brückentag-Vorschläge (Hockey-gewichtet)</h2>
+        <div class="pl-bridges" id="plBridges"></div>
+        <div class="pl-summary" id="plSummary"></div>
+      </div>
+      <div>
+        <h2 class="pl-section-h">IIHF Breaks</h2>
+        <div class="pl-iihf" id="plIihf"></div>
+      </div>
+    </div>
+
+    <p class="pl-disclaimer">Schulferien als Richtwert · Vor verbindlicher Planung prüfen · Klick auf einen Tag öffnet ihn im Kalender (Workspace)</p>
+
+  </section>
+
+</main>
+
+<!-- ══════ FOOTER ══════ -->
+<footer class="wp-shell-footer">
+  Wild Project · Live by Design, not by Default · <a href="/workspace.html">Workspace</a> · <a href="/brand-guide.html">Brand Guide</a>
+</footer>
+
+<!-- ════════════════════════════════════════
+     PLANNER LOGIC
+     ════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  // ── Date helpers ──
+  function easter(y) {
+    var a=y%19, b=Math.floor(y/100), c=y%100, d=Math.floor(b/4), e=b%4,
+        f=Math.floor((b+8)/25), g=Math.floor((b-f+1)/3),
+        h=(19*a+b-d-g+15)%30, i=Math.floor(c/4), k=c%4,
+        l=(32+2*e+2*i-h-k)%7, m=Math.floor((a+11*h+22*l)/451),
+        mo=Math.floor((h+l-7*m+114)/31), da=((h+l-7*m+114)%31)+1;
+    return new Date(y, mo-1, da);
+  }
+  function addD(d, n) { var x=new Date(d); x.setDate(x.getDate()+n); return x; }
+  function key(d) {
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+  var MN_SHORT = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+  var MN_UPPER = ['JANUAR','FEBRUAR','MÄRZ','APRIL','MAI','JUNI','JULI','AUGUST','SEPTEMBER','OKTOBER','NOVEMBER','DEZEMBER'];
+  var DOW_SHORT = ['M','D','M','D','F','S','S'];
+  function fmtDate(d) { return d.getDate() + '. ' + MN_SHORT[d.getMonth()]; }
+
+  // ── Regions ──
+  var REGIONS = [
+    { code: 'AT-W',    name: '🇦🇹 Wien' },
+    { code: 'AT-NOE',  name: '🇦🇹 Niederösterreich' },
+    { code: 'AT-OOE',  name: '🇦🇹 Oberösterreich' },
+    { code: 'AT-SBG',  name: '🇦🇹 Salzburg' },
+    { code: 'AT-STMK', name: '🇦🇹 Steiermark' },
+    { code: 'AT-KTN',  name: '🇦🇹 Kärnten' },
+    { code: 'AT-TIR',  name: '🇦🇹 Tirol' },
+    { code: 'AT-VBG',  name: '🇦🇹 Vorarlberg' },
+    { code: 'AT-BGL',  name: '🇦🇹 Burgenland' },
+    { code: 'DE-BY',   name: '🇩🇪 Bayern' }
+  ];
+
+  // ── Holidays ──
+  function getHolidays(y, region) {
+    var e = easter(y);
+    var H = {};
+    function add(d, n) { H[key(d)] = n; }
+    var isAT = region.indexOf('AT') === 0;
+    var isBY = region === 'DE-BY';
+
+    if (isAT) {
+      add(new Date(y,0,1),  'Neujahr');
+      add(new Date(y,0,6),  'Hl. Drei Könige');
+      add(addD(e,1),        'Ostermontag');
+      add(new Date(y,4,1),  'Staatsfeiertag');
+      add(addD(e,39),       'Christi Himmelfahrt');
+      add(addD(e,50),       'Pfingstmontag');
+      add(addD(e,60),       'Fronleichnam');
+      add(new Date(y,7,15), 'Mariä Himmelfahrt');
+      add(new Date(y,9,26), 'Nationalfeiertag');
+      add(new Date(y,10,1), 'Allerheiligen');
+      add(new Date(y,11,8), 'Mariä Empfängnis');
+      add(new Date(y,11,25),'Christtag');
+      add(new Date(y,11,26),'Stefanitag');
+    }
+    if (isBY) {
+      add(new Date(y,0,1),  'Neujahr');
+      add(new Date(y,0,6),  'Hl. Drei Könige');
+      add(addD(e,-2),       'Karfreitag');
+      add(addD(e,1),        'Ostermontag');
+      add(new Date(y,4,1),  'Tag der Arbeit');
+      add(addD(e,39),       'Christi Himmelfahrt');
+      add(addD(e,50),       'Pfingstmontag');
+      add(addD(e,60),       'Fronleichnam');
+      add(new Date(y,7,15), 'Mariä Himmelfahrt');
+      add(new Date(y,9,3),  'Tag d. Dt. Einheit');
+      add(new Date(y,10,1), 'Allerheiligen');
+      add(new Date(y,11,25),'1. Weihnachtstag');
+      add(new Date(y,11,26),'2. Weihnachtstag');
+    }
+    return H;
+  }
+
+  // ── Ferien (approx 2026/2027) ──
+  var FERIEN = {
+    'AT-W': {
+      2026: [['2026-02-02','2026-02-08','Semester'],['2026-03-30','2026-04-06','Ostern'],['2026-05-23','2026-05-26','Pfingsten'],['2026-07-04','2026-09-06','Sommer'],['2026-10-26','2026-10-31','Herbst'],['2026-12-24','2027-01-06','Weihnachten']],
+      2027: [['2027-02-01','2027-02-07','Semester'],['2027-03-22','2027-03-29','Ostern'],['2027-05-15','2027-05-18','Pfingsten'],['2027-07-03','2027-09-05','Sommer'],['2027-10-26','2027-10-31','Herbst'],['2027-12-24','2028-01-06','Weihnachten']]
+    },
+    'AT-NOE': 'AT-W',
+    'AT-BGL': 'AT-W',
+    'AT-STMK': {
+      2026: [['2026-02-09','2026-02-15','Semester'],['2026-03-30','2026-04-06','Ostern'],['2026-05-23','2026-05-26','Pfingsten'],['2026-07-11','2026-09-13','Sommer'],['2026-10-26','2026-10-31','Herbst'],['2026-12-24','2027-01-06','Weihnachten']],
+      2027: [['2027-02-08','2027-02-14','Semester'],['2027-03-22','2027-03-29','Ostern'],['2027-05-15','2027-05-18','Pfingsten'],['2027-07-10','2027-09-12','Sommer'],['2027-10-26','2027-10-31','Herbst'],['2027-12-24','2028-01-06','Weihnachten']]
+    },
+    'AT-KTN': 'AT-STMK',
+    'AT-OOE': {
+      2026: [['2026-02-16','2026-02-22','Semester'],['2026-03-30','2026-04-06','Ostern'],['2026-05-23','2026-05-26','Pfingsten'],['2026-07-11','2026-09-13','Sommer'],['2026-10-26','2026-10-31','Herbst'],['2026-12-24','2027-01-06','Weihnachten']],
+      2027: [['2027-02-15','2027-02-21','Semester'],['2027-03-22','2027-03-29','Ostern'],['2027-05-15','2027-05-18','Pfingsten'],['2027-07-10','2027-09-12','Sommer'],['2027-10-26','2027-10-31','Herbst'],['2027-12-24','2028-01-06','Weihnachten']]
+    },
+    'AT-SBG': 'AT-OOE',
+    'AT-TIR': 'AT-OOE',
+    'AT-VBG': 'AT-OOE',
+    'DE-BY': {
+      2026: [['2026-02-16','2026-02-20','Winter'],['2026-03-30','2026-04-11','Ostern'],['2026-05-26','2026-06-05','Pfingsten'],['2026-08-01','2026-09-14','Sommer'],['2026-11-02','2026-11-06','Herbst'],['2026-12-23','2027-01-05','Weihnachten']],
+      2027: [['2027-02-15','2027-02-19','Winter'],['2027-03-22','2027-04-02','Ostern'],['2027-05-18','2027-05-28','Pfingsten'],['2027-08-02','2027-09-13','Sommer'],['2027-11-02','2027-11-05','Herbst'],['2027-12-24','2028-01-08','Weihnachten']]
+    }
+  };
+  function resolveFerien(region) {
+    var f = FERIEN[region];
+    while (typeof f === 'string') f = FERIEN[f];
+    return f || {};
+  }
+  function getFerien(region, y) {
+    var f = resolveFerien(region);
+    return (f[y] || []).concat(f[y-1] || []);
+  }
+  function isInFerien(d, region, y) {
+    var k = key(d);
+    var ferien = getFerien(region, y);
+    for (var i = 0; i < ferien.length; i++) {
+      if (k >= ferien[i][0] && k <= ferien[i][1]) return ferien[i][2];
+    }
+    return null;
+  }
+
+  // ── IIHF Breaks 2026/27 ──
+  var IIHF = [
+    { name: 'Deutschland Cup (Senior)',      start: '2026-11-05', end: '2026-11-08', cat: 'sen' },
+    { name: 'U20 WM Div 1A / 1B',            start: '2026-12-14', end: '2026-12-20', cat: 'u20' },
+    { name: 'Channel One Cup (Senior)',      start: '2026-12-17', end: '2026-12-20', cat: 'sen' },
+    { name: 'U20 WM Top Division',           start: '2026-12-26', end: '2027-01-05', cat: 'u20' },
+    { name: 'Swiss / Beijer Games (Senior)', start: '2027-02-11', end: '2027-02-14', cat: 'sen' },
+    { name: 'U18 WM Div 1A / 1B',            start: '2027-04-13', end: '2027-04-19', cat: 'u18' },
+    { name: 'U18 WM Top Division',           start: '2027-04-22', end: '2027-05-02', cat: 'u18' },
+    { name: 'IIHF WM 2027 (Senior)',         start: '2027-05-07', end: '2027-05-23', cat: 'sen' }
+  ];
+  function buildIihfDays() {
+    var days = {};
+    IIHF.forEach(function(b) {
+      var s = new Date(b.start + 'T12:00:00');
+      var e = new Date(b.end + 'T12:00:00');
+      var d = new Date(s);
+      while (d <= e) { days[key(d)] = b.cat; d = addD(d, 1); }
+    });
+    return days;
+  }
+  var IIHF_DAYS = buildIihfDays();
+
+  // ── Hockey Phase ──
+  function phaseOf(date) {
+    var m = date.getMonth();
+    if (m >= 4 && m <= 6) return 'off';
+    if (m === 7) return 'pre';
+    return 'in';
+  }
+  function phaseLabel(p) {
+    return p === 'off' ? 'Off-Season' : (p === 'pre' ? 'Pre-Season' : 'In-Season');
+  }
+
+  // ── Brückentag Optimizer ──
+  function findBridges(year, region) {
+    var H = getHolidays(year, region);
+    var out = [];
+
+    Object.keys(H).forEach(function(k) {
+      var d = new Date(k + 'T12:00:00');
+      var dow = d.getDay();
+      if (dow === 0 || dow === 6) return;
+      var name = H[k];
+
+      if (dow === 2) {
+        out.push({ start: addD(d,-3), end: d, vac: 1, free: 4, label: 'Brücke vor ' + name, phase: phaseOf(d) });
+      } else if (dow === 4) {
+        out.push({ start: d, end: addD(d,3), vac: 1, free: 4, label: 'Brücke nach ' + name, phase: phaseOf(d) });
+      } else if (dow === 3) {
+        out.push({ start: addD(d,-4), end: d, vac: 2, free: 5, label: 'Brücke vor ' + name, phase: phaseOf(d) });
+      } else if (dow === 1) {
+        out.push({ start: addD(d,-2), end: addD(d,5), vac: 4, free: 8, label: name + ' + Woche', phase: phaseOf(d) });
+      } else if (dow === 5) {
+        out.push({ start: addD(d,-7), end: addD(d,1), vac: 4, free: 9, label: 'Woche + ' + name, phase: phaseOf(d) });
+      }
+    });
+
+    var e = easter(year);
+    var karfr = addD(e,-2), osterm = addD(e,1);
+    out.push({ start: karfr, end: addD(osterm,5), vac: 4, free: 10, label: 'Oster-Cluster', phase: phaseOf(e) });
+    var pfm = addD(e,50);
+    out.push({ start: addD(pfm,-3), end: addD(pfm,5), vac: 4, free: 9, label: 'Pfingst-Cluster', phase: phaseOf(pfm) });
+
+    out.forEach(function(s) {
+      s.ratio = s.free / s.vac;
+      var w = s.phase === 'off' ? 3.0 : (s.phase === 'pre' ? 0.4 : 0.55);
+      s.score = s.ratio * w;
+    });
+    out.sort(function(a, b) { return b.score - a.score; });
+    return out;
+  }
+
+  // ── Calendar Events (shared with Workspace) ──
+  function loadCalEvents() {
+    try { return JSON.parse(localStorage.getItem('wp_cal_notes')) || {}; }
+    catch(e) { return {}; }
+  }
+  function eventCountFor(v) {
+    if (!v) return 0;
+    if (Array.isArray(v)) return v.length;
+    return 1;
+  }
+  function firstEventText(v) {
+    if (!v) return '';
+    if (Array.isArray(v)) return (v[0] && v[0].text) || '';
+    if (typeof v === 'string') return v;
+    return v.text || '';
+  }
+  function isAllDayFirst(v) {
+    if (!v) return false;
+    if (Array.isArray(v)) return !!(v[0] && v[0].allDay);
+    if (typeof v === 'object') return !!v.allDay;
+    return false;
+  }
+
+  // ── DOM ──
+  var regionSel = document.getElementById('plRegion');
+  var yearSel   = document.getElementById('plYear');
+  var vacInp    = document.getElementById('plVac');
+  var statsEl   = document.getElementById('plStats');
+  var phasesEl  = document.getElementById('plPhaseBar');
+  var iihfEl    = document.getElementById('plIihf');
+  var bridgesEl = document.getElementById('plBridges');
+  var summaryEl = document.getElementById('plSummary');
+  var gridEl    = document.getElementById('plYearGrid');
+  var titleYear = document.getElementById('plTitleYear');
+  var subLabel  = document.getElementById('plSubLabel');
+
+  // Populate selects
+  REGIONS.forEach(function(r) {
+    var o = document.createElement('option');
+    o.value = r.code; o.textContent = r.name;
+    regionSel.appendChild(o);
+  });
+  [2026, 2027].forEach(function(y) {
+    var o = document.createElement('option');
+    o.value = y; o.textContent = y;
+    yearSel.appendChild(o);
+  });
+
+  // Restore
+  regionSel.value = localStorage.getItem('wp_planner_region') || 'AT-OOE';
+  yearSel.value   = localStorage.getItem('wp_planner_year')   || '2026';
+  vacInp.value    = localStorage.getItem('wp_planner_vac')    || '25';
+
+  function regionName(code) {
+    var r = REGIONS.find(function(x) { return x.code === code; });
+    return r ? r.name : code;
+  }
+
+  function render() {
+    var region = regionSel.value;
+    var year   = parseInt(yearSel.value, 10);
+    var vac    = parseInt(vacInp.value, 10) || 25;
+
+    localStorage.setItem('wp_planner_region', region);
+    localStorage.setItem('wp_planner_year', year);
+    localStorage.setItem('wp_planner_vac', vac);
+
+    titleYear.textContent = year;
+    subLabel.textContent  = regionName(region) + ' · ' + vac + ' UT verfügbar';
+
+    var H = getHolidays(year, region);
+    var weekdayFTs = Object.keys(H).filter(function(k) {
+      var dow = new Date(k + 'T12:00:00').getDay();
+      return dow !== 0 && dow !== 6;
+    });
+
+    var calEvents = loadCalEvents();
+    var eventCount = 0;
+    Object.keys(calEvents).forEach(function(k) {
+      if (k.indexOf(year + '-') === 0) eventCount += eventCountFor(calEvents[k]);
+    });
+
+    // Stats
+    statsEl.innerHTML =
+      '<div class="pl-stat"><span class="pl-stat-val">' + Object.keys(H).length + '</span><span class="pl-stat-lbl">Feiertage</span></div>' +
+      '<div class="pl-stat"><span class="pl-stat-val">' + weekdayFTs.length + '</span><span class="pl-stat-lbl">Werktag-FT</span></div>' +
+      '<div class="pl-stat"><span class="pl-stat-val">' + vac + '</span><span class="pl-stat-lbl">Urlaub</span></div>' +
+      '<div class="pl-stat"><span class="pl-stat-val">' + eventCount + '</span><span class="pl-stat-lbl">Termine</span></div>';
+
+    // Phase bar
+    var pHtml = '';
+    var MN_BAR = ['JAN','FEB','MÄR','APR','MAI','JUN','JUL','AUG','SEP','OKT','NOV','DEZ'];
+    for (var m = 0; m < 12; m++) {
+      var p = phaseOf(new Date(year, m, 15));
+      pHtml += '<div class="pl-phase ' + p + '" title="' + phaseLabel(p) + '">' + MN_BAR[m] + '</div>';
+    }
+    phasesEl.innerHTML = pHtml;
+
+    // IIHF list
+    iihfEl.innerHTML = IIHF.map(function(b) {
+      var s = new Date(b.start + 'T12:00:00');
+      var en = new Date(b.end + 'T12:00:00');
+      return '<div class="pl-iihf-item"><span class="pl-iihf-name">' + b.name + '</span>' +
+             '<span class="pl-iihf-date">' + fmtDate(s) + ' – ' + fmtDate(en) + '</span></div>';
+    }).join('');
+
+    // Bridges (top 8)
+    var bridges = findBridges(year, region).slice(0, 8);
+    var budgetVac = 0, budgetFree = 0;
+    bridges.forEach(function(b) {
+      if (budgetVac + b.vac <= vac) {
+        budgetVac += b.vac;
+        budgetFree += b.free;
+        b._fits = true;
+      }
+    });
+    bridgesEl.innerHTML = bridges.map(function(b) {
+      var cls = b.phase === 'in' ? 'in-season' : (b.phase === 'pre' ? 'pre-season' : '');
+      var phaseTag = b.phase === 'off' ? '★ OFF-SEASON' : (b.phase === 'pre' ? 'PRE-SEASON' : 'IN-SEASON');
+      return '<div class="pl-bridge ' + cls + '">' +
+             '<div class="pl-bridge-head"><span class="pl-bridge-title">' + b.label + '</span>' +
+             '<span class="pl-bridge-ratio">' + b.vac + ' UT → ' + b.free + ' frei</span></div>' +
+             '<div class="pl-bridge-desc">' + fmtDate(b.start) + ' – ' + fmtDate(b.end) + '</div>' +
+             '<div class="pl-bridge-meta">' + phaseTag + ' · Ratio ' + b.ratio.toFixed(1) + 'x</div>' +
+             '</div>';
+    }).join('');
+    summaryEl.innerHTML = 'Top-Vorschläge nutzen <strong>' + budgetVac + '</strong> von <strong>' + vac + '</strong> Urlaubstagen → <strong>' + budgetFree + ' freie Tage</strong>. Restliche <strong>' + (vac - budgetVac) + ' UT</strong> für Off-Season (Mai – Jul) reservieren.';
+
+    // Year grid (12 large months)
+    var gHtml = '';
+    var DOW = ['M','D','M','D','F','S','S'];
+    for (var mo = 0; mo < 12; mo++) {
+      gHtml += '<div class="pl-month"><div class="pl-month-name">' + MN_UPPER[mo] + '</div><div class="pl-mini-grid">';
+      // DOW header
+      DOW.forEach(function(d) { gHtml += '<div class="pl-mini-dow">' + d + '</div>'; });
+      var first = new Date(year, mo, 1);
+      var last  = new Date(year, mo + 1, 0);
+      var startDow = (first.getDay() + 6) % 7;
+      for (var i = 0; i < startDow; i++) gHtml += '<div class="pl-day"></div>';
+      for (var dd = 1; dd <= last.getDate(); dd++) {
+        var dt = new Date(year, mo, dd);
+        var k = key(dt);
+        var dow = dt.getDay();
+        var cls = 'pl-day';
+        if (dow === 0 || dow === 6) cls += ' we';
+        var fname = isInFerien(dt, region, year);
+        if (fname) cls += ' ferien';
+        if (IIHF_DAYS[k]) cls += ' iihf';
+        if (H[k]) cls += ' holiday';
+        if (calEvents[k]) cls += ' event';
+        var titleParts = [];
+        if (H[k]) titleParts.push('★ ' + H[k]);
+        if (fname) titleParts.push('🏖 ' + fname + '-Ferien');
+        if (IIHF_DAYS[k]) titleParts.push('🏒 IIHF Break');
+        if (calEvents[k]) {
+          var n = eventCountFor(calEvents[k]);
+          var et = firstEventText(calEvents[k]);
+          var allDayMark = isAllDayFirst(calEvents[k]) ? '⏺ ' : '● ';
+          if (et) {
+            var suffix = n > 1 ? ' (+' + (n - 1) + ')' : '';
+            titleParts.push(allDayMark + et.substring(0, 40) + suffix);
+          }
+        }
+        titleParts.push('Klick → im Workspace-Kalender öffnen');
+        gHtml += '<div class="' + cls + '" data-date="' + k + '" title="' + titleParts.join(' · ') + '">' + dd + '</div>';
+      }
+      gHtml += '</div></div>';
+    }
+    gridEl.innerHTML = gHtml;
+  }
+
+  regionSel.addEventListener('change', render);
+  yearSel.addEventListener('change', render);
+  vacInp.addEventListener('input', render);
+
+  // Click on a date → open in Workspace calendar
+  gridEl.addEventListener('click', function(e) {
+    var cell = e.target.closest('.pl-day[data-date]');
+    if (!cell) return;
+    var date = cell.getAttribute('data-date');
+    // Workspace will pick this up via localStorage and goto-date event
+    localStorage.setItem('wp_goto_date', date);
+    window.location.href = '/workspace.html#cal-' + date;
+  });
+
+  // Cross-tab sync (Workspace updates calendar in another tab)
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'wp_cal_notes' || e.key === 'wp_planner_region' || e.key === 'wp_planner_year' || e.key === 'wp_planner_vac') {
+      render();
+    }
+  });
+
+  // Theme toggle (synced with Workspace)
+  var THEME_KEY = 'wp_workspace_theme';
+  function applyTheme(t) {
+    document.body.classList.toggle('light', t === 'light');
+  }
+  applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var t = document.body.classList.contains('light') ? 'dark' : 'light';
+    localStorage.setItem(THEME_KEY, t);
+    applyTheme(t);
+  });
+
+  render();
+})();
+</script>
+
+<!-- ══════ PWA — Service Worker Registration ══════ -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function() {});
+    });
+  }
+</script>
+
+</body>
+</html>
