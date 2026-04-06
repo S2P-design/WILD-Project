@@ -2,9 +2,27 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Workspace — Wild Project</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+
+<!-- ══════ PWA ══════ -->
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="Wild Project — Private Workspace. Live by Design, not by Default.">
+
+<!-- iOS Standalone-Mode -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WP Workspace">
+<link rel="apple-touch-icon" href="/favicon-180.png">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Wild Project Workspace">
+<meta property="og:description" content="Live by Design, not by Default.">
+<meta property="og:image" content="/wp-logo.png">
+<meta property="og:type" content="website">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700&display=swap');
 
@@ -32,9 +50,27 @@
   }
 
   .container {
-    max-width: 520px;
+    max-width: 1100px;
     width: 100%;
     position: relative;
+  }
+
+  /* ── Two-column workspace layout ── */
+  .workspace-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .workspace-col {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  /* Header / Status / Footer remain full width */
+  .full-width {
+    max-width: 520px;
+    margin: 0 auto;
   }
 
   /* ── Login Gate ── */
@@ -1278,6 +1314,16 @@
   body.light .todo-count { color: rgba(0,0,0,0.15); }
   body.light .todo-empty { color: rgba(0,0,0,0.12); }
 
+  /* ── Tablet / Single column ── */
+  @media (max-width: 900px) {
+    .container { max-width: 520px; }
+    .workspace-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .full-width { max-width: 100%; }
+  }
+
   /* ── Mobile ── */
   @media (max-width: 500px) {
     body { padding: 40px 16px 60px; }
@@ -1300,7 +1346,289 @@
     }
     .footer-left { align-items: center; gap: 6px; }
     .footer-right { align-items: center; }
+    /* Calendar mobile fixes */
+    .cal-detail-fields { flex-wrap: wrap; }
+    .cal-field { min-width: 80px; }
+    /* Planner mobile */
+    .planner-year-grid { grid-template-columns: repeat(2, 1fr) !important; }
   }
+
+  /* ══════════════════════════════════════════════
+     JAHRESPLANUNG WIDGET
+     ══════════════════════════════════════════════ */
+  .planner-widget {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 18px;
+  }
+  .planner-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .planner-select, .planner-input {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #F5F5F3;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    flex: 1;
+    min-width: 90px;
+  }
+  .planner-select:focus, .planner-input:focus {
+    outline: none;
+    border-color: #FC5000;
+  }
+  .planner-input { text-align: center; max-width: 70px; flex: 0 0 auto; }
+
+  .planner-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .planner-stat {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 12px 8px;
+    text-align: center;
+  }
+  .planner-stat-val {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    color: #FC5000;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .planner-stat-lbl {
+    font-size: 7px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(245,245,243,0.4);
+  }
+
+  .planner-section-h {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(245,245,243,0.4);
+    margin: 20px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Hockey phase bar */
+  .planner-phase-legend {
+    display: flex;
+    gap: 14px;
+    font-size: 8px;
+    letter-spacing: 0.8px;
+    color: rgba(245,245,243,0.4);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .planner-phase-legend span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .planner-phase-legend span::before {
+    content: '';
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .planner-phase-legend .lg-off::before { background: rgba(252,80,0,0.55); }
+  .planner-phase-legend .lg-pre::before { background: rgba(252,80,0,0.25); }
+  .planner-phase-legend .lg-in::before { background: rgba(255,255,255,0.1); }
+
+  .planner-phases {
+    display: flex;
+    height: 30px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .planner-phase {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.7);
+    border-right: 1px solid rgba(0,0,0,0.3);
+  }
+  .planner-phase:last-child { border-right: none; }
+  .planner-phase.off { background: rgba(252,80,0,0.4); color: #fff; }
+  .planner-phase.pre { background: rgba(252,80,0,0.18); }
+  .planner-phase.in  { background: rgba(255,255,255,0.04); }
+
+  /* IIHF list */
+  .planner-iihf-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .planner-iihf-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    padding: 8px 12px;
+    background: rgba(79,195,247,0.06);
+    border-left: 2px solid #4FC3F7;
+    border-radius: 6px;
+  }
+  .planner-iihf-name { color: #F5F5F3; font-weight: 500; }
+  .planner-iihf-date { color: rgba(245,245,243,0.4); font-size: 9px; letter-spacing: 0.3px; }
+
+  /* Bridge cards */
+  .planner-bridge {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-left: 3px solid #FC5000;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    transition: background 0.2s;
+  }
+  .planner-bridge:hover { background: rgba(255,255,255,0.05); }
+  .planner-bridge.in-season {
+    border-left-color: rgba(255,255,255,0.2);
+    opacity: 0.65;
+  }
+  .planner-bridge.pre-season {
+    border-left-color: rgba(252,80,0,0.4);
+    opacity: 0.85;
+  }
+  .planner-bridge-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 5px;
+    gap: 8px;
+  }
+  .planner-bridge-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #F5F5F3;
+  }
+  .planner-bridge-ratio {
+    font-size: 10px;
+    font-weight: 700;
+    color: #FC5000;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  .planner-bridge-desc {
+    font-size: 10px;
+    color: rgba(245,245,243,0.55);
+    letter-spacing: 0.3px;
+    line-height: 1.4;
+  }
+  .planner-bridge-meta {
+    font-size: 7px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: rgba(245,245,243,0.3);
+    margin-top: 6px;
+  }
+  .planner-summary {
+    background: rgba(252,80,0,0.06);
+    border: 1px solid rgba(252,80,0,0.15);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 8px;
+    font-size: 10px;
+    color: rgba(245,245,243,0.7);
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+  .planner-summary strong { color: #FC5000; font-weight: 700; }
+
+  /* Year grid */
+  .planner-year-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .planner-mini-month {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 8px 6px;
+  }
+  .planner-mini-name {
+    font-size: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 6px;
+    color: rgba(245,245,243,0.55);
+  }
+  .planner-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+  }
+  .planner-mini-day {
+    font-size: 7px;
+    text-align: center;
+    padding: 1.5px 0;
+    border-radius: 2px;
+    color: rgba(245,245,243,0.4);
+    cursor: default;
+  }
+  .planner-mini-day.we     { color: rgba(245,245,243,0.2); }
+  .planner-mini-day.holiday{ background: rgba(252,80,0,0.55); color: #fff; font-weight: 600; }
+  .planner-mini-day.ferien { background: rgba(79,195,247,0.18); color: rgba(255,255,255,0.75); }
+  .planner-mini-day.holiday.ferien { background: rgba(252,80,0,0.55); }
+
+  .planner-disclaimer {
+    font-size: 8px;
+    color: rgba(245,245,243,0.25);
+    text-align: center;
+    margin-top: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── Light mode planner ── */
+  body.light .planner-widget { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.06); }
+  body.light .planner-select,
+  body.light .planner-input { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); color: rgba(0,0,0,0.7); }
+  body.light .planner-stat { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.05); }
+  body.light .planner-stat-lbl { color: rgba(0,0,0,0.4); }
+  body.light .planner-section-h { color: rgba(0,0,0,0.4); border-bottom-color: rgba(0,0,0,0.06); }
+  body.light .planner-phase.in { background: rgba(0,0,0,0.04); color: rgba(0,0,0,0.6); }
+  body.light .planner-phase-legend { color: rgba(0,0,0,0.4); }
+  body.light .planner-bridge { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.05); }
+  body.light .planner-bridge:hover { background: rgba(0,0,0,0.04); }
+  body.light .planner-bridge-title { color: rgba(0,0,0,0.8); }
+  body.light .planner-bridge-desc { color: rgba(0,0,0,0.5); }
+  body.light .planner-bridge-meta { color: rgba(0,0,0,0.3); }
+  body.light .planner-iihf-name { color: rgba(0,0,0,0.7); }
+  body.light .planner-iihf-date { color: rgba(0,0,0,0.4); }
+  body.light .planner-mini-month { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.04); }
+  body.light .planner-mini-name { color: rgba(0,0,0,0.5); }
+  body.light .planner-mini-day { color: rgba(0,0,0,0.4); }
+  body.light .planner-mini-day.we { color: rgba(0,0,0,0.2); }
+  body.light .planner-disclaimer { color: rgba(0,0,0,0.25); }
 </style>
 </head>
 <body>
@@ -1324,7 +1652,8 @@
 
 <div class="container locked" id="mainContent">
 
-  <!-- ══════ HEADER ══════ -->
+  <!-- ══════ HEADER (full width) ══════ -->
+  <div class="full-width">
   <div class="header">
     <img src="/wp-logo.png" alt="WP" class="header-logo">
     <p class="header-title">WILD PROJECT <span class="aka">AKA</span> <span class="name">RENÉ WILD</span> <span class="slash">//</span> <span class="ws">workspace</span></p>
@@ -1348,286 +1677,339 @@
     </div>
   </div>
 
-  <!-- ══════ 1. BRAND GUIDE ══════ -->
-  <div class="section">
-    <div class="section-label">Brand Guide</div>
+  </div><!-- /.full-width header+status -->
 
-    <a href="https://www.wildproject.pro" class="link-card" target="_blank">
-      <div class="link-icon">WP</div>
-      <div class="link-text">
-        <div class="link-title">wildproject.pro</div>
-        <div class="link-desc">Website — Personal Brand</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
+  <!-- ══════════════════════════════════════════════
+       2-COLUMN WORKSPACE
+       LEFT  → Links / Navigation
+       RIGHT → Workspace Tools (Cal, Notes, To Do, Planner)
+       ══════════════════════════════════════════════ -->
+  <div class="workspace-grid">
 
-    <a href="https://www.wildproject.pro/card" class="link-card" target="_blank">
-      <div class="link-icon">DC</div>
-      <div class="link-text">
-        <div class="link-title">Digital Card</div>
-        <div class="link-desc">Digitale Visitenkarte — Connect in Sekunden</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
+    <!-- ───────── LEFT COLUMN: LINKS ───────── -->
+    <div class="workspace-col">
 
-    <a href="https://www.wildproject.pro/brand-guide.html" class="link-card" target="_blank">
-      <div class="link-icon">CI</div>
-      <div class="link-text">
-        <div class="link-title">Brand Guide</div>
-        <div class="link-desc">Corporate Identity — Farben, Typografie, Logo</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
+      <!-- ══════ 1. BRAND GUIDE ══════ -->
+      <div class="section">
+        <div class="section-label">Brand Guide</div>
 
-    <a href="https://www.wildproject.pro/email-signatur.html" class="link-card" target="_blank">
-      <div class="link-icon">SIG</div>
-      <div class="link-text">
-        <div class="link-title">E-Mail Signatur</div>
-        <div class="link-desc">Adaptive Signatur — Light & Dark Mode</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="https://www.wildproject.pro/wallpaper.html" class="link-card" target="_blank">
-      <div class="link-icon">WP</div>
-      <div class="link-text">
-        <div class="link-title">Wallpapers</div>
-        <div class="link-desc">iPhone & MacBook — Brand Wallpapers zum Download</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-  </div>
-
-  <!-- ══════ 2. AKTUELLE PROJEKTE ══════ -->
-  <div class="section">
-    <div class="section-label">Aktuelle Projekte</div>
-
-    <a href="https://www.shift2pro.com" class="link-card" target="_blank">
-      <div class="link-icon">S2P</div>
-      <div class="link-text">
-        <div class="link-title">Shift2Pro</div>
-        <div class="link-desc">Podcast — Inspire · Develop · Connect</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="https://editor.wix.com/html/editor/web/renderer/edit/78d29101-11e4-4d76-8000-60a80d8239a0?metaSiteId=c987529c-db2a-432d-bde2-fc8e6be109ac" class="link-card" target="_blank">
-      <div class="link-icon">NXT</div>
-      <div class="link-text">
-        <div class="link-title">NXTSHOT Sports</div>
-        <div class="link-desc">Eishockey Sport Agentur</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="https://www.sbr-nachwuchs.de/" class="link-card" target="_blank">
-      <div class="link-icon">SBR</div>
-      <div class="link-text">
-        <div class="link-title">Starbulls Rosenheim e.V.</div>
-        <div class="link-desc">Ausbildungshochburg — eine der stärksten Nachwuchsorganisationen Deutschlands</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-  </div>
-
-  <!-- ══════ 3. WORKFLOW ══════ -->
-  <div class="section">
-    <div class="section-label">Workflow</div>
-
-    <a href="https://claude.ai" class="link-card" target="_blank">
-      <div class="link-icon">AI</div>
-      <div class="link-text">
-        <div class="link-title">Claude</div>
-        <div class="link-desc">AI Assistant — Brainstorming, Content, Code</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="https://www.canva.com" class="link-card" target="_blank">
-      <div class="link-icon">CV</div>
-      <div class="link-text">
-        <div class="link-title">Canva</div>
-        <div class="link-desc">Design — Grafiken, Präsentationen, Social Media</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="notes://" class="link-card">
-      <div class="link-icon">AN</div>
-      <div class="link-text">
-        <div class="link-title">Apple Notizen</div>
-        <div class="link-desc">Schnelle Gedanken, Skizzen, Listen</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="x-apple-reminderkit://" class="link-card">
-      <div class="link-icon">AE</div>
-      <div class="link-text">
-        <div class="link-title">Apple Erinnerungen</div>
-        <div class="link-desc">Tasks, Deadlines, Routinen</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="ical://" class="link-card">
-      <div class="link-icon">AK</div>
-      <div class="link-text">
-        <div class="link-title">Apple Kalender</div>
-        <div class="link-desc">Termine, Trainingsplan, Podcast-Schedule</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-  </div>
-
-  <!-- ══════ 4. KALENDER ══════ -->
-  <div class="section">
-    <div class="section-label">Kalender</div>
-    <div class="cal-widget">
-      <div class="cal-header">
-        <button class="cal-nav" id="calPrev">‹</button>
-        <span class="cal-month-label" id="calLabel" title="Zurück zu Heute"></span>
-        <button class="cal-nav" id="calNext">›</button>
-      </div>
-      <div class="cal-grid" id="calGrid"></div>
-      <div class="cal-detail" id="calDetail">
-        <div class="cal-detail-date" id="calDetailDate"></div>
-        <div class="cal-detail-holiday" id="calDetailHoliday"></div>
-        <textarea class="cal-detail-note" id="calDetailNote" placeholder="Notiz / Titel ..." rows="2"></textarea>
-        <div class="cal-detail-fields">
-          <div class="cal-field">
-            <label class="cal-field-label">VON</label>
-            <input type="time" class="cal-field-input" id="calTimeStart" value="09:00">
+        <a href="https://www.wildproject.pro" class="link-card" target="_blank">
+          <div class="link-icon">WP</div>
+          <div class="link-text">
+            <div class="link-title">wildproject.pro</div>
+            <div class="link-desc">Website — Personal Brand</div>
           </div>
-          <div class="cal-field">
-            <label class="cal-field-label">BIS</label>
-            <input type="time" class="cal-field-input" id="calTimeEnd" value="10:00">
+          <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://www.wildproject.pro/card" class="link-card" target="_blank">
+          <div class="link-icon">DC</div>
+          <div class="link-text">
+            <div class="link-title">Digital Card</div>
+            <div class="link-desc">Digitale Visitenkarte — Connect in Sekunden</div>
           </div>
-          <div class="cal-field" style="flex:2;">
-            <label class="cal-field-label">ORT</label>
-            <input type="text" class="cal-field-input" id="calLocation" placeholder="Optional ...">
+          <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://www.wildproject.pro/brand-guide.html" class="link-card" target="_blank">
+          <div class="link-icon">CI</div>
+          <div class="link-text">
+            <div class="link-title">Brand Guide</div>
+            <div class="link-desc">Corporate Identity — Farben, Typografie, Logo</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://www.wildproject.pro/email-signatur.html" class="link-card" target="_blank">
+          <div class="link-icon">SIG</div>
+          <div class="link-text">
+            <div class="link-title">E-Mail Signatur</div>
+            <div class="link-desc">Adaptive Signatur — Light & Dark Mode</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://www.wildproject.pro/wallpaper.html" class="link-card" target="_blank">
+          <div class="link-icon">WP</div>
+          <div class="link-text">
+            <div class="link-title">Wallpapers</div>
+            <div class="link-desc">iPhone & MacBook — Brand Wallpapers zum Download</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+
+      </div>
+
+      <!-- ══════ 2. AKTUELLE PROJEKTE ══════ -->
+      <div class="section">
+        <div class="section-label">Aktuelle Projekte</div>
+
+        <a href="https://www.shift2pro.com" class="link-card" target="_blank">
+          <div class="link-icon">S2P</div>
+          <div class="link-text">
+            <div class="link-title">Shift2Pro</div>
+            <div class="link-desc">Podcast — Inspire · Develop · Connect</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://editor.wix.com/html/editor/web/renderer/edit/78d29101-11e4-4d76-8000-60a80d8239a0?metaSiteId=c987529c-db2a-432d-bde2-fc8e6be109ac" class="link-card" target="_blank">
+          <div class="link-icon">NXT</div>
+          <div class="link-text">
+            <div class="link-title">NXTSHOT Sports</div>
+            <div class="link-desc">Eishockey Sport Agentur</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://www.sbr-nachwuchs.de/" class="link-card" target="_blank">
+          <div class="link-icon">SBR</div>
+          <div class="link-text">
+            <div class="link-title">Starbulls Rosenheim e.V.</div>
+            <div class="link-desc">Ausbildungshochburg — eine der stärksten Nachwuchsorganisationen Deutschlands</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+      </div>
+
+      <!-- ══════ 3. WORKFLOW ══════ -->
+      <div class="section">
+        <div class="section-label">Workflow</div>
+
+        <a href="https://claude.ai" class="link-card" target="_blank">
+          <div class="link-icon">AI</div>
+          <div class="link-text">
+            <div class="link-title">Claude</div>
+            <div class="link-desc">AI Assistant — Brainstorming, Content, Code</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://www.canva.com" class="link-card" target="_blank">
+          <div class="link-icon">CV</div>
+          <div class="link-text">
+            <div class="link-title">Canva</div>
+            <div class="link-desc">Design — Grafiken, Präsentationen, Social Media</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+
+        <a href="notes://" class="link-card">
+          <div class="link-icon">AN</div>
+          <div class="link-text">
+            <div class="link-title">Apple Notizen</div>
+            <div class="link-desc">Schnelle Gedanken, Skizzen, Listen</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+
+        <a href="x-apple-reminderkit://" class="link-card">
+          <div class="link-icon">AE</div>
+          <div class="link-text">
+            <div class="link-title">Apple Erinnerungen</div>
+            <div class="link-desc">Tasks, Deadlines, Routinen</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+
+        <a href="ical://" class="link-card">
+          <div class="link-icon">AK</div>
+          <div class="link-text">
+            <div class="link-title">Apple Kalender</div>
+            <div class="link-desc">Termine, Trainingsplan, Podcast-Schedule</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+      </div>
+
+      <!-- ══════ 4. BOOKMARKS ══════ -->
+      <div class="section">
+        <div class="section-label">Bookmarks</div>
+        <div class="bookmark-filters" id="bmFilters"></div>
+        <div id="bookmarksGrid"></div>
+        <div class="bookmark-add-row">
+          <input type="text" class="bookmark-input" id="bmTitle" placeholder="Name" maxlength="40">
+          <input type="url" class="bookmark-input" id="bmUrl" placeholder="https://..." maxlength="200" style="flex: 1.5;">
+          <select class="bookmark-input" id="bmCat" style="flex: 0.6; font-family: monospace; font-size: 10px; appearance: auto; background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.5);"></select>
+          <button class="bookmark-add-btn" id="bmAdd">+</button>
+        </div>
+      </div>
+
+      <!-- ══════ 5. BRANDS & FRIENDS ══════ -->
+      <div class="section">
+        <div class="section-label">Brands & Friends</div>
+
+        <a href="https://dubeskills.eu/" class="link-card" target="_blank">
+          <div class="link-icon">DS</div>
+          <div class="link-text">
+            <div class="link-title">Dubé Skills</div>
+            <div class="link-desc">Developing the future of hockey — professionelle Spielerentwicklung</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://www.create-sports.com" class="link-card" target="_blank">
+          <div class="link-icon">CS</div>
+          <div class="link-text">
+            <div class="link-title">Create-Sports</div>
+            <div class="link-desc">Hockeyshop #1 — Wir leben Eishockey</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+
+        <a href="https://www.cherrysgraph.de/" class="link-card" target="_blank">
+          <div class="link-icon">LK</div>
+          <div class="link-text">
+            <div class="link-title">Lukas Kirsch</div>
+            <div class="link-desc">Fotografie & Visual Storytelling — die Bilder hinter Shift2Pro</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+      </div>
+
+      <!-- ══════ 6. FOTOGRAFIE ══════ -->
+      <div class="section">
+        <div class="section-label">Fotografie</div>
+
+        <a href="https://unsplash.com/de/@wild_projects" class="link-card" target="_blank">
+          <div class="link-icon">UN</div>
+          <div class="link-text">
+            <div class="link-title">Unsplash</div>
+            <div class="link-desc">Auslöser statt Ausreden — Bilder frei verfügbar</div>
+          </div>
+          <div class="link-arrow">→</div>
+        </a>
+      </div>
+
+      <!-- ══════ 7. KONTAKT ══════ -->
+      <div class="section">
+        <div class="section-label">Kontakt</div>
+        <div class="contact-row">
+          <a href="mailto:rene@wildproject.pro" class="contact-pill">rene@wildproject.pro</a>
+          <a href="tel:+436644272020" class="contact-pill">+43 664 427 2020</a>
+        </div>
+      </div>
+
+    </div><!-- /.workspace-col LEFT -->
+
+    <!-- ───────── RIGHT COLUMN: WORKSPACE TOOLS ───────── -->
+    <div class="workspace-col">
+
+      <!-- ══════ KALENDER ══════ -->
+      <div class="section">
+        <div class="section-label">Kalender</div>
+        <div class="cal-widget">
+          <div class="cal-header">
+            <button class="cal-nav" id="calPrev">‹</button>
+            <span class="cal-month-label" id="calLabel" title="Zurück zu Heute"></span>
+            <button class="cal-nav" id="calNext">›</button>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="cal-detail" id="calDetail">
+            <div class="cal-detail-date" id="calDetailDate"></div>
+            <div class="cal-detail-holiday" id="calDetailHoliday"></div>
+            <textarea class="cal-detail-note" id="calDetailNote" placeholder="Notiz / Titel ..." rows="2"></textarea>
+            <div class="cal-detail-fields">
+              <div class="cal-field">
+                <label class="cal-field-label">VON</label>
+                <input type="time" class="cal-field-input" id="calTimeStart" value="09:00">
+              </div>
+              <div class="cal-field">
+                <label class="cal-field-label">BIS</label>
+                <input type="time" class="cal-field-input" id="calTimeEnd" value="10:00">
+              </div>
+              <div class="cal-field" style="flex:2;">
+                <label class="cal-field-label">ORT</label>
+                <input type="text" class="cal-field-input" id="calLocation" placeholder="Optional ...">
+              </div>
+            </div>
+            <button class="cal-export-btn" id="calExportBtn" title="In Apple Kalender exportieren">↗ IN KALENDER EXPORTIEREN</button>
           </div>
         </div>
-        <button class="cal-export-btn" id="calExportBtn" title="In Apple Kalender exportieren">↗ IN KALENDER EXPORTIEREN</button>
       </div>
-    </div>
-  </div>
 
-  <!-- ══════ 5. NOTES ══════ -->
-  <div class="section">
-    <div class="section-label">Notes</div>
-    <div class="notes-widget">
-      <div class="notes-tabs" id="notesTabs"></div>
-      <div class="notes-toolbar">
-        <button class="nt-btn" onclick="ntFormat('bold')" title="Fett"><span style="font-weight:700;">B</span></button>
-        <button class="nt-btn" onclick="ntFormat('italic')" title="Kursiv"><span style="font-style:italic;">I</span></button>
-        <span class="nt-sep"></span>
-        <button class="nt-btn" onclick="ntFormat('h1')" title="H1" style="font-size:9px;">H1</button>
-        <button class="nt-btn" onclick="ntFormat('h2')" title="H2" style="font-size:9px;">H2</button>
-        <span class="nt-sep"></span>
-        <button class="nt-btn" onclick="ntFormat('ul')" title="Liste">
-          <svg viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="5" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="5" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
-        </button>
-        <button class="nt-btn" onclick="ntFormat('checklist')" title="Checkliste">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><polyline points="5 7 6.5 9 10 4" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1"/><line x1="14" y1="6" x2="21" y2="6"/><line x1="14" y1="17.5" x2="21" y2="17.5"/></svg>
-        </button>
-        <button class="nt-btn" onclick="ntFormat('hr')" title="Trennlinie">
-          <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/></svg>
-        </button>
+      <!-- ══════ TO DO ══════ -->
+      <div class="section">
+        <div class="section-label">To Do</div>
+        <div class="todo-widget">
+          <div class="todo-add-row">
+            <input type="text" class="todo-input" id="todoInput" placeholder="Neue Aufgabe ..." maxlength="200">
+            <button class="todo-add-btn" id="todoAddBtn" title="Hinzufügen">+</button>
+          </div>
+          <ul class="todo-list" id="todoList"></ul>
+          <div class="todo-count" id="todoCount"></div>
+        </div>
       </div>
-      <div class="notes-editor" id="notesEditor" contenteditable="true"></div>
-      <div class="notes-status">
-        <span class="notes-status-text" id="notesSaved">GESPEICHERT</span>
-        <a href="https://www.wildproject.pro/notebook.html" target="_blank" class="notes-open-btn">VOLLANSICHT →</a>
+
+      <!-- ══════ NOTES ══════ -->
+      <div class="section">
+        <div class="section-label">Notes</div>
+        <div class="notes-widget">
+          <div class="notes-tabs" id="notesTabs"></div>
+          <div class="notes-toolbar">
+            <button class="nt-btn" onclick="ntFormat('bold')" title="Fett"><span style="font-weight:700;">B</span></button>
+            <button class="nt-btn" onclick="ntFormat('italic')" title="Kursiv"><span style="font-style:italic;">I</span></button>
+            <span class="nt-sep"></span>
+            <button class="nt-btn" onclick="ntFormat('h1')" title="H1" style="font-size:9px;">H1</button>
+            <button class="nt-btn" onclick="ntFormat('h2')" title="H2" style="font-size:9px;">H2</button>
+            <span class="nt-sep"></span>
+            <button class="nt-btn" onclick="ntFormat('ul')" title="Liste">
+              <svg viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="5" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="5" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
+            </button>
+            <button class="nt-btn" onclick="ntFormat('checklist')" title="Checkliste">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><polyline points="5 7 6.5 9 10 4" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1"/><line x1="14" y1="6" x2="21" y2="6"/><line x1="14" y1="17.5" x2="21" y2="17.5"/></svg>
+            </button>
+            <button class="nt-btn" onclick="ntFormat('hr')" title="Trennlinie">
+              <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/></svg>
+            </button>
+          </div>
+          <div class="notes-editor" id="notesEditor" contenteditable="true"></div>
+          <div class="notes-status">
+            <span class="notes-status-text" id="notesSaved">GESPEICHERT</span>
+            <a href="https://www.wildproject.pro/notebook.html" target="_blank" class="notes-open-btn">VOLLANSICHT →</a>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <!-- ══════ TO DO ══════ -->
-  <div class="section">
-    <div class="section-label">To Do</div>
-    <div class="todo-widget">
-      <div class="todo-add-row">
-        <input type="text" class="todo-input" id="todoInput" placeholder="Neue Aufgabe ..." maxlength="200">
-        <button class="todo-add-btn" id="todoAddBtn" title="Hinzufügen">+</button>
+      <!-- ══════ JAHRESPLANUNG ══════ -->
+      <div class="section">
+        <div class="section-label">Jahresplanung</div>
+        <div class="planner-widget">
+          <div class="planner-controls">
+            <select class="planner-select" id="plannerRegion" title="Region"></select>
+            <select class="planner-select" id="plannerYear" title="Jahr"></select>
+            <input class="planner-input" type="number" id="plannerVacDays" min="1" max="50" value="25" title="Urlaubstage">
+          </div>
+          <div class="planner-stats" id="plannerStats"></div>
+
+          <div class="planner-section-h">Eishockey-Saison</div>
+          <div class="planner-phase-legend">
+            <span class="lg-off">Off-Season</span>
+            <span class="lg-pre">Pre-Season</span>
+            <span class="lg-in">In-Season</span>
+          </div>
+          <div class="planner-phases" id="plannerPhases"></div>
+
+          <div class="planner-section-h">IIHF Breaks 2026/27</div>
+          <div class="planner-iihf-list" id="plannerIihf"></div>
+
+          <div class="planner-section-h">Brückentag-Vorschläge (Hockey-gewichtet)</div>
+          <div id="plannerBridges"></div>
+          <div class="planner-summary" id="plannerSummary"></div>
+
+          <div class="planner-section-h">Jahresübersicht</div>
+          <div class="planner-year-grid" id="plannerYearGrid"></div>
+
+          <p class="planner-disclaimer">Schulferien als Richtwert · Vor verbindlicher Planung prüfen</p>
+        </div>
       </div>
-      <ul class="todo-list" id="todoList"></ul>
-      <div class="todo-count" id="todoCount"></div>
-    </div>
-  </div>
 
-  <!-- ══════ 5. BOOKMARKS ══════ -->
-  <div class="section">
-    <div class="section-label">Bookmarks</div>
-    <div class="bookmark-filters" id="bmFilters"></div>
-    <div id="bookmarksGrid"></div>
-    <div class="bookmark-add-row">
-      <input type="text" class="bookmark-input" id="bmTitle" placeholder="Name" maxlength="40">
-      <input type="url" class="bookmark-input" id="bmUrl" placeholder="https://..." maxlength="200" style="flex: 1.5;">
-      <select class="bookmark-input" id="bmCat" style="flex: 0.6; font-family: monospace; font-size: 10px; appearance: auto; background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.5);"></select>
-      <button class="bookmark-add-btn" id="bmAdd">+</button>
-    </div>
-  </div>
+    </div><!-- /.workspace-col RIGHT -->
 
-  <!-- ══════ 6. BRANDS & FRIENDS ══════ -->
-  <div class="section">
-    <div class="section-label">Brands & Friends</div>
+  </div><!-- /.workspace-grid -->
 
-    <a href="https://dubeskills.eu/" class="link-card" target="_blank">
-      <div class="link-icon">DS</div>
-      <div class="link-text">
-        <div class="link-title">Dubé Skills</div>
-        <div class="link-desc">Developing the future of hockey — professionelle Spielerentwicklung</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="https://www.create-sports.com" class="link-card" target="_blank">
-      <div class="link-icon">CS</div>
-      <div class="link-text">
-        <div class="link-title">Create-Sports</div>
-        <div class="link-desc">Hockeyshop #1 — Wir leben Eishockey</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-
-    <a href="https://www.cherrysgraph.de/" class="link-card" target="_blank">
-      <div class="link-icon">LK</div>
-      <div class="link-text">
-        <div class="link-title">Lukas Kirsch</div>
-        <div class="link-desc">Fotografie & Visual Storytelling — die Bilder hinter Shift2Pro</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-  </div>
-
-  <!-- ══════ 7. FOTOGRAFIE ══════ -->
-  <div class="section">
-    <div class="section-label">Fotografie</div>
-
-    <a href="https://unsplash.com/de/@wild_projects" class="link-card" target="_blank">
-      <div class="link-icon">UN</div>
-      <div class="link-text">
-        <div class="link-title">Unsplash</div>
-        <div class="link-desc">Auslöser statt Ausreden — Bilder frei verfügbar</div>
-      </div>
-      <div class="link-arrow">→</div>
-    </a>
-  </div>
-
-  <div class="sep"></div>
-
-  <!-- ══════ 8. KONTAKT ══════ -->
-  <div class="section">
-    <div class="section-label">Kontakt</div>
-    <div class="contact-row">
-      <a href="mailto:rene@wildproject.pro" class="contact-pill">rene@wildproject.pro</a>
-      <a href="tel:+436644272020" class="contact-pill">+43 664 427 2020</a>
-    </div>
-  </div>
-
-  <!-- ══════ FOOTER ══════ -->
+  <!-- ══════ FOOTER (full width) ══════ -->
+  <div class="full-width">
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-left">
@@ -1647,6 +2029,7 @@
       </div>
     </div>
   </footer>
+  </div><!-- /.full-width footer -->
 
 </div>
 
@@ -2602,6 +2985,342 @@
       descEl.textContent = '—';
     });
 })();
+</script>
+
+<!-- ══════════════════════════════════════════════
+     JAHRESPLANUNG WIDGET
+     Hockey-Cycle-aware Brückentag-Optimizer
+     Regions: AT (9 Bundesländer) + DE Bayern
+     ══════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  // ── Date helpers ──
+  function easter(y) {
+    var a=y%19, b=Math.floor(y/100), c=y%100, d=Math.floor(b/4), e=b%4,
+        f=Math.floor((b+8)/25), g=Math.floor((b-f+1)/3),
+        h=(19*a+b-d-g+15)%30, i=Math.floor(c/4), k=c%4,
+        l=(32+2*e+2*i-h-k)%7, m=Math.floor((a+11*h+22*l)/451),
+        mo=Math.floor((h+l-7*m+114)/31), da=((h+l-7*m+114)%31)+1;
+    return new Date(y, mo-1, da);
+  }
+  function addD(d, n) { var x=new Date(d); x.setDate(x.getDate()+n); return x; }
+  function key(d) {
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+  var MN_SHORT = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+  var MN_UPPER = ['JAN','FEB','MÄR','APR','MAI','JUN','JUL','AUG','SEP','OKT','NOV','DEZ'];
+  function fmtDate(d) { return d.getDate() + '. ' + MN_SHORT[d.getMonth()]; }
+
+  // ── Regions ──
+  var REGIONS = [
+    { code: 'AT-W',    name: '🇦🇹 Wien' },
+    { code: 'AT-NOE',  name: '🇦🇹 Niederösterreich' },
+    { code: 'AT-OOE',  name: '🇦🇹 Oberösterreich' },
+    { code: 'AT-SBG',  name: '🇦🇹 Salzburg' },
+    { code: 'AT-STMK', name: '🇦🇹 Steiermark' },
+    { code: 'AT-KTN',  name: '🇦🇹 Kärnten' },
+    { code: 'AT-TIR',  name: '🇦🇹 Tirol' },
+    { code: 'AT-VBG',  name: '🇦🇹 Vorarlberg' },
+    { code: 'AT-BGL',  name: '🇦🇹 Burgenland' },
+    { code: 'DE-BY',   name: '🇩🇪 Bayern' }
+  ];
+
+  // ── Holidays ──
+  function getHolidays(y, region) {
+    var e = easter(y);
+    var H = {};
+    function add(d, n) { H[key(d)] = n; }
+    var isAT = region.indexOf('AT') === 0;
+    var isBY = region === 'DE-BY';
+
+    if (isAT) {
+      add(new Date(y,0,1),  'Neujahr');
+      add(new Date(y,0,6),  'Hl. Drei Könige');
+      add(addD(e,1),        'Ostermontag');
+      add(new Date(y,4,1),  'Staatsfeiertag');
+      add(addD(e,39),       'Christi Himmelfahrt');
+      add(addD(e,50),       'Pfingstmontag');
+      add(addD(e,60),       'Fronleichnam');
+      add(new Date(y,7,15), 'Mariä Himmelfahrt');
+      add(new Date(y,9,26), 'Nationalfeiertag');
+      add(new Date(y,10,1), 'Allerheiligen');
+      add(new Date(y,11,8), 'Mariä Empfängnis');
+      add(new Date(y,11,25),'Christtag');
+      add(new Date(y,11,26),'Stefanitag');
+    }
+    if (isBY) {
+      add(new Date(y,0,1),  'Neujahr');
+      add(new Date(y,0,6),  'Hl. Drei Könige');
+      add(addD(e,-2),       'Karfreitag');
+      add(addD(e,1),        'Ostermontag');
+      add(new Date(y,4,1),  'Tag der Arbeit');
+      add(addD(e,39),       'Christi Himmelfahrt');
+      add(addD(e,50),       'Pfingstmontag');
+      add(addD(e,60),       'Fronleichnam');
+      add(new Date(y,7,15), 'Mariä Himmelfahrt');
+      add(new Date(y,9,3),  'Tag d. Dt. Einheit');
+      add(new Date(y,10,1), 'Allerheiligen');
+      add(new Date(y,11,25),'1. Weihnachtstag');
+      add(new Date(y,11,26),'2. Weihnachtstag');
+    }
+    return H;
+  }
+
+  // ── School Holidays (Ferien) — approximate dates 2026/2027 ──
+  // Format: { region: { year: [[start, end, name], ...] } }
+  var FERIEN = {
+    'AT-W': {
+      2026: [['2026-02-02','2026-02-08','Semester'],['2026-03-30','2026-04-06','Ostern'],['2026-05-23','2026-05-26','Pfingsten'],['2026-07-04','2026-09-06','Sommer'],['2026-10-26','2026-10-31','Herbst'],['2026-12-24','2027-01-06','Weihnachten']],
+      2027: [['2027-02-01','2027-02-07','Semester'],['2027-03-22','2027-03-29','Ostern'],['2027-05-15','2027-05-18','Pfingsten'],['2027-07-03','2027-09-05','Sommer'],['2027-10-26','2027-10-31','Herbst'],['2027-12-24','2028-01-06','Weihnachten']]
+    },
+    'AT-NOE': 'AT-W',
+    'AT-BGL': 'AT-W',
+    'AT-STMK': {
+      2026: [['2026-02-09','2026-02-15','Semester'],['2026-03-30','2026-04-06','Ostern'],['2026-05-23','2026-05-26','Pfingsten'],['2026-07-11','2026-09-13','Sommer'],['2026-10-26','2026-10-31','Herbst'],['2026-12-24','2027-01-06','Weihnachten']],
+      2027: [['2027-02-08','2027-02-14','Semester'],['2027-03-22','2027-03-29','Ostern'],['2027-05-15','2027-05-18','Pfingsten'],['2027-07-10','2027-09-12','Sommer'],['2027-10-26','2027-10-31','Herbst'],['2027-12-24','2028-01-06','Weihnachten']]
+    },
+    'AT-KTN': 'AT-STMK',
+    'AT-OOE': {
+      2026: [['2026-02-16','2026-02-22','Semester'],['2026-03-30','2026-04-06','Ostern'],['2026-05-23','2026-05-26','Pfingsten'],['2026-07-11','2026-09-13','Sommer'],['2026-10-26','2026-10-31','Herbst'],['2026-12-24','2027-01-06','Weihnachten']],
+      2027: [['2027-02-15','2027-02-21','Semester'],['2027-03-22','2027-03-29','Ostern'],['2027-05-15','2027-05-18','Pfingsten'],['2027-07-10','2027-09-12','Sommer'],['2027-10-26','2027-10-31','Herbst'],['2027-12-24','2028-01-06','Weihnachten']]
+    },
+    'AT-SBG': 'AT-OOE',
+    'AT-TIR': 'AT-OOE',
+    'AT-VBG': 'AT-OOE',
+    'DE-BY': {
+      2026: [['2026-02-16','2026-02-20','Winter'],['2026-03-30','2026-04-11','Ostern'],['2026-05-26','2026-06-05','Pfingsten'],['2026-08-01','2026-09-14','Sommer'],['2026-11-02','2026-11-06','Herbst'],['2026-12-23','2027-01-05','Weihnachten']],
+      2027: [['2027-02-15','2027-02-19','Winter'],['2027-03-22','2027-04-02','Ostern'],['2027-05-18','2027-05-28','Pfingsten'],['2027-08-02','2027-09-13','Sommer'],['2027-11-02','2027-11-05','Herbst'],['2027-12-24','2028-01-08','Weihnachten']]
+    }
+  };
+  function resolveFerien(region) {
+    var f = FERIEN[region];
+    while (typeof f === 'string') f = FERIEN[f];
+    return f || {};
+  }
+  function getFerien(region, y) {
+    var f = resolveFerien(region);
+    return (f[y] || []).concat(f[y-1] || []);
+  }
+  function isInFerien(d, region, y) {
+    var k = key(d);
+    var ferien = getFerien(region, y);
+    for (var i = 0; i < ferien.length; i++) {
+      if (k >= ferien[i][0] && k <= ferien[i][1]) return ferien[i][2];
+    }
+    return null;
+  }
+
+  // ── IIHF Breaks 2026/27 (approximate) ──
+  var IIHF = [
+    { name: 'Deutschland Cup',          start: '2026-11-05', end: '2026-11-08' },
+    { name: 'Channel One Cup',          start: '2026-12-17', end: '2026-12-20' },
+    { name: 'Olympia-Pause (Reserve)',  start: '2027-02-04', end: '2027-02-21' },
+    { name: 'Swiss / Beijer Games',     start: '2027-02-11', end: '2027-02-14' },
+    { name: 'IIHF WM 2027',             start: '2027-05-07', end: '2027-05-23' }
+  ];
+
+  // ── Hockey Phase (René's cycle) ──
+  // Off:  Mai-Jul (4,5,6) — Kopf weg vom Sport
+  // Pre:  Aug (7) — Saisonstart Eis + Meisterschaft
+  // In:   Sep-Apr (8-11, 0-3) — Saison läuft
+  function phaseOf(date) {
+    var m = date.getMonth();
+    if (m >= 4 && m <= 6) return 'off';
+    if (m === 7) return 'pre';
+    return 'in';
+  }
+  function phaseLabel(p) {
+    return p === 'off' ? 'Off-Season' : (p === 'pre' ? 'Pre-Season' : 'In-Season');
+  }
+
+  // ── Brückentag Optimizer (Hockey-weighted) ──
+  function findBridges(year, region) {
+    var H = getHolidays(year, region);
+    var out = [];
+
+    Object.keys(H).forEach(function(k) {
+      var d = new Date(k + 'T12:00:00');
+      var dow = d.getDay();
+      if (dow === 0 || dow === 6) return; // weekend → kein bridge
+      var name = H[k];
+
+      if (dow === 2) {        // Di → Mo Brücke (1 UT → 4 frei)
+        out.push({ start: addD(d,-3), end: d, vac: 1, free: 4,
+                   label: 'Brücke vor ' + name, phase: phaseOf(d) });
+      } else if (dow === 4) { // Do → Fr Brücke (1 UT → 4 frei)
+        out.push({ start: d, end: addD(d,3), vac: 1, free: 4,
+                   label: 'Brücke nach ' + name, phase: phaseOf(d) });
+      } else if (dow === 3) { // Mi → Mo+Di oder Do+Fr (2 UT → 5 frei)
+        out.push({ start: addD(d,-4), end: d, vac: 2, free: 5,
+                   label: 'Brücke vor ' + name, phase: phaseOf(d) });
+      } else if (dow === 1) { // Mo → Woche dran (4 UT → 8 frei)
+        out.push({ start: addD(d,-2), end: addD(d,5), vac: 4, free: 8,
+                   label: name + ' + Woche', phase: phaseOf(d) });
+      } else if (dow === 5) { // Fr → Woche davor (4 UT → 9 frei)
+        out.push({ start: addD(d,-7), end: addD(d,1), vac: 4, free: 9,
+                   label: 'Woche + ' + name, phase: phaseOf(d) });
+      }
+    });
+
+    // Oster-Cluster (Karfr+Ostermo + 4 UT = 10 frei)
+    var e = easter(year);
+    var karfr = addD(e,-2), osterm = addD(e,1);
+    out.push({ start: karfr, end: addD(osterm,5), vac: 4, free: 10,
+               label: 'Oster-Cluster', phase: phaseOf(e) });
+
+    // Pfingst-Cluster
+    var pfm = addD(e,50);
+    out.push({ start: addD(pfm,-3), end: addD(pfm,5), vac: 4, free: 9,
+               label: 'Pfingst-Cluster', phase: phaseOf(pfm) });
+
+    // Hockey-Wichtung
+    out.forEach(function(s) {
+      s.ratio = s.free / s.vac;
+      var w = s.phase === 'off' ? 3.0 : (s.phase === 'pre' ? 0.4 : 0.55);
+      s.score = s.ratio * w;
+    });
+
+    out.sort(function(a, b) { return b.score - a.score; });
+    return out;
+  }
+
+  // ── Render ──
+  var regionSel = document.getElementById('plannerRegion');
+  var yearSel   = document.getElementById('plannerYear');
+  var vacInp    = document.getElementById('plannerVacDays');
+  var statsEl   = document.getElementById('plannerStats');
+  var phasesEl  = document.getElementById('plannerPhases');
+  var iihfEl    = document.getElementById('plannerIihf');
+  var bridgesEl = document.getElementById('plannerBridges');
+  var summaryEl = document.getElementById('plannerSummary');
+  var gridEl    = document.getElementById('plannerYearGrid');
+
+  if (!regionSel) return;
+
+  // Populate selects
+  REGIONS.forEach(function(r) {
+    var o = document.createElement('option');
+    o.value = r.code; o.textContent = r.name;
+    regionSel.appendChild(o);
+  });
+  [2026, 2027].forEach(function(y) {
+    var o = document.createElement('option');
+    o.value = y; o.textContent = y;
+    yearSel.appendChild(o);
+  });
+
+  // Restore
+  regionSel.value = localStorage.getItem('wp_planner_region') || 'AT-OOE';
+  yearSel.value   = localStorage.getItem('wp_planner_year')   || '2026';
+  vacInp.value    = localStorage.getItem('wp_planner_vac')    || '25';
+
+  function render() {
+    var region = regionSel.value;
+    var year   = parseInt(yearSel.value, 10);
+    var vac    = parseInt(vacInp.value, 10) || 25;
+
+    localStorage.setItem('wp_planner_region', region);
+    localStorage.setItem('wp_planner_year', year);
+    localStorage.setItem('wp_planner_vac', vac);
+
+    var H = getHolidays(year, region);
+    var weekdayFTs = Object.keys(H).filter(function(k) {
+      var dow = new Date(k + 'T12:00:00').getDay();
+      return dow !== 0 && dow !== 6;
+    });
+
+    // Stats
+    statsEl.innerHTML =
+      '<div class="planner-stat"><span class="planner-stat-val">' + Object.keys(H).length + '</span><span class="planner-stat-lbl">Feiertage</span></div>' +
+      '<div class="planner-stat"><span class="planner-stat-val">' + weekdayFTs.length + '</span><span class="planner-stat-lbl">Werktag-FT</span></div>' +
+      '<div class="planner-stat"><span class="planner-stat-val">' + vac + '</span><span class="planner-stat-lbl">Urlaubstage</span></div>';
+
+    // Hockey phase bar
+    var pHtml = '';
+    for (var m = 0; m < 12; m++) {
+      var p = phaseOf(new Date(year, m, 15));
+      pHtml += '<div class="planner-phase ' + p + '" title="' + phaseLabel(p) + '">' + MN_UPPER[m] + '</div>';
+    }
+    phasesEl.innerHTML = pHtml;
+
+    // IIHF
+    iihfEl.innerHTML = IIHF.map(function(b) {
+      var s = new Date(b.start + 'T12:00:00');
+      var en = new Date(b.end + 'T12:00:00');
+      return '<div class="planner-iihf-item"><span class="planner-iihf-name">' + b.name + '</span>' +
+             '<span class="planner-iihf-date">' + fmtDate(s) + ' – ' + fmtDate(en) + '</span></div>';
+    }).join('');
+
+    // Bridges (top 8) + budget calculation
+    var bridges = findBridges(year, region).slice(0, 8);
+    var budgetVac = 0, budgetFree = 0;
+    bridges.forEach(function(b) {
+      if (budgetVac + b.vac <= vac) {
+        budgetVac += b.vac;
+        budgetFree += b.free;
+        b._fits = true;
+      }
+    });
+    bridgesEl.innerHTML = bridges.map(function(b) {
+      var cls = b.phase === 'in' ? 'in-season' : (b.phase === 'pre' ? 'pre-season' : '');
+      var phaseTag = b.phase === 'off' ? '★ OFF-SEASON' : (b.phase === 'pre' ? 'PRE-SEASON' : 'IN-SEASON');
+      return '<div class="planner-bridge ' + cls + '">' +
+             '<div class="planner-bridge-head"><span class="planner-bridge-title">' + b.label + '</span>' +
+             '<span class="planner-bridge-ratio">' + b.vac + ' UT → ' + b.free + ' frei</span></div>' +
+             '<div class="planner-bridge-desc">' + fmtDate(b.start) + ' – ' + fmtDate(b.end) + '</div>' +
+             '<div class="planner-bridge-meta">' + phaseTag + ' · Ratio ' + b.ratio.toFixed(1) + 'x</div>' +
+             '</div>';
+    }).join('');
+
+    summaryEl.innerHTML = 'Top-Vorschläge nutzen <strong>' + budgetVac + '</strong> von <strong>' + vac + '</strong> Urlaubstagen → <strong>' + budgetFree + ' freie Tage</strong>. Restliche <strong>' + (vac - budgetVac) + ' UT</strong> für Off-Season (Mai–Jul) reservieren.';
+
+    // Year grid
+    var gHtml = '';
+    for (var mo = 0; mo < 12; mo++) {
+      gHtml += '<div class="planner-mini-month"><div class="planner-mini-name">' + MN_UPPER[mo] + '</div><div class="planner-mini-grid">';
+      var first = new Date(year, mo, 1);
+      var last  = new Date(year, mo + 1, 0);
+      var startDow = (first.getDay() + 6) % 7; // Mo=0
+      for (var i = 0; i < startDow; i++) gHtml += '<div class="planner-mini-day"></div>';
+      for (var dd = 1; dd <= last.getDate(); dd++) {
+        var dt = new Date(year, mo, dd);
+        var k = key(dt);
+        var dow = dt.getDay();
+        var cls = 'planner-mini-day';
+        if (dow === 0 || dow === 6) cls += ' we';
+        var fname = isInFerien(dt, region, year);
+        if (fname) cls += ' ferien';
+        if (H[k]) cls += ' holiday';
+        var title = (H[k] ? H[k] : '') + (fname ? (H[k] ? ' · ' : '') + fname + '-Ferien' : '');
+        gHtml += '<div class="' + cls + '"' + (title ? ' title="' + title + '"' : '') + '>' + dd + '</div>';
+      }
+      gHtml += '</div></div>';
+    }
+    gridEl.innerHTML = gHtml;
+  }
+
+  regionSel.addEventListener('change', render);
+  yearSel.addEventListener('change', render);
+  vacInp.addEventListener('input', render);
+  render();
+})();
+</script>
+
+<!-- ══════ PWA — Service Worker Registration ══════ -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .then(function(reg) {
+          console.log('[PWA] Service Worker registered:', reg.scope);
+        })
+        .catch(function(err) {
+          console.log('[PWA] Service Worker registration failed:', err);
+        });
+    });
+  }
 </script>
 
 </body>
