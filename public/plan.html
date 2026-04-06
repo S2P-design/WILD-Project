@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="/wp-shell.css">
 <script src="/wp-i18n.js"></script>
 <script src="/wp-backup.js"></script>
+<script src="/wp-status.js"></script>
 
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#050505">
@@ -821,6 +822,7 @@
   </a>
   <div class="wp-shell-title" data-i18n="nav.plan">Plan</div>
   <div class="wp-shell-actions">
+    <div id="statusMount"></div>
     <button class="wp-btn icon-only" id="langToggle" title="Language">EN</button>
     <button class="wp-btn icon-only" id="backupBtn" title="Backup all">⤓</button>
     <button class="wp-btn icon-only" id="themeToggle" title="Theme">◐</button>
@@ -1043,10 +1045,15 @@
       el.textContent = '✓ ' + (WPi18n ? WPi18n.t('common.saved') : 'Saved');
       el.classList.add('saved');
     });
+    if (window.WPstatus) WPstatus.saved();
   }
   function scheduleSave(fn) {
+    if (window.WPstatus) WPstatus.saving();
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(function() { fn && fn(); persistAll(); showSaved(); }, 350);
+    saveTimer = setTimeout(function() {
+      try { fn && fn(); persistAll(); showSaved(); }
+      catch(err) { if (window.WPstatus) WPstatus.error(); }
+    }, 350);
   }
 
   function uid(prefix) { return (prefix || 'id') + '-' + Date.now() + '-' + Math.random().toString(36).slice(2,7); }
@@ -1815,6 +1822,7 @@
   // ════════════════════════════════════════
   WPi18n.attachToggle(document.getElementById('langToggle'));
   WPbackup.attachButton(document.getElementById('backupBtn'));
+  if (window.WPstatus) WPstatus.mount(document.getElementById('statusMount'));
   function applyTheme(t) { document.body.classList.toggle('light', t === 'light'); }
   applyTheme(localStorage.getItem(K_THEME) || 'dark');
   document.getElementById('themeToggle').addEventListener('click', function() {

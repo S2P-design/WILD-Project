@@ -8,6 +8,9 @@
 
 <!-- Shared design system -->
 <link rel="stylesheet" href="/wp-shell.css">
+<script src="/wp-i18n.js"></script>
+<script src="/wp-backup.js"></script>
+<script src="/wp-status.js"></script>
 
 <!-- PWA -->
 <link rel="manifest" href="/manifest.webmanifest">
@@ -379,6 +382,9 @@
   </a>
   <div class="wp-shell-title">Journal</div>
   <div class="wp-shell-actions">
+    <div id="statusMount"></div>
+    <button class="wp-btn icon-only" id="langToggle" title="Language">EN</button>
+    <button class="wp-btn icon-only" id="backupBtn" title="Backup all">⤓</button>
     <button class="wp-btn icon-only" id="themeToggle" title="Theme wechseln">◐</button>
     <button class="wp-btn icon-only" id="exportBtn" title="Export JSON">↓</button>
   </div>
@@ -677,6 +683,7 @@
   function scheduleSave() {
     saveStatus.textContent = '· tippt ·';
     saveStatus.classList.remove('saved');
+    if (window.WPstatus) WPstatus.saving();
     clearTimeout(saveTimer);
     saveTimer = setTimeout(function() {
       var e = getCurrent();
@@ -686,7 +693,6 @@
       e.duration = durInp.value;
       e.title    = titleInp.value;
       e.body     = bodyInp.value;
-      // tags read from active state
       e.tags = Array.prototype.slice.call(tagRow.querySelectorAll('.jr-tag.active')).map(function(t) { return t.dataset.tag; });
       save();
       renderList();
@@ -695,6 +701,7 @@
   function showSaved() {
     saveStatus.textContent = '✓ Gespeichert · ' + new Date().toLocaleTimeString('de-DE', { hour:'2-digit', minute:'2-digit' });
     saveStatus.classList.add('saved');
+    if (window.WPstatus) WPstatus.saved();
   }
 
   ['input','change'].forEach(function(evt) {
@@ -741,6 +748,11 @@
     localStorage.setItem(THEME_KEY, t);
     applyTheme(t);
   });
+
+  // ── Status badge + lang + backup ──
+  if (window.WPstatus) WPstatus.mount(document.getElementById('statusMount'));
+  if (window.WPi18n)   WPi18n.attachToggle(document.getElementById('langToggle'));
+  if (window.WPbackup) WPbackup.attachButton(document.getElementById('backupBtn'));
 
   // ── Cross-tab sync ──
   window.addEventListener('storage', function(e) {

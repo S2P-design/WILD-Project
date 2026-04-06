@@ -185,6 +185,99 @@ body::before {
   box-shadow: 0 0 6px var(--wp-flame);
 }
 
+/* ── Save Status Badge ── */
+.wp-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1px solid var(--wp-border);
+  border-radius: 20px;
+  background: var(--wp-surface-1);
+  font-family: var(--wp-font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--wp-text-faint);
+  transition: all 0.25s var(--wp-ease);
+  user-select: none;
+  white-space: nowrap;
+}
+.wp-st-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--wp-text-ghost);
+  transition: all 0.25s var(--wp-ease);
+  flex-shrink: 0;
+}
+.wp-status.idle  .wp-st-dot { background: rgba(255,255,255,0.25); }
+.wp-status.saving {
+  border-color: #f0c64a;
+  color: #f0c64a;
+}
+.wp-status.saving .wp-st-dot {
+  background: #f0c64a;
+  box-shadow: 0 0 8px rgba(240,198,74,0.6);
+  animation: wp-pulse 1.2s ease-in-out infinite;
+}
+.wp-status.saved {
+  border-color: #2ea043;
+  color: #2ea043;
+}
+.wp-status.saved .wp-st-dot {
+  background: #2ea043;
+  box-shadow: 0 0 8px rgba(46,160,67,0.6);
+}
+.wp-status.error {
+  border-color: #e53935;
+  color: #e53935;
+}
+.wp-status.error .wp-st-dot {
+  background: #e53935;
+  box-shadow: 0 0 8px rgba(229,57,53,0.6);
+  animation: wp-pulse 1s ease-in-out infinite;
+}
+@keyframes wp-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.85); }
+}
+body.light .wp-status.idle .wp-st-dot { background: rgba(0,0,0,0.25); }
+
+/* ── Toast (bottom center) ── */
+.wp-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translate(-50%, 30px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  background: var(--wp-surface-1);
+  border: 1px solid var(--wp-border);
+  border-radius: 24px;
+  font-family: var(--wp-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--wp-text);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s var(--wp-ease), transform 0.3s var(--wp-ease);
+  z-index: 9999;
+}
+.wp-toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.wp-toast.ok  { border-color: #2ea043; color: #2ea043; }
+.wp-toast.err { border-color: #e53935; color: #e53935; }
+.wp-toast-icon { font-size: 14px; }
+
 /* ── Card ── */
 .wp-card {
   background: var(--wp-surface-1);

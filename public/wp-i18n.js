@@ -79,7 +79,20 @@
         ice: 'Ice', dryland: 'Dryland', game: 'Game', video: 'Video',
         meeting: 'Meeting', recovery: 'Recovery', off: 'Off'
       },
-      phases: { off: 'OFF', pre: 'PRE', in: 'IN' }
+      phases: { off: 'OFF', pre: 'PRE', in: 'IN' },
+      status: {
+        idle: 'Idle', saving: 'Saving…', saved: 'Saved',
+        allSaved: 'All changes saved', error: 'Save error'
+      },
+      data: {
+        title: 'Data Overview', subtitle: 'Where your data lives',
+        items: 'items', lastChanged: 'last changed',
+        never: 'never', size: 'size', open: 'Open',
+        totalSize: 'Total size', backup: 'Backup',
+        export: 'Export this', clear: 'Clear',
+        clearWarn: 'Delete all entries from this tool? Cannot be undone.',
+        empty: 'no data yet'
+      }
     },
 
     de: {
@@ -152,7 +165,20 @@
         ice: 'Eis', dryland: 'Dryland', game: 'Spiel', video: 'Video',
         meeting: 'Meeting', recovery: 'Regeneration', off: 'Frei'
       },
-      phases: { off: 'OFF', pre: 'VOR', in: 'SAI' }
+      phases: { off: 'OFF', pre: 'VOR', in: 'SAI' },
+      status: {
+        idle: 'Bereit', saving: 'Speichert…', saved: 'Gespeichert',
+        allSaved: 'Alle Änderungen gespeichert', error: 'Speicherfehler'
+      },
+      data: {
+        title: 'Datenübersicht', subtitle: 'Wo deine Daten liegen',
+        items: 'Einträge', lastChanged: 'zuletzt geändert',
+        never: 'nie', size: 'Größe', open: 'Öffnen',
+        totalSize: 'Gesamtgröße', backup: 'Sicherung',
+        export: 'Diese exportieren', clear: 'Leeren',
+        clearWarn: 'Alle Einträge dieses Tools löschen? Kann nicht rückgängig gemacht werden.',
+        empty: 'noch keine Daten'
+      }
     }
   };
 
@@ -217,6 +243,30 @@
   window.addEventListener('storage', function(e) {
     if (e.key === STORE) apply();
   });
+
+  // ── Global meta-timestamp tracker for wp_* keys ──
+  // Records last-modified for every wp_* localStorage write across all tools.
+  // Read by the workspace Data Overview dashboard.
+  var META_KEY = 'wp_data_meta';
+  try {
+    var origSet = Storage.prototype.setItem;
+    if (!Storage.prototype.__wpWrapped) {
+      Storage.prototype.setItem = function(k, v) {
+        var ret = origSet.apply(this, arguments);
+        try {
+          if (this === window.localStorage && k && k.indexOf('wp_') === 0 && k !== META_KEY) {
+            var raw = origSet === Storage.prototype.setItem ? localStorage.getItem(META_KEY) : localStorage.getItem(META_KEY);
+            var m = {};
+            try { m = raw ? JSON.parse(raw) : {}; } catch(_) {}
+            m[k] = Date.now();
+            origSet.call(localStorage, META_KEY, JSON.stringify(m));
+          }
+        } catch(_) {}
+        return ret;
+      };
+      Storage.prototype.__wpWrapped = true;
+    }
+  } catch(_) {}
 
   w.WPi18n = {
     get: get, t: get, apply: apply, setLang: setLang,

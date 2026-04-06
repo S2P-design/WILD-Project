@@ -4,7 +4,7 @@
              Cache-first für Assets (Fonts, Bilder).
    ════════════════════════════════════════════════ */
 
-const CACHE_VERSION = 'wp-workspace-v5';
+const CACHE_VERSION = 'wp-workspace-v6';
 const CORE_ASSETS = [
   '/workspace.html',
   '/plan.html',
@@ -17,6 +17,7 @@ const CORE_ASSETS = [
   '/wp-shell.css',
   '/wp-i18n.js',
   '/wp-backup.js',
+  '/wp-status.js',
   '/wp-logo.png',
   '/favicon-180.png',
   '/favicon-32.png',

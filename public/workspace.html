@@ -284,6 +284,96 @@
     flex-direction: column;
     gap: 8px;
   }
+
+  /* ── Data Overview ── */
+  .data-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .data-row {
+    display: grid;
+    grid-template-columns: 22px 1fr auto auto;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+  .data-row:hover { border-color: rgba(252,80,0,0.25); }
+  .data-row .data-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+  }
+  .data-row.has-data .data-dot { background: #2ea043; box-shadow: 0 0 6px rgba(46,160,67,0.5); }
+  .data-row .data-info { min-width: 0; }
+  .data-row .data-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #E4E4E4;
+    line-height: 1.2;
+  }
+  .data-row .data-meta {
+    font-family: monospace;
+    font-size: 8px;
+    letter-spacing: 0.4px;
+    color: rgba(228,228,228,0.4);
+    margin-top: 3px;
+  }
+  .data-row .data-count {
+    font-family: monospace;
+    font-size: 10px;
+    color: rgba(228,228,228,0.6);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .data-row .data-count strong {
+    color: #FC5000;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .data-row .data-actions {
+    display: flex;
+    gap: 4px;
+  }
+  .data-row .data-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(228,228,228,0.5);
+    width: 26px; height: 26px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.15s ease;
+  }
+  .data-row .data-btn:hover { color: #FC5000; border-color: #FC5000; }
+  .data-summary {
+    margin-top: 8px;
+    padding: 12px 14px;
+    background: rgba(252,80,0,0.04);
+    border: 1px solid rgba(252,80,0,0.15);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: 0.6px;
+    color: rgba(228,228,228,0.6);
+    text-transform: uppercase;
+  }
+  .data-summary strong {
+    color: #FC5000;
+    font-size: 11px;
+  }
+  body.light .data-row { background: #fff; border-color: rgba(0,0,0,0.06); }
+  body.light .data-row .data-name { color: #050505; }
+  body.light .data-row .data-meta { color: rgba(0,0,0,0.4); }
+  body.light .data-row .data-count { color: rgba(0,0,0,0.6); }
   .tool-card {
     display: flex;
     align-items: center;
@@ -2272,6 +2362,12 @@
         </div>
       </div>
 
+      <!-- ══════ DATA OVERVIEW ══════ -->
+      <div class="section">
+        <div class="section-label" data-i18n="data.title">Data Overview</div>
+        <div class="data-overview" id="dataOverview"></div>
+      </div>
+
       <!-- ══════ KALENDER ══════ -->
       <div class="section">
         <div class="section-label">Kalender</div>
@@ -2515,6 +2611,154 @@
 (function() {
   if (window.WPi18n) WPi18n.attachToggle(document.getElementById('langToggle'));
   if (window.WPbackup) WPbackup.attachButton(document.getElementById('backupBtn'));
+})();
+
+// ── Data Overview ──
+(function() {
+  var box = document.getElementById('dataOverview');
+  if (!box) return;
+
+  // Tools mapped to localStorage keys + label + url + counter
+  var TOOLS = [
+    { id:'plan-year',     icon:'▦', name:'Plan · Season',  url:'/plan.html', keys:['wp_plan_year'],    count: function(d) { return d ? Object.keys(d).length : 0; }, unit:'seasons' },
+    { id:'plan-month',    icon:'▦', name:'Plan · Months',  url:'/plan.html', keys:['wp_plan_month'],   count: function(d) { return d ? Object.keys(d).length : 0; }, unit:'months' },
+    { id:'plan-block',    icon:'▦', name:'Plan · Blocks',  url:'/plan.html', keys:['wp_plan_block'],   count: function(d) { return Array.isArray(d) ? d.length : 0; }, unit:'blocks' },
+    { id:'plan-session',  icon:'▦', name:'Plan · Sessions',url:'/plan.html', keys:['wp_plan_session'], count: function(d) { return Array.isArray(d) ? d.length : 0; }, unit:'sessions' },
+    { id:'season-old',    icon:'⛸', name:'Season (legacy)',url:'/season.html', keys:['wp_season_weeks'], count: function(d) { return d ? Object.keys(d).length : 0; }, unit:'weeks' },
+    { id:'journal',       icon:'✦', name:'Journal',        url:'/journal.html', keys:['wp_journal_entries'], count: function(d) { return Array.isArray(d) ? d.length : 0; }, unit:'entries' },
+    { id:'players',       icon:'◉', name:'Players',        url:'/players.html', keys:['wp_players'],         count: function(d) { return Array.isArray(d) ? d.length : 0; }, unit:'players' },
+    { id:'notebook',      icon:'✎', name:'Notebook',       url:'/notebook.html', keys:['wp_notebook','wp_notebook_notes','wp_notebook_pages'], count: function(d) { if (!d) return 0; if (Array.isArray(d)) return d.length; if (typeof d === 'object') return Object.keys(d).length; return 1; }, unit:'notes' },
+    { id:'workspace',     icon:'◇', name:'Workspace',      url:'/workspace.html', keys:['wp_workspace_calendar','wp_workspace_todos','wp_workspace_bookmarks'], count: function(d) { if (!d) return 0; if (Array.isArray(d)) return d.length; if (typeof d === 'object') return Object.keys(d).length; return 1; }, unit:'items' }
+  ];
+
+  function readKey(k) {
+    var raw = localStorage.getItem(k);
+    if (raw == null) return null;
+    try { return JSON.parse(raw); } catch(_) { return raw; }
+  }
+  function bytesOf(k) {
+    var raw = localStorage.getItem(k);
+    return raw ? raw.length : 0;
+  }
+  function fmtBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024*1024) return (n/1024).toFixed(1) + ' KB';
+    return (n/1024/1024).toFixed(2) + ' MB';
+  }
+  function fmtDate(ts) {
+    if (!ts) return (window.WPi18n ? WPi18n.t('data.never') : 'never');
+    var d = new Date(ts);
+    var today = new Date();
+    var diff = Math.floor((today - d) / 86400000);
+    if (diff === 0) return d.toLocaleTimeString((window.WPi18n && WPi18n.current() === 'de') ? 'de-DE' : 'en-US', { hour:'2-digit', minute:'2-digit' });
+    if (diff === 1) return (window.WPi18n && WPi18n.current() === 'de') ? 'gestern' : 'yesterday';
+    if (diff < 7) return diff + (window.WPi18n && WPi18n.current() === 'de' ? ' Tage' : 'd ago');
+    return d.toLocaleDateString((window.WPi18n && WPi18n.current() === 'de') ? 'de-DE' : 'en-US', { day:'2-digit', month:'2-digit', year:'2-digit' });
+  }
+
+  // Track last-changed by listening to storage events
+  var META_KEY = 'wp_data_meta';
+  function readMeta() { try { return JSON.parse(localStorage.getItem(META_KEY)) || {}; } catch(_) { return {}; } }
+  function writeMeta(m) { localStorage.setItem(META_KEY, JSON.stringify(m)); }
+  // Initialise / refresh meta on load
+  var meta = readMeta();
+
+  function render() {
+    var html = '';
+    var totalItems = 0;
+    var totalBytes = 0;
+    var t = (window.WPi18n && WPi18n.t) || function(k, fb) { return fb || k; };
+
+    TOOLS.forEach(function(tool) {
+      var count = 0;
+      var size = 0;
+      var lastTs = 0;
+      tool.keys.forEach(function(k) {
+        var data = readKey(k);
+        count += tool.count(data);
+        size += bytesOf(k);
+        if (meta[k] && meta[k] > lastTs) lastTs = meta[k];
+      });
+      if (lastTs > 0 && count === 0) lastTs = 0;
+      totalItems += count;
+      totalBytes += size;
+      var hasData = count > 0;
+      var lastLbl = lastTs ? fmtDate(lastTs) : (t('data.never','never'));
+      html +=
+        '<div class="data-row ' + (hasData ? 'has-data' : '') + '" data-tool="' + tool.id + '">' +
+          '<span class="data-dot"></span>' +
+          '<div class="data-info">' +
+            '<div class="data-name">' + tool.icon + ' &nbsp; ' + tool.name + '</div>' +
+            '<div class="data-meta">' + (hasData ? (t('data.lastChanged','last changed') + ': ' + lastLbl + ' · ' + fmtBytes(size)) : t('data.empty','no data yet')) + '</div>' +
+          '</div>' +
+          '<div class="data-count">' + (hasData ? '<strong>' + count + '</strong> ' + tool.unit : '<span style="opacity:0.4;">—</span>') + '</div>' +
+          '<div class="data-actions">' +
+            '<button class="data-btn" data-act="open" data-url="' + tool.url + '" title="Open">↗</button>' +
+            (hasData ? '<button class="data-btn" data-act="export" data-keys="' + tool.keys.join(',') + '" data-name="' + tool.id + '" title="Export">⤓</button>' : '') +
+          '</div>' +
+        '</div>';
+    });
+
+    html += '<div class="data-summary">' +
+              '<span>' + t('data.totalSize','Total size').toUpperCase() + ': <strong>' + fmtBytes(totalBytes) + '</strong> · <strong>' + totalItems + '</strong> ' + t('data.items','items') + '</span>' +
+              '<span style="opacity:0.6;">localStorage · this device</span>' +
+            '</div>';
+
+    box.innerHTML = html;
+
+    box.querySelectorAll('.data-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var act = btn.dataset.act;
+        if (act === 'open') {
+          window.location.href = btn.dataset.url;
+        } else if (act === 'export') {
+          var keys = btn.dataset.keys.split(',');
+          var payload = { app: 'wildproject-tool-export', exported: new Date().toISOString(), tool: btn.dataset.name, data: {} };
+          keys.forEach(function(k) {
+            var v = localStorage.getItem(k);
+            if (v != null) payload.data[k] = v;
+          });
+          var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = 'wp-' + btn.dataset.name + '-' + new Date().toISOString().slice(0,10) + '.json';
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }
+      });
+    });
+  }
+
+  // Track all wp_* storage writes for last-changed timestamps
+  // Wrap localStorage.setItem to capture our own writes too
+  var origSet = Storage.prototype.setItem;
+  Storage.prototype.setItem = function(k, v) {
+    var ret = origSet.apply(this, arguments);
+    if (k && k.indexOf('wp_') === 0 && k !== META_KEY && k !== 'wp_data_meta') {
+      try {
+        var m = readMeta();
+        m[k] = Date.now();
+        origSet.call(localStorage, META_KEY, JSON.stringify(m));
+        meta = m;
+      } catch(_) {}
+    }
+    return ret;
+  };
+
+  // Listen for cross-tab updates
+  window.addEventListener('storage', function(e) {
+    if (e.key && e.key.indexOf('wp_') === 0) {
+      meta = readMeta();
+      render();
+    }
+  });
+  window.addEventListener('wp:lang-changed', render);
+
+  render();
+  // Refresh every 30s in case other tabs update
+  setInterval(render, 30000);
 })();
 
 // ── Bookmarks ──
