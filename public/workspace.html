@@ -1634,6 +1634,42 @@
   body.light .planner-mini-day { color: rgba(0,0,0,0.4); }
   body.light .planner-mini-day.we { color: rgba(0,0,0,0.2); }
   body.light .planner-disclaimer { color: rgba(0,0,0,0.25); }
+
+  /* ══════════════════════════════════════════════
+     SOLID CARD BACKDROPS
+     Dot-Grid bleibt im Hintergrund sichtbar,
+     aber Karten/Widgets sind opak (keine Dots durchscheinend)
+     ══════════════════════════════════════════════ */
+  .link-card,
+  .status-bar,
+  .contact-pill,
+  .cal-widget,
+  .notes-widget,
+  .todo-widget,
+  .planner-widget,
+  .bookmark-item,
+  .bookmark-input {
+    background-color: #0a0a0a;
+  }
+  .link-card:hover { background-color: #131313; }
+  .contact-pill:hover { background-color: #131313; }
+  .bookmark-item:hover { background-color: #131313; }
+
+  /* Light mode backdrops */
+  body.light .link-card,
+  body.light .status-bar,
+  body.light .contact-pill,
+  body.light .cal-widget,
+  body.light .notes-widget,
+  body.light .todo-widget,
+  body.light .planner-widget,
+  body.light .bookmark-item,
+  body.light .bookmark-input {
+    background-color: #ffffff;
+  }
+  body.light .link-card:hover { background-color: #f1f1ef; }
+  body.light .contact-pill:hover { background-color: #f1f1ef; }
+  body.light .bookmark-item:hover { background-color: #f1f1ef; }
 </style>
 </head>
 <body>
