@@ -1,8 +1,8 @@
 
 <div class="hero">
   <h1>René <span>WILD</span></h1>
-  <p class="hero-aka">aka <strong>WILD Project</strong></p>
-  <p class="hero-role">Eishockey Trainer · Creator · Podcaster · Ästhetik Junkie</p>
+  <p class="hero-aka">aka <strong><span class="hero-aka-wild">WILD</span> <span class="hero-aka-project">Project</span></strong></p>
+  <p class="hero-role"><span class="t-de">Eishockey Trainer · Creator · Podcaster · Ästhetik Junkie</span><span class="t-en">Ice Hockey Coach · Creator · Podcaster · Aesthetics Junkie</span></p>
   <p class="hero-sub">
     <span class="word w1">Design</span><span class="dot d1">.</span>
     <span class="word w2">Perform</span><span class="dot d2">.</span>
@@ -43,9 +43,11 @@
     animation: heroFadeUp 0.7s ease 0.6s forwards;
   }
   .hero-aka strong {
-    color: var(--white);
     font-weight: 600;
   }
+  .hero-aka-wild { color: var(--orange); }
+  .hero-aka-project { color: var(--white); }
+  :global(body.light) .hero-aka-project { color: #1a1a1a; }
   .hero-role {
     font-size: clamp(0.65rem, 1.5vw, 0.85rem);
     font-weight: 300;
@@ -124,15 +126,50 @@
   :global(body.light) .scroll-hint::after { background: linear-gradient(to bottom, var(--orange), transparent); }
 
   @media (max-width: 700px) {
-    .hero { padding: 0 1.5rem 0; min-height: 100svh; justify-content: flex-start; padding-top: 52vh; }
-    .scroll-hint { margin-top: 20px; opacity: 1; animation: none; }
+    .hero {
+      padding: 0 1.25rem 0;
+      min-height: 100svh;
+      justify-content: flex-start;
+      padding-top: 62vh;
+    }
+    .hero h1 {
+      letter-spacing: -1.5px;
+      font-size: clamp(2.4rem, 11vw, 3.6rem);
+      margin-bottom: 8px;
+      line-height: 0.95;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.35);
+    }
+    .hero-aka {
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .hero-role {
+      font-size: 0.7rem;
+      margin-bottom: 14px;
+      letter-spacing: 0.3px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .hero-sub {
+      font-size: 10px;
+      letter-spacing: 2px;
+      gap: 6px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .scroll-hint { margin-top: 18px; opacity: 1; animation: none; }
     .scroll-hint::after { animation: scrollPulse 2s ease-in-out infinite; }
-    .hero h1 { letter-spacing: -2px; font-size: clamp(2rem, 10vw, 3.5rem); margin-bottom: 6px; }
-    .hero-aka { margin-bottom: 4px; font-size: 0.9rem; }
-    .hero-role { font-size: 0.6rem; margin-bottom: 10px; }
-    .hero-sub { font-size: 10px; letter-spacing: 2px; gap: 6px; }
+
+    :global(body.light) .hero h1 { text-shadow: 0 1px 4px rgba(255,255,255,0.4); }
+    :global(body.light) .hero-aka,
+    :global(body.light) .hero-role,
+    :global(body.light) .hero-sub { text-shadow: 0 1px 3px rgba(255,255,255,0.4); }
   }
   @media (max-width: 400px) {
-    .hero h1 { letter-spacing: -1px; }
+    .hero { padding-top: 60vh; }
+    .hero h1 { letter-spacing: -1px; font-size: 2.2rem; }
+    .hero-aka { font-size: 0.85rem; }
+    .hero-role { font-size: 0.65rem; }
+    .hero-sub { font-size: 9px; letter-spacing: 1.5px; }
   }
 </style>

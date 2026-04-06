@@ -25,24 +25,30 @@ import Footer from '../components/Footer.astro';
           <span class="cta-arrow">→</span>
         </a>
         <a href="https://www.shift2pro.com" target="_blank" rel="noopener" class="cta cta-ghost">
-          <span>Shift2Pro hören</span>
+          <span><span class="t-de">Shift2Pro hören</span><span class="t-en">Listen to Shift2Pro</span></span>
           <span class="cta-arrow">↗</span>
         </a>
       </div>
 
       <!-- ABOUT (collapsible) -->
       <div class="about-toggle" id="aboutToggle">
-        <span class="about-toggle-label">Über mich</span>
+        <span class="about-toggle-label"><span class="t-de">Über mich</span><span class="t-en">About me</span></span>
         <span class="about-toggle-icon">+</span>
       </div>
       <div class="about-body" id="aboutBody">
         <div class="about-body-inner">
-          <p class="about-text">Ich bin René Wild — professioneller Nachwuchs-Eishockeytrainer, stolzer Papa und bekennender Aesthetic-Junkie. Als Development Coach der Starbulls Rosenheim begleite ich täglich die Entwicklung junger Talente.</p>
-          <p class="about-text">Heute verbinde ich Coaching, Consulting und eigene Projekte zu einem ganzheitlichen Ansatz, der Spieler, Teams und Organisationen nachhaltig weiterbringt.</p>
+          <p class="about-text">
+            <span class="t-de">Ich bin René Wild — professioneller Nachwuchs-Eishockeytrainer, stolzer Papa und bekennender Ästhetik Junkie. Als Development Coach der Starbulls Rosenheim begleite ich täglich die Entwicklung junger Talente.</span>
+            <span class="t-en">Hey, I'm René Wild — a professional youth hockey coach, proud dad and self-confessed aesthetics junkie. As Development Coach for the Starbulls Rosenheim, I get to work with the next generation of players every single day, helping them grow on and off the ice.</span>
+          </p>
+          <p class="about-text">
+            <span class="t-de">Heute verbinde ich Coaching, Consulting und eigene Projekte zu einem ganzheitlichen Ansatz, der Spieler, Teams und Organisationen nachhaltig weiterbringt.</span>
+            <span class="t-en">Today, I bring coaching, consulting and my own creative projects together into one holistic approach — designed to move players, teams and organizations forward, and built to last.</span>
+          </p>
           <div class="about-stats">
             <div class="stat">
               <div class="stat-number">30+</div>
-              <div class="stat-label">Jahre Erfahrung</div>
+              <div class="stat-label"><span class="t-de">Jahre Erfahrung</span><span class="t-en">Years experience</span></div>
             </div>
             <a href="https://www.eliteprospects.com/staff/45114/rene-wild" target="_blank" rel="noopener" class="stat stat-link">
               <div class="stat-number">EP</div>
@@ -54,21 +60,51 @@ import Footer from '../components/Footer.astro';
 
       <!-- LINKTREE -->
       <div class="links-section">
-        <div class="links-label">Projekte</div>
+        <div class="links-label"><span class="t-de">Projekte</span><span class="t-en">Projects</span></div>
         <LinkItem href="https://www.shift2pro.com" icon="S2P" title="Shift2Pro" desc="Podcast — Inspire · Develop · Connect" />
-        <LinkItem href="https://www.sbr-nachwuchs.de/" icon="SBR" title="Starbulls Rosenheim e.V." desc="Ausbildungshochburg seit Jahrzehnten — eine der stärksten Nachwuchsorganisationen Deutschlands" />
+        <LinkItem
+          href="https://www.sbr-nachwuchs.de/"
+          icon="SBR"
+          title="Starbulls Rosenheim e.V."
+          desc="Ausbildungshochburg seit Jahrzehnten — eine der stärksten Nachwuchsorganisationen Deutschlands"
+          descEn="A development powerhouse for decades — one of Germany's strongest youth organizations"
+        />
       </div>
 
       <div class="links-section">
         <div class="links-label">Brands &amp; Friends</div>
-        <LinkItem href="https://dubeskills.eu/" icon="DS" title="Dubé Skills" desc="Developing the future of hockey — professionelle Spielerentwicklung auf höchstem Niveau" />
-        <LinkItem href="https://www.create-sports.com" icon="CS" title="Create-Sports" desc="Hockeyshop #1 — Wir leben Eishockey" />
-        <LinkItem href="https://www.cherrysgraph.de/" icon="LK" title="Lukas Kirsch" desc="Fotografie & Visual Storytelling — die Bilder hinter Shift2Pro" />
+        <LinkItem
+          href="https://dubeskills.eu/"
+          icon="DS"
+          title="Dubé Skills"
+          desc="Developing the future of hockey — professionelle Spielerentwicklung auf höchstem Niveau"
+          descEn="Developing the future of hockey — professional player development at the highest level"
+        />
+        <LinkItem
+          href="https://www.create-sports.com"
+          icon="CS"
+          title="Create-Sports"
+          desc="Hockeyshop #1 — Wir leben Eishockey"
+          descEn="Hockey Shop #1 — We live hockey"
+        />
+        <LinkItem
+          href="https://www.cherrysgraph.de/"
+          icon="LK"
+          title="Lukas Kirsch"
+          desc="Fotografie & Visual Storytelling — die Bilder hinter Shift2Pro"
+          descEn="Photography & visual storytelling — the images behind Shift2Pro"
+        />
       </div>
 
       <div class="links-section">
-        <div class="links-label">Fotografie</div>
-        <LinkItem href="https://unsplash.com/de/@wild_projects" icon="UN" title="Unsplash" desc="Momente, die niemandem gehören — und allen. Frei nutzbar." />
+        <div class="links-label"><span class="t-de">Fotografie</span><span class="t-en">Photography</span></div>
+        <LinkItem
+          href="https://unsplash.com/de/@wild_projects"
+          icon="UN"
+          title="Unsplash"
+          desc="Momente, die niemandem gehören — und allen. Frei nutzbar."
+          descEn="Moments that belong to no one — and to everyone. Free to use."
+        />
       </div>
 
       <!-- CONNECTOR LINE -->
@@ -90,25 +126,21 @@ import Footer from '../components/Footer.astro';
   /* ── FULLSCREEN BG ───────────────── */
   .page-bg {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #050505;
     background-image: url('/IMG_6431.JPG');
     background-size: cover;
-    background-position: center 38%;
-    filter: grayscale(1) brightness(0.96) contrast(1.06);
+    background-position: center 62%;
+    background-repeat: no-repeat;
+    filter: grayscale(1) brightness(1.05) contrast(1.04);
     z-index: 0;
-    animation: bgZoom 14s ease-out forwards;
-    transform-origin: center 40%;
     transition: filter 0.25s ease-out;
-    will-change: filter, transform;
-  }
-  @keyframes bgZoom {
-    0%   { transform: scale(1.10); }
-    100% { transform: scale(1.00); }
+    will-change: filter;
   }
   /* cinematic vignette */
   .page-bg::before {
     content: '';
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse at center 38%, transparent 0%, transparent 45%, rgba(0,0,0,0.35) 100%);
+    background: radial-gradient(ellipse at center 50%, transparent 0%, transparent 55%, rgba(0,0,0,0.25) 100%);
     pointer-events: none;
   }
   /* bottom fade into content */
@@ -116,10 +148,10 @@ import Footer from '../components/Footer.astro';
     content: '';
     position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     background: linear-gradient(to bottom,
-      rgba(5,5,5,0.05) 0%,
-      rgba(5,5,5,0.15) 30%,
-      rgba(5,5,5,0.55) 58%,
-      rgba(5,5,5,0.88) 78%,
+      rgba(5,5,5,0.0) 0%,
+      rgba(5,5,5,0.05) 35%,
+      rgba(5,5,5,0.45) 62%,
+      rgba(5,5,5,0.85) 80%,
       rgba(5,5,5,0.97) 100%);
     pointer-events: none;
   }
@@ -357,7 +389,15 @@ import Footer from '../components/Footer.astro';
 
   /* ── LIGHT MODE ───────────────────── */
   :global(body.light) .page-bg {
-    filter: grayscale(0.25) brightness(0.98) contrast(1.04);
+    background-color: #f5f5f3;
+    filter: grayscale(0.25) brightness(1.05) contrast(1.02);
+  }
+  @media (max-width: 700px) {
+    :global(body.light) .page-bg::before {
+      background:
+        linear-gradient(to bottom, rgba(245,245,243,0.55) 0%, rgba(245,245,243,0.15) 18%, transparent 34%),
+        radial-gradient(ellipse at center 50%, transparent 0%, transparent 55%, rgba(0,0,0,0.18) 100%);
+    }
   }
   :global(body.light) .page-bg::before {
     background: radial-gradient(ellipse at center 38%, transparent 0%, transparent 50%, rgba(0,0,0,0.18) 100%);
@@ -413,17 +453,67 @@ import Footer from '../components/Footer.astro';
 
   /* ── RESPONSIVE ──────────────────── */
   @media (max-width: 700px) {
-    .page-bg { background-position: center 30%; }
-    .lower { padding: 0 1.5rem 40px; }
-    .links-section { margin-top: 2px; padding-top: 6px; }
-    .links-label { margin-bottom: 4px; font-size: 9px; }
-    .about-toggle { padding: 6px 0; }
-    .about-toggle-label { font-size: 9px; }
-    .about-stats { flex-wrap: wrap; }
-    .connector-line { padding: 12px 0; }
+    .page-bg { background-size: cover; background-position: center 57%; }
+    /* stronger top vignette to anchor the bright top area */
+    .page-bg::before {
+      background:
+        linear-gradient(to bottom, rgba(5,5,5,0.6) 0%, rgba(5,5,5,0.18) 18%, transparent 34%),
+        radial-gradient(ellipse at center 50%, transparent 0%, transparent 55%, rgba(0,0,0,0.3) 100%);
+    }
+    .lower { padding: 0 1.25rem 40px; max-width: 100%; }
+
+    /* CTA stack full-width */
+    .cta-row {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      gap: 10px;
+      padding: 22px 0 6px;
+    }
+    .cta {
+      width: 100%;
+      justify-content: center;
+      padding: 14px 18px;
+      font-size: 11px;
+      letter-spacing: 1.2px;
+    }
+    .cta-primary { box-shadow: 0 4px 18px rgba(252,80,0,0.22); }
+
+    /* About */
+    .about-toggle { padding: 14px 0; }
+    .about-toggle-label { font-size: 10px; letter-spacing: 2.5px; }
+    .about-toggle-icon { width: 20px; height: 20px; font-size: 12px; }
+    .about-text { font-size: 12px; line-height: 1.55; }
+    .about-stats { flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .stat { flex: 1 1 calc(50% - 4px); padding: 12px 10px; }
+    .stat-number { font-size: 18px; }
+    .stat-label { font-size: 8px; letter-spacing: 1px; }
+
+    /* Links */
+    .links-section { margin-top: 4px; padding-top: 14px; }
+    .links-label { margin-bottom: 8px; font-size: 9px; letter-spacing: 2px; }
+
+    /* Connector + contact */
+    .connector-line { padding: 16px 0; }
     .connector-line.visible .connector-line-inner { height: 32px; }
-    .contact-row { flex-direction: column; gap: 6px; margin-top: 0; padding-top: 12px; }
-    .contact-pill { width: 100%; text-align: center; padding: 6px 12px; font-size: 9px; }
+    .contact-row {
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 0;
+      padding-top: 14px;
+    }
+    .contact-pill {
+      width: 100%;
+      text-align: center;
+      padding: 12px 14px;
+      font-size: 10px;
+      letter-spacing: 1.2px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .lower { padding: 0 1rem 36px; }
+    .cta { font-size: 10px; padding: 13px 14px; }
+    .stat { flex: 1 1 100%; }
   }
 </style>
 
@@ -454,8 +544,8 @@ import Footer from '../components/Footer.astro';
   (function() {
     const bg = document.querySelector('.page-bg') as HTMLElement;
     if (!bg) return;
-    const darkMax = 0.96, darkMin = 0.42;
-    const lightMax = 0.98, lightMin = 0.78;
+    const darkMax = 1.08, darkMin = 0.48;
+    const lightMax = 1.05, lightMin = 0.82;
     let ticking = false;
 
     // ease-out cubic for smoother feel
@@ -468,10 +558,10 @@ import Footer from '../components/Footer.astro';
       const isLight = document.body.classList.contains('light');
       if (isLight) {
         const b = lightMax - (lightMax - lightMin) * progress;
-        bg.style.filter = 'grayscale(0.25) brightness(' + b.toFixed(3) + ') contrast(1.04)';
+        bg.style.filter = 'grayscale(0.25) brightness(' + b.toFixed(3) + ') contrast(1.02)';
       } else {
         const b = darkMax - (darkMax - darkMin) * progress;
-        bg.style.filter = 'grayscale(1) brightness(' + b.toFixed(3) + ') contrast(1.06)';
+        bg.style.filter = 'grayscale(1) brightness(' + b.toFixed(3) + ') contrast(1.04)';
       }
       ticking = false;
     }

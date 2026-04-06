@@ -120,14 +120,20 @@
   :global(body.light) .nav-toggle { color: rgba(0,0,0,0.7); text-shadow: 0 1px 6px rgba(255,255,255,0.6); }
   :global(body.light) .nav-toggle:hover { color: var(--orange); }
 
-  @media (max-width: 900px) {
-    .nav-weather, .nav-sep:nth-of-type(1) { display: none; }
-  }
   @media (max-width: 700px) {
-    nav { padding: 14px 1.5rem; }
-    .nav-meta { gap: 8px; }
-    .nav-item, .nav-toggle { font-size: 8px; letter-spacing: 1.5px; }
-    .nav-date, #navDate, .nav-sep:nth-of-type(2) { display: none; }
+    nav { padding: 14px 1rem; }
+    .nav-logo { height: 42px; }
+    .nav-meta { gap: 5px; }
+    .nav-item, .nav-toggle { font-size: 7px; letter-spacing: 1px; }
+    .nav-sep { font-size: 7px; }
+    .nav-sep-strong { margin: 0 1px; }
+    .nav-live-dot { width: 4px; height: 4px; margin-left: 2px; }
+  }
+  @media (max-width: 380px) {
+    nav { padding: 12px 0.75rem; }
+    .nav-logo { height: 38px; }
+    .nav-meta { gap: 4px; }
+    .nav-item, .nav-toggle { font-size: 6.5px; letter-spacing: 0.8px; }
   }
 </style>
 
@@ -157,12 +163,14 @@
     if (lang !== 'de' && lang !== 'en') lang = 'de';
     if (btn) btn.textContent = lang.toUpperCase();
     document.documentElement.lang = lang;
+    document.documentElement.setAttribute('data-lang', lang);
 
     btn?.addEventListener('click', () => {
       lang = (lang === 'de') ? 'en' : 'de';
       localStorage.setItem(KEY, lang);
       btn.textContent = lang.toUpperCase();
       document.documentElement.lang = lang;
+      document.documentElement.setAttribute('data-lang', lang);
       // Trigger workspace i18n if loaded
       if ((window as any).WPi18n) (window as any).WPi18n.setLang(lang);
       window.dispatchEvent(new CustomEvent('wp:lang-changed', { detail: { lang } }));

@@ -30,6 +30,11 @@ const { title, description, pageTitle, intro } = Astro.props;
   <h1 class="page-title">{pageTitle}<span>.</span></h1>
   <p class="page-intro">{intro}</p>
 
+  <p class="lang-note">
+    <span class="lang-note-dot" aria-hidden="true"></span>
+    This page is provided in German for legal reasons.
+  </p>
+
   <slot />
 
   <div class="footer">
@@ -79,8 +84,27 @@ const { title, description, pageTitle, intro } = Astro.props;
   .page-intro {
     font-size: 14px;
     color: var(--grey-mid);
-    margin-bottom: 40px;
+    margin-bottom: 18px;
     font-style: italic;
+  }
+  .lang-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--grey-dark);
+    padding: 6px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+    margin-bottom: 40px;
+  }
+  .lang-note-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--orange);
+    flex-shrink: 0;
   }
 
   :global(h2) {

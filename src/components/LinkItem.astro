@@ -4,9 +4,10 @@ interface Props {
   icon: string;
   title: string;
   desc?: string;
+  descEn?: string;
 }
 
-const { href, icon, title, desc } = Astro.props;
+const { href, icon, title, desc, descEn } = Astro.props;
 ---
 
 <a href={href} target="_blank" rel="noopener" class="link-item">
@@ -14,7 +15,16 @@ const { href, icon, title, desc } = Astro.props;
     <div class="link-icon">{icon}</div>
     <div>
       <div class="link-title">{title}</div>
-      {desc && <div class="link-desc">{desc}</div>}
+      {desc && (
+        descEn ? (
+          <div class="link-desc">
+            <span class="t-de">{desc}</span>
+            <span class="t-en">{descEn}</span>
+          </div>
+        ) : (
+          <div class="link-desc">{desc}</div>
+        )
+      )}
     </div>
   </div>
   <span class="link-arrow">&rsaquo;</span>
