@@ -7,8 +7,9 @@ import Footer from '../components/Footer.astro';
 ---
 
 <Layout
-  title="Wild Project — René Wild | Eishockeytrainer · Podcaster · Ästhetik Junkie"
-  description="Wild Project — René Wild. Eishockeytrainer, Podcaster, Ästhetik Junkie. Design. Perform. Succeed."
+  title="René Wild — Eishockeytrainer & Development Coach | Wild Project"
+  description="René Wild — Development Coach der Starbulls Rosenheim, Host des Shift2Pro Podcasts und Ästhetik Junkie. 30+ Jahre Eishockey, ganzheitliche Spielerentwicklung und Coaching aus Rosenheim."
+  path="/"
 >
   <div class="page-bg"></div>
 
@@ -17,13 +18,16 @@ import Footer from '../components/Footer.astro';
     <Hero />
 
     <div class="lower">
-      <!-- STATUS BAR -->
-      <div class="status-bar" id="statusBar">
-        <span class="status-item"><span id="weatherDesc">···</span> <span class="status-val" id="weatherTemp">···</span></span>
-        <span class="status-sep">·</span>
-        <span class="status-item" id="statusDate">···</span>
-        <span class="status-sep">·</span>
-        <span class="status-item status-val" id="statusTime">···</span>
+      <!-- CTA ROW -->
+      <div class="cta-row">
+        <a href="mailto:rene@wildproject.pro?subject=Let%27s%20collab%20%E2%80%94%20wildproject.pro" class="cta cta-primary">
+          <span>Let&rsquo;s collab</span>
+          <span class="cta-arrow">→</span>
+        </a>
+        <a href="https://www.shift2pro.com" target="_blank" rel="noopener" class="cta cta-ghost">
+          <span>Shift2Pro hören</span>
+          <span class="cta-arrow">↗</span>
+        </a>
       </div>
 
       <!-- ABOUT (collapsible) -->
@@ -40,9 +44,9 @@ import Footer from '../components/Footer.astro';
               <div class="stat-number">30+</div>
               <div class="stat-label">Jahre Erfahrung</div>
             </div>
-            <a href="https://www.shift2pro.com" target="_blank" rel="noopener" class="stat stat-link">
-              <div class="stat-number">S2P</div>
-              <div class="stat-label">Podcast</div>
+            <a href="https://www.eliteprospects.com/staff/45114/rene-wild" target="_blank" rel="noopener" class="stat stat-link">
+              <div class="stat-number">EP</div>
+              <div class="stat-label">Elite Prospects</div>
             </a>
           </div>
         </div>
@@ -64,7 +68,7 @@ import Footer from '../components/Footer.astro';
 
       <div class="links-section">
         <div class="links-label">Fotografie</div>
-        <LinkItem href="https://unsplash.com/de/@wild_projects" icon="UN" title="Unsplash" desc="Auslöser statt Ausreden — Bilder frei verfügbar" />
+        <LinkItem href="https://unsplash.com/de/@wild_projects" icon="UN" title="Unsplash" desc="Momente, die niemandem gehören — und allen. Frei nutzbar." />
       </div>
 
       <!-- CONNECTOR LINE -->
@@ -88,21 +92,36 @@ import Footer from '../components/Footer.astro';
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     background-image: url('/IMG_6431.JPG');
     background-size: cover;
-    background-position: center 50%;
-    filter: grayscale(1) brightness(0.85);
+    background-position: center 38%;
+    filter: grayscale(1) brightness(0.96) contrast(1.06);
     z-index: 0;
-    animation: bgZoom 12s ease-out forwards;
-    transform-origin: center 50%;
-    transition: filter 0.15s ease-out;
+    animation: bgZoom 14s ease-out forwards;
+    transform-origin: center 40%;
+    transition: filter 0.25s ease-out;
+    will-change: filter, transform;
   }
   @keyframes bgZoom {
-    0% { transform: scale(1.08); }
-    100% { transform: scale(1); }
+    0%   { transform: scale(1.10); }
+    100% { transform: scale(1.00); }
   }
+  /* cinematic vignette */
+  .page-bg::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center 38%, transparent 0%, transparent 45%, rgba(0,0,0,0.35) 100%);
+    pointer-events: none;
+  }
+  /* bottom fade into content */
   .page-bg::after {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to bottom, rgba(5,5,5,0.1) 0%, rgba(5,5,5,0.3) 40%, rgba(5,5,5,0.85) 75%, rgba(5,5,5,0.95) 100%);
+    background: linear-gradient(to bottom,
+      rgba(5,5,5,0.05) 0%,
+      rgba(5,5,5,0.15) 30%,
+      rgba(5,5,5,0.55) 58%,
+      rgba(5,5,5,0.88) 78%,
+      rgba(5,5,5,0.97) 100%);
+    pointer-events: none;
   }
 
   .page-content {
@@ -118,26 +137,66 @@ import Footer from '../components/Footer.astro';
     width: 100%;
   }
 
-  /* ── STATUS BAR ──────────────────── */
-  .status-bar {
+  /* ── CTA ROW ─────────────────────── */
+  .cta-row {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 14px 0;
-    font-family: monospace;
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    color: rgba(255,255,255,0.25);
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 28px 0 4px;
     opacity: 0;
-    animation: fadeIn 0.6s ease 2.5s forwards;
+    transform: translateY(8px);
+    animation: ctaIn 0.6s ease 2.4s forwards;
   }
-  .status-val { color: rgba(255,255,255,0.4); }
-  .status-sep { color: rgba(255,255,255,0.1); }
-  :global(body.light) .status-bar { color: rgba(0,0,0,0.25); }
-  :global(body.light) .status-val { color: rgba(0,0,0,0.4); }
-  :global(body.light) .status-sep { color: rgba(0,0,0,0.1); }
+  @keyframes ctaIn { to { opacity: 1; transform: none; } }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 0;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    will-change: transform;
+  }
+  .cta-arrow {
+    display: inline-block;
+    transition: transform 0.25s ease;
+  }
+  .cta:hover .cta-arrow { transform: translateX(3px); }
+  .cta-primary {
+    background: var(--orange);
+    color: #fff;
+    box-shadow: 0 6px 24px rgba(252,80,0,0.25);
+  }
+  .cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(252,80,0,0.35);
+  }
+  .cta-ghost {
+    background: transparent;
+    color: rgba(255,255,255,0.85);
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .cta-ghost:hover {
+    color: var(--orange);
+    border-color: rgba(252,80,0,0.4);
+    transform: translateY(-2px);
+  }
+  :global(body.light) .cta-ghost {
+    color: rgba(0,0,0,0.7);
+    border-color: rgba(0,0,0,0.15);
+  }
+  :global(body.light) .cta-ghost:hover {
+    color: var(--orange);
+    border-color: rgba(252,80,0,0.4);
+  }
+
   @keyframes fadeIn { to { opacity: 1; } }
+
 
   /* ── ABOUT TOGGLE ────────────────── */
   .about-toggle {
@@ -298,10 +357,18 @@ import Footer from '../components/Footer.astro';
 
   /* ── LIGHT MODE ───────────────────── */
   :global(body.light) .page-bg {
-    filter: grayscale(0.3) brightness(1.1);
+    filter: grayscale(0.25) brightness(0.98) contrast(1.04);
+  }
+  :global(body.light) .page-bg::before {
+    background: radial-gradient(ellipse at center 38%, transparent 0%, transparent 50%, rgba(0,0,0,0.18) 100%);
   }
   :global(body.light) .page-bg::after {
-    background: linear-gradient(to bottom, rgba(245,245,243,0.1) 0%, rgba(245,245,243,0.3) 40%, rgba(245,245,243,0.85) 75%, rgba(245,245,243,0.98) 100%);
+    background: linear-gradient(to bottom,
+      rgba(245,245,243,0.05) 0%,
+      rgba(245,245,243,0.18) 30%,
+      rgba(245,245,243,0.6) 58%,
+      rgba(245,245,243,0.9) 78%,
+      rgba(245,245,243,0.99) 100%);
   }
   :global(body.light) .about-toggle {
     border-top-color: rgba(0,0,0,0.08);
@@ -346,9 +413,8 @@ import Footer from '../components/Footer.astro';
 
   /* ── RESPONSIVE ──────────────────── */
   @media (max-width: 700px) {
-    .page-bg { background-position: center 45%; }
+    .page-bg { background-position: center 30%; }
     .lower { padding: 0 1.5rem 40px; }
-    .status-bar { font-size: 8px; gap: 6px; padding: 10px 0; justify-content: flex-start; }
     .links-section { margin-top: 2px; padding-top: 6px; }
     .links-label { margin-bottom: 4px; font-size: 9px; }
     .about-toggle { padding: 6px 0; }
@@ -388,21 +454,24 @@ import Footer from '../components/Footer.astro';
   (function() {
     const bg = document.querySelector('.page-bg') as HTMLElement;
     if (!bg) return;
-    const brightMax = 0.85;
-    const brightMin = 0.3;
+    const darkMax = 0.96, darkMin = 0.42;
+    const lightMax = 0.98, lightMin = 0.78;
     let ticking = false;
+
+    // ease-out cubic for smoother feel
+    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
 
     function updateBrightness() {
       const scrollY = window.scrollY;
-      const trigger = window.innerHeight * 0.8;
-      const progress = Math.min(scrollY / trigger, 1);
+      const trigger = window.innerHeight * 0.85;
+      const progress = ease(Math.min(scrollY / trigger, 1));
       const isLight = document.body.classList.contains('light');
       if (isLight) {
-        const brightness = 1.1 - 0.3 * progress;
-        bg.style.filter = 'grayscale(0.3) brightness(' + brightness + ')';
+        const b = lightMax - (lightMax - lightMin) * progress;
+        bg.style.filter = 'grayscale(0.25) brightness(' + b.toFixed(3) + ') contrast(1.04)';
       } else {
-        const brightness = brightMax - (brightMax - brightMin) * progress;
-        bg.style.filter = 'grayscale(1) brightness(' + brightness + ')';
+        const b = darkMax - (darkMax - darkMin) * progress;
+        bg.style.filter = 'grayscale(1) brightness(' + b.toFixed(3) + ') contrast(1.06)';
       }
       ticking = false;
     }
@@ -415,32 +484,5 @@ import Footer from '../components/Footer.astro';
     });
   })();
 
-  // Date & Time
-  (function() {
-    const dateEl = document.getElementById('statusDate');
-    const timeEl = document.getElementById('statusTime');
-    const days = ['SO','MO','DI','MI','DO','FR','SA'];
-    const months = ['JAN','FEB','MÄR','APR','MAI','JUN','JUL','AUG','SEP','OKT','NOV','DEZ'];
-    function update() {
-      const now = new Date();
-      dateEl!.textContent = days[now.getDay()] + ' ' + String(now.getDate()).padStart(2,'0') + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
-      timeEl!.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-    }
-    update();
-    setInterval(update, 10000);
-  })();
-
-  // Weather (Open-Meteo, Rosenheim)
-  (function() {
-    const tempEl = document.getElementById('weatherTemp');
-    const descEl = document.getElementById('weatherDesc');
-    const WMO: Record<number,string> = {0:'KLAR',1:'HEITER',2:'BEWÖLKT',3:'BEDECKT',45:'NEBEL',48:'NEBEL',51:'NIESEL',53:'NIESEL',55:'REGEN',61:'REGEN',63:'REGEN',65:'REGEN',71:'SCHNEE',73:'SCHNEE',75:'SCHNEE',80:'SCHAUER',81:'SCHAUER',82:'GEWITTER',95:'GEWITTER',96:'GEWITTER',99:'GEWITTER'};
-    fetch('https://api.open-meteo.com/v1/forecast?latitude=47.856&longitude=12.129&current=temperature_2m,weather_code&timezone=Europe%2FBerlin')
-      .then(r => r.json())
-      .then(data => {
-        tempEl!.textContent = Math.round(data.current.temperature_2m) + '°C';
-        descEl!.textContent = WMO[data.current.weather_code] || 'WETTER';
-      })
-      .catch(() => { tempEl!.textContent = '—'; descEl!.textContent = '—'; });
-  })();
+  // Date / Time / Weather → moved to Nav.astro
 </script>

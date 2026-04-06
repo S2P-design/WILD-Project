@@ -2,7 +2,18 @@
 <div class="nav-loader"></div>
 <nav>
   <a href="/" class="nav-brand"><img src="/wp-logo.png" alt="Wild Project" class="nav-logo"></a>
-  <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark" aria-label="Toggle theme"><span id="themeLabel">DARK</span></button>
+
+  <div class="nav-meta">
+    <span class="nav-item nav-weather" id="navWeather">···</span>
+    <span class="nav-sep">·</span>
+    <span class="nav-item" id="navDate">···</span>
+    <span class="nav-sep">·</span>
+    <span class="nav-item nav-time" id="navTime">···</span>
+    <span class="nav-sep nav-sep-strong">·</span>
+    <button class="nav-toggle" id="langToggle" title="Sprache / Language" aria-label="Toggle language">DE</button>
+    <button class="nav-toggle" id="themeToggle" title="Toggle Light/Dark" aria-label="Toggle theme"><span id="themeLabel">DARK</span></button>
+    <span class="nav-live-dot" aria-hidden="true"></span>
+  </div>
 </nav>
 
 <style>
@@ -44,50 +55,169 @@
     filter: drop-shadow(0 0 8px rgba(252,80,0,0.5)) drop-shadow(0 0 20px rgba(252,80,0,0.2));
   }
 
-  /* ── Theme Toggle (technical) ── */
-  .theme-toggle {
+  /* ── Meta-bar (macOS-Menubar Style) ── */
+  .nav-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    animation: logoFadeIn 0.6s ease 1.5s forwards;
+  }
+  .nav-item {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+    transition: color 0.3s;
+  }
+  .nav-time { color: rgba(255,255,255,0.85); }
+  .nav-sep {
+    font-size: 9px;
+    color: rgba(255,255,255,0.35);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+    user-select: none;
+  }
+  .nav-sep-strong { color: rgba(255,255,255,0.45); margin: 0 2px; }
+
+  .nav-toggle {
     border: none;
     background: transparent;
     cursor: pointer;
-    font-family: monospace;
-    font-size: 8px;
-    font-weight: 400;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    font-weight: 500;
     letter-spacing: 2px;
-    color: rgba(255,255,255,0.35);
-    transition: all 0.3s;
-    opacity: 0;
-    animation: logoFadeIn 0.6s ease 1.5s forwards;
-    z-index: 50;
+    color: rgba(255,255,255,0.75);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+    transition: color 0.3s;
     padding: 4px 0;
   }
-  .theme-toggle:hover {
-    color: var(--orange);
+  .nav-toggle:hover { color: var(--orange); }
+
+  .nav-live-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--orange);
+    box-shadow: 0 0 0 0 rgba(252,80,0,0.55);
+    animation: navPulse 2.4s ease-in-out infinite;
+    margin-left: 4px;
+    flex-shrink: 0;
   }
-  :global(body.light) .theme-toggle {
-    color: rgba(0,0,0,0.35);
-  }
-  :global(body.light) .theme-toggle:hover {
-    color: var(--orange);
+  @keyframes navPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(252,80,0,0.55); transform: scale(1); }
+    50%      { box-shadow: 0 0 0 5px rgba(252,80,0,0); transform: scale(1.15); }
   }
 
+  /* ── Light Mode ── */
+  :global(body.light) .nav-item { color: rgba(0,0,0,0.65); text-shadow: 0 1px 6px rgba(255,255,255,0.6); }
+  :global(body.light) .nav-time { color: rgba(0,0,0,0.85); }
+  :global(body.light) .nav-sep { color: rgba(0,0,0,0.35); text-shadow: 0 1px 6px rgba(255,255,255,0.6); }
+  :global(body.light) .nav-sep-strong { color: rgba(0,0,0,0.45); }
+  :global(body.light) .nav-toggle { color: rgba(0,0,0,0.7); text-shadow: 0 1px 6px rgba(255,255,255,0.6); }
+  :global(body.light) .nav-toggle:hover { color: var(--orange); }
+
+  @media (max-width: 900px) {
+    .nav-weather, .nav-sep:nth-of-type(1) { display: none; }
+  }
   @media (max-width: 700px) {
     nav { padding: 14px 1.5rem; }
-    .theme-toggle { font-size: 7px; letter-spacing: 1.5px; }
+    .nav-meta { gap: 8px; }
+    .nav-item, .nav-toggle { font-size: 8px; letter-spacing: 1.5px; }
+    .nav-date, #navDate, .nav-sep:nth-of-type(2) { display: none; }
   }
 </style>
 
 <script>
-  const btn = document.getElementById('themeToggle');
-  const KEY = 'wp_theme';
-  const saved = localStorage.getItem(KEY);
-  const label = document.getElementById('themeLabel');
-  if (saved === 'light') {
-    document.body.classList.add('light');
-    if (label) label.textContent = 'LIGHT';
+  // ── Theme Toggle ────────────────────────
+  (function() {
+    const btn = document.getElementById('themeToggle');
+    const KEY = 'wp_theme';
+    const saved = localStorage.getItem(KEY);
+    const label = document.getElementById('themeLabel');
+    if (saved === 'light') {
+      document.body.classList.add('light');
+      if (label) label.textContent = 'LIGHT';
+    }
+    btn?.addEventListener('click', () => {
+      const isLight = document.body.classList.toggle('light');
+      if (label) label.textContent = isLight ? 'LIGHT' : 'DARK';
+      localStorage.setItem(KEY, isLight ? 'light' : 'dark');
+    });
+  })();
+
+  // ── Language Toggle ─────────────────────
+  (function() {
+    const btn = document.getElementById('langToggle');
+    const KEY = 'wp_lang';
+    let lang = localStorage.getItem(KEY) || 'de';
+    if (lang !== 'de' && lang !== 'en') lang = 'de';
+    if (btn) btn.textContent = lang.toUpperCase();
+    document.documentElement.lang = lang;
+
+    btn?.addEventListener('click', () => {
+      lang = (lang === 'de') ? 'en' : 'de';
+      localStorage.setItem(KEY, lang);
+      btn.textContent = lang.toUpperCase();
+      document.documentElement.lang = lang;
+      // Trigger workspace i18n if loaded
+      if ((window as any).WPi18n) (window as any).WPi18n.setLang(lang);
+      window.dispatchEvent(new CustomEvent('wp:lang-changed', { detail: { lang } }));
+      updateDate(); // refresh weekday/month abbrev
+    });
+  })();
+
+  // ── Date & Time ─────────────────────────
+  const dateEl = document.getElementById('navDate');
+  const timeEl = document.getElementById('navTime');
+  function getLang(): 'de' | 'en' {
+    const l = localStorage.getItem('wp_lang') || 'de';
+    return (l === 'en') ? 'en' : 'de';
   }
-  btn?.addEventListener('click', () => {
-    const isLight = document.body.classList.toggle('light');
-    if (label) label.textContent = isLight ? 'LIGHT' : 'DARK';
-    localStorage.setItem(KEY, isLight ? 'light' : 'dark');
-  });
+  const labels = {
+    de: {
+      days: ['SO','MO','DI','MI','DO','FR','SA'],
+      months: ['JAN','FEB','MÄR','APR','MAI','JUN','JUL','AUG','SEP','OKT','NOV','DEZ']
+    },
+    en: {
+      days: ['SUN','MON','TUE','WED','THU','FRI','SAT'],
+      months: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
+    }
+  };
+  function updateDate() {
+    if (!dateEl || !timeEl) return;
+    const now = new Date();
+    const L = labels[getLang()];
+    dateEl.textContent = L.days[now.getDay()] + ' ' + String(now.getDate()).padStart(2,'0') + ' ' + L.months[now.getMonth()];
+    timeEl.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  }
+  updateDate();
+  setInterval(updateDate, 10000);
+
+  // ── Weather (Open-Meteo, Rosenheim) ─────
+  (function() {
+    const wEl = document.getElementById('navWeather');
+    if (!wEl) return;
+    const WMO_DE: Record<number,string> = {0:'KLAR',1:'HEITER',2:'BEWÖLKT',3:'BEDECKT',45:'NEBEL',48:'NEBEL',51:'NIESEL',53:'NIESEL',55:'REGEN',61:'REGEN',63:'REGEN',65:'REGEN',71:'SCHNEE',73:'SCHNEE',75:'SCHNEE',80:'SCHAUER',81:'SCHAUER',82:'GEWITTER',95:'GEWITTER',96:'GEWITTER',99:'GEWITTER'};
+    const WMO_EN: Record<number,string> = {0:'CLEAR',1:'FAIR',2:'CLOUDY',3:'OVERCAST',45:'FOG',48:'FOG',51:'DRIZZLE',53:'DRIZZLE',55:'RAIN',61:'RAIN',63:'RAIN',65:'RAIN',71:'SNOW',73:'SNOW',75:'SNOW',80:'SHOWERS',81:'SHOWERS',82:'STORM',95:'STORM',96:'STORM',99:'STORM'};
+    let lastCode: number | null = null;
+    let lastTemp: number | null = null;
+    function paint() {
+      if (!wEl || lastCode == null || lastTemp == null) return;
+      const dict = getLang() === 'en' ? WMO_EN : WMO_DE;
+      wEl.textContent = (dict[lastCode] || 'WX') + ' ' + Math.round(lastTemp) + '°';
+    }
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=47.856&longitude=12.129&current=temperature_2m,weather_code&timezone=Europe%2FBerlin')
+      .then(r => r.json())
+      .then(data => {
+        lastCode = data.current.weather_code;
+        lastTemp = data.current.temperature_2m;
+        paint();
+      })
+      .catch(() => { if (wEl) wEl.textContent = '—'; });
+    window.addEventListener('wp:lang-changed', paint);
+  })();
 </script>

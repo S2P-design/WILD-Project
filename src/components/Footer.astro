@@ -14,7 +14,7 @@
     <div class="footer-right">
       <img src="/wp-logo.png" alt="WP" class="footer-logo">
       <p class="footer-tagline">LIVE BY DESIGN, NOT BY DEFAULT.</p>
-      <p class="footer-coords">47.8561° N &nbsp; 12.1289° E</p>
+      <p class="footer-coords"><span class="coord-dot" aria-hidden="true"></span>47.8561° N &nbsp; 12.1289° E</p>
     </div>
   </div>
 </footer>
@@ -25,6 +25,8 @@
     background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 100%);
     padding-top: 40px;
     position: relative;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-variant-numeric: tabular-nums;
   }
   .footer-inner {
     display: flex;
@@ -39,16 +41,16 @@
     gap: 6px;
   }
   .copyright {
-    font-size: 11px;
-    color: rgba(255,255,255,0.6);
-    letter-spacing: 0.5px;
+    font-size: 9px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1px;
   }
   .footer-links {
-    font-size: 11px;
-    letter-spacing: 0.5px;
+    font-size: 9px;
+    letter-spacing: 1px;
   }
   .footer-links a {
-    color: rgba(255,255,255,0.55);
+    color: rgba(255,255,255,0.4);
     text-decoration: none;
     transition: color 0.2s;
   }
@@ -74,7 +76,6 @@
   }
   .footer-logo:hover { opacity: 0.9; }
   .footer-tagline {
-    font-family: monospace;
     font-size: 9px;
     font-weight: 400;
     letter-spacing: 2px;
@@ -92,19 +93,34 @@
     50% { border-color: transparent; }
   }
   .footer-coords {
-    font-size: 7px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
     font-weight: 300;
     letter-spacing: 1.5px;
-    color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.42);
     font-variant-numeric: tabular-nums;
+  }
+  .coord-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--orange);
+    box-shadow: 0 0 0 0 rgba(252,80,0,0.55);
+    animation: coordPulse 2.4s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes coordPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(252,80,0,0.55); transform: scale(1); }
+    50%      { box-shadow: 0 0 0 5px rgba(252,80,0,0); transform: scale(1.2); }
   }
 
   /* ── Light Mode ── */
   :global(body.light) .footer {
     background: linear-gradient(180deg, transparent 0%, rgba(245,245,243,0.9) 100%);
   }
-  :global(body.light) .copyright { color: rgba(0,0,0,0.45); }
-  :global(body.light) .footer-links a { color: rgba(0,0,0,0.4); }
+  :global(body.light) .copyright { color: rgba(0,0,0,0.3); }
+  :global(body.light) .footer-links a { color: rgba(0,0,0,0.3); }
   :global(body.light) .footer-links a:hover { color: var(--orange); }
   :global(body.light) .footer-links .sep { color: rgba(0,0,0,0.15); }
   :global(body.light) .footer-tagline { color: rgba(0,0,0,0.3); border-right-color: var(--orange); }
@@ -121,10 +137,10 @@
     }
     .footer-left { align-items: center; gap: 8px; }
     .footer-right { align-items: center; }
-    .copyright { font-size: 10px; }
-    .footer-links { font-size: 10px; }
+    .copyright { font-size: 9px; }
+    .footer-links { font-size: 9px; }
     .footer-tagline { font-size: 8px; letter-spacing: 1.5px; }
-    .footer-coords { font-size: 7px; }
+    .footer-coords { font-size: 9px; }
     .footer-logo { width: 22px; height: 22px; }
   }
 </style>

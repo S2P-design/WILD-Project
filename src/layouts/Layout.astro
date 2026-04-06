@@ -2,9 +2,55 @@
 interface Props {
   title: string;
   description: string;
+  /** Path of the page, e.g. "/" or "/impressum/". Used for canonical + og:url */
+  path?: string;
+  /** Optional override for the social-share image (1200×630). */
+  image?: string;
+  /** "website" (default) or "article" */
+  type?: 'website' | 'article';
 }
 
-const { title, description } = Astro.props;
+const SITE = 'https://wildproject.pro';
+const {
+  title,
+  description,
+  path = Astro.url?.pathname || '/',
+  image = '/IMG_6431.JPG',
+  type = 'website',
+} = Astro.props;
+
+const canonical = SITE + (path.endsWith('/') || path.includes('.') ? path : path + '/');
+const ogImage = image.startsWith('http') ? image : SITE + image;
+
+// JSON-LD: Person + WebSite — only emit on the homepage
+const isHome = path === '/' || path === '';
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'René Wild',
+  alternateName: 'Wild Project',
+  url: SITE,
+  image: SITE + '/IMG_6431.JPG',
+  jobTitle: 'Eishockeytrainer · Development Coach · Podcast-Host',
+  worksFor: {
+    '@type': 'SportsOrganization',
+    name: 'Starbulls Rosenheim e.V.',
+    url: 'https://www.sbr-nachwuchs.de/',
+  },
+  sameAs: [
+    'https://www.shift2pro.com',
+    'https://unsplash.com/de/@wild_projects',
+  ],
+  email: 'mailto:rene@wildproject.pro',
+  description,
+};
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Wild Project — René Wild',
+  url: SITE,
+  inLanguage: 'de-DE',
+};
 ---
 
 <!DOCTYPE html>
@@ -12,13 +58,46 @@ const { title, description } = Astro.props;
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>{title}</title>
   <meta name="description" content={description}>
+  <meta name="author" content="René Wild">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href={canonical}>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content={type}>
+  <meta property="og:site_name" content="Wild Project">
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonical}>
+  <meta property="og:image" content={ogImage}>
+  <meta property="og:image:alt" content="René Wild — Wild Project">
+  <meta property="og:locale" content="de_DE">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={ogImage}>
+
+  <!-- Theme color -->
+  <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f5f5f3" media="(prefers-color-scheme: light)">
+
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+
   <script is:inline>
     if (localStorage.getItem('wp_theme') === 'light') document.documentElement.className = 'light-pre';
   </script>
+
+  {isHome && (
+    <>
+      <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
+      <script type="application/ld+json" set:html={JSON.stringify(websiteLd)} />
+    </>
+  )}
 </head>
 <body>
   <slot />
