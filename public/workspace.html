@@ -548,11 +548,54 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* ── Floating action group (lang · backup · theme) ── */
+  .ws-float-actions {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 1.5s forwards;
+  }
+  .ws-float-btn {
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: rgba(255,255,255,0.45);
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .ws-float-btn:hover {
+    color: #FC5000;
+    border-color: #FC5000;
+  }
+  .ws-float-btn.stale {
+    color: #FC5000;
+    border-color: #FC5000;
+  }
+  .ws-float-btn.stale::after {
+    content: '';
+    position: absolute;
+    top: 3px; right: 3px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #FC5000;
+    box-shadow: 0 0 6px #FC5000;
+  }
+  body.light .ws-float-btn { color: rgba(0,0,0,0.45); border-color: rgba(0,0,0,0.15); }
+  body.light .ws-float-btn:hover { color: #FC5000; border-color: #FC5000; }
+
   /* ── Theme Toggle (technical) ── */
   .theme-toggle {
-    position: fixed;
-    top: 24px;
-    right: 24px;
     z-index: 100;
     border: none;
     background: transparent;
@@ -563,8 +606,6 @@
     letter-spacing: 2px;
     color: rgba(255,255,255,0.35);
     transition: all 0.3s;
-    opacity: 0;
-    animation: fadeUp 0.5s ease 1.5s forwards;
     padding: 4px 0;
   }
   .theme-toggle:hover {
@@ -1937,8 +1978,15 @@
   <p class="login-hint">WILD PROJECT — PRIVATE WORKSPACE</p>
 </div>
 
-<!-- ══════ THEME TOGGLE ══════ -->
-<button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark"><span id="themeLabel">DARK</span></button>
+<!-- ══════ FLOATING ACTIONS ══════ -->
+<div class="ws-float-actions">
+  <button class="ws-float-btn" id="langToggle" title="Language">EN</button>
+  <button class="ws-float-btn" id="backupBtn" title="Backup all (shift-click to import)">⤓</button>
+  <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark"><span id="themeLabel">DARK</span></button>
+</div>
+
+<script src="/wp-i18n.js"></script>
+<script src="/wp-backup.js"></script>
 
 <div class="container locked" id="mainContent">
 
@@ -2189,19 +2237,11 @@
       <div class="section">
         <div class="section-label">Tools</div>
         <div class="tools-grid">
-          <a href="/planner.html" class="tool-card" title="Jahresplanung im Vollbild">
+          <a href="/plan.html" class="tool-card" title="Plan — Season · Month · Block · Week · Session">
             <div class="tool-ico">▦</div>
             <div class="tool-meta">
-              <div class="tool-title">Jahresplanung</div>
-              <div class="tool-desc">12 Monate · Hockey-Cycle · Brücken</div>
-            </div>
-            <div class="tool-arrow">↗</div>
-          </a>
-          <a href="/season.html" class="tool-card" title="Wochen-Mikrozyklus">
-            <div class="tool-ico">⛸</div>
-            <div class="tool-meta">
-              <div class="tool-title">Season</div>
-              <div class="tool-desc">Mikrozyklus · 7 Tage · Trainings-Slots</div>
+              <div class="tool-title">Plan</div>
+              <div class="tool-desc">Season · Month · Block · Week · Session</div>
             </div>
             <div class="tool-arrow">↗</div>
           </a>
@@ -2469,6 +2509,12 @@
     if (label) label.textContent = isLight ? 'LIGHT' : 'DARK';
     localStorage.setItem(KEY, isLight ? 'light' : 'dark');
   });
+})();
+
+// ── Lang toggle + Backup button (foundation) ──
+(function() {
+  if (window.WPi18n) WPi18n.attachToggle(document.getElementById('langToggle'));
+  if (window.WPbackup) WPbackup.attachButton(document.getElementById('backupBtn'));
 })();
 
 // ── Bookmarks ──

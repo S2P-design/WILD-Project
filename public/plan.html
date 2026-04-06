@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Plan — Wild Project</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+
+<link rel="stylesheet" href="/wp-shell.css">
+<script src="/wp-i18n.js"></script>
+<script src="/wp-backup.js"></script>
+
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#050505">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WP Plan">
+<link rel="apple-touch-icon" href="/favicon-180.png">
+
+<style>
+  /* ════════════════════════════════════════
+     PLAN — Year › Month › Block › Week › Session
+     ════════════════════════════════════════ */
+  body { display: flex; flex-direction: column; min-height: 100vh; }
+  main {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── Tab strip ── */
+  .pn-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 18px 0 0;
+    border-bottom: 1px solid var(--wp-border);
+    overflow-x: auto;
+  }
+  .pn-tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--wp-text-faint);
+    font-family: var(--wp-font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 18px;
+    cursor: pointer;
+    transition: all 0.2s var(--wp-ease);
+    margin-bottom: -1px;
+    white-space: nowrap;
+  }
+  .pn-tab:hover { color: var(--wp-text); }
+  .pn-tab.active {
+    color: var(--wp-flame);
+    border-bottom-color: var(--wp-flame);
+  }
+
+  /* ── Context bar (breadcrumb) ── */
+  .pn-context {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 14px 0 18px;
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--wp-text-ghost);
+  }
+  .pn-context .ctx-item {
+    color: var(--wp-text-mute);
+    cursor: pointer;
+    transition: color 0.15s var(--wp-ease);
+  }
+  .pn-context .ctx-item:hover { color: var(--wp-flame); }
+  .pn-context .ctx-item.active { color: var(--wp-text); }
+  .pn-context .ctx-sep { color: var(--wp-text-ghost); opacity: 0.6; }
+
+  /* ── View container ── */
+  .pn-view { display: none; padding-top: 8px; }
+  .pn-view.active { display: block; }
+
+  /* ── Section headings ── */
+  .pn-h {
+    font-family: var(--wp-font-sans);
+    font-size: 24px;
+    font-weight: 200;
+    color: var(--wp-text);
+    margin: 0 0 18px;
+    letter-spacing: 0.5px;
+  }
+  .pn-sub-h {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+    margin: 28px 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .pn-sub-h .add-btn {
+    background: transparent;
+    border: 1px solid var(--wp-border-strong);
+    color: var(--wp-text-faint);
+    padding: 4px 10px;
+    border-radius: var(--wp-radius-sm);
+    font-family: inherit;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pn-sub-h .add-btn:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+
+  /* ── Selector row (prev/next + value) ── */
+  .pn-sel {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .pn-sel .arrow {
+    background: transparent;
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text-faint);
+    width: 32px; height: 32px;
+    border-radius: var(--wp-radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pn-sel .arrow:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+  .pn-sel .label {
+    font-family: var(--wp-font-sans);
+    font-size: 22px;
+    font-weight: 200;
+    color: var(--wp-text);
+    min-width: 200px;
+  }
+  .pn-sel .today-btn {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text-faint);
+    padding: 6px 14px;
+    border-radius: var(--wp-radius-sm);
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pn-sel .today-btn:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+
+  /* ── Card / panel ── */
+  .pn-card {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .pn-card textarea,
+  .pn-card .pn-ta {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--wp-text);
+    font-family: var(--wp-font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+    outline: none;
+    min-height: 60px;
+  }
+  .pn-card textarea::placeholder { color: var(--wp-text-ghost); }
+
+  /* ── Macrocycle bar (Year view) ── */
+  .pn-macro {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 18px;
+    margin-bottom: 24px;
+  }
+  .pn-macro-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  .pn-macro-month {
+    background: var(--wp-surface-2);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-sm);
+    padding: 14px 6px;
+    text-align: center;
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+    position: relative;
+  }
+  .pn-macro-month:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+  .pn-macro-month.current { color: var(--wp-flame); border-color: var(--wp-flame); }
+  .pn-macro-month.has-block::after {
+    content: '';
+    position: absolute;
+    bottom: 4px; left: 50%;
+    transform: translateX(-50%);
+    width: 16px; height: 2px;
+    background: var(--wp-flame);
+    border-radius: 1px;
+  }
+
+  /* ── Phase row (Season view) ── */
+  .pn-phase-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 14px;
+    align-items: start;
+    margin-bottom: 12px;
+  }
+  .pn-phase-row .phase-tag {
+    background: var(--wp-surface-2);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-sm);
+    padding: 8px 0;
+    text-align: center;
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+  }
+  .pn-phase-row .phase-tag.off { color: var(--wp-flame); }
+
+  /* ── Month: weekly themes ── */
+  .pn-week-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .pn-week-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 12px 14px;
+    transition: border-color 0.15s var(--wp-ease);
+  }
+  .pn-week-item:hover { border-color: var(--wp-border-strong); }
+  .pn-week-item .wk-num {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+  }
+  .pn-week-item input.theme-input {
+    background: transparent;
+    border: none;
+    color: var(--wp-text);
+    font-family: var(--wp-font-sans);
+    font-size: 13px;
+    outline: none;
+    width: 100%;
+  }
+  .pn-week-item input.theme-input::placeholder { color: var(--wp-text-ghost); }
+  .pn-week-item .open-wk {
+    background: transparent;
+    border: 1px solid var(--wp-border-strong);
+    color: var(--wp-text-faint);
+    width: 24px; height: 24px;
+    border-radius: var(--wp-radius-sm);
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pn-week-item .open-wk:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+
+  /* ── Block: list + detail ── */
+  .pn-block-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .pn-block-list {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    overflow: hidden;
+  }
+  .pn-block-list-head {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--wp-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .pn-block-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--wp-border);
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pn-block-item:last-child { border-bottom: none; }
+  .pn-block-item:hover { background: var(--wp-surface-2); }
+  .pn-block-item.active { background: var(--wp-surface-2); }
+  .pn-block-item .bk-name {
+    color: var(--wp-text);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .pn-block-item .bk-meta {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 0.5px;
+    color: var(--wp-text-ghost);
+  }
+  .pn-block-empty {
+    padding: 30px 16px;
+    text-align: center;
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--wp-text-ghost);
+    text-transform: uppercase;
+  }
+
+  .pn-block-detail .row {
+    display: grid;
+    grid-template-columns: 1fr 140px 140px 60px;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .pn-block-detail .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .pn-block-detail .color-input {
+    width: 100%;
+    height: 38px;
+    background: transparent;
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-sm);
+    padding: 4px;
+    cursor: pointer;
+  }
+
+  /* ── Week view (7-day grid) ── */
+  .pn-week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .pn-day {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 12px 10px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+  }
+  .pn-day.today { border-color: var(--wp-flame); }
+  .pn-day-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--wp-border);
+  }
+  .pn-day-name {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+  }
+  .pn-day-date {
+    font-family: var(--wp-font-mono);
+    font-size: 11px;
+    color: var(--wp-text);
+    font-weight: 600;
+  }
+  .pn-day-sessions { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .pn-day-sess {
+    background: var(--wp-surface-2);
+    border: 1px solid var(--wp-border);
+    border-left: 3px solid var(--wp-flame);
+    border-radius: var(--wp-radius-sm);
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pn-day-sess:hover { border-color: var(--wp-flame); }
+  .pn-day-sess .ds-time {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    color: var(--wp-text-faint);
+    letter-spacing: 0.5px;
+  }
+  .pn-day-sess .ds-title {
+    font-size: 11px;
+    color: var(--wp-text);
+    line-height: 1.3;
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pn-day-sess.cat-ice      { border-left-color: #6aa9ff; }
+  .pn-day-sess.cat-dryland  { border-left-color: #f0c64a; }
+  .pn-day-sess.cat-game     { border-left-color: #ff5050; }
+  .pn-day-sess.cat-video    { border-left-color: #b48cff; }
+  .pn-day-sess.cat-meeting  { border-left-color: #888; }
+  .pn-day-sess.cat-recovery { border-left-color: #58c97a; }
+  .pn-day-sess.cat-off      { border-left-color: #555; opacity: 0.7; }
+
+  .pn-day-add {
+    background: transparent;
+    border: 1px dashed var(--wp-border-strong);
+    color: var(--wp-text-ghost);
+    border-radius: var(--wp-radius-sm);
+    padding: 6px;
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pn-day-add:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+
+  .pn-week-theme {
+    background: var(--wp-flame-glow);
+    border: 1px solid var(--wp-flame);
+    border-radius: var(--wp-radius);
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    color: var(--wp-text);
+    font-family: var(--wp-font-sans);
+    font-size: 14px;
+  }
+  .pn-week-theme .lbl {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-flame);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ── Session view ── */
+  .pn-session-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .pn-session-list {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    overflow: hidden;
+    max-height: calc(100vh - 220px);
+    display: flex;
+    flex-direction: column;
+  }
+  .pn-session-list-head {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--wp-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .pn-session-items {
+    overflow-y: auto;
+    flex: 1;
+  }
+  .pn-session-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--wp-border);
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pn-session-item:hover { background: var(--wp-surface-2); }
+  .pn-session-item.active { background: var(--wp-surface-2); border-left-color: var(--wp-flame); }
+  .pn-session-item .ss-date {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 0.6px;
+    color: var(--wp-text-faint);
+    margin-bottom: 4px;
+  }
+  .pn-session-item .ss-title {
+    color: var(--wp-text);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pn-session-item .ss-meta {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    color: var(--wp-text-ghost);
+    margin-top: 2px;
+  }
+
+  .pn-session-detail .meta-row {
+    display: grid;
+    grid-template-columns: 160px 110px 1fr 160px;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .pn-session-detail .meta-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .pn-session-detail .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .pn-session-detail .goal-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--wp-border);
+    color: var(--wp-text);
+    font-family: var(--wp-font-sans);
+    font-size: 22px;
+    font-weight: 200;
+    padding: 8px 0;
+    margin-bottom: 18px;
+    outline: none;
+  }
+  .pn-session-detail .goal-input::placeholder { color: var(--wp-text-ghost); }
+  .pn-session-detail .goal-input:focus { border-bottom-color: var(--wp-flame); }
+
+  /* Phases (Warm-up / Main / End) */
+  .pn-phase-block {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .pn-phase-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--wp-border);
+  }
+  .pn-phase-head .ph-name {
+    font-family: var(--wp-font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-flame);
+  }
+  .pn-phase-head .ph-total {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    color: var(--wp-text-faint);
+  }
+  .pn-drill {
+    display: grid;
+    grid-template-columns: 1fr 70px 30px;
+    gap: 10px;
+    align-items: center;
+    padding: 6px 0;
+  }
+  .pn-drill input[type="text"],
+  .pn-drill input[type="number"] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid transparent;
+    color: var(--wp-text);
+    font-family: var(--wp-font-sans);
+    font-size: 13px;
+    padding: 4px 0;
+    outline: none;
+    width: 100%;
+  }
+  .pn-drill input[type="number"] {
+    font-family: var(--wp-font-mono);
+    text-align: right;
+  }
+  .pn-drill input:focus { border-bottom-color: var(--wp-border-strong); }
+  .pn-drill .rm-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--wp-text-ghost);
+    width: 22px; height: 22px;
+    border-radius: var(--wp-radius-sm);
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pn-drill .rm-btn:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+  .pn-add-drill {
+    background: transparent;
+    border: 1px dashed var(--wp-border-strong);
+    color: var(--wp-text-faint);
+    padding: 6px 10px;
+    border-radius: var(--wp-radius-sm);
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 6px;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pn-add-drill:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+
+  /* Equipment */
+  .pn-equip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pn-equip-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-sm);
+    padding: 6px 10px;
+  }
+  .pn-equip-item input[type="checkbox"] {
+    accent-color: var(--wp-flame);
+    cursor: pointer;
+  }
+  .pn-equip-item input[type="text"] {
+    background: transparent;
+    border: none;
+    color: var(--wp-text);
+    font-family: var(--wp-font-sans);
+    font-size: 12px;
+    outline: none;
+    min-width: 80px;
+  }
+  .pn-equip-item .rm-btn {
+    background: transparent;
+    border: none;
+    color: var(--wp-text-ghost);
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0 2px;
+  }
+  .pn-equip-item .rm-btn:hover { color: var(--wp-flame); }
+
+  /* Lineup */
+  .pn-lineup-section {
+    margin-top: 18px;
+  }
+  .pn-lineup-block {
+    margin-bottom: 16px;
+  }
+  .pn-lineup-block .lu-h {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+    margin-bottom: 8px;
+  }
+  .pn-lineup-grid-g {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .pn-lineup-grid-d {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .pn-lineup-grid-f {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+  .pn-lu-pair, .pn-lu-line {
+    display: contents;
+  }
+  .pn-lu-slot {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-sm);
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: border-color 0.15s var(--wp-ease);
+  }
+  .pn-lu-slot:hover { border-color: var(--wp-border-strong); }
+  .pn-lu-slot .pos {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 0.5px;
+    color: var(--wp-text-ghost);
+    text-transform: uppercase;
+    min-width: 22px;
+  }
+  .pn-lu-slot select {
+    background: transparent;
+    border: none;
+    color: var(--wp-text);
+    font-family: var(--wp-font-sans);
+    font-size: 12px;
+    outline: none;
+    flex: 1;
+    cursor: pointer;
+  }
+  .pn-lu-slot select option { background: var(--wp-bg); color: var(--wp-text); }
+
+  .pn-print-btn {
+    background: var(--wp-flame);
+    border: 1px solid var(--wp-flame);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: var(--wp-radius-sm);
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pn-print-btn:hover { background: transparent; color: var(--wp-flame); }
+
+  .pn-empty-state {
+    padding: 80px 20px;
+    text-align: center;
+    color: var(--wp-text-faint);
+  }
+  .pn-empty-state h2 {
+    font-family: var(--wp-font-sans);
+    font-size: 22px;
+    font-weight: 200;
+    margin-bottom: 8px;
+  }
+  .pn-empty-state p {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-ghost);
+  }
+
+  .pn-save-status {
+    margin-top: 18px;
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-ghost);
+    text-align: right;
+  }
+  .pn-save-status.saved { color: var(--wp-flame); }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    main { padding: 0 16px 60px; }
+    .pn-tab { padding: 10px 12px; font-size: 9px; }
+    .pn-block-layout,
+    .pn-session-layout { grid-template-columns: 1fr; }
+    .pn-session-detail .meta-row { grid-template-columns: 1fr 1fr; }
+    .pn-week-grid { grid-template-columns: 1fr; }
+    .pn-macro-grid { grid-template-columns: repeat(6, 1fr); }
+    .pn-lineup-grid-g { grid-template-columns: repeat(2, 1fr); }
+    .pn-lineup-grid-d { grid-template-columns: 1fr; }
+    .pn-lineup-grid-f { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="wp-shell-header">
+  <a href="/workspace.html" class="wp-shell-brand">
+    <img src="/wp-logo.png" alt="WP">
+    <span data-i18n="nav.back">← Workspace</span>
+  </a>
+  <div class="wp-shell-title" data-i18n="nav.plan">Plan</div>
+  <div class="wp-shell-actions">
+    <button class="wp-btn icon-only" id="langToggle" title="Language">EN</button>
+    <button class="wp-btn icon-only" id="backupBtn" title="Backup all">⤓</button>
+    <button class="wp-btn icon-only" id="themeToggle" title="Theme">◐</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- Tabs -->
+  <nav class="pn-tabs">
+    <button class="pn-tab active" data-tab="season" data-i18n="nav.season">Season</button>
+    <button class="pn-tab" data-tab="month" data-i18n="nav.month">Month</button>
+    <button class="pn-tab" data-tab="block" data-i18n="nav.block">Block</button>
+    <button class="pn-tab" data-tab="week" data-i18n="nav.week">Week</button>
+    <button class="pn-tab" data-tab="session" data-i18n="nav.session">Session</button>
+  </nav>
+
+  <!-- Context breadcrumb -->
+  <div class="pn-context" id="contextBar"></div>
+
+  <!-- ══════ SEASON VIEW ══════ -->
+  <section class="pn-view active" id="view-season">
+    <div class="pn-sel">
+      <button class="arrow" data-nav="season-prev">‹</button>
+      <div class="label" id="seasonLabel">—</div>
+      <button class="arrow" data-nav="season-next">›</button>
+      <button class="today-btn" data-nav="season-today" data-i18n="common.today">Today</button>
+    </div>
+
+    <div class="pn-macro">
+      <div class="pn-sub-h" style="margin-top:0;">
+        <span data-i18n="season.macroBar">Macrocycle</span>
+      </div>
+      <div class="pn-macro-grid" id="macroGrid"></div>
+    </div>
+
+    <div class="pn-sub-h" style="margin-top:24px;">
+      <span data-i18n="season.goals">Season Goals</span>
+    </div>
+    <div class="pn-card">
+      <textarea id="seasonGoals" placeholder="..." rows="5"></textarea>
+    </div>
+
+    <div class="pn-sub-h"><span data-i18n="season.phases">Phases</span></div>
+    <div class="pn-phase-row">
+      <div class="phase-tag off" data-i18n="season.off">Off-Season</div>
+      <div class="pn-card" style="margin:0;"><textarea id="phaseOff" placeholder="..." rows="2"></textarea></div>
+    </div>
+    <div class="pn-phase-row">
+      <div class="phase-tag" data-i18n="season.pre">Pre-Season</div>
+      <div class="pn-card" style="margin:0;"><textarea id="phasePre" placeholder="..." rows="2"></textarea></div>
+    </div>
+    <div class="pn-phase-row">
+      <div class="phase-tag" data-i18n="season.in">In-Season</div>
+      <div class="pn-card" style="margin:0;"><textarea id="phaseIn" placeholder="..." rows="2"></textarea></div>
+    </div>
+
+    <div class="pn-sub-h"><span data-i18n="season.notes">Notes</span></div>
+    <div class="pn-card">
+      <textarea id="seasonNotes" placeholder="..." rows="4"></textarea>
+    </div>
+  </section>
+
+  <!-- ══════ MONTH VIEW ══════ -->
+  <section class="pn-view" id="view-month">
+    <div class="pn-sel">
+      <button class="arrow" data-nav="month-prev">‹</button>
+      <div class="label" id="monthLabel">—</div>
+      <button class="arrow" data-nav="month-next">›</button>
+      <button class="today-btn" data-nav="month-today" data-i18n="common.today">Today</button>
+    </div>
+
+    <div class="pn-sub-h" style="margin-top:0;"><span data-i18n="month.focus">Monthly Focus</span></div>
+    <div class="pn-card"><textarea id="monthFocus" placeholder="..." rows="3"></textarea></div>
+
+    <div class="pn-sub-h"><span data-i18n="month.kpis">Key Targets</span></div>
+    <div class="pn-card"><textarea id="monthKpis" placeholder="..." rows="3"></textarea></div>
+
+    <div class="pn-sub-h"><span data-i18n="month.weekThemes">Weekly Themes</span></div>
+    <div class="pn-week-list" id="monthWeekList"></div>
+
+    <div class="pn-sub-h"><span data-i18n="month.notes">Notes</span></div>
+    <div class="pn-card"><textarea id="monthNotes" placeholder="..." rows="4"></textarea></div>
+  </section>
+
+  <!-- ══════ BLOCK VIEW ══════ -->
+  <section class="pn-view" id="view-block">
+    <div class="pn-block-layout">
+      <div class="pn-block-list">
+        <div class="pn-block-list-head">
+          <span class="wp-label" data-i18n="block.blocks">Blocks</span>
+          <button class="add-btn" id="newBlockBtn" data-i18n="block.addBlock">New Block</button>
+        </div>
+        <div id="blockItems"></div>
+      </div>
+      <div class="pn-block-detail" id="blockDetail">
+        <div class="pn-empty-state">
+          <h2 data-i18n="block.title">Training Block</h2>
+          <p data-i18n="block.listEmpty">— no blocks yet —</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ WEEK VIEW ══════ -->
+  <section class="pn-view" id="view-week">
+    <div class="pn-sel">
+      <button class="arrow" data-nav="week-prev">‹</button>
+      <div class="label" id="weekLabel">—</div>
+      <button class="arrow" data-nav="week-next">›</button>
+      <button class="today-btn" data-nav="week-today" data-i18n="common.today">Today</button>
+    </div>
+
+    <div class="pn-week-theme" id="weekThemeBox" style="display:none;">
+      <span class="lbl" data-i18n="week.theme">Week Theme</span>
+      <span id="weekThemeText"></span>
+    </div>
+
+    <div class="pn-sub-h" style="margin-top:0;"><span data-i18n="week.notes">Week Notes</span></div>
+    <div class="pn-card"><textarea id="weekNotes" placeholder="..." rows="3"></textarea></div>
+
+    <div class="pn-week-grid" id="weekGrid"></div>
+  </section>
+
+  <!-- ══════ SESSION VIEW ══════ -->
+  <section class="pn-view" id="view-session">
+    <div class="pn-session-layout">
+      <div class="pn-session-list">
+        <div class="pn-session-list-head">
+          <span class="wp-label" data-i18n="nav.session">Session</span>
+          <button class="add-btn" id="newSessionBtn" data-i18n="session.newSession">New Session</button>
+        </div>
+        <div class="pn-session-items" id="sessionItems"></div>
+      </div>
+
+      <div class="pn-session-detail" id="sessionDetail">
+        <div class="pn-empty-state">
+          <h2 data-i18n="session.emptyState">No session selected</h2>
+          <p data-i18n="session.emptyHint">+ to start</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wp-shell-footer">
+  Wild Project · Live by Design, not by Default ·
+  <a href="/workspace.html" data-i18n="nav.workspace">Workspace</a> ·
+  <a href="/journal.html" data-i18n="nav.journal">Journal</a> ·
+  <a href="/players.html" data-i18n="nav.players">Players</a>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // ───────────── STORAGE KEYS ─────────────
+  var K_YEAR    = 'wp_plan_year';     // { '2025-26': { goals, off, pre, in, notes } }
+  var K_MONTH   = 'wp_plan_month';    // { '2025-10': { focus, kpis, notes, themes:{41:'..',42:'..'} } }
+  var K_BLOCK   = 'wp_plan_block';    // [ { id, name, start, end, color, focus, notes } ]
+  var K_SESSION = 'wp_plan_session';  // [ { id, date, time, location, cat, blockId, goal, focus[], warmup[], main[], end[], equipment[], lineup{}, notes } ]
+  var K_CTX     = 'wp_plan_context';
+  var K_PLAYERS = 'wp_players';
+  var K_THEME   = 'wp_workspace_theme';
+
+  // ───────────── STATE ─────────────
+  var state = {
+    tab: 'season',
+    seasonYear: 0,        // start year, e.g. 2025 → "2025-26"
+    monthDate: null,      // Date in current month
+    weekDate: null,       // Date in current week
+    blockId: null,
+    sessionId: null
+  };
+
+  var year = {};      // wp_plan_year object
+  var month = {};     // wp_plan_month object
+  var blocks = [];    // wp_plan_block array
+  var sessions = [];  // wp_plan_session array
+  var players = [];   // wp_players array (read-only here)
+
+  var saveTimer = null;
+
+  // ───────────── HELPERS ─────────────
+  function load() {
+    try { year = JSON.parse(localStorage.getItem(K_YEAR)) || {}; } catch(e) { year = {}; }
+    try { month = JSON.parse(localStorage.getItem(K_MONTH)) || {}; } catch(e) { month = {}; }
+    try { blocks = JSON.parse(localStorage.getItem(K_BLOCK)) || []; } catch(e) { blocks = []; }
+    try { sessions = JSON.parse(localStorage.getItem(K_SESSION)) || []; } catch(e) { sessions = []; }
+    try { players = JSON.parse(localStorage.getItem(K_PLAYERS)) || []; } catch(e) { players = []; }
+    try {
+      var ctx = JSON.parse(localStorage.getItem(K_CTX)) || {};
+      if (ctx.tab) state.tab = ctx.tab;
+      if (ctx.seasonYear) state.seasonYear = ctx.seasonYear;
+      if (ctx.monthDate) state.monthDate = new Date(ctx.monthDate);
+      if (ctx.weekDate) state.weekDate = new Date(ctx.weekDate);
+      if (ctx.blockId) state.blockId = ctx.blockId;
+      if (ctx.sessionId) state.sessionId = ctx.sessionId;
+    } catch(e) {}
+  }
+  function saveCtx() {
+    localStorage.setItem(K_CTX, JSON.stringify({
+      tab: state.tab,
+      seasonYear: state.seasonYear,
+      monthDate: state.monthDate ? state.monthDate.toISOString() : null,
+      weekDate: state.weekDate ? state.weekDate.toISOString() : null,
+      blockId: state.blockId,
+      sessionId: state.sessionId
+    }));
+  }
+  function persistAll() {
+    localStorage.setItem(K_YEAR, JSON.stringify(year));
+    localStorage.setItem(K_MONTH, JSON.stringify(month));
+    localStorage.setItem(K_BLOCK, JSON.stringify(blocks));
+    localStorage.setItem(K_SESSION, JSON.stringify(sessions));
+  }
+  function showSaved() {
+    document.querySelectorAll('.pn-save-status').forEach(function(el) {
+      el.textContent = '✓ ' + (WPi18n ? WPi18n.t('common.saved') : 'Saved');
+      el.classList.add('saved');
+    });
+  }
+  function scheduleSave(fn) {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function() { fn && fn(); persistAll(); showSaved(); }, 350);
+  }
+
+  function uid(prefix) { return (prefix || 'id') + '-' + Date.now() + '-' + Math.random().toString(36).slice(2,7); }
+  function todayStr() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function pad2(n) { return String(n).padStart(2,'0'); }
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+    });
+  }
+
+  // Date math
+  function addDays(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+  function addMonths(d, n) { var x = new Date(d); x.setMonth(x.getMonth() + n); return x; }
+  function mondayOf(d) {
+    var x = new Date(d);
+    var dow = (x.getDay() + 6) % 7;
+    x.setDate(x.getDate() - dow);
+    x.setHours(12,0,0,0);
+    return x;
+  }
+  function isoWeek(d) {
+    var t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    var dn = t.getUTCDay() || 7;
+    t.setUTCDate(t.getUTCDate() + 4 - dn);
+    var ys = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+    return Math.ceil((((t - ys) / 86400000) + 1) / 7);
+  }
+  function weekKeyOf(d) {
+    var w = isoWeek(d);
+    var t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    var dn = t.getUTCDay() || 7;
+    t.setUTCDate(t.getUTCDate() + 4 - dn);
+    return t.getUTCFullYear() + '-W' + pad2(w);
+  }
+  function monthKey(d) { return d.getFullYear() + '-' + pad2(d.getMonth()+1); }
+  function dateKey(d) { return d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate()); }
+
+  // Season key: hockey season starts in August. "2025-26" runs Aug 2025 → Jul 2026.
+  function seasonOf(date) {
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    return m >= 7 ? y : y - 1;  // Aug+ → that year; Jan-Jul → previous year
+  }
+  function seasonLabel(year) {
+    return year + '/' + String((year + 1) % 100).padStart(2, '0');
+  }
+  function seasonStart(year) { return new Date(year, 7, 1); }    // Aug 1
+  function seasonEnd(year)   { return new Date(year + 1, 6, 31); } // Jul 31
+
+  // Locale helpers
+  function localeId() { return WPi18n.current() === 'de' ? 'de-DE' : 'en-US'; }
+  function fmtMonthYear(d) {
+    return d.toLocaleDateString(localeId(), { month: 'long', year: 'numeric' });
+  }
+  function fmtDay(d) {
+    return d.toLocaleDateString(localeId(), { weekday: 'short', day: '2-digit', month: 'short' });
+  }
+  function fmtDateLong(d) {
+    return d.toLocaleDateString(localeId(), { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+  }
+  function dayShortKey(idx) {
+    return ['week.mon','week.tue','week.wed','week.thu','week.fri','week.sat','week.sun'][idx];
+  }
+
+  // ───────────── DATA ACCESSORS ─────────────
+  function currentYearObj() {
+    var key = seasonLabel(state.seasonYear);
+    if (!year[key]) year[key] = { goals:'', off:'', pre:'', in:'', notes:'' };
+    return year[key];
+  }
+  function currentMonthObj() {
+    var key = monthKey(state.monthDate);
+    if (!month[key]) month[key] = { focus:'', kpis:'', notes:'', themes:{} };
+    if (!month[key].themes) month[key].themes = {};
+    return month[key];
+  }
+
+  // ───────────── TAB SWITCHING ─────────────
+  function switchTab(tab) {
+    state.tab = tab;
+    document.querySelectorAll('.pn-tab').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.tab === tab);
+    });
+    document.querySelectorAll('.pn-view').forEach(function(v) {
+      v.classList.toggle('active', v.id === 'view-' + tab);
+    });
+    saveCtx();
+    renderContext();
+    if (tab === 'season')  renderSeason();
+    if (tab === 'month')   renderMonth();
+    if (tab === 'block')   renderBlocks();
+    if (tab === 'week')    renderWeek();
+    if (tab === 'session') renderSessions();
+  }
+
+  // ───────────── CONTEXT BAR ─────────────
+  function renderContext() {
+    var bar = document.getElementById('contextBar');
+    var parts = [];
+    parts.push({ tab:'season', label: seasonLabel(state.seasonYear) });
+    if (state.monthDate)  parts.push({ tab:'month',  label: fmtMonthYear(state.monthDate) });
+    if (state.blockId) {
+      var b = blocks.find(function(x) { return x.id === state.blockId; });
+      if (b) parts.push({ tab:'block',  label: b.name || '—' });
+    }
+    if (state.weekDate) parts.push({ tab:'week', label: WPi18n.t('week.kw') + ' ' + isoWeek(state.weekDate) });
+    if (state.sessionId) {
+      var s = sessions.find(function(x) { return x.id === state.sessionId; });
+      if (s) {
+        var sd = s.date ? new Date(s.date + 'T12:00:00') : null;
+        parts.push({ tab:'session', label: sd ? fmtDay(sd) : (s.goal || '—') });
+      }
+    }
+    var html = '';
+    parts.forEach(function(p, i) {
+      if (i > 0) html += '<span class="ctx-sep">›</span>';
+      html += '<span class="ctx-item ' + (p.tab === state.tab ? 'active' : '') + '" data-tab="' + p.tab + '">' + escapeHtml(p.label) + '</span>';
+    });
+    bar.innerHTML = html;
+    bar.querySelectorAll('.ctx-item').forEach(function(el) {
+      el.addEventListener('click', function() { switchTab(el.dataset.tab); });
+    });
+  }
+
+  // ════════════════════════════════════════
+  // SEASON VIEW
+  // ════════════════════════════════════════
+  function renderSeason() {
+    document.getElementById('seasonLabel').textContent = seasonLabel(state.seasonYear);
+    var y = currentYearObj();
+    document.getElementById('seasonGoals').value = y.goals || '';
+    document.getElementById('phaseOff').value    = y.off || '';
+    document.getElementById('phasePre').value    = y.pre || '';
+    document.getElementById('phaseIn').value     = y.in || '';
+    document.getElementById('seasonNotes').value = y.notes || '';
+    renderMacroBar();
+  }
+  function renderMacroBar() {
+    var grid = document.getElementById('macroGrid');
+    var html = '';
+    var startYear = state.seasonYear;
+    // 12 months Aug → Jul
+    for (var i = 0; i < 12; i++) {
+      var d = new Date(startYear, 7 + i, 1);
+      var mk = monthKey(d);
+      var hasBlock = blocks.some(function(b) {
+        if (!b.start || !b.end) return false;
+        var bs = new Date(b.start), be = new Date(b.end);
+        return bs <= d && be >= new Date(d.getFullYear(), d.getMonth() + 1, 0);
+      });
+      var isCurrent = state.monthDate && monthKey(state.monthDate) === mk;
+      var label = d.toLocaleDateString(localeId(), { month:'short' });
+      html += '<div class="pn-macro-month ' + (isCurrent ? 'current' : '') + ' ' + (hasBlock ? 'has-block' : '') + '" data-mk="' + mk + '">' + escapeHtml(label) + '</div>';
+    }
+    grid.innerHTML = html;
+    grid.querySelectorAll('.pn-macro-month').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var parts = el.dataset.mk.split('-');
+        state.monthDate = new Date(parseInt(parts[0],10), parseInt(parts[1],10) - 1, 1);
+        saveCtx();
+        switchTab('month');
+      });
+    });
+  }
+  function bindSeasonInputs() {
+    var ids = ['seasonGoals','phaseOff','phasePre','phaseIn','seasonNotes'];
+    var keys = ['goals','off','pre','in','notes'];
+    ids.forEach(function(id, i) {
+      document.getElementById(id).addEventListener('input', function(e) {
+        var y = currentYearObj();
+        y[keys[i]] = e.target.value;
+        scheduleSave();
+      });
+    });
+  }
+
+  // ════════════════════════════════════════
+  // MONTH VIEW
+  // ════════════════════════════════════════
+  function renderMonth() {
+    if (!state.monthDate) state.monthDate = new Date();
+    document.getElementById('monthLabel').textContent = fmtMonthYear(state.monthDate);
+    var m = currentMonthObj();
+    document.getElementById('monthFocus').value = m.focus || '';
+    document.getElementById('monthKpis').value  = m.kpis || '';
+    document.getElementById('monthNotes').value = m.notes || '';
+    renderMonthWeeks();
+  }
+  function renderMonthWeeks() {
+    // List weeks that touch this month
+    var first = new Date(state.monthDate.getFullYear(), state.monthDate.getMonth(), 1);
+    var last  = new Date(state.monthDate.getFullYear(), state.monthDate.getMonth() + 1, 0);
+    var weeks = [];
+    var cur = mondayOf(first);
+    while (cur <= last) {
+      weeks.push(new Date(cur));
+      cur = addDays(cur, 7);
+    }
+    var m = currentMonthObj();
+    var html = weeks.map(function(d) {
+      var w = isoWeek(d);
+      var theme = m.themes[w] || '';
+      var rangeStart = pad2(d.getDate()) + '.' + pad2(d.getMonth()+1);
+      var endD = addDays(d, 6);
+      var rangeEnd   = pad2(endD.getDate()) + '.' + pad2(endD.getMonth()+1);
+      return '<div class="pn-week-item" data-week="' + d.toISOString() + '" data-w="' + w + '">' +
+             '<div class="wk-num">' + WPi18n.t('week.kw') + ' ' + w + '<br><span style="opacity:0.6;font-size:8px;">' + rangeStart + '–' + rangeEnd + '</span></div>' +
+             '<input type="text" class="theme-input" value="' + escapeHtml(theme) + '" placeholder="' + escapeHtml(WPi18n.t('month.weekThemes')) + ' ...">' +
+             '<button class="open-wk" title="Open week">›</button>' +
+             '</div>';
+    }).join('');
+    document.getElementById('monthWeekList').innerHTML = html;
+    document.getElementById('monthWeekList').querySelectorAll('.pn-week-item').forEach(function(el) {
+      var w = parseInt(el.dataset.w, 10);
+      el.querySelector('.theme-input').addEventListener('input', function(e) {
+        var mm = currentMonthObj();
+        mm.themes[w] = e.target.value;
+        scheduleSave();
+      });
+      el.querySelector('.open-wk').addEventListener('click', function() {
+        state.weekDate = new Date(el.dataset.week);
+        saveCtx();
+        switchTab('week');
+      });
+    });
+  }
+  function bindMonthInputs() {
+    var ids = ['monthFocus','monthKpis','monthNotes'];
+    var keys = ['focus','kpis','notes'];
+    ids.forEach(function(id, i) {
+      document.getElementById(id).addEventListener('input', function(e) {
+        var m = currentMonthObj();
+        m[keys[i]] = e.target.value;
+        scheduleSave();
+      });
+    });
+  }
+
+  // ════════════════════════════════════════
+  // BLOCK VIEW
+  // ════════════════════════════════════════
+  function renderBlocks() {
+    var listEl = document.getElementById('blockItems');
+    if (blocks.length === 0) {
+      listEl.innerHTML = '<div class="pn-block-empty">' + WPi18n.t('block.listEmpty') + '</div>';
+    } else {
+      // sort by start asc
+      var sorted = blocks.slice().sort(function(a, b) {
+        return (a.start || '').localeCompare(b.start || '');
+      });
+      listEl.innerHTML = sorted.map(function(b) {
+        var dur = '';
+        if (b.start && b.end) {
+          var d1 = new Date(b.start), d2 = new Date(b.end);
+          var days = Math.round((d2 - d1) / 86400000) + 1;
+          dur = days + ' ' + WPi18n.t('block.days');
+        }
+        var sessCount = sessions.filter(function(s) { return s.blockId === b.id; }).length;
+        var color = b.color || '#fc5000';
+        return '<div class="pn-block-item ' + (b.id === state.blockId ? 'active' : '') + '" data-id="' + b.id + '" style="border-left-color:' + color + ';">' +
+               '<div class="bk-name">' + escapeHtml(b.name || '—') + '</div>' +
+               '<div class="bk-meta">' + (b.start || '?') + ' → ' + (b.end || '?') + ' · ' + dur + ' · ' + sessCount + ' ' + WPi18n.t('block.sessions') + '</div>' +
+               '</div>';
+      }).join('');
+      listEl.querySelectorAll('.pn-block-item').forEach(function(el) {
+        el.addEventListener('click', function() {
+          state.blockId = el.dataset.id;
+          saveCtx();
+          renderBlocks();
+          renderContext();
+        });
+      });
+    }
+    renderBlockDetail();
+  }
+  function renderBlockDetail() {
+    var detail = document.getElementById('blockDetail');
+    var b = blocks.find(function(x) { return x.id === state.blockId; });
+    if (!b) {
+      detail.innerHTML = '<div class="pn-empty-state"><h2>' + WPi18n.t('block.title') + '</h2><p>' + WPi18n.t('block.listEmpty') + '</p></div>';
+      return;
+    }
+    detail.innerHTML =
+      '<div class="row">' +
+        '<div class="field"><label class="wp-label">' + WPi18n.t('block.name') + '</label><input type="text" class="wp-input" id="bkName" value="' + escapeHtml(b.name || '') + '"></div>' +
+        '<div class="field"><label class="wp-label">' + WPi18n.t('block.start') + '</label><input type="date" class="wp-input" id="bkStart" value="' + (b.start || '') + '"></div>' +
+        '<div class="field"><label class="wp-label">' + WPi18n.t('block.end') + '</label><input type="date" class="wp-input" id="bkEnd" value="' + (b.end || '') + '"></div>' +
+        '<div class="field"><label class="wp-label">' + WPi18n.t('block.color') + '</label><input type="color" class="color-input" id="bkColor" value="' + (b.color || '#fc5000') + '"></div>' +
+      '</div>' +
+      '<div class="pn-sub-h" style="margin-top:8px;"><span>' + WPi18n.t('block.focus') + '</span></div>' +
+      '<div class="pn-card"><textarea id="bkFocus" rows="4">' + escapeHtml(b.focus || '') + '</textarea></div>' +
+      '<div class="pn-sub-h"><span>' + WPi18n.t('block.notes') + '</span></div>' +
+      '<div class="pn-card"><textarea id="bkNotes" rows="4">' + escapeHtml(b.notes || '') + '</textarea></div>' +
+      '<div style="display:flex;gap:10px;margin-top:14px;">' +
+        '<button class="wp-btn" id="bkDelete">' + WPi18n.t('common.delete') + '</button>' +
+      '</div>' +
+      '<div class="pn-save-status">—</div>';
+
+    var fields = [['bkName','name'],['bkStart','start'],['bkEnd','end'],['bkColor','color'],['bkFocus','focus'],['bkNotes','notes']];
+    fields.forEach(function(f) {
+      var el = document.getElementById(f[0]);
+      el.addEventListener('input', function() {
+        b[f[1]] = el.value;
+        scheduleSave(function() { renderBlocks(); });
+      });
+    });
+    document.getElementById('bkDelete').addEventListener('click', function() {
+      if (!confirm(WPi18n.t('common.confirm') + '?')) return;
+      blocks = blocks.filter(function(x) { return x.id !== b.id; });
+      state.blockId = null;
+      persistAll();
+      renderBlocks();
+      renderContext();
+    });
+  }
+  function newBlock() {
+    // auto-sequence: start = day after last end, or today
+    var sorted = blocks.slice().sort(function(a, b) { return (b.end || '').localeCompare(a.end || ''); });
+    var startDate;
+    if (sorted.length && sorted[0].end) {
+      startDate = addDays(new Date(sorted[0].end), 1);
+    } else {
+      startDate = new Date();
+    }
+    var endDate = addDays(startDate, 27); // 4 weeks default
+    var b = {
+      id: uid('block'),
+      name: 'Block ' + (blocks.length + 1),
+      start: dateKey(startDate),
+      end: dateKey(endDate),
+      color: '#fc5000',
+      focus: '',
+      notes: ''
+    };
+    blocks.unshift(b);
+    state.blockId = b.id;
+    persistAll();
+    renderBlocks();
+    renderContext();
+  }
+
+  // ════════════════════════════════════════
+  // WEEK VIEW
+  // ════════════════════════════════════════
+  function renderWeek() {
+    if (!state.weekDate) state.weekDate = new Date();
+    var monday = mondayOf(state.weekDate);
+    var w = isoWeek(state.weekDate);
+    document.getElementById('weekLabel').textContent = WPi18n.t('week.kw') + ' ' + w + ' · ' + monday.toLocaleDateString(localeId(), { day:'2-digit', month:'short' }) + '–' + addDays(monday, 6).toLocaleDateString(localeId(), { day:'2-digit', month:'short', year:'numeric' });
+
+    // Show theme from monthly themes if exists
+    var mk = monthKey(monday);
+    var mObj = month[mk];
+    var theme = mObj && mObj.themes && mObj.themes[w] ? mObj.themes[w] : '';
+    var box = document.getElementById('weekThemeBox');
+    if (theme) {
+      box.style.display = 'block';
+      document.getElementById('weekThemeText').textContent = theme;
+    } else {
+      box.style.display = 'none';
+    }
+
+    // Week notes (stored in month.themes meta — keep simple, dedicated key)
+    var wkKey = weekKeyOf(state.weekDate);
+    if (!month[mk]) month[mk] = { focus:'', kpis:'', notes:'', themes:{}, weekNotes:{} };
+    if (!month[mk].weekNotes) month[mk].weekNotes = {};
+    document.getElementById('weekNotes').value = month[mk].weekNotes[w] || '';
+
+    // 7-day grid
+    var grid = document.getElementById('weekGrid');
+    var todayKey = todayStr();
+    var html = '';
+    for (var i = 0; i < 7; i++) {
+      var day = addDays(monday, i);
+      var dk = dateKey(day);
+      var daySess = sessions.filter(function(s) { return s.date === dk; })
+        .sort(function(a, b) { return (a.time || '').localeCompare(b.time || ''); });
+      var dayName = WPi18n.t(dayShortKey(i));
+      html += '<div class="pn-day ' + (dk === todayKey ? 'today' : '') + '" data-date="' + dk + '">' +
+                '<div class="pn-day-head">' +
+                  '<span class="pn-day-name">' + dayName + '</span>' +
+                  '<span class="pn-day-date">' + pad2(day.getDate()) + '.' + pad2(day.getMonth()+1) + '</span>' +
+                '</div>' +
+                '<div class="pn-day-sessions">';
+      daySess.forEach(function(s) {
+        var t = s.time || '';
+        var title = s.goal || WPi18n.t('cat.' + (s.cat || 'ice'));
+        html += '<div class="pn-day-sess cat-' + (s.cat || 'ice') + '" data-id="' + s.id + '">' +
+                  '<div class="ds-time">' + escapeHtml(t) + '</div>' +
+                  '<div class="ds-title">' + escapeHtml(title) + '</div>' +
+                '</div>';
+      });
+      html +=   '</div>' +
+                '<button class="pn-day-add" data-date="' + dk + '">' + WPi18n.t('week.addSlot') + '</button>' +
+              '</div>';
+    }
+    grid.innerHTML = html;
+
+    // Session click → switch to session tab
+    grid.querySelectorAll('.pn-day-sess').forEach(function(el) {
+      el.addEventListener('click', function() {
+        state.sessionId = el.dataset.id;
+        saveCtx();
+        switchTab('session');
+      });
+    });
+    grid.querySelectorAll('.pn-day-add').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var s = newSession(el.dataset.date);
+        state.sessionId = s.id;
+        saveCtx();
+        switchTab('session');
+      });
+    });
+
+    // Notes input
+    document.getElementById('weekNotes').oninput = function(e) {
+      if (!month[mk].weekNotes) month[mk].weekNotes = {};
+      month[mk].weekNotes[w] = e.target.value;
+      scheduleSave();
+    };
+  }
+
+  // ════════════════════════════════════════
+  // SESSION VIEW
+  // ════════════════════════════════════════
+  function renderSessions() {
+    var listEl = document.getElementById('sessionItems');
+    if (sessions.length === 0) {
+      listEl.innerHTML = '<div class="pn-block-empty" style="border:none;">' + WPi18n.t('session.listEmpty') + '</div>';
+    } else {
+      var sorted = sessions.slice().sort(function(a, b) {
+        return (b.date || '').localeCompare(a.date || '') ||
+               (b.time || '').localeCompare(a.time || '');
+      });
+      listEl.innerHTML = sorted.map(function(s) {
+        var d = s.date ? new Date(s.date + 'T12:00:00') : null;
+        var dStr = d ? pad2(d.getDate()) + '.' + pad2(d.getMonth()+1) + '.' + d.getFullYear() : '—';
+        var meta = (WPi18n.t('cat.' + (s.cat || 'ice'))).toUpperCase();
+        if (s.time) meta += ' · ' + s.time;
+        return '<div class="pn-session-item ' + (s.id === state.sessionId ? 'active' : '') + '" data-id="' + s.id + '">' +
+               '<div class="ss-date">' + dStr + '</div>' +
+               '<div class="ss-title">' + escapeHtml(s.goal || ('— ' + WPi18n.t('session.goal') + ' —')) + '</div>' +
+               '<div class="ss-meta">' + meta + '</div>' +
+               '</div>';
+      }).join('');
+      listEl.querySelectorAll('.pn-session-item').forEach(function(el) {
+        el.addEventListener('click', function() {
+          state.sessionId = el.dataset.id;
+          saveCtx();
+          renderSessions();
+          renderContext();
+        });
+      });
+    }
+    renderSessionDetail();
+  }
+
+  function renderSessionDetail() {
+    var detail = document.getElementById('sessionDetail');
+    var s = sessions.find(function(x) { return x.id === state.sessionId; });
+    if (!s) {
+      detail.innerHTML = '<div class="pn-empty-state"><h2>' + WPi18n.t('session.emptyState') + '</h2><p>' + WPi18n.t('session.emptyHint') + '</p></div>';
+      return;
+    }
+    // ensure structure
+    s.warmup = s.warmup || [];
+    s.main = s.main || [];
+    s.end = s.end || [];
+    s.equipment = s.equipment || [];
+    s.lineup = s.lineup || { goalies: ['','','',''], defense: [['',''],['',''],['',''],['',''],['','']], forwards: [['','',''],['','',''],['','',''],['','',''],['','','']], scratches: '' };
+
+    var blockOptions = '<option value="">' + WPi18n.t('session.selectBlock') + '</option>' +
+      blocks.map(function(b) {
+        return '<option value="' + b.id + '" ' + (s.blockId === b.id ? 'selected' : '') + '>' + escapeHtml(b.name || '—') + '</option>';
+      }).join('');
+    var catOptions = ['ice','dryland','game','video','meeting','recovery','off'].map(function(c) {
+      return '<option value="' + c + '" ' + (s.cat === c ? 'selected' : '') + '>' + WPi18n.t('cat.' + c) + '</option>';
+    }).join('');
+
+    detail.innerHTML =
+      '<div class="meta-row">' +
+        '<div class="field"><label class="wp-label">' + WPi18n.t('session.date') + '</label><input type="date" class="wp-input" id="sDate" value="' + (s.date || '') + '"></div>' +
+        '<div class="field"><label class="wp-label">' + WPi18n.t('session.time') + '</label><input type="text" class="wp-input" id="sTime" value="' + escapeHtml(s.time || '') + '" placeholder="19:00–20:30"></div>' +
+        '<div class="field"><label class="wp-label">' + WPi18n.t('session.location') + '</label><input type="text" class="wp-input" id="sLoc" value="' + escapeHtml(s.location || '') + '" placeholder="..."></div>' +
+        '<div class="field"><label class="wp-label">' + WPi18n.t('session.category') + '</label><select class="wp-select" id="sCat">' + catOptions + '</select></div>' +
+      '</div>' +
+      '<div class="meta-row-2">' +
+        '<div class="field"><label class="wp-label">' + WPi18n.t('session.block') + '</label><select class="wp-select" id="sBlock">' + blockOptions + '</select></div>' +
+        '<div class="field"><label class="wp-label">' + WPi18n.t('common.duration') + '</label><div style="padding:9px 0;font-family:var(--wp-font-mono);font-size:13px;color:var(--wp-text-faint);" id="sTotal">—</div></div>' +
+      '</div>' +
+      '<input type="text" class="goal-input" id="sGoal" value="' + escapeHtml(s.goal || '') + '" placeholder="' + WPi18n.t('session.goal') + ' …">' +
+      // Phases
+      phaseHtml('warmup', WPi18n.t('session.warmup'), s.warmup) +
+      phaseHtml('main',   WPi18n.t('session.main'),   s.main) +
+      phaseHtml('end',    WPi18n.t('session.end'),    s.end) +
+      // Equipment
+      '<div class="pn-sub-h"><span>' + WPi18n.t('session.equipment') + '</span><button class="add-btn" id="addEquipBtn">' + WPi18n.t('session.addItem') + '</button></div>' +
+      '<div class="pn-equip" id="sEquip"></div>' +
+      // Lineup
+      '<div class="pn-sub-h"><span>' + WPi18n.t('session.lineup') + '</span><button class="pn-print-btn" id="printBtn" disabled style="opacity:0.4;cursor:not-allowed;" title="Print coming soon">' + WPi18n.t('session.print') + '</button></div>' +
+      '<div class="pn-lineup-section" id="sLineup"></div>' +
+      // Notes
+      '<div class="pn-sub-h"><span>' + WPi18n.t('session.notes') + '</span></div>' +
+      '<div class="pn-card"><textarea id="sNotes" rows="4">' + escapeHtml(s.notes || '') + '</textarea></div>' +
+      '<div style="display:flex;gap:10px;margin-top:14px;">' +
+        '<button class="wp-btn" id="sDelete">' + WPi18n.t('common.delete') + '</button>' +
+      '</div>' +
+      '<div class="pn-save-status">—</div>';
+
+    bindSessionDetail(s);
+    renderEquip(s);
+    renderLineup(s);
+    renderTotalDuration(s);
+  }
+
+  function phaseHtml(key, label, arr) {
+    var rows = arr.map(function(d, i) {
+      return '<div class="pn-drill" data-phase="' + key + '" data-idx="' + i + '">' +
+             '<input type="text" class="dr-title" value="' + escapeHtml(d.title || '') + '" placeholder="' + WPi18n.t('session.drill') + ' …">' +
+             '<input type="number" class="dr-dur" value="' + (d.duration || '') + '" min="0" placeholder="min">' +
+             '<button class="rm-btn" title="×">×</button>' +
+             '</div>';
+    }).join('');
+    return '<div class="pn-phase-block" data-phase="' + key + '">' +
+             '<div class="pn-phase-head">' +
+               '<span class="ph-name">' + label + '</span>' +
+               '<span class="ph-total" data-total="' + key + '">0 ' + WPi18n.t('session.durationMin') + '</span>' +
+             '</div>' +
+             '<div class="ph-rows">' + rows + '</div>' +
+             '<button class="pn-add-drill" data-add="' + key + '">' + WPi18n.t('session.addDrill') + '</button>' +
+           '</div>';
+  }
+
+  function bindSessionDetail(s) {
+    document.getElementById('sDate').addEventListener('input', function(e) { s.date = e.target.value; scheduleSave(function() { renderSessions(); }); });
+    document.getElementById('sTime').addEventListener('input', function(e) { s.time = e.target.value; scheduleSave(function() { renderSessions(); }); });
+    document.getElementById('sLoc').addEventListener('input',  function(e) { s.location = e.target.value; scheduleSave(); });
+    document.getElementById('sCat').addEventListener('change', function(e) { s.cat = e.target.value; scheduleSave(function() { renderSessions(); }); });
+    document.getElementById('sBlock').addEventListener('change', function(e) { s.blockId = e.target.value || null; scheduleSave(); });
+    document.getElementById('sGoal').addEventListener('input', function(e) { s.goal = e.target.value; scheduleSave(function() { renderSessions(); renderContext(); }); });
+    document.getElementById('sNotes').addEventListener('input', function(e) { s.notes = e.target.value; scheduleSave(); });
+    document.getElementById('sDelete').addEventListener('click', function() {
+      if (!confirm(WPi18n.t('common.confirm') + '?')) return;
+      sessions = sessions.filter(function(x) { return x.id !== s.id; });
+      state.sessionId = null;
+      persistAll();
+      renderSessions();
+      renderContext();
+    });
+    document.getElementById('addEquipBtn').addEventListener('click', function() {
+      s.equipment.push({ name: '', checked: false });
+      persistAll();
+      renderEquip(s);
+    });
+
+    // Phase drill bindings
+    ['warmup','main','end'].forEach(function(key) {
+      var block = document.querySelector('.pn-phase-block[data-phase="' + key + '"]');
+      if (!block) return;
+      block.querySelector('[data-add="' + key + '"]').addEventListener('click', function() {
+        s[key].push({ title: '', duration: '' });
+        persistAll();
+        renderSessionDetail();
+      });
+      block.querySelectorAll('.pn-drill').forEach(function(row) {
+        var idx = parseInt(row.dataset.idx, 10);
+        row.querySelector('.dr-title').addEventListener('input', function(e) {
+          s[key][idx].title = e.target.value; scheduleSave();
+        });
+        row.querySelector('.dr-dur').addEventListener('input', function(e) {
+          s[key][idx].duration = parseInt(e.target.value, 10) || 0;
+          scheduleSave(function() { renderTotalDuration(s); });
+        });
+        row.querySelector('.rm-btn').addEventListener('click', function() {
+          s[key].splice(idx, 1);
+          persistAll();
+          renderSessionDetail();
+        });
+      });
+    });
+  }
+
+  function renderEquip(s) {
+    var box = document.getElementById('sEquip');
+    if (!box) return;
+    if (s.equipment.length === 0) {
+      box.innerHTML = '<div style="font-family:var(--wp-font-mono);font-size:9px;color:var(--wp-text-ghost);letter-spacing:1px;text-transform:uppercase;">' + WPi18n.t('common.empty') + '</div>';
+      return;
+    }
+    box.innerHTML = s.equipment.map(function(item, i) {
+      return '<div class="pn-equip-item" data-i="' + i + '">' +
+             '<input type="checkbox" ' + (item.checked ? 'checked' : '') + '>' +
+             '<input type="text" value="' + escapeHtml(item.name || '') + '" placeholder="..." >' +
+             '<button class="rm-btn">×</button>' +
+             '</div>';
+    }).join('');
+    box.querySelectorAll('.pn-equip-item').forEach(function(el) {
+      var i = parseInt(el.dataset.i, 10);
+      el.querySelector('input[type="checkbox"]').addEventListener('change', function(e) {
+        s.equipment[i].checked = e.target.checked; scheduleSave();
+      });
+      el.querySelector('input[type="text"]').addEventListener('input', function(e) {
+        s.equipment[i].name = e.target.value; scheduleSave();
+      });
+      el.querySelector('.rm-btn').addEventListener('click', function() {
+        s.equipment.splice(i, 1); persistAll(); renderEquip(s);
+      });
+    });
+  }
+
+  function renderLineup(s) {
+    var box = document.getElementById('sLineup');
+    if (!box) return;
+    var goalies   = players.filter(function(p) { return p.pos === 'G'; });
+    var defenders = players.filter(function(p) { return p.pos === 'D'; });
+    var forwards  = players.filter(function(p) { return ['LW','C','RW'].indexOf(p.pos) > -1; });
+
+    function opts(list, val) {
+      var html = '<option value="">' + WPi18n.t('session.noPlayer') + '</option>';
+      list.forEach(function(p) {
+        var label = (p.num ? '#' + p.num + ' ' : '') + (p.name || '—');
+        html += '<option value="' + p.id + '" ' + (val === p.id ? 'selected' : '') + '>' + escapeHtml(label) + '</option>';
+      });
+      return html;
+    }
+
+    var html = '';
+    // Goalies (4 slots)
+    html += '<div class="pn-lineup-block">' +
+            '<div class="lu-h">' + WPi18n.t('session.goalies') + ' (1–4)</div>' +
+            '<div class="pn-lineup-grid-g">';
+    for (var gi = 0; gi < 4; gi++) {
+      html += '<div class="pn-lu-slot"><span class="pos">G' + (gi+1) + '</span><select data-lu="g" data-i="' + gi + '">' + opts(goalies, s.lineup.goalies[gi]) + '</select></div>';
+    }
+    html += '</div></div>';
+
+    // Defense (5 pairs)
+    html += '<div class="pn-lineup-block">' +
+            '<div class="lu-h">' + WPi18n.t('session.defense') + ' (1–10)</div>' +
+            '<div class="pn-lineup-grid-d">';
+    for (var di = 0; di < 5; di++) {
+      var pair = s.lineup.defense[di] || ['',''];
+      html += '<div class="pn-lu-slot"><span class="pos">D' + (di+1) + 'L</span><select data-lu="d" data-i="' + di + '" data-j="0">' + opts(defenders, pair[0]) + '</select></div>';
+      html += '<div class="pn-lu-slot"><span class="pos">D' + (di+1) + 'R</span><select data-lu="d" data-i="' + di + '" data-j="1">' + opts(defenders, pair[1]) + '</select></div>';
+    }
+    html += '</div></div>';
+
+    // Forwards (5 lines)
+    html += '<div class="pn-lineup-block">' +
+            '<div class="lu-h">' + WPi18n.t('session.forwards') + ' (1–15)</div>' +
+            '<div class="pn-lineup-grid-f">';
+    for (var fi = 0; fi < 5; fi++) {
+      var line = s.lineup.forwards[fi] || ['','',''];
+      html += '<div class="pn-lu-slot"><span class="pos">L' + (fi+1) + ' ' + WPi18n.t('session.lw') + '</span><select data-lu="f" data-i="' + fi + '" data-j="0">' + opts(forwards, line[0]) + '</select></div>';
+      html += '<div class="pn-lu-slot"><span class="pos">' + WPi18n.t('session.c') + '</span><select data-lu="f" data-i="' + fi + '" data-j="1">' + opts(forwards, line[1]) + '</select></div>';
+      html += '<div class="pn-lu-slot"><span class="pos">' + WPi18n.t('session.rw') + '</span><select data-lu="f" data-i="' + fi + '" data-j="2">' + opts(forwards, line[2]) + '</select></div>';
+    }
+    html += '</div></div>';
+
+    // Scratches
+    html += '<div class="pn-lineup-block">' +
+            '<div class="lu-h">' + WPi18n.t('session.scratches') + '</div>' +
+            '<input type="text" class="wp-input" id="luScratches" value="' + escapeHtml(s.lineup.scratches || '') + '" placeholder="...">' +
+            '</div>';
+
+    box.innerHTML = html;
+
+    box.querySelectorAll('select[data-lu]').forEach(function(sel) {
+      sel.addEventListener('change', function() {
+        var grp = sel.dataset.lu;
+        var i = parseInt(sel.dataset.i, 10);
+        if (grp === 'g') {
+          s.lineup.goalies[i] = sel.value;
+        } else if (grp === 'd') {
+          var j = parseInt(sel.dataset.j, 10);
+          if (!s.lineup.defense[i]) s.lineup.defense[i] = ['',''];
+          s.lineup.defense[i][j] = sel.value;
+        } else if (grp === 'f') {
+          var j2 = parseInt(sel.dataset.j, 10);
+          if (!s.lineup.forwards[i]) s.lineup.forwards[i] = ['','',''];
+          s.lineup.forwards[i][j2] = sel.value;
+        }
+        scheduleSave();
+      });
+    });
+    var sc = document.getElementById('luScratches');
+    if (sc) sc.addEventListener('input', function(e) { s.lineup.scratches = e.target.value; scheduleSave(); });
+  }
+
+  function renderTotalDuration(s) {
+    var sum = 0;
+    ['warmup','main','end'].forEach(function(key) {
+      (s[key] || []).forEach(function(d) { sum += parseInt(d.duration, 10) || 0; });
+      var totEl = document.querySelector('[data-total="' + key + '"]');
+      if (totEl) {
+        var phaseSum = 0;
+        (s[key] || []).forEach(function(d) { phaseSum += parseInt(d.duration, 10) || 0; });
+        totEl.textContent = phaseSum + ' ' + WPi18n.t('session.durationMin');
+      }
+    });
+    var total = document.getElementById('sTotal');
+    if (total) total.textContent = sum + ' ' + WPi18n.t('session.durationMin');
+  }
+
+  function newSession(date) {
+    var s = {
+      id: uid('sess'),
+      date: date || todayStr(),
+      time: '',
+      location: '',
+      cat: 'ice',
+      blockId: null,
+      goal: '',
+      focus: [],
+      warmup: [],
+      main: [],
+      end: [],
+      equipment: [],
+      lineup: { goalies: ['','','',''], defense: [['',''],['',''],['',''],['',''],['','']], forwards: [['','',''],['','',''],['','',''],['','',''],['','','']], scratches: '' },
+      notes: '',
+      created: Date.now()
+    };
+    sessions.unshift(s);
+    persistAll();
+    return s;
+  }
+
+  // ════════════════════════════════════════
+  // NAV BUTTONS
+  // ════════════════════════════════════════
+  document.addEventListener('click', function(e) {
+    var nav = e.target.closest('[data-nav]');
+    if (!nav) return;
+    var k = nav.dataset.nav;
+    if (k === 'season-prev') { state.seasonYear--; saveCtx(); renderSeason(); renderContext(); }
+    if (k === 'season-next') { state.seasonYear++; saveCtx(); renderSeason(); renderContext(); }
+    if (k === 'season-today'){ state.seasonYear = seasonOf(new Date()); saveCtx(); renderSeason(); renderContext(); }
+    if (k === 'month-prev')  { state.monthDate = addMonths(state.monthDate || new Date(), -1); saveCtx(); renderMonth(); renderContext(); }
+    if (k === 'month-next')  { state.monthDate = addMonths(state.monthDate || new Date(),  1); saveCtx(); renderMonth(); renderContext(); }
+    if (k === 'month-today') { state.monthDate = new Date(); saveCtx(); renderMonth(); renderContext(); }
+    if (k === 'week-prev')   { state.weekDate = addDays(state.weekDate || new Date(), -7); saveCtx(); renderWeek(); renderContext(); }
+    if (k === 'week-next')   { state.weekDate = addDays(state.weekDate || new Date(),  7); saveCtx(); renderWeek(); renderContext(); }
+    if (k === 'week-today')  { state.weekDate = new Date(); saveCtx(); renderWeek(); renderContext(); }
+  });
+
+  // Tab clicks
+  document.querySelectorAll('.pn-tab').forEach(function(b) {
+    b.addEventListener('click', function() { switchTab(b.dataset.tab); });
+  });
+  document.getElementById('newBlockBtn').addEventListener('click', newBlock);
+  document.getElementById('newSessionBtn').addEventListener('click', function() {
+    var s = newSession();
+    state.sessionId = s.id;
+    saveCtx();
+    renderSessions();
+    renderContext();
+  });
+
+  // ════════════════════════════════════════
+  // LANG / THEME / BACKUP
+  // ════════════════════════════════════════
+  WPi18n.attachToggle(document.getElementById('langToggle'));
+  WPbackup.attachButton(document.getElementById('backupBtn'));
+  function applyTheme(t) { document.body.classList.toggle('light', t === 'light'); }
+  applyTheme(localStorage.getItem(K_THEME) || 'dark');
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var t = document.body.classList.contains('light') ? 'dark' : 'light';
+    localStorage.setItem(K_THEME, t);
+    applyTheme(t);
+  });
+
+  // Re-render on lang change
+  window.addEventListener('wp:lang-changed', function() {
+    renderContext();
+    if (state.tab === 'season')  renderSeason();
+    if (state.tab === 'month')   renderMonth();
+    if (state.tab === 'block')   renderBlocks();
+    if (state.tab === 'week')    renderWeek();
+    if (state.tab === 'session') renderSessions();
+  });
+
+  // Cross-tab sync
+  window.addEventListener('storage', function(e) {
+    if (e.key && e.key.indexOf('wp_plan_') === 0) {
+      load();
+      switchTab(state.tab);
+    }
+    if (e.key === K_PLAYERS) { try { players = JSON.parse(e.newValue) || []; } catch(_) {} renderSessionDetail && state.tab === 'session' && renderSessionDetail(); }
+  });
+
+  // ════════════════════════════════════════
+  // INIT
+  // ════════════════════════════════════════
+  load();
+  if (!state.seasonYear) state.seasonYear = seasonOf(new Date());
+  if (!state.monthDate)  state.monthDate  = new Date();
+  if (!state.weekDate)   state.weekDate   = new Date();
+
+  bindSeasonInputs();
+  bindMonthInputs();
+
+  switchTab(state.tab || 'season');
+})();
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function() {});
+    });
+  }
+</script>
+</body>
+</html>
