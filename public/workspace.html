@@ -1640,6 +1640,50 @@
   body.light .planner-mini-day.we { color: rgba(0,0,0,0.2); }
   body.light .planner-disclaimer { color: rgba(0,0,0,0.25); }
 
+  /* ══════ GANZTÄGIG TOGGLE ══════ */
+  .cal-allday {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: rgba(228,228,228,0.45);
+    cursor: pointer;
+    margin-bottom: 10px;
+    user-select: none;
+    transition: color 0.15s;
+  }
+  .cal-allday:hover { color: rgba(228,228,228,0.7); }
+  .cal-allday input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    accent-color: #FC5000;
+    cursor: pointer;
+    margin: 0;
+  }
+  .cal-allday input[type="checkbox"]:checked + span { color: #FC5000; }
+  .cal-detail-fields.allday-on .cal-field:not(:last-child) { opacity: 0.25; pointer-events: none; }
+  .cal-detail-fields.allday-on .cal-field:not(:last-child) input { cursor: not-allowed; }
+
+  body.light .cal-allday { color: rgba(0,0,0,0.45); }
+  body.light .cal-allday:hover { color: rgba(0,0,0,0.7); }
+
+  /* ══════ KLICKBARE YEAR-GRID-TAGE ══════ */
+  .planner-mini-day[data-date] {
+    cursor: pointer;
+    transition: transform 0.1s, background 0.15s;
+  }
+  .planner-mini-day[data-date]:hover {
+    background: rgba(228,228,228,0.12);
+    transform: scale(1.15);
+    z-index: 1;
+    position: relative;
+  }
+  .planner-mini-day[data-date].holiday:hover { background: rgba(252,80,0,0.75); }
+  body.light .planner-mini-day[data-date]:hover { background: rgba(0,0,0,0.12); }
+
   /* ══════════════════════════════════════════════
      SOLID CARD BACKDROPS
      Dot-Grid bleibt im Hintergrund sichtbar,
@@ -1955,7 +1999,11 @@
             <div class="cal-detail-date" id="calDetailDate"></div>
             <div class="cal-detail-holiday" id="calDetailHoliday"></div>
             <textarea class="cal-detail-note" id="calDetailNote" placeholder="Notiz / Titel ..." rows="2"></textarea>
-            <div class="cal-detail-fields">
+            <label class="cal-allday">
+              <input type="checkbox" id="calAllDay">
+              <span>GANZTÄGIG</span>
+            </label>
+            <div class="cal-detail-fields" id="calTimeFields">
               <div class="cal-field">
                 <label class="cal-field-label">VON</label>
                 <input type="time" class="cal-field-input" id="calTimeStart" value="09:00">
@@ -2336,6 +2384,19 @@
     document.dispatchEvent(new CustomEvent('wp:cal-update'));
   }
 
+  // Normalize note format (backward compat: old = string, new = object)
+  function normNote(v) {
+    if (!v) return { text: '', allDay: false, start: '09:00', end: '10:00', loc: '' };
+    if (typeof v === 'string') return { text: v, allDay: false, start: '09:00', end: '10:00', loc: '' };
+    return {
+      text:   v.text || '',
+      allDay: !!v.allDay,
+      start:  v.start || '09:00',
+      end:    v.end   || '10:00',
+      loc:    v.loc   || ''
+    };
+  }
+
   // ISO week number
   function getWeek(d) {
     var date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
@@ -2494,27 +2555,49 @@
       calDetailHoliday.style.display = 'none';
     }
 
-    calDetailNote.value = calNotes[key] || '';
+    var note = normNote(calNotes[key]);
+    calDetailNote.value = note.text;
+    document.getElementById('calAllDay').checked = note.allDay;
+    document.getElementById('calTimeStart').value = note.start;
+    document.getElementById('calTimeEnd').value = note.end;
+    document.getElementById('calLocation').value = note.loc;
+    document.getElementById('calTimeFields').classList.toggle('allday-on', note.allDay);
     calDetail.classList.add('show');
     render();
   }
 
-  // Save note on input
-  calDetailNote.addEventListener('input', function() {
+  // Save note + all related fields on any change
+  function persistNote() {
     if (!selectedDate) return;
-    if (calDetailNote.value.trim()) {
-      calNotes[selectedDate] = calDetailNote.value;
-    } else {
+    var text = calDetailNote.value.trim();
+    if (!text) {
       delete calNotes[selectedDate];
+    } else {
+      calNotes[selectedDate] = {
+        text: text,
+        allDay: document.getElementById('calAllDay').checked,
+        start: document.getElementById('calTimeStart').value,
+        end:   document.getElementById('calTimeEnd').value,
+        loc:   document.getElementById('calLocation').value.trim()
+      };
     }
     saveCalNotes();
     render();
+  }
+  calDetailNote.addEventListener('input', persistNote);
+  document.getElementById('calTimeStart').addEventListener('change', persistNote);
+  document.getElementById('calTimeEnd').addEventListener('change', persistNote);
+  document.getElementById('calLocation').addEventListener('input', persistNote);
+  document.getElementById('calAllDay').addEventListener('change', function() {
+    document.getElementById('calTimeFields').classList.toggle('allday-on', this.checked);
+    persistNote();
   });
 
   // ICS Export
   document.getElementById('calExportBtn').addEventListener('click', function() {
     if (!selectedDate) return;
     var title = calDetailNote.value.trim() || 'Termin';
+    var allDay = document.getElementById('calAllDay').checked;
     var startTime = document.getElementById('calTimeStart').value || '09:00';
     var endTime = document.getElementById('calTimeEnd').value || '10:00';
     var location = document.getElementById('calLocation').value.trim();
@@ -2522,9 +2605,21 @@
     var parts = selectedDate.split('-');
     var y = parts[0], m = parts[1], d = parts[2];
 
-    var sh = startTime.split(':'), eh = endTime.split(':');
-    var dtStart = y + m + d + 'T' + sh[0] + sh[1] + '00';
-    var dtEnd = y + m + d + 'T' + eh[0] + eh[1] + '00';
+    // Build DTSTART/DTEND lines (all-day uses VALUE=DATE format)
+    var dtStartLine, dtEndLine;
+    if (allDay) {
+      // All-day: DTEND must be the day AFTER (exclusive end)
+      var endDate = new Date(parseInt(y), parseInt(m) - 1, parseInt(d) + 1);
+      var ey = endDate.getFullYear();
+      var em = String(endDate.getMonth() + 1).padStart(2, '0');
+      var ed = String(endDate.getDate()).padStart(2, '0');
+      dtStartLine = 'DTSTART;VALUE=DATE:' + y + m + d;
+      dtEndLine   = 'DTEND;VALUE=DATE:' + ey + em + ed;
+    } else {
+      var sh = startTime.split(':'), eh = endTime.split(':');
+      dtStartLine = 'DTSTART;TZID=Europe/Vienna:' + y + m + d + 'T' + sh[0] + sh[1] + '00';
+      dtEndLine   = 'DTEND;TZID=Europe/Vienna:'   + y + m + d + 'T' + eh[0] + eh[1] + '00';
+    }
 
     var uid = 'wp-' + Date.now() + '@wildproject.pro';
     var now = new Date();
@@ -2544,8 +2639,8 @@
       'BEGIN:VEVENT',
       'UID:' + uid,
       'DTSTAMP:' + stamp,
-      'DTSTART;TZID=Europe/Vienna:' + dtStart,
-      'DTEND;TZID=Europe/Vienna:' + dtEnd,
+      dtStartLine,
+      dtEndLine,
       'SUMMARY:' + title.replace(/[,;\\]/g, ' '),
       location ? 'LOCATION:' + location.replace(/[,;\\]/g, ' ') : '',
       'END:VEVENT',
@@ -2581,6 +2676,24 @@
     selectedDate = null;
     calDetail.classList.remove('show');
     render();
+  });
+
+  // Listen for "go to date" requests from Jahresplanung year overview
+  document.addEventListener('wp:goto-date', function(e) {
+    var date = e.detail;
+    if (!date) return;
+    var p = date.split('-');
+    viewYear = parseInt(p[0], 10);
+    viewMonth = parseInt(p[1], 10) - 1;
+    render();
+    selectDay(date);
+    // Smooth scroll to calendar widget
+    var calEl = document.querySelector('.cal-widget');
+    if (calEl) {
+      calEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Focus note field after scroll completes
+      setTimeout(function() { calDetailNote.focus(); }, 600);
+    }
   });
 
   // Init
@@ -3379,9 +3492,14 @@
         if (H[k]) titleParts.push('🇦🇹 ' + H[k]);
         if (fname) titleParts.push('🏖 ' + fname + '-Ferien');
         if (IIHF_DAYS[k]) titleParts.push('🏒 IIHF Break');
-        if (calEvents[k]) titleParts.push('★ ' + String(calEvents[k]).substring(0, 40));
+        if (calEvents[k]) {
+          var et = typeof calEvents[k] === 'string' ? calEvents[k] : (calEvents[k].text || '');
+          var allDayMark = (typeof calEvents[k] === 'object' && calEvents[k].allDay) ? '⏺ ' : '★ ';
+          if (et) titleParts.push(allDayMark + et.substring(0, 40));
+        }
+        titleParts.push('Klick → im Kalender öffnen');
         var title = titleParts.join(' · ');
-        gHtml += '<div class="' + cls + '"' + (title ? ' title="' + title + '"' : '') + '>' + dd + '</div>';
+        gHtml += '<div class="' + cls + '" data-date="' + k + '" title="' + title + '">' + dd + '</div>';
       }
       gHtml += '</div></div>';
     }
@@ -3391,6 +3509,14 @@
   regionSel.addEventListener('change', render);
   yearSel.addEventListener('change', render);
   vacInp.addEventListener('input', render);
+
+  // Click auf Datum in Jahresübersicht → springt im Kalender oben dorthin
+  gridEl.addEventListener('click', function(e) {
+    var cell = e.target.closest('.planner-mini-day[data-date]');
+    if (!cell) return;
+    var date = cell.getAttribute('data-date');
+    document.dispatchEvent(new CustomEvent('wp:goto-date', { detail: date }));
+  });
 
   // Live-Sync mit Kalender-Widget (gleiche Seite)
   document.addEventListener('wp:cal-update', render);
