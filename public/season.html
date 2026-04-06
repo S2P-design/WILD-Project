@@ -214,25 +214,51 @@
     line-height: 1.3;
     overflow: hidden;
   }
-  .se-slot-del {
+  .se-slot-actions {
     position: absolute;
     top: 4px;
     right: 4px;
+    display: none;
+    gap: 2px;
+  }
+  .se-slot:hover .se-slot-actions { display: flex; }
+  .se-slot-act {
     background: transparent;
     border: none;
     color: var(--wp-text-ghost);
     cursor: pointer;
     font-size: 10px;
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     border-radius: 2px;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     line-height: 1;
+    padding: 0;
+    transition: color 0.15s var(--wp-ease);
   }
-  .se-slot:hover .se-slot-del { display: flex; }
-  .se-slot-del:hover { color: var(--wp-flame); }
+  .se-slot-act:hover { color: var(--wp-flame); }
+  .se-slot-act.linked { color: var(--wp-flame); }
+  .se-slot-jr-dot {
+    position: absolute;
+    bottom: 4px;
+    right: 6px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--wp-flame);
+    display: none;
+  }
+  .se-slot.has-journal .se-slot-jr-dot { display: block; }
+  .se-slot.highlight {
+    box-shadow: 0 0 0 2px var(--wp-flame);
+    animation: se-pulse 1.5s var(--wp-ease);
+  }
+  @keyframes se-pulse {
+    0%, 100% { box-shadow: 0 0 0 2px var(--wp-flame); }
+    50%      { box-shadow: 0 0 0 4px var(--wp-flame); }
+  }
 
   .se-add-slot {
     background: transparent;
@@ -561,8 +587,13 @@
 
       // Slots
       wk.days[i].slots.forEach(function(s) {
-        html += '<div class="se-slot cat-' + s.cat + '" data-day="' + i + '" data-id="' + s.id + '">' +
-                '<button class="se-slot-del" title="Löschen">×</button>' +
+        var hasJournal = !!s.journalId;
+        html += '<div class="se-slot cat-' + s.cat + (hasJournal ? ' has-journal' : '') + '" data-day="' + i + '" data-id="' + s.id + '">' +
+                '<div class="se-slot-actions">' +
+                  '<button class="se-slot-act se-slot-jr ' + (hasJournal ? 'linked' : '') + '" title="' + (hasJournal ? 'Journal-Eintrag öffnen' : 'Journal-Eintrag erstellen') + '">📓</button>' +
+                  '<button class="se-slot-act se-slot-del" title="Löschen">×</button>' +
+                '</div>' +
+                '<span class="se-slot-jr-dot"></span>' +
                 '<span class="se-slot-time">' + (s.time || '—') + '</span>' +
                 '<textarea class="se-slot-text" rows="2" placeholder="Beschreibung ...">' + (s.text || '') + '</textarea>' +
                 '</div>';
@@ -612,6 +643,18 @@
       });
     });
 
+    // Journal Bridge: open or create linked journal entry
+    document.querySelectorAll('.se-slot-jr').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var slotEl = btn.closest('.se-slot');
+        if (!slotEl) return;
+        var dayI = parseInt(slotEl.dataset.day, 10);
+        var id = slotEl.dataset.id;
+        openOrCreateJournal(dayI, id);
+      });
+    });
+
     // Slot delete
     document.querySelectorAll('.se-slot-del').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
@@ -641,6 +684,107 @@
         if (t !== null) { slot.time = t.trim(); save(); render(); }
       });
     });
+  }
+
+  // ── Journal Bridge ──
+  // Maps Season slot category → Journal entry type
+  var CAT_TO_TYPE = {
+    ice: 'training', dryland: 'training', game: 'game',
+    video: 'video', meeting: 'meeting', recovery: 'recovery', off: 'off'
+  };
+  var CAT_TO_TAGS = {
+    ice: ['ice','team'], dryland: ['dryland'],
+    game: ['team'], video: ['video'],
+    meeting: ['team'], recovery: [], off: []
+  };
+
+  // Parse "09:00–11:00" or "09:00-11:00" → 120 (minutes)
+  function parseDuration(timeStr) {
+    if (!timeStr) return '';
+    var m = timeStr.match(/(\d{1,2}):(\d{2})\s*[-–]\s*(\d{1,2}):(\d{2})/);
+    if (!m) return '';
+    var start = parseInt(m[1],10)*60 + parseInt(m[2],10);
+    var end   = parseInt(m[3],10)*60 + parseInt(m[4],10);
+    var dur = end - start;
+    return dur > 0 ? dur : '';
+  }
+
+  function openOrCreateJournal(dayI, slotId) {
+    var wk = getWeek(viewDate);
+    var slot = wk.days[dayI].slots.find(function(s) { return s.id === slotId; });
+    if (!slot) return;
+
+    var monday = mondayOf(viewDate);
+    var slotDate = addDays(monday, dayI);
+    var slotDateStr = dateKey(slotDate);
+    var wkKey = weekKey(viewDate);
+
+    // Already linked → just open it
+    if (slot.journalId) {
+      localStorage.setItem('wp_journal_open', slot.journalId);
+      window.location.href = '/journal.html#entry-' + slot.journalId;
+      return;
+    }
+
+    // Create new journal entry
+    var jrEntries = [];
+    try { jrEntries = JSON.parse(localStorage.getItem('wp_journal_entries')) || []; }
+    catch(e) { jrEntries = []; }
+
+    var newId = 'jr-' + Date.now() + '-' + Math.random().toString(36).slice(2,7);
+    var entry = {
+      id: newId,
+      date: slotDateStr,
+      type: CAT_TO_TYPE[slot.cat] || 'training',
+      duration: parseDuration(slot.time),
+      title: (slot.text || '').substring(0, 60) || ('Slot ' + slot.cat),
+      body: '',
+      tags: (CAT_TO_TAGS[slot.cat] || []).slice(),
+      metrics: { energy: 0, mood: 0, sleep: 0, load: 0 },
+      created: Date.now(),
+      // ── Bridge: link back to Season slot ──
+      linkedSlot: { weekKey: wkKey, dayIdx: dayI, slotId: slotId }
+    };
+    jrEntries.unshift(entry);
+    localStorage.setItem('wp_journal_entries', JSON.stringify(jrEntries));
+
+    // Persist link in season slot
+    slot.journalId = newId;
+    save();
+
+    // Hand off and navigate
+    localStorage.setItem('wp_journal_open', newId);
+    window.location.href = '/journal.html#entry-' + newId;
+  }
+
+  // Highlight a slot when navigated to via #slot-...
+  function maybeHighlightSlot() {
+    var hash = window.location.hash;
+    if (hash.indexOf('#slot-') !== 0) return;
+    var parts = hash.substring(6).split(':');
+    if (parts.length !== 3) return;
+    var wantWk = parts[0], wantDay = parseInt(parts[1], 10), wantId = parts[2];
+
+    // Switch to the right week first
+    if (weekKey(viewDate) !== wantWk) {
+      // Parse "2026-W14" → approx Monday
+      var ym = wantWk.match(/^(\d{4})-W(\d{2})$/);
+      if (ym) {
+        var jan4 = new Date(parseInt(ym[1],10), 0, 4);
+        var dow = (jan4.getDay() + 6) % 7;
+        var w1mon = addDays(jan4, -dow);
+        viewDate = addDays(w1mon, (parseInt(ym[2],10) - 1) * 7);
+        render();
+      }
+    }
+    setTimeout(function() {
+      var el = document.querySelector('.se-slot[data-day="' + wantDay + '"][data-id="' + wantId + '"]');
+      if (el) {
+        el.classList.add('highlight');
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(function() { el.classList.remove('highlight'); }, 2400);
+      }
+    }, 100);
   }
 
   // ── Category picker ──
@@ -717,6 +861,8 @@
   load();
   viewDate = new Date();
   render();
+  maybeHighlightSlot();
+  window.addEventListener('hashchange', maybeHighlightSlot);
 })();
 </script>
 

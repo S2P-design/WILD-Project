@@ -215,6 +215,28 @@
   }
   .jr-delete-btn:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
 
+  /* Back-link banner (Season Bridge) */
+  .jr-backlink {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+    background: var(--wp-flame-glow);
+    border: 1px solid var(--wp-flame);
+    border-radius: var(--wp-radius);
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--wp-text);
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .jr-backlink:hover { background: rgba(252,80,0,0.18); }
+  .jr-backlink.visible { display: flex; }
+  .jr-backlink-arrow { color: var(--wp-flame); font-size: 12px; }
+
   .jr-title-input {
     width: 100%;
     background: transparent;
@@ -387,6 +409,11 @@
       <p>+ klicken um zu starten</p>
     </div>
     <div id="editorView" style="display:none;">
+
+      <div class="jr-backlink" id="backlinkBanner">
+        <span class="jr-backlink-arrow">←</span>
+        <span id="backlinkText">Verknüpft mit Season-Slot</span>
+      </div>
 
       <div class="jr-meta-row">
         <div class="jr-meta-field">
@@ -585,7 +612,33 @@
     emptyEl.style.display = 'none';
     editorEl.style.display = 'block';
     loadIntoEditor(e);
+    renderBacklink(e);
     renderList();
+  }
+
+  // ── Back-link banner (Season Bridge) ──
+  var backlinkEl  = document.getElementById('backlinkBanner');
+  var backlinkTxt = document.getElementById('backlinkText');
+
+  function renderBacklink(e) {
+    if (!e || !e.linkedSlot) {
+      backlinkEl.classList.remove('visible');
+      return;
+    }
+    var ls = e.linkedSlot;
+    var dayNames = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+    var dayLbl = dayNames[ls.dayIdx] || '?';
+    backlinkTxt.textContent = '← Season · ' + ls.weekKey + ' · ' + dayLbl;
+    backlinkEl.classList.add('visible');
+  }
+
+  if (backlinkEl) {
+    backlinkEl.addEventListener('click', function() {
+      var e = getCurrent();
+      if (!e || !e.linkedSlot) return;
+      var ls = e.linkedSlot;
+      window.location.href = '/season.html#slot-' + ls.weekKey + ':' + ls.dayIdx + ':' + ls.slotId;
+    });
   }
 
   function createEntry() {
@@ -694,10 +747,39 @@
     if (e.key === STORE_KEY) { load(); renderList(); }
   });
 
+  // ── Bridge pickup: wp_journal_open + #entry-{id} ──
+  function pickupBridge() {
+    var targetId = null;
+    var hash = window.location.hash;
+    if (hash.indexOf('#entry-') === 0) {
+      targetId = hash.substring(7);
+    }
+    if (!targetId) {
+      var stashed = localStorage.getItem('wp_journal_open');
+      if (stashed) {
+        targetId = stashed;
+        localStorage.removeItem('wp_journal_open');
+      }
+    }
+    if (targetId && entries.find(function(e) { return e.id === targetId; })) {
+      selectEntry(targetId);
+      return true;
+    }
+    return false;
+  }
+
+  window.addEventListener('hashchange', function() {
+    var hash = window.location.hash;
+    if (hash.indexOf('#entry-') === 0) {
+      var id = hash.substring(7);
+      if (entries.find(function(e) { return e.id === id; })) selectEntry(id);
+    }
+  });
+
   // ── Init ──
   load();
   renderList();
-  if (entries.length > 0) {
+  if (!pickupBridge() && entries.length > 0) {
     selectEntry(entries[0].id);
   }
 })();

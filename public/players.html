@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Players — Wild Project</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+
+<!-- Shared design system -->
+<link rel="stylesheet" href="/wp-shell.css">
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#050505">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WP Players">
+<link rel="apple-touch-icon" href="/favicon-180.png">
+
+<style>
+  /* ════════════════════════════════════════
+     PLAYERS — Roster & Player Tracker
+     ════════════════════════════════════════ */
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  main {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    align-items: start;
+  }
+
+  /* ── Sidebar: Roster ── */
+  .pl-sidebar {
+    position: sticky;
+    top: 51px;
+    align-self: start;
+    height: calc(100vh - 51px);
+    background: var(--wp-surface-1);
+    border-right: 1px solid var(--wp-border);
+    display: flex;
+    flex-direction: column;
+  }
+  .pl-side-head {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--wp-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pl-side-head .wp-label { margin: 0; }
+  .pl-new-btn {
+    background: transparent;
+    border: 1px solid var(--wp-border-strong);
+    color: var(--wp-text-faint);
+    width: 26px;
+    height: 26px;
+    border-radius: var(--wp-radius-sm);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s var(--wp-ease);
+  }
+  .pl-new-btn:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+
+  .pl-filter-bar {
+    display: flex;
+    gap: 4px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--wp-border);
+    flex-wrap: wrap;
+  }
+  .pl-filter {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    background: transparent;
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-sm);
+    color: var(--wp-text-faint);
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pl-filter:hover { color: var(--wp-text); border-color: var(--wp-border-strong); }
+  .pl-filter.active {
+    color: var(--wp-flame);
+    border-color: var(--wp-flame);
+    background: var(--wp-flame-glow);
+  }
+
+  .pl-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  .pl-list-empty {
+    padding: 40px 20px;
+    text-align: center;
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--wp-text-ghost);
+    text-transform: uppercase;
+  }
+  .pl-line-group {
+    padding: 14px 20px 6px;
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-ghost);
+    border-bottom: 1px dashed var(--wp-border);
+  }
+  .pl-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    border-left: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+    border-bottom: 1px solid var(--wp-border);
+  }
+  .pl-item:hover { background: var(--wp-surface-2); }
+  .pl-item.active {
+    background: var(--wp-surface-2);
+    border-left-color: var(--wp-flame);
+  }
+  .pl-num {
+    font-family: var(--wp-font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--wp-text);
+    min-width: 28px;
+    text-align: center;
+  }
+  .pl-meta { flex: 1; min-width: 0; }
+  .pl-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--wp-text);
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pl-sub {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 0.5px;
+    color: var(--wp-text-ghost);
+    margin-top: 2px;
+  }
+  .pl-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--wp-text-ghost);
+  }
+  .pl-status-dot.available { background: #2ea043; }
+  .pl-status-dot.injured   { background: #e53935; }
+  .pl-status-dot.sick      { background: #f59e0b; }
+  .pl-status-dot.suspended { background: #9333ea; }
+  .pl-status-dot.rehab     { background: #0ea5e9; }
+
+  /* ── Detail pane ── */
+  .pl-detail {
+    padding: 32px 48px 80px;
+    max-width: 980px;
+    width: 100%;
+  }
+  .pl-empty-state {
+    padding: 80px 20px;
+    text-align: center;
+    color: var(--wp-text-faint);
+  }
+  .pl-empty-state h2 {
+    font-family: var(--wp-font-sans);
+    font-size: 22px;
+    font-weight: 200;
+    margin-bottom: 8px;
+  }
+  .pl-empty-state p {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-ghost);
+  }
+
+  /* Identity row */
+  .pl-id-row {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 18px;
+    align-items: end;
+    margin-bottom: 24px;
+  }
+  .pl-num-input {
+    background: transparent;
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    color: var(--wp-text);
+    font-family: var(--wp-font-mono);
+    font-size: 42px;
+    font-weight: 700;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s var(--wp-ease);
+  }
+  .pl-num-input:focus { border-color: var(--wp-flame); }
+  .pl-name-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    font-family: var(--wp-font-sans);
+    font-size: 32px;
+    font-weight: 200;
+    color: var(--wp-text);
+    letter-spacing: 0.5px;
+    padding: 0;
+    outline: none;
+  }
+  .pl-name-input::placeholder { color: var(--wp-text-ghost); }
+  .pl-delete-btn {
+    background: transparent;
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text-faint);
+    padding: 9px 14px;
+    border-radius: var(--wp-radius);
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s var(--wp-ease);
+  }
+  .pl-delete-btn:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+
+  /* Stammdaten grid */
+  .pl-fields {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .pl-field { display: flex; flex-direction: column; gap: 6px; }
+  .pl-field .wp-input,
+  .pl-field .wp-select { width: 100%; }
+
+  /* Status box */
+  .pl-status-box {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 16px 18px;
+    margin-bottom: 24px;
+  }
+  .pl-status-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 14px;
+    align-items: end;
+  }
+
+  /* Section headings */
+  .pl-section {
+    margin-top: 28px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .pl-section .wp-label { margin: 0; }
+  .pl-add-btn {
+    background: transparent;
+    border: 1px solid var(--wp-border-strong);
+    color: var(--wp-text-faint);
+    padding: 4px 10px;
+    border-radius: var(--wp-radius-sm);
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pl-add-btn:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+
+  /* Tags */
+  .pl-tag-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .pl-tag {
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    background: var(--wp-surface-2);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-sm);
+    color: var(--wp-text-mute);
+    cursor: pointer;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pl-tag:hover { color: var(--wp-text); border-color: var(--wp-border-strong); }
+  .pl-tag.active {
+    color: var(--wp-flame);
+    border-color: var(--wp-flame);
+    background: var(--wp-flame-glow);
+  }
+
+  /* Notes timeline */
+  .pl-notes { display: flex; flex-direction: column; gap: 10px; }
+  .pl-note {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 12px 14px;
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 12px;
+    align-items: start;
+  }
+  .pl-note input[type="date"] {
+    background: transparent;
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius-sm);
+    color: var(--wp-text-faint);
+    font-family: var(--wp-font-mono);
+    font-size: 9px;
+    padding: 6px 8px;
+    outline: none;
+  }
+  .pl-note textarea {
+    background: transparent;
+    border: none;
+    color: var(--wp-text);
+    font-family: var(--wp-font-sans);
+    font-size: 13px;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 38px;
+    outline: none;
+    padding: 4px 0;
+  }
+  .pl-note .pl-rm {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--wp-text-ghost);
+    width: 24px;
+    height: 24px;
+    border-radius: var(--wp-radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.15s var(--wp-ease);
+  }
+  .pl-note .pl-rm:hover { color: var(--wp-flame); border-color: var(--wp-flame); }
+
+  /* Goals (Q1-Q4) */
+  .pl-goals {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .pl-goal {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 14px;
+  }
+  .pl-goal-lbl {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--wp-flame);
+    margin-bottom: 8px;
+  }
+  .pl-goal textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--wp-text);
+    font-family: var(--wp-font-sans);
+    font-size: 12px;
+    line-height: 1.5;
+    min-height: 64px;
+    resize: vertical;
+    outline: none;
+  }
+
+  /* Stats */
+  .pl-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .pl-stat {
+    background: var(--wp-surface-1);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--wp-radius);
+    padding: 14px 10px;
+    text-align: center;
+  }
+  .pl-stat-lbl {
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--wp-text-faint);
+    margin-bottom: 8px;
+  }
+  .pl-stat input {
+    background: transparent;
+    border: none;
+    color: var(--wp-text);
+    font-family: var(--wp-font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
+    outline: none;
+  }
+
+  .pl-save-status {
+    margin-top: 18px;
+    font-family: var(--wp-font-mono);
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--wp-text-ghost);
+    text-align: right;
+  }
+  .pl-save-status.saved { color: var(--wp-flame); }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+    .pl-sidebar {
+      position: relative;
+      top: 0;
+      height: auto;
+      max-height: 320px;
+      border-right: none;
+      border-bottom: 1px solid var(--wp-border);
+    }
+    .pl-detail { padding: 24px 16px 60px; }
+    .pl-id-row { grid-template-columns: 80px 1fr; }
+    .pl-delete-btn { grid-column: 1 / -1; justify-self: start; }
+    .pl-fields { grid-template-columns: repeat(2, 1fr); }
+    .pl-goals { grid-template-columns: repeat(2, 1fr); }
+    .pl-stats { grid-template-columns: repeat(3, 1fr); }
+    .pl-name-input { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="wp-shell-header">
+  <a href="/workspace.html" class="wp-shell-brand">
+    <img src="/wp-logo.png" alt="WP">
+    <span>← WORKSPACE</span>
+  </a>
+  <div class="wp-shell-title">Players</div>
+  <div class="wp-shell-actions">
+    <button class="wp-btn icon-only" id="themeToggle" title="Theme wechseln">◐</button>
+    <button class="wp-btn icon-only" id="exportBtn" title="Export JSON">↓</button>
+  </div>
+</header>
+
+<main>
+
+  <aside class="pl-sidebar">
+    <div class="pl-side-head">
+      <span class="wp-label">Roster</span>
+      <button class="pl-new-btn" id="newPlayerBtn" title="Neuer Spieler">+</button>
+    </div>
+    <div class="pl-filter-bar" id="filterBar">
+      <button class="pl-filter active" data-key="line" data-val="all">Alle</button>
+      <button class="pl-filter" data-key="line" data-val="1">L1</button>
+      <button class="pl-filter" data-key="line" data-val="2">L2</button>
+      <button class="pl-filter" data-key="line" data-val="3">L3</button>
+      <button class="pl-filter" data-key="line" data-val="4">L4</button>
+      <button class="pl-filter" data-key="status" data-val="injured">Injured</button>
+    </div>
+    <div class="pl-list" id="playerList"></div>
+  </aside>
+
+  <section class="pl-detail" id="detailPane">
+    <div class="pl-empty-state" id="emptyState">
+      <h2>Noch kein Spieler</h2>
+      <p>+ klicken um zu starten</p>
+    </div>
+    <div id="detailView" style="display:none;">
+
+      <div class="pl-id-row">
+        <div class="pl-field">
+          <label class="wp-label">Nr.</label>
+          <input type="text" class="pl-num-input" id="pNum" placeholder="—" maxlength="3">
+        </div>
+        <div class="pl-field">
+          <label class="wp-label">Name</label>
+          <input type="text" class="pl-name-input" id="pName" placeholder="Spielername …">
+        </div>
+        <button class="pl-delete-btn" id="deleteBtn">🗑 Löschen</button>
+      </div>
+
+      <div class="pl-fields">
+        <div class="pl-field">
+          <label class="wp-label">Position</label>
+          <select class="wp-select" id="pPos">
+            <option value="C">C — Center</option>
+            <option value="LW">LW — Left Wing</option>
+            <option value="RW">RW — Right Wing</option>
+            <option value="D">D — Defense</option>
+            <option value="G">G — Goalie</option>
+          </select>
+        </div>
+        <div class="pl-field">
+          <label class="wp-label">Schuss</label>
+          <select class="wp-select" id="pShoots">
+            <option value="L">Links</option>
+            <option value="R">Rechts</option>
+          </select>
+        </div>
+        <div class="pl-field">
+          <label class="wp-label">Geburtsdatum</label>
+          <input type="date" class="wp-input" id="pBirth">
+        </div>
+        <div class="pl-field">
+          <label class="wp-label">Linie</label>
+          <select class="wp-select" id="pLine">
+            <option value="">—</option>
+            <option value="1">Linie 1</option>
+            <option value="2">Linie 2</option>
+            <option value="3">Linie 3</option>
+            <option value="4">Linie 4</option>
+          </select>
+        </div>
+        <div class="pl-field">
+          <label class="wp-label">Nationalität</label>
+          <input type="text" class="wp-input" id="pNat" placeholder="AUT" maxlength="3">
+        </div>
+      </div>
+
+      <div class="pl-status-box">
+        <div class="pl-status-row">
+          <div class="pl-field">
+            <label class="wp-label">Status</label>
+            <select class="wp-select" id="pStatus">
+              <option value="available">Verfügbar</option>
+              <option value="injured">Verletzt</option>
+              <option value="sick">Krank</option>
+              <option value="suspended">Gesperrt</option>
+              <option value="rehab">Rehab</option>
+            </select>
+          </div>
+          <div class="pl-field">
+            <label class="wp-label">Notiz zum Status</label>
+            <input type="text" class="wp-input" id="pStatusNote" placeholder="z. B. Knie · 2 Wochen Pause">
+          </div>
+        </div>
+      </div>
+
+      <div class="pl-section">
+        <span class="wp-label">Tags · Rollen</span>
+      </div>
+      <div class="pl-tag-row" id="tagRow">
+        <button class="pl-tag" data-tag="captain">⓶ Captain</button>
+        <button class="pl-tag" data-tag="alternate">A</button>
+        <button class="pl-tag" data-tag="powerplay">PP</button>
+        <button class="pl-tag" data-tag="penaltykill">PK</button>
+        <button class="pl-tag" data-tag="faceoff">Faceoff</button>
+        <button class="pl-tag" data-tag="leadership">Leadership</button>
+        <button class="pl-tag" data-tag="rookie">Rookie</button>
+        <button class="pl-tag" data-tag="veteran">Veteran</button>
+        <button class="pl-tag" data-tag="import">Import</button>
+        <button class="pl-tag" data-tag="affiliate">Affiliate</button>
+      </div>
+
+      <div class="pl-section">
+        <span class="wp-label">Notizen · Verlauf</span>
+        <button class="pl-add-btn" id="addNoteBtn">+ Notiz</button>
+      </div>
+      <div class="pl-notes" id="notesList"></div>
+
+      <div class="pl-section">
+        <span class="wp-label">Saisonziele · Q1–Q4</span>
+      </div>
+      <div class="pl-goals" id="goalsBox">
+        <div class="pl-goal"><div class="pl-goal-lbl">Q1 · Sep–Nov</div><textarea data-q="q1" placeholder="Ziel ..."></textarea></div>
+        <div class="pl-goal"><div class="pl-goal-lbl">Q2 · Dez–Feb</div><textarea data-q="q2" placeholder="Ziel ..."></textarea></div>
+        <div class="pl-goal"><div class="pl-goal-lbl">Q3 · Mär–Mai</div><textarea data-q="q3" placeholder="Ziel ..."></textarea></div>
+        <div class="pl-goal"><div class="pl-goal-lbl">Q4 · Jun–Aug</div><textarea data-q="q4" placeholder="Ziel ..."></textarea></div>
+      </div>
+
+      <div class="pl-section">
+        <span class="wp-label">Saison-Statistik</span>
+      </div>
+      <div class="pl-stats" id="statsBox">
+        <div class="pl-stat"><div class="pl-stat-lbl">GP</div><input type="number" data-stat="gp" min="0" placeholder="0"></div>
+        <div class="pl-stat"><div class="pl-stat-lbl">Tore</div><input type="number" data-stat="g" min="0" placeholder="0"></div>
+        <div class="pl-stat"><div class="pl-stat-lbl">Assists</div><input type="number" data-stat="a" min="0" placeholder="0"></div>
+        <div class="pl-stat"><div class="pl-stat-lbl">+/−</div><input type="number" data-stat="plusminus" placeholder="0"></div>
+        <div class="pl-stat"><div class="pl-stat-lbl">PIM</div><input type="number" data-stat="pim" min="0" placeholder="0"></div>
+      </div>
+
+      <div class="pl-save-status" id="saveStatus">—</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wp-shell-footer">
+  Wild Project · Live by Design, not by Default · <a href="/workspace.html">Workspace</a> · <a href="/season.html">Season</a>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  var STORE_KEY = 'wp_players';
+  var THEME_KEY = 'wp_workspace_theme';
+  var players = [];
+  var currentId = null;
+  var filterLine = 'all';
+  var filterStatus = '';
+  var saveTimer = null;
+
+  function load() {
+    try { players = JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
+    catch(e) { players = []; }
+  }
+  function save() {
+    localStorage.setItem(STORE_KEY, JSON.stringify(players));
+    showSaved();
+  }
+  function uid() { return 'pl-' + Date.now() + '-' + Math.random().toString(36).slice(2,7); }
+  function todayStr() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, function(c) {
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+    });
+  }
+
+  // ── DOM ──
+  var listEl    = document.getElementById('playerList');
+  var emptyEl   = document.getElementById('emptyState');
+  var detailEl  = document.getElementById('detailView');
+  var pNum      = document.getElementById('pNum');
+  var pName     = document.getElementById('pName');
+  var pPos      = document.getElementById('pPos');
+  var pShoots   = document.getElementById('pShoots');
+  var pBirth    = document.getElementById('pBirth');
+  var pLine     = document.getElementById('pLine');
+  var pNat      = document.getElementById('pNat');
+  var pStatus   = document.getElementById('pStatus');
+  var pStatusNote = document.getElementById('pStatusNote');
+  var tagRow    = document.getElementById('tagRow');
+  var notesList = document.getElementById('notesList');
+  var goalsBox  = document.getElementById('goalsBox');
+  var statsBox  = document.getElementById('statsBox');
+  var saveStatus = document.getElementById('saveStatus');
+
+  // ── Render roster ──
+  function renderList() {
+    var visible = players.slice();
+    if (filterLine !== 'all') {
+      visible = visible.filter(function(p) { return String(p.line || '') === filterLine; });
+    }
+    if (filterStatus) {
+      visible = visible.filter(function(p) { return p.status === filterStatus; });
+    }
+    // sort by line then number
+    visible.sort(function(a, b) {
+      var la = parseInt(a.line || 9, 10), lb = parseInt(b.line || 9, 10);
+      if (la !== lb) return la - lb;
+      var na = parseInt(a.num || 999, 10), nb = parseInt(b.num || 999, 10);
+      return na - nb;
+    });
+    if (visible.length === 0) {
+      listEl.innerHTML = '<div class="pl-list-empty">— Kein Spieler —</div>';
+      return;
+    }
+    var html = '';
+    var lastLine = null;
+    visible.forEach(function(p) {
+      var lineKey = p.line || '—';
+      if (lineKey !== lastLine) {
+        html += '<div class="pl-line-group">' + (p.line ? 'Linie ' + p.line : 'Ohne Linie') + '</div>';
+        lastLine = lineKey;
+      }
+      var st = p.status || 'available';
+      var sub = (p.pos || '—') + (p.shoots ? ' · ' + p.shoots : '');
+      html += '<div class="pl-item ' + (p.id === currentId ? 'active' : '') + '" data-id="' + p.id + '">' +
+              '<div class="pl-num">' + escapeHtml(p.num || '—') + '</div>' +
+              '<div class="pl-meta">' +
+                '<div class="pl-name">' + escapeHtml(p.name || '— ohne Namen —') + '</div>' +
+                '<div class="pl-sub">' + escapeHtml(sub) + '</div>' +
+              '</div>' +
+              '<div class="pl-status-dot ' + st + '" title="' + st + '"></div>' +
+              '</div>';
+    });
+    listEl.innerHTML = html;
+    listEl.querySelectorAll('.pl-item').forEach(function(el) {
+      el.addEventListener('click', function() { selectPlayer(el.dataset.id); });
+    });
+  }
+
+  function getCurrent() { return players.find(function(p) { return p.id === currentId; }); }
+
+  function loadIntoDetail(p) {
+    pNum.value        = p.num || '';
+    pName.value       = p.name || '';
+    pPos.value        = p.pos || 'C';
+    pShoots.value     = p.shoots || 'L';
+    pBirth.value      = p.birth || '';
+    pLine.value       = p.line || '';
+    pNat.value        = p.nat || '';
+    pStatus.value     = p.status || 'available';
+    pStatusNote.value = p.statusNote || '';
+    // tags
+    tagRow.querySelectorAll('.pl-tag').forEach(function(t) {
+      t.classList.toggle('active', (p.tags || []).indexOf(t.dataset.tag) > -1);
+    });
+    // goals
+    goalsBox.querySelectorAll('textarea').forEach(function(ta) {
+      ta.value = (p.goals && p.goals[ta.dataset.q]) || '';
+    });
+    // stats
+    statsBox.querySelectorAll('input').forEach(function(inp) {
+      inp.value = (p.stats && p.stats[inp.dataset.stat] != null) ? p.stats[inp.dataset.stat] : '';
+    });
+    renderNotes();
+  }
+
+  function renderNotes() {
+    var p = getCurrent();
+    if (!p) { notesList.innerHTML = ''; return; }
+    p.notes = p.notes || [];
+    if (p.notes.length === 0) {
+      notesList.innerHTML = '<div class="pl-list-empty" style="padding:14px 0;">— Keine Notizen —</div>';
+      return;
+    }
+    notesList.innerHTML = p.notes.map(function(n, idx) {
+      return '<div class="pl-note" data-idx="' + idx + '">' +
+             '<input type="date" class="n-date" value="' + (n.date || '') + '">' +
+             '<textarea class="n-text" rows="2" placeholder="Notiz ...">' + escapeHtml(n.text || '') + '</textarea>' +
+             '<button class="pl-rm" title="Löschen">×</button>' +
+             '</div>';
+    }).join('');
+    notesList.querySelectorAll('.pl-note').forEach(function(el) {
+      var idx = parseInt(el.dataset.idx, 10);
+      el.querySelector('.n-date').addEventListener('input', function(e) {
+        p.notes[idx].date = e.target.value; scheduleSave();
+      });
+      el.querySelector('.n-text').addEventListener('input', function(e) {
+        p.notes[idx].text = e.target.value; scheduleSave();
+      });
+      el.querySelector('.pl-rm').addEventListener('click', function() {
+        p.notes.splice(idx, 1); save(); renderNotes();
+      });
+    });
+  }
+
+  function selectPlayer(id) {
+    currentId = id;
+    var p = getCurrent();
+    if (!p) {
+      emptyEl.style.display = 'block';
+      detailEl.style.display = 'none';
+      return;
+    }
+    emptyEl.style.display = 'none';
+    detailEl.style.display = 'block';
+    loadIntoDetail(p);
+    renderList();
+  }
+
+  function createPlayer() {
+    var p = {
+      id: uid(),
+      num: '',
+      name: '',
+      pos: 'C',
+      shoots: 'L',
+      birth: '',
+      line: '',
+      nat: '',
+      status: 'available',
+      statusNote: '',
+      tags: [],
+      notes: [],
+      goals: { q1:'', q2:'', q3:'', q4:'' },
+      stats: { gp:'', g:'', a:'', plusminus:'', pim:'' },
+      created: Date.now()
+    };
+    players.unshift(p);
+    save();
+    selectPlayer(p.id);
+    setTimeout(function() { pName.focus(); }, 50);
+  }
+
+  function deletePlayer() {
+    if (!currentId) return;
+    if (!confirm('Diesen Spieler wirklich löschen?')) return;
+    players = players.filter(function(p) { return p.id !== currentId; });
+    save();
+    currentId = players.length > 0 ? players[0].id : null;
+    if (currentId) selectPlayer(currentId);
+    else {
+      emptyEl.style.display = 'block';
+      detailEl.style.display = 'none';
+      renderList();
+    }
+  }
+
+  function addNote() {
+    var p = getCurrent();
+    if (!p) return;
+    p.notes = p.notes || [];
+    p.notes.unshift({ date: todayStr(), text: '' });
+    save();
+    renderNotes();
+  }
+
+  // ── Save ──
+  function scheduleSave() {
+    saveStatus.textContent = '· tippt ·';
+    saveStatus.classList.remove('saved');
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function() {
+      var p = getCurrent();
+      if (!p) return;
+      p.num        = pNum.value;
+      p.name       = pName.value;
+      p.pos        = pPos.value;
+      p.shoots     = pShoots.value;
+      p.birth      = pBirth.value;
+      p.line       = pLine.value;
+      p.nat        = pNat.value;
+      p.status     = pStatus.value;
+      p.statusNote = pStatusNote.value;
+      p.tags = Array.prototype.slice.call(tagRow.querySelectorAll('.pl-tag.active')).map(function(t) { return t.dataset.tag; });
+      p.goals = {};
+      goalsBox.querySelectorAll('textarea').forEach(function(ta) { p.goals[ta.dataset.q] = ta.value; });
+      p.stats = {};
+      statsBox.querySelectorAll('input').forEach(function(inp) { p.stats[inp.dataset.stat] = inp.value; });
+      save();
+      renderList();
+    }, 400);
+  }
+  function showSaved() {
+    saveStatus.textContent = '✓ Gespeichert · ' + new Date().toLocaleTimeString('de-DE', { hour:'2-digit', minute:'2-digit' });
+    saveStatus.classList.add('saved');
+  }
+
+  ['input','change'].forEach(function(evt) {
+    [pNum, pName, pPos, pShoots, pBirth, pLine, pNat, pStatus, pStatusNote].forEach(function(el) {
+      el.addEventListener(evt, scheduleSave);
+    });
+  });
+  tagRow.addEventListener('click', function(e) {
+    var t = e.target.closest('.pl-tag');
+    if (!t) return;
+    t.classList.toggle('active');
+    scheduleSave();
+  });
+  goalsBox.addEventListener('input', scheduleSave);
+  statsBox.addEventListener('input', scheduleSave);
+
+  // ── Filters ──
+  document.getElementById('filterBar').addEventListener('click', function(e) {
+    var b = e.target.closest('.pl-filter');
+    if (!b) return;
+    if (b.dataset.key === 'line') {
+      document.querySelectorAll('.pl-filter[data-key="line"]').forEach(function(x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      filterLine = b.dataset.val;
+    } else if (b.dataset.key === 'status') {
+      var was = b.classList.contains('active');
+      document.querySelectorAll('.pl-filter[data-key="status"]').forEach(function(x) { x.classList.remove('active'); });
+      if (!was) { b.classList.add('active'); filterStatus = b.dataset.val; }
+      else filterStatus = '';
+    }
+    renderList();
+  });
+
+  document.getElementById('newPlayerBtn').addEventListener('click', createPlayer);
+  document.getElementById('deleteBtn').addEventListener('click', deletePlayer);
+  document.getElementById('addNoteBtn').addEventListener('click', addNote);
+
+  // Export
+  document.getElementById('exportBtn').addEventListener('click', function() {
+    var blob = new Blob([JSON.stringify(players, null, 2)], { type: 'application/json' });
+    var url  = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'players-export-' + todayStr() + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  // Theme
+  function applyTheme(t) { document.body.classList.toggle('light', t === 'light'); }
+  applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var t = document.body.classList.contains('light') ? 'dark' : 'light';
+    localStorage.setItem(THEME_KEY, t);
+    applyTheme(t);
+  });
+
+  // Cross-tab sync
+  window.addEventListener('storage', function(e) {
+    if (e.key === STORE_KEY) { load(); renderList(); if (currentId) { var p = getCurrent(); if (p) loadIntoDetail(p); } }
+  });
+
+  // Init
+  load();
+  renderList();
+  if (players.length > 0) selectPlayer(players[0].id);
+})();
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function() {});
+    });
+  }
+</script>
+</body>
+</html>
