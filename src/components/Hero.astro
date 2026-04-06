@@ -137,33 +137,25 @@
       font-size: clamp(2.4rem, 11vw, 3.6rem);
       margin-bottom: 8px;
       line-height: 0.95;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.35);
     }
     .hero-aka {
       margin-bottom: 6px;
       font-size: 0.95rem;
       letter-spacing: 0.5px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
     .hero-role {
       font-size: 0.7rem;
       margin-bottom: 14px;
       letter-spacing: 0.3px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
     .hero-sub {
       font-size: 10px;
       letter-spacing: 2px;
       gap: 6px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
     .scroll-hint { margin-top: 18px; opacity: 1; animation: none; }
     .scroll-hint::after { animation: scrollPulse 2s ease-in-out infinite; }
 
-    :global(body.light) .hero h1 { text-shadow: 0 1px 4px rgba(255,255,255,0.4); }
-    :global(body.light) .hero-aka,
-    :global(body.light) .hero-role,
-    :global(body.light) .hero-sub { text-shadow: 0 1px 3px rgba(255,255,255,0.4); }
   }
   @media (max-width: 400px) {
     .hero { padding-top: 60vh; }
