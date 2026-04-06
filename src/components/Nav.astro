@@ -11,7 +11,7 @@
     <span class="nav-item nav-time" id="navTime">···</span>
     <span class="nav-sep nav-sep-strong">·</span>
     <button class="nav-toggle" id="langToggle" title="Sprache / Language" aria-label="Toggle language">DE</button>
-    <button class="nav-toggle" id="themeToggle" title="Toggle Light/Dark" aria-label="Toggle theme"><span id="themeLabel">DARK</span></button>
+    <button class="nav-toggle" id="themeToggle" title="Toggle Light/Dark" aria-label="Toggle theme" style="display:none"><span id="themeLabel">DARK</span></button>
     <span class="nav-live-dot" aria-hidden="true"></span>
   </div>
 </nav>
@@ -66,22 +66,22 @@
   .nav-item {
     font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 9px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.7);
+    color: rgba(0,0,0,0.65);
     font-variant-numeric: tabular-nums;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+    text-shadow: 0 1px 6px rgba(255,255,255,0.6);
     transition: color 0.3s;
   }
-  .nav-time { color: rgba(255,255,255,0.85); }
+  .nav-time { color: rgba(0,0,0,0.85); }
   .nav-sep {
     font-size: 9px;
-    color: rgba(255,255,255,0.35);
-    text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+    color: rgba(0,0,0,0.35);
+    text-shadow: 0 1px 6px rgba(255,255,255,0.6);
     user-select: none;
   }
-  .nav-sep-strong { color: rgba(255,255,255,0.45); margin: 0 2px; }
+  .nav-sep-strong { color: rgba(0,0,0,0.45); margin: 0 2px; }
 
   .nav-toggle {
     border: none;
@@ -89,10 +89,10 @@
     cursor: pointer;
     font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 9px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 2px;
-    color: rgba(255,255,255,0.75);
-    text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+    color: rgba(0,0,0,0.7);
+    text-shadow: 0 1px 6px rgba(255,255,255,0.6);
     transition: color 0.3s;
     padding: 4px 0;
   }
@@ -123,7 +123,7 @@
   @media (max-width: 700px) {
     nav { padding: 14px 1rem; }
     .nav-logo { height: 42px; }
-    .nav-meta { gap: 5px; }
+    .nav-meta { gap: 5px; padding: 5px 10px; }
     .nav-item, .nav-toggle { font-size: 7px; letter-spacing: 1px; }
     .nav-sep { font-size: 7px; }
     .nav-sep-strong { margin: 0 1px; }
@@ -138,21 +138,11 @@
 </style>
 
 <script>
-  // ── Theme Toggle ────────────────────────
+  // ── Theme Toggle (disabled — dark mode only) ──
   (function() {
-    const btn = document.getElementById('themeToggle');
-    const KEY = 'wp_theme';
-    const saved = localStorage.getItem(KEY);
-    const label = document.getElementById('themeLabel');
-    if (saved === 'light') {
-      document.body.classList.add('light');
-      if (label) label.textContent = 'LIGHT';
-    }
-    btn?.addEventListener('click', () => {
-      const isLight = document.body.classList.toggle('light');
-      if (label) label.textContent = isLight ? 'LIGHT' : 'DARK';
-      localStorage.setItem(KEY, isLight ? 'light' : 'dark');
-    });
+    document.body.classList.remove('light');
+    document.documentElement.classList.remove('light-pre');
+    try { localStorage.removeItem('wp_theme'); } catch(e) {}
   })();
 
   // ── Language Toggle ─────────────────────
