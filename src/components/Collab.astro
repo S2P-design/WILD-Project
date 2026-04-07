@@ -1,0 +1,183 @@
+---
+// Stencil-Stamp "COLLAB." — understated industrial workshop stamp
+---
+
+<section class="collab" aria-labelledby="collab-title">
+  <a
+    href="mailto:rene@wildproject.pro?subject=Let%27s%20collab%20%E2%80%94%20wildproject.pro"
+    class="collab-link"
+    aria-label="Let's collab"
+  >
+    <span class="collab-eyebrow">
+      <span class="collab-eyebrow-line"></span>
+      <span class="collab-eyebrow-text"><span class="t-de">Lass uns reden</span><span class="t-en">Let's talk</span></span>
+    </span>
+
+    <div class="stamp-wrap">
+      <div class="stamp" aria-hidden="true">
+        <span class="stamp-marks stamp-marks-left">N°01</span>
+        <span class="stamp-word">COLLAB<span class="stamp-dot">.</span></span>
+        <span class="stamp-marks stamp-marks-right">WP/26</span>
+      </div>
+      <div class="stamp-edge stamp-edge-top"></div>
+      <div class="stamp-edge stamp-edge-bottom"></div>
+    </div>
+
+    <span class="collab-meta">
+      <span class="t-de">Schreib mir</span><span class="t-en">Drop me a line</span>
+      <span class="collab-arrow">→</span>
+    </span>
+  </a>
+</section>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text:wght@800;900&display=swap');
+
+  .collab {
+    padding: 56px 0 32px;
+  }
+  .collab-link {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    max-width: 100%;
+  }
+
+  /* ── Eyebrow ────────────────────────── */
+  .collab-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+  .collab-eyebrow-line {
+    width: 24px; height: 1px;
+    background: var(--orange);
+    transform-origin: left center;
+    transform: scaleX(0);
+    animation: lineIn 0.7s cubic-bezier(.5,.1,.2,1) 0.3s forwards;
+  }
+  @keyframes lineIn { to { transform: scaleX(1); } }
+
+  /* ── The stamp ──────────────────────── */
+  .stamp-wrap {
+    position: relative;
+    display: inline-block;
+    padding: 14px 22px 12px;
+    transform: rotate(-2.2deg);
+    opacity: 0;
+    animation: stampIn 0.55s cubic-bezier(.4,1.6,.5,1) 0.7s forwards;
+    transition: transform 0.4s cubic-bezier(.4,.2,.2,1);
+  }
+  @keyframes stampIn {
+    0%   { opacity: 0; transform: rotate(-8deg) scale(1.4); }
+    60%  { opacity: 1; transform: rotate(-1.4deg) scale(0.96); }
+    100% { opacity: 1; transform: rotate(-2.2deg) scale(1); }
+  }
+  .collab-link:hover .stamp-wrap {
+    transform: rotate(-1.2deg) translateY(-1px);
+  }
+
+  /* faint border-frame top/bottom — like a stencil registration mark */
+  .stamp-edge {
+    position: absolute; left: 0; right: 0;
+    height: 1px;
+    background: var(--orange);
+    opacity: 0.35;
+  }
+  .stamp-edge-top { top: 0; }
+  .stamp-edge-bottom { bottom: 0; }
+
+  .stamp {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+
+  .stamp-word {
+    font-family: 'Big Shoulders Stencil Text', 'Anton', 'Impact', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3.4rem, 9vw, 6rem);
+    line-height: 0.85;
+    letter-spacing: 0.5px;
+    color: var(--orange);
+    /* subtle stamp imperfection — stronger ink at edges */
+    background: linear-gradient(180deg,
+      var(--orange) 0%,
+      var(--orange) 70%,
+      rgba(252,80,0,0.85) 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+      0 0 1px rgba(252,80,0,0.4),
+      0.5px 0.5px 0 rgba(252,80,0,0.2);
+    position: relative;
+  }
+  .stamp-dot {
+    color: var(--white);
+    -webkit-text-fill-color: var(--white);
+  }
+  :global(body.light) .stamp-dot { -webkit-text-fill-color: #1a1a1a; color: #1a1a1a; }
+
+  .stamp-marks {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.5);
+    align-self: flex-start;
+    padding-top: 8px;
+    white-space: nowrap;
+  }
+  :global(body.light) .stamp-marks { color: rgba(0,0,0,0.5); }
+
+  /* ── Meta ───────────────────────────── */
+  .collab-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-top: 6px;
+    opacity: 0;
+    animation: metaIn 0.6s ease 1.3s forwards;
+    transition: color 0.25s ease;
+  }
+  @keyframes metaIn { to { opacity: 1; } }
+  .collab-arrow {
+    color: var(--orange);
+    transition: transform 0.25s ease;
+    display: inline-block;
+  }
+  .collab-link:hover .collab-meta { color: rgba(255,255,255,0.85); }
+  .collab-link:hover .collab-arrow { transform: translateX(4px); }
+
+  :global(body.light) .collab-eyebrow { color: rgba(0,0,0,0.45); }
+  :global(body.light) .collab-meta { color: rgba(0,0,0,0.55); }
+  :global(body.light) .collab-link:hover .collab-meta { color: rgba(0,0,0,0.85); }
+
+  @media (max-width: 700px) {
+    .collab { padding: 40px 0 24px; }
+    .stamp-word { font-size: clamp(2.8rem, 14vw, 4.4rem); }
+    .stamp-marks { font-size: 8px; padding-top: 6px; }
+    .stamp { gap: 10px; }
+    .stamp-wrap { padding: 12px 16px 10px; }
+    .collab-meta { font-size: 9px; }
+    .collab-eyebrow { font-size: 8px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stamp-wrap { animation: none; opacity: 1; }
+    .collab-eyebrow-line { animation: none; transform: scaleX(1); }
+  }
+</style>

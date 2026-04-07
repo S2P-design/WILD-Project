@@ -2,6 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
+import Collab from '../components/Collab.astro';
+import PodcastCTA from '../components/PodcastCTA.astro';
 import LinkItem from '../components/LinkItem.astro';
 import Footer from '../components/Footer.astro';
 ---
@@ -19,17 +21,8 @@ import Footer from '../components/Footer.astro';
     <Hero />
 
     <div class="lower">
-      <!-- CTA ROW -->
-      <div class="cta-row">
-        <a href="mailto:rene@wildproject.pro?subject=Let%27s%20collab%20%E2%80%94%20wildproject.pro" class="cta cta-primary">
-          <span>Let&rsquo;s collab</span>
-          <span class="cta-arrow">→</span>
-        </a>
-        <a href="https://www.shift2pro.com" target="_blank" rel="noopener" class="cta cta-ghost">
-          <span><span class="t-de">Shift2Pro hören</span><span class="t-en">Listen to Shift2Pro</span></span>
-          <span class="cta-arrow">↗</span>
-        </a>
-      </div>
+      <!-- COLLAB (graffiti spray) -->
+      <Collab />
 
       <!-- ABOUT (collapsible) -->
       <div class="about-toggle" id="aboutToggle">
@@ -103,19 +96,36 @@ import Footer from '../components/Footer.astro';
           href="https://unsplash.com/de/@wild_projects"
           icon="UN"
           title="Unsplash"
-          desc="Momente, die niemandem gehören — und allen. Frei nutzbar."
-          descEn="Moments that belong to no one — and to everyone. Free to use."
+          desc="Sharing my passion for nature — frei nutzbar auf Unsplash"
+          descEn="Sharing my passion for nature — free to use on Unsplash"
         />
       </div>
+
+      <!-- PODCAST CTA -->
+      <PodcastCTA />
 
       <!-- CONNECTOR LINE -->
       <div class="connector-line">
         <div class="connector-line-inner"></div>
       </div>
 
-      <!-- CONTACT -->
-      <div class="contact-row">
-        <a href="mailto:rene@wildproject.pro" class="contact-pill">rene@wildproject.pro</a>
+      <!-- INDUSTRIAL FAREWELL TAG -->
+      <div class="greeting">
+        <div class="greeting-eyebrow">
+          <span class="greeting-eyebrow-line"></span>
+          <span class="t-de">Ende der Übertragung</span><span class="t-en">End of transmission</span>
+        </div>
+        <p class="greeting-text">
+          <span class="t-de">
+            <span class="g-line g-line-1">Bleib wild<span class="g-dot">.</span></span>
+          </span>
+          <span class="t-en">
+            <span class="g-line g-line-1">Stay wild<span class="g-dot">.</span></span>
+          </span>
+        </p>
+        <div class="greeting-tag">
+          <span class="greeting-bracket">[</span>SIGNED&nbsp;<span class="greeting-name">RENÉ&nbsp;WILD</span><span class="greeting-bracket">]</span>
+        </div>
       </div>
     </div>
 
@@ -404,6 +414,114 @@ import Footer from '../components/Footer.astro';
     box-shadow: 0 4px 16px rgba(252,80,0,0.08);
   }
 
+  /* ── HANDWRITTEN GREETING ─────────── */
+  .greeting {
+    margin-top: 40px;
+    padding: 36px 0 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+  }
+  .greeting-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .greeting-eyebrow-line {
+    width: 22px; height: 1px;
+    background: var(--orange);
+  }
+  .greeting.visible .greeting-eyebrow {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .greeting-text {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.25;
+    color: rgba(255,255,255,0.78);
+    margin: 0;
+    letter-spacing: 0.4px;
+  }
+  /* Each line is masked left→right (like writing with a pen) */
+  .g-line {
+    display: block;
+    color: rgba(255,255,255,0.78);
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 100%);
+            mask-image: linear-gradient(90deg, #000 0%, #000 100%);
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: 0% 100%;
+            mask-size: 0% 100%;
+    transition: -webkit-mask-size 1.4s cubic-bezier(.55,.1,.25,1),
+                        mask-size 1.4s cubic-bezier(.55,.1,.25,1);
+  }
+  :global(body.light) .g-line { color: rgba(0,0,0,0.78); }
+  .g-dot { color: var(--orange); }
+  .greeting.visible .g-line-1 {
+    -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+    transition-delay: 0.1s;
+  }
+  .greeting.visible .g-line-2 {
+    -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+    transition-delay: 1.0s;
+  }
+
+  /* Industrial signed tag */
+  .greeting-tag {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    padding: 7px 12px;
+    border: 1px solid rgba(255,255,255,0.18);
+    line-height: 1;
+    white-space: nowrap;
+    margin-top: 6px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.7s ease 1.4s, transform 0.7s cubic-bezier(.4,1.5,.5,1) 1.4s;
+  }
+  .greeting-bracket {
+    color: var(--orange);
+    margin: 0 4px;
+    font-weight: 400;
+  }
+  .greeting-name { color: rgba(255,255,255,0.85); }
+  .greeting.visible .greeting-tag {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  :global(body.light) .greeting-eyebrow { color: rgba(0,0,0,0.5); }
+  :global(body.light) .greeting-tag {
+    color: rgba(0,0,0,0.65);
+    border-color: rgba(0,0,0,0.18);
+  }
+  :global(body.light) .greeting-name { color: rgba(0,0,0,0.85); }
+  @media (prefers-reduced-motion: reduce) {
+    .g-line { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; transition: none; }
+    .greeting-tag { opacity: 1; transform: none; transition: none; }
+    .greeting-eyebrow { opacity: 1; transform: none; transition: none; }
+  }
+  :global(body.light) .greeting-text { color: rgba(0,0,0,0.85); }
+
   /* ── LIGHT MODE ───────────────────── */
   :global(body.light) .page-bg {
     background-color: #f5f5f3;
@@ -553,15 +671,15 @@ import Footer from '../components/Footer.astro';
     document.getElementById('aboutBody')?.classList.toggle('open');
   });
 
-  // Connector line + contact row reveal on scroll
+  // Connector line + greeting reveal on scroll
   const connector = document.querySelector('.connector-line');
-  const contactRow = document.querySelector('.contact-row');
+  const greeting = document.querySelector('.greeting');
   if (connector) {
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           connector.classList.add('visible');
-          contactRow?.classList.add('visible');
+          greeting?.classList.add('visible');
           obs.unobserve(e.target);
         }
       });
