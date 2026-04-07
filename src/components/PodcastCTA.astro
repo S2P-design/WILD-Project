@@ -156,7 +156,27 @@
 
   @media (max-width: 700px) {
     .pod { padding: 40px 0 16px; margin-top: 28px; }
-    .pod-actions { gap: 16px; }
-    .pod-cta { padding: 12px 18px; font-size: 10px; }
+    .pod-label { font-size: 9px; letter-spacing: 1.8px; margin-bottom: 12px; }
+    .pod-title { font-size: clamp(1.5rem, 7vw, 2rem); margin-bottom: 8px; }
+    .pod-sub { font-size: 12px; line-height: 1.55; margin-bottom: 20px; }
+    .pod-actions {
+      gap: 14px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .pod-cta {
+      padding: 13px 18px;
+      font-size: 10px;
+      letter-spacing: 1.6px;
+      width: 100%;
+      justify-content: center;
+    }
+    .pod-platforms {
+      font-size: 8px;
+      letter-spacing: 1.6px;
+      gap: 8px;
+      width: 100%;
+    }
+    .pod-soon { gap: 6px; margin-right: 2px; }
   }
 </style>

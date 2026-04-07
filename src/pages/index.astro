@@ -655,6 +655,24 @@ import Footer from '../components/Footer.astro';
       font-size: 10px;
       letter-spacing: 1.2px;
     }
+
+    /* Greeting block */
+    .greeting {
+      margin-top: 28px;
+      padding: 28px 0 20px;
+      gap: 14px;
+    }
+    .greeting-eyebrow { font-size: 8px; letter-spacing: 2px; gap: 8px; }
+    .greeting-eyebrow-line { width: 18px; }
+    .greeting-text {
+      font-size: clamp(1.7rem, 9vw, 2.2rem);
+      letter-spacing: 0.3px;
+    }
+    .greeting-tag {
+      font-size: 9px;
+      letter-spacing: 2px;
+      padding: 6px 10px;
+    }
   }
 
   @media (max-width: 380px) {
