@@ -1,5 +1,17 @@
+---
+interface Props {
+  tagline?: string;
+  taglineSteps?: number;
+  taglineWidthEm?: number;
+}
+const {
+  tagline = 'LIVE BY DESIGN, NOT BY DEFAULT.',
+  taglineSteps = 32,
+  taglineWidthEm = 25.5,
+} = Astro.props;
+---
 
-<footer class="footer">
+<footer class="footer" style={`--tg-steps:${taglineSteps};--tg-width:${taglineWidthEm}em;`}>
   <div class="footer-inner">
     <div class="footer-left">
       <p class="copyright">&copy; 2026 Wild Project — René Wild</p>
@@ -10,12 +22,14 @@
         <span class="sep">&middot;</span>
         <a href="/basecamp">Basecamp</a>
         <span class="sep">&middot;</span>
+        <a href="/shop">Shop</a>
+        <span class="sep">&middot;</span>
         <a href="/card"><span class="t-de">vCard</span><span class="t-en">vCard</span></a>
       </p>
     </div>
     <div class="footer-right">
       <img src="/wp-logo.png" alt="WP" class="footer-logo">
-      <p class="footer-tagline">LIVE BY DESIGN, NOT BY DEFAULT.</p>
+      <p class="footer-tagline">{tagline}</p>
       <p class="footer-coords"><span class="coord-dot" aria-hidden="true"></span>47.8561° N &nbsp; 12.1289° E</p>
     </div>
   </div>
@@ -86,10 +100,10 @@
     border-right: 2px solid var(--orange);
     white-space: nowrap;
     width: 0;
-    animation: typing 2.5s steps(32) 0.5s forwards, blink 0.6s step-end infinite 0.5s;
+    animation: typing 2.5s steps(var(--tg-steps, 32)) 0.5s forwards, blink 0.6s step-end infinite 0.5s;
   }
   @keyframes typing {
-    to { width: 25.5em; }
+    to { width: var(--tg-width, 25.5em); }
   }
   @keyframes blink {
     50% { border-color: transparent; }

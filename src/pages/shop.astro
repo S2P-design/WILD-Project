@@ -1,0 +1,609 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+// ═══════════════════════════════════════════════════
+// SHOP — Digitale Produkte & Drops
+// ═══════════════════════════════════════════════════
+//
+// 1) NEXT DROP — Datum eintragen, sobald bekannt.
+//    Solange `nextDropDate` null ist → "COMING SOON".
+//    Format: 'TT.MM.YYYY' oder 'TT.MM.YYYY · HH:MM'
+//
+const nextDropDate: string | null = null;
+const nextDropTitle: string | null = null;  // optional, z.B. "VOL.01 — SIGNAL KIT"
+
+// 2) DIGITALE PRODUKTE — Always-on Katalog.
+//    Solange `digitalProducts` leer ist → "COMING SOON" Platzhalter.
+//    Wenn Produkte vorhanden: Karten werden automatisch gerendert.
+//
+type DigitalProduct = {
+  code: string;        // z.B. 'WP-DP-01'
+  title: string;       // Produktname
+  type: string;        // 'Workbook' · 'Audio' · 'Mini-Kurs' · …
+  desc: string;        // 1–2 Sätze
+  price: string;       // '19 €'
+  href: string;        // Link zu Detail / Checkout
+};
+const digitalProducts: DigitalProduct[] = [];
+// ═══════════════════════════════════════════════════
+---
+
+<Layout
+  title="Shop · Wild Project"
+  description="Wild Project Shop — Sachen für den Kopf (Workbooks, Wallpapers, Blueprints) und Sachen, die dich glücklich machen (Merch, Stationery, EDC)."
+  path="/shop"
+>
+
+<Nav />
+
+<header class="hero">
+  <div class="hero-eyebrow">
+    <span class="dot"></span>
+    SHOP &middot; WP/26
+  </div>
+  <h1>Shop<span>.</span></h1>
+  <p class="tagline">F&uuml;r den Kopf. F&uuml;r das Herz. Mit Bedacht gemacht.</p>
+  <div class="hero-statement">
+    <span class="br">[</span>KOPF<span class="br">]</span>
+    <span class="br">[</span>HERZ<span class="br">]</span>
+    <span class="br">[</span>WILD<span class="br">]</span>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ═══════════════════ DIGITALE PRODUKTE ═══════════════════ -->
+  <section class="dp-section">
+    <div class="drop-head">
+      <div class="drop-num">N&deg;01</div>
+      <h2>Digitale Produkte</h2>
+      <span class="drop-status">&bull; {digitalProducts.length > 0 ? `${digitalProducts.length} verf\u00fcgbar` : 'in preparation'}</span>
+    </div>
+    <p class="section-intro">
+      Sachen f&uuml;r den Kopf.
+      <span class="intro-tags">[ WORKBOOKS &middot; WALLPAPERS &middot; BLUEPRINTS ]</span>
+    </p>
+
+    {digitalProducts.length > 0 ? (
+      <div class="dp-grid">
+        {digitalProducts.map((p) => (
+          <a href={p.href} class="dp-card">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <div class="dp-code">{p.code}</div>
+            <div class="dp-type">[{p.type.toUpperCase()}]</div>
+            <h3 class="dp-title">{p.title}</h3>
+            <p class="dp-desc">{p.desc}</p>
+            <div class="dp-foot">
+              <span class="dp-price">{p.price}</span>
+              <span class="dp-cta">Ansehen &rarr;</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="dp-empty">
+        <span class="corner tl"></span>
+        <span class="corner tr"></span>
+        <span class="corner bl"></span>
+        <span class="corner br"></span>
+        <div class="drop-eyebrow">
+          <span class="dot"></span>
+          [COMING SOON]
+        </div>
+        <div class="drop-coming">IN&nbsp;ARBEIT</div>
+        <p class="drop-desc">
+          Workbooks, Wallpapers, Blueprints.
+          <br>
+          Einmal kaufen. F&uuml;r immer dein.
+        </p>
+        <div class="drop-meta">
+          <span>[WORKBOOKS]</span>
+          <span class="sep">&middot;</span>
+          <span>[WALLPAPERS]</span>
+          <span class="sep">&middot;</span>
+          <span>[BLUEPRINTS]</span>
+        </div>
+      </div>
+    )}
+  </section>
+
+  <!-- ═══════════════════ DROPS ═══════════════════ -->
+  <section class="drop-section">
+    <div class="drop-head">
+      <div class="drop-num">N&deg;02</div>
+      <h2>Drops</h2>
+      <span class="drop-status">&bull; {nextDropDate ? 'scheduled' : 'in preparation'}</span>
+    </div>
+    <p class="section-intro">
+      Sachen, die dich gl&uuml;cklich machen.
+      <span class="intro-tags">[ MERCH &middot; STATIONERY &middot; EDC &middot; COOL THINGS ]</span>
+    </p>
+
+    <div class="drop-card">
+      <!-- Eckmarken -->
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
+
+      <div class="drop-eyebrow">
+        <span class="dot"></span>
+        {nextDropDate ? '[NEXT DROP]' : '[COMING SOON]'}
+      </div>
+
+      {nextDropDate ? (
+        <>
+          <div class="drop-date">{nextDropDate}</div>
+          {nextDropTitle && <div class="drop-title">{nextDropTitle}</div>}
+          <p class="drop-desc">
+            Limitiert. Wenn weg, dann weg.
+            <br>
+            Newsletter zuerst.
+          </p>
+        </>
+      ) : (
+        <>
+          <div class="drop-coming">COMING&nbsp;SOON</div>
+          <p class="drop-desc">
+            Merch, Stationery, EDC.
+            <br>
+            Limitiert. Wenn weg, dann weg.
+          </p>
+        </>
+      )}
+
+      <div class="drop-meta">
+        <span>[MERCH]</span>
+        <span class="sep">&middot;</span>
+        <span>[STATIONERY]</span>
+        <span class="sep">&middot;</span>
+        <span>[EDC]</span>
+        <span class="sep">&middot;</span>
+        <span>[COOL&nbsp;THINGS]</span>
+      </div>
+    </div>
+
+    <div class="drop-note">
+      <div class="note-eyebrow">
+        <span class="dot"></span>
+        [STAY TUNED]
+      </div>
+      <p>
+        Drops werden via <a href="https://www.instagram.com/wild_projects" target="_blank" rel="noopener">Instagram</a> angek&uuml;ndigt.
+        <br>
+        Anfragen oder Kollaborationen: <a href="mailto:rene@wildproject.pro">rene@wildproject.pro</a>.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<Footer tagline="YES, YOU CAN BUY LOVE." taglineSteps={22} taglineWidthEm={17.6} />
+
+</Layout>
+
+<style>
+  /* ── BACKGROUND ──────────────────── */
+  body {
+    background-color: #000000;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 1.5px);
+    background-size: 24px 24px;
+    background-attachment: fixed;
+  }
+
+  /* ── HERO ────────────────────────── */
+  .hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 72px 3rem 40px;
+    position: relative;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    padding: 6px 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--orange);
+    animation: heroPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes heroPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(252,80,0,0.55); transform: scale(1); }
+    50%      { box-shadow: 0 0 0 6px rgba(252,80,0,0); transform: scale(1.15); }
+  }
+  .hero h1 {
+    font-size: clamp(3rem, 9vw, 6rem);
+    font-weight: 700;
+    letter-spacing: -3px;
+    line-height: 0.95;
+    color: var(--white);
+    margin: 0 0 14px;
+  }
+  .hero h1 span { color: var(--orange); }
+  .hero .tagline {
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    color: var(--grey-mid);
+    font-style: italic;
+    margin: 0 0 20px;
+    max-width: 620px;
+  }
+  .hero-statement {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: clamp(10px, 1vw, 12px);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    margin-top: 10px;
+  }
+  .hero-statement .br {
+    color: var(--orange);
+    font-weight: 400;
+    margin: 0 2px;
+  }
+
+  /* ── PAGE WRAP ───────────────────── */
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 3rem 100px;
+  }
+
+  /* ── SECTIONS ────────────────────── */
+  .dp-section,
+  .drop-section {
+    margin-bottom: 80px;
+    position: relative;
+  }
+  .dp-section + .drop-section {
+    padding-top: 20px;
+  }
+
+  /* ── DIGITAL PRODUCTS GRID ───────── */
+  .dp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .dp-card {
+    position: relative;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 32px 28px 28px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.25s, transform 0.25s;
+    overflow: hidden;
+  }
+  .dp-card::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 1px;
+    background: var(--orange);
+    opacity: 0.4;
+  }
+  .dp-card:hover {
+    border-color: rgba(252,80,0,0.45);
+    transform: translateY(-2px);
+  }
+  .dp-code {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.4);
+  }
+  .dp-type {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    color: var(--orange);
+    font-weight: 600;
+  }
+  .dp-title {
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: var(--white);
+    margin: 4px 0 6px;
+    line-height: 1.2;
+  }
+  .dp-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--grey-mid);
+    margin: 0 0 14px;
+  }
+  .dp-foot {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .dp-price {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--white);
+    font-variant-numeric: tabular-nums;
+  }
+  .dp-cta {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--orange);
+    text-transform: uppercase;
+  }
+
+  /* ── DIGITAL PRODUCTS — EMPTY STATE ── */
+  .dp-empty {
+    position: relative;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 80px 48px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .dp-empty::before,
+  .dp-empty::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--orange);
+    opacity: 0.4;
+  }
+  .dp-empty::before { top: 0; }
+  .dp-empty::after  { bottom: 0; }
+  .dp-empty .drop-coming {
+    font-size: clamp(1.6rem, 4.5vw, 3rem);
+  }
+  .drop-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 32px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .drop-num {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: var(--orange);
+    padding: 4px 8px;
+    border: 1px solid rgba(252,80,0,0.35);
+    background: rgba(252,80,0,0.06);
+  }
+  .drop-head h2 {
+    font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--white);
+    margin: 0;
+  }
+  .drop-head .head-sub {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.55em;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+  .section-intro {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--grey-mid);
+    max-width: 720px;
+    margin: 0 0 28px;
+  }
+  .section-intro .intro-tags {
+    display: block;
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    color: var(--orange);
+  }
+  .drop-status {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* ── DROP CARD ───────────────────── */
+  .drop-card {
+    position: relative;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 80px 48px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .drop-card::before,
+  .drop-card::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--orange);
+    opacity: 0.4;
+  }
+  .drop-card::before { top: 0; }
+  .drop-card::after  { bottom: 0; }
+
+  /* Corner marks */
+  .corner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--orange);
+    opacity: 0.6;
+  }
+  .corner.tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+  .corner.tr { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+  .corner.bl { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+  .corner.br { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+  .drop-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: var(--orange);
+    margin-bottom: 28px;
+  }
+  .drop-eyebrow .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--orange);
+    animation: heroPulse 2.4s ease-in-out infinite;
+  }
+
+  /* COMING SOON — large display text */
+  .drop-coming {
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: clamp(2.4rem, 7vw, 5rem);
+    font-weight: 700;
+    letter-spacing: -2px;
+    line-height: 1;
+    color: var(--white);
+    margin: 0 0 28px;
+  }
+
+  /* Wenn Datum gesetzt ist */
+  .drop-date {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin: 0 0 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .drop-title {
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin: 0 0 24px;
+  }
+
+  .drop-desc {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--grey-mid);
+    max-width: 480px;
+    margin: 0 auto 36px;
+  }
+
+  .drop-meta {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.55);
+    padding: 10px 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .drop-meta .sep {
+    color: rgba(255,255,255,0.25);
+    margin: 0 4px;
+  }
+
+  /* ── DROP NOTE ───────────────────── */
+  .drop-note {
+    margin-top: 40px;
+    padding: 24px 28px;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+  }
+  .drop-note::before,
+  .drop-note::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--orange);
+    opacity: 0.45;
+  }
+  .drop-note::before { top: 0; }
+  .drop-note::after  { bottom: 0; }
+  .note-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 10px;
+  }
+  .note-eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--orange);
+    animation: heroPulse 2.4s ease-in-out infinite;
+  }
+  .drop-note p {
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--grey-mid);
+    margin: 0;
+  }
+  .drop-note a {
+    color: var(--orange);
+    text-decoration: none;
+  }
+  .drop-note a:hover { text-decoration: underline; }
+
+  /* ── MOBILE ──────────────────────── */
+  @media (max-width: 700px) {
+    nav { padding: 18px 1.25rem; }
+    .hero { padding: 48px 1.25rem 24px; }
+    .page { padding: 16px 1.25rem 60px; }
+    .drop-card { padding: 56px 24px; }
+    .drop-head { flex-wrap: wrap; }
+    .drop-status { margin-left: 0; width: 100%; margin-top: 4px; }
+    .corner { width: 12px; height: 12px; }
+    .drop-meta { gap: 2px; font-size: 8px; }
+  }
+</style>
