@@ -41,10 +41,16 @@ const { title, description, pageTitle, intro } = Astro.props;
   <h1 class="page-title">{pageTitle}<span>.</span></h1>
   <p class="page-intro">{intro}</p>
 
-  <p class="lang-note t-en">
+  <p class="lang-note" id="langNoteEn" style="display:none">
     <span class="lang-note-dot" aria-hidden="true"></span>
     This page is provided in German for legal reasons.
   </p>
+  <script is:inline>
+    if (localStorage.getItem('wp_lang') === 'en') {
+      var n = document.getElementById('langNoteEn');
+      if (n) n.style.display = 'inline-flex';
+    }
+  </script>
 
   <slot />
 
