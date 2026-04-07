@@ -213,14 +213,54 @@
       const dict = getLang() === 'en' ? WMO_EN : WMO_DE;
       wEl.textContent = (dict[lastCode] || 'WX') + ' ' + Math.round(lastTemp) + '°';
     }
-    fetch('https://api.open-meteo.com/v1/forecast?latitude=47.856&longitude=12.129&current=temperature_2m,weather_code&timezone=Europe%2FBerlin')
-      .then(r => r.json())
-      .then(data => {
-        lastCode = data.current.weather_code;
-        lastTemp = data.current.temperature_2m;
-        paint();
-      })
-      .catch(() => { if (wEl) wEl.textContent = '—'; });
+    // Map wttr.in description -> WMO-ish bucket so the existing dictionaries work
+    function bucketFromDesc(desc: string): number {
+      const d = desc.toLowerCase();
+      if (/(thunder|storm|gewitter)/.test(d)) return 95;
+      if (/(snow|schnee|sleet|blizzard)/.test(d)) return 71;
+      if (/(shower|schauer)/.test(d)) return 80;
+      if (/(drizzle|niesel)/.test(d)) return 51;
+      if (/(rain|regen)/.test(d)) return 61;
+      if (/(fog|mist|nebel|dunst|haze)/.test(d)) return 45;
+      if (/(overcast|bedeckt)/.test(d)) return 3;
+      if (/(cloud|bewölk|bewolk)/.test(d)) return 2;
+      if (/(partly|fair|heiter)/.test(d)) return 1;
+      if (/(clear|sunny|klar|sonnig)/.test(d)) return 0;
+      return 2;
+    }
+
+    function tryOpenMeteo(): Promise<boolean> {
+      return fetch('https://api.open-meteo.com/v1/forecast?latitude=47.856&longitude=12.129&current=temperature_2m,weather_code&timezone=Europe%2FBerlin')
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(data => {
+          if (!data?.current) return false;
+          lastCode = data.current.weather_code;
+          lastTemp = data.current.temperature_2m;
+          paint();
+          return true;
+        })
+        .catch(() => false);
+    }
+
+    function tryWttr(): Promise<boolean> {
+      return fetch('https://wttr.in/Rosenheim?format=j1')
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(data => {
+          const cur = data?.current_condition?.[0];
+          if (!cur) return false;
+          lastTemp = parseFloat(cur.temp_C);
+          lastCode = bucketFromDesc(cur.weatherDesc?.[0]?.value || '');
+          paint();
+          return true;
+        })
+        .catch(() => false);
+    }
+
+    (async () => {
+      if (await tryOpenMeteo()) return;
+      if (await tryWttr()) return;
+      if (wEl) wEl.textContent = '—';
+    })();
     window.addEventListener('wp:lang-changed', paint);
   })();
 </script>
