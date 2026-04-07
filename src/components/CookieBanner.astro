@@ -1,0 +1,219 @@
+---
+// Wild Project — Privacy Notice (industrial, understated)
+// Diese Seite nutzt KEINE Tracker und KEINE Cookies — nur ein einmaliger
+// Hinweis-Banner als Transparenz-Statement im Brand-Stil.
+---
+
+<aside class="cb" id="cbNotice" aria-label="Datenschutz-Hinweis" hidden>
+  <div class="cb-inner">
+    <div class="cb-marks cb-marks-l">N°00</div>
+
+    <div class="cb-body">
+      <div class="cb-eyebrow">
+        <span class="cb-dot" aria-hidden="true"></span>
+        <span class="t-de">TRANSMISSION · PRIVACY</span><span class="t-en">TRANSMISSION · PRIVACY</span>
+      </div>
+
+      <p class="cb-text">
+        <span class="t-de">
+          <span class="cb-bracket">[</span>NO COOKIES<span class="cb-bracket">]</span>&nbsp;
+          <span class="cb-bracket">[</span>NO TRACKING<span class="cb-bracket">]</span>&nbsp;
+          <span class="cb-bracket">[</span>NO BS<span class="cb-bracket">]</span>
+        </span>
+        <span class="t-en">
+          <span class="cb-bracket">[</span>NO COOKIES<span class="cb-bracket">]</span>&nbsp;
+          <span class="cb-bracket">[</span>NO TRACKING<span class="cb-bracket">]</span>&nbsp;
+          <span class="cb-bracket">[</span>NO BS<span class="cb-bracket">]</span>
+        </span>
+      </p>
+
+      <p class="cb-sub">
+        <span class="t-de">Diese Seite arbeitet komplett ohne Tracking-Cookies und ohne Analyse. Nur deine Sprach- und Theme-Wahl wird lokal in deinem Browser gespeichert. <a href="/datenschutz/">Mehr erfahren →</a></span>
+        <span class="t-en">This site runs without tracking cookies and without analytics. Only your language and theme preference live in your browser. <a href="/datenschutz/">Read more →</a></span>
+      </p>
+    </div>
+
+    <div class="cb-actions">
+      <button type="button" class="cb-btn" id="cbAck">
+        <span class="t-de">Verstanden</span><span class="t-en">Got it</span>
+        <span class="cb-arrow">→</span>
+      </button>
+      <div class="cb-marks cb-marks-r">WP/26</div>
+    </div>
+  </div>
+</aside>
+
+<style>
+  .cb {
+    position: fixed;
+    left: 1rem; right: 1rem; bottom: 1rem;
+    z-index: 90;
+    background: rgba(5,5,5,0.92);
+    backdrop-filter: blur(14px) saturate(120%);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    border: 1px solid rgba(255,255,255,0.10);
+    color: rgba(255,255,255,0.78);
+    padding: 14px 18px;
+    max-width: 720px;
+    margin-left: auto; margin-right: auto;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.45);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cbIn 0.7s cubic-bezier(.4,.2,.2,1) 1.4s forwards;
+  }
+  @keyframes cbIn { to { opacity: 1; transform: translateY(0); } }
+
+  .cb-inner {
+    display: flex;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .cb-marks {
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    color: rgba(255,255,255,0.35);
+    align-self: flex-start;
+    padding-top: 2px;
+    white-space: nowrap;
+  }
+  .cb-marks-r { align-self: flex-end; padding-top: 0; padding-bottom: 2px; }
+
+  .cb-body { flex: 1; min-width: 0; }
+
+  .cb-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 8px;
+  }
+  .cb-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--orange);
+    box-shadow: 0 0 0 0 rgba(252,80,0,0.55);
+    animation: cbPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes cbPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(252,80,0,0.55); transform: scale(1); }
+    50%      { box-shadow: 0 0 0 5px rgba(252,80,0,0); transform: scale(1.2); }
+  }
+
+  .cb-text {
+    margin: 0 0 6px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.92);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .cb-bracket { color: var(--orange); margin: 0 1px; font-weight: 400; }
+
+  .cb-sub {
+    margin: 0;
+    font-family: 'Poppins', -apple-system, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1px;
+    color: rgba(255,255,255,0.55);
+    text-transform: none;
+    font-weight: 300;
+  }
+  .cb-sub a {
+    color: rgba(255,255,255,0.85);
+    border-bottom: 1px solid var(--orange);
+    transition: color 0.2s ease;
+  }
+  .cb-sub a:hover { color: var(--orange); }
+
+  .cb-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .cb-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+  .cb-btn:hover {
+    color: var(--orange);
+    border-color: var(--orange);
+    transform: translateY(-1px);
+  }
+  .cb-arrow { transition: transform 0.25s ease; }
+  .cb-btn:hover .cb-arrow { transform: translateX(3px); }
+
+  /* Light mode */
+  :global(body.light) .cb {
+    background: rgba(245,245,243,0.94);
+    border-color: rgba(0,0,0,0.10);
+    color: rgba(0,0,0,0.78);
+  }
+  :global(body.light) .cb-text { color: rgba(0,0,0,0.92); }
+  :global(body.light) .cb-sub { color: rgba(0,0,0,0.6); }
+  :global(body.light) .cb-sub a { color: rgba(0,0,0,0.85); }
+  :global(body.light) .cb-eyebrow { color: rgba(0,0,0,0.45); }
+  :global(body.light) .cb-marks { color: rgba(0,0,0,0.4); }
+  :global(body.light) .cb-btn { color: #1a1a1a; border-color: rgba(0,0,0,0.25); }
+  :global(body.light) .cb-btn:hover { color: var(--orange); border-color: var(--orange); }
+
+  @media (max-width: 700px) {
+    .cb { left: 0.75rem; right: 0.75rem; bottom: 0.75rem; padding: 12px 14px; }
+    .cb-inner { flex-direction: column; gap: 10px; }
+    .cb-marks-l { display: none; }
+    .cb-marks-r { align-self: flex-start; padding-top: 4px; }
+    .cb-actions { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; }
+    .cb-btn { width: auto; padding: 10px 14px; }
+    .cb-text { font-size: 10px; letter-spacing: 1.2px; }
+    .cb-sub { font-size: 10.5px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cb { animation: none; opacity: 1; transform: none; }
+    .cb-dot { animation: none; }
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    var KEY = 'wp_privacy_ack';
+    var el = document.getElementById('cbNotice');
+    if (!el) return;
+    try {
+      if (localStorage.getItem(KEY) === '1') {
+        el.remove();
+        return;
+      }
+    } catch (e) {}
+    el.hidden = false;
+    var btn = document.getElementById('cbAck');
+    if (btn) {
+      btn.addEventListener('click', function() {
+        try { localStorage.setItem(KEY, '1'); } catch (e) {}
+        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        setTimeout(function() { el.remove(); }, 400);
+      });
+    }
+  })();
+</script>

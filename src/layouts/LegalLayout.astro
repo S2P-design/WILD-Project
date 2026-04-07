@@ -163,6 +163,86 @@ const { title, description, pageTitle, intro } = Astro.props;
   }
   :global(.legal-box p) { margin-bottom: 4px; }
 
+  /* ── BRANDED CLAUSE CARD ─────────────── */
+  :global(.clause-card) {
+    position: relative;
+    background: linear-gradient(180deg, rgba(252,80,0,0.04), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 28px 28px 18px;
+    margin: 18px 0 28px;
+    overflow: hidden;
+  }
+  :global(.clause-card::before),
+  :global(.clause-card::after) {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--orange);
+    opacity: 0.45;
+  }
+  :global(.clause-card::before) { top: 0; }
+  :global(.clause-card::after) { bottom: 0; }
+
+  :global(.clause-marks) {
+    position: absolute;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    color: rgba(255,255,255,0.5);
+    white-space: nowrap;
+  }
+  :global(.clause-marks-l) { top: 8px; left: 14px; }
+  :global(.clause-marks-r) { bottom: 6px; right: 14px; }
+
+  :global(.clause-eyebrow) {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin: 4px 0 10px;
+  }
+  :global(.clause-dot) {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--orange);
+    box-shadow: 0 0 0 0 rgba(252,80,0,0.55);
+    animation: clausePulse 2.4s ease-in-out infinite;
+  }
+  @keyframes clausePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(252,80,0,0.55); transform: scale(1); }
+    50%      { box-shadow: 0 0 0 6px rgba(252,80,0,0); transform: scale(1.15); }
+  }
+
+  :global(.clause-statement) {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: clamp(11px, 1.1vw, 13px);
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.92);
+    line-height: 1.6;
+    margin: 0 0 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed rgba(255,255,255,0.10);
+  }
+  :global(.clause-bracket) {
+    color: var(--orange);
+    margin: 0 1px;
+    font-weight: 400;
+  }
+  :global(.clause-card h3) {
+    margin-top: 16px;
+  }
+  :global(.clause-card p),
+  :global(.clause-card ul) {
+    color: var(--grey-mid);
+  }
+
   :global(.side-note) {
     font-size: 12px;
     color: var(--grey-dark);
