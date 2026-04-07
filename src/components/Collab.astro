@@ -102,9 +102,9 @@
   .stamp-word {
     font-family: 'Bebas Neue', 'Anton', 'Impact', sans-serif;
     font-weight: 400;
-    font-size: clamp(2.6rem, 6.5vw, 4.2rem);
+    font-size: clamp(1.7rem, 4.3vw, 2.8rem);
     line-height: 0.85;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.2px;
     color: var(--orange);
     position: relative;
   }
@@ -155,7 +155,7 @@
 
   @media (max-width: 700px) {
     .collab { padding: 40px 0 24px; }
-    .stamp-word { font-size: clamp(2.2rem, 11vw, 3.2rem); letter-spacing: 1.2px; }
+    .stamp-word { font-size: clamp(1.5rem, 7.3vw, 2.1rem); letter-spacing: 1px; }
     .stamp-marks { font-size: 8px; padding-top: 6px; letter-spacing: 1.2px; }
     .stamp { gap: 10px; }
     .stamp-wrap { padding: 14px 16px 12px; }
@@ -163,8 +163,10 @@
     .collab-eyebrow { font-size: 8px; letter-spacing: 2px; }
   }
   @media (max-width: 380px) {
-    .stamp-word { font-size: 2rem; }
-    .stamp-marks { display: none; }
+    .stamp-word { font-size: 1.35rem; }
+    .stamp-marks { font-size: 7px; letter-spacing: 0.8px; padding-top: 4px; }
+    .stamp { gap: 8px; }
+    .stamp-wrap { padding: 12px 12px 10px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .stamp-wrap { animation: none; opacity: 1; transform: none; }
