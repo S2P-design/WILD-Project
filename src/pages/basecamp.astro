@@ -295,11 +295,11 @@
 
 <style>
   /* ── TECHNICAL BACKGROUND ─────────── */
-  /* Warm dark — uniform engineering-paper dot grid, nothing else */
+  /* Pure black — uniform dot grid */
   body {
-    background-color: #141210;
+    background-color: #000000;
     background-image:
-      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 1.5px);
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 1.5px);
     background-size: 24px 24px;
     background-attachment: fixed;
   }
@@ -376,8 +376,17 @@
     margin-top: 2px;
   }
   @media (max-width: 700px) {
-    .hq-marker { gap: 10px; }
-    .pin-city { font-size: 11px; }
+    /* Inline instead of fixed HUD — no overlap with footer */
+    .hq-marker {
+      position: static;
+      transform: none;
+      display: inline-flex;
+      margin: 24px 0 8px;
+      gap: 10px;
+      padding: 10px 12px;
+    }
+    .pin { width: 18px; height: 18px; }
+    .pin-city { font-size: 10px; }
     .pin-coords { font-size: 9px; }
     .pin-tag { font-size: 8px; }
   }
