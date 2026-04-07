@@ -1,0 +1,49 @@
+WILD PROJECT — COLOR PALETTE
+Stand: April 2026
+
+═══════════════════════════════════════════════════
+PRIMARY
+═══════════════════════════════════════════════════
+
+Flameburst Orange
+  HEX   #FC5000
+  RGB   252 / 80 / 0
+  CMYK  0 / 78 / 100 / 0
+  USE   Akzente, Highlights, CTA, Brand Marks
+  RULE  Sparsam einsetzen — max. 10% der Fläche
+
+Midnight Shadow
+  HEX   #050505
+  RGB   5 / 5 / 5
+  USE   Background (Dark Mode), Body, Headlines
+  RULE  Hauptfläche, niemals reines #000
+
+═══════════════════════════════════════════════════
+SECONDARY
+═══════════════════════════════════════════════════
+
+Silver Mist
+  HEX   #E4E4E4
+  RGB   228 / 228 / 228
+  USE   Body Text auf Dark, Subtitles
+
+Grey Mid
+  HEX   #888888
+  USE   Sekundär-Text, Captions, Notes
+
+Grey Dark
+  HEX   #555555
+  USE   Tertiär-Text, Footer
+
+═══════════════════════════════════════════════════
+LIGHT MODE (Print / PDF)
+═══════════════════════════════════════════════════
+
+Background  #F7F7F5  (warm off-white)
+Body        #1A1A1A
+Border      #D4D4D0
+Card        #FFFFFF
+
+═══════════════════════════════════════════════════
+KEINE NEONS · KEINE PASTELLE · KEIN BLAU
+═══════════════════════════════════════════════════

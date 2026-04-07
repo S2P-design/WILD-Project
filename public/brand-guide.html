@@ -11,6 +11,9 @@
   @font-face { font-family: 'Poppins'; src: url('/fonts/poppins-400.ttf'); font-weight: 400; font-display: swap; }
   @font-face { font-family: 'Poppins'; src: url('/fonts/poppins-600.ttf'); font-weight: 600; font-display: swap; }
   @font-face { font-family: 'Poppins'; src: url('/fonts/poppins-700.ttf'); font-weight: 700; font-display: swap; }
+  @font-face { font-family: 'Bebas Neue'; src: url('/fonts/bebas-neue-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'Caveat'; src: url('/fonts/caveat-400.woff2') format('woff2'); font-weight: 400 500; font-display: swap; }
+  @font-face { font-family: 'Homemade Apple'; src: url('/fonts/homemade-apple-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -536,7 +539,10 @@
 <div class="section">
   <p class="section-label">04</p>
   <h2 class="section-title">Typografie</h2>
-  <p class="section-desc">Poppins ist unsere einzige Schriftfamilie — geometrisch, modern und vielseitig. Vier Schnitte decken alle Anwendungen ab.</p>
+  <p class="section-desc">Poppins ist die <strong style="color:var(--silver)">primäre Brand-Schrift</strong> — geometrisch, modern, vielseitig. Vier zusätzliche Schriften übernehmen klar definierte Spezial-Rollen: industrielle Display-Akzente, technische Mono-Tags, persönliche Handschrift-Momente. Niemals mischen ohne Grund.</p>
+
+  <!-- ── 04.1 PRIMÄR: POPPINS ─────────────── -->
+  <h3 style="font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin: 32px 0 12px;">04 / 1 — Primärschrift</h3>
 
   <div class="type-specimen">
     <div class="type-weight">Poppins Bold — 700</div>
@@ -560,6 +566,63 @@
     <div class="type-weight">Poppins Light — 300</div>
     <div class="type-sample" style="font-size: 14px; font-weight: 300;">aka René Wild — Eishockeytrainer, Podcaster, Ästhetik Junkie</div>
     <div class="type-use">Body-Text, Zitate, dezente Elemente</div>
+  </div>
+
+  <!-- ── 04.2 DISPLAY: BEBAS NEUE ─────────── -->
+  <h3 style="font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin: 40px 0 12px;">04 / 2 — Display &amp; Stamp</h3>
+
+  <div class="type-specimen">
+    <div class="type-weight">Bebas Neue — 400 (industrieller Display-Sans)</div>
+    <div class="type-sample" style="font-family: 'Bebas Neue', 'Anton', 'Impact', sans-serif; font-size: 64px; font-weight: 400; letter-spacing: 1.5px; color: var(--orange); line-height: 0.9;">COLLAB<span style="color: var(--silver)">.</span></div>
+    <div class="type-use">Stempel-Elemente, Plakat-Statements, Workshop-Tags. Nur in Großbuchstaben. Sparsam einsetzen — ein Stempel pro Sektion.</div>
+  </div>
+
+  <!-- ── 04.3 MONO: JETBRAINS MONO ────────── -->
+  <h3 style="font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin: 40px 0 12px;">04 / 3 — Mono &amp; Technical</h3>
+
+  <div class="type-specimen">
+    <div class="type-weight">JetBrains Mono / System-Mono — 500/600</div>
+    <div class="type-sample" style="font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--silver);"><span style="color: var(--orange)">[</span>WILD&nbsp;PROJECT<span style="color: var(--orange)">]</span> &nbsp; N°07 &nbsp; WP/26 &nbsp; <span style="color: var(--orange)">[</span>NO&nbsp;COOKIES<span style="color: var(--orange)">]</span></div>
+    <div class="type-use">Bracket-Tags, Doc-Codes, technische Marks, Eyebrow-Labels, Code-Snippets, Datenschutz-Klauseln, Cookie-Banner. System-Fallback erlaubt — niemals via CDN laden.</div>
+  </div>
+
+  <!-- ── 04.4 HANDSCHRIFT: CAVEAT / HOMEMADE APPLE ─ -->
+  <h3 style="font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin: 40px 0 12px;">04 / 4 — Personal &amp; Signature</h3>
+
+  <div class="type-specimen">
+    <div class="type-weight">Caveat — 400/500 (persönliche Handschrift)</div>
+    <div class="type-sample" style="font-family: 'Caveat', cursive; font-size: 42px; font-weight: 400; letter-spacing: 0.5px; color: var(--silver); line-height: 1.1;">Bleib wild<span style="color: var(--orange)">.</span></div>
+    <div class="type-use">Persönliche Grußformeln, Abschluss-Statements, "Stay wild"-Momente. Immer mit orangenem Punkt. Maximal 1× pro Seite — sonst verliert es seine Kraft.</div>
+  </div>
+
+  <div class="type-specimen">
+    <div class="type-weight">Homemade Apple — 400 (Signatur-Schrift, optional)</div>
+    <div class="type-sample" style="font-family: 'Homemade Apple', cursive; font-size: 28px; font-weight: 400; color: var(--silver); line-height: 1.2;">René Wild</div>
+    <div class="type-use">Signatur-Element, handgeschriebene Notizen, Print-Materialien. Reserviert für Brief-Abschlüsse, niemals als Headline.</div>
+  </div>
+
+  <!-- ── 04.5 HIERARCHIE-REGEL ────────────── -->
+  <div style="margin-top: 36px; padding: 24px; background: rgba(252,80,0,0.04); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid var(--orange);">
+    <h4 style="font-size: 11px; color: var(--orange); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px;">Hierarchie-Regel</h4>
+    <ul style="list-style: none; font-size: 13px; color: var(--grey-mid); line-height: 1.8;">
+      <li>• <strong style="color:var(--silver)">80 %</strong> aller Texte sind Poppins — das Fundament.</li>
+      <li>• <strong style="color:var(--silver)">15 %</strong> sind JetBrains Mono — als technisches Markup, Tags, Eyebrows.</li>
+      <li>• <strong style="color:var(--silver)">≤ 5 %</strong> sind Display- oder Handschrift-Schriften — als bewusste Akzente.</li>
+      <li>• Niemals zwei Display- oder zwei Handschrift-Schriften nebeneinander.</li>
+      <li>• Alle Schriften werden <strong style="color:var(--silver)">lokal ausgeliefert</strong> — keine Google-Fonts-CDN, kein Drittanbieter-Tracking.</li>
+    </ul>
+  </div>
+
+  <!-- ── 04.6 LIZENZEN ────────────────────── -->
+  <div style="margin-top: 18px; padding: 18px 24px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);">
+    <h4 style="font-size: 10px; color: var(--orange); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;">Lizenzen &amp; Quellen</h4>
+    <ul style="list-style: none; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; color: var(--grey-mid); line-height: 1.9;">
+      <li>POPPINS &nbsp;·&nbsp; SIL Open Font License 1.1 &nbsp;·&nbsp; Indian Type Foundry</li>
+      <li>BEBAS NEUE &nbsp;·&nbsp; SIL OFL 1.1 &nbsp;·&nbsp; Dharma Type</li>
+      <li>CAVEAT &nbsp;·&nbsp; SIL OFL 1.1 &nbsp;·&nbsp; Impallari Type</li>
+      <li>HOMEMADE APPLE &nbsp;·&nbsp; SIL OFL 1.1 &nbsp;·&nbsp; Font Diner</li>
+      <li>JETBRAINS MONO &nbsp;·&nbsp; SIL OFL 1.1 &nbsp;·&nbsp; JetBrains s.r.o.</li>
+    </ul>
   </div>
 </div>
 

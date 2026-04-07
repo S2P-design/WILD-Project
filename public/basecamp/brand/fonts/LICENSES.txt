@@ -1,0 +1,51 @@
+WILD PROJECT — FONT LICENSES
+Stand: April 2026
+
+Alle verwendeten Schriften sind unter der
+SIL Open Font License 1.1 (OFL) lizenziert.
+Kommerzielle Nutzung erlaubt. Keine Lizenzkosten.
+
+═══════════════════════════════════════════════════
+
+POPPINS              (300, 400, 600, 700)
+  Foundry: Indian Type Foundry
+  License: SIL OFL 1.1
+  USE: Headlines, Body, Brand Voice (Primärschrift)
+
+INTER                (geladen via System / fallback)
+  Foundry: Rasmus Andersson
+  License: SIL OFL 1.1
+  USE: Reading Text bei längeren Inhalten
+
+BEBAS NEUE           (400)
+  Foundry: Dharma Type
+  License: SIL OFL 1.1
+  USE: Display, Stamps, COLLAB, Plakate
+
+JETBRAINS MONO       (400, 600)
+  Foundry: JetBrains
+  License: SIL OFL 1.1
+  USE: Mono Labels, Brackets, Technical Marks
+
+CAVEAT               (400, 500)
+  Foundry: Impallari Type
+  License: SIL OFL 1.1
+  USE: Personal Notes, "Bleib wild." Tagline
+
+HOMEMADE APPLE       (400)
+  Foundry: Font Diner
+  License: SIL OFL 1.1
+  USE: Signature, "René Wild" handwritten
+
+═══════════════════════════════════════════════════
+
+HIERARCHIE-REGEL
+  80% Poppins
+  15% JetBrains Mono (Labels)
+  ≤5% Display + Handwriting (Akzente)
+
+NIEMALS verwenden:
+  - Comic Sans
+  - Papyrus
+  - Generische System-Serifen
+  - Mehr als 3 Schriften pro Layout
