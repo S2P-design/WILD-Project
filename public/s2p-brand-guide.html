@@ -354,28 +354,61 @@
   }
 
   /* ── LOGO ── */
-  .logo-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  .logo-showcase {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
     margin-bottom: 32px;
   }
-  .logo-variant {
-    aspect-ratio: 1;
+  .logo-row {
+    display: grid;
+    gap: 12px;
+  }
+  .logo-row.wide { grid-template-columns: 1fr; }
+  .logo-row.duo { grid-template-columns: 3fr 2fr; }
+  .logo-row.trio { grid-template-columns: 1fr 1fr 1fr; }
+  /* In duo rows, let grid align heights — override aspect-ratio */
+  .logo-row.duo .logo-card { aspect-ratio: unset; min-height: 160px; }
+  .logo-card {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     border: 1px solid var(--border);
     overflow: hidden;
-    padding: 24px;
+    flex-direction: column;
   }
-  .logo-variant img {
-    max-width: 80%;
-    max-height: 80%;
+  .logo-card img {
     object-fit: contain;
   }
-  .logo-variant-label {
+  /* Wordmark cards — landscape */
+  .logo-card.lc-wordmark {
+    padding: 24px 32px;
+    aspect-ratio: 3 / 1;
+  }
+  .logo-card.lc-wordmark img {
+    max-width: 95%;
+    max-height: 90%;
+  }
+  /* Stacked / square-ish */
+  .logo-card.lc-stacked {
+    padding: 20px;
+    aspect-ratio: 1.2 / 1;
+  }
+  .logo-card.lc-stacked img {
+    max-width: 85%;
+    max-height: 85%;
+  }
+  /* Icon cards — square, logo fills more */
+  .logo-card.lc-icon {
+    padding: 20px;
+    aspect-ratio: 1;
+  }
+  .logo-card.lc-icon img {
+    max-width: 75%;
+    max-height: 75%;
+  }
+  .logo-card-label {
     position: absolute;
     bottom: 10px; left: 14px;
     font-family: 'JetBrains Mono', monospace;
@@ -384,18 +417,21 @@
     text-transform: uppercase;
     font-weight: 500;
   }
-  .lv-white {
+  .lc-white {
     background: #ffffff;
   }
-  .lv-white .logo-variant-label { color: #999; }
-  .lv-light {
-    background: #f0f0f0;
-  }
-  .lv-light .logo-variant-label { color: #999; }
-  .lv-dark {
+  .lc-white .logo-card-label { color: #999; }
+  .lc-dark {
     background: var(--black);
     border-color: var(--border);
   }
+  .lc-dark .logo-card-label { color: var(--muted); }
+  /* Legacy compat */
+  .lv-white { background: #ffffff; }
+  .lv-white .logo-variant-label { color: #999; }
+  .lv-light { background: #f0f0f0; }
+  .lv-light .logo-variant-label { color: #999; }
+  .lv-dark { background: var(--black); border-color: var(--border); }
   .lv-dark .logo-variant-label { color: var(--muted); }
 
   .logo-spec {
@@ -719,19 +755,18 @@
     .h-item { border-bottom-color: #eee; padding: 12px 0; }
     .h-meta { color: #888; font-size: 7pt; }
 
-    /* ── LOGO GRID ── */
-    .logo-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-    .logo-variant {
+    /* ── LOGO SHOWCASE ── */
+    .logo-showcase { gap: 6px; margin-bottom: 20px; }
+    .logo-row { gap: 6px; }
+    .logo-card {
       border: 1px solid #ddd;
       break-inside: avoid;
     }
-    .logo-variant img { max-width: 70%; }
-    .logo-variant-label { font-size: 6pt; color: #888; }
-    .lv-white { background: #fff !important; }
-    .lv-dark { background: #111 !important; }
+    .logo-card img { max-width: 60%; }
+    .logo-card-label { font-size: 6pt; color: #888; }
+    .lc-white { background: #fff !important; }
+    .lc-dark { background: #111 !important; }
+    .lc-dark .logo-card-label { color: #999; }
 
     /* ── LOGO SPECS ── */
     .logo-spec {
@@ -854,7 +889,8 @@
   @media (max-width: 900px) {
     .section { padding: 60px 30px; }
     .section h2 { font-size: 36px; }
-    .values-grid, .tone-grid, .logo-grid { grid-template-columns: 1fr; }
+    .values-grid, .tone-grid { grid-template-columns: 1fr; }
+    .logo-row.duo, .logo-row.trio { grid-template-columns: 1fr; }
     .rules-grid, .domain-grid, .logo-spec { grid-template-columns: 1fr; }
     .type-display { font-size: 42px; }
     .h-item { flex-direction: column; gap: 6px; }
@@ -1086,55 +1122,85 @@
   <h2>LOGO<span class="cyan">SYSTEM</span></h2>
   <p class="section-intro">Sechs Logo-Varianten f&uuml;r unterschiedliche Anwendungen. Der Wordmark ist Standard, das &bdquo;2&ldquo;-Icon funktioniert als kompaktes Signet. Die Cyan-&bdquo;2&ldquo; ist das zentrale Erkennungszeichen.</p>
 
-  <!-- PRIMARY LOGOS — auf Wei&szlig; (nativer Hintergrund) -->
-  <div class="type-label" style="margin-bottom:12px;">Alle Varianten &mdash; Standard-Anwendung</div>
-  <div class="logo-grid">
-    <div class="logo-variant lv-white">
-      <img src="/brand-assets/Logografie-01.png" alt="SHIFT2PRO Wordmark">
-      <div class="logo-variant-label">01 &middot; Wordmark</div>
+  <!-- ── AUF HELLEM HINTERGRUND ── -->
+  <div class="type-label" style="margin-bottom:12px;">Auf hellem Hintergrund</div>
+  <div class="logo-showcase">
+    <!-- Primary Wordmark — full width, hero size -->
+    <div class="logo-row wide">
+      <div class="logo-card lc-wordmark lc-white">
+        <img src="/brand-assets/Logografie-01.png" alt="SHIFT2PRO Wordmark">
+        <div class="logo-card-label">01 &middot; Wordmark &mdash; Prim&auml;rlogo</div>
+      </div>
     </div>
-    <div class="logo-variant lv-white">
-      <img src="/brand-assets/Logografie-02.png" alt="SHIFT2PRO + Subtitle">
-      <div class="logo-variant-label">02 &middot; Wordmark + Subtitle</div>
+    <!-- Wordmark + Subtitle & Stacked — duo -->
+    <div class="logo-row duo">
+      <div class="logo-card lc-wordmark lc-white">
+        <img src="/brand-assets/Logografie-02.png" alt="SHIFT2PRO + Subtitle">
+        <div class="logo-card-label">02 &middot; Wordmark + Subtitle</div>
+      </div>
+      <div class="logo-card lc-stacked lc-white">
+        <img src="/brand-assets/Logografie-03.png" alt="SHIFT2PRO Stacked">
+        <div class="logo-card-label">03 &middot; Stacked</div>
+      </div>
     </div>
-    <div class="logo-variant lv-white">
-      <img src="/brand-assets/Logografie-03.png" alt="SHIFT2PRO Stacked">
-      <div class="logo-variant-label">03 &middot; Stacked</div>
-    </div>
-    <div class="logo-variant lv-white">
-      <img src="/brand-assets/Logografie-04.png" alt="2 Icon">
-      <div class="logo-variant-label">04 &middot; Icon &bdquo;2&ldquo;</div>
-    </div>
-    <div class="logo-variant lv-white">
-      <img src="/brand-assets/Logografie-05.png" alt="2 Icon + Subtitle">
-      <div class="logo-variant-label">05 &middot; Icon + Subtitle</div>
-    </div>
-    <div class="logo-variant lv-white">
-      <img src="/brand-assets/Logografie-06.png" alt="2 Icon Small">
-      <div class="logo-variant-label">06 &middot; Icon Compact</div>
+    <!-- Icons — trio -->
+    <div class="logo-row trio">
+      <div class="logo-card lc-icon lc-white">
+        <img src="/brand-assets/Logografie-04.png" alt="2 Icon">
+        <div class="logo-card-label">04 &middot; Icon &bdquo;2&ldquo;</div>
+      </div>
+      <div class="logo-card lc-icon lc-white">
+        <img src="/brand-assets/Logografie-05.png" alt="2 Icon + Subtitle">
+        <div class="logo-card-label">05 &middot; Icon + Subtitle</div>
+      </div>
+      <div class="logo-card lc-icon lc-white">
+        <img src="/brand-assets/Logografie-06.png" alt="2 Icon Compact">
+        <div class="logo-card-label">06 &middot; Icon Compact</div>
+      </div>
     </div>
   </div>
 
-  <!-- DARK BG CONTEXT -->
+  <!-- ── AUF DUNKLEM HINTERGRUND ── -->
   <div style="margin-top:32px;">
-    <div class="type-label" style="margin-bottom:12px;">Dark Mode &mdash; Invertierte Anwendung</div>
-    <div class="logo-grid" style="grid-template-columns: repeat(3, 1fr);">
-      <div class="logo-variant lv-dark" style="padding:32px;">
-        <img src="/brand-assets/Logografie-04.png" alt="Icon Dark" style="mix-blend-mode:screen;max-width:50%;">
-        <div class="logo-variant-label">Icon auf Schwarz</div>
+    <div class="type-label" style="margin-bottom:12px;">Auf dunklem Hintergrund &mdash; Invertierte Varianten</div>
+    <div class="logo-showcase">
+      <!-- Invertierter Wordmark — full width -->
+      <div class="logo-row wide">
+        <div class="logo-card lc-wordmark lc-dark">
+          <img src="/brand-assets/Logografie-01-white.png" alt="SHIFT2PRO Wordmark White">
+          <div class="logo-card-label">01 &middot; Wordmark invertiert</div>
+        </div>
       </div>
-      <div class="logo-variant lv-dark" style="padding:32px;">
-        <img src="/brand-assets/Logografie-06.png" alt="Icon Compact Dark" style="mix-blend-mode:screen;max-width:50%;">
-        <div class="logo-variant-label">Compact auf Schwarz</div>
+      <!-- Invertiert + Subtitle & Stacked -->
+      <div class="logo-row duo">
+        <div class="logo-card lc-wordmark lc-dark">
+          <img src="/brand-assets/Logografie-02-white.png" alt="SHIFT2PRO + Subtitle White">
+          <div class="logo-card-label">02 &middot; Subtitle invertiert</div>
+        </div>
+        <div class="logo-card lc-stacked lc-dark">
+          <img src="/brand-assets/Logografie-03-white.png" alt="SHIFT2PRO Stacked White">
+          <div class="logo-card-label">03 &middot; Stacked invertiert</div>
+        </div>
       </div>
-      <div class="logo-variant lv-dark" style="padding:32px;flex-direction:column;gap:8px;">
-        <div style="font-family:'Anton',sans-serif;font-size:28px;color:var(--white);letter-spacing:0.02em;line-height:1;">SHIFT<span style="color:var(--cyan);">2</span>PRO</div>
-        <div class="logo-variant-label">Webfont-Fallback</div>
+      <!-- Icons auf Schwarz — trio -->
+      <div class="logo-row trio">
+        <div class="logo-card lc-icon lc-dark">
+          <img src="/brand-assets/Logografie-04-white.png" alt="2 Icon Dark">
+          <div class="logo-card-label">04 &middot; Icon auf Schwarz</div>
+        </div>
+        <div class="logo-card lc-icon lc-dark">
+          <img src="/brand-assets/Logografie-05-white.png" alt="2 Icon + Subtitle Dark">
+          <div class="logo-card-label">05 &middot; Icon + Sub auf Schwarz</div>
+        </div>
+        <div class="logo-card lc-icon lc-dark">
+          <img src="/brand-assets/Logografie-06-white.png" alt="2 Icon Compact Dark">
+          <div class="logo-card-label">06 &middot; Compact auf Schwarz</div>
+        </div>
       </div>
     </div>
     <div class="color-rule" style="margin-top:16px;">
       <span class="color-rule-icon">&#9679;</span>
-      <span class="color-rule-text">Auf dunklem Hintergrund: Cyan-Icon-Varianten (04/06) verwenden &mdash; diese funktionieren &uuml;ber <code style="color:var(--cyan);font-family:'JetBrains Mono',monospace;">mix-blend-mode: screen</code>. F&uuml;r den vollen Wordmark auf Schwarz wird der <strong style="color:var(--white);">Webfont-Fallback</strong> (Anton + Cyan &bdquo;2&ldquo;) empfohlen. Invertierte Logo-Dateien (wei&szlig;e Schrift) sind in Planung.</span>
+      <span class="color-rule-text">Auf dunklem Hintergrund werden die invertierten Varianten (wei&szlig;e Schrift, transparenter Hintergrund) verwendet. Die Cyan-&bdquo;2&ldquo; bleibt in allen Versionen unver&auml;ndert. Icon-Varianten (04&ndash;06) sind rein Cyan und funktionieren auf beiden Hintergr&uuml;nden ohne Anpassung.</span>
     </div>
   </div>
 

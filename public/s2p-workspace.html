@@ -518,6 +518,271 @@
     text-align: right;
   }
 
+  /* ── GUEST LIST ── */
+  .guest-add {
+    display: flex; gap: 6px; margin-bottom: 12px;
+  }
+  .guest-input {
+    flex: 1; background: var(--surface);
+    border: 1px solid var(--border); color: var(--white);
+    font-family: 'Poppins', sans-serif; font-size: 12px;
+    padding: 8px 12px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .guest-input:focus { border-color: var(--cyan-20); }
+  .guest-input::placeholder { color: var(--muted); }
+  .guest-add-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--cyan); font-size: 18px; width: 36px;
+    cursor: pointer; transition: all 0.2s;
+    font-family: 'Poppins', sans-serif;
+  }
+  .guest-add-btn:hover { border-color: var(--cyan); background: var(--cyan-05); }
+  .guest-list { list-style: none; }
+  .guest-card {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 8px; align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .guest-card:hover { background: var(--cyan-05); }
+  .guest-info { min-width: 0; }
+  .guest-name {
+    font-size: 13px; color: var(--white);
+    font-weight: 400; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .guest-role {
+    font-size: 10px; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.5px; margin-top: 1px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .guest-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+  .guest-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 1.5px;
+    padding: 3px 8px; border: 1px solid var(--border2);
+    color: var(--muted); cursor: pointer;
+    transition: all 0.2s; white-space: nowrap;
+    user-select: none;
+  }
+  .guest-status:hover { border-color: var(--cyan-20); }
+  .guest-status[data-status="angefragt"] { color: #e8a838; border-color: rgba(232,168,56,0.25); }
+  .guest-status[data-status="bestätigt"] { color: var(--cyan); border-color: var(--cyan-20); }
+  .guest-status[data-status="aufgenommen"] { color: #6dd670; border-color: rgba(109,214,112,0.25); }
+  .guest-status[data-status="veröffentlicht"] { color: var(--white); border-color: var(--border2); background: var(--surface2); }
+  .guest-del {
+    font-size: 10px; color: var(--border2);
+    cursor: pointer; opacity: 0;
+    transition: all 0.2s; padding: 2px;
+  }
+  .guest-card:hover .guest-del { opacity: 1; }
+  .guest-del:hover { color: #e44; }
+  .guest-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 1px; margin-top: 8px;
+    text-align: right;
+  }
+  .guest-filter {
+    display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap;
+  }
+  .guest-filter-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 1px;
+    padding: 3px 8px; background: none;
+    border: 1px solid var(--border);
+    color: var(--muted); cursor: pointer;
+    transition: all 0.2s;
+  }
+  .guest-filter-btn:hover, .guest-filter-btn.active {
+    border-color: var(--cyan-20); color: var(--cyan);
+  }
+
+  /* ── EPISODE TRACKER ── */
+  .ep-pipeline { display: flex; flex-direction: column; gap: 2px; }
+  .ep-row {
+    display: grid; grid-template-columns: 36px 1fr auto;
+    gap: 8px; align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .ep-row:hover { background: var(--cyan-05); }
+  .ep-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--cyan);
+    font-weight: 500;
+  }
+  .ep-info { min-width: 0; }
+  .ep-title {
+    font-size: 13px; color: var(--white); font-weight: 400;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .ep-guest {
+    font-size: 10px; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.5px; margin-top: 1px;
+  }
+  .ep-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+  .ep-stage {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px; letter-spacing: 1.5px;
+    padding: 3px 8px; border: 1px solid var(--border2);
+    color: var(--muted); cursor: pointer;
+    transition: all 0.2s; white-space: nowrap;
+    user-select: none;
+  }
+  .ep-stage:hover { border-color: var(--cyan-20); }
+  .ep-stage[data-stage="idee"] { color: var(--muted); }
+  .ep-stage[data-stage="geplant"] { color: #e8a838; border-color: rgba(232,168,56,0.25); }
+  .ep-stage[data-stage="aufgenommen"] { color: var(--cyan); border-color: var(--cyan-20); }
+  .ep-stage[data-stage="schnitt"] { color: #c084fc; border-color: rgba(192,132,252,0.25); }
+  .ep-stage[data-stage="fertig"] { color: #6dd670; border-color: rgba(109,214,112,0.25); }
+  .ep-stage[data-stage="live"] { color: var(--white); border-color: var(--border2); background: var(--surface2); }
+  .ep-del {
+    font-size: 10px; color: var(--border2);
+    cursor: pointer; opacity: 0;
+    transition: all 0.2s;
+  }
+  .ep-row:hover .ep-del { opacity: 1; }
+  .ep-del:hover { color: #e44; }
+  .ep-add {
+    display: flex; gap: 6px; margin-bottom: 12px;
+  }
+  .ep-add-num {
+    width: 50px; background: var(--surface);
+    border: 1px solid var(--border); color: var(--cyan);
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    padding: 8px 10px; outline: none; text-align: center;
+  }
+  .ep-add-num:focus { border-color: var(--cyan-20); }
+  .ep-add-num::placeholder { color: var(--muted); }
+
+  /* ── BRIEFING TEMPLATE ── */
+  .briefing-preview {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0;
+  }
+  .briefing-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .briefing-header-left {
+    font-family: 'Anton', sans-serif;
+    font-size: 16px; color: var(--white);
+    letter-spacing: 1px;
+  }
+  .briefing-header-left span { color: var(--cyan); }
+  .briefing-copy-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 1.5px;
+    padding: 5px 12px; background: none;
+    border: 1px solid var(--border);
+    color: var(--muted); cursor: pointer;
+    transition: all 0.2s;
+  }
+  .briefing-copy-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+  .briefing-body { padding: 20px; }
+  .briefing-field {
+    margin-bottom: 16px;
+  }
+  .briefing-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 2px;
+    color: var(--cyan); margin-bottom: 6px;
+    display: block;
+  }
+  .briefing-input {
+    width: 100%; background: rgba(12,192,223,0.03);
+    border: 1px solid var(--border); color: var(--white);
+    font-family: 'Poppins', sans-serif; font-size: 12px;
+    padding: 8px 12px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .briefing-input:focus { border-color: var(--cyan-20); }
+  .briefing-input::placeholder { color: rgba(255,255,255,0.15); }
+  .briefing-textarea {
+    width: 100%; background: rgba(12,192,223,0.03);
+    border: 1px solid var(--border); color: var(--white);
+    font-family: 'Poppins', sans-serif; font-size: 12px;
+    padding: 8px 12px; outline: none; resize: vertical;
+    min-height: 80px; line-height: 1.6;
+    transition: border-color 0.2s;
+  }
+  .briefing-textarea:focus { border-color: var(--cyan-20); }
+  .briefing-textarea::placeholder { color: rgba(255,255,255,0.15); }
+  .briefing-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .briefing-actions {
+    display: flex; gap: 8px; padding: 14px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .briefing-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1.5px;
+    padding: 7px 16px; background: none;
+    border: 1px solid var(--border);
+    color: var(--muted); cursor: pointer;
+    transition: all 0.2s;
+  }
+  .briefing-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+  .briefing-btn.primary {
+    border-color: var(--cyan-20); color: var(--cyan);
+    background: var(--cyan-05);
+  }
+  .briefing-btn.primary:hover { background: var(--cyan-10); }
+
+  /* ── RELEASE CHECKLIST ── */
+  .checklist { list-style: none; }
+  .checklist-phase {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 2px;
+    color: var(--cyan); padding: 10px 0 4px;
+    border-bottom: 1px solid var(--border);
+    margin-top: 8px;
+  }
+  .checklist-phase:first-child { margin-top: 0; }
+  .checklist-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.02);
+    cursor: pointer; transition: opacity 0.2s;
+    user-select: none;
+  }
+  .checklist-item.done { opacity: 0.35; }
+  .checklist-check {
+    width: 14px; height: 14px;
+    border: 1px solid var(--border2);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: transparent;
+    transition: all 0.2s;
+  }
+  .checklist-item.done .checklist-check {
+    border-color: var(--cyan-20); color: var(--cyan);
+  }
+  .checklist-text {
+    font-size: 12px; color: var(--light);
+  }
+  .checklist-item.done .checklist-text {
+    text-decoration: line-through; color: var(--muted);
+  }
+  .checklist-reset {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 1.5px;
+    padding: 4px 10px; background: none;
+    border: 1px solid var(--border);
+    color: var(--muted); cursor: pointer;
+    transition: all 0.2s; margin-top: 10px;
+    float: right;
+  }
+  .checklist-reset:hover { border-color: var(--cyan-20); color: var(--cyan); }
+
   /* ── S2P SOUNDS ── */
   .sound-grid { display: flex; flex-direction: column; gap: 2px; }
   .sound-category {
@@ -766,7 +1031,7 @@
   <div class="header">
     <div class="header-brand">SHIFT<span>2</span>PRO</div>
     <p class="header-title">SHIFT2PRO <span class="name">WORKSPACE</span> <span class="slash">//</span> <span class="ws">command center</span></p>
-    <h1 class="header-headline">INSPIRE. DEVELOP.<br><span class="cyan">CONNECT.</span></h1>
+    <h1 class="header-headline">INSPIRE. DEVELOP. <span class="cyan">CONNECT.</span></h1>
     <p class="header-tagline">ALLES AN EINEM ORT. IMMER.</p>
     <div class="header-meta">
       <span class="meta-pill">PODCAST</span>
@@ -958,6 +1223,96 @@
         </a>
       </div>
 
+      <!-- ══════ GÄSTELISTE ══════ -->
+      <div class="section">
+        <div class="section-label">
+          G&auml;steliste
+          <span class="section-count" id="guestCount">0</span>
+        </div>
+
+        <div class="guest-filter">
+          <button class="guest-filter-btn active" data-filter="alle" onclick="filterGuests('alle',this)">ALLE</button>
+          <button class="guest-filter-btn" data-filter="angefragt" onclick="filterGuests('angefragt',this)">ANGEFRAGT</button>
+          <button class="guest-filter-btn" data-filter="bestätigt" onclick="filterGuests('bestätigt',this)">BEST&Auml;TIGT</button>
+          <button class="guest-filter-btn" data-filter="aufgenommen" onclick="filterGuests('aufgenommen',this)">AUFGENOMMEN</button>
+          <button class="guest-filter-btn" data-filter="veröffentlicht" onclick="filterGuests('veröffentlicht',this)">VER&Ouml;FFENTLICHT</button>
+        </div>
+
+        <div class="guest-add">
+          <input type="text" class="guest-input" id="guestName" placeholder="Name" maxlength="80">
+          <input type="text" class="guest-input" id="guestRole" placeholder="Rolle / Organisation" maxlength="120" style="flex:1.2;">
+          <button class="guest-add-btn" id="guestAddBtn" onclick="addGuest()">+</button>
+        </div>
+
+        <ul class="guest-list" id="guestList"></ul>
+        <div class="guest-count" id="guestStats"></div>
+      </div>
+
+      <!-- ══════ BRIEFING-VORLAGE ══════ -->
+      <div class="section">
+        <div class="section-label">Briefing-Vorlage</div>
+
+        <div class="briefing-preview">
+          <div class="briefing-header">
+            <div class="briefing-header-left">SHIFT<span>2</span>PRO &mdash; BRIEFING</div>
+            <button class="briefing-copy-btn" onclick="copyBriefing()">KOPIEREN</button>
+          </div>
+          <div class="briefing-body">
+            <div class="briefing-row">
+              <div class="briefing-field">
+                <label class="briefing-label">GAST</label>
+                <input type="text" class="briefing-input" id="brfGuest" placeholder="Max Mustermann">
+              </div>
+              <div class="briefing-field">
+                <label class="briefing-label">EPISODE</label>
+                <input type="text" class="briefing-input" id="brfEpisode" placeholder="S2P-EP001">
+              </div>
+            </div>
+            <div class="briefing-row">
+              <div class="briefing-field">
+                <label class="briefing-label">ROLLE / ORGANISATION</label>
+                <input type="text" class="briefing-input" id="brfRole" placeholder="Head Coach, EV Musterstadt">
+              </div>
+              <div class="briefing-field">
+                <label class="briefing-label">AUFNAHMEDATUM</label>
+                <input type="date" class="briefing-input" id="brfDate" style="color-scheme:dark;">
+              </div>
+            </div>
+            <div class="briefing-field">
+              <label class="briefing-label">THEMA / ARBEITSTITEL</label>
+              <input type="text" class="briefing-input" id="brfTopic" placeholder="z.B. Nachwuchsentwicklung im DACH-Raum">
+            </div>
+            <div class="briefing-field">
+              <label class="briefing-label">KONTEXT &amp; HINTERGRUND</label>
+              <textarea class="briefing-textarea" id="brfContext" placeholder="Warum dieser Gast? Was ist die Story? Relevanz f&uuml;r die H&ouml;rer?"></textarea>
+            </div>
+            <div class="briefing-field">
+              <label class="briefing-label">KERNFRAGEN (1 pro Zeile)</label>
+              <textarea class="briefing-textarea" id="brfQuestions" placeholder="Wie bist du zum Eishockey gekommen?&#10;Was fehlt der Nachwuchsarbeit im DACH-Raum?&#10;Welchen Rat gibst du jungen Spielern?" style="min-height:100px;"></textarea>
+            </div>
+            <div class="briefing-row">
+              <div class="briefing-field">
+                <label class="briefing-label">FORMAT</label>
+                <input type="text" class="briefing-input" id="brfFormat" placeholder="Remote (Riverside) / Vor Ort" value="Remote — Riverside">
+              </div>
+              <div class="briefing-field">
+                <label class="briefing-label">GEPLANTE DAUER</label>
+                <input type="text" class="briefing-input" id="brfDuration" placeholder="45–60 Min." value="45–60 Min.">
+              </div>
+            </div>
+            <div class="briefing-field">
+              <label class="briefing-label">NOTIZEN / BESONDERES</label>
+              <textarea class="briefing-textarea" id="brfNotes" placeholder="z.B. Themen meiden, besondere W&uuml;nsche, Social-Media-Handles ..." style="min-height:60px;"></textarea>
+            </div>
+          </div>
+          <div class="briefing-actions">
+            <button class="briefing-btn primary" onclick="printBriefing()">&#9654; ALS PDF DRUCKEN</button>
+            <button class="briefing-btn" onclick="clearBriefing()">LEEREN</button>
+            <button class="briefing-btn" onclick="saveBriefing()">SPEICHERN</button>
+          </div>
+        </div>
+      </div>
+
       <!-- ══════ MERCH & SHOP ══════ -->
       <div class="section">
         <div class="section-label">Merch &amp; Shop</div>
@@ -1138,6 +1493,103 @@
             <span class="notes-status-text" id="notesSaved">GESPEICHERT</span>
           </div>
         </div>
+      </div>
+
+      <!-- ══════ EPISODE TRACKER ══════ -->
+      <div class="section">
+        <div class="section-label">
+          Episode Tracker
+          <span class="section-count" id="epCount">0</span>
+        </div>
+
+        <div class="ep-add">
+          <input type="text" class="ep-add-num" id="epNum" placeholder="EP" maxlength="4">
+          <input type="text" class="guest-input" id="epTitle" placeholder="Titel / Arbeitstitel" maxlength="120" style="flex:1;">
+          <input type="text" class="guest-input" id="epGuest" placeholder="Gast" maxlength="80" style="flex:0.7;">
+          <button class="guest-add-btn" onclick="addEpisode()">+</button>
+        </div>
+
+        <div class="ep-pipeline" id="epPipeline"></div>
+      </div>
+
+      <!-- ══════ RELEASE CHECKLIST ══════ -->
+      <div class="section">
+        <div class="section-label">Release Checklist</div>
+
+        <div class="checklist-phase">PRE-PRODUKTION</div>
+        <div class="checklist" id="checklistPre">
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Gast kontaktiert &amp; Termin fixiert</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Briefing erstellt &amp; an Gast gesendet</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Technik-Check (Riverside-Link, Mikrofon, Kopfh&ouml;rer)</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Fragenkatalog vorbereitet (mind. 8&ndash;10 Fragen)</span>
+          </div>
+        </div>
+
+        <div class="checklist-phase">POST-PRODUKTION</div>
+        <div class="checklist" id="checklistPost">
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Aufnahme gesichert (Backup in 04_Audio_Roh)</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Schnitt &amp; Mastering fertig</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Intro / Outro eingebaut</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Show Notes geschrieben</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Episode Cover Art / Thumbnail erstellt</span>
+          </div>
+        </div>
+
+        <div class="checklist-phase">RELEASE</div>
+        <div class="checklist" id="checklistRelease">
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Auf Hosting-Plattform hochgeladen (RSS)</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Website-Seite mit Show Notes live</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Social-Media-Posts geplant (IG, TT, YT)</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Clips / Reels geschnitten (07_Clips_Social)</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Newsletter mit Episode versendet</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <div class="checklist-check">&#10003;</div>
+            <span class="checklist-text">Gast &uuml;ber Release informiert (Dankes-DM)</span>
+          </div>
+        </div>
+
+        <button class="checklist-reset" onclick="resetChecklist()">RESET</button>
+        <div style="clear:both;"></div>
       </div>
 
       <!-- ══════ S2P SOUNDS ══════ -->
@@ -1717,6 +2169,288 @@ function printSection(id) {
 
   var stopBtn = document.getElementById('soundStopAll');
   if (stopBtn) stopBtn.addEventListener('click', stopAll);
+})();
+
+// ═══════════════════════════════════════
+// GUEST LIST — with localStorage
+// ═══════════════════════════════════════
+(function(){
+  const STORE = 's2p_guests';
+  const STATUSES = ['offen','angefragt','bestätigt','aufgenommen','veröffentlicht'];
+  let guests = JSON.parse(localStorage.getItem(STORE) || '[]');
+  let currentFilter = 'alle';
+
+  function save(){ localStorage.setItem(STORE, JSON.stringify(guests)); }
+
+  function render(){
+    const list = document.getElementById('guestList');
+    const filtered = currentFilter === 'alle' ? guests : guests.filter(g => g.status === currentFilter);
+    list.innerHTML = filtered.map((g,i) => {
+      const realIdx = guests.indexOf(g);
+      return `<li class="guest-card" data-status="${g.status}">
+        <div class="guest-info">
+          <div class="guest-name">${esc(g.name)}</div>
+          <div class="guest-role">${esc(g.role)}</div>
+        </div>
+        <div class="guest-actions">
+          <div class="guest-status" data-status="${g.status}" onclick="cycleGuestStatus(${realIdx})">${g.status.toUpperCase()}</div>
+          <span class="guest-del" onclick="deleteGuest(${realIdx})">&times;</span>
+        </div>
+      </li>`;
+    }).join('');
+
+    const total = guests.length;
+    const confirmed = guests.filter(g => g.status === 'bestätigt').length;
+    const recorded = guests.filter(g => g.status === 'aufgenommen').length;
+    const published = guests.filter(g => g.status === 'veröffentlicht').length;
+    document.getElementById('guestCount').textContent = total;
+    document.getElementById('guestStats').textContent =
+      `${total} GESAMT · ${confirmed} BESTÄTIGT · ${recorded} AUFGENOMMEN · ${published} LIVE`;
+  }
+
+  function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+  window.addGuest = function(){
+    const name = document.getElementById('guestName').value.trim();
+    const role = document.getElementById('guestRole').value.trim();
+    if(!name) return;
+    guests.push({ name, role, status: 'offen', created: Date.now() });
+    save(); render();
+    document.getElementById('guestName').value = '';
+    document.getElementById('guestRole').value = '';
+    document.getElementById('guestName').focus();
+  };
+
+  window.cycleGuestStatus = function(idx){
+    const g = guests[idx]; if(!g) return;
+    const ci = STATUSES.indexOf(g.status);
+    g.status = STATUSES[(ci+1) % STATUSES.length];
+    save(); render();
+  };
+
+  window.deleteGuest = function(idx){
+    guests.splice(idx,1); save(); render();
+  };
+
+  window.filterGuests = function(filter, btn){
+    currentFilter = filter;
+    document.querySelectorAll('.guest-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  };
+
+  // Enter key support
+  ['guestName','guestRole'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if(e.key === 'Enter') addGuest();
+    });
+  });
+
+  render();
+})();
+
+// ═══════════════════════════════════════
+// EPISODE TRACKER — with localStorage
+// ═══════════════════════════════════════
+(function(){
+  const STORE = 's2p_episodes';
+  const STAGES = ['idee','geplant','aufgenommen','schnitt','fertig','live'];
+  let episodes = JSON.parse(localStorage.getItem(STORE) || '[]');
+
+  function save(){ localStorage.setItem(STORE, JSON.stringify(episodes)); }
+
+  function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+  function render(){
+    const pipe = document.getElementById('epPipeline');
+    // sort by ep number
+    const sorted = [...episodes].sort((a,b) => {
+      const na = parseInt(a.num) || 0, nb = parseInt(b.num) || 0;
+      return na - nb;
+    });
+    pipe.innerHTML = sorted.map(ep => {
+      const realIdx = episodes.indexOf(ep);
+      return `<div class="ep-row">
+        <div class="ep-num">EP${esc(ep.num)}</div>
+        <div class="ep-info">
+          <div class="ep-title">${esc(ep.title)}</div>
+          <div class="ep-guest">${esc(ep.guest)}</div>
+        </div>
+        <div class="ep-actions">
+          <div class="ep-stage" data-stage="${ep.stage}" onclick="cycleEpStage(${realIdx})">${ep.stage.toUpperCase()}</div>
+          <span class="ep-del" onclick="deleteEpisode(${realIdx})">&times;</span>
+        </div>
+      </div>`;
+    }).join('');
+    document.getElementById('epCount').textContent = episodes.length;
+  }
+
+  window.addEpisode = function(){
+    const num = document.getElementById('epNum').value.trim();
+    const title = document.getElementById('epTitle').value.trim();
+    const guest = document.getElementById('epGuest').value.trim();
+    if(!title) return;
+    episodes.push({ num: num || '?', title, guest, stage: 'idee', created: Date.now() });
+    save(); render();
+    document.getElementById('epNum').value = '';
+    document.getElementById('epTitle').value = '';
+    document.getElementById('epGuest').value = '';
+    document.getElementById('epNum').focus();
+  };
+
+  window.cycleEpStage = function(idx){
+    const ep = episodes[idx]; if(!ep) return;
+    const ci = STAGES.indexOf(ep.stage);
+    ep.stage = STAGES[(ci+1) % STAGES.length];
+    save(); render();
+  };
+
+  window.deleteEpisode = function(idx){
+    episodes.splice(idx,1); save(); render();
+  };
+
+  ['epNum','epTitle','epGuest'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if(e.key === 'Enter') addEpisode();
+    });
+  });
+
+  render();
+})();
+
+// ═══════════════════════════════════════
+// RELEASE CHECKLIST — with localStorage
+// ═══════════════════════════════════════
+(function(){
+  const STORE = 's2p_checklist';
+  let state = JSON.parse(localStorage.getItem(STORE) || '{}');
+
+  document.querySelectorAll('.checklist-item').forEach((item, i) => {
+    if(state[i]) item.classList.add('done');
+    item.addEventListener('click', function(){
+      this.classList.toggle('done');
+      state[i] = this.classList.contains('done');
+      localStorage.setItem(STORE, JSON.stringify(state));
+    });
+  });
+
+  window.toggleCheck = function(){}; // handled by event listener above
+  window.resetChecklist = function(){
+    document.querySelectorAll('.checklist-item').forEach(item => item.classList.remove('done'));
+    localStorage.removeItem(STORE);
+    state = {};
+  };
+})();
+
+// ═══════════════════════════════════════
+// BRIEFING — copy, print, save
+// ═══════════════════════════════════════
+(function(){
+  const STORE = 's2p_briefing';
+  const FIELDS = ['brfGuest','brfEpisode','brfRole','brfDate','brfTopic','brfContext','brfQuestions','brfFormat','brfDuration','brfNotes'];
+
+  // Load saved briefing
+  const saved = JSON.parse(localStorage.getItem(STORE) || '{}');
+  FIELDS.forEach(id => {
+    const el = document.getElementById(id);
+    if(el && saved[id]) el.value = saved[id];
+  });
+
+  window.saveBriefing = function(){
+    const data = {};
+    FIELDS.forEach(id => { data[id] = document.getElementById(id)?.value || ''; });
+    localStorage.setItem(STORE, JSON.stringify(data));
+    // brief feedback
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '✓ GESPEICHERT';
+    btn.style.color = '#6dd670';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1500);
+  };
+
+  window.clearBriefing = function(){
+    FIELDS.forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+    localStorage.removeItem(STORE);
+  };
+
+  window.copyBriefing = function(){
+    const g = document.getElementById('brfGuest').value;
+    const ep = document.getElementById('brfEpisode').value;
+    const role = document.getElementById('brfRole').value;
+    const date = document.getElementById('brfDate').value;
+    const topic = document.getElementById('brfTopic').value;
+    const ctx = document.getElementById('brfContext').value;
+    const q = document.getElementById('brfQuestions').value;
+    const fmt = document.getElementById('brfFormat').value;
+    const dur = document.getElementById('brfDuration').value;
+    const notes = document.getElementById('brfNotes').value;
+
+    const text = `SHIFT2PRO — BRIEFING\n${'═'.repeat(40)}\n\nGAST: ${g}\nEPISODE: ${ep}\nROLLE: ${role}\nDATUM: ${date}\n\nTHEMA: ${topic}\n\nKONTEXT:\n${ctx}\n\nKERNFRAGEN:\n${q}\n\nFORMAT: ${fmt}\nDAUER: ${dur}\n\nNOTIZEN:\n${notes}\n\n${'─'.repeat(40)}\n© ${new Date().getFullYear()} WILD PROJECT — SHIFT2PRO`;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.briefing-copy-btn');
+      const orig = btn.textContent;
+      btn.textContent = '✓ KOPIERT';
+      setTimeout(() => { btn.textContent = orig; }, 1500);
+    });
+  };
+
+  window.printBriefing = function(){
+    const g = document.getElementById('brfGuest').value || '—';
+    const ep = document.getElementById('brfEpisode').value || '—';
+    const role = document.getElementById('brfRole').value || '—';
+    const date = document.getElementById('brfDate').value || '—';
+    const topic = document.getElementById('brfTopic').value || '—';
+    const ctx = document.getElementById('brfContext').value || '—';
+    const q = document.getElementById('brfQuestions').value || '—';
+    const fmt = document.getElementById('brfFormat').value || '—';
+    const dur = document.getElementById('brfDuration').value || '—';
+    const notes = document.getElementById('brfNotes').value || '—';
+
+    const questions = q.split('\n').filter(l=>l.trim()).map((l,i) =>
+      `<div style="padding:6px 0 6px 16px;border-bottom:1px solid #eee;position:relative;font-size:11px;">
+        <span style="position:absolute;left:0;top:10px;width:5px;height:1px;background:#0CC0DF;"></span>${l.trim()}
+      </div>`
+    ).join('');
+
+    const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Briefing — ${g}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+      @page{size:A4;margin:20mm;}
+      body{font-family:'Poppins',sans-serif;font-size:11px;color:#222;line-height:1.6;margin:0;padding:40px;}
+      .header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #0CC0DF;padding-bottom:12px;margin-bottom:30px;}
+      .logo{font-family:'Anton',sans-serif;font-size:22px;letter-spacing:1px;}
+      .logo span{color:#0CC0DF;}
+      .ep{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:#0CC0DF;}
+      .label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;color:#0CC0DF;margin-bottom:4px;margin-top:20px;}
+      .val{font-size:11px;color:#222;}
+      .row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+      .block{margin:16px 0;padding:12px 16px;background:#f8f8f8;border-left:2px solid #0CC0DF;}
+      .footer{margin-top:40px;padding-top:12px;border-top:1px solid #ddd;font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:2px;color:#aaa;text-align:center;}
+    </style></head><body>
+    <div class="header"><div class="logo">SHIFT<span>2</span>PRO — BRIEFING</div><div class="ep">${ep}</div></div>
+    <div class="row">
+      <div><div class="label">GAST</div><div class="val" style="font-size:16px;font-weight:600;">${g}</div></div>
+      <div><div class="label">AUFNAHMEDATUM</div><div class="val">${date}</div></div>
+    </div>
+    <div class="row">
+      <div><div class="label">ROLLE / ORGANISATION</div><div class="val">${role}</div></div>
+      <div><div class="label">FORMAT · DAUER</div><div class="val">${fmt} · ${dur}</div></div>
+    </div>
+    <div class="label">THEMA / ARBEITSTITEL</div>
+    <div class="val" style="font-size:14px;font-weight:600;margin-bottom:8px;">${topic}</div>
+    <div class="label">KONTEXT &amp; HINTERGRUND</div>
+    <div class="block">${ctx.replace(/\n/g,'<br>')}</div>
+    <div class="label">KERNFRAGEN</div>
+    <div style="margin:8px 0;">${questions}</div>
+    ${notes && notes !== '—' ? `<div class="label">NOTIZEN</div><div class="block">${notes.replace(/\n/g,'<br>')}</div>` : ''}
+    <div class="footer">© ${new Date().getFullYear()} WILD PROJECT — SHIFT2PRO · CONFIDENTIAL</div>
+    </body></html>`;
+
+    const w = window.open('','_blank');
+    w.document.write(html);
+    w.document.close();
+    setTimeout(() => w.print(), 400);
+  };
 })();
 </script>
 

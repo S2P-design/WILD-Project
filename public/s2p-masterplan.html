@@ -40,12 +40,373 @@ body {
 
 /* ── PRINT ── */
 @media print {
-  body { background: #fff; color: #222; font-size: 10pt; }
-  .toc, .back-to-top { display: none; }
-  section { break-inside: avoid; page-break-inside: avoid; }
-  h1, h2, h3 { color: #000 !important; }
-  .chapter-number { color: var(--cyan) !important; -webkit-text-stroke: 0; }
-  .doc-cover { min-height: auto; padding: 4rem 2rem; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  @page {
+    size: A4;
+    margin: 15mm 18mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #222;
+    font-size: 10pt;
+    line-height: 1.6;
+  }
+
+  /* ── HIDE UI ELEMENTS ── */
+  .toc, .back-to-top { display: none !important; }
+
+  /* ── COVER → Title page ── */
+  .doc-cover {
+    min-height: auto;
+    padding: 80px 40px 60px;
+    page-break-after: always;
+    background: #000 !important;
+    overflow: visible;
+  }
+  .doc-cover::before {
+    background: none !important;
+  }
+  .doc-cover::after {
+    /* S2P watermark — keep subtle */
+    color: transparent !important;
+    -webkit-text-stroke: 1px rgba(12,192,223,0.06) !important;
+    font-size: 260pt;
+    top: -40px; right: -20px;
+  }
+  .cover-badge {
+    color: var(--cyan) !important;
+    border-color: rgba(12,192,223,0.3) !important;
+  }
+  .cover-title {
+    font-size: 72pt !important;
+    color: #f0f0f0 !important;
+  }
+  .cover-title span { color: var(--cyan) !important; }
+  .cover-sub { color: #888 !important; font-size: 10pt; }
+  .cover-meta { color: #777 !important; font-size: 7pt; }
+  .cover-meta span { color: var(--cyan) !important; }
+  .cover-line {
+    background: var(--cyan) !important;
+    left: 40px !important; right: 40px !important;
+  }
+
+  /* ── CHAPTERS — General ── */
+  .chapter {
+    padding: 40px 0;
+    max-width: 100%;
+    border-top: 1px solid #ddd;
+    page-break-before: always;
+    page-break-inside: auto;
+  }
+  /* First chapter (Brand Identity) doesn't need extra break */
+  .chapter:first-of-type { page-break-before: auto; }
+
+  .chapter-number {
+    font-size: 64pt !important;
+    color: var(--cyan) !important;
+    -webkit-text-stroke: 0 !important;
+    opacity: 0.15;
+    margin-bottom: -8px;
+  }
+  .chapter-label {
+    color: var(--cyan) !important;
+    font-size: 7pt;
+    margin-bottom: 6px;
+  }
+  .chapter h2 {
+    color: #000 !important;
+    font-size: 28pt !important;
+    margin-bottom: 16px;
+  }
+  .chapter h3 {
+    color: #000 !important;
+    font-size: 11pt;
+    border-bottom-color: #ddd;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    page-break-after: avoid;
+  }
+  .chapter h4 {
+    color: var(--cyan) !important;
+    font-size: 9pt;
+    margin-top: 16px;
+    page-break-after: avoid;
+  }
+  .chapter p {
+    color: #333;
+    font-size: 9pt;
+    max-width: 100%;
+    margin-bottom: 6px;
+    orphans: 3;
+    widows: 3;
+  }
+  .chapter p strong { color: #000 !important; }
+  .chapter p strong[style*="cyan"] { color: var(--cyan) !important; }
+  .chapter p strong[style*="white"] { color: #000 !important; }
+  .lead {
+    font-size: 11pt;
+    color: #444 !important;
+    margin-bottom: 16px;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-left: 2px solid var(--cyan) !important;
+    background: #f4fbfc !important;
+    padding: 12px 16px;
+    margin: 16px 0;
+    max-width: 100%;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .callout-label { color: var(--cyan) !important; font-size: 6pt; }
+  .callout strong { color: var(--cyan) !important; }
+  .callout, .callout * { color: #333; font-size: 9pt; }
+
+  /* ── DATA GRID ── */
+  .data-grid {
+    background: #ddd !important;
+    gap: 1px;
+    max-width: 100%;
+    margin: 12px 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .data-cell {
+    background: #f8f8f8 !important;
+    padding: 12px 14px;
+  }
+  .data-cell-label {
+    color: var(--cyan) !important;
+    font-size: 6pt;
+  }
+  .data-cell-value {
+    color: #222 !important;
+    font-size: 9pt;
+  }
+  .data-cell-value.cyan { color: var(--cyan) !important; }
+  .data-cell-note { color: #888; font-size: 7pt; }
+
+  /* ── COLOR SWATCHES ── */
+  .swatch-row {
+    max-width: 100%;
+    margin: 12px 0;
+    break-inside: avoid;
+  }
+  .swatch {
+    border: 1px solid #ddd;
+  }
+  .swatch-name { font-size: 6pt; }
+  .swatch-hex { font-size: 7pt; }
+
+  /* ── DATA TABLE ── */
+  .data-table {
+    max-width: 100%;
+    margin: 12px 0;
+    font-size: 8pt;
+    page-break-inside: auto;
+  }
+  .data-table th {
+    font-size: 6pt;
+    color: var(--cyan) !important;
+    border-bottom: 1px solid #ccc;
+    padding: 6px 8px;
+  }
+  .data-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #eee;
+    color: #333 !important;
+    font-size: 8pt;
+  }
+  .data-table tr:hover td { background: transparent !important; }
+  .data-table .label { color: #888; }
+  .data-table .cyan { color: var(--cyan) !important; }
+  .data-table .highlight { color: #000 !important; }
+
+  /* ── CLEAN LIST ── */
+  .clean-list {
+    max-width: 100%;
+    margin: 12px 0;
+  }
+  .clean-list li {
+    font-size: 9pt;
+    color: #333;
+    padding: 4px 0 4px 14px;
+  }
+  .clean-list li::before {
+    background: var(--cyan) !important;
+    top: 11px;
+  }
+  .clean-list .sub { color: #888; font-size: 7pt; }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    max-width: 100%;
+    margin: 12px 0;
+  }
+  .timeline-item {
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    break-inside: avoid;
+  }
+  .timeline-date { color: var(--cyan) !important; font-size: 7pt; }
+  .timeline-title { color: #000 !important; font-size: 9pt; }
+  .timeline-title[style*="cyan"] { color: var(--cyan) !important; }
+  .timeline-desc { color: #666; font-size: 8pt; }
+
+  /* ── QUOTE ── */
+  .quote {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 16px 0;
+    margin: 16px 0;
+    max-width: 100%;
+    break-inside: avoid;
+  }
+  .quote p { color: #333 !important; font-size: 11pt; }
+  .quote cite { color: #888; font-size: 6pt; }
+
+  /* ── PILL ── */
+  .pill {
+    border: 1px solid #ccc;
+    color: #666;
+    font-size: 6pt;
+    padding: 2px 6px;
+  }
+  .pill.active { border-color: var(--cyan) !important; color: var(--cyan) !important; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    background: #ddd !important;
+    margin: 16px 0;
+  }
+
+  /* ── EDITORIAL MERCH LAYOUT ── */
+  .edit-collection {
+    max-width: 100%;
+    margin: 16px 0;
+  }
+  .edit-item {
+    border-top: 1px solid #ddd !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .edit-item:last-child { border-bottom: 1px solid #ddd !important; }
+  .edit-item:hover { border-color: #ddd !important; }
+  .edit-hero {
+    padding: 20px;
+  }
+  .edit-hero::before { display: none !important; }
+  .edit-num {
+    color: var(--cyan) !important;
+    -webkit-text-stroke: 0 !important;
+    font-size: 36pt !important;
+    opacity: 0.15;
+    margin-bottom: -4px;
+  }
+  .edit-name {
+    color: #000 !important;
+    font-size: 14pt !important;
+  }
+  .edit-name .cyan { color: var(--cyan) !important; }
+  .edit-tagline { color: #888; font-size: 8pt; }
+  .edit-specs {
+    padding: 20px;
+    border-left: 1px solid #ddd !important;
+  }
+  .edit-detail { border-bottom-color: #f0f0f0 !important; padding: 3px 0; }
+  .edit-label { color: #888; font-size: 6pt; }
+  .edit-value { color: #333; font-size: 7pt; }
+  .edit-value.cyan { color: var(--cyan) !important; }
+  .edit-swatch-row { gap: 2px; margin-top: 8px; }
+  .edit-swatch { height: 4px; border: 1px solid #eee; }
+  .edit-print-badge {
+    border: 1px solid var(--cyan) !important;
+    color: var(--cyan) !important;
+    background: transparent !important;
+    text-shadow: none;
+    font-size: 7pt;
+    padding: 2px 6px;
+  }
+
+  /* Featured merch item */
+  .edit-item.featured .edit-hero { padding: 30px 20px; }
+  .edit-item.featured .edit-num {
+    font-size: 48pt !important;
+    margin-bottom: -8px;
+  }
+  .edit-item.featured .edit-name { font-size: 20pt !important; }
+
+  /* Accessories grid */
+  .edit-acc-grid {
+    border-top: 1px solid #ddd !important;
+    border-bottom: 1px solid #ddd !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .edit-acc {
+    padding: 16px 20px;
+  }
+  .edit-acc:first-child { border-right: 1px solid #ddd !important; }
+  .edit-acc:hover { background: transparent !important; }
+  .edit-acc .edit-num {
+    font-size: 20pt !important;
+    margin-bottom: -2px;
+  }
+  .edit-acc .edit-name { color: #000 !important; font-size: 10pt; }
+
+  /* ── DROP TIMELINE ── */
+  .drop-row {
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    max-width: 100%;
+    break-inside: avoid;
+  }
+  .drop-date { color: var(--cyan) !important; font-size: 7pt; }
+  .drop-name { color: #000 !important; font-size: 8pt; }
+  .drop-desc { color: #666; font-size: 7pt; }
+  .drop-status {
+    font-size: 5pt;
+    border: 1px solid #ccc;
+    color: #888;
+    padding: 1px 5px;
+  }
+  .drop-status.live { border-color: var(--cyan) !important; color: var(--cyan) !important; }
+
+  /* ── CLOSING SECTION ── */
+  .chapter:last-of-type {
+    page-break-before: always;
+    border-top: 1px solid #ddd !important;
+  }
+  .chapter:last-of-type p[style*="Anton"] {
+    color: #000 !important;
+  }
+  .chapter:last-of-type p[style*="cyan"] {
+    color: var(--cyan) !important;
+  }
+  .chapter:last-of-type p[style*="muted"] {
+    color: #888 !important;
+  }
+  .chapter:last-of-type p[style*="border2"] {
+    color: #ccc !important;
+  }
+
+  /* ── INLINE STYLE OVERRIDES ── */
+  [style*="color:var(--white)"] { color: #000 !important; }
+  [style*="color:var(--cyan)"] { color: var(--cyan) !important; }
+  [style*="color:var(--muted)"] { color: #888 !important; }
+  [style*="color:var(--light)"] { color: #333 !important; }
+  [style*="background: var(--surface)"],
+  [style*="background:var(--surface)"],
+  [style*="background: var(--cyan-05)"],
+  [style*="background:var(--cyan-05)"] {
+    background: #f8f8f8 !important;
+  }
+
+  /* ── LINKS ── */
+  a { color: inherit !important; text-decoration: none !important; }
 }
 
 /* ── SCROLLBAR ── */
@@ -676,10 +1037,7 @@ body {
   padding: 0.3rem 0;
 }
 
-@media print {
-  .edit-item { break-inside: avoid; }
-  .edit-num { -webkit-text-stroke-color: var(--cyan) !important; }
-}
+/* print: see main @media print block */
 @media (max-width: 768px) {
   .edit-item { grid-template-columns: 1fr; }
   .edit-specs { border-left: none; border-top: 1px solid var(--border); }
@@ -723,10 +1081,7 @@ body {
 }
 .drop-status.live { border-color: var(--cyan-20); color: var(--cyan); }
 
-@media print {
-  .edit-collection { page-break-inside: avoid; }
-  .edit-acc-grid { page-break-inside: avoid; }
-}
+/* print: see main @media print block */
 
 /* ── SECTION DIVIDER ── */
 .divider {
