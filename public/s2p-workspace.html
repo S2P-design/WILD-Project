@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Workspace — Shift2Pro</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="S2P Workspace">
+<link rel="apple-touch-icon" href="/favicon-180.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #000000;
+    --surface: #060606;
+    --surface2: #0a0a0a;
+    --border: #1a1a1a;
+    --border2: #222;
+    --muted: #555;
+    --text: #888;
+    --light: #ccc;
+    --white: #f0f0f0;
+    --cyan: #0CC0DF;
+    --cyan-20: rgba(12,192,223,0.20);
+    --cyan-10: rgba(12,192,223,0.10);
+    --cyan-05: rgba(12,192,223,0.05);
+    --orange: #FC5000;
+  }
+
+  body {
+    font-family: 'Poppins', -apple-system, sans-serif;
+    background-color: var(--black);
+    background-image: radial-gradient(circle, rgba(12,192,223,0.04) 1px, transparent 1px);
+    background-size: 22px 22px;
+    background-attachment: fixed;
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 60px 24px 80px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; top: -30%; left: -20%;
+    width: 70%; height: 70%;
+    background: radial-gradient(ellipse, rgba(12,192,223,0.03) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .container { max-width: 1100px; width: 100%; position: relative; }
+
+  .workspace-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .workspace-col { display: flex; flex-direction: column; min-width: 0; }
+  .full-width { max-width: 520px; margin: 0 auto; }
+
+  /* ── LOGIN GATE ── */
+  .login-gate {
+    position: fixed; inset: 0;
+    background: var(--black); z-index: 1000;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .login-gate.hidden {
+    opacity: 0; transform: scale(1.02); pointer-events: none;
+  }
+  .login-logo {
+    font-family: 'Anton', sans-serif;
+    font-size: 2.2rem; color: var(--white);
+    margin-bottom: 24px; letter-spacing: 2px;
+  }
+  .login-logo span { color: var(--cyan); }
+  .login-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 3px;
+    color: rgba(255,255,255,0.3); margin-bottom: 20px;
+  }
+  .login-input-wrap { display: flex; gap: 8px; margin-bottom: 16px; }
+  .login-digit {
+    width: 44px; height: 56px;
+    background: rgba(12,192,223,0.04);
+    border: 1px solid rgba(12,192,223,0.12);
+    border-radius: 8px; color: var(--cyan);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px; font-weight: 700;
+    text-align: center; outline: none;
+    caret-color: var(--cyan);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .login-digit:focus {
+    border-color: rgba(12,192,223,0.4);
+    background: rgba(12,192,223,0.06);
+  }
+  .login-error {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: rgba(12,192,223,0.6);
+    letter-spacing: 1px; height: 16px; margin-top: 4px;
+  }
+  .login-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; color: rgba(255,255,255,0.15);
+    letter-spacing: 1.5px; margin-top: 32px;
+  }
+  .container.locked { display: none; }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center; margin-bottom: 48px;
+    opacity: 0; transform: translateY(16px);
+    animation: fadeUp 0.7s ease 0.1s forwards;
+  }
+  .header-brand {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.8rem; color: var(--white); letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .header-brand span { color: var(--cyan); }
+  .header-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 400;
+    letter-spacing: 2px; color: rgba(255,255,255,0.35);
+    margin-bottom: 8px;
+  }
+  .header-title .name { color: var(--cyan); }
+  .header-title .slash { color: rgba(255,255,255,0.15); margin: 0 4px; }
+  .header-title .ws { color: rgba(255,255,255,0.3); font-style: italic; }
+  .header-headline {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(22px, 6vw, 32px);
+    font-weight: 400; line-height: 1.2;
+    letter-spacing: 0.5px; color: var(--white);
+    margin-top: 4px;
+  }
+  .header-headline .cyan { color: var(--cyan); }
+  .header-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 10px;
+    display: inline-block; overflow: hidden;
+    border-right: 2px solid var(--cyan);
+    white-space: nowrap; width: 0;
+    animation: typing 2.5s steps(28) 1.2s forwards, blink 0.6s step-end infinite 1.2s;
+  }
+  @keyframes typing { to { width: 22.5em; } }
+  @keyframes blink { 50% { border-color: transparent; } }
+  @keyframes fadeUp { to { opacity: 1; transform: none; } }
+
+  /* ── STATUS BAR ── */
+  .status-bar {
+    display: flex; justify-content: center;
+    gap: 24px; flex-wrap: wrap;
+    margin-bottom: 40px;
+    opacity: 0; animation: fadeUp 0.7s ease 0.9s forwards;
+  }
+  .status-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.35);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .status-item .val { color: rgba(255,255,255,0.6); }
+  .status-divider {
+    width: 1px; height: 14px;
+    background: rgba(255,255,255,0.08);
+    align-self: center;
+  }
+
+  /* ── SECTIONS ── */
+  .section { margin-bottom: 32px; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--cyan);
+    padding: 12px 0; margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label .section-count {
+    font-size: 9px; color: var(--muted);
+    margin-left: auto;
+  }
+
+  /* ── LINK CARDS ── */
+  .link-card {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    text-decoration: none; color: inherit;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .link-card:hover {
+    background: var(--cyan-05);
+    transform: translateX(4px);
+  }
+  .link-icon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; color: var(--cyan);
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--cyan-20);
+    background: var(--cyan-05);
+    flex-shrink: 0;
+  }
+  .link-text { flex: 1; min-width: 0; }
+  .link-title {
+    font-size: 13px; font-weight: 500;
+    color: var(--white); white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .link-desc {
+    font-size: 11px; color: var(--text);
+    white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; margin-top: 1px;
+  }
+  .link-arrow {
+    font-size: 14px; color: var(--muted);
+    transition: color 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+  .link-card:hover .link-arrow { color: var(--cyan); transform: translateX(2px); }
+
+  /* ── PDF DOWNLOAD BADGE ── */
+  .link-actions {
+    display: flex; gap: 6px; flex-shrink: 0;
+  }
+  .link-dl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 500;
+    letter-spacing: 1px; color: var(--muted);
+    padding: 3px 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.2s;
+    display: flex; align-items: center;
+  }
+  .link-dl:hover {
+    border-color: var(--cyan-20);
+    color: var(--cyan); background: var(--cyan-05);
+  }
+
+  /* ── MASTERPLAN CARDS ── */
+  .mp-card {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.2s;
+  }
+  .mp-card:hover { background: var(--cyan-05); }
+  .mp-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.4rem; color: var(--border2);
+    width: 36px; text-align: center;
+    flex-shrink: 0;
+    transition: color 0.2s;
+  }
+  .mp-card:hover .mp-num { color: var(--cyan-20); }
+  .mp-info { flex: 1; min-width: 0; }
+  .mp-title {
+    font-size: 13px; font-weight: 500; color: var(--white);
+  }
+  .mp-desc {
+    font-size: 10px; color: var(--text); margin-top: 2px;
+  }
+  .mp-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .mp-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 500;
+    letter-spacing: 1px; color: var(--muted);
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .mp-btn:hover {
+    border-color: var(--cyan-20);
+    color: var(--cyan); background: var(--cyan-05);
+  }
+  .mp-btn.primary {
+    border-color: var(--cyan-20);
+    color: var(--cyan);
+  }
+
+  /* ── CONTACT ROW ── */
+  .contact-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .contact-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 1px;
+    color: var(--text); padding: 10px 16px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .contact-pill:hover {
+    color: var(--cyan); border-color: var(--cyan-20);
+    background: var(--cyan-05);
+  }
+
+  /* ── TOOLS GRID ── */
+  .tools-grid { display: flex; flex-direction: column; gap: 4px; }
+  .tool-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    text-decoration: none; color: inherit;
+    transition: all 0.2s;
+  }
+  .tool-card:hover {
+    border-color: var(--cyan-20);
+    background: var(--cyan-05);
+    transform: translateY(-1px);
+  }
+  .tool-ico { font-size: 16px; width: 28px; text-align: center; color: var(--cyan); }
+  .tool-meta { flex: 1; }
+  .tool-title { font-size: 12px; font-weight: 500; color: var(--white); }
+  .tool-desc { font-size: 10px; color: var(--muted); }
+  .tool-arrow { font-size: 12px; color: var(--muted); }
+  .tool-card:hover .tool-arrow { color: var(--cyan); }
+
+  /* ── CALENDAR ── */
+  .cal-widget {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+  .cal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .cal-nav {
+    background: none; border: 1px solid var(--border);
+    color: var(--text); cursor: pointer;
+    width: 28px; height: 28px;
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .cal-nav:hover { border-color: var(--cyan-20); color: var(--cyan); }
+  .cal-month-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 1.5px; color: var(--white);
+    cursor: pointer;
+  }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  .cal-cell {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; text-align: center;
+    padding: 6px 0; cursor: pointer;
+    color: var(--text);
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+  .cal-cell:hover { background: var(--cyan-05); border-color: var(--cyan-20); }
+  .cal-cell.today { color: var(--cyan); font-weight: 700; border-color: var(--cyan-20); }
+  .cal-cell.other { color: var(--border2); }
+  .cal-cell.day-label {
+    color: var(--muted); font-size: 8px;
+    letter-spacing: 1px; cursor: default;
+    padding: 4px 0;
+  }
+  .cal-cell.has-event::after {
+    content: ''; display: block;
+    width: 3px; height: 3px; border-radius: 50%;
+    background: var(--cyan); margin: 2px auto 0;
+  }
+
+  /* ── TODO ── */
+  .todo-widget {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+  .todo-add-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .todo-input {
+    flex: 1; background: rgba(12,192,223,0.04);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px; padding: 8px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .todo-input:focus { border-color: var(--cyan-20); }
+  .todo-input::placeholder { color: var(--muted); }
+  .todo-add-btn {
+    background: var(--cyan-05); border: 1px solid var(--cyan-20);
+    color: var(--cyan); cursor: pointer;
+    font-size: 16px; width: 36px;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.2s;
+  }
+  .todo-add-btn:hover { background: var(--cyan-10); }
+  .todo-list { list-style: none; }
+  .todo-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    font-size: 12px; color: var(--light);
+    cursor: pointer; transition: opacity 0.2s;
+  }
+  .todo-item.done {
+    text-decoration: line-through;
+    opacity: 0.35; color: var(--muted);
+  }
+  .todo-check {
+    width: 14px; height: 14px;
+    border: 1px solid var(--border2);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: transparent;
+    transition: all 0.2s;
+  }
+  .todo-item.done .todo-check {
+    border-color: var(--cyan-20);
+    color: var(--cyan);
+  }
+  .todo-text { flex: 1; }
+  .todo-del {
+    font-size: 10px; color: var(--border2);
+    cursor: pointer; opacity: 0;
+    transition: all 0.2s;
+  }
+  .todo-item:hover .todo-del { opacity: 1; }
+  .todo-del:hover { color: #e44; }
+  .todo-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 1px; margin-top: 8px;
+    text-align: right;
+  }
+
+  /* ── NOTES ── */
+  .notes-widget {
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .notes-toolbar {
+    display: flex; align-items: center; gap: 2px;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nt-btn {
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; padding: 4px 8px; font-size: 12px;
+    transition: color 0.2s;
+  }
+  .nt-btn:hover { color: var(--cyan); }
+  .nt-sep {
+    width: 1px; height: 14px;
+    background: var(--border); margin: 0 4px;
+  }
+  .notes-editor {
+    min-height: 180px; padding: 16px;
+    font-size: 13px; line-height: 1.7;
+    color: var(--light); outline: none;
+  }
+  .notes-editor:empty::before {
+    content: 'Notizen ...';
+    color: var(--muted); font-style: italic;
+  }
+  .notes-status {
+    padding: 6px 12px;
+    border-top: 1px solid var(--border);
+    text-align: right;
+  }
+  .notes-status-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 1.5px;
+    color: var(--muted);
+  }
+
+  /* ── FOOTER ── */
+  .ws-footer {
+    text-align: center;
+    margin-top: 60px; padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .ws-footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1.5px;
+    color: var(--muted);
+  }
+  .ws-footer .wp { color: var(--orange); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    body { padding: 40px 12px 60px; }
+    .workspace-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .full-width { max-width: 100%; }
+    .status-bar { gap: 12px; }
+    .mp-card { flex-wrap: wrap; }
+    .mp-actions { width: 100%; margin-top: 8px; }
+    .link-card { padding: 12px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ LOGIN GATE ══════ -->
+<div class="login-gate" id="loginGate">
+  <div class="login-logo">S<span>2</span>P</div>
+  <p class="login-label">// workspace access</p>
+  <div class="login-input-wrap">
+    <input type="tel" maxlength="1" class="login-digit" id="d1" autocomplete="off" inputmode="numeric">
+    <input type="tel" maxlength="1" class="login-digit" id="d2" autocomplete="off" inputmode="numeric">
+    <input type="tel" maxlength="1" class="login-digit" id="d3" autocomplete="off" inputmode="numeric">
+    <input type="tel" maxlength="1" class="login-digit" id="d4" autocomplete="off" inputmode="numeric">
+  </div>
+  <p class="login-error" id="loginError"></p>
+  <p class="login-hint">SHIFT2PRO — PRIVATE WORKSPACE</p>
+</div>
+
+
+<div class="container locked" id="mainContent">
+
+  <!-- ══════ HEADER ══════ -->
+  <div class="full-width">
+  <div class="header">
+    <div class="header-brand">SHIFT<span>2</span>PRO</div>
+    <p class="header-title">SHIFT2PRO <span class="name">WORKSPACE</span> <span class="slash">//</span> <span class="ws">command center</span></p>
+    <h1 class="header-headline">INSPIRE. DEVELOP.<br><span class="cyan">CONNECT.</span></h1>
+    <p class="header-tagline">ALLES AN EINEM ORT. IMMER.</p>
+  </div>
+
+  <!-- ══════ STATUS BAR ══════ -->
+  <div class="status-bar" id="statusBar">
+    <div class="status-item">
+      <span id="weatherDesc">···</span>
+      <span class="val" id="weatherTemp">···</span>
+    </div>
+    <div class="status-divider"></div>
+    <div class="status-item">
+      <span id="statusDate">···</span>
+    </div>
+    <div class="status-divider"></div>
+    <div class="status-item">
+      <span class="val" id="statusTime">···</span>
+    </div>
+  </div>
+  </div>
+
+  <!-- ══════ TWO-COLUMN WORKSPACE ══════ -->
+  <div class="workspace-grid">
+
+    <!-- ───── LEFT: MASTERPLAN & LINKS ───── -->
+    <div class="workspace-col">
+
+      <!-- ══════ MASTERPLAN ══════ -->
+      <div class="section">
+        <div class="section-label">
+          Masterplan
+          <span class="section-count">7 Kapitel</span>
+        </div>
+
+        <div class="mp-card">
+          <div class="mp-num">01</div>
+          <div class="mp-info">
+            <div class="mp-title">Brand Identity</div>
+            <div class="mp-desc">Story &middot; Visuell &middot; Tone of Voice</div>
+          </div>
+          <div class="mp-actions">
+            <a href="/s2p-masterplan.html#brand" target="_blank" class="mp-btn primary">Ansehen</a>
+            <button class="mp-btn" onclick="printSection('brand')">PDF</button>
+          </div>
+        </div>
+
+        <div class="mp-card">
+          <div class="mp-num">02</div>
+          <div class="mp-info">
+            <div class="mp-title">Businessplan</div>
+            <div class="mp-desc">Markt &middot; Revenue &middot; Meilensteine</div>
+          </div>
+          <div class="mp-actions">
+            <a href="/s2p-masterplan.html#business" target="_blank" class="mp-btn primary">Ansehen</a>
+            <button class="mp-btn" onclick="printSection('business')">PDF</button>
+          </div>
+        </div>
+
+        <div class="mp-card">
+          <div class="mp-num">03</div>
+          <div class="mp-info">
+            <div class="mp-title">Vermarktungskonzept</div>
+            <div class="mp-desc">Launch &middot; Social &middot; Kooperationen</div>
+          </div>
+          <div class="mp-actions">
+            <a href="/s2p-masterplan.html#marketing" target="_blank" class="mp-btn primary">Ansehen</a>
+            <button class="mp-btn" onclick="printSection('marketing')">PDF</button>
+          </div>
+        </div>
+
+        <div class="mp-card">
+          <div class="mp-num">04</div>
+          <div class="mp-info">
+            <div class="mp-title">Content-Planung</div>
+            <div class="mp-desc">Formate &middot; Rubriken &middot; Redaktionsplan</div>
+          </div>
+          <div class="mp-actions">
+            <a href="/s2p-masterplan.html#content" target="_blank" class="mp-btn primary">Ansehen</a>
+            <button class="mp-btn" onclick="printSection('content')">PDF</button>
+          </div>
+        </div>
+
+        <div class="mp-card">
+          <div class="mp-num">05</div>
+          <div class="mp-info">
+            <div class="mp-title">Podcast-Handbuch</div>
+            <div class="mp-desc">Technik &middot; Workflow &middot; Distribution</div>
+          </div>
+          <div class="mp-actions">
+            <a href="/s2p-masterplan.html#podcast" target="_blank" class="mp-btn primary">Ansehen</a>
+            <button class="mp-btn" onclick="printSection('podcast')">PDF</button>
+          </div>
+        </div>
+
+        <div class="mp-card">
+          <div class="mp-num">06</div>
+          <div class="mp-info">
+            <div class="mp-title">Das Buch — THE SHIFT</div>
+            <div class="mp-desc">Konzept &middot; Struktur &middot; Produktion</div>
+          </div>
+          <div class="mp-actions">
+            <a href="/s2p-masterplan.html#book" target="_blank" class="mp-btn primary">Ansehen</a>
+            <button class="mp-btn" onclick="printSection('book')">PDF</button>
+          </div>
+        </div>
+
+        <div class="mp-card">
+          <div class="mp-num">07</div>
+          <div class="mp-info">
+            <div class="mp-title">Roadmap 2026–2028</div>
+            <div class="mp-desc">Phasen &middot; Ziele &middot; KPIs</div>
+          </div>
+          <div class="mp-actions">
+            <a href="/s2p-masterplan.html#roadmap" target="_blank" class="mp-btn primary">Ansehen</a>
+            <button class="mp-btn" onclick="printSection('roadmap')">PDF</button>
+          </div>
+        </div>
+
+        <!-- Full Masterplan -->
+        <div class="mp-card" style="border-top: 1px solid var(--border); margin-top: 4px;">
+          <div class="mp-num" style="color: var(--cyan);">*</div>
+          <div class="mp-info">
+            <div class="mp-title" style="color: var(--cyan);">Gesamter Masterplan</div>
+            <div class="mp-desc">Alle 7 Kapitel in einem Dokument</div>
+          </div>
+          <div class="mp-actions">
+            <a href="/s2p-masterplan.html" target="_blank" class="mp-btn primary">Ansehen</a>
+            <button class="mp-btn" onclick="window.open('/s2p-masterplan.html','_blank').print()">PDF</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PODCAST HUB ══════ -->
+      <div class="section">
+        <div class="section-label">Podcast</div>
+
+        <a href="https://www.shift2pro.com" class="link-card" target="_blank">
+          <div class="link-icon">S2P</div>
+          <div class="link-text">
+            <div class="link-title">shift2pro.com</div>
+            <div class="link-desc">Website — Episoden, Show Notes, Archiv</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="https://www.instagram.com/shift2pro" class="link-card" target="_blank">
+          <div class="link-icon">IG</div>
+          <div class="link-text">
+            <div class="link-title">Instagram</div>
+            <div class="link-desc">@shift2pro — Hauptkanal f&uuml;r Community &amp; Reichweite</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="https://www.tiktok.com/@shift2pro" class="link-card" target="_blank">
+          <div class="link-icon">TT</div>
+          <div class="link-text">
+            <div class="link-title">TikTok</div>
+            <div class="link-desc">@shift2pro — Kurzclips, Behind-the-Scenes</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="https://www.youtube.com/@shift2pro" class="link-card" target="_blank">
+          <div class="link-icon">YT</div>
+          <div class="link-text">
+            <div class="link-title">YouTube</div>
+            <div class="link-desc">@shift2pro — Full Episodes &amp; Shorts</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+      </div>
+
+      <!-- ══════ MERCH & SHOP ══════ -->
+      <div class="section">
+        <div class="section-label">Merch &amp; Shop</div>
+
+        <a href="https://hedzup.store/shop?category=pcol_01KNVP0MMRES38MJ9C5QG6XZCB" class="link-card" target="_blank">
+          <div class="link-icon">HU</div>
+          <div class="link-text">
+            <div class="link-title">Hedz.Up Store</div>
+            <div class="link-desc">Casual Streetwear mit Eishockey-DNA — Kollektion</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="/shop" class="link-card" target="_blank">
+          <div class="link-icon">WP</div>
+          <div class="link-text">
+            <div class="link-title">Wild Project Shop</div>
+            <div class="link-desc">wildproject.pro/shop — Merch, Drops, Digitales</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+      </div>
+
+      <!-- ══════ BRAND & ASSETS ══════ -->
+      <div class="section">
+        <div class="section-label">Brand &amp; Assets</div>
+
+        <a href="/basecamp" class="link-card" target="_blank">
+          <div class="link-icon">BC</div>
+          <div class="link-text">
+            <div class="link-title">Wild Project Basecamp</div>
+            <div class="link-desc">Brand Assets &amp; Press Kit — Logos, Farben, Fonts</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="https://www.wildproject.pro" class="link-card" target="_blank">
+          <div class="link-icon">WP</div>
+          <div class="link-text">
+            <div class="link-title">wildproject.pro</div>
+            <div class="link-desc">Dachmarke — Ren&eacute; Wild Personal Brand</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+      </div>
+
+      <!-- ══════ PARTNER ══════ -->
+      <div class="section">
+        <div class="section-label">Partner &amp; Friends</div>
+
+        <a href="https://dubeskills.eu/" class="link-card" target="_blank">
+          <div class="link-icon">DS</div>
+          <div class="link-text">
+            <div class="link-title">Dub&eacute; Skills</div>
+            <div class="link-desc">Professionelle Spielerentwicklung</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="https://www.create-sports.com" class="link-card" target="_blank">
+          <div class="link-icon">CS</div>
+          <div class="link-text">
+            <div class="link-title">Create-Sports</div>
+            <div class="link-desc">Hockeyshop #1 — Wir leben Eishockey</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="https://www.cherrysgraph.de/" class="link-card" target="_blank">
+          <div class="link-icon">LK</div>
+          <div class="link-text">
+            <div class="link-title">Lukas Kirsch</div>
+            <div class="link-desc">Fotografie — die Bilder hinter Shift2Pro</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+      </div>
+
+      <!-- ══════ KONTAKT ══════ -->
+      <div class="section">
+        <div class="section-label">Kontakt</div>
+        <div class="contact-row">
+          <a href="mailto:rene@wildproject.pro" class="contact-pill">rene@wildproject.pro</a>
+        </div>
+      </div>
+
+    </div><!-- /.workspace-col LEFT -->
+
+    <!-- ───── RIGHT: TOOLS ───── -->
+    <div class="workspace-col">
+
+      <!-- ══════ PODCAST TOOLS ══════ -->
+      <div class="section">
+        <div class="section-label">Workflow</div>
+        <div class="tools-grid">
+          <a href="https://claude.ai" class="tool-card" target="_blank">
+            <div class="tool-ico">AI</div>
+            <div class="tool-meta">
+              <div class="tool-title">Claude</div>
+              <div class="tool-desc">AI Assistant — Brainstorming, Content, Code</div>
+            </div>
+            <div class="tool-arrow">&nearr;</div>
+          </a>
+          <a href="https://www.canva.com" class="tool-card" target="_blank">
+            <div class="tool-ico">CV</div>
+            <div class="tool-meta">
+              <div class="tool-title">Canva</div>
+              <div class="tool-desc">Grafiken, Thumbnails, Social Posts</div>
+            </div>
+            <div class="tool-arrow">&nearr;</div>
+          </a>
+          <a href="https://riverside.fm" class="tool-card" target="_blank">
+            <div class="tool-ico">RS</div>
+            <div class="tool-meta">
+              <div class="tool-title">Riverside</div>
+              <div class="tool-desc">Podcast-Aufnahme — Remote &amp; Lokal</div>
+            </div>
+            <div class="tool-arrow">&nearr;</div>
+          </a>
+          <a href="notes://" class="tool-card">
+            <div class="tool-ico">AN</div>
+            <div class="tool-meta">
+              <div class="tool-title">Apple Notizen</div>
+              <div class="tool-desc">Schnelle Gedanken &amp; Skizzen</div>
+            </div>
+            <div class="tool-arrow">&nearr;</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ══════ KALENDER ══════ -->
+      <div class="section">
+        <div class="section-label">Kalender</div>
+        <div class="cal-widget">
+          <div class="cal-header">
+            <button class="cal-nav" id="calPrev">&lsaquo;</button>
+            <span class="cal-month-label" id="calLabel"></span>
+            <button class="cal-nav" id="calNext">&rsaquo;</button>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+      </div>
+
+      <!-- ══════ TO DO ══════ -->
+      <div class="section">
+        <div class="section-label">To Do</div>
+        <div class="todo-widget">
+          <div class="todo-add-row">
+            <input type="text" class="todo-input" id="todoInput" placeholder="Neue Aufgabe ..." maxlength="200">
+            <button class="todo-add-btn" id="todoAddBtn">+</button>
+          </div>
+          <ul class="todo-list" id="todoList"></ul>
+          <div class="todo-count" id="todoCount"></div>
+        </div>
+      </div>
+
+      <!-- ══════ NOTES ══════ -->
+      <div class="section">
+        <div class="section-label">Notes</div>
+        <div class="notes-widget">
+          <div class="notes-toolbar">
+            <button class="nt-btn" onclick="document.execCommand('bold')"><b>B</b></button>
+            <button class="nt-btn" onclick="document.execCommand('italic')"><i>I</i></button>
+            <span class="nt-sep"></span>
+            <button class="nt-btn" onclick="document.execCommand('insertUnorderedList')">&#8226;</button>
+          </div>
+          <div class="notes-editor" id="notesEditor" contenteditable="true"></div>
+          <div class="notes-status">
+            <span class="notes-status-text" id="notesSaved">GESPEICHERT</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── BACKUP ── -->
+      <div class="section">
+        <div class="section-label">Backup</div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="exportWorkspaceData()" style="flex:1;padding:10px 12px;background:rgba(12,192,223,0.06);border:1px solid rgba(12,192,223,0.12);border-radius:8px;color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;cursor:pointer;transition:all 0.2s;">EXPORT JSON</button>
+          <button onclick="importWorkspaceData()" style="flex:1;padding:10px 12px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;cursor:pointer;transition:all 0.2s;">IMPORT</button>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;margin-top:8px;line-height:1.6;">AES-256 VERSCHLÜSSELT · LOKALE DATEN · KEIN SERVER</div>
+      </div>
+
+    </div><!-- /.workspace-col RIGHT -->
+
+  </div><!-- /.workspace-grid -->
+
+  <!-- ══════ FOOTER ══════ -->
+  <div class="ws-footer">
+    <p>SHIFT<span style="color:var(--cyan);">2</span>PRO WORKSPACE &middot; A <span class="wp">WILD PROJECT</span> PRODUCT</p>
+  </div>
+
+</div><!-- /.container -->
+
+
+<script>
+// ═══════════════════════════════════════
+// CRYPTO LAYER — AES-GCM encryption for localStorage
+// ═══════════════════════════════════════
+var S2P_CRYPTO = (function() {
+  var ENC_PREFIX = 'enc::';
+  var _key = null;
+
+  // Derive AES key from passphrase (PIN hash) via PBKDF2
+  async function deriveKey(passphrase) {
+    var enc = new TextEncoder();
+    var keyMaterial = await crypto.subtle.importKey('raw', enc.encode(passphrase), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt: enc.encode('s2p-workspace-salt-v1'), iterations: 100000, hash: 'SHA-256' },
+      keyMaterial,
+      { name: 'AES-GCM', length: 256 },
+      false,
+      ['encrypt', 'decrypt']
+    );
+  }
+
+  async function init(pin) {
+    _key = await deriveKey(pin);
+  }
+
+  async function encrypt(plaintext) {
+    if (!_key) return plaintext;
+    var enc = new TextEncoder();
+    var iv = crypto.getRandomValues(new Uint8Array(12));
+    var ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, _key, enc.encode(plaintext));
+    var buf = new Uint8Array(iv.length + ct.byteLength);
+    buf.set(iv); buf.set(new Uint8Array(ct), iv.length);
+    return ENC_PREFIX + btoa(String.fromCharCode.apply(null, buf));
+  }
+
+  async function decrypt(stored) {
+    if (!_key || !stored || !stored.startsWith(ENC_PREFIX)) return stored;
+    try {
+      var raw = atob(stored.slice(ENC_PREFIX.length));
+      var buf = new Uint8Array(raw.length);
+      for (var i = 0; i < raw.length; i++) buf[i] = raw.charCodeAt(i);
+      var iv = buf.slice(0, 12);
+      var ct = buf.slice(12);
+      var dec = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, _key, ct);
+      return new TextDecoder().decode(dec);
+    } catch(e) { return null; }
+  }
+
+  async function secureSet(key, value) {
+    var encrypted = await encrypt(value);
+    localStorage.setItem(key, encrypted);
+  }
+
+  async function secureGet(key) {
+    var stored = localStorage.getItem(key);
+    if (!stored) return null;
+    return decrypt(stored);
+  }
+
+  return { init: init, secureSet: secureSet, secureGet: secureGet, encrypt: encrypt, decrypt: decrypt };
+})();
+
+// ═══════════════════════════════════════
+// LOGIN GATE — PIN verified via SHA-256 hash only
+// ═══════════════════════════════════════
+(function() {
+  // Pre-computed SHA-256 hash — PIN is NEVER stored in plaintext
+  var EXPECTED_HASH = '158a323a7ba44870f23d96f1516dd70aa48e9a72db4ebb026b0a89e212a208ab';
+  var KEY = 's2p_ws_auth';
+  var gate = document.getElementById('loginGate');
+  var main = document.getElementById('mainContent');
+  var digits = [document.getElementById('d1'), document.getElementById('d2'), document.getElementById('d3'), document.getElementById('d4')];
+  var err = document.getElementById('loginError');
+
+  async function hashPin(pin) {
+    var enc = new TextEncoder();
+    var hash = await crypto.subtle.digest('SHA-256', enc.encode(pin));
+    return Array.from(new Uint8Array(hash)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+  }
+
+  // Check stored session
+  (async function() {
+    var stored = localStorage.getItem(KEY);
+    if (stored && stored.length === 64) {
+      // Session valid — derive crypto key from stored hash (used as passphrase)
+      await S2P_CRYPTO.init(stored);
+      unlock();
+    } else {
+      // Migrate: if old auth was '1', re-auth required
+      if (stored === '1') localStorage.removeItem(KEY);
+      digits[0].focus();
+    }
+  })();
+
+  digits.forEach(function(d, i) {
+    d.addEventListener('input', function() {
+      if (d.value.length === 1 && i < 3) digits[i+1].focus();
+      checkPin();
+    });
+    d.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' && !d.value && i > 0) digits[i-1].focus();
+    });
+  });
+
+  async function checkPin() {
+    var code = digits.map(function(d) { return d.value; }).join('');
+    if (code.length === 4) {
+      var hash = await hashPin(code);
+      if (hash === EXPECTED_HASH) {
+        localStorage.setItem(KEY, hash);
+        await S2P_CRYPTO.init(hash);
+        // Migrate unencrypted data to encrypted
+        await migrateData();
+        unlock();
+      } else {
+        err.textContent = 'WRONG CODE';
+        digits.forEach(function(d) { d.value = ''; });
+        digits[0].focus();
+      }
+    }
+  }
+
+  async function migrateData() {
+    var keys = ['s2p_todos', 's2p_notes'];
+    for (var i = 0; i < keys.length; i++) {
+      var raw = localStorage.getItem(keys[i]);
+      if (raw && !raw.startsWith('enc::')) {
+        await S2P_CRYPTO.secureSet(keys[i], raw);
+      }
+    }
+  }
+
+  function unlock() {
+    gate.classList.add('hidden');
+    main.classList.remove('locked');
+  }
+})();
+
+// ═══════════════════════════════════════
+// STATUS BAR — Date, Time, Weather
+// ═══════════════════════════════════════
+(function() {
+  var days = ['SO','MO','DI','MI','DO','FR','SA'];
+  var months = ['JAN','FEB','MÄR','APR','MAI','JUN','JUL','AUG','SEP','OKT','NOV','DEZ'];
+
+  function update() {
+    var now = new Date();
+    var d = document.getElementById('statusDate');
+    var t = document.getElementById('statusTime');
+    if (d) d.textContent = days[now.getDay()] + ' ' + String(now.getDate()).padStart(2,'0') + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + now.getFullYear();
+    if (t) t.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  }
+  update();
+  setInterval(update, 30000);
+
+  // Weather (Rosenheim)
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=47.856&longitude=12.129&current_weather=true')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var w = d.current_weather;
+      var codes = {0:'Klar',1:'Leicht bewölkt',2:'Bewölkt',3:'Bedeckt',45:'Nebel',51:'Nieselregen',61:'Regen',71:'Schnee',80:'Schauer',95:'Gewitter'};
+      var desc = codes[w.weathercode] || '—';
+      document.getElementById('weatherDesc').textContent = desc;
+      document.getElementById('weatherTemp').textContent = Math.round(w.temperature) + '°C';
+    }).catch(function() {});
+})();
+
+// ═══════════════════════════════════════
+// CALENDAR
+// ═══════════════════════════════════════
+(function() {
+  var now = new Date();
+  var curMonth = now.getMonth();
+  var curYear = now.getFullYear();
+  var grid = document.getElementById('calGrid');
+  var label = document.getElementById('calLabel');
+  var months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+
+  function render() {
+    label.textContent = months[curMonth] + ' ' + curYear;
+    var html = '';
+    ['MO','DI','MI','DO','FR','SA','SO'].forEach(function(d) {
+      html += '<div class="cal-cell day-label">' + d + '</div>';
+    });
+    var first = new Date(curYear, curMonth, 1);
+    var startDay = (first.getDay() + 6) % 7;
+    var daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
+    var prevDays = new Date(curYear, curMonth, 0).getDate();
+    var today = new Date();
+    for (var i = 0; i < startDay; i++) {
+      html += '<div class="cal-cell other">' + (prevDays - startDay + 1 + i) + '</div>';
+    }
+    for (var d = 1; d <= daysInMonth; d++) {
+      var cls = 'cal-cell';
+      if (d === today.getDate() && curMonth === today.getMonth() && curYear === today.getFullYear()) cls += ' today';
+      html += '<div class="' + cls + '">' + d + '</div>';
+    }
+    var total = startDay + daysInMonth;
+    var remaining = (7 - total % 7) % 7;
+    for (var i = 1; i <= remaining; i++) {
+      html += '<div class="cal-cell other">' + i + '</div>';
+    }
+    grid.innerHTML = html;
+  }
+
+  document.getElementById('calPrev').onclick = function() { curMonth--; if (curMonth < 0) { curMonth = 11; curYear--; } render(); };
+  document.getElementById('calNext').onclick = function() { curMonth++; if (curMonth > 11) { curMonth = 0; curYear++; } render(); };
+  label.onclick = function() { curMonth = now.getMonth(); curYear = now.getFullYear(); render(); };
+  render();
+})();
+
+// ═══════════════════════════════════════
+// TO DO — encrypted localStorage
+// ═══════════════════════════════════════
+(function() {
+  var KEY = 's2p_todos';
+  var input = document.getElementById('todoInput');
+  var btn = document.getElementById('todoAddBtn');
+  var list = document.getElementById('todoList');
+  var count = document.getElementById('todoCount');
+  var todos = [];
+
+  // Load encrypted todos
+  (async function() {
+    var raw = await S2P_CRYPTO.secureGet(KEY);
+    if (raw) { try { todos = JSON.parse(raw); } catch(e) {} }
+    render();
+  })();
+
+  async function save() { await S2P_CRYPTO.secureSet(KEY, JSON.stringify(todos)); }
+
+  function render() {
+    list.innerHTML = '';
+    todos.forEach(function(t, i) {
+      var li = document.createElement('li');
+      li.className = 'todo-item' + (t.done ? ' done' : '');
+      li.innerHTML = '<span class="todo-check">' + (t.done ? '✓' : '') + '</span><span class="todo-text">' + escHtml(t.text) + '</span><span class="todo-del">&times;</span>';
+      li.querySelector('.todo-check').onclick = function() { todos[i].done = !todos[i].done; save(); render(); };
+      li.querySelector('.todo-del').onclick = function(e) { e.stopPropagation(); todos.splice(i, 1); save(); render(); };
+      list.appendChild(li);
+    });
+    var open = todos.filter(function(t) { return !t.done; }).length;
+    count.textContent = open + ' OFFEN · ' + todos.length + ' TOTAL';
+  }
+
+  function escHtml(s) {
+    var d = document.createElement('div'); d.textContent = s; return d.innerHTML;
+  }
+
+  function add() {
+    var val = input.value.trim();
+    if (!val) return;
+    todos.unshift({ text: val, done: false });
+    input.value = '';
+    save(); render();
+  }
+
+  btn.onclick = add;
+  input.addEventListener('keydown', function(e) { if (e.key === 'Enter') add(); });
+})();
+
+// ═══════════════════════════════════════
+// NOTES — encrypted auto-save
+// ═══════════════════════════════════════
+(function() {
+  var KEY = 's2p_notes';
+  var editor = document.getElementById('notesEditor');
+  var status = document.getElementById('notesSaved');
+
+  // Load encrypted notes
+  (async function() {
+    var saved = await S2P_CRYPTO.secureGet(KEY);
+    if (saved) editor.innerHTML = saved;
+  })();
+
+  var timer;
+  editor.addEventListener('input', function() {
+    status.textContent = 'SPEICHERT ...';
+    clearTimeout(timer);
+    timer = setTimeout(async function() {
+      await S2P_CRYPTO.secureSet(KEY, editor.innerHTML);
+      status.textContent = 'GESPEICHERT ✓';
+    }, 800);
+  });
+})();
+
+// ═══════════════════════════════════════
+// DATA BACKUP — Export / Import
+// ═══════════════════════════════════════
+async function exportWorkspaceData() {
+  var data = {
+    _export: 's2p-workspace',
+    _date: new Date().toISOString(),
+    todos: await S2P_CRYPTO.secureGet('s2p_todos'),
+    notes: await S2P_CRYPTO.secureGet('s2p_notes')
+  };
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 's2p-backup-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importWorkspaceData() {
+  var input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = async function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var text = await file.text();
+    try {
+      var data = JSON.parse(text);
+      if (data._export !== 's2p-workspace') { alert('Keine gueltige Backup-Datei.'); return; }
+      if (data.todos) await S2P_CRYPTO.secureSet('s2p_todos', data.todos);
+      if (data.notes) await S2P_CRYPTO.secureSet('s2p_notes', data.notes);
+      location.reload();
+    } catch(err) { alert('Fehler beim Import: ' + err.message); }
+  };
+  input.click();
+}
+
+// ═══════════════════════════════════════
+// PRINT SECTION (PDF)
+// ═══════════════════════════════════════
+function printSection(id) {
+  var w = window.open('/s2p-masterplan.html#' + id, '_blank');
+  w.addEventListener('load', function() {
+    setTimeout(function() { w.print(); }, 500);
+  });
+}
+</script>
+
+</body>
+</html>
