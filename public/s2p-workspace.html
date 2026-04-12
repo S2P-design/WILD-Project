@@ -1719,7 +1719,10 @@
               </div>
               <div class="briefing-field">
                 <label class="briefing-label">EPISODE</label>
-                <input type="text" class="briefing-input" id="brfEpisode" placeholder="S2P-EP001">
+                <div style="display:flex;gap:6px;">
+                  <input type="text" class="briefing-input" id="brfEpisode" placeholder="S2P-EP001" style="flex:1;">
+                  <button class="briefing-gen-btn" onclick="var c=createEpFromBriefing();if(c){this.textContent='✓';this.style.color='#6dd670';setTimeout(()=>{this.textContent='NEUE EP';this.style.color='';},1200);}" style="white-space:nowrap;padding:4px 8px;">NEUE EP</button>
+                </div>
               </div>
             </div>
             <div class="briefing-row">
@@ -2000,7 +2003,7 @@
         </div>
 
         <div class="ep-add">
-          <input type="text" class="ep-add-num" id="epNum" placeholder="EP" maxlength="4">
+          <input type="text" class="ep-add-num" id="epNum" placeholder="001" maxlength="4">
           <input type="text" class="guest-input" id="epTitle" placeholder="Titel / Arbeitstitel" maxlength="120" style="flex:1;">
           <input type="text" class="guest-input" id="epGuest" placeholder="Gast" maxlength="80" style="flex:0.7;">
           <button class="guest-add-btn" onclick="addEpisode()">+</button>
@@ -2836,6 +2839,8 @@ function toggleSoundFolder(folder) {
 // ═══════════════════════════════════════
 // EPISODE TRACKER — with localStorage
 // ═══════════════════════════════════════
+// EPISODE NUMBERING SYSTEM — S2P-EP###
+// ═══════════════════════════════════════
 (function(){
   const STORE = 's2p_episodes';
   const STAGES = ['idee','geplant','aufgenommen','schnitt','fertig','live'];
@@ -2845,17 +2850,43 @@ function toggleSoundFolder(folder) {
 
   function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
 
+  // Zentrale Nummern-Logik
+  function padNum(n){ return String(n).padStart(3, '0'); }
+
+  function getHighestNum(){
+    let max = 0;
+    episodes.forEach(ep => {
+      const n = parseInt(ep.num) || 0;
+      if(n > max) max = n;
+    });
+    return max;
+  }
+
+  // Globale Funktion für Briefing-Integration
+  window.getNextEpNumber = function(){
+    return getHighestNum() + 1;
+  };
+
+  window.getNextEpCode = function(){
+    return 'S2P-EP' + padNum(getNextEpNumber());
+  };
+
+  function prefillNextNum(){
+    const el = document.getElementById('epNum');
+    if(el && !el.value) el.placeholder = padNum(getNextEpNumber());
+  }
+
   function render(){
     const pipe = document.getElementById('epPipeline');
-    // sort by ep number
     const sorted = [...episodes].sort((a,b) => {
       const na = parseInt(a.num) || 0, nb = parseInt(b.num) || 0;
       return na - nb;
     });
     pipe.innerHTML = sorted.map(ep => {
       const realIdx = episodes.indexOf(ep);
+      const numDisplay = padNum(parseInt(ep.num) || 0);
       return `<div class="ep-row">
-        <div class="ep-num">EP${esc(ep.num)}</div>
+        <div class="ep-num">S2P-EP${esc(numDisplay)}</div>
         <div class="ep-info">
           <div class="ep-title">${esc(ep.title)}</div>
           <div class="ep-guest">${esc(ep.guest)}</div>
@@ -2867,19 +2898,50 @@ function toggleSoundFolder(folder) {
       </div>`;
     }).join('');
     document.getElementById('epCount').textContent = episodes.length;
+    prefillNextNum();
+    syncBriefingEp();
+  }
+
+  // Sync nächste EP-Nummer ins Briefing
+  function syncBriefingEp(){
+    const brfEp = document.getElementById('brfEpisode');
+    if(brfEp && !brfEp.value) brfEp.placeholder = 'S2P-EP' + padNum(getNextEpNumber());
   }
 
   window.addEpisode = function(){
-    const num = document.getElementById('epNum').value.trim();
+    let num = document.getElementById('epNum').value.trim();
     const title = document.getElementById('epTitle').value.trim();
     const guest = document.getElementById('epGuest').value.trim();
     if(!title) return;
-    episodes.push({ num: num || '?', title, guest, stage: 'idee', created: Date.now() });
+
+    // Auto-Nummer wenn leer
+    if(!num) num = String(getNextEpNumber());
+
+    episodes.push({ num: num, title, guest, stage: 'idee', created: Date.now() });
     save(); render();
     document.getElementById('epNum').value = '';
     document.getElementById('epTitle').value = '';
     document.getElementById('epGuest').value = '';
-    document.getElementById('epNum').focus();
+    document.getElementById('epTitle').focus();
+  };
+
+  // Episode aus Briefing erstellen
+  window.createEpFromBriefing = function(){
+    const guest = document.getElementById('brfGuest').value.trim();
+    const topic = document.getElementById('brfTopic').value.trim();
+    const epField = document.getElementById('brfEpisode');
+    if(!topic && !guest) return;
+
+    const nextNum = String(getNextEpNumber());
+    const epCode = 'S2P-EP' + padNum(nextNum);
+
+    episodes.push({ num: nextNum, title: topic || 'Untitled', guest: guest, stage: 'idee', created: Date.now() });
+    save(); render();
+
+    // EP-Code ins Briefing schreiben
+    epField.value = epCode;
+
+    return epCode;
   };
 
   window.cycleEpStage = function(idx){
