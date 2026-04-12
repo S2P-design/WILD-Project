@@ -929,34 +929,32 @@
   }
   body.light::before {
     background:
-      radial-gradient(ellipse at 30% 20%, rgba(12,192,223,0.06) 0%, transparent 50%),
-      radial-gradient(ellipse at 70% 80%, rgba(12,192,223,0.04) 0%, transparent 50%);
+      radial-gradient(ellipse at 30% 20%, var(--daylight-tint, rgba(12,192,223,0.06)) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, var(--daylight-tint, rgba(12,192,223,0.04)) 0%, transparent 50%);
     animation: ambientPulse 10s ease-in-out infinite alternate;
+    transition: background 4s ease;
   }
-  /* Ambient glow orbs */
+  /* Ambient glow orbs — daylight adaptive */
   body.light .ambient-glow {
     position: fixed; pointer-events: none; z-index: 0;
     border-radius: 50%;
-    filter: blur(80px);
+    filter: blur(90px);
     opacity: 0;
-    transition: opacity 1s;
+    transition: opacity 1.5s, background 4s ease;
   }
   body.light .ambient-glow.active { opacity: 1; }
   body.light .ambient-glow.g1 {
-    width: 500px; height: 500px;
-    background: rgba(12,192,223,0.05);
-    top: 10%; left: 15%;
+    width: 550px; height: 550px;
+    top: 8%; left: 12%;
     animation: orbFloat1 18s ease-in-out infinite alternate;
   }
   body.light .ambient-glow.g2 {
-    width: 400px; height: 400px;
-    background: rgba(12,192,223,0.04);
-    bottom: 15%; right: 10%;
+    width: 450px; height: 450px;
+    bottom: 12%; right: 8%;
     animation: orbFloat2 22s ease-in-out infinite alternate;
   }
   body.light .ambient-glow.g3 {
-    width: 350px; height: 350px;
-    background: rgba(252,80,0,0.02);
+    width: 380px; height: 380px;
     top: 50%; left: 50%;
     animation: orbFloat3 15s ease-in-out infinite alternate;
   }
@@ -2521,6 +2519,69 @@ function printSection(id) {
     setTimeout(function() { w.print(); }, 500);
   });
 }
+
+// ═══════════════════════════════════════
+// DAYLIGHT ENGINE — Circadian Ambient Glow
+// ═══════════════════════════════════════
+(function() {
+  // Tageslicht-Phasen: [hour, g1-color, g2-color, g3-color, bg-tint]
+  // Morgengrauen → Goldene Stunde → Tageslicht → Nachmittag → Golden Hour → Dämmerung → Nacht
+  var phases = [
+    // h   g1 (primary)                    g2 (secondary)                  g3 (accent)                     bg-overlay
+    [ 5,  'rgba(255,180,80,0.04)',         'rgba(255,140,50,0.03)',        'rgba(200,120,60,0.02)',         'rgba(255,200,140,0.03)' ],  // Morgengrauen
+    [ 7,  'rgba(255,200,100,0.06)',        'rgba(255,170,60,0.04)',        'rgba(252,80,0,0.025)',          'rgba(255,210,150,0.04)' ],  // Sonnenaufgang
+    [ 9,  'rgba(255,230,180,0.05)',        'rgba(12,192,223,0.03)',        'rgba(255,200,100,0.02)',        'rgba(255,240,220,0.02)' ],  // Vormittag warm
+    [11,  'rgba(12,192,223,0.05)',         'rgba(80,180,220,0.04)',        'rgba(255,250,230,0.02)',        'rgba(220,240,255,0.02)' ],  // Tageslicht klar
+    [13,  'rgba(12,192,223,0.055)',        'rgba(60,170,230,0.045)',       'rgba(12,192,223,0.02)',         'rgba(230,245,255,0.02)' ],  // Mittag — kühlstes Licht
+    [15,  'rgba(12,192,223,0.05)',         'rgba(100,190,220,0.04)',       'rgba(255,220,150,0.02)',        'rgba(240,248,255,0.015)'],  // Früher Nachmittag
+    [17,  'rgba(255,200,120,0.05)',        'rgba(12,192,223,0.03)',        'rgba(252,80,0,0.025)',          'rgba(255,230,200,0.03)' ],  // Golden Hour
+    [19,  'rgba(255,160,80,0.06)',         'rgba(255,120,60,0.04)',        'rgba(200,80,40,0.03)',          'rgba(255,200,160,0.04)' ],  // Sonnenuntergang
+    [20,  'rgba(255,120,60,0.04)',         'rgba(180,100,60,0.035)',       'rgba(150,80,50,0.025)',         'rgba(255,180,140,0.03)' ],  // Dämmerung
+    [21,  'rgba(120,100,180,0.04)',        'rgba(80,70,140,0.03)',         'rgba(60,50,120,0.02)',          'rgba(200,190,230,0.02)' ],  // Blaue Stunde
+    [23,  'rgba(60,50,120,0.03)',          'rgba(40,35,100,0.025)',        'rgba(30,25,80,0.015)',          'rgba(180,170,210,0.015)'],  // Nacht
+    [ 3,  'rgba(40,30,80,0.025)',          'rgba(30,25,70,0.02)',          'rgba(20,15,60,0.012)',          'rgba(160,150,190,0.01)' ],  // Tiefe Nacht
+  ];
+
+  function getPhaseColors(hour) {
+    // Finde die zwei Phasen zwischen denen wir interpolieren
+    var prev = phases[phases.length - 1];
+    var next = phases[0];
+    for (var i = 0; i < phases.length; i++) {
+      if (hour >= phases[i][0]) {
+        prev = phases[i];
+        next = phases[(i + 1) % phases.length] || phases[0];
+      }
+    }
+    // Einfache Überblendung: nehme die nächstgelegene Phase
+    var distPrev = Math.abs(hour - prev[0]);
+    var distNext = Math.abs(next[0] - hour);
+    if (next[0] <= prev[0]) distNext = Math.abs((next[0] + 24) - hour);
+    return distPrev <= distNext ? prev : next;
+  }
+
+  function applyDaylight() {
+    var h = new Date().getHours();
+    var m = new Date().getMinutes();
+    var hourFloat = h + m / 60;
+
+    var colors = getPhaseColors(hourFloat);
+
+    var g1 = document.querySelector('.ambient-glow.g1');
+    var g2 = document.querySelector('.ambient-glow.g2');
+    var g3 = document.querySelector('.ambient-glow.g3');
+
+    if (g1) g1.style.background = colors[1];
+    if (g2) g2.style.background = colors[2];
+    if (g3) g3.style.background = colors[3];
+
+    // Subtilen Hintergrund-Tint auf body::before anpassen via CSS variable
+    document.documentElement.style.setProperty('--daylight-tint', colors[4]);
+  }
+
+  // Initial + alle 5 Minuten aktualisieren
+  applyDaylight();
+  setInterval(applyDaylight, 5 * 60 * 1000);
+})();
 
 // ═══════════════════════════════════════
 // S2P SOUNDS — Folder Toggle
