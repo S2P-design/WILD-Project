@@ -957,10 +957,9 @@
      GLASS LIGHT MODE
      ══════════════════════════════════ */
   body.light {
-    background: var(--dl-bg, linear-gradient(135deg, #f6f7f9 0%, #f0f3f7 30%, #faf8f6 60%, #f4f6fa 100%));
+    background: #f0f1f3;
     background-attachment: fixed;
     color: #1a1a2e;
-    transition: background 4s ease;
   }
   body.light::before {
     background:
@@ -1016,35 +1015,35 @@
     100% { transform: translate(-55%, -45%) scale(0.9); opacity: 0.7; }
   }
 
-  /* Glass panel mixin via widgets */
+  /* Glass panel mixin via widgets — bright indirect backlight */
   body.light .cal-widget,
   body.light .todo-widget,
   body.light .notes-widget,
   body.light .briefing-preview,
   body.light .tool-card,
   body.light .sound-folder {
-    background: rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.75);
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
-    border: 1px solid rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.95);
     border-radius: 16px;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.015),
-                inset 0 1px 0 rgba(255,255,255,0.8);
+    box-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 60px rgba(255,255,255,0.4),
+                0 2px 6px rgba(0,0,0,0.015);
   }
 
   body.light .cal-widget:hover,
   body.light .todo-widget:hover,
   body.light .notes-widget:hover,
   body.light .briefing-preview:hover {
-    background: rgba(255,255,255,0.72);
-    box-shadow: 0 8px 40px rgba(12,192,223,0.08), 0 2px 4px rgba(0,0,0,0.02),
-                inset 0 1px 0 rgba(12,192,223,0.1);
-    border-color: rgba(12,192,223,0.18);
+    background: rgba(255,255,255,0.88);
+    box-shadow: 0 0 50px rgba(255,255,255,1), 0 0 100px rgba(255,255,255,0.5),
+                0 0 15px rgba(12,192,223,0.05), 0 4px 10px rgba(0,0,0,0.02);
+    border-color: rgba(12,192,223,0.12);
   }
 
   /* Login */
   body.light .login-gate {
-    background: linear-gradient(135deg, #f6f7f9 0%, #f0f3f7 50%, #faf8f6 100%);
+    background: #ffffff;
   }
   body.light .login-logo { color: #1a1a2e; }
   body.light .login-label { color: rgba(0,0,0,0.3); }
@@ -1073,51 +1072,53 @@
 
   /* Meta pills — glass */
   body.light .meta-pill {
-    background: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.7);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.95);
     color: var(--cyan);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    box-shadow: 0 0 20px rgba(255,255,255,0.7);
   }
   body.light .meta-pill:hover {
-    background: rgba(255,255,255,0.7);
-    border-color: var(--cyan);
-    box-shadow: 0 4px 12px rgba(12,192,223,0.1);
+    background: rgba(255,255,255,0.9);
+    border-color: rgba(12,192,223,0.2);
+    box-shadow: 0 0 30px rgba(255,255,255,1), 0 0 15px rgba(12,192,223,0.08);
   }
 
-  /* Status bar — glass strip */
+  /* Status bar — glass strip with backlight */
   body.light .status-bar {
-    background: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.65);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.95);
     border-radius: 12px;
     padding: 10px 20px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+    box-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 60px rgba(255,255,255,0.4);
   }
   body.light .status-item { color: rgba(0,0,0,0.35); }
   body.light .status-item .val { color: rgba(0,0,0,0.55); }
   body.light .status-divider { background: rgba(0,0,0,0.08); }
 
-  /* ── Sections: Glass Panels ── */
+  /* ── Sections: Glass Panels with bright indirect backlight ── */
   body.light .section {
-    background: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.8);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255,255,255,0.65);
+    border: 1px solid rgba(255,255,255,0.95);
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 24px;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.03), 0 1px 3px rgba(0,0,0,0.015);
-    transition: all 0.3s;
+    box-shadow: 0 0 40px rgba(255,255,255,0.9), 0 0 80px rgba(255,255,255,0.5),
+                0 2px 8px rgba(0,0,0,0.03);
+    transition: all 0.4s ease;
     overflow: hidden;
+    position: relative;
   }
   body.light .section:hover {
-    background: rgba(255,255,255,0.65);
-    box-shadow: 0 8px 40px rgba(12,192,223,0.08), 0 1px 4px rgba(0,0,0,0.02),
-                inset 0 1px 0 rgba(12,192,223,0.12);
-    border-color: rgba(12,192,223,0.18);
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 0 60px rgba(255,255,255,1), 0 0 120px rgba(255,255,255,0.6),
+                0 0 20px rgba(12,192,223,0.06), 0 4px 12px rgba(0,0,0,0.02);
+    border-color: rgba(12,192,223,0.12);
   }
   body.light .section-label {
     color: var(--cyan);
@@ -1218,10 +1219,10 @@
     border-radius: 14px;
   }
   body.light .tool-card:hover {
-    background: rgba(255,255,255,0.68);
-    border-color: rgba(12,192,223,0.25);
-    box-shadow: 0 8px 28px rgba(12,192,223,0.12), 0 2px 6px rgba(0,0,0,0.02),
-                inset 0 1px 0 rgba(12,192,223,0.08);
+    background: rgba(255,255,255,0.88);
+    border-color: rgba(12,192,223,0.15);
+    box-shadow: 0 0 40px rgba(255,255,255,1), 0 0 80px rgba(255,255,255,0.5),
+                0 4px 12px rgba(0,0,0,0.02);
     transform: translateY(-2px);
   }
   body.light .tool-title { color: #1a1a2e; }
@@ -2731,22 +2732,21 @@ function printSection(id) {
 (function() {
   // Tageslicht-Phasen: [hour, g1-color, g2-color, g3-color, bg-tint]
   // Morgengrauen → Goldene Stunde → Tageslicht → Nachmittag → Golden Hour → Dämmerung → Nacht
-  // Brand-consistent cool blue/cyan glow — always on-brand #0CC0DF
-  // Intensity shifts by time of day but color stays in the cyan family
+  // Bright white indirect light — intensity shifts by time of day
   var phases = [
-    // h   g1 (primary cyan)               g2 (secondary blue)             g3 (accent teal)                bg-overlay                      body-gradient
-    [ 5,  'rgba(12,192,223,0.06)',         'rgba(40,160,200,0.05)',        'rgba(20,140,180,0.03)',         'rgba(12,192,223,0.03)',         'linear-gradient(135deg, #f2f6f9 0%, #eef3f8 30%, #f5f8fb 60%, #f1f5f9 100%)' ],
-    [ 7,  'rgba(12,192,223,0.08)',         'rgba(40,160,200,0.06)',        'rgba(20,140,180,0.04)',         'rgba(12,192,223,0.04)',         'linear-gradient(135deg, #f3f7fa 0%, #eff4f9 30%, #f6f9fc 60%, #f2f6fa 100%)' ],
-    [ 9,  'rgba(12,192,223,0.10)',         'rgba(50,170,210,0.08)',        'rgba(30,150,190,0.05)',         'rgba(12,192,223,0.05)',         'linear-gradient(135deg, #f2f7fa 0%, #edf3f9 30%, #f6f9fd 60%, #f1f6fb 100%)' ],
-    [11,  'rgba(12,192,223,0.13)',         'rgba(50,175,215,0.10)',        'rgba(12,192,223,0.06)',         'rgba(12,192,223,0.06)',         'linear-gradient(135deg, #f0f6fa 0%, #ebf2f8 30%, #f5f9fd 60%, #eff5fb 100%)' ],
-    [13,  'rgba(12,192,223,0.15)',         'rgba(40,170,220,0.12)',        'rgba(12,192,223,0.07)',         'rgba(12,192,223,0.06)',         'linear-gradient(135deg, #eff5fa 0%, #e9f1f8 30%, #f4f8fd 60%, #eef4fb 100%)' ],
-    [15,  'rgba(12,192,223,0.13)',         'rgba(50,175,215,0.10)',        'rgba(30,160,200,0.06)',         'rgba(12,192,223,0.05)',         'linear-gradient(135deg, #f1f6fa 0%, #ecf3f9 30%, #f5f9fd 60%, #f0f5fb 100%)' ],
-    [17,  'rgba(12,192,223,0.10)',         'rgba(40,160,200,0.08)',        'rgba(20,140,180,0.05)',         'rgba(12,192,223,0.04)',         'linear-gradient(135deg, #f3f7fa 0%, #eff4f9 30%, #f6f9fc 60%, #f2f6fa 100%)' ],
-    [19,  'rgba(12,192,223,0.08)',         'rgba(30,150,200,0.06)',        'rgba(15,130,170,0.04)',         'rgba(12,192,223,0.035)',        'linear-gradient(135deg, #f3f6f9 0%, #f0f4f8 30%, #f6f8fb 60%, #f2f5f9 100%)' ],
-    [20,  'rgba(12,192,223,0.07)',         'rgba(25,130,180,0.06)',        'rgba(15,100,150,0.04)',         'rgba(12,192,223,0.03)',         'linear-gradient(135deg, #f2f5f8 0%, #eff2f7 30%, #f5f7fa 60%, #f1f4f8 100%)' ],
-    [21,  'rgba(12,192,223,0.06)',         'rgba(20,120,170,0.05)',        'rgba(10,90,140,0.035)',         'rgba(12,192,223,0.025)',        'linear-gradient(135deg, #f1f3f7 0%, #edf0f5 30%, #f4f6f9 60%, #f0f3f7 100%)' ],
-    [23,  'rgba(12,192,223,0.05)',         'rgba(15,100,150,0.04)',        'rgba(10,80,130,0.03)',          'rgba(12,192,223,0.02)',         'linear-gradient(135deg, #f0f2f6 0%, #eceff4 30%, #f3f5f8 60%, #eff2f6 100%)' ],
-    [ 3,  'rgba(12,192,223,0.04)',         'rgba(10,80,130,0.035)',        'rgba(8,60,110,0.025)',          'rgba(12,192,223,0.015)',        'linear-gradient(135deg, #eff1f5 0%, #ebeef3 30%, #f2f4f7 60%, #eef1f5 100%)' ],
+    // h   g1 (primary)                    g2 (secondary)                  g3 (accent)                     bg-overlay                      (unused)
+    [ 5,  'rgba(255,255,255,0.15)',        'rgba(255,255,255,0.10)',       'rgba(255,255,255,0.08)',        'rgba(255,255,255,0.06)',        '' ],
+    [ 7,  'rgba(255,255,255,0.22)',        'rgba(255,255,255,0.16)',       'rgba(255,255,255,0.12)',        'rgba(255,255,255,0.08)',        '' ],
+    [ 9,  'rgba(255,255,255,0.30)',        'rgba(255,255,255,0.22)',       'rgba(255,255,255,0.16)',        'rgba(255,255,255,0.10)',        '' ],
+    [11,  'rgba(255,255,255,0.38)',        'rgba(255,255,255,0.28)',       'rgba(255,255,255,0.20)',        'rgba(255,255,255,0.12)',        '' ],
+    [13,  'rgba(255,255,255,0.42)',        'rgba(255,255,255,0.32)',       'rgba(255,255,255,0.22)',        'rgba(255,255,255,0.14)',        '' ],
+    [15,  'rgba(255,255,255,0.38)',        'rgba(255,255,255,0.28)',       'rgba(255,255,255,0.20)',        'rgba(255,255,255,0.12)',        '' ],
+    [17,  'rgba(255,255,255,0.30)',        'rgba(255,255,255,0.22)',       'rgba(255,255,255,0.16)',        'rgba(255,255,255,0.10)',        '' ],
+    [19,  'rgba(255,255,255,0.22)',        'rgba(255,255,255,0.16)',       'rgba(255,255,255,0.12)',        'rgba(255,255,255,0.08)',        '' ],
+    [20,  'rgba(255,255,255,0.18)',        'rgba(255,255,255,0.14)',       'rgba(255,255,255,0.10)',        'rgba(255,255,255,0.07)',        '' ],
+    [21,  'rgba(255,255,255,0.14)',        'rgba(255,255,255,0.10)',       'rgba(255,255,255,0.08)',        'rgba(255,255,255,0.05)',        '' ],
+    [23,  'rgba(255,255,255,0.10)',        'rgba(255,255,255,0.08)',       'rgba(255,255,255,0.06)',        'rgba(255,255,255,0.04)',        '' ],
+    [ 3,  'rgba(255,255,255,0.08)',        'rgba(255,255,255,0.06)',       'rgba(255,255,255,0.04)',        'rgba(255,255,255,0.03)',        '' ],
   ];
 
   function getPhaseColors(hour) {
