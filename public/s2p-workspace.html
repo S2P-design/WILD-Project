@@ -751,6 +751,27 @@
     color: var(--light); margin-bottom: 16px;
   }
   .briefing-section-title span { color: var(--cyan); }
+  .briefing-gen-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 500;
+    letter-spacing: 1.5px; color: var(--cyan);
+    padding: 4px 12px;
+    border: 1px solid var(--cyan-20);
+    background: var(--cyan-05);
+    border-radius: 6px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .briefing-gen-btn:hover {
+    background: var(--cyan-10);
+    border-color: var(--cyan);
+    box-shadow: 0 0 12px rgba(12,192,223,0.15);
+  }
+  .intro-script {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    border-left: 2px solid var(--cyan-20);
+    padding-left: 16px;
+  }
 
   /* ── RELEASE CHECKLIST ── */
   .checklist { list-style: none; }
@@ -1335,6 +1356,19 @@
     background: linear-gradient(90deg, transparent, rgba(12,192,223,0.2), transparent);
   }
   body.light .briefing-section-title { color: #1a1a2e; }
+  body.light .briefing-gen-btn {
+    background: rgba(12,192,223,0.08);
+    border: 1px solid rgba(12,192,223,0.25);
+    color: var(--cyan);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  body.light .briefing-gen-btn:hover {
+    background: rgba(12,192,223,0.14);
+    box-shadow: 0 2px 12px rgba(12,192,223,0.15);
+  }
+  body.light .intro-script {
+    border-left-color: rgba(12,192,223,0.25);
+  }
 
   /* Checklist */
   body.light .checklist-phase { color: var(--cyan); border-bottom-color: rgba(0,0,0,0.05); }
@@ -1705,6 +1739,18 @@
               <label class="briefing-label">KONTEXT &amp; HINTERGRUND</label>
               <textarea class="briefing-textarea" id="brfContext" placeholder="Warum dieser Gast? Was ist die Story? Relevanz f&uuml;r die H&ouml;rer?"></textarea>
             </div>
+
+            <!-- ── INTRO GENERATOR ── -->
+            <div class="briefing-divider"></div>
+            <div class="briefing-section-title" style="display:flex;align-items:center;gap:10px;">
+              INTRO<span style="color:var(--cyan);margin:0;">SCRIPT</span>
+              <button class="briefing-gen-btn" onclick="generateIntro()">GENERIEREN</button>
+            </div>
+            <div class="briefing-field">
+              <textarea class="briefing-textarea intro-script" id="brfIntro" placeholder="Klicke GENERIEREN um aus den Briefing-Daten automatisch ein Intro zu erstellen ..." style="min-height:120px;line-height:1.8;font-size:13px;"></textarea>
+            </div>
+            <div class="briefing-divider"></div>
+
             <div class="briefing-field">
               <label class="briefing-label">KERNFRAGEN (1 pro Zeile)</label>
               <textarea class="briefing-textarea" id="brfQuestions" placeholder="Wie bist du zum Eishockey gekommen?&#10;Was fehlt der Nachwuchsarbeit im DACH-Raum?&#10;Welchen Rat gibst du jungen Spielern?" style="min-height:100px;"></textarea>
@@ -2869,7 +2915,7 @@ function toggleSoundFolder(folder) {
 // ═══════════════════════════════════════
 (function(){
   const STORE = 's2p_briefing';
-  const FIELDS = ['brfGuest','brfEpisode','brfRole','brfDate','brfTopic','brfContext','brfQuestions','brfFormat','brfDuration','brfNotes','brfQuote','brfAdvice','brfBook','brfShoutout','brfSocial'];
+  const FIELDS = ['brfGuest','brfEpisode','brfRole','brfDate','brfTopic','brfContext','brfIntro','brfQuestions','brfFormat','brfDuration','brfNotes','brfQuote','brfAdvice','brfBook','brfShoutout','brfSocial'];
 
   // Load saved briefing
   const saved = JSON.parse(localStorage.getItem(STORE) || '{}');
@@ -2902,6 +2948,7 @@ function toggleSoundFolder(folder) {
     const date = document.getElementById('brfDate').value;
     const topic = document.getElementById('brfTopic').value;
     const ctx = document.getElementById('brfContext').value;
+    const intro = document.getElementById('brfIntro').value;
     const q = document.getElementById('brfQuestions').value;
     const fmt = document.getElementById('brfFormat').value;
     const dur = document.getElementById('brfDuration').value;
@@ -2915,7 +2962,7 @@ function toggleSoundFolder(folder) {
     const s2go = (quote || advice || book || shoutout || social) ?
       `\n${'─'.repeat(40)}\nSHIFT2GO — CLOSING\n${'─'.repeat(40)}\n${quote ? `\nQUOTE:\n„${quote}"\n` : ''}${advice ? `\nRAT AN DIE HÖRER:\n${advice}\n` : ''}${book ? `\nBUCH / RESOURCE: ${book}\n` : ''}${shoutout ? `\nSHOUTOUT: ${shoutout}\n` : ''}${social ? `\nSOCIAL: ${social}\n` : ''}` : '';
 
-    const text = `SHIFT2PRO — BRIEFING\n${'═'.repeat(40)}\n\nGAST: ${g}\nEPISODE: ${ep}\nROLLE: ${role}\nDATUM: ${date}\n\nTHEMA: ${topic}\n\nKONTEXT:\n${ctx}\n\nKERNFRAGEN:\n${q}\n\nFORMAT: ${fmt}\nDAUER: ${dur}\n\nNOTIZEN:\n${notes}${s2go}\n\n${'─'.repeat(40)}\n© ${new Date().getFullYear()} WILD PROJECT — SHIFT2PRO`;
+    const text = `SHIFT2PRO — BRIEFING\n${'═'.repeat(40)}\n\nGAST: ${g}\nEPISODE: ${ep}\nROLLE: ${role}\nDATUM: ${date}\n\nTHEMA: ${topic}\n\nKONTEXT:\n${ctx}\n${intro ? `\nINTRO-SCRIPT:\n${intro}\n` : ''}\nKERNFRAGEN:\n${q}\n\nFORMAT: ${fmt}\nDAUER: ${dur}\n\nNOTIZEN:\n${notes}${s2go}\n\n${'─'.repeat(40)}\n© ${new Date().getFullYear()} WILD PROJECT — SHIFT2PRO`;
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.querySelector('.briefing-copy-btn');
       const orig = btn.textContent;
@@ -2931,6 +2978,7 @@ function toggleSoundFolder(folder) {
     const date = document.getElementById('brfDate').value || '—';
     const topic = document.getElementById('brfTopic').value || '—';
     const ctx = document.getElementById('brfContext').value || '—';
+    const intro = document.getElementById('brfIntro').value || '';
     const q = document.getElementById('brfQuestions').value || '—';
     const fmt = document.getElementById('brfFormat').value || '—';
     const dur = document.getElementById('brfDuration').value || '—';
@@ -2975,6 +3023,8 @@ function toggleSoundFolder(folder) {
     <div class="val" style="font-size:14px;font-weight:600;margin-bottom:8px;">${topic}</div>
     <div class="label">KONTEXT &amp; HINTERGRUND</div>
     <div class="block">${ctx.replace(/\n/g,'<br>')}</div>
+    ${intro ? `<div class="label">INTRO-SCRIPT</div>
+    <div class="block" style="border-left-color:#FC5000;font-size:12px;line-height:1.8;white-space:pre-line;">${intro}</div>` : ''}
     <div class="label">KERNFRAGEN</div>
     <div style="margin:8px 0;">${questions}</div>
     ${notes && notes !== '—' ? `<div class="label">NOTIZEN</div><div class="block">${notes.replace(/\n/g,'<br>')}</div>` : ''}
@@ -3075,6 +3125,82 @@ function toggleSoundFolder(folder) {
     w.document.write(html);
     w.document.close();
     setTimeout(() => w.print(), 400);
+  };
+
+  // ── INTRO GENERATOR ──
+  window.generateIntro = function(){
+    const guest = document.getElementById('brfGuest').value.trim();
+    const role = document.getElementById('brfRole').value.trim();
+    const topic = document.getElementById('brfTopic').value.trim();
+    const ep = document.getElementById('brfEpisode').value.trim();
+    const ctx = document.getElementById('brfContext').value.trim();
+
+    if (!guest) {
+      document.getElementById('brfIntro').value = '⚠ Trag zuerst den Gastnamen ein.';
+      return;
+    }
+
+    // Vorname extrahieren
+    const firstName = guest.split(' ')[0];
+
+    // Varianten für natürlichen Sound
+    const greetings = [
+      `Hey, willkommen bei Shift2Pro.`,
+      `Yo, willkommen bei Shift2Pro.`,
+      `Hey, schön dass du da bist — willkommen bei Shift2Pro.`,
+      `Welcome back bei Shift2Pro.`,
+    ];
+
+    const guestIntros = [
+      `Heute bei mir: ${guest}${role ? ', ' + role : ''}.`,
+      `Mein Gast heute: ${guest}${role ? ' — ' + role : ''}.`,
+      `Heute hab ich ${guest} am Mic${role ? ', ' + role : ''}.`,
+      `Mit dabei heute: ${guest}${role ? ', ' + role : ''}.`,
+    ];
+
+    const topicIntros = topic ? [
+      `Wir sprechen über ${topic}.`,
+      `Unser Thema heute: ${topic}.`,
+      `Es geht um ${topic}.`,
+      `Wir tauchen ein in ${topic}.`,
+    ] : [''];
+
+    const teasers = ctx ? [
+      `${ctx.split('.')[0].trim()}.`,
+    ] : [''];
+
+    const transitions = [
+      `Let's shift.`,
+      `Los geht's.`,
+      `Let's go.`,
+      `Shift happens — los geht's.`,
+    ];
+
+    // Random Pick
+    const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+    // Script zusammenbauen
+    const lines = [
+      `🎙 [JINGLE]`,
+      ``,
+      pick(greetings),
+      pick(guestIntros),
+      topic ? pick(topicIntros) : '',
+      ctx ? pick(teasers) : '',
+      ``,
+      pick(transitions),
+    ].filter(l => l !== undefined);
+
+    document.getElementById('brfIntro').value = lines.join('\n');
+
+    // Button Feedback
+    const btn = document.querySelector('.briefing-gen-btn');
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = '✓ GENERIERT';
+      btn.style.color = '#6dd670';
+      setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1200);
+    }
   };
 
   // ── MAIL BRIEFING ──
