@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHIFT2PRO — Masterplan 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,300&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   SHIFT2PRO MASTERPLAN — DESIGN SYSTEM
+   ═══════════════════════════════════════ */
+:root {
+  --black:   #000000;
+  --surface: #060606;
+  --surface2:#0a0a0a;
+  --border:  #1a1a1a;
+  --border2: #222222;
+  --muted:   #666666;
+  --text:    #999999;
+  --light:   #cccccc;
+  --white:   #f0f0f0;
+  --cyan:    #0CC0DF;
+  --cyan-20: rgba(12,192,223,0.20);
+  --cyan-10: rgba(12,192,223,0.10);
+  --cyan-05: rgba(12,192,223,0.05);
+  --orange:  #FC5000;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Poppins', -apple-system, sans-serif;
+  font-weight: 300;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── PRINT ── */
+@media print {
+  body { background: #fff; color: #222; font-size: 10pt; }
+  .toc, .back-to-top { display: none; }
+  section { break-inside: avoid; page-break-inside: avoid; }
+  h1, h2, h3 { color: #000 !important; }
+  .chapter-number { color: var(--cyan) !important; -webkit-text-stroke: 0; }
+  .doc-cover { min-height: auto; padding: 4rem 2rem; }
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
+
+/* ── COVER ── */
+.doc-cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 6rem 5rem;
+  position: relative;
+  overflow: hidden;
+}
+.doc-cover::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(12,192,223,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(12,192,223,0.04) 0%, transparent 50%);
+}
+.doc-cover::after {
+  content: 'S2P';
+  position: absolute;
+  top: -8vw; right: -4vw;
+  font-family: 'Anton', sans-serif;
+  font-size: 38vw;
+  font-weight: 400;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(12,192,223,0.04);
+  line-height: 1;
+  pointer-events: none;
+}
+.cover-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: var(--cyan);
+  border: 1px solid var(--cyan-20);
+  padding: 0.4rem 1rem;
+  display: inline-block;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+.cover-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 1;
+}
+.cover-title span { color: var(--cyan); }
+.cover-sub {
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin-top: 1.5rem;
+  max-width: 480px;
+  position: relative;
+  z-index: 1;
+}
+.cover-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  margin-top: 3rem;
+  display: flex;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+.cover-meta span { color: var(--cyan); }
+.cover-line {
+  position: absolute;
+  bottom: 0; left: 5rem; right: 5rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan), transparent);
+  z-index: 1;
+}
+
+/* ── TOC ── */
+.toc {
+  padding: 5rem;
+  max-width: 700px;
+}
+.toc-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--cyan);
+  margin-bottom: 2rem;
+}
+.toc ol {
+  list-style: none;
+  counter-reset: toc;
+}
+.toc li {
+  counter-increment: toc;
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.3s;
+}
+.toc li:hover { border-color: var(--cyan-20); }
+.toc a {
+  display: flex;
+  align-items: baseline;
+  gap: 1.2rem;
+  padding: 1rem 0;
+  text-decoration: none;
+  color: var(--light);
+  font-size: 0.95rem;
+  font-weight: 400;
+  transition: color 0.3s;
+}
+.toc a:hover { color: var(--cyan); }
+.toc a::before {
+  content: counter(toc, decimal-leading-zero);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  min-width: 1.8rem;
+}
+.toc-sub {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 300;
+  margin-left: auto;
+  letter-spacing: 0.05em;
+}
+
+/* ── CHAPTERS ── */
+.chapter {
+  padding: 6rem 5rem;
+  max-width: 900px;
+  border-top: 1px solid var(--border);
+  position: relative;
+}
+.chapter-number {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(5rem, 12vw, 9rem);
+  font-weight: 400;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--cyan-20);
+  line-height: 1;
+  margin-bottom: -1rem;
+  user-select: none;
+}
+.chapter-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--cyan);
+  margin-bottom: 0.8rem;
+}
+.chapter h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin-bottom: 2rem;
+}
+.chapter h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 3rem 0 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+.chapter h4 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--cyan);
+  margin: 2rem 0 0.8rem;
+}
+.chapter p {
+  margin-bottom: 1rem;
+  max-width: 640px;
+}
+.chapter p + p { margin-top: 0; }
+.lead {
+  font-size: 1.05rem;
+  color: var(--light);
+  line-height: 1.8;
+  max-width: 580px;
+  margin-bottom: 2rem;
+}
+
+/* ── CALLOUT ── */
+.callout {
+  border-left: 2px solid var(--cyan);
+  padding: 1.2rem 1.5rem;
+  margin: 2rem 0;
+  background: var(--cyan-05);
+  font-size: 0.88rem;
+  color: var(--light);
+  max-width: 640px;
+}
+.callout strong { color: var(--cyan); font-weight: 600; }
+.callout-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--cyan);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* ── DATA GRID ── */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  margin: 2rem 0;
+  max-width: 640px;
+}
+.data-cell {
+  background: var(--surface);
+  padding: 1.2rem 1.4rem;
+}
+.data-cell-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+.data-cell-value {
+  font-size: 0.95rem;
+  color: var(--white);
+  font-weight: 400;
+}
+.data-cell-value.cyan { color: var(--cyan); }
+.data-cell-note {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+/* ── COLOR SWATCHES ── */
+.swatch-row {
+  display: flex;
+  gap: 1px;
+  margin: 2rem 0;
+  max-width: 640px;
+}
+.swatch {
+  flex: 1;
+  aspect-ratio: 1.6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0.8rem;
+  min-width: 100px;
+}
+.swatch-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+.swatch-hex {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* ── TABLE ── */
+.data-table {
+  width: 100%;
+  max-width: 640px;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.82rem;
+}
+.data-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-align: left;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--border2);
+  text-transform: uppercase;
+}
+.data-table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--light);
+  vertical-align: top;
+}
+.data-table tr:hover td { background: var(--cyan-05); }
+.data-table .label { color: var(--muted); font-size: 0.75rem; }
+.data-table .cyan { color: var(--cyan); }
+.data-table .highlight { color: var(--white); font-weight: 400; }
+
+/* ── LIST ── */
+.clean-list {
+  list-style: none;
+  margin: 1.5rem 0;
+  max-width: 640px;
+}
+.clean-list li {
+  padding: 0.6rem 0;
+  padding-left: 1.4rem;
+  position: relative;
+  font-size: 0.88rem;
+}
+.clean-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 1rem;
+  width: 6px; height: 1px;
+  background: var(--cyan);
+}
+.clean-list .sub {
+  color: var(--muted);
+  font-size: 0.78rem;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+/* ── TIMELINE ── */
+.timeline {
+  margin: 2rem 0;
+  max-width: 640px;
+}
+.timeline-item {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 1.5rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.timeline-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--cyan);
+  padding-top: 0.15rem;
+}
+.timeline-content { font-size: 0.88rem; }
+.timeline-title {
+  color: var(--white);
+  font-weight: 400;
+  margin-bottom: 0.3rem;
+}
+.timeline-desc { color: var(--muted); font-size: 0.8rem; }
+
+/* ── QUOTE ── */
+.quote {
+  margin: 2.5rem 0;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  max-width: 640px;
+}
+.quote p {
+  font-size: 1.15rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--light);
+  line-height: 1.8;
+}
+.quote cite {
+  display: block;
+  font-style: normal;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  margin-top: 1rem;
+}
+
+/* ── PILL ── */
+.pill {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  margin: 0.2rem;
+}
+.pill.active { border-color: var(--cyan-20); color: var(--cyan); }
+
+/* ── BACK TO TOP ── */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  width: 36px; height: 36px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-size: 0.7rem;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  transition: all 0.3s;
+  z-index: 100;
+}
+.back-to-top:hover { border-color: var(--cyan); color: var(--cyan); }
+
+/* ── SECTION DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan-20), transparent 60%);
+  margin: 0;
+  max-width: 640px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .doc-cover { padding: 3rem 1.5rem; }
+  .toc { padding: 3rem 1.5rem; }
+  .chapter { padding: 3rem 1.5rem; }
+  .cover-meta { flex-direction: column; gap: 0.5rem; }
+  .swatch-row { flex-wrap: wrap; }
+  .timeline-item { grid-template-columns: 80px 1fr; gap: 1rem; }
+  .data-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     COVER
+     ═══════════════════════════════════════ -->
+<div class="doc-cover" id="top">
+  <div class="cover-badge">INTERNAL &mdash; WILD PROJECT</div>
+  <h1 class="cover-title">SHIFT<span>2</span>PRO<br>MASTER<span>PLAN</span></h1>
+  <p class="cover-sub">Brand Identity &middot; Businessplan &middot; Vermarktung &middot; Content &middot; Podcast &middot; Buch &mdash; das strategische Fundament f&uuml;r alles, was kommt.</p>
+  <div class="cover-meta">
+    <div><span>AUTOR</span>&ensp;Ren&eacute; Wild</div>
+    <div><span>VERSION</span>&ensp;1.0</div>
+    <div><span>STAND</span>&ensp;April 2026</div>
+    <div><span>STATUS</span>&ensp;Pre-Launch</div>
+  </div>
+  <div class="cover-line"></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     TABLE OF CONTENTS
+     ═══════════════════════════════════════ -->
+<nav class="toc">
+  <div class="toc-label">INHALT</div>
+  <ol>
+    <li><a href="#brand">Brand Identity <span class="toc-sub">Story &middot; Visuell &middot; Tone of Voice</span></a></li>
+    <li><a href="#business">Businessplan <span class="toc-sub">Markt &middot; Revenue &middot; Meilensteine</span></a></li>
+    <li><a href="#marketing">Vermarktungskonzept <span class="toc-sub">Launch &middot; Social &middot; Kooperationen</span></a></li>
+    <li><a href="#content">Content-Planung <span class="toc-sub">Formate &middot; Rubriken &middot; Redaktionsplan</span></a></li>
+    <li><a href="#podcast">Podcast-Handbuch <span class="toc-sub">Technik &middot; Workflow &middot; Distribution</span></a></li>
+    <li><a href="#book">Das Buch <span class="toc-sub">Konzept &middot; Struktur &middot; Produktion</span></a></li>
+    <li><a href="#roadmap">Roadmap 2026&ndash;2028 <span class="toc-sub">Phasen &middot; Ziele &middot; KPIs</span></a></li>
+  </ol>
+</nav>
+
+
+<!-- ═══════════════════════════════════════
+     01 — BRAND IDENTITY
+     ═══════════════════════════════════════ -->
+<section class="chapter" id="brand">
+  <div class="chapter-number">01</div>
+  <div class="chapter-label">BRAND IDENTITY</div>
+  <h2>WER WIR SIND.<br>WORAN WIR GLAUBEN.</h2>
+
+  <p class="lead">Shift2Pro ist kein weiterer Eishockey-Podcast. Es ist eine Bewegung f&uuml;r alle, die den Sport von morgen denken &mdash; und heute schon danach handeln.</p>
+
+  <h3>Brand Story</h3>
+  <p>Der Name ist Programm: <strong style="color:var(--cyan)">Shift</strong> steht f&uuml;r den Wechsel auf dem Eis &mdash; und gleichzeitig f&uuml;r den Perspektivwechsel, den dieser Sport dringend braucht. <strong style="color:var(--cyan)">2Pro</strong> ist der Weg: vom Talent zum Professional, vom Konsumenten zum Macher, vom Einzelk&auml;mpfer zum Netzwerk.</p>
+  <p>Shift2Pro ist ein Produkt von <strong style="color:var(--white)">Wild Project</strong> &mdash; der kreativen Plattform von Ren&eacute; Wild. Es erbt die DNA von Wild Project (Qualit&auml;t ohne Kompromisse, Understatement mit WOW-Effekt), spricht aber eine eigene visuelle und inhaltliche Sprache.</p>
+
+  <div class="callout">
+    <span class="callout-label">POSITIONIERUNG</span>
+    Shift2Pro ist der Ort, an dem sich die klügsten Köpfe des Eishockeys treffen &mdash; nicht um zu reden, sondern um etwas zu bewegen. <strong>Inspire. Develop. Connect.</strong>
+  </div>
+
+  <h3>Mission &middot; Vision &middot; Values</h3>
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-cell-label">MISSION</div>
+      <div class="data-cell-value">Den deutschsprachigen Eishockeysport durch ehrlichen Dialog, Wissenstransfer und kreative Impulse nachhaltig weiterentwickeln.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">VISION</div>
+      <div class="data-cell-value">Die erste Adresse f&uuml;r Development-Kultur im Eishockey &mdash; als Podcast, als Buch, als Community.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">VALUES</div>
+      <div class="data-cell-value">Tiefe statt Lautstärke &middot; Handwerk statt Hype &middot; Verbindung statt Ego &middot; Ästhetik als Haltung</div>
+    </div>
+  </div>
+
+  <h3>Brand Architecture</h3>
+  <div class="data-grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="data-cell">
+      <div class="data-cell-label">DACHMARKE</div>
+      <div class="data-cell-value">Wild Project</div>
+      <div class="data-cell-note">Kreativplattform, Firmenidentit&auml;t</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">PRODUKTMARKE</div>
+      <div class="data-cell-value cyan">Shift2Pro</div>
+      <div class="data-cell-note">Podcast &middot; Buch &middot; Community &middot; Merch</div>
+    </div>
+  </div>
+  <p>Shift2Pro tritt eigenst&auml;ndig auf, tr&auml;gt aber die Handschrift von Wild Project. Im Footer, im Impressum und in der &bdquo;Powered by&ldquo;-Zeile bleibt die Verbindung sichtbar &mdash; dezent, nicht dominant.</p>
+
+  <h3>Visuelle Identit&auml;t</h3>
+
+  <h4>Farbpalette</h4>
+  <div class="swatch-row">
+    <div class="swatch" style="background:#0CC0DF; color:#000;">
+      <span class="swatch-name">Shift Cyan</span>
+      <span class="swatch-hex">#0CC0DF</span>
+    </div>
+    <div class="swatch" style="background:#000000; color:#fff; border:1px solid #1a1a1a;">
+      <span class="swatch-name">Blackout</span>
+      <span class="swatch-hex">#000000</span>
+    </div>
+    <div class="swatch" style="background:#DBDBDB; color:#000;">
+      <span class="swatch-name">Ice Light</span>
+      <span class="swatch-hex">#DBDBDB</span>
+    </div>
+    <div class="swatch" style="background:#888888; color:#000;">
+      <span class="swatch-name">Steel</span>
+      <span class="swatch-hex">#888888</span>
+    </div>
+  </div>
+  <p>Cyan ist der Signature-Ton von Shift2Pro. Eissportlich, technisch, energetisch &mdash; aber nie kalt. Einsatz: Akzente, CTAs, Highlights. <strong style="color:var(--white)">Max. 15 % der Fl&auml;che.</strong> Der Rest ist Schwarz, Grau und Wei&szlig;raum.</p>
+
+  <div class="callout">
+    <span class="callout-label">ABGRENZUNG ZU WILD PROJECT</span>
+    Wild Project nutzt <strong style="color:var(--orange)">Flameburst Orange #FC5000</strong>. Shift2Pro nutzt <strong>Shift Cyan #0CC0DF</strong>. Beide teilen die dunkle &Auml;sthetik, unterscheiden sich aber klar im Akzent. Orange taucht in Shift2Pro-Kontexten nicht auf &mdash; au&szlig;er in der &bdquo;A Wild Project Product&ldquo;-Zeile.
+  </div>
+
+  <h4>Typografie</h4>
+  <table class="data-table">
+    <thead>
+      <tr><th>Font</th><th>Einsatz</th><th>Gewichte</th><th>Anteil</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">Anton</td>
+        <td>Headlines, Sectiontitel, Hero</td>
+        <td>400 (Regular)</td>
+        <td class="cyan">Display</td>
+      </tr>
+      <tr>
+        <td class="highlight">Poppins</td>
+        <td>Flie&szlig;text, Beschreibungen, UI</td>
+        <td>300, 400, 600, 700</td>
+        <td class="cyan">80 %</td>
+      </tr>
+      <tr>
+        <td class="highlight">JetBrains Mono</td>
+        <td>Labels, Badges, Timestamps, Meta</td>
+        <td>300, 400, 500</td>
+        <td class="cyan">15 %</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>Logo-System</h4>
+  <ul class="clean-list">
+    <li>Prim&auml;rlogo: Wortmarke &bdquo;SHIFT2PRO&ldquo; in Anton, die &bdquo;2&ldquo; in Cyan<span class="sub">Haupteinsatz: Website, Podcast-Cover, Merch</span></li>
+    <li>Kurzmarke: &bdquo;S2P&ldquo; als kompaktes Monogramm<span class="sub">Social-Media-Avatare, Favicon, Stempel</span></li>
+    <li>Badge-Variante: S2P im Quadrat mit Scanlines<span class="sub">Merchandise, Sticker, Wasserzeichen</span></li>
+  </ul>
+
+  <h3>Tone of Voice</h3>
+  <div class="data-grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="data-cell">
+      <div class="data-cell-label">WIR SIND</div>
+      <div class="data-cell-value">Direkt &middot; Ehrlich &middot; Leidenschaftlich &middot; Fachlich fundiert &middot; Nahbar ohne Anbiederung</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">WIR SIND NICHT</div>
+      <div class="data-cell-value">Belehrend &middot; Clickbait &middot; Oberfl&auml;chlich &middot; &Uuml;bertrieben laut &middot; Vereinspolitisch</div>
+    </div>
+  </div>
+  <p>Wir sprechen wie ein kluger Trainerkollege nach dem Eistraining &mdash; ein Kaffee in der Hand, ehrliches Interesse im Blick. Kein Gelaber, keine Show. Substanz mit Seele.</p>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     02 — BUSINESSPLAN
+     ═══════════════════════════════════════ -->
+<section class="chapter" id="business">
+  <div class="chapter-number">02</div>
+  <div class="chapter-label">BUSINESSPLAN</div>
+  <h2>DAS GESCHÄFTS&shy;MODELL<br>HINTER DEM MIKROFON.</h2>
+
+  <p class="lead">Shift2Pro ist kein Hobby-Projekt. Es ist ein skalierbares Medienprodukt mit klarer Monetarisierungsstrategie &mdash; aufgebaut auf Vertrauen, Expertise und einer unterversorgten Nische.</p>
+
+  <h3>Marktanalyse</h3>
+  <h4>Die L&uuml;cke</h4>
+  <p>Im deutschsprachigen Eishockey gibt es Ergebnis-Berichterstattung, Vereins-PR und Social-Media-Highlights. Was fehlt: ein Medium, das sich ernsthaft mit <strong style="color:var(--white)">Spielerentwicklung, Trainingsphilosophie und Organisationskultur</strong> auseinandersetzt &mdash; auf Augenh&ouml;he, nicht von oben herab.</p>
+
+  <h4>Zielgruppe</h4>
+  <table class="data-table">
+    <thead>
+      <tr><th>Segment</th><th>Profil</th><th>Bed&uuml;rfnis</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">Trainer &amp; Coaches</td>
+        <td>Nachwuchs bis Profi, DACH-Raum</td>
+        <td>Methoden, Inspiration, Netzwerk</td>
+      </tr>
+      <tr>
+        <td class="highlight">Spieler &amp; Talente</td>
+        <td>U15&ndash;U23, ambitioniert</td>
+        <td>Einblicke in den Profi-Weg, Mindset</td>
+      </tr>
+      <tr>
+        <td class="highlight">Eltern</td>
+        <td>Sportbegeistert, investiert</td>
+        <td>Orientierung, realistische Perspektiven</td>
+      </tr>
+      <tr>
+        <td class="highlight">Funktion&auml;re &amp; Verb&auml;nde</td>
+        <td>Nachwuchsleiter, Verb&auml;nde</td>
+        <td>Best Practices, Benchmarking</td>
+      </tr>
+      <tr>
+        <td class="highlight">Eishockey-Fans</td>
+        <td>Sportinteressierte mit Tiefgang</td>
+        <td>Hinter die Kulissen schauen</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Produkt-&Ouml;kosystem</h3>
+  <p>Shift2Pro ist nicht nur ein Podcast. Es ist ein zusammenh&auml;ngendes System aus Content, Community und Commerce:</p>
+  <div class="data-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="data-cell">
+      <div class="data-cell-label">CONTENT</div>
+      <div class="data-cell-value cyan">Podcast</div>
+      <div class="data-cell-note">Kernprodukt, 2&times; monatlich</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">CONTENT</div>
+      <div class="data-cell-value cyan">Buch</div>
+      <div class="data-cell-note">Destillat aus Podcast-G&auml;sten</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">COMMERCE</div>
+      <div class="data-cell-value cyan">Merch</div>
+      <div class="data-cell-note">Capsule Drops, limitiert</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">COMMUNITY</div>
+      <div class="data-cell-value cyan">Events</div>
+      <div class="data-cell-note">Live-Podcast, Camps, Panels</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">CONTENT</div>
+      <div class="data-cell-value cyan">Newsletter</div>
+      <div class="data-cell-note">Weekly Shift &mdash; kurz, relevant</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">PLATTFORM</div>
+      <div class="data-cell-value cyan">Website</div>
+      <div class="data-cell-note">shift2pro.com &mdash; Hub f&uuml;r alles</div>
+    </div>
+  </div>
+
+  <h3>Revenue Streams</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>Quelle</th><th>Modell</th><th>Zeithorizont</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">Sponsoring &amp; Partner</td>
+        <td>Saison-Pakete, Presenting-Partner, Mentions</td>
+        <td class="cyan">Ab Launch</td>
+      </tr>
+      <tr>
+        <td class="highlight">Merch</td>
+        <td>Capsule Drops, Print-on-Demand, limitierte Editionen</td>
+        <td class="cyan">Ab Q4 2026</td>
+      </tr>
+      <tr>
+        <td class="highlight">Buch</td>
+        <td>Verkauf (Print &amp; Digital), Bundles mit Merch</td>
+        <td class="cyan">2027</td>
+      </tr>
+      <tr>
+        <td class="highlight">Live-Events</td>
+        <td>Ticket-basiert, Sponsor-gest&uuml;tzt</td>
+        <td class="cyan">Ab 2027</td>
+      </tr>
+      <tr>
+        <td class="highlight">Consulting</td>
+        <td>Vereine &amp; Verb&auml;nde, basierend auf S2P-Expertise</td>
+        <td class="cyan">Laufend</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Kostenstruktur (Jahr 1)</h3>
+  <div class="data-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="data-cell">
+      <div class="data-cell-label">PRODUKTION</div>
+      <div class="data-cell-value">&euro; 2.000&ndash;4.000</div>
+      <div class="data-cell-note">Equipment, Hosting, Musik</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">MARKETING</div>
+      <div class="data-cell-value">&euro; 1.500&ndash;3.000</div>
+      <div class="data-cell-note">Social Ads, Giveaways, PR</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">DESIGN &amp; CONTENT</div>
+      <div class="data-cell-value">&euro; 1.000&ndash;2.000</div>
+      <div class="data-cell-note">Grafik, Schnitt, Thumbnails</div>
+    </div>
+  </div>
+  <p>Lean Setup. Kein Studio mieten, kein Team anstellen. Qualit&auml;t &uuml;ber Quantit&auml;t. Die meisten Kosten sind variabel und skalieren mit dem Wachstum.</p>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     03 — VERMARKTUNGSKONZEPT
+     ═══════════════════════════════════════ -->
+<section class="chapter" id="marketing">
+  <div class="chapter-number">03</div>
+  <div class="chapter-label">VERMARKTUNGSKONZEPT</div>
+  <h2>LAUNCH-STRATEGIE<br>MIT NACHHALL.</h2>
+
+  <p class="lead">Kein lauter Knall, sondern ein Signal, das die Richtigen h&ouml;ren. Der Launch folgt einem Drei-Phasen-Modell: aufladen, z&uuml;nden, halten.</p>
+
+  <h3>Phase 1 &mdash; Pre-Launch (jetzt bis Juni 2026)</h3>
+  <p style="color:var(--white); font-weight:400;">Ziel: Spannung aufbauen, ohne alles zu verraten.</p>
+  <ul class="clean-list">
+    <li>Coming-Soon-Seite mit E-Mail/WhatsApp-Signup aktiv<span class="sub">Bereits live auf shift2pro.com</span></li>
+    <li>Teaser-Content auf Instagram &amp; TikTok: Behind-the-Scenes, Setup, G&auml;ste-Hints<span class="sub">2&ndash;3 Posts pro Woche, Stories t&auml;glich</span></li>
+    <li>Pers&ouml;nliche Einladungen an Schl&uuml;sselpersonen der Eishockey-Szene<span class="sub">DMs, nicht Massenmails. Qualit&auml;t &uuml;ber Reichweite.</span></li>
+    <li>Trailer-Episode produzieren (2&ndash;3 Min.)<span class="sub">Gibt den Ton vor. Zeigt, dass das hier anders ist.</span></li>
+    <li>Partner-Gespr&auml;che f&uuml;r Presenting-Sponsor<span class="sub">1 Premium-Partner statt 10 kleine Logos</span></li>
+  </ul>
+
+  <h3>Phase 2 &mdash; Launch (Juli 2026)</h3>
+  <p style="color:var(--white); font-weight:400;">Ziel: Starker erster Eindruck, 3 Episoden zum Start.</p>
+  <ul class="clean-list">
+    <li><strong style="color:var(--cyan)">Drop mit 3 Episoden gleichzeitig</strong><span class="sub">Gibt H&ouml;rern sofort Tiefe, zeigt Bandbreite, verbessert Algorithmus-Performance</span></li>
+    <li>Episode 1: Hochkar&auml;tiger Gast (bekannter Name aus dem Eishockey)<span class="sub">Zieht Aufmerksamkeit, wird geteilt</span></li>
+    <li>Episode 2: Deep Dive &mdash; zeigt die inhaltliche Tiefe<span class="sub">F&uuml;r die, die mehr wollen als Smalltalk</span></li>
+    <li>Episode 3: Pers&ouml;nlich &mdash; Ren&eacute;s eigene Geschichte<span class="sub">Nahbarkeit, Vertrauen, Identifikation</span></li>
+    <li>Launch auf allen Plattformen gleichzeitig: Spotify, Apple, YouTube, Website<span class="sub">Keine Exklusivit&auml;t. &Uuml;berall dort sein, wo die H&ouml;rer sind.</span></li>
+    <li>Social-Media-Blitz: G&auml;ste teilen, Cross-Promo, Reels aus den Episoden</li>
+  </ul>
+
+  <h3>Phase 3 &mdash; Growth (ab August 2026)</h3>
+  <p style="color:var(--white); font-weight:400;">Ziel: Konstanz aufbauen, Community wachsen lassen.</p>
+  <ul class="clean-list">
+    <li>Fester Rhythmus: neue Episode alle 2 Wochen<span class="sub">Dienstag, 6:00 Uhr &mdash; vor dem Eistraining</span></li>
+    <li>Jede Episode erzeugt 5&ndash;8 Social-Media-Derivate<span class="sub">Zitate, Reels, Karussells, Audiogramme</span></li>
+    <li>Newsletter &bdquo;Weekly Shift&ldquo; jeden Montag<span class="sub">1 Take Away, 1 Link, 1 Frage &mdash; unter 2 Minuten Lesezeit</span></li>
+    <li>G&auml;ste-Netzwerk als Multiplikator nutzen<span class="sub">Jeder Gast bringt sein Publikum mit</span></li>
+    <li>Cross-Promotion mit anderen Sportpodcasts</li>
+  </ul>
+
+  <h3>Kanal-Strategie</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>Kanal</th><th>Funktion</th><th>Content-Typ</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">Instagram</td>
+        <td>Hauptkanal f&uuml;r Community &amp; Reichweite</td>
+        <td>Reels, Karussells, Stories, Live</td>
+      </tr>
+      <tr>
+        <td class="highlight">TikTok</td>
+        <td>Reichweite bei j&uuml;ngerer Zielgruppe</td>
+        <td>Kurzclips, Behind-the-Scenes, Hot Takes</td>
+      </tr>
+      <tr>
+        <td class="highlight">YouTube</td>
+        <td>Langform-Video, SEO-Sichtbarkeit</td>
+        <td>Volle Episoden, Shorts, Trailer</td>
+      </tr>
+      <tr>
+        <td class="highlight">Spotify / Apple</td>
+        <td>Kern-Distribution, Auffindbarkeit</td>
+        <td>Audio-Episoden, exklusive Bonus-Clips</td>
+      </tr>
+      <tr>
+        <td class="highlight">Newsletter</td>
+        <td>Direkte Verbindung, kein Algorithmus</td>
+        <td>Weekly Shift &mdash; kurz, pers&ouml;nlich</td>
+      </tr>
+      <tr>
+        <td class="highlight">Website</td>
+        <td>Hub, SEO, Archiv, Shop</td>
+        <td>Episoden, Show Notes, Blog, Merch</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Kooperations-Strategie</h3>
+  <p>Shift2Pro kooperiert nur mit Partnern, die zur DNA passen. Keine Banner-Deals, keine Geldgier-Kooperationen. Stattdessen:</p>
+  <ul class="clean-list">
+    <li><strong style="color:var(--white)">Presenting Partner</strong>: 1 Partner pro Saison, tiefe Integration<span class="sub">z.B. Eishockey-Ausr&uuml;ster, Sporttechnologie, Ausbildungsanbieter</span></li>
+    <li><strong style="color:var(--white)">Content-Partner</strong>: Fotografen (Lukas Kirsch), Videografen, Grafiker<span class="sub">Teilen die &Auml;sthetik, erh&ouml;hen die Qualit&auml;t</span></li>
+    <li><strong style="color:var(--white)">Netzwerk-Partner</strong>: Dub&eacute; Skills, Create Sports, Vereine, Verb&auml;nde<span class="sub">Gegenseitige Reichweite, gemeinsame Events</span></li>
+  </ul>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     04 — CONTENT-PLANUNG
+     ═══════════════════════════════════════ -->
+<section class="chapter" id="content">
+  <div class="chapter-number">04</div>
+  <div class="chapter-label">CONTENT-PLANUNG</div>
+  <h2>WAS WIR ERZ&Auml;HLEN.<br>UND WARUM.</h2>
+
+  <p class="lead">Jede Episode hat eine Aufgabe. Jeder Inhalt f&uuml;hrt irgendwohin. Kein Content um des Contents willen &mdash; sondern Geschichten, die h&auml;ngen bleiben.</p>
+
+  <h3>Content Pillars</h3>
+  <div class="data-grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="data-cell">
+      <div class="data-cell-label">PILLAR 1</div>
+      <div class="data-cell-value cyan">INSPIRE</div>
+      <div class="data-cell-note">Pers&ouml;nliche Geschichten, Karrierewege, Scheitern &amp; Aufstehen. Warum jemand tut, was er tut.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">PILLAR 2</div>
+      <div class="data-cell-value cyan">DEVELOP</div>
+      <div class="data-cell-note">Trainingsmethoden, Spielerentwicklung, Taktik, Sportpsychologie. Das Handwerk.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">PILLAR 3</div>
+      <div class="data-cell-value cyan">CONNECT</div>
+      <div class="data-cell-note">Netzwerk, Organisationskultur, Verbandsarbeit, internationale Perspektiven.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">BONUS PILLAR</div>
+      <div class="data-cell-value cyan">BEHIND THE BOARDS</div>
+      <div class="data-cell-note">Hinter den Kulissen &mdash; Ren&eacute;s eigene Einblicke, Reflexionen, Pers&ouml;nliches.</div>
+    </div>
+  </div>
+
+  <h3>Episoden-Formate</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>Format</th><th>L&auml;nge</th><th>Frequenz</th><th>Beschreibung</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">The Long Shift</td>
+        <td>60&ndash;90 Min.</td>
+        <td>2&times; / Monat</td>
+        <td>Das Hauptformat. Tiefes Gespr&auml;ch mit einem Gast. Karriere, Philosophie, Learnings.</td>
+      </tr>
+      <tr>
+        <td class="highlight">Quick Shift</td>
+        <td>15&ndash;25 Min.</td>
+        <td>1&times; / Monat</td>
+        <td>Solo-Episode. Ein Thema, ein Take. Ren&eacute; alleine mit dem Mikrofon.</td>
+      </tr>
+      <tr>
+        <td class="highlight">The Bench</td>
+        <td>30&ndash;45 Min.</td>
+        <td>Gelegentlich</td>
+        <td>Roundtable mit 2&ndash;3 G&auml;sten. Kontroverse Themen, verschiedene Perspektiven.</td>
+      </tr>
+      <tr>
+        <td class="highlight">Overtime</td>
+        <td>10&ndash;15 Min.</td>
+        <td>Bonus</td>
+        <td>Exklusiver Bonus-Content nach der Episode. Uncut, pers&ouml;nlich, roh.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>G&auml;ste-Strategie</h3>
+  <p>Die G&auml;ste sind das Herz von Shift2Pro. Keine Promo-Tour-Stops, sondern echte Gespr&auml;che mit Menschen, die etwas zu sagen haben:</p>
+
+  <h4>G&auml;ste-Kategorien</h4>
+  <table class="data-table">
+    <thead>
+      <tr><th>Kategorie</th><th>Beispiele</th><th>Zweck</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">Legends</td>
+        <td>Aktive &amp; ehemalige Profis, Pers&ouml;nlichkeiten</td>
+        <td>Reichweite, Glaubw&uuml;rdigkeit, Inspiration</td>
+      </tr>
+      <tr>
+        <td class="highlight">Architects</td>
+        <td>Head Coaches, Nachwuchsleiter, GM's</td>
+        <td>Tiefe, Fachwissen, Systemdenken</td>
+      </tr>
+      <tr>
+        <td class="highlight">Innovators</td>
+        <td>Sportwissenschaftler, Analysten, Technologie</td>
+        <td>Zukunft, neue Ans&auml;tze, Querdenken</td>
+      </tr>
+      <tr>
+        <td class="highlight">Next Gen</td>
+        <td>Junge Spieler, Nachwuchstrainer</td>
+        <td>Frische Perspektive, Identifikation</td>
+      </tr>
+      <tr>
+        <td class="highlight">Outsiders</td>
+        <td>Psychologen, Unternehmer, Athleten anderer Sportarten</td>
+        <td>&Uuml;berraschung, Horizonterweiterung</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>G&auml;ste-Pipeline</h4>
+  <ul class="clean-list">
+    <li>Wunschliste mit 50+ Namen pflegen, nach Kategorie sortiert</li>
+    <li>Pers&ouml;nliche Einladung &mdash; immer direkt, nie &uuml;ber Management (wenn m&ouml;glich)</li>
+    <li>Vorab-Brief mit 3 Kernfragen schicken &mdash; kein Fragenkatalog</li>
+    <li>Nach der Aufnahme: handgeschriebene Danke-Karte + Merch-Paket</li>
+    <li>Jeder Gast wird Teil des Shift2Pro-Netzwerks &mdash; bleibt verbunden</li>
+  </ul>
+
+  <h3>Redaktionsplan-Template</h3>
+  <p>Beispielhafter Monatsrhythmus:</p>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">WOCHE 1</div>
+      <div class="timeline-content">
+        <div class="timeline-title">The Long Shift #XX</div>
+        <div class="timeline-desc">Dienstag: Episode-Release &middot; Mi&ndash;Fr: 3&ndash;4 Social Clips &middot; Montag: Newsletter mit Take Aways</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">WOCHE 2</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Content-Recycling + Community</div>
+        <div class="timeline-desc">Karussell-Posts, Zitat-Grafiken, Behind-the-Scenes der n&auml;chsten Aufnahme</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">WOCHE 3</div>
+      <div class="timeline-content">
+        <div class="timeline-title">The Long Shift #XX oder Quick Shift</div>
+        <div class="timeline-desc">Gleicher Zyklus wie Woche 1, alternierend zwischen Gast und Solo</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">WOCHE 4</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Teaser + Planung</div>
+        <div class="timeline-desc">Vorschau n&auml;chster Monat, Community-Interaktion, Gast-Ank&uuml;ndigung</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Content-Derivate pro Episode</h3>
+  <p>Jede Episode wird in 5&ndash;8 Content-St&uuml;cke zerlegt:</p>
+  <div class="data-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+    <div class="data-cell">
+      <div class="data-cell-label">VIDEO</div>
+      <div class="data-cell-value">YouTube Full</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">SHORT</div>
+      <div class="data-cell-value">3&times; Reels/Shorts</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">AUDIO</div>
+      <div class="data-cell-value">Spotify/Apple</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">VISUAL</div>
+      <div class="data-cell-value">Zitat-Grafiken</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">TEXT</div>
+      <div class="data-cell-value">Newsletter</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">WEB</div>
+      <div class="data-cell-value">Show Notes</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     05 — PODCAST-HANDBUCH
+     ═══════════════════════════════════════ -->
+<section class="chapter" id="podcast">
+  <div class="chapter-number">05</div>
+  <div class="chapter-label">PODCAST-HANDBUCH</div>
+  <h2>VOM LEEREN RAUM<br>ZUR FERTIGEN EPISODE.</h2>
+
+  <p class="lead">Alles, was du wissen musst &mdash; von der Mikrofonwahl bis zum Upload. Kein Overengineering, aber keine Kompromisse bei der Qualit&auml;t.</p>
+
+  <h3>Equipment &mdash; Starter Setup</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>Komponente</th><th>Empfehlung</th><th>Budget</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">Mikrofon (Host)</td>
+        <td>Shure SM7B oder Rode PodMic USB<span class="label"><br>Dynamisch, r&auml;umt Raumger&auml;usche aus</span></td>
+        <td>&euro; 100&ndash;400</td>
+      </tr>
+      <tr>
+        <td class="highlight">Mikrofon (Gast remote)</td>
+        <td>Rode NT-USB Mini als Leihger&auml;t oder Gast-eigenes Equipment<span class="label"><br>Qualit&auml;tsstandard kommunizieren</span></td>
+        <td>&euro; 100</td>
+      </tr>
+      <tr>
+        <td class="highlight">Audio Interface</td>
+        <td>Focusrite Scarlett Solo / R&oslash;DE AI-1<span class="label"><br>Nur bei XLR-Mikrofonen n&ouml;tig</span></td>
+        <td>&euro; 80&ndash;130</td>
+      </tr>
+      <tr>
+        <td class="highlight">Kopfh&ouml;rer</td>
+        <td>Beyerdynamic DT 770 Pro (geschlossen)<span class="label"><br>Geschlossen = kein Bleed ins Mikro</span></td>
+        <td>&euro; 140</td>
+      </tr>
+      <tr>
+        <td class="highlight">Aufnahme-Software</td>
+        <td>Riverside.fm (Remote) &middot; Logic Pro / Audacity (Lokal)<span class="label"><br>Riverside nimmt Spuren getrennt auf &mdash; Gold wert f&uuml;r die Post</span></td>
+        <td>&euro; 0&ndash;25/Mo</td>
+      </tr>
+      <tr>
+        <td class="highlight">Kamera</td>
+        <td>Sony ZV-E10 oder iPhone 15 Pro (4K Cinematic)<span class="label"><br>F&uuml;r YouTube-Version. Gutes Licht &gt; teure Kamera.</span></td>
+        <td>&euro; 0&ndash;800</td>
+      </tr>
+      <tr>
+        <td class="highlight">Licht</td>
+        <td>Elgato Key Light oder 2&times; Softbox<span class="label"><br>Weiches Licht, kein Ring Light (sieht billig aus)</span></td>
+        <td>&euro; 60&ndash;200</td>
+      </tr>
+      <tr>
+        <td class="highlight">Akustik</td>
+        <td>Reflexionsschirm + Teppich/Decken<span class="label"><br>Kein Profi-Studio n&ouml;tig. Hall killen reicht.</span></td>
+        <td>&euro; 50&ndash;100</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">PHILOSOPHIE</span>
+    Starte mit dem, was du hast. Upgrade gezielt, nicht pauschal. <strong>Ein gutes Mikrofon und ein ruhiger Raum schlagen jedes &euro; 5.000 Setup in einer Turnhalle.</strong>
+  </div>
+
+  <h3>Aufnahme-Workflow</h3>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">T&minus;7 TAGE</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Vorbereitung</div>
+        <div class="timeline-desc">Gast-Research &middot; 3 Kernfragen formulieren &middot; Intro-Text schreiben &middot; Technik-Check mit Gast (5 Min. Testcall)</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">T&minus;1 TAG</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Setup</div>
+        <div class="timeline-desc">Raum vorbereiten &middot; Kamera + Licht positionieren &middot; Testaufnahme (Pegel, Hall, Bild) &middot; Wasser + Kaffee bereitstellen</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">AUFNAHME</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Recording</div>
+        <div class="timeline-desc">5 Min. Warm-up (nicht aufnehmen) &middot; Aufnahme starten &middot; Nat&uuml;rlich gespr&auml;ch f&uuml;hren, kein Skript ablesen &middot; Timestamp-Notizen f&uuml;r Highlights &middot; Sauberes Outro</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">T+1 TAG</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Post-Production</div>
+        <div class="timeline-desc">Audio-Edit: &Auml;hs entfernen, Pausen k&uuml;rzen, Pegel angleichen &middot; Intro/Outro anf&uuml;gen &middot; Export: MP3 192kbps (Audio) &middot; MP4 1080p (Video)</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">T+2 TAGE</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Content Creation</div>
+        <div class="timeline-desc">3 Best-of-Clips schneiden &middot; Zitat-Grafiken erstellen &middot; Show Notes schreiben &middot; Newsletter-Text &middot; Thumbnails</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">RELEASE</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Ver&ouml;ffentlichung</div>
+        <div class="timeline-desc">Dienstag 06:00 Uhr &middot; Alle Plattformen gleichzeitig &middot; Social Posts gestaffelt &uuml;ber 5 Tage &middot; Gast benachrichtigen &amp; zum Teilen einladen</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Hosting &amp; Distribution</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>Plattform</th><th>Zweck</th><th>Hinweise</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">Spotify for Podcasters</td>
+        <td>Hosting &amp; Verteilung an alle Audio-Plattformen</td>
+        <td>Kostenlos, zuverl&auml;ssig, Analytics inklusive</td>
+      </tr>
+      <tr>
+        <td class="highlight">Apple Podcasts</td>
+        <td>Zweitgr&ouml;&szlig;te Plattform, iOS-Nutzer</td>
+        <td>&Uuml;ber RSS-Feed automatisch, Apple Connect f&uuml;r Claiming</td>
+      </tr>
+      <tr>
+        <td class="highlight">YouTube</td>
+        <td>Video-Episoden, SEO, Discoverability</td>
+        <td>Eigener Kanal @shift2pro, Shorts + Full Episodes</td>
+      </tr>
+      <tr>
+        <td class="highlight">shift2pro.com</td>
+        <td>Eigene Plattform, unabh&auml;ngig von Algorithmen</td>
+        <td>Episoden-Archiv, Show Notes, SEO-optimierte Texte</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Analytics &amp; KPIs</h3>
+  <div class="data-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+    <div class="data-cell">
+      <div class="data-cell-label">DOWNLOADS</div>
+      <div class="data-cell-value cyan">Pro Episode</div>
+      <div class="data-cell-note">Ziel Y1: 500+ pro Episode</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">RETENTION</div>
+      <div class="data-cell-value cyan">H&ouml;rdauer %</div>
+      <div class="data-cell-note">Ziel: &gt; 60 % Completion Rate</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">GROWTH</div>
+      <div class="data-cell-value cyan">Follower</div>
+      <div class="data-cell-note">Instagram: 2.000 in 6 Monaten</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">ENGAGEMENT</div>
+      <div class="data-cell-value cyan">Shares &amp; DMs</div>
+      <div class="data-cell-note">Qualit&auml;t &gt; Vanity Metrics</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">NEWSLETTER</div>
+      <div class="data-cell-value cyan">&Ouml;ffnungsrate</div>
+      <div class="data-cell-note">Ziel: &gt; 45 %</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">REVENUE</div>
+      <div class="data-cell-value cyan">MRR</div>
+      <div class="data-cell-note">Sponsoring + Merch + Buch</div>
+    </div>
+  </div>
+
+  <h3>Monetarisierung</h3>
+  <ul class="clean-list">
+    <li><strong style="color:var(--white)">Phase 1 (0&ndash;6 Monate):</strong> Kein Monetarisierungs-Druck. Qualit&auml;t und Publikum aufbauen.<span class="sub">Sponsoring nur, wenn es organisch passt.</span></li>
+    <li><strong style="color:var(--white)">Phase 2 (6&ndash;12 Monate):</strong> Presenting Partner, Merch-Drop 1, erste Affiliate-Deals<span class="sub">1 Premium-Sponsor, kein Bauchladen.</span></li>
+    <li><strong style="color:var(--white)">Phase 3 (12+ Monate):</strong> Buch-Launch, Live-Events, Premium-Content-Ebene<span class="sub">Skalierung &uuml;ber Produkte, nicht &uuml;ber mehr Werbung.</span></li>
+  </ul>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     06 — DAS BUCH
+     ═══════════════════════════════════════ -->
+<section class="chapter" id="book">
+  <div class="chapter-number">06</div>
+  <div class="chapter-label">DAS BUCH</div>
+  <h2>THE SHIFT.<br>DAS BUCH ZUM PODCAST.</h2>
+
+  <p class="lead">Kein klassisches Sachbuch. Kein Fan-Merch. Sondern ein Objekt, das man in die Hand nimmt und nicht mehr weglegt &mdash; weil jede Seite nach Eishockey, Leidenschaft und echten Menschen riecht.</p>
+
+  <div class="quote">
+    <p>&bdquo;Jeder Gast in diesem Podcast hat mir etwas hinterlassen &mdash; einen Satz, eine Idee, eine Haltung. Dieses Buch ist der Versuch, diese Momente festzuhalten, bevor sie im Rauschen des Alltags verschwinden.&ldquo;</p>
+    <cite>&mdash; REN&Eacute; WILD</cite>
+  </div>
+
+  <h3>Konzept &amp; Positionierung</h3>
+  <p><strong style="color:var(--cyan)">THE SHIFT</strong> ist das Destillat aus den besten Shift2Pro-Gespr&auml;chen: die Essenz, die Take Aways, die Geschichten, die bleiben. Nicht transkribiert, sondern transformiert &mdash; von Gespr&auml;ch zu Erkenntnis, von Episode zu Kapitel.</p>
+
+  <div class="data-grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="data-cell">
+      <div class="data-cell-label">FORMAT</div>
+      <div class="data-cell-value">Hardcover, 200&ndash;260 Seiten</div>
+      <div class="data-cell-note">17 &times; 24 cm &mdash; gr&ouml;&szlig;er als ein Taschenbuch, kleiner als ein Coffeetable-Book. Liegt gut in der Hand.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">&Auml;STHETIK</div>
+      <div class="data-cell-value">Understatement. Dann WOW.</div>
+      <div class="data-cell-note">Schwarzer Leineneinband, Cyan-Blindpr&auml;gung, offene Fadenheftung. Innen: viel Wei&szlig;raum, Full-Bleed-Fotografie, typografische Akzente.</div>
+    </div>
+  </div>
+
+  <h4>Was dieses Buch NICHT ist</h4>
+  <ul class="clean-list">
+    <li>Kein Transkript &mdash; niemand will 90 Minuten Gespr&auml;ch lesen</li>
+    <li>Kein Ratgeber &mdash; keine &bdquo;7 Schritte zum Profi&ldquo;-Listen</li>
+    <li>Kein Bildband &mdash; aber Fotografie ist essenziell</li>
+    <li>Kein Vereins-PR-Produkt &mdash; sondern ein Werk, das f&uuml;r sich steht</li>
+  </ul>
+
+  <h4>Was dieses Buch IST</h4>
+  <ul class="clean-list">
+    <li>Eine Sammlung von <strong style="color:var(--white)">Momenten, Einsichten und Haltungen</strong> aus den Shift2Pro-Gespr&auml;chen</li>
+    <li>Ein Buch, das man &ouml;ffnet, irgendwo anf&auml;ngt zu lesen und nicht aufh&ouml;ren kann</li>
+    <li>Ein physisches Objekt, das die <strong style="color:var(--white)">Shift2Pro-&Auml;sthetik</strong> in den Raum bringt</li>
+    <li>Ein Geschenk, das Trainer ihren Trainern geben. Spieler ihren Eltern. Eltern ihren Kindern.</li>
+  </ul>
+
+  <h3>Struktur &amp; Aufbau</h3>
+  <p>Das Buch folgt nicht der chronologischen Reihenfolge der Episoden, sondern ist thematisch organisiert &mdash; wie ein Album, nicht wie ein Archiv:</p>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Kapitel</th><th>Thema</th><th>Inhalt</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">00 &mdash; Vorwort</td>
+        <td>Warum dieses Buch</td>
+        <td>Ren&eacute;s pers&ouml;nliche Einf&uuml;hrung. Kurz, ehrlich, ung&uuml;tig.</td>
+      </tr>
+      <tr>
+        <td class="highlight">01 &mdash; Der Anfang</td>
+        <td>Wie alles beginnt</td>
+        <td>Geschichten &uuml;ber erste Schritte aufs Eis, fr&uuml;he Tr&auml;ume, die Magie des Anfangs. Take Aways &uuml;ber Talent vs. Leidenschaft.</td>
+      </tr>
+      <tr>
+        <td class="highlight">02 &mdash; Das Handwerk</td>
+        <td>Entwicklung &amp; Training</td>
+        <td>Die besten Insights aus Develop-Episoden. Was gute Trainer anders machen. Methoden, die wirken.</td>
+      </tr>
+      <tr>
+        <td class="highlight">03 &mdash; Der Preis</td>
+        <td>Opfer &amp; R&uuml;ckschl&auml;ge</td>
+        <td>Die ehrlichsten Momente: Verletzungen, Karriereenden, Zweifel. Warum Scheitern zum Weg geh&ouml;rt.</td>
+      </tr>
+      <tr>
+        <td class="highlight">04 &mdash; Die Kabine</td>
+        <td>Team &amp; Kultur</td>
+        <td>Was Teams zusammenh&auml;lt. F&uuml;hrung, Hierarchien, Generationenkonflikte. Die unsichtbaren Dinge.</td>
+      </tr>
+      <tr>
+        <td class="highlight">05 &mdash; Das System</td>
+        <td>Organisationen &amp; Strukturen</td>
+        <td>Wie Vereine, Verb&auml;nde und Ligen funktionieren &mdash; und warum sie manchmal nicht funktionieren.</td>
+      </tr>
+      <tr>
+        <td class="highlight">06 &mdash; Der Moment</td>
+        <td>Gänsehaut-Momente</td>
+        <td>Die Geschichten, die h&auml;ngen bleiben. Momente, die gr&ouml;&szlig;er sind als der Sport selbst.</td>
+      </tr>
+      <tr>
+        <td class="highlight">07 &mdash; Die Zukunft</td>
+        <td>Wohin der Sport geht</td>
+        <td>Visionen, W&uuml;nsche, Prognosen der G&auml;ste. Was sich &auml;ndern muss &mdash; und was niemals.</td>
+      </tr>
+      <tr>
+        <td class="highlight">08 &mdash; Nachwort</td>
+        <td>Bleib wild.</td>
+        <td>Ren&eacute;s Fazit. Was er gelernt hat. Was er hofft. Eine Einladung.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>Besondere Elemente</h4>
+  <ul class="clean-list">
+    <li><strong style="color:var(--cyan)">Take Away Pages</strong><span class="sub">Nach jedem Kapitel: eine Seite mit den 3&ndash;5 st&auml;rksten Erkenntnissen. Gro&szlig;e Typografie, viel Wei&szlig;raum. Zum Fotografieren, Teilen, An-die-Wand-H&auml;ngen.</span></li>
+    <li><strong style="color:var(--cyan)">Gast-Portr&auml;ts</strong><span class="sub">Jeder zitierte Gast bekommt eine visuelle Seite: Schwarz-Wei&szlig;-Foto von Lukas Kirsch, Name, Rolle, ein pr&auml;gender Satz. Wie ein Sammelkartenalbum f&uuml;r Erwachsene.</span></li>
+    <li><strong style="color:var(--cyan)">QR-Codes</strong><span class="sub">Jedes Kapitel verlinkt per QR-Code zur Original-Episode. Das Buch als Einstieg, der Podcast als Vertiefung.</span></li>
+    <li><strong style="color:var(--cyan)">Handschrift-Elemente</strong><span class="sub">Ren&eacute;s eigene Notizen, handschriftliche Randbemerkungen (in Caveat gesetzt). Gibt dem Buch W&auml;rme und Pers&ouml;nlichkeit.</span></li>
+    <li><strong style="color:var(--cyan)">Eisfl&auml;chen-Metapher</strong><span class="sub">Jedes Kapitel beginnt mit einer stilisierten Eisfl&auml;chen-Grafik, die das Thema visuell einf&uuml;hrt. Minimal, abstrakt, sofort erkennbar.</span></li>
+  </ul>
+
+  <h3>Design &amp; Produktion</h3>
+
+  <div class="data-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="data-cell">
+      <div class="data-cell-label">COVER</div>
+      <div class="data-cell-value">Schwarzer Leinen</div>
+      <div class="data-cell-note">Blindpr&auml;gung &bdquo;THE SHIFT&ldquo; in Cyan-Folie. Kein Bild auf dem Cover. Understatement pur.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">PAPIER</div>
+      <div class="data-cell-value">Munken Lynx 120g</div>
+      <div class="data-cell-note">Ungestrichenes Naturpapier, warm-wei&szlig;. F&uuml;hlt sich an wie ein Brief, nicht wie ein Prospekt.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">BINDUNG</div>
+      <div class="data-cell-value">Offene Fadenheftung</div>
+      <div class="data-cell-note">Sichtbarer R&uuml;cken mit Cyan-Faden. Liegt flach auf. Handwerklich, ehrlich.</div>
+    </div>
+  </div>
+
+  <h4>Innenseiten-Design</h4>
+  <ul class="clean-list">
+    <li>Schwarz-Wei&szlig;-Fotografie im Wechsel mit typografischen Seiten</li>
+    <li>Headlines in Anton, Flie&szlig;text in Poppins Light, Labels in JetBrains Mono</li>
+    <li>Cyan nur als Akzent: Seitenzahlen, Pull-Quotes, Take Away Pages</li>
+    <li>Gro&szlig;z&uuml;gige R&auml;nder &mdash; Platz f&uuml;r eigene Notizen</li>
+    <li>Kapitelanfang: immer rechte Seite, Full-Bleed-Bild links</li>
+  </ul>
+
+  <h3>Content-Pipeline: Vom Podcast zum Buch</h3>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">LAUFEND</div>
+      <div class="timeline-content">
+        <div class="timeline-title">W&auml;hrend jeder Aufnahme</div>
+        <div class="timeline-desc">Schl&uuml;sselmomente markieren (Timestamp + Stichwort). Nach der Episode: 3&ndash;5 Take Aways notieren. Fotos vom Gast sichern.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">QUARTAL</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Quartals-Review</div>
+        <div class="timeline-desc">Gesammelte Take Aways sichten und thematisch clustern. Welche Geschichten tragen? Welche Zitate bleiben? Was fehlt noch?</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">AB EP. 20</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Buch-Outline</div>
+        <div class="timeline-desc">Kapitelstruktur finalisieren. Material den Kapiteln zuordnen. L&uuml;cken identifizieren &mdash; gezielte Episoden planen, die fehlendes Material liefern.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">AB EP. 30</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Schreibphase</div>
+        <div class="timeline-desc">Kapitel ausarbeiten. Nicht transkribieren, sondern destillieren. Ren&eacute;s Stimme als roter Faden. G&auml;ste-Freigaben einholen.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2027 Q3</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Produktion &amp; Druck</div>
+        <div class="timeline-desc">Layout, Fotoselektion, Lektorat, Druck. 3&ndash;4 Monate Vorlauf einplanen.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2027 Q4</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Launch</div>
+        <div class="timeline-desc">Limited First Edition. Spezial-Episode zum Buch. Signing-Events. Weihnachtsgesch&auml;ft nutzen.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Verlag vs. Self-Publishing</h3>
+  <div class="data-grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="data-cell">
+      <div class="data-cell-label">SELF-PUBLISHING</div>
+      <div class="data-cell-value cyan">Empfohlen</div>
+      <div class="data-cell-note">Volle Kontrolle &uuml;ber Design, Preis, Vertrieb. H&ouml;here Marge. Passt zur Unabh&auml;ngigkeit von Wild Project. Druck &uuml;ber: Books on Demand, Bookmundo, oder lokale Druckerei f&uuml;r Limited Edition.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">VERLAG</div>
+      <div class="data-cell-value">Option f&uuml;r sp&auml;ter</div>
+      <div class="data-cell-note">Sinnvoll, wenn das Buch ein zweites Leben bekommt (erweiterte Auflage, Paperback). Erst mit Proof of Concept verhandeln &mdash; dann aus einer Position der St&auml;rke.</div>
+    </div>
+  </div>
+
+  <h3>Preisgestaltung &amp; Editionen</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>Edition</th><th>Inhalt</th><th>Preis</th><th>Auflage</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">Standard</td>
+        <td>Hardcover, Fadenheftung, volles Programm</td>
+        <td class="cyan">&euro; 34,90</td>
+        <td>Open</td>
+      </tr>
+      <tr>
+        <td class="highlight">Limited First Edition</td>
+        <td>Nummeriert, signiert, Schuber, Bonus-Kapitel, exklusiver Print</td>
+        <td class="cyan">&euro; 59,90</td>
+        <td>200 St&uuml;ck</td>
+      </tr>
+      <tr>
+        <td class="highlight">Digital</td>
+        <td>PDF/ePub, optimiert f&uuml;r Tablet</td>
+        <td class="cyan">&euro; 19,90</td>
+        <td>Unbegrenzt</td>
+      </tr>
+      <tr>
+        <td class="highlight">Bundle</td>
+        <td>Buch + Merch-Drop (Hoodie oder Tee)</td>
+        <td class="cyan">&euro; 79,90</td>
+        <td>100 Sets</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     07 — ROADMAP
+     ═══════════════════════════════════════ -->
+<section class="chapter" id="roadmap">
+  <div class="chapter-number">07</div>
+  <div class="chapter-label">ROADMAP 2026&ndash;2028</div>
+  <h2>DER WEG<br>VON HIER NACH DORT.</h2>
+
+  <p class="lead">&Uuml;bersicht aller Meilensteine &mdash; vom Pre-Launch bis zum Buch und dar&uuml;ber hinaus.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">APR&ndash;JUN 26</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Pre-Launch</div>
+        <div class="timeline-desc">Brand finalisieren &middot; Website live &middot; Coming-Soon-Kampagne &middot; Trailer-Episode &middot; Erste 3 Episoden aufnehmen &middot; Presenting Partner sichern</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">JUL 26</div>
+      <div class="timeline-content">
+        <div class="timeline-title" style="color:var(--cyan);">LAUNCH</div>
+        <div class="timeline-desc">3 Episoden droppen &middot; Alle Plattformen live &middot; Social-Media-Blitz &middot; Newsletter Start &middot; PR-Push</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">AUG&ndash;DEZ 26</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Wachstum &amp; Rhythmus</div>
+        <div class="timeline-desc">Alle 2 Wochen neue Episode &middot; Community aufbauen &middot; Merch Drop 1 &middot; 12&ndash;15 Episoden im Kasten &middot; Buch-Ideen sammeln</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Q1 2027</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Konsolidierung</div>
+        <div class="timeline-desc">20+ Episoden &middot; Erstes Live-Event (z.B. Live-Podcast bei einem Turnier) &middot; Buch-Outline steht &middot; Zweiter Sponsor-Partner</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Q2&ndash;Q3 2027</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Buchproduktion</div>
+        <div class="timeline-desc">30+ Episoden &middot; Buch schreiben &amp; layouten &middot; Fotoshooting f&uuml;r Buchportr&auml;ts &middot; Lektorat &middot; Druckvorbereitung</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Q4 2027</div>
+      <div class="timeline-content">
+        <div class="timeline-title" style="color:var(--cyan);">BUCH-LAUNCH</div>
+        <div class="timeline-desc">Limited First Edition &middot; Signing-Events &middot; Spezial-Episode &middot; Bundle-Aktion &middot; Weihnachtsgesch&auml;ft</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2028</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Skalierung</div>
+        <div class="timeline-desc">Standard-Edition des Buchs &middot; Live-Event-Serie &middot; Internationale G&auml;ste &middot; Potenzielle Verlagspartnerschaft &middot; Shift2Pro als etablierte Marke im DACH-Eishockey</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">LEITPRINZIP</span>
+    <strong>Lieber langsam und richtig als schnell und vergessen.</strong> Shift2Pro w&auml;chst organisch, nicht durch Hacks. Jeder Schritt baut auf dem vorherigen auf. Kein Schritt ist verschwendet &mdash; auch die ruhigen nicht.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     CLOSING
+     ═══════════════════════════════════════ -->
+<section class="chapter" style="text-align:center; max-width:100%; border-top:1px solid var(--border); padding:6rem 2rem;">
+  <p style="font-family:'JetBrains Mono', monospace; font-size:0.6rem; letter-spacing:0.3em; color:var(--cyan); margin-bottom:1.5rem;">ENDE DES MASTERPLANS</p>
+  <p style="font-family:'Anton', sans-serif; font-size:clamp(1.8rem,4vw,3rem); color:var(--white); line-height:1.1; margin-bottom:1rem;">INSPIRE. DEVELOP.<br>CONNECT.</p>
+  <p style="color:var(--muted); font-size:0.85rem; max-width:400px; margin:0 auto 2rem;">Ein Produkt von Wild Project.<br>Designed in Rosenheim.</p>
+  <p style="font-family:'JetBrains Mono', monospace; font-size:0.55rem; letter-spacing:0.2em; color:var(--border2);">&copy; 2026 WILD PROJECT &mdash; ALL RIGHTS RESERVED</p>
+</section>
+
+
+<a href="#top" class="back-to-top" title="Nach oben">&uarr;</a>
+
+</body>
+</html>
