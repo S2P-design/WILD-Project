@@ -17,6 +17,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
   :root {
     --black: #000000;
@@ -175,6 +176,8 @@
     border: 1px solid var(--cyan-20);
     background: var(--cyan-05);
     transition: all 0.3s;
+    text-decoration: none;
+    cursor: pointer;
   }
   .meta-pill:hover {
     background: var(--cyan-10);
@@ -954,9 +957,10 @@
      GLASS LIGHT MODE
      ══════════════════════════════════ */
   body.light {
-    background: linear-gradient(135deg, #f6f7f9 0%, #f0f3f7 30%, #faf8f6 60%, #f4f6fa 100%);
+    background: var(--dl-bg, linear-gradient(135deg, #f6f7f9 0%, #f0f3f7 30%, #faf8f6 60%, #f4f6fa 100%));
     background-attachment: fixed;
     color: #1a1a2e;
+    transition: background 4s ease;
   }
   body.light::before {
     background:
@@ -965,28 +969,28 @@
     animation: ambientPulse 10s ease-in-out infinite alternate;
     transition: background 4s ease;
   }
-  /* Ambient glow orbs — daylight adaptive */
+  /* Ambient glow orbs — daylight adaptive (enhanced) */
   body.light .ambient-glow {
     position: fixed; pointer-events: none; z-index: 0;
     border-radius: 50%;
-    filter: blur(90px);
+    filter: blur(100px);
     opacity: 0;
     transition: opacity 1.5s, background 4s ease;
   }
   body.light .ambient-glow.active { opacity: 1; }
   body.light .ambient-glow.g1 {
-    width: 550px; height: 550px;
-    top: 8%; left: 12%;
+    width: 700px; height: 700px;
+    top: 5%; left: 8%;
     animation: orbFloat1 18s ease-in-out infinite alternate;
   }
   body.light .ambient-glow.g2 {
-    width: 450px; height: 450px;
-    bottom: 12%; right: 8%;
+    width: 600px; height: 600px;
+    bottom: 8%; right: 5%;
     animation: orbFloat2 22s ease-in-out infinite alternate;
   }
   body.light .ambient-glow.g3 {
-    width: 380px; height: 380px;
-    top: 50%; left: 50%;
+    width: 500px; height: 500px;
+    top: 45%; left: 45%;
     animation: orbFloat3 15s ease-in-out infinite alternate;
   }
   @keyframes ambientPulse {
@@ -1032,10 +1036,10 @@
   body.light .todo-widget:hover,
   body.light .notes-widget:hover,
   body.light .briefing-preview:hover {
-    background: rgba(255,255,255,0.7);
-    box-shadow: 0 8px 40px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.02),
-                inset 0 1px 0 rgba(255,255,255,0.9);
-    border-color: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.72);
+    box-shadow: 0 8px 40px rgba(12,192,223,0.08), 0 2px 4px rgba(0,0,0,0.02),
+                inset 0 1px 0 rgba(12,192,223,0.1);
+    border-color: rgba(12,192,223,0.18);
   }
 
   /* Login */
@@ -1110,8 +1114,10 @@
     overflow: hidden;
   }
   body.light .section:hover {
-    background: rgba(255,255,255,0.6);
-    box-shadow: 0 8px 40px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.02);
+    background: rgba(255,255,255,0.65);
+    box-shadow: 0 8px 40px rgba(12,192,223,0.08), 0 1px 4px rgba(0,0,0,0.02),
+                inset 0 1px 0 rgba(12,192,223,0.12);
+    border-color: rgba(12,192,223,0.18);
   }
   body.light .section-label {
     color: var(--cyan);
@@ -1212,9 +1218,10 @@
     border-radius: 14px;
   }
   body.light .tool-card:hover {
-    background: rgba(255,255,255,0.65);
-    border-color: rgba(12,192,223,0.3);
-    box-shadow: 0 8px 24px rgba(12,192,223,0.08), 0 2px 6px rgba(0,0,0,0.03);
+    background: rgba(255,255,255,0.68);
+    border-color: rgba(12,192,223,0.25);
+    box-shadow: 0 8px 28px rgba(12,192,223,0.12), 0 2px 6px rgba(0,0,0,0.02),
+                inset 0 1px 0 rgba(12,192,223,0.08);
     transform: translateY(-2px);
   }
   body.light .tool-title { color: #1a1a2e; }
@@ -1318,6 +1325,30 @@
     backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255,255,255,0.6);
   }
+  /* Color-coded episode stages — higher specificity for light mode */
+  body.light .ep-stage[data-stage="idee"]          { color: #888; border-color: rgba(136,136,136,0.25) !important; background: rgba(136,136,136,0.08) !important; }
+  body.light .ep-stage[data-stage="geplant"]       { color: #4A90D9; border-color: rgba(74,144,217,0.3) !important; background: rgba(74,144,217,0.1) !important; }
+  body.light .ep-stage[data-stage="aufgenommen"]   { color: #FC5000; border-color: rgba(252,80,0,0.3) !important; background: rgba(252,80,0,0.1) !important; }
+  body.light .ep-stage[data-stage="schnitt"]       { color: #E0A800; border-color: rgba(224,168,0,0.3) !important; background: rgba(224,168,0,0.1) !important; }
+  body.light .ep-stage[data-stage="fertig"]        { color: #5CB85C; border-color: rgba(92,184,92,0.3) !important; background: rgba(92,184,92,0.1) !important; }
+  body.light .ep-stage[data-stage="live"]          { color: #0CC0DF; border-color: rgba(12,192,223,0.35) !important; background: rgba(12,192,223,0.12) !important; }
+  /* Dark mode stages */
+  .ep-stage[data-stage="idee"]          { color: #888; border-color: rgba(136,136,136,0.25); background: rgba(136,136,136,0.06); }
+  .ep-stage[data-stage="geplant"]       { color: #4A90D9; border-color: rgba(74,144,217,0.3); background: rgba(74,144,217,0.08); }
+  .ep-stage[data-stage="aufgenommen"]   { color: #FC5000; border-color: rgba(252,80,0,0.3); background: rgba(252,80,0,0.08); }
+  .ep-stage[data-stage="schnitt"]       { color: #E0A800; border-color: rgba(224,168,0,0.3); background: rgba(224,168,0,0.08); }
+  .ep-stage[data-stage="fertig"]        { color: #5CB85C; border-color: rgba(92,184,92,0.3); background: rgba(92,184,92,0.08); }
+  .ep-stage[data-stage="live"]          { color: #0CC0DF; border-color: rgba(12,192,223,0.35); background: rgba(12,192,223,0.1); }
+
+  /* Collapsible sections */
+  .section-label { cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+  .section-label .section-toggle {
+    font-size: 10px; color: var(--muted); transition: transform 0.3s;
+    display: inline-block; margin-left: 8px;
+  }
+  .section.collapsed .section-toggle { transform: rotate(-90deg); }
+  .section.collapsed .section-body { max-height: 0; overflow: hidden; opacity: 0; pointer-events: none; }
+  .section .section-body { max-height: 5000px; overflow: visible; opacity: 1; transition: max-height 0.4s ease, opacity 0.3s ease; }
   body.light .ep-add-num {
     background: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.8);
     color: var(--cyan); border-radius: 10px;
@@ -1488,10 +1519,11 @@
     <h1 class="header-headline">INSPIRE. DEVELOP. <span class="cyan">CONNECT.</span></h1>
     <p class="header-tagline">Where Ideas come to life.</p>
     <div class="header-meta">
-      <span class="meta-pill">PODCAST</span>
-      <span class="meta-pill">MASTERPLAN</span>
-      <span class="meta-pill">CONTENT</span>
-      <span class="meta-pill">BOOK</span>
+      <a href="#sec-masterplan" class="meta-pill">MASTERPLAN</a>
+      <a href="#sec-podcast" class="meta-pill">PODCAST</a>
+      <a href="#sec-briefing" class="meta-pill">BRIEFING</a>
+      <a href="#sec-episodes" class="meta-pill">EPISODES</a>
+      <a href="#sec-sounds" class="meta-pill">SOUNDS</a>
     </div>
   </div>
 
@@ -1519,11 +1551,13 @@
     <div class="workspace-col">
 
       <!-- ══════ MASTERPLAN ══════ -->
-      <div class="section">
-        <div class="section-label">
+      <div class="section" id="sec-masterplan">
+        <div class="section-label" onclick="toggleSection(this)">
           Masterplan
           <span class="section-count">8 Kapitel</span>
+          <span class="section-toggle">▼</span>
         </div>
+        <div class="section-body">
 
         <div class="mp-card">
           <div class="mp-num">01</div>
@@ -1634,11 +1668,13 @@
             <button class="mp-btn" onclick="window.open('/s2p-masterplan.html','_blank').print()">PDF</button>
           </div>
         </div>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ PODCAST HUB ══════ -->
-      <div class="section">
-        <div class="section-label">Podcast</div>
+      <div class="section" id="sec-podcast">
+        <div class="section-label" onclick="toggleSection(this)">Podcast <span class="section-toggle">▼</span></div>
+        <div class="section-body">
 
         <a href="https://www.shift2pro.com" class="link-card" target="_blank">
           <div class="link-icon">S2P</div>
@@ -1675,14 +1711,17 @@
           </div>
           <div class="link-arrow">&rarr;</div>
         </a>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ GÄSTELISTE ══════ -->
       <div class="section">
-        <div class="section-label">
+        <div class="section-label" onclick="toggleSection(this)">
           G&auml;steliste
           <span class="section-count" id="guestCount">0</span>
+          <span class="section-toggle">▼</span>
         </div>
+        <div class="section-body">
 
         <div class="guest-filter">
           <button class="guest-filter-btn active" data-filter="alle" onclick="filterGuests('alle',this)">ALLE</button>
@@ -1700,11 +1739,13 @@
 
         <ul class="guest-list" id="guestList"></ul>
         <div class="guest-count" id="guestStats"></div>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ BRIEFING-VORLAGE ══════ -->
-      <div class="section">
-        <div class="section-label">Briefing-Vorlage</div>
+      <div class="section" id="sec-briefing">
+        <div class="section-label" onclick="toggleSection(this)">Briefing-Vorlage <span class="section-toggle">▼</span></div>
+        <div class="section-body">
 
         <div class="briefing-preview">
           <div class="briefing-header">
@@ -1811,11 +1852,13 @@
             <button class="briefing-btn" onclick="clearBriefing()">LEEREN</button>
           </div>
         </div>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ MERCH & SHOP ══════ -->
       <div class="section">
-        <div class="section-label">Merch &amp; Shop</div>
+        <div class="section-label" onclick="toggleSection(this)">Merch &amp; Shop <span class="section-toggle">▼</span></div>
+        <div class="section-body">
 
         <a href="https://hedzup.store/shop?category=pcol_01KNVP0MMRES38MJ9C5QG6XZCB" class="link-card" target="_blank">
           <div class="link-icon">HU</div>
@@ -1834,11 +1877,13 @@
           </div>
           <div class="link-arrow">&rarr;</div>
         </a>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ BRAND & ASSETS ══════ -->
       <div class="section">
-        <div class="section-label">Brand &amp; Assets</div>
+        <div class="section-label" onclick="toggleSection(this)">Brand &amp; Assets <span class="section-toggle">▼</span></div>
+        <div class="section-body">
 
         <a href="/s2p-brand-guide.html" class="link-card" target="_blank" style="border-color:var(--cyan-20);">
           <div class="link-icon" style="color:var(--cyan);">CI</div>
@@ -1866,11 +1911,13 @@
           </div>
           <div class="link-arrow">&rarr;</div>
         </a>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ PARTNER ══════ -->
       <div class="section">
-        <div class="section-label">Partner &amp; Friends</div>
+        <div class="section-label" onclick="toggleSection(this)">Partner &amp; Friends <span class="section-toggle">▼</span></div>
+        <div class="section-body">
 
         <a href="https://dubeskills.eu/" class="link-card" target="_blank">
           <div class="link-icon">DS</div>
@@ -1898,14 +1945,17 @@
           </div>
           <div class="link-arrow">&rarr;</div>
         </a>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ KONTAKT ══════ -->
       <div class="section">
         <div class="section-label">Kontakt</div>
+        <div class="section-body">
         <div class="contact-row">
           <a href="mailto:rene@wildproject.pro" class="contact-pill">rene@wildproject.pro</a>
         </div>
+      </div><!-- /section-body -->
       </div>
 
     </div><!-- /.workspace-col LEFT -->
@@ -1915,7 +1965,8 @@
 
       <!-- ══════ PODCAST TOOLS ══════ -->
       <div class="section">
-        <div class="section-label">Workflow</div>
+        <div class="section-label" onclick="toggleSection(this)">Workflow <span class="section-toggle">▼</span></div>
+        <div class="section-body">
         <div class="tools-grid">
           <a href="https://claude.ai" class="tool-card" target="_blank">
             <div class="tool-ico">AI</div>
@@ -1950,11 +2001,13 @@
             <div class="tool-arrow">&nearr;</div>
           </a>
         </div>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ KALENDER ══════ -->
       <div class="section">
-        <div class="section-label">Kalender</div>
+        <div class="section-label" onclick="toggleSection(this)">Kalender <span class="section-toggle">▼</span></div>
+        <div class="section-body">
         <div class="cal-widget">
           <div class="cal-header">
             <button class="cal-nav" id="calPrev">&lsaquo;</button>
@@ -1963,11 +2016,13 @@
           </div>
           <div class="cal-grid" id="calGrid"></div>
         </div>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ TO DO ══════ -->
       <div class="section">
-        <div class="section-label">To Do</div>
+        <div class="section-label" onclick="toggleSection(this)">To Do <span class="section-toggle">▼</span></div>
+        <div class="section-body">
         <div class="todo-widget">
           <div class="todo-add-row">
             <input type="text" class="todo-input" id="todoInput" placeholder="Neue Aufgabe ..." maxlength="200">
@@ -1976,11 +2031,13 @@
           <ul class="todo-list" id="todoList"></ul>
           <div class="todo-count" id="todoCount"></div>
         </div>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ NOTES ══════ -->
       <div class="section">
-        <div class="section-label">Notes</div>
+        <div class="section-label" onclick="toggleSection(this)">Notes <span class="section-toggle">▼</span></div>
+        <div class="section-body">
         <div class="notes-widget">
           <div class="notes-toolbar">
             <button class="nt-btn" onclick="document.execCommand('bold')"><b>B</b></button>
@@ -1993,14 +2050,17 @@
             <span class="notes-status-text" id="notesSaved">GESPEICHERT</span>
           </div>
         </div>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ EPISODE TRACKER ══════ -->
-      <div class="section">
-        <div class="section-label">
+      <div class="section" id="sec-episodes">
+        <div class="section-label" onclick="toggleSection(this)">
           Episode Tracker
           <span class="section-count" id="epCount">0</span>
+          <span class="section-toggle">▼</span>
         </div>
+        <div class="section-body">
 
         <div class="ep-add">
           <input type="text" class="ep-add-num" id="epNum" placeholder="001" maxlength="4">
@@ -2010,11 +2070,13 @@
         </div>
 
         <div class="ep-pipeline" id="epPipeline"></div>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ RELEASE CHECKLIST ══════ -->
       <div class="section">
-        <div class="section-label">Release Checklist</div>
+        <div class="section-label" onclick="toggleSection(this)">Release Checklist <span class="section-toggle">▼</span></div>
+        <div class="section-body">
 
         <div class="checklist-phase">PRE-PRODUKTION</div>
         <div class="checklist" id="checklistPre">
@@ -2090,11 +2152,13 @@
 
         <button class="checklist-reset" onclick="resetChecklist()">RESET</button>
         <div style="clear:both;"></div>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ══════ S2P SOUNDS ══════ -->
-      <div class="section">
-        <div class="section-label">S2P Sounds &mdash; Hockey Sample Pack</div>
+      <div class="section" id="sec-sounds">
+        <div class="section-label" onclick="toggleSection(this)">S2P Sounds &mdash; Hockey Sample Pack <span class="section-toggle">▼</span></div>
+        <div class="section-body">
         <div class="sound-grid" id="soundGrid">
 
           <div class="sound-folder open" onclick="toggleSoundFolder(this)">
@@ -2254,16 +2318,19 @@
 
           <button class="sound-stop-all" id="soundStopAll">&#9724; STOP ALL</button>
         </div>
+      </div><!-- /section-body -->
       </div>
 
       <!-- ── BACKUP ── -->
       <div class="section">
-        <div class="section-label">Backup</div>
+        <div class="section-label" onclick="toggleSection(this)">Backup <span class="section-toggle">▼</span></div>
+        <div class="section-body">
         <div style="display:flex;gap:8px;">
           <button onclick="exportWorkspaceData()" style="flex:1;padding:10px 12px;background:rgba(12,192,223,0.06);border:1px solid rgba(12,192,223,0.12);border-radius:8px;color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;cursor:pointer;transition:all 0.2s;">EXPORT JSON</button>
           <button onclick="importWorkspaceData()" style="flex:1;padding:10px 12px;background:rgba(255,255,255,0.02);border:1px solid rgba(12,192,223,0.12);border-radius:8px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;cursor:pointer;transition:all 0.2s;">IMPORT</button>
         </div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;margin-top:8px;line-height:1.6;">AES-256 VERSCHLÜSSELT · LOKALE DATEN · KEIN SERVER</div>
+      </div><!-- /section-body -->
       </div>
 
     </div><!-- /.workspace-col RIGHT -->
@@ -2621,6 +2688,34 @@ function importWorkspaceData() {
 })();
 
 // ═══════════════════════════════════════
+// COLLAPSIBLE SECTIONS
+// ═══════════════════════════════════════
+function toggleSection(labelEl) {
+  var section = labelEl.closest('.section');
+  if (section) section.classList.toggle('collapsed');
+}
+
+// ═══════════════════════════════════════
+// META-PILL ANCHOR SCROLL
+// ═══════════════════════════════════════
+document.querySelectorAll('.meta-pill[href^="#"]').forEach(function(pill) {
+  pill.addEventListener('click', function(e) {
+    e.preventDefault();
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      // Uncollapse target section if collapsed
+      if (target.classList.contains('collapsed')) {
+        target.classList.remove('collapsed');
+      }
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Brief highlight
+      target.style.boxShadow = '0 0 0 2px rgba(12,192,223,0.4)';
+      setTimeout(function() { target.style.boxShadow = ''; }, 1500);
+    }
+  });
+});
+
+// ═══════════════════════════════════════
 // PRINT SECTION (PDF)
 // ═══════════════════════════════════════
 function printSection(id) {
@@ -2636,20 +2731,22 @@ function printSection(id) {
 (function() {
   // Tageslicht-Phasen: [hour, g1-color, g2-color, g3-color, bg-tint]
   // Morgengrauen → Goldene Stunde → Tageslicht → Nachmittag → Golden Hour → Dämmerung → Nacht
+  // Brand-consistent cool blue/cyan glow — always on-brand #0CC0DF
+  // Intensity shifts by time of day but color stays in the cyan family
   var phases = [
-    // h   g1 (primary)                    g2 (secondary)                  g3 (accent)                     bg-overlay
-    [ 5,  'rgba(255,180,80,0.04)',         'rgba(255,140,50,0.03)',        'rgba(200,120,60,0.02)',         'rgba(255,200,140,0.03)' ],  // Morgengrauen
-    [ 7,  'rgba(255,200,100,0.06)',        'rgba(255,170,60,0.04)',        'rgba(252,80,0,0.025)',          'rgba(255,210,150,0.04)' ],  // Sonnenaufgang
-    [ 9,  'rgba(255,230,180,0.05)',        'rgba(12,192,223,0.03)',        'rgba(255,200,100,0.02)',        'rgba(255,240,220,0.02)' ],  // Vormittag warm
-    [11,  'rgba(12,192,223,0.05)',         'rgba(80,180,220,0.04)',        'rgba(255,250,230,0.02)',        'rgba(220,240,255,0.02)' ],  // Tageslicht klar
-    [13,  'rgba(12,192,223,0.055)',        'rgba(60,170,230,0.045)',       'rgba(12,192,223,0.02)',         'rgba(230,245,255,0.02)' ],  // Mittag — kühlstes Licht
-    [15,  'rgba(12,192,223,0.05)',         'rgba(100,190,220,0.04)',       'rgba(255,220,150,0.02)',        'rgba(240,248,255,0.015)'],  // Früher Nachmittag
-    [17,  'rgba(255,200,120,0.05)',        'rgba(12,192,223,0.03)',        'rgba(252,80,0,0.025)',          'rgba(255,230,200,0.03)' ],  // Golden Hour
-    [19,  'rgba(255,160,80,0.06)',         'rgba(255,120,60,0.04)',        'rgba(200,80,40,0.03)',          'rgba(255,200,160,0.04)' ],  // Sonnenuntergang
-    [20,  'rgba(255,120,60,0.04)',         'rgba(180,100,60,0.035)',       'rgba(150,80,50,0.025)',         'rgba(255,180,140,0.03)' ],  // Dämmerung
-    [21,  'rgba(120,100,180,0.04)',        'rgba(80,70,140,0.03)',         'rgba(60,50,120,0.02)',          'rgba(200,190,230,0.02)' ],  // Blaue Stunde
-    [23,  'rgba(60,50,120,0.03)',          'rgba(40,35,100,0.025)',        'rgba(30,25,80,0.015)',          'rgba(180,170,210,0.015)'],  // Nacht
-    [ 3,  'rgba(40,30,80,0.025)',          'rgba(30,25,70,0.02)',          'rgba(20,15,60,0.012)',          'rgba(160,150,190,0.01)' ],  // Tiefe Nacht
+    // h   g1 (primary cyan)               g2 (secondary blue)             g3 (accent teal)                bg-overlay                      body-gradient
+    [ 5,  'rgba(12,192,223,0.06)',         'rgba(40,160,200,0.05)',        'rgba(20,140,180,0.03)',         'rgba(12,192,223,0.03)',         'linear-gradient(135deg, #f2f6f9 0%, #eef3f8 30%, #f5f8fb 60%, #f1f5f9 100%)' ],
+    [ 7,  'rgba(12,192,223,0.08)',         'rgba(40,160,200,0.06)',        'rgba(20,140,180,0.04)',         'rgba(12,192,223,0.04)',         'linear-gradient(135deg, #f3f7fa 0%, #eff4f9 30%, #f6f9fc 60%, #f2f6fa 100%)' ],
+    [ 9,  'rgba(12,192,223,0.10)',         'rgba(50,170,210,0.08)',        'rgba(30,150,190,0.05)',         'rgba(12,192,223,0.05)',         'linear-gradient(135deg, #f2f7fa 0%, #edf3f9 30%, #f6f9fd 60%, #f1f6fb 100%)' ],
+    [11,  'rgba(12,192,223,0.13)',         'rgba(50,175,215,0.10)',        'rgba(12,192,223,0.06)',         'rgba(12,192,223,0.06)',         'linear-gradient(135deg, #f0f6fa 0%, #ebf2f8 30%, #f5f9fd 60%, #eff5fb 100%)' ],
+    [13,  'rgba(12,192,223,0.15)',         'rgba(40,170,220,0.12)',        'rgba(12,192,223,0.07)',         'rgba(12,192,223,0.06)',         'linear-gradient(135deg, #eff5fa 0%, #e9f1f8 30%, #f4f8fd 60%, #eef4fb 100%)' ],
+    [15,  'rgba(12,192,223,0.13)',         'rgba(50,175,215,0.10)',        'rgba(30,160,200,0.06)',         'rgba(12,192,223,0.05)',         'linear-gradient(135deg, #f1f6fa 0%, #ecf3f9 30%, #f5f9fd 60%, #f0f5fb 100%)' ],
+    [17,  'rgba(12,192,223,0.10)',         'rgba(40,160,200,0.08)',        'rgba(20,140,180,0.05)',         'rgba(12,192,223,0.04)',         'linear-gradient(135deg, #f3f7fa 0%, #eff4f9 30%, #f6f9fc 60%, #f2f6fa 100%)' ],
+    [19,  'rgba(12,192,223,0.08)',         'rgba(30,150,200,0.06)',        'rgba(15,130,170,0.04)',         'rgba(12,192,223,0.035)',        'linear-gradient(135deg, #f3f6f9 0%, #f0f4f8 30%, #f6f8fb 60%, #f2f5f9 100%)' ],
+    [20,  'rgba(12,192,223,0.07)',         'rgba(25,130,180,0.06)',        'rgba(15,100,150,0.04)',         'rgba(12,192,223,0.03)',         'linear-gradient(135deg, #f2f5f8 0%, #eff2f7 30%, #f5f7fa 60%, #f1f4f8 100%)' ],
+    [21,  'rgba(12,192,223,0.06)',         'rgba(20,120,170,0.05)',        'rgba(10,90,140,0.035)',         'rgba(12,192,223,0.025)',        'linear-gradient(135deg, #f1f3f7 0%, #edf0f5 30%, #f4f6f9 60%, #f0f3f7 100%)' ],
+    [23,  'rgba(12,192,223,0.05)',         'rgba(15,100,150,0.04)',        'rgba(10,80,130,0.03)',          'rgba(12,192,223,0.02)',         'linear-gradient(135deg, #f0f2f6 0%, #eceff4 30%, #f3f5f8 60%, #eff2f6 100%)' ],
+    [ 3,  'rgba(12,192,223,0.04)',         'rgba(10,80,130,0.035)',        'rgba(8,60,110,0.025)',          'rgba(12,192,223,0.015)',        'linear-gradient(135deg, #eff1f5 0%, #ebeef3 30%, #f2f4f7 60%, #eef1f5 100%)' ],
   ];
 
   function getPhaseColors(hour) {
@@ -2686,6 +2783,11 @@ function printSection(id) {
 
     // Subtilen Hintergrund-Tint auf body::before anpassen via CSS variable
     document.documentElement.style.setProperty('--daylight-tint', colors[4]);
+
+    // Body background gradient shift per Tageszeit
+    if (colors[5]) {
+      document.documentElement.style.setProperty('--dl-bg', colors[5]);
+    }
   }
 
   // Initial + alle 5 Minuten aktualisieren
