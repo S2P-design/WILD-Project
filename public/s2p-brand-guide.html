@@ -89,22 +89,25 @@
     margin-bottom: 48px;
     position: relative; z-index: 1;
   }
-  .hero-logo-wrap {
+  .hero-logo-text {
     position: relative; z-index: 1;
-    background: #fff;
-    padding: 28px 48px;
-    margin-bottom: 32px;
-    max-width: 520px;
-    width: 85%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 80px rgba(12,192,223,0.08);
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(64px, 12vw, 110px);
+    color: var(--white);
+    letter-spacing: 0.03em;
+    line-height: 1;
+    margin-bottom: 12px;
+    text-shadow: 0 0 80px rgba(12,192,223,0.15);
   }
-  .hero-logo-wrap img {
-    width: 100%;
-    height: auto;
-    display: block;
+  .hero-logo-text .cyan { color: var(--cyan); }
+  .hero-claim {
+    position: relative; z-index: 1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(10px, 1.8vw, 14px);
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    color: var(--cyan);
+    margin-bottom: 40px;
   }
   .hero-sub {
     font-size: 15px;
@@ -637,10 +640,8 @@
 <!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="hero-badge">Corporate Design Guide</div>
-  <div class="hero-logo-wrap">
-    <img src="/brand-assets/Logografie-02.png" alt="SHIFT2PRO Logo">
-  </div>
-  <div class="hero-sub">Eishockey &middot; Development &middot; Podcast</div>
+  <div class="hero-logo-text">SHIFT<span class="cyan">2</span>PRO</div>
+  <div class="hero-claim">EISHOCKEY &mdash; DEVELOPMENT &mdash; PODCAST</div>
   <div class="hero-line"></div>
   <div class="hero-version">VERSION 1.0 &mdash; APRIL 2026</div>
 </section>
