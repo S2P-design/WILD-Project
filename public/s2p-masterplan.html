@@ -465,6 +465,339 @@ body {
 }
 .back-to-top:hover { border-color: var(--cyan); color: var(--cyan); }
 
+/* ── MOCKUP PRODUCT CARDS ── */
+.mockup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2px;
+  margin: 2.5rem 0;
+  max-width: 860px;
+}
+.mockup-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.3s;
+}
+.mockup-card:hover { border-color: var(--cyan-20); }
+.mockup-visual {
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.mockup-visual::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(12,192,223,0.06) 0%, transparent 70%);
+}
+.mockup-garment {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  width: 75%; height: 80%;
+}
+
+/* ── Hoodie shape ── */
+.garment-hoodie {
+  background: #111;
+  border-radius: 4px 4px 2px 2px;
+  position: relative;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  clip-path: polygon(
+    30% 0%, 70% 0%, 72% 3%, 78% 3%, 100% 18%, 100% 100%, 0% 100%, 0% 18%, 22% 3%, 28% 3%
+  );
+}
+.garment-hoodie::before {
+  content: '';
+  position: absolute;
+  top: -2%; left: 35%; width: 30%; height: 12%;
+  border-radius: 0 0 50% 50%;
+  background: #0a0a0a;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.garment-hoodie .brand-print {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(0.9rem, 2.5vw, 1.6rem);
+  color: var(--cyan);
+  letter-spacing: 0.1em;
+  text-align: center;
+  transform: translateY(8%);
+}
+.garment-hoodie .brand-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.4rem;
+  letter-spacing: 0.3em;
+  color: rgba(12,192,223,0.5);
+  margin-top: 0.3rem;
+  text-align: center;
+}
+
+/* ── Tee shape ── */
+.garment-tee {
+  background: #f0f0f0;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  clip-path: polygon(
+    35% 0%, 65% 0%, 100% 15%, 100% 100%, 0% 100%, 0% 15%
+  );
+  position: relative;
+}
+.garment-tee::before {
+  content: '';
+  position: absolute;
+  top: -1%; left: 40%; width: 20%; height: 8%;
+  border-radius: 0 0 50% 50%;
+  background: #e0e0e0;
+}
+.garment-tee .brand-print {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(0.7rem, 2vw, 1.1rem);
+  color: #000;
+  letter-spacing: 0.05em;
+  text-align: center;
+  transform: translateY(5%);
+}
+.garment-tee .brand-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.35rem;
+  letter-spacing: 0.2em;
+  color: rgba(0,0,0,0.4);
+  margin-top: 0.2rem;
+}
+
+/* ── Cap shape ── */
+.garment-cap {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.cap-body {
+  width: 65%; height: 45%;
+  background: #111;
+  border-radius: 50% 50% 5% 5%;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.cap-brim {
+  position: absolute;
+  bottom: -12%;
+  width: 80%;
+  height: 18%;
+  background: #0a0a0a;
+  border-radius: 0 0 50% 50%;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-top: none;
+}
+.cap-body .brand-print {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(0.65rem, 1.8vw, 1rem);
+  color: var(--cyan);
+  letter-spacing: 0.15em;
+  transform: translateY(-5%);
+}
+
+/* ── Crewneck shape ── */
+.garment-crew {
+  background: #1a1a1a;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  clip-path: polygon(
+    35% 0%, 65% 0%, 100% 15%, 100% 100%, 0% 100%, 0% 15%
+  );
+  position: relative;
+}
+.garment-crew::before {
+  content: '';
+  position: absolute;
+  top: -1%; left: 38%; width: 24%; height: 7%;
+  border-radius: 0 0 40% 40%;
+  background: #141414;
+}
+.garment-crew .brand-print {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(0.5rem, 1.5vw, 0.8rem);
+  color: var(--cyan);
+  letter-spacing: 0.15em;
+  text-align: center;
+  transform: translateY(8%);
+}
+.garment-crew .brand-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.35rem;
+  letter-spacing: 0.25em;
+  color: rgba(12,192,223,0.4);
+  margin-top: 0.3rem;
+}
+
+/* ── Tote bag shape ── */
+.garment-tote {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.tote-body {
+  width: 55%; height: 60%;
+  background: #111;
+  border-radius: 0 0 3px 3px;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.tote-handle-l, .tote-handle-r {
+  position: absolute;
+  top: -15%; width: 3px; height: 18%;
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.tote-handle-l { left: 25%; }
+.tote-handle-r { right: 25%; }
+.tote-body .brand-print {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(0.5rem, 1.4vw, 0.75rem);
+  color: var(--cyan);
+  letter-spacing: 0.1em;
+}
+.tote-body .brand-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.3rem;
+  letter-spacing: 0.2em;
+  color: rgba(12,192,223,0.4);
+  margin-top: 0.2rem;
+}
+
+/* ── Bottle shape ── */
+.garment-bottle {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.bottle-body {
+  width: 22%; height: 70%;
+  background: #111;
+  border-radius: 4px 4px 6px 6px;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.bottle-neck {
+  position: absolute;
+  top: -10%; left: 30%; width: 40%; height: 14%;
+  background: #0a0a0a;
+  border-radius: 3px 3px 0 0;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-bottom: none;
+}
+.bottle-cap {
+  position: absolute;
+  top: -15%; left: 32%; width: 36%; height: 6%;
+  background: var(--cyan);
+  border-radius: 2px 2px 0 0;
+}
+.bottle-label {
+  position: absolute;
+  top: 30%; left: 5%; right: 5%;
+  text-align: center;
+  border-top: 1px solid var(--cyan-20);
+  border-bottom: 1px solid var(--cyan-20);
+  padding: 8% 0;
+}
+.bottle-label .brand-print {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(0.3rem, 0.8vw, 0.5rem);
+  color: var(--cyan);
+  letter-spacing: 0.15em;
+}
+
+/* ── Mockup meta ── */
+.mockup-meta {
+  padding: 1.2rem 1.4rem;
+  border-top: 1px solid var(--border);
+}
+.mockup-name {
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 0.2rem;
+}
+.mockup-variant {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+.mockup-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--cyan);
+  font-weight: 500;
+}
+.mockup-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--cyan-20);
+  color: var(--cyan);
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+/* ── Drop timeline ── */
+.drop-row {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 1.5rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  max-width: 640px;
+}
+.drop-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--cyan);
+}
+.drop-name {
+  font-size: 0.88rem;
+  color: var(--white);
+}
+.drop-desc {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+.drop-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+  padding: 0.25rem 0.8rem;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+}
+.drop-status.live { border-color: var(--cyan-20); color: var(--cyan); }
+
+@media print {
+  .mockup-grid { grid-template-columns: repeat(3, 1fr); }
+  .mockup-visual { background: #f8f8f8; }
+  .mockup-card { border-color: #ddd; break-inside: avoid; }
+  .garment-hoodie, .garment-crew { background: #222; }
+  .cap-body { background: #222; }
+  .tote-body { background: #222; }
+  .bottle-body { background: #222; }
+}
+
 /* ── SECTION DIVIDER ── */
 .divider {
   height: 1px;
@@ -493,7 +826,7 @@ body {
 <div class="doc-cover" id="top">
   <div class="cover-badge">INTERNAL &mdash; WILD PROJECT</div>
   <h1 class="cover-title">SHIFT<span>2</span>PRO<br>MASTER<span>PLAN</span></h1>
-  <p class="cover-sub">Brand Identity &middot; Businessplan &middot; Vermarktung &middot; Content &middot; Podcast &middot; Buch &mdash; das strategische Fundament f&uuml;r alles, was kommt.</p>
+  <p class="cover-sub">Brand Identity &middot; Businessplan &middot; Vermarktung &middot; Content &middot; Podcast &middot; Buch &middot; Merch &mdash; das strategische Fundament f&uuml;r alles, was kommt.</p>
   <div class="cover-meta">
     <div><span>AUTOR</span>&ensp;Ren&eacute; Wild</div>
     <div><span>VERSION</span>&ensp;1.0</div>
@@ -516,6 +849,7 @@ body {
     <li><a href="#content">Content-Planung <span class="toc-sub">Formate &middot; Rubriken &middot; Redaktionsplan</span></a></li>
     <li><a href="#podcast">Podcast-Handbuch <span class="toc-sub">Technik &middot; Workflow &middot; Distribution</span></a></li>
     <li><a href="#book">Das Buch <span class="toc-sub">Konzept &middot; Struktur &middot; Produktion</span></a></li>
+    <li><a href="#merch">Merch-Konzept <span class="toc-sub">Kollektion &middot; Drops &middot; Mockups</span></a></li>
     <li><a href="#roadmap">Roadmap 2026&ndash;2028 <span class="toc-sub">Phasen &middot; Ziele &middot; KPIs</span></a></li>
   </ol>
 </nav>
@@ -1473,10 +1807,271 @@ body {
 
 
 <!-- ═══════════════════════════════════════
-     07 — ROADMAP
+     07 — MERCH-KONZEPT
+     ═══════════════════════════════════════ -->
+<section class="chapter" id="merch">
+  <div class="chapter-number">07</div>
+  <div class="chapter-label">MERCH-KONZEPT</div>
+  <h2>WENIGER ABER<br>BESSER.</h2>
+
+  <p class="lead">Kein Merch-Shop mit 200 Produkten. Eine kuratierte Kollektion, die man tragen will &mdash; weil sie gut aussieht, nicht weil ein Logo drauf ist.</p>
+
+  <h3>Philosophie</h3>
+
+  <p>Shift2Pro Merch ist kein Fanartikel. Es ist Streetwear mit Haltung. Jedes Piece erz&auml;hlt die Geschichte: <em>Du entwickelst dich weiter, jeden Tag.</em></p>
+
+  <div class="callout">
+    <span class="callout-label">DESIGN-PRINZIP</span>
+    <strong>Understatement mit WOW Effekt.</strong> Dezentes Branding, hochwertige Materialien, Schnitte die auch ohne Kontext funktionieren. Wer es erkennt, erkennt es &mdash; wer nicht, sieht einfach gutes Design.
+  </div>
+
+  <ul class="clean-list">
+    <li>Maximal 6&ndash;8 Pieces pro Drop <span class="sub">Qualit&auml;t &uuml;ber Quantit&auml;t</span></li>
+    <li>Premium-Materialien: 400gsm Hoodies, 100% Organic Cotton Tees <span class="sub">Fühlt sich so an, wie es aussieht</span></li>
+    <li>Neutrale Farben + Cyan-Akzente <span class="sub">Schwarz, Wei&szlig;, Grau &mdash; Cyan als Signatur</span></li>
+    <li>Unisex-Schnitte, relaxed fit <span class="sub">Modern, zeitlos, für alle</span></li>
+    <li>Limitierte Drops statt Dauerverkauf <span class="sub">Scarcity schafft Begehrlichkeit</span></li>
+  </ul>
+
+  <h3>Kollektion &mdash; Core Line</h3>
+
+  <p>Die Basis-Kollektion besteht aus f&uuml;nf Pieces. Jedes hat einen Zweck, jedes steht f&uuml;r sich.</p>
+
+  <!-- ── MOCKUP GRID ── -->
+  <div class="mockup-grid">
+
+    <!-- HOODIE — Black -->
+    <div class="mockup-card">
+      <div class="mockup-visual">
+        <div class="mockup-garment">
+          <div class="garment-hoodie">
+            <div style="text-align:center;">
+              <div class="brand-print">SHIFT2PRO</div>
+              <div class="brand-sub">INSPIRE &middot; DEVELOP &middot; CONNECT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-meta">
+        <div class="mockup-name">The Shift Hoodie</div>
+        <div class="mockup-variant">BLACK &middot; 400GSM &middot; OVERSIZED</div>
+        <div class="mockup-price">&euro;79 <span class="mockup-tag">CORE</span></div>
+      </div>
+    </div>
+
+    <!-- TEE — White -->
+    <div class="mockup-card">
+      <div class="mockup-visual">
+        <div class="mockup-garment">
+          <div class="garment-tee">
+            <div style="text-align:center;">
+              <div class="brand-print">S2P</div>
+              <div class="brand-sub">SHIFT YOUR GAME</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-meta">
+        <div class="mockup-name">S2P Signature Tee</div>
+        <div class="mockup-variant">WHITE &middot; ORGANIC COTTON &middot; RELAXED</div>
+        <div class="mockup-price">&euro;39 <span class="mockup-tag">CORE</span></div>
+      </div>
+    </div>
+
+    <!-- CAP — Black -->
+    <div class="mockup-card">
+      <div class="mockup-visual">
+        <div class="mockup-garment">
+          <div class="garment-cap">
+            <div class="cap-body">
+              <div class="brand-print">S2P</div>
+              <div class="cap-brim"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-meta">
+        <div class="mockup-name">S2P Dad Cap</div>
+        <div class="mockup-variant">BLACK &middot; WASHED COTTON &middot; STRAPBACK</div>
+        <div class="mockup-price">&euro;34 <span class="mockup-tag">CORE</span></div>
+      </div>
+    </div>
+
+    <!-- CREWNECK — Charcoal -->
+    <div class="mockup-card">
+      <div class="mockup-visual">
+        <div class="mockup-garment">
+          <div class="garment-crew">
+            <div style="text-align:center;">
+              <div class="brand-print">INSPIRE. DEVELOP. CONNECT.</div>
+              <div class="brand-sub">SHIFT2PRO</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-meta">
+        <div class="mockup-name">Mantra Crewneck</div>
+        <div class="mockup-variant">CHARCOAL &middot; 350GSM &middot; BOXY FIT</div>
+        <div class="mockup-price">&euro;69 <span class="mockup-tag">CORE</span></div>
+      </div>
+    </div>
+
+    <!-- TOTE BAG -->
+    <div class="mockup-card">
+      <div class="mockup-visual">
+        <div class="mockup-garment">
+          <div class="garment-tote">
+            <div class="tote-handle-l"></div>
+            <div class="tote-handle-r"></div>
+            <div class="tote-body">
+              <div class="brand-print">S2P</div>
+              <div class="brand-sub">WILD PROJECT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-meta">
+        <div class="mockup-name">Shift Tote</div>
+        <div class="mockup-variant">BLACK &middot; HEAVY CANVAS &middot; 14oz</div>
+        <div class="mockup-price">&euro;24 <span class="mockup-tag">ACCESSOIRE</span></div>
+      </div>
+    </div>
+
+    <!-- BOTTLE -->
+    <div class="mockup-card">
+      <div class="mockup-visual">
+        <div class="mockup-garment">
+          <div class="garment-bottle">
+            <div class="bottle-body">
+              <div class="bottle-neck">
+                <div class="bottle-cap"></div>
+              </div>
+              <div class="bottle-label">
+                <div class="brand-print">S2P</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-meta">
+        <div class="mockup-name">S2P Water Bottle</div>
+        <div class="mockup-variant">MATTE BLACK &middot; 750ML &middot; STEEL</div>
+        <div class="mockup-price">&euro;29 <span class="mockup-tag">ACCESSOIRE</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>Print-Varianten</h3>
+
+  <p>Drei Print-Konzepte, die auf allen Pieces rotieren k&ouml;nnen:</p>
+
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-cell-label">VARIANTE A</div>
+      <div class="data-cell-value">SHIFT2PRO</div>
+      <div class="data-cell-note">Voller Schriftzug, Anton Font, Cyan auf Schwarz</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">VARIANTE B</div>
+      <div class="data-cell-value cyan">S2P</div>
+      <div class="data-cell-note">Monogramm, minimalistisch, Stickerei oder Print</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">VARIANTE C</div>
+      <div class="data-cell-value">I.D.C.</div>
+      <div class="data-cell-note">Inspire. Develop. Connect. &mdash; als Code, nur Eingeweihte verstehen es</div>
+    </div>
+  </div>
+
+  <h3>Drop-Strategie</h3>
+
+  <p>Merch wird nicht dauerhaft verkauft. Shift2Pro arbeitet mit einem Drop-Modell &mdash; limitierte Verf&uuml;gbarkeit, feste Zeitfenster, klare Kommunikation.</p>
+
+  <div class="drop-row">
+    <div class="drop-date">SEP 2026</div>
+    <div>
+      <div class="drop-name">Drop 01 &mdash; Foundation</div>
+      <div class="drop-desc">Core Line: Hoodie, Tee, Cap &middot; 3 Pieces &middot; Limitiert auf 100 St&uuml;ck pro Piece</div>
+    </div>
+    <div class="drop-status">GEPLANT</div>
+  </div>
+  <div class="drop-row">
+    <div class="drop-date">DEZ 2026</div>
+    <div>
+      <div class="drop-name">Drop 02 &mdash; Winter Edit</div>
+      <div class="drop-desc">Crewneck, Beanie, Bundle-Deals &middot; Weihnachts-Special &middot; Signierte Edition</div>
+    </div>
+    <div class="drop-status">KONZEPT</div>
+  </div>
+  <div class="drop-row">
+    <div class="drop-date">MÄR 2027</div>
+    <div>
+      <div class="drop-name">Drop 03 &mdash; Collab</div>
+      <div class="drop-desc">Kooperation mit Hedz.Up Store &middot; Crossover-Pieces &middot; Eishockey &times; Streetwear</div>
+    </div>
+    <div class="drop-status">IDEE</div>
+  </div>
+  <div class="drop-row">
+    <div class="drop-date">Q4 2027</div>
+    <div>
+      <div class="drop-name">Drop 04 &mdash; THE SHIFT</div>
+      <div class="drop-desc">Buch-Launch Bundle: Buch + Hoodie + Tote &middot; Limited First Edition &middot; Numbered</div>
+    </div>
+    <div class="drop-status">VISION</div>
+  </div>
+
+  <h3>Vertrieb &amp; Distribution</h3>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Kanal</th><th>Details</th><th>Priorit&auml;t</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="highlight">Hedz.Up Store</td><td>Bestehendes Shopify von Hedz.Up &mdash; eigene S2P-Kategorie</td><td class="cyan">PRIM&Auml;R</td></tr>
+      <tr><td>Live-Events</td><td>Pop-Up bei Turnieren, Live-Podcasts &middot; Cash &amp; Karte</td><td>SEKUND&Auml;R</td></tr>
+      <tr><td>Instagram Shop</td><td>Direktverkauf &uuml;ber Instagram &middot; Product Tags</td><td>SEKUND&Auml;R</td></tr>
+      <tr><td>Podcast-Mentions</td><td>Nat&uuml;rliche Erw&auml;hnung in Episoden, kein Hard-Sell</td><td>SUPPORT</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Preisstruktur &amp; Marge</h3>
+
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-cell-label">DURCHSCHNITT VK</div>
+      <div class="data-cell-value cyan">&euro;45</div>
+      <div class="data-cell-note">&uuml;ber alle Produkte</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">ZIEL-MARGE</div>
+      <div class="data-cell-value">55&ndash;65%</div>
+      <div class="data-cell-note">nach Produktion &amp; Versand</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">BREAK-EVEN PRO DROP</div>
+      <div class="data-cell-value">50 St&uuml;ck</div>
+      <div class="data-cell-note">Minimum Order pro Piece</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-cell-label">UMSATZZIEL Y1</div>
+      <div class="data-cell-value cyan">&euro;8.000&ndash;12.000</div>
+      <div class="data-cell-note">konservativ, 3 Drops</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">MERCH-MAXIME</span>
+    <strong>Jedes Piece muss bestehen, auch wenn du Shift2Pro nicht kennst.</strong> W&uuml;rdest du es im Laden kaufen, ohne den Podcast zu kennen? Wenn nein &mdash; zur&uuml;ck ans Board.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     08 — ROADMAP
      ═══════════════════════════════════════ -->
 <section class="chapter" id="roadmap">
-  <div class="chapter-number">07</div>
+  <div class="chapter-number">08</div>
   <div class="chapter-label">ROADMAP 2026&ndash;2028</div>
   <h2>DER WEG<br>VON HIER NACH DORT.</h2>
 

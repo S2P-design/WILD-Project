@@ -2371,6 +2371,17 @@
         </div>
       </div>
 
+      <!-- ══════ GRÜNDUNGS-CHECKLISTE ══════ -->
+      <div class="section">
+        <div class="section-label">Gr&uuml;ndung &mdash; Checkliste
+          <span style="font-size:8px;color:rgba(255,255,255,0.25);margin-left:auto;letter-spacing:1px;" id="foundingProgress">0/0</span>
+        </div>
+        <div class="todo-widget" id="foundingChecklist">
+          <div style="padding:4px 16px 0;font-family:monospace;font-size:8px;letter-spacing:1.5px;color:rgba(255,255,255,0.2);">RECHTLICHES &amp; BEH&Ouml;RDEN</div>
+          <ul class="todo-list" id="foundingList"></ul>
+        </div>
+      </div>
+
       <!-- ══════ DATA OVERVIEW ══════ -->
       <div class="section">
         <div class="section-label" data-i18n="data.title">Data Overview</div>
@@ -2621,6 +2632,77 @@
     content.classList.remove('locked');
     setTimeout(() => gate.style.display = 'none', 500);
   }
+})();
+
+// ── Gründungs-Checkliste ──
+(function() {
+  const KEY = 'wp_founding_checklist';
+  const list = document.getElementById('foundingList');
+  const progress = document.getElementById('foundingProgress');
+
+  const ITEMS = [
+    { cat: 'legal', text: 'Gewerbeanmeldung (Einzelunternehmen / EPU)' },
+    { cat: 'legal', text: 'Finanzamt — Steuernummer beantragen' },
+    { cat: 'legal', text: 'USt-IdNr. (UID) beantragen' },
+    { cat: 'legal', text: 'SVS Anmeldung (Sozialversicherung Selbständige)' },
+    { cat: 'legal', text: 'WKO Mitgliedschaft prüfen / Branche zuordnen' },
+    { cat: 'legal', text: 'Firmenbucheintrag prüfen (bei GmbH nötig)' },
+    { cat: 'legal', text: 'Gewerbeberechtigungen klären (freies vs. reglementiertes Gewerbe)' },
+    { cat: 'finance', text: 'Geschäftskonto eröffnen', sep: 'FINANZEN & BUCHHALTUNG' },
+    { cat: 'finance', text: 'Buchhaltungssoftware einrichten (z.B. ProSaldo, sevDesk)' },
+    { cat: 'finance', text: 'Rechnungsvorlage erstellen (CI-konform)' },
+    { cat: 'finance', text: 'Preiskalkulation / Stundensatz festlegen' },
+    { cat: 'finance', text: 'Erste Einnahmen-Ausgaben-Rechnung aufsetzen' },
+    { cat: 'finance', text: 'Steuerberater engagieren (oder Buchhaltung selbst)' },
+    { cat: 'brand', text: 'Logo & Brand Identity finalisieren', sep: 'BRAND & AUFTRITT' },
+    { cat: 'brand', text: 'Domain registrieren + Website live' },
+    { cat: 'brand', text: 'Impressum & Datenschutzerklärung (DSGVO)' },
+    { cat: 'brand', text: 'Geschäftliche E-Mail-Adresse einrichten' },
+    { cat: 'brand', text: 'Digitale Visitenkarte / vCard' },
+    { cat: 'brand', text: 'Social-Media-Kanäle sichern (Instagram, LinkedIn)' },
+    { cat: 'brand', text: 'Google Business Profil anlegen' },
+    { cat: 'ops', text: 'Arbeitsplatz / Home Office einrichten', sep: 'OPERATIONS' },
+    { cat: 'ops', text: 'Tools & Software (Lizenzen, Abos) auflisten' },
+    { cat: 'ops', text: 'Cloud-Backup & Datensicherung einrichten' },
+    { cat: 'ops', text: 'Vertragsvorlagen (AGB, Angebote, NDA)' },
+    { cat: 'ops', text: 'Haftpflicht- / Berufshaftpflichtversicherung prüfen' },
+    { cat: 'ops', text: 'Notfallplan (Passwörter, Zugänge dokumentiert)' },
+    { cat: 'growth', text: 'Erste 3 Kunden / Projekte akquirieren', sep: 'WACHSTUM' },
+    { cat: 'growth', text: 'Portfolio / Case Studies aufbauen' },
+    { cat: 'growth', text: 'Netzwerk-Events / Gründertreffen besuchen' },
+    { cat: 'growth', text: 'Kooperationspartner identifizieren' },
+  ];
+
+  let checked = {};
+  try { checked = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) {}
+
+  function save() { localStorage.setItem(KEY, JSON.stringify(checked)); }
+
+  function render() {
+    list.innerHTML = '';
+    let done = 0;
+    ITEMS.forEach((item, i) => {
+      if (item.sep) {
+        const sep = document.createElement('li');
+        sep.style.cssText = 'padding:12px 0 4px;font-family:monospace;font-size:8px;letter-spacing:1.5px;color:rgba(255,255,255,0.2);border:none;list-style:none;cursor:default;';
+        sep.textContent = item.sep;
+        list.appendChild(sep);
+      }
+      const isDone = !!checked[i];
+      if (isDone) done++;
+      const li = document.createElement('li');
+      li.className = 'todo-item' + (isDone ? ' done' : '');
+      li.innerHTML = `<span class="todo-check">${isDone ? '✓' : ''}</span><span class="todo-text">${item.text}</span>`;
+      li.querySelector('.todo-check').onclick = () => {
+        checked[i] = !checked[i];
+        if (!checked[i]) delete checked[i];
+        save(); render();
+      };
+      list.appendChild(li);
+    });
+    progress.textContent = done + '/' + ITEMS.length;
+  }
+  render();
 })();
 
 // ── Theme Toggle ──
