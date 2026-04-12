@@ -517,6 +517,78 @@
     border-top: 1px solid var(--border);
     text-align: right;
   }
+
+  /* ── S2P SOUNDS ── */
+  .sound-grid { display: flex; flex-direction: column; gap: 2px; }
+  .sound-category {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 2px;
+    color: var(--cyan); padding: 10px 0 4px;
+    border-bottom: 1px solid var(--border);
+    margin-top: 8px;
+  }
+  .sound-category:first-child { margin-top: 0; }
+  .sound-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  .sound-row:hover { background: var(--cyan-05); }
+  .sound-row.playing { background: var(--cyan-05); }
+  .sound-play {
+    width: 26px; height: 26px;
+    border: 1px solid var(--border2);
+    background: none; color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; cursor: pointer;
+    flex-shrink: 0; transition: all 0.2s;
+  }
+  .sound-row:hover .sound-play,
+  .sound-row.playing .sound-play {
+    border-color: var(--cyan-20); color: var(--cyan);
+  }
+  .sound-info { flex: 1; min-width: 0; }
+  .sound-name {
+    font-size: 11px; font-weight: 500; color: var(--light);
+  }
+  .sound-file {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; color: var(--muted); letter-spacing: 0.5px;
+  }
+  .sound-wave {
+    width: 60px; height: 20px; flex-shrink: 0;
+    display: flex; align-items: flex-end; gap: 1px;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .sound-row.playing .sound-wave { opacity: 1; }
+  .sound-bar {
+    flex: 1; background: var(--cyan);
+    animation: soundPulse 0.8s ease-in-out infinite alternate;
+  }
+  .sound-bar:nth-child(1) { height: 40%; animation-delay: 0s; }
+  .sound-bar:nth-child(2) { height: 70%; animation-delay: 0.1s; }
+  .sound-bar:nth-child(3) { height: 50%; animation-delay: 0.2s; }
+  .sound-bar:nth-child(4) { height: 90%; animation-delay: 0.15s; }
+  .sound-bar:nth-child(5) { height: 30%; animation-delay: 0.25s; }
+  .sound-bar:nth-child(6) { height: 65%; animation-delay: 0.05s; }
+  .sound-bar:nth-child(7) { height: 45%; animation-delay: 0.3s; }
+  .sound-bar:nth-child(8) { height: 80%; animation-delay: 0.12s; }
+  @keyframes soundPulse {
+    0% { transform: scaleY(0.4); }
+    100% { transform: scaleY(1); }
+  }
+  .sound-stop-all {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin-top: 8px; padding: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 1.5px;
+    color: var(--muted); background: none;
+    border: 1px solid var(--border);
+    cursor: pointer; transition: all 0.2s; width: 100%;
+  }
+  .sound-stop-all:hover { border-color: var(--cyan-20); color: var(--cyan); }
   .notes-status-text {
     font-family: 'JetBrains Mono', monospace;
     font-size: 8px; letter-spacing: 1.5px;
@@ -1058,6 +1130,155 @@
         </div>
       </div>
 
+      <!-- ══════ S2P SOUNDS ══════ -->
+      <div class="section">
+        <div class="section-label">S2P Sounds &mdash; Hockey Sample Pack</div>
+        <div class="sound-grid" id="soundGrid">
+
+          <div class="sound-category">PUCK</div>
+          <div class="sound-row" data-src="/sounds/C2039.1Puck.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Puck Shot 01</div>
+              <div class="sound-file">C2039.1Puck.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+          <div class="sound-row" data-src="/sounds/C2038.2Puck.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Puck Shot 02</div>
+              <div class="sound-file">C2038.2Puck.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+
+          <div class="sound-category">PASS</div>
+          <div class="sound-row" data-src="/sounds/C2039.3Pass.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Pass 01</div>
+              <div class="sound-file">C2039.3Pass.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+          <div class="sound-row" data-src="/sounds/C2039.7Pass.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Pass 02</div>
+              <div class="sound-file">C2039.7Pass.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+          <div class="sound-row" data-src="/sounds/C2039.11Pass.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Pass 03</div>
+              <div class="sound-file">C2039.11Pass.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+
+          <div class="sound-category">DANGLE</div>
+          <div class="sound-row" data-src="/sounds/C2039.5Dangle.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Dangle 01</div>
+              <div class="sound-file">C2039.5Dangle.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+          <div class="sound-row" data-src="/sounds/C2039.6Dangle.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Dangle 02</div>
+              <div class="sound-file">C2039.6Dangle.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+
+          <div class="sound-category">STOP</div>
+          <div class="sound-row" data-src="/sounds/C2040.1Stop.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Stop 01</div>
+              <div class="sound-file">C2040.1Stop.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+          <div class="sound-row" data-src="/sounds/C2040.3Stop.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Stop 02</div>
+              <div class="sound-file">C2040.3Stop.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+
+          <div class="sound-category">STRIDES</div>
+          <div class="sound-row" data-src="/sounds/C2040.5Strides.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Strides 01</div>
+              <div class="sound-file">C2040.5Strides.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+          <div class="sound-row" data-src="/sounds/C2041.2Strides.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Strides 02</div>
+              <div class="sound-file">C2041.2Strides.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+          <div class="sound-row" data-src="/sounds/C2041.4Strides.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Strides 03</div>
+              <div class="sound-file">C2041.4Strides.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+
+          <div class="sound-category">TURN</div>
+          <div class="sound-row" data-src="/sounds/C2042.15Turn.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Turn 01</div>
+              <div class="sound-file">C2042.15Turn.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+          <div class="sound-row" data-src="/sounds/C2042.16Turn.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Turn 02</div>
+              <div class="sound-file">C2042.16Turn.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+          <div class="sound-row" data-src="/sounds/C2042.17Turn.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Turn 03</div>
+              <div class="sound-file">C2042.17Turn.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+          <div class="sound-row" data-src="/sounds/C2042.18Turn.wav">
+            <button class="sound-play">&#9654;</button>
+            <div class="sound-info">
+              <div class="sound-name">Turn 04</div>
+              <div class="sound-file">C2042.18Turn.wav</div>
+            </div>
+            <div class="sound-wave"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+          </div>
+
+          <button class="sound-stop-all" id="soundStopAll">&#9724; STOP ALL</button>
+        </div>
+      </div>
+
       <!-- ── BACKUP ── -->
       <div class="section">
         <div class="section-label">Backup</div>
@@ -1431,6 +1652,62 @@ function printSection(id) {
     setTimeout(function() { w.print(); }, 500);
   });
 }
+
+// ═══════════════════════════════════════
+// S2P SOUNDS — Hockey Sample Pack Player
+// ═══════════════════════════════════════
+(function() {
+  var currentAudio = null;
+  var currentRow = null;
+
+  function stopAll() {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      currentAudio = null;
+    }
+    if (currentRow) {
+      currentRow.classList.remove('playing');
+      currentRow.querySelector('.sound-play').innerHTML = '&#9654;';
+      currentRow = null;
+    }
+  }
+
+  document.querySelectorAll('.sound-row').forEach(function(row) {
+    row.addEventListener('click', function() {
+      var src = row.getAttribute('data-src');
+      if (!src) return;
+
+      // If same row clicked, toggle
+      if (currentRow === row) {
+        stopAll();
+        return;
+      }
+
+      // Stop previous
+      stopAll();
+
+      // Play new
+      currentAudio = new Audio(src);
+      currentRow = row;
+      row.classList.add('playing');
+      row.querySelector('.sound-play').innerHTML = '&#9724;';
+
+      currentAudio.play().catch(function(e) {
+        console.warn('Audio play failed:', e);
+        row.querySelector('.sound-name').textContent += ' ⚠';
+        stopAll();
+      });
+
+      currentAudio.addEventListener('ended', function() {
+        stopAll();
+      });
+    });
+  });
+
+  var stopBtn = document.getElementById('soundStopAll');
+  if (stopBtn) stopBtn.addEventListener('click', stopAll);
+})();
 </script>
 
 </body>

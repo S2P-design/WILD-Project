@@ -465,548 +465,228 @@ body {
 }
 .back-to-top:hover { border-color: var(--cyan); color: var(--cyan); }
 
-/* ── MOCKUP PRODUCT CARDS — PREMIUM RENDER ── */
-.mockup-grid {
+/* ── EDITORIAL PRODUCT LAYOUT ── */
+.edit-collection {
+  margin: 3rem 0;
+  max-width: 800px;
+}
+.edit-item {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2px;
-  margin: 2.5rem 0;
-  max-width: 860px;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  min-height: 200px;
+  transition: border-color 0.4s;
 }
-.mockup-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  overflow: hidden;
-  position: relative;
-  transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
-}
-.mockup-card:hover {
-  border-color: var(--cyan-20);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(12,192,223,0.08), 0 0 1px rgba(12,192,223,0.2);
-}
-.mockup-visual {
-  aspect-ratio: 3/4;
+.edit-item:last-child { border-bottom: 1px solid var(--border); }
+.edit-item:hover { border-color: var(--cyan-20); }
+
+/* Left: Typography hero */
+.edit-hero {
+  padding: 3rem 2.5rem;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background: #050505;
 }
-/* Stage lighting */
-.mockup-visual::before {
+.edit-hero::before {
   content: '';
   position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 40% 30%, rgba(12,192,223,0.07) 0%, transparent 55%),
-    radial-gradient(ellipse at 65% 70%, rgba(255,255,255,0.02) 0%, transparent 50%),
-    radial-gradient(circle at 50% 100%, rgba(12,192,223,0.04) 0%, transparent 40%);
-  z-index: 2;
+  background: radial-gradient(ellipse at 20% 50%, rgba(12,192,223,0.04) 0%, transparent 70%);
   pointer-events: none;
 }
-/* Floor reflection */
-.mockup-visual::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 10%; right: 10%;
-  height: 35%;
-  background: linear-gradient(to top, rgba(12,192,223,0.03) 0%, transparent 100%);
-  z-index: 0;
-  pointer-events: none;
-}
-.mockup-garment {
+.edit-num {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(4rem, 8vw, 6rem);
+  color: transparent;
+  -webkit-text-stroke: 1px var(--cyan-20);
+  line-height: 0.85;
+  margin-bottom: -0.8rem;
+  user-select: none;
   position: relative; z-index: 1;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  width: 70%; height: 78%;
-  filter: drop-shadow(0 8px 32px rgba(0,0,0,0.6));
-  transition: transform 0.4s;
+  transition: -webkit-text-stroke-color 0.4s;
 }
-.mockup-card:hover .mockup-garment {
-  transform: scale(1.03);
-}
-
-/* ══ HOODIE — Premium ══ */
-.garment-hoodie {
-  position: relative;
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  clip-path: polygon(
-    28% 0%, 36% 0%, 38% 2%, 42% 4%, 44% 2%, 44% 0%,
-    56% 0%, 56% 2%, 58% 4%, 62% 2%, 64% 0%, 72% 0%,
-    76% 3%, 100% 18%, 100% 100%, 0% 100%, 0% 18%, 24% 3%
-  );
-}
-.garment-hoodie.black {
-  background: linear-gradient(165deg, #1a1a1a 0%, #0d0d0d 40%, #080808 100%);
-}
-.garment-hoodie.grey {
-  background: linear-gradient(165deg, #4a4a4a 0%, #333 40%, #2a2a2a 100%);
-}
-/* Fabric texture */
-.garment-hoodie::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.008) 2px, rgba(255,255,255,0.008) 3px),
-    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.005) 2px, rgba(255,255,255,0.005) 3px);
-  clip-path: inherit;
-  z-index: 1;
-}
-/* Hood shape */
-.garment-hoodie::after {
-  content: '';
-  position: absolute;
-  top: -1%; left: 33%; width: 34%; height: 13%;
-  border-radius: 0 0 50% 50%;
-  background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  z-index: 2;
-}
-/* Light streak */
-.hoodie-light {
-  position: absolute;
-  top: 15%; left: 20%; width: 25%; height: 60%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 80%);
-  transform: skewX(-5deg);
-  clip-path: inherit;
-  z-index: 2;
-  pointer-events: none;
-}
-.garment-hoodie .brand-print {
+.edit-item:hover .edit-num { -webkit-text-stroke-color: var(--cyan); }
+.edit-name {
   font-family: 'Anton', sans-serif;
-  font-size: clamp(1rem, 2.8vw, 1.8rem);
-  color: var(--cyan);
-  letter-spacing: 0.1em;
-  text-align: center;
-  transform: translateY(8%);
-  position: relative; z-index: 3;
-  text-shadow: 0 0 30px rgba(12,192,223,0.3);
-}
-.garment-hoodie .brand-sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.4rem;
-  letter-spacing: 0.3em;
-  color: rgba(12,192,223,0.5);
-  margin-top: 0.3rem;
-  text-align: center;
-  position: relative; z-index: 3;
-}
-/* Drawstrings */
-.hoodie-strings {
-  position: absolute;
-  top: 11%; left: 46%; width: 2px; height: 18%;
-  z-index: 3;
-}
-.hoodie-strings::before, .hoodie-strings::after {
-  content: '';
-  position: absolute;
-  width: 1px; height: 100%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-}
-.hoodie-strings::before { left: -3px; }
-.hoodie-strings::after { left: 3px; }
-/* Kangaroo pocket */
-.hoodie-pocket {
-  position: absolute;
-  bottom: 18%; left: 20%; right: 20%;
-  height: 18%;
-  border-top: 1px solid rgba(255,255,255,0.03);
-  border-radius: 2px 2px 0 0;
-  z-index: 3;
-}
-
-/* ══ TEE — Premium ══ */
-.garment-tee {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column;
-  clip-path: polygon(
-    35% 0%, 42% 0%, 43% 3%, 57% 3%, 58% 0%, 65% 0%,
-    100% 15%, 100% 18%, 82% 18%, 82% 100%, 18% 100%, 18% 18%, 0% 18%, 0% 15%
-  );
-  position: relative;
-  background: linear-gradient(165deg, #ffffff 0%, #f0f0f0 30%, #e8e8e8 100%);
-}
-/* Fabric texture */
-.garment-tee::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.01) 1px, rgba(0,0,0,0.01) 2px);
-  clip-path: inherit;
-  z-index: 1;
-}
-/* Collar shadow */
-.garment-tee::after {
-  content: '';
-  position: absolute;
-  top: 1%; left: 40%; width: 20%; height: 5%;
-  border-radius: 0 0 50% 50%;
-  background: rgba(0,0,0,0.06);
-  z-index: 2;
-}
-/* Light streak */
-.tee-light {
-  position: absolute;
-  top: 10%; right: 22%; width: 15%; height: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.6) 0%, transparent 70%);
-  transform: skewX(3deg);
-  clip-path: inherit;
-  z-index: 2;
-  pointer-events: none;
-}
-/* Sleeve fold shadows */
-.tee-shadow-l, .tee-shadow-r {
-  position: absolute;
-  top: 15%; width: 15%; height: 5%;
-  background: rgba(0,0,0,0.04);
-  z-index: 2;
-}
-.tee-shadow-l { left: 3%; transform: rotate(-5deg); }
-.tee-shadow-r { right: 3%; transform: rotate(5deg); }
-.garment-tee .brand-print {
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(0.8rem, 2.2vw, 1.3rem);
-  color: #000;
-  letter-spacing: 0.05em;
-  text-align: center;
-  transform: translateY(5%);
-  position: relative; z-index: 3;
-}
-.garment-tee .brand-sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.35rem;
-  letter-spacing: 0.2em;
-  color: rgba(0,0,0,0.35);
-  margin-top: 0.2rem;
-  position: relative; z-index: 3;
-}
-
-/* ══ CAP — Performance Golf ══ */
-.garment-cap {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  position: relative;
-}
-.cap-body {
-  width: 60%; height: 40%;
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
-}
-/* Crown panels */
-.cap-crown {
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, #1a1a1a 0%, #111 40%, #0d0d0d 100%);
-  border-radius: 50% 50% 8% 8%;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.06);
-}
-/* Panel seams */
-.cap-crown::before {
-  content: '';
-  position: absolute;
-  top: 5%; left: 50%; width: 1px; height: 70%;
-  background: rgba(255,255,255,0.04);
-  transform: translateX(-50%);
-}
-.cap-crown::after {
-  content: '';
-  position: absolute;
-  top: 8%; left: 25%; width: 1px; height: 60%;
-  background: rgba(255,255,255,0.03);
-  transform: rotate(8deg);
-}
-/* Top button */
-.cap-button {
-  position: absolute;
-  top: -3%; left: 50%; transform: translateX(-50%);
-  width: 8%; height: 5%;
-  background: radial-gradient(circle, #222, #111);
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.08);
-  z-index: 3;
-}
-/* Curved brim */
-.cap-brim {
-  position: absolute;
-  bottom: -18%; left: 5%;
-  width: 90%; height: 22%;
-  background: linear-gradient(180deg, #0f0f0f 0%, #080808 100%);
-  border-radius: 0 0 50% 50% / 0 0 100% 100%;
-  border: 1px solid rgba(255,255,255,0.04);
-  border-top: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
-/* Brim edge highlight */
-.cap-brim::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 15%; right: 15%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(12,192,223,0.15), transparent);
-}
-/* Light on crown */
-.cap-light {
-  position: absolute;
-  top: 10%; left: 15%; width: 30%; height: 50%;
-  background: linear-gradient(160deg, rgba(255,255,255,0.06) 0%, transparent 60%);
-  border-radius: 50%;
-  z-index: 2;
-  pointer-events: none;
-}
-.cap-body .brand-print {
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(0.7rem, 2vw, 1.1rem);
-  color: var(--cyan);
-  letter-spacing: 0.15em;
-  position: relative; z-index: 3;
-  text-shadow: 0 0 20px rgba(12,192,223,0.25);
-  transform: translateY(-10%);
-}
-
-/* ══ CREWNECK — Premium ══ */
-.garment-crew {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column;
-  clip-path: polygon(
-    35% 0%, 42% 0%, 43% 3%, 57% 3%, 58% 0%, 65% 0%,
-    100% 15%, 100% 100%, 0% 100%, 0% 15%
-  );
-  position: relative;
-  background: linear-gradient(165deg, #2a2a2a 0%, #1a1a1a 40%, #141414 100%);
-}
-.garment-crew::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.006) 2px, rgba(255,255,255,0.006) 3px);
-  clip-path: inherit;
-  z-index: 1;
-}
-/* Ribbed collar */
-.garment-crew::after {
-  content: '';
-  position: absolute;
-  top: 1%; left: 39%; width: 22%; height: 5%;
-  background: linear-gradient(180deg, #1a1a1a, #181818);
-  border-radius: 0 0 40% 40%;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  z-index: 2;
-}
-.crew-light {
-  position: absolute;
-  top: 12%; left: 18%; width: 25%; height: 55%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 75%);
-  transform: skewX(-4deg);
-  clip-path: inherit;
-  z-index: 2;
-  pointer-events: none;
-}
-.garment-crew .brand-print {
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(0.5rem, 1.5vw, 0.85rem);
-  color: var(--cyan);
-  letter-spacing: 0.12em;
-  text-align: center;
-  transform: translateY(8%);
-  position: relative; z-index: 3;
-  text-shadow: 0 0 25px rgba(12,192,223,0.25);
-}
-.garment-crew .brand-sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.35rem;
-  letter-spacing: 0.25em;
-  color: rgba(12,192,223,0.4);
-  margin-top: 0.3rem;
-  position: relative; z-index: 3;
-}
-
-/* ══ TOTE BAG — Premium ══ */
-.garment-tote {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  position: relative;
-}
-.tote-body {
-  width: 50%; height: 55%;
-  background: linear-gradient(165deg, #181818 0%, #0e0e0e 50%, #0a0a0a 100%);
-  border-radius: 0 0 4px 4px;
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column;
-  border: 1px solid rgba(255,255,255,0.06);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-}
-/* Canvas texture */
-.tote-body::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.008) 3px, rgba(255,255,255,0.008) 4px),
-    repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(255,255,255,0.005) 3px, rgba(255,255,255,0.005) 4px);
-  z-index: 1;
-}
-.tote-handle-l, .tote-handle-r {
-  position: absolute;
-  top: -18%; width: 4px; height: 22%;
-  background: linear-gradient(180deg, #1a1a1a, #111);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 2px 2px 0 0;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.3);
-}
-.tote-handle-l { left: 28%; }
-.tote-handle-r { right: 28%; }
-.tote-body .brand-print {
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(0.55rem, 1.5vw, 0.85rem);
-  color: var(--cyan);
-  letter-spacing: 0.1em;
-  position: relative; z-index: 2;
-  text-shadow: 0 0 20px rgba(12,192,223,0.2);
-}
-.tote-body .brand-sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.3rem;
-  letter-spacing: 0.2em;
-  color: rgba(12,192,223,0.35);
-  margin-top: 0.2rem;
-  position: relative; z-index: 2;
-}
-
-/* ══ BOTTLE — Transparent/Clear ══ */
-.garment-bottle {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  position: relative;
-}
-.bottle-body {
-  width: 24%; height: 68%;
-  background: linear-gradient(90deg,
-    rgba(255,255,255,0.03) 0%,
-    rgba(255,255,255,0.08) 25%,
-    rgba(255,255,255,0.04) 50%,
-    rgba(255,255,255,0.1) 75%,
-    rgba(255,255,255,0.03) 100%
-  );
-  border-radius: 8px 8px 10px 10px;
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
-  border: 1px solid rgba(255,255,255,0.1);
-  box-shadow:
-    inset 0 0 20px rgba(255,255,255,0.03),
-    0 8px 30px rgba(0,0,0,0.4);
-  backdrop-filter: blur(1px);
-}
-/* Glass reflections */
-.bottle-body::before {
-  content: '';
-  position: absolute;
-  top: 5%; left: 15%; width: 20%; height: 80%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent 60%);
-  border-radius: 50%;
-  z-index: 1;
-}
-.bottle-body::after {
-  content: '';
-  position: absolute;
-  top: 10%; right: 20%; width: 8%; height: 60%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent 50%);
-  z-index: 1;
-}
-.bottle-neck {
-  position: absolute;
-  top: -12%; left: 25%; width: 50%; height: 16%;
-  background: linear-gradient(90deg,
-    rgba(255,255,255,0.04) 0%,
-    rgba(255,255,255,0.08) 50%,
-    rgba(255,255,255,0.04) 100%
-  );
-  border-radius: 4px 4px 0 0;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-bottom: none;
-}
-.bottle-cap {
-  position: absolute;
-  top: -18%; left: 28%; width: 44%; height: 8%;
-  background: linear-gradient(180deg, var(--cyan), #0aa0bc);
-  border-radius: 3px 3px 0 0;
-  box-shadow: 0 -2px 8px rgba(12,192,223,0.2);
-}
-/* Cap highlight */
-.bottle-cap::after {
-  content: '';
-  position: absolute;
-  top: 15%; left: 20%; width: 30%; height: 40%;
-  background: rgba(255,255,255,0.15);
-  border-radius: 50%;
-}
-.bottle-label {
-  position: absolute;
-  top: 28%; left: 8%; right: 8%;
-  text-align: center;
-  border-top: 1px solid var(--cyan-20);
-  border-bottom: 1px solid var(--cyan-20);
-  padding: 10% 0;
-  z-index: 2;
-  background: rgba(12,192,223,0.03);
-}
-.bottle-label .brand-print {
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(0.35rem, 0.9vw, 0.55rem);
-  color: var(--cyan);
-  letter-spacing: 0.15em;
-  text-shadow: 0 0 10px rgba(12,192,223,0.3);
-}
-/* Water level indicator */
-.bottle-water {
-  position: absolute;
-  bottom: 0; left: 0; right: 0; height: 45%;
-  background: linear-gradient(180deg,
-    rgba(12,192,223,0.06) 0%,
-    rgba(12,192,223,0.03) 100%
-  );
-  border-radius: 0 0 10px 10px;
-  z-index: 0;
-}
-
-/* ── Mockup meta — Premium ── */
-.mockup-meta {
-  padding: 1.2rem 1.4rem;
-  border-top: 1px solid var(--border);
-  background: linear-gradient(180deg, var(--surface) 0%, var(--surface2) 100%);
-}
-.mockup-name {
-  font-size: 0.88rem;
-  font-weight: 400;
+  font-size: clamp(1.4rem, 3vw, 2rem);
   color: var(--white);
-  margin-bottom: 0.2rem;
-}
-.mockup-variant {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.15em;
-  color: var(--muted);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  position: relative; z-index: 1;
   margin-bottom: 0.5rem;
 }
-.mockup-price {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--cyan);
-  font-weight: 500;
+.edit-name .cyan { color: var(--cyan); }
+.edit-tagline {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 300;
+  font-style: italic;
+  position: relative; z-index: 1;
+  max-width: 280px;
 }
-.mockup-tag {
-  display: inline-block;
+
+/* Right: Specs + material swatch */
+.edit-specs {
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px solid var(--border);
+  position: relative;
+}
+.edit-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.edit-detail:last-child { border-bottom: none; }
+.edit-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.5rem;
-  letter-spacing: 0.15em;
-  padding: 0.2rem 0.6rem;
-  border: 1px solid var(--cyan-20);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.edit-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--light);
+  text-align: right;
+}
+.edit-value.cyan { color: var(--cyan); font-weight: 500; }
+
+/* Material swatch strip */
+.edit-swatch-row {
+  display: flex;
+  gap: 3px;
+  margin-top: 1rem;
+}
+.edit-swatch {
+  height: 6px;
+  flex: 1;
+  transition: height 0.3s, opacity 0.3s;
+}
+.edit-item:hover .edit-swatch { height: 10px; }
+.edit-swatch.active { opacity: 1; }
+.edit-swatch:not(.active) { opacity: 0.3; }
+
+/* Print badge */
+.edit-print-badge {
+  display: inline-block;
+  font-family: 'Anton', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
   color: var(--cyan);
-  margin-left: 0.5rem;
-  vertical-align: middle;
+  border: 1px solid var(--cyan-20);
+  padding: 0.3rem 0.8rem;
+  margin-top: 0.8rem;
+  background: var(--cyan-05);
+  text-shadow: 0 0 20px rgba(12,192,223,0.2);
+  transition: all 0.3s;
+}
+.edit-item:hover .edit-print-badge {
+  background: var(--cyan-10);
+  border-color: var(--cyan);
+  box-shadow: 0 0 20px rgba(12,192,223,0.1);
+}
+
+/* Featured/hero item — full width */
+.edit-item.featured {
+  grid-template-columns: 1fr;
+  text-align: center;
+  min-height: 280px;
+}
+.edit-item.featured .edit-hero {
+  padding: 4rem 3rem;
+  align-items: center;
+}
+.edit-item.featured .edit-hero::before {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(12,192,223,0.05) 0%, transparent 60%);
+}
+.edit-item.featured .edit-num {
+  font-size: clamp(5rem, 12vw, 8rem);
+  -webkit-text-stroke: 1px rgba(12,192,223,0.08);
+  margin-bottom: -1.5rem;
+}
+.edit-item.featured .edit-name {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+.edit-item.featured .edit-tagline {
+  max-width: 400px;
+  margin: 0 auto;
+}
+.edit-item.featured .edit-inline-specs {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+.edit-inline-spec {
+  text-align: center;
+}
+.edit-inline-spec .edit-label {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.edit-inline-spec .edit-value {
+  text-align: center;
+}
+
+/* Accessories row — compact */
+.edit-acc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin: 0;
+  max-width: 800px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.edit-acc {
+  padding: 2rem 2.5rem;
+  position: relative;
+  transition: background 0.3s;
+}
+.edit-acc:first-child { border-right: 1px solid var(--border); }
+.edit-acc:hover { background: var(--cyan-05); }
+.edit-acc .edit-num {
+  font-size: 2.5rem;
+  -webkit-text-stroke: 1px var(--cyan-20);
+  margin-bottom: -0.3rem;
+}
+.edit-acc:hover .edit-num { -webkit-text-stroke-color: var(--cyan); }
+.edit-acc .edit-name {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.1rem;
+  color: var(--white);
+  margin-bottom: 0.3rem;
+}
+.edit-acc .edit-tagline {
+  font-size: 0.72rem;
+  margin-bottom: 0.6rem;
+}
+.edit-acc .edit-detail {
+  padding: 0.3rem 0;
+}
+
+@media print {
+  .edit-item { break-inside: avoid; }
+  .edit-num { -webkit-text-stroke-color: var(--cyan) !important; }
+}
+@media (max-width: 768px) {
+  .edit-item { grid-template-columns: 1fr; }
+  .edit-specs { border-left: none; border-top: 1px solid var(--border); }
+  .edit-hero { padding: 2rem 1.5rem; }
+  .edit-specs { padding: 2rem 1.5rem; }
+  .edit-acc-grid { grid-template-columns: 1fr; }
+  .edit-acc:first-child { border-right: none; border-bottom: 1px solid var(--border); }
 }
 
 /* ── Drop timeline ── */
@@ -1044,13 +724,8 @@ body {
 .drop-status.live { border-color: var(--cyan-20); color: var(--cyan); }
 
 @media print {
-  .mockup-grid { grid-template-columns: repeat(3, 1fr); }
-  .mockup-visual { background: #f8f8f8; }
-  .mockup-card { border-color: #ddd; break-inside: avoid; }
-  .garment-hoodie, .garment-crew { background: #222; }
-  .cap-body { background: #222; }
-  .tote-body { background: #222; }
-  .bottle-body { background: #222; }
+  .edit-collection { page-break-inside: avoid; }
+  .edit-acc-grid { page-break-inside: avoid; }
 }
 
 /* ── SECTION DIVIDER ── */
@@ -2092,162 +1767,191 @@ body {
 
   <p>Die Basis-Kollektion besteht aus f&uuml;nf Pieces. Jedes hat einen Zweck, jedes steht f&uuml;r sich.</p>
 
-  <!-- ── MOCKUP GRID ── -->
-  <div class="mockup-grid">
+  <!-- ── EDITORIAL COLLECTION ── -->
 
-    <!-- HOODIE — Black -->
-    <div class="mockup-card">
-      <div class="mockup-visual">
-        <div class="mockup-garment">
-          <div class="garment-hoodie black">
-            <div class="hoodie-light"></div>
-            <div class="hoodie-strings"></div>
-            <div class="hoodie-pocket"></div>
-            <div style="text-align:center;">
-              <div class="brand-print">SHIFT2PRO</div>
-              <div class="brand-sub">INSPIRE &middot; DEVELOP &middot; CONNECT</div>
-            </div>
+  <!-- FEATURED: The Shift Hoodie -->
+  <div class="edit-collection">
+    <div class="edit-item featured">
+      <div class="edit-hero">
+        <div class="edit-num">01</div>
+        <div class="edit-name">THE SHIFT <span class="cyan">HOODIE</span></div>
+        <div class="edit-tagline">Das Fundament. 400gsm French Terry, oversized cut, dropped shoulders. Dezentes S2P-Branding &mdash; wer es kennt, erkennt es.</div>
+        <div class="edit-inline-specs">
+          <div class="edit-inline-spec">
+            <span class="edit-label">Material</span>
+            <span class="edit-value">400GSM FRENCH TERRY</span>
+          </div>
+          <div class="edit-inline-spec">
+            <span class="edit-label">Fit</span>
+            <span class="edit-value">OVERSIZED</span>
+          </div>
+          <div class="edit-inline-spec">
+            <span class="edit-label">Farben</span>
+            <span class="edit-value">BLACK &middot; GREY</span>
+          </div>
+          <div class="edit-inline-spec">
+            <span class="edit-label">Preis</span>
+            <span class="edit-value cyan">&euro;79</span>
           </div>
         </div>
-      </div>
-      <div class="mockup-meta">
-        <div class="mockup-name">The Shift Hoodie</div>
-        <div class="mockup-variant">BLACK &middot; 400GSM &middot; OVERSIZED</div>
-        <div class="mockup-price">&euro;79 <span class="mockup-tag">CORE</span></div>
+        <div class="edit-swatch-row">
+          <div class="edit-swatch active" style="background:#111"></div>
+          <div class="edit-swatch active" style="background:#555"></div>
+          <div class="edit-swatch" style="background:var(--cyan)"></div>
+        </div>
+        <div class="edit-print-badge">CORE PIECE</div>
       </div>
     </div>
 
-    <!-- HOODIE — Grey -->
-    <div class="mockup-card">
-      <div class="mockup-visual">
-        <div class="mockup-garment">
-          <div class="garment-hoodie grey">
-            <div class="hoodie-light"></div>
-            <div class="hoodie-strings"></div>
-            <div class="hoodie-pocket"></div>
-            <div style="text-align:center;">
-              <div class="brand-print">S2P</div>
-              <div class="brand-sub">SHIFT YOUR GAME</div>
-            </div>
-          </div>
-        </div>
+    <!-- S2P Signature Tee -->
+    <div class="edit-item">
+      <div class="edit-hero">
+        <div class="edit-num">02</div>
+        <div class="edit-name">S2P SIGNATURE <span class="cyan">TEE</span></div>
+        <div class="edit-tagline">Organic Cotton, relaxed fit. Clean auf den ersten Blick &mdash; Statement auf den zweiten.</div>
       </div>
-      <div class="mockup-meta">
-        <div class="mockup-name">The Shift Hoodie</div>
-        <div class="mockup-variant">GREY &middot; 400GSM &middot; OVERSIZED</div>
-        <div class="mockup-price">&euro;79 <span class="mockup-tag">CORE</span></div>
+      <div class="edit-specs">
+        <div class="edit-detail">
+          <span class="edit-label">Material</span>
+          <span class="edit-value">100% ORGANIC COTTON</span>
+        </div>
+        <div class="edit-detail">
+          <span class="edit-label">Gewicht</span>
+          <span class="edit-value">220GSM</span>
+        </div>
+        <div class="edit-detail">
+          <span class="edit-label">Fit</span>
+          <span class="edit-value">RELAXED</span>
+        </div>
+        <div class="edit-detail">
+          <span class="edit-label">Farbe</span>
+          <span class="edit-value">WHITE</span>
+        </div>
+        <div class="edit-detail">
+          <span class="edit-label">Preis</span>
+          <span class="edit-value cyan">&euro;39</span>
+        </div>
+        <div class="edit-swatch-row">
+          <div class="edit-swatch active" style="background:#eee"></div>
+          <div class="edit-swatch" style="background:var(--cyan)"></div>
+          <div class="edit-swatch" style="background:#111"></div>
+        </div>
+        <div class="edit-print-badge">CORE PIECE</div>
       </div>
     </div>
 
-    <!-- TEE — White -->
-    <div class="mockup-card">
-      <div class="mockup-visual">
-        <div class="mockup-garment">
-          <div class="garment-tee">
-            <div class="tee-light"></div>
-            <div class="tee-shadow-l"></div>
-            <div class="tee-shadow-r"></div>
-            <div style="text-align:center;">
-              <div class="brand-print">S2P</div>
-              <div class="brand-sub">SHIFT YOUR GAME</div>
-            </div>
-          </div>
-        </div>
+    <!-- Mantra Crewneck -->
+    <div class="edit-item">
+      <div class="edit-hero">
+        <div class="edit-num">03</div>
+        <div class="edit-name">MANTRA <span class="cyan">CREWNECK</span></div>
+        <div class="edit-tagline">INSPIRE. DEVELOP. CONNECT. &mdash; Das Mantra als Boxy-Fit Crewneck. Understatement, das f&uuml;r sich spricht.</div>
       </div>
-      <div class="mockup-meta">
-        <div class="mockup-name">S2P Signature Tee</div>
-        <div class="mockup-variant">WHITE &middot; ORGANIC COTTON &middot; RELAXED</div>
-        <div class="mockup-price">&euro;39 <span class="mockup-tag">CORE</span></div>
+      <div class="edit-specs">
+        <div class="edit-detail">
+          <span class="edit-label">Material</span>
+          <span class="edit-value">350GSM FLEECE</span>
+        </div>
+        <div class="edit-detail">
+          <span class="edit-label">Fit</span>
+          <span class="edit-value">BOXY FIT</span>
+        </div>
+        <div class="edit-detail">
+          <span class="edit-label">Farbe</span>
+          <span class="edit-value">CHARCOAL</span>
+        </div>
+        <div class="edit-detail">
+          <span class="edit-label">Print</span>
+          <span class="edit-value">MANTRA TYPOGRAFIE</span>
+        </div>
+        <div class="edit-detail">
+          <span class="edit-label">Preis</span>
+          <span class="edit-value cyan">&euro;69</span>
+        </div>
+        <div class="edit-swatch-row">
+          <div class="edit-swatch active" style="background:#333"></div>
+          <div class="edit-swatch" style="background:#eee"></div>
+          <div class="edit-swatch" style="background:var(--cyan)"></div>
+        </div>
+        <div class="edit-print-badge">CORE PIECE</div>
       </div>
     </div>
 
-    <!-- CAP — Performance Golf -->
-    <div class="mockup-card">
-      <div class="mockup-visual">
-        <div class="mockup-garment">
-          <div class="garment-cap">
-            <div class="cap-body">
-              <div class="cap-crown"></div>
-              <div class="cap-button"></div>
-              <div class="cap-light"></div>
-              <div class="brand-print">S2P</div>
-              <div class="cap-brim"></div>
-            </div>
-          </div>
-        </div>
+    <!-- S2P Performance Cap -->
+    <div class="edit-item">
+      <div class="edit-hero">
+        <div class="edit-num">04</div>
+        <div class="edit-name">S2P PERFORMANCE <span class="cyan">CAP</span></div>
+        <div class="edit-tagline">Strukturiertes Front-Panel, Laser-Cut Perforierung, curved Brim. Golf-Cap-Silhouette f&uuml;r On- und Off-Ice.</div>
       </div>
-      <div class="mockup-meta">
-        <div class="mockup-name">S2P Performance Cap</div>
-        <div class="mockup-variant">BLACK &middot; PERFORMANCE &middot; STRAPBACK</div>
-        <div class="mockup-price">&euro;34 <span class="mockup-tag">CORE</span></div>
+      <div class="edit-specs">
+        <div class="edit-detail">
+          <span class="edit-label">Typ</span>
+          <span class="edit-value">PERFORMANCE GOLF</span>
+        </div>
+        <div class="edit-detail">
+          <span class="edit-label">Verschluss</span>
+          <span class="edit-value">STRAPBACK</span>
+        </div>
+        <div class="edit-detail">
+          <span class="edit-label">Farbe</span>
+          <span class="edit-value">BLACK</span>
+        </div>
+        <div class="edit-detail">
+          <span class="edit-label">Branding</span>
+          <span class="edit-value">S2P STICKEREI</span>
+        </div>
+        <div class="edit-detail">
+          <span class="edit-label">Preis</span>
+          <span class="edit-value cyan">&euro;34</span>
+        </div>
+        <div class="edit-swatch-row">
+          <div class="edit-swatch active" style="background:#111"></div>
+          <div class="edit-swatch" style="background:var(--cyan)"></div>
+        </div>
+        <div class="edit-print-badge">CORE PIECE</div>
       </div>
     </div>
+  </div>
 
-    <!-- CREWNECK — Charcoal -->
-    <div class="mockup-card">
-      <div class="mockup-visual">
-        <div class="mockup-garment">
-          <div class="garment-crew">
-            <div class="crew-light"></div>
-            <div style="text-align:center;">
-              <div class="brand-print">INSPIRE. DEVELOP. CONNECT.</div>
-              <div class="brand-sub">SHIFT2PRO</div>
-            </div>
-          </div>
-        </div>
+  <!-- ACCESSOIRES -->
+  <h3>Accessoires</h3>
+
+  <div class="edit-acc-grid">
+    <div class="edit-acc">
+      <div class="edit-num">A1</div>
+      <div class="edit-name">SHIFT TOTE</div>
+      <div class="edit-tagline">Heavy Canvas, 14oz. Minimaler Print. Vom Gym in die Stadt.</div>
+      <div class="edit-detail">
+        <span class="edit-label">Material</span>
+        <span class="edit-value">14OZ CANVAS</span>
       </div>
-      <div class="mockup-meta">
-        <div class="mockup-name">Mantra Crewneck</div>
-        <div class="mockup-variant">CHARCOAL &middot; 350GSM &middot; BOXY FIT</div>
-        <div class="mockup-price">&euro;69 <span class="mockup-tag">CORE</span></div>
+      <div class="edit-detail">
+        <span class="edit-label">Farbe</span>
+        <span class="edit-value">BLACK</span>
+      </div>
+      <div class="edit-detail">
+        <span class="edit-label">Preis</span>
+        <span class="edit-value cyan">&euro;24</span>
       </div>
     </div>
-
-    <!-- TOTE BAG -->
-    <div class="mockup-card">
-      <div class="mockup-visual">
-        <div class="mockup-garment">
-          <div class="garment-tote">
-            <div class="tote-handle-l"></div>
-            <div class="tote-handle-r"></div>
-            <div class="tote-body">
-              <div class="brand-print">S2P</div>
-              <div class="brand-sub">WILD PROJECT</div>
-            </div>
-          </div>
-        </div>
+    <div class="edit-acc">
+      <div class="edit-num">A2</div>
+      <div class="edit-name">S2P WATER BOTTLE</div>
+      <div class="edit-tagline">750ml Tritan, BPA-frei, durchsichtig mit Cyan-Akzent am Cap.</div>
+      <div class="edit-detail">
+        <span class="edit-label">Material</span>
+        <span class="edit-value">TRITAN &middot; BPA-FREE</span>
       </div>
-      <div class="mockup-meta">
-        <div class="mockup-name">Shift Tote</div>
-        <div class="mockup-variant">BLACK &middot; HEAVY CANVAS &middot; 14oz</div>
-        <div class="mockup-price">&euro;24 <span class="mockup-tag">ACCESSOIRE</span></div>
+      <div class="edit-detail">
+        <span class="edit-label">Volumen</span>
+        <span class="edit-value">750ML</span>
+      </div>
+      <div class="edit-detail">
+        <span class="edit-label">Preis</span>
+        <span class="edit-value cyan">&euro;29</span>
       </div>
     </div>
-
-    <!-- BOTTLE — Clear -->
-    <div class="mockup-card">
-      <div class="mockup-visual">
-        <div class="mockup-garment">
-          <div class="garment-bottle">
-            <div class="bottle-body">
-              <div class="bottle-neck">
-                <div class="bottle-cap"></div>
-              </div>
-              <div class="bottle-label">
-                <div class="brand-print">S2P</div>
-              </div>
-              <div class="bottle-water"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mockup-meta">
-        <div class="mockup-name">S2P Water Bottle</div>
-        <div class="mockup-variant">CLEAR &middot; 750ML &middot; TRITAN</div>
-        <div class="mockup-price">&euro;29 <span class="mockup-tag">ACCESSOIRE</span></div>
-      </div>
-    </div>
-
   </div>
 
   <h3>Print-Varianten</h3>
