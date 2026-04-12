@@ -89,11 +89,22 @@
     margin-bottom: 48px;
     position: relative; z-index: 1;
   }
-  .hero-logo {
+  .hero-logo-wrap {
     position: relative; z-index: 1;
-    max-width: 480px;
-    width: 80%;
+    background: #fff;
+    padding: 28px 48px;
     margin-bottom: 32px;
+    max-width: 520px;
+    width: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 80px rgba(12,192,223,0.08);
+  }
+  .hero-logo-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
   .hero-sub {
     font-size: 15px;
@@ -383,19 +394,19 @@
     text-transform: uppercase;
     font-weight: 500;
   }
-  .lv-dark {
-    background: var(--black);
+  .lv-white {
+    background: #ffffff;
   }
-  .lv-dark .logo-variant-label { color: var(--muted); }
+  .lv-white .logo-variant-label { color: #999; }
   .lv-light {
     background: #f0f0f0;
   }
   .lv-light .logo-variant-label { color: #999; }
-  .lv-cyan {
-    background: var(--surface);
-    border-color: var(--cyan-20);
+  .lv-dark {
+    background: var(--black);
+    border-color: var(--border);
   }
-  .lv-cyan .logo-variant-label { color: var(--muted); }
+  .lv-dark .logo-variant-label { color: var(--muted); }
 
   .logo-spec {
     display: grid;
@@ -626,7 +637,9 @@
 <!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="hero-badge">Corporate Design Guide</div>
-  <img src="/brand-assets/Logografie-01.png" alt="SHIFT2PRO Logo" class="hero-logo">
+  <div class="hero-logo-wrap">
+    <img src="/brand-assets/Logografie-02.png" alt="SHIFT2PRO Logo">
+  </div>
   <div class="hero-sub">Eishockey &middot; Development &middot; Podcast</div>
   <div class="hero-line"></div>
   <div class="hero-version">VERSION 1.0 &mdash; APRIL 2026</div>
@@ -738,10 +751,10 @@
   <!-- LOGO FONT -->
   <div class="type-card" style="border-color: var(--cyan-20);">
     <div class="type-label">Logo &middot; Custom Display</div>
-    <div style="display:flex;align-items:center;gap:24px;margin-bottom:16px;">
-      <img src="/brand-assets/Logografie-01.png" alt="SHIFT2PRO Logo" style="height:48px;width:auto;">
+    <div style="display:inline-block;background:#fff;padding:10px 20px;margin-bottom:16px;">
+      <img src="/brand-assets/Logografie-01.png" alt="SHIFT2PRO Logo" style="height:36px;width:auto;display:block;">
     </div>
-    <div class="type-note">Die Logoschrift ist ein <strong style="color:var(--white);">Custom Italic Bold</strong> mit Ice-Scratch/Distressed-Textur. Kursiv gesetzt, stark geneigt, mit Kratzer-Overlay das an Eiskufen erinnert. Diese Schrift wird <strong style="color:var(--white);">ausschlie&szlig;lich im Logo</strong> verwendet &mdash; nicht f&uuml;r Headlines oder Flie&szlig;text. Die Quelldatei liegt als EPS/PDF in <code style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:12px;">00_Brand//brand-assets/Logografie.eps</code></div>
+    <div class="type-note">Die Logoschrift ist ein <strong style="color:var(--white);">Custom Italic Bold</strong> mit Ice-Scratch/Distressed-Textur. Kursiv gesetzt, stark geneigt, mit Kratzer-Overlay das an Eiskufen erinnert. Diese Schrift wird <strong style="color:var(--white);">ausschlie&szlig;lich im Logo</strong> verwendet &mdash; nicht f&uuml;r Headlines oder Flie&szlig;text. Die Quelldatei liegt als EPS/PDF in <code style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:12px;">00_Brand/01_Logo/Logografie.eps</code></div>
   </div>
 
   <!-- ANTON -->
@@ -839,50 +852,55 @@
   <h2>LOGO<span class="cyan">SYSTEM</span></h2>
   <p class="section-intro">Sechs Logo-Varianten f&uuml;r unterschiedliche Anwendungen. Der Wordmark ist Standard, das &bdquo;2&ldquo;-Icon funktioniert als kompaktes Signet. Die Cyan-&bdquo;2&ldquo; ist das zentrale Erkennungszeichen.</p>
 
-  <!-- PRIMARY LOGOS -->
+  <!-- PRIMARY LOGOS — auf Wei&szlig; (nativer Hintergrund) -->
+  <div class="type-label" style="margin-bottom:12px;">Alle Varianten &mdash; Standard-Anwendung</div>
   <div class="logo-grid">
-    <div class="logo-variant lv-dark">
+    <div class="logo-variant lv-white">
       <img src="/brand-assets/Logografie-01.png" alt="SHIFT2PRO Wordmark">
       <div class="logo-variant-label">01 &middot; Wordmark</div>
     </div>
-    <div class="logo-variant lv-dark">
+    <div class="logo-variant lv-white">
       <img src="/brand-assets/Logografie-02.png" alt="SHIFT2PRO + Subtitle">
       <div class="logo-variant-label">02 &middot; Wordmark + Subtitle</div>
     </div>
-    <div class="logo-variant lv-dark">
+    <div class="logo-variant lv-white">
       <img src="/brand-assets/Logografie-03.png" alt="SHIFT2PRO Stacked">
       <div class="logo-variant-label">03 &middot; Stacked</div>
     </div>
-    <div class="logo-variant lv-dark">
+    <div class="logo-variant lv-white">
       <img src="/brand-assets/Logografie-04.png" alt="2 Icon">
       <div class="logo-variant-label">04 &middot; Icon &bdquo;2&ldquo;</div>
     </div>
-    <div class="logo-variant lv-dark">
+    <div class="logo-variant lv-white">
       <img src="/brand-assets/Logografie-05.png" alt="2 Icon + Subtitle">
       <div class="logo-variant-label">05 &middot; Icon + Subtitle</div>
     </div>
-    <div class="logo-variant lv-dark">
+    <div class="logo-variant lv-white">
       <img src="/brand-assets/Logografie-06.png" alt="2 Icon Small">
       <div class="logo-variant-label">06 &middot; Icon Compact</div>
     </div>
   </div>
 
-  <!-- CONTEXT: LIGHT BG -->
-  <div style="margin-top:24px;">
-    <div class="type-label" style="margin-bottom:12px;">Anwendung auf hellem Hintergrund</div>
+  <!-- DARK BG CONTEXT -->
+  <div style="margin-top:32px;">
+    <div class="type-label" style="margin-bottom:12px;">Dark Mode &mdash; Invertierte Anwendung</div>
     <div class="logo-grid" style="grid-template-columns: repeat(3, 1fr);">
-      <div class="logo-variant lv-light">
-        <img src="/brand-assets/Logografie-01.png" alt="Wordmark Light">
-        <div class="logo-variant-label">Wordmark auf Wei&szlig;</div>
+      <div class="logo-variant lv-dark" style="padding:32px;">
+        <img src="/brand-assets/Logografie-04.png" alt="Icon Dark" style="mix-blend-mode:screen;max-width:50%;">
+        <div class="logo-variant-label">Icon auf Schwarz</div>
       </div>
-      <div class="logo-variant lv-light">
-        <img src="/brand-assets/Logografie-03.png" alt="Stacked Light">
-        <div class="logo-variant-label">Stacked auf Wei&szlig;</div>
+      <div class="logo-variant lv-dark" style="padding:32px;">
+        <img src="/brand-assets/Logografie-06.png" alt="Icon Compact Dark" style="mix-blend-mode:screen;max-width:50%;">
+        <div class="logo-variant-label">Compact auf Schwarz</div>
       </div>
-      <div class="logo-variant lv-light">
-        <img src="/brand-assets/Logografie-04.png" alt="Icon Light">
-        <div class="logo-variant-label">Icon auf Wei&szlig;</div>
+      <div class="logo-variant lv-dark" style="padding:32px;flex-direction:column;gap:8px;">
+        <div style="font-family:'Anton',sans-serif;font-size:28px;color:var(--white);letter-spacing:0.02em;line-height:1;">SHIFT<span style="color:var(--cyan);">2</span>PRO</div>
+        <div class="logo-variant-label">Webfont-Fallback</div>
       </div>
+    </div>
+    <div class="color-rule" style="margin-top:16px;">
+      <span class="color-rule-icon">&#9679;</span>
+      <span class="color-rule-text">Auf dunklem Hintergrund: Cyan-Icon-Varianten (04/06) verwenden &mdash; diese funktionieren &uuml;ber <code style="color:var(--cyan);font-family:'JetBrains Mono',monospace;">mix-blend-mode: screen</code>. F&uuml;r den vollen Wordmark auf Schwarz wird der <strong style="color:var(--white);">Webfont-Fallback</strong> (Anton + Cyan &bdquo;2&ldquo;) empfohlen. Invertierte Logo-Dateien (wei&szlig;e Schrift) sind in Planung.</span>
     </div>
   </div>
 
@@ -898,7 +916,7 @@
     </div>
     <div class="spec-card">
       <div class="spec-title">Dateiformate</div>
-      <div class="spec-value">EPS (Vektor-Master), PDF (Druck), PNG (Digital, transparent). Quelldateien in <code style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:11px;">00_Brand//brand-assets/</code></div>
+      <div class="spec-value">EPS (Vektor-Master), PDF (Druck), PNG (Digital, transparent). Quelldateien in <code style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:11px;">00_Brand/01_Logo/</code></div>
     </div>
     <div class="spec-card">
       <div class="spec-title">Einsatz-Matrix</div>
