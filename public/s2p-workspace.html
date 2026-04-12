@@ -14,7 +14,7 @@
 <meta name="apple-mobile-web-app-title" content="S2P Workspace">
 <link rel="apple-touch-icon" href="/favicon-180.png">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -80,7 +80,8 @@
     opacity: 0; transform: scale(1.02); pointer-events: none;
   }
   .login-logo {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; text-transform: uppercase;
     font-size: 2.2rem; color: var(--white);
     margin-bottom: 24px; letter-spacing: 2px;
   }
@@ -125,7 +126,8 @@
     animation: fadeUp 0.7s ease 0.1s forwards;
   }
   .header-brand {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; text-transform: uppercase;
     font-size: 1.8rem; color: var(--white); letter-spacing: 1px;
     margin-bottom: 8px;
   }
@@ -140,9 +142,9 @@
   .header-title .slash { color: rgba(255,255,255,0.15); margin: 0 4px; }
   .header-title .ws { color: rgba(255,255,255,0.3); font-style: italic; }
   .header-headline {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: clamp(22px, 6vw, 32px);
-    font-weight: 400; line-height: 1.2;
+    font-weight: 700; text-transform: uppercase; line-height: 1.2;
     letter-spacing: 0.5px; color: var(--white);
     margin-top: 4px;
   }
@@ -295,7 +297,8 @@
   }
   .mp-card:hover { background: var(--cyan-05); }
   .mp-num {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
     font-size: 1.4rem; color: var(--border2);
     width: 36px; text-align: center;
     flex-shrink: 0;
@@ -673,7 +676,8 @@
     display: flex; justify-content: space-between; align-items: center;
   }
   .briefing-header-left {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; text-transform: uppercase;
     font-size: 16px; color: var(--white);
     letter-spacing: 1px;
   }
@@ -783,6 +787,10 @@
   }
   .checklist-reset:hover { border-color: var(--cyan-20); color: var(--cyan); }
 
+  /* ── S2P SOUNDS FOLDER ── */
+  .sound-folder { border: 1px solid var(--border); background: var(--surface); padding: 12px 16px; }
+  .sound-folder[open] .sound-folder-arrow { display: inline-block; transform: rotate(90deg); transition: transform 0.2s; }
+  .sound-folder-arrow { display: inline-block; font-size: 8px; color: var(--cyan); transition: transform 0.2s; }
   /* ── S2P SOUNDS ── */
   .sound-grid { display: flex; flex-direction: column; gap: 2px; }
   .sound-category {
@@ -1594,8 +1602,11 @@
 
       <!-- ══════ S2P SOUNDS ══════ -->
       <div class="section">
-        <div class="section-label">S2P Sounds &mdash; Hockey Sample Pack</div>
-        <div class="sound-grid" id="soundGrid">
+        <details class="sound-folder">
+          <summary class="section-label" style="cursor:pointer; user-select:none; display:flex; align-items:center; gap:8px;">
+            <span class="sound-folder-arrow">&#9654;</span> S2P Sounds &mdash; Hockey Sample Pack <span style="font-size:9px; color:var(--cyan-20); margin-left:auto;">16 Samples</span>
+          </summary>
+        <div class="sound-grid" id="soundGrid" style="margin-top:8px;">
 
           <div class="sound-category">PUCK</div>
           <div class="sound-row" data-src="/sounds/C2039.1Puck.wav">
@@ -1739,6 +1750,7 @@
 
           <button class="sound-stop-all" id="soundStopAll">&#9724; STOP ALL</button>
         </div>
+        </details>
       </div>
 
       <!-- ── BACKUP ── -->
@@ -2413,12 +2425,12 @@ function printSection(id) {
     ).join('');
 
     const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Briefing — ${g}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
       @page{size:A4;margin:20mm;}
       body{font-family:'Poppins',sans-serif;font-size:11px;color:#222;line-height:1.6;margin:0;padding:40px;}
       .header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #0CC0DF;padding-bottom:12px;margin-bottom:30px;}
-      .logo{font-family:'Anton',sans-serif;font-size:22px;letter-spacing:1px;}
+      .logo{font-family:'Poppins',sans-serif;font-weight:700;text-transform:uppercase;font-size:22px;letter-spacing:1px;}
       .logo span{color:#0CC0DF;}
       .ep{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:#0CC0DF;}
       .label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;color:#0CC0DF;margin-bottom:4px;margin-top:20px;}

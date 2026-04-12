@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE SHIFT — Buchkonzept</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --cyan:      #0CC0DF;
+    --cyan-10:   rgba(12,192,223,0.1);
+    --cyan-05:   rgba(12,192,223,0.05);
+    --black:     #000000;
+    --surface:   #060606;
+    --border:    #181818;
+    --muted:     #666;
+    --light:     #D4D4D4;
+    --white:     #EDEDED;
+    --wp-orange: #FC5000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--black);
+    color: var(--light);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ══════════════════════════════════
+     EDITORIAL GRID SYSTEM
+     ══════════════════════════════════ */
+  .page {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page + .page {
+    border-top: 1px solid var(--border);
+  }
+
+  /* Page number — editorial style */
+  .page-num {
+    position: absolute;
+    top: 40px;
+    right: 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 2px;
+    opacity: 0.4;
+  }
+
+  /* Section marker — left rail */
+  .section-marker {
+    position: absolute;
+    top: 40px;
+    left: 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    opacity: 0.5;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+  }
+
+
+  /* ══════════════════════════════════
+     PAGE 01 — COVER
+     ══════════════════════════════════ */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 48px;
+    background: radial-gradient(ellipse at 50% 45%, rgba(12,192,223,0.05) 0%, transparent 55%);
+  }
+
+  .cover-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    opacity: 0.4;
+    margin-bottom: auto;
+  }
+
+  .cover-title {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto 24px;
+  }
+
+  .cover-title .t-the {
+    display: block;
+    font-weight: 800;
+    font-size: 100px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: -4px;
+    line-height: 0.85;
+  }
+
+  .cover-title .t-shift {
+    display: block;
+    font-weight: 900;
+    font-size: 130px;
+    text-transform: uppercase;
+    letter-spacing: -7px;
+    line-height: 0.82;
+    color: var(--cyan);
+    text-shadow:
+      0 0 40px rgba(12,192,223,0.35),
+      0 0 80px rgba(12,192,223,0.12),
+      0 0 160px rgba(12,192,223,0.05);
+  }
+
+  /* Ice scratches */
+  .scratches {
+    position: absolute;
+    top: -10px; left: -30px; right: -30px; bottom: -10px;
+    pointer-events: none;
+  }
+  .scratch { position: absolute; border-radius: 0; }
+  .scratch.s1 { width: 180px; height: 2px; top: 18%; left: 3%; transform: rotate(-14deg); background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15) 40%, rgba(12,192,223,0.1) 75%, transparent); }
+  .scratch.s2 { width: 220px; height: 1px; top: 48%; left: 10%; transform: rotate(-8deg); background: linear-gradient(90deg, transparent, rgba(12,192,223,0.1) 45%, rgba(255,255,255,0.06) 70%, transparent); }
+  .scratch.s3 { width: 130px; height: 1.5px; top: 32%; right: 0; left: auto; transform: rotate(-22deg); background: linear-gradient(90deg, transparent, rgba(12,192,223,0.2) 35%, rgba(255,255,255,0.12) 60%, transparent); }
+  .scratch.s4 { width: 90px; height: 1px; top: 65%; left: 18%; transform: rotate(-5deg); background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 50%, transparent); }
+  .scratch.s5 { width: 150px; height: 0.5px; top: 78%; left: 28%; transform: rotate(-12deg); background: linear-gradient(90deg, transparent, rgba(12,192,223,0.08) 40%, transparent); }
+  .scratch.s6 { width: 60px; height: 1.5px; top: 10%; left: 48%; transform: rotate(-30deg); background: linear-gradient(90deg, transparent, rgba(12,192,223,0.25) 50%, transparent); }
+
+  .cover-sub {
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+    margin-bottom: 20px;
+  }
+
+  .cover-rule {
+    width: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0.3;
+    margin: 0 auto 20px;
+  }
+
+  .cover-author {
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .cover-footer {
+    margin-top: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.12);
+  }
+  .cover-footer span { color: var(--wp-orange); opacity: 0.5; }
+
+
+  /* ══════════════════════════════════
+     PAGE 02 — VISION (Editorial Split)
+     ══════════════════════════════════ */
+  .editorial-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  .split-left {
+    padding: 100px 64px 100px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+
+  .split-right {
+    padding: 100px 80px 100px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .ed-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    opacity: 0.5;
+    margin-bottom: 32px;
+  }
+
+  .ed-headline {
+    font-weight: 800;
+    font-size: 48px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: -2.5px;
+    line-height: 0.95;
+    margin-bottom: 24px;
+  }
+
+  .ed-headline span {
+    color: var(--cyan);
+    text-shadow: 0 0 30px rgba(12,192,223,0.2);
+  }
+
+  .ed-lead {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--light);
+    line-height: 1.9;
+    max-width: 480px;
+  }
+
+  /* Pull quote — editorial style */
+  .ed-quote {
+    padding: 48px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  .ed-quote p {
+    font-size: 18px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.9;
+    margin-bottom: 16px;
+  }
+
+  .ed-quote cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-style: normal;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    opacity: 0.5;
+  }
+
+  /* Is / Is Not — editorial columns */
+  .ed-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .ed-compare-col h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ed-compare-col h4 span { color: var(--cyan); }
+
+  .ed-compare-col li {
+    list-style: none;
+    font-size: 13px;
+    padding: 10px 0;
+    padding-left: 16px;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+
+  .ed-compare-col.yes li { color: var(--light); }
+  .ed-compare-col.yes li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    background: var(--cyan);
+    border-radius: 50%;
+    transform: translateY(-50%);
+  }
+
+  .ed-compare-col.no li { color: var(--muted); }
+  .ed-compare-col.no li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 6px;
+    height: 1px;
+    background: var(--muted);
+    transform: translateY(-50%);
+  }
+
+
+  /* ══════════════════════════════════
+     PAGE 03 — FORMAT (Full-width editorial)
+     ══════════════════════════════════ */
+  .editorial-full {
+    padding: 120px 80px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ed-hero-text {
+    max-width: 680px;
+    margin-bottom: 64px;
+  }
+
+  /* Specs as editorial data grid */
+  .spec-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--border);
+  }
+
+  .spec-cell {
+    padding: 32px 24px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+
+  .spec-cell:nth-child(3n) { border-right: none; }
+
+  .spec-cell-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    opacity: 0.5;
+    margin-bottom: 8px;
+  }
+
+  .spec-cell-value {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--white);
+    letter-spacing: -0.3px;
+  }
+
+  .spec-cell-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+
+  /* ══════════════════════════════════
+     PAGE 04 — CHAPTERS (Magazine TOC)
+     ══════════════════════════════════ */
+  .toc-layout {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    min-height: 100vh;
+  }
+
+  .toc-sidebar {
+    padding: 120px 48px 120px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+
+  .toc-main {
+    padding: 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .chapter-row {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: baseline;
+    transition: background 0.2s;
+  }
+
+  .chapter-row:hover {
+    background: rgba(12,192,223,0.02);
+    margin: 0 -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .chapter-row:last-child { border-bottom: none; }
+
+  .ch-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    opacity: 0.5;
+    padding-top: 3px;
+  }
+
+  .ch-content {}
+
+  .ch-title {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    margin-bottom: 2px;
+  }
+
+  .ch-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .ch-desc {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+
+  /* ══════════════════════════════════
+     PAGE 05 — DESIGN ELEMENTS (Feature Grid)
+     ══════════════════════════════════ */
+  .feature-grid-layout {
+    padding: 120px 80px;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    margin-top: 64px;
+  }
+
+  .feature-cell {
+    padding: 40px 32px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .feature-cell:nth-child(3n) { border-right: none; }
+  .feature-cell:nth-child(n+4) { border-bottom: none; }
+
+  .feature-cell:hover {
+    background: rgba(12,192,223,0.02);
+  }
+
+  .feature-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--cyan);
+    opacity: 0.08;
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    line-height: 1;
+  }
+
+  .feature-cell h3 {
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--white);
+    letter-spacing: -0.3px;
+    margin-bottom: 12px;
+  }
+
+  .feature-cell p {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+
+  /* ══════════════════════════════════
+     PAGE 06 — TIMELINE (Editorial)
+     ══════════════════════════════════ */
+  .timeline-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  .timeline-left {
+    padding: 120px 64px 120px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+
+  .timeline-right {
+    padding: 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .tl-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+
+  .tl-item:last-child { border-bottom: none; }
+
+  .tl-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    opacity: 0.5;
+    padding-top: 4px;
+  }
+
+  .tl-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--white);
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+  }
+
+  .tl-desc {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .tl-desc .hl { color: var(--cyan); font-weight: 400; }
+
+
+  /* ══════════════════════════════════
+     PAGE 07 — EDITIONS (Price Cards)
+     ══════════════════════════════════ */
+  .editions-layout {
+    padding: 120px 80px;
+  }
+
+  .editions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    margin-top: 64px;
+  }
+
+  .ed-card {
+    padding: 40px 28px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .ed-card:last-child { border-right: none; }
+
+  .ed-card.featured {
+    background: linear-gradient(180deg, rgba(12,192,223,0.04) 0%, transparent 60%);
+  }
+
+  .ed-card.featured::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--cyan);
+  }
+
+  .ed-card-name {
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+
+  .ed-card-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cyan);
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+  }
+
+  .ed-card-run {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ed-card-desc {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: auto;
+  }
+
+
+  /* ══════════════════════════════════
+     PAGE 08 — PUBLISHING (Closing)
+     ══════════════════════════════════ */
+  .closing-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  .closing-left {
+    padding: 120px 64px 120px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+
+  .closing-right {
+    padding: 120px 80px 120px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .closing-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .closing-card {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .closing-card:last-child { border-bottom: none; }
+
+  .closing-card h4 {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--white);
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+
+  .closing-card p {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* Closing quote */
+  .closing-quote {
+    margin-top: 48px;
+    padding-top: 48px;
+    border-top: 1px solid var(--border);
+  }
+
+  .closing-quote p {
+    font-size: 20px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .closing-quote cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-style: normal;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    opacity: 0.4;
+  }
+
+
+  /* ══════════════════════════════════
+     FOOTER
+     ══════════════════════════════════ */
+  .ed-footer {
+    text-align: center;
+    padding: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: rgba(255,255,255,0.12);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border-top: 1px solid var(--border);
+  }
+  .ed-footer span { color: var(--wp-orange); opacity: 0.4; }
+
+
+  /* ══════════════════════════════════
+     PRESENTATION MODE
+     ══════════════════════════════════ */
+  body.presenting .page {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    overflow: auto;
+    z-index: 100;
+    border: none;
+  }
+  body.presenting .page.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  body.presenting .ed-footer { display: none; }
+
+  .present-bar {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    z-index: 200;
+    background: var(--border);
+  }
+  body.presenting .present-bar { display: block; }
+  .present-progress {
+    height: 100%;
+    background: var(--cyan);
+    transition: width 0.3s ease;
+    width: 0;
+  }
+
+
+  /* ══════════════════════════════════
+     PRINT
+     ══════════════════════════════════ */
+  @media print {
+    @page { size: A4 landscape; margin: 0; }
+    body { background: #000 !important; }
+    .page {
+      min-height: unset;
+      height: 100vh;
+      page-break-after: always;
+      page-break-inside: avoid;
+      border: none;
+    }
+    .page:last-of-type { page-break-after: auto; }
+    * { print-color-adjust: exact !important; -webkit-print-color-adjust: exact !important; }
+  }
+
+
+  /* ══════════════════════════════════
+     RESPONSIVE
+     ══════════════════════════════════ */
+  @media (max-width: 960px) {
+    .editorial-split,
+    .toc-layout,
+    .timeline-layout,
+    .closing-layout { grid-template-columns: 1fr; }
+
+    .split-left, .toc-sidebar, .timeline-left, .closing-left {
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 60px 32px;
+      min-height: auto;
+    }
+
+    .split-right, .toc-main, .timeline-right, .closing-right { padding: 60px 32px; }
+
+    .editorial-full, .feature-grid-layout, .editions-layout { padding: 60px 32px; }
+
+    .cover-title .t-the { font-size: 60px; }
+    .cover-title .t-shift { font-size: 80px; letter-spacing: -4px; }
+    .ed-headline { font-size: 36px; }
+
+    .spec-grid { grid-template-columns: 1fr 1fr; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .feature-cell { border-right: none !important; border-bottom: 1px solid var(--border) !important; }
+    .editions-grid { grid-template-columns: 1fr 1fr; }
+    .ed-card:nth-child(2) { border-right: none; }
+
+    .section-marker { display: none; }
+  }
+  </style>
+</head>
+<body>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 01 — COVER
+     ═══════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-badge">Buchkonzept</div>
+
+  <div class="cover-title">
+    <span class="t-the">THE</span>
+    <span class="t-shift">SHIFT</span>
+    <div class="scratches">
+      <div class="scratch s1"></div>
+      <div class="scratch s2"></div>
+      <div class="scratch s3"></div>
+      <div class="scratch s4"></div>
+      <div class="scratch s5"></div>
+      <div class="scratch s6"></div>
+    </div>
+  </div>
+
+  <div class="cover-sub">Das Buch zum Podcast</div>
+  <div class="cover-rule"></div>
+  <div class="cover-author">Ren&eacute; Wild</div>
+
+  <div class="cover-footer">A <span>Wild Project</span> Book &nbsp;&bull;&nbsp; 2027</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 02 — VISION
+     ═══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-num">02</div>
+  <div class="section-marker">Vision</div>
+
+  <div class="editorial-split">
+    <div class="split-left">
+      <div class="ed-label">Vision</div>
+      <div class="ed-headline">KEIN<br>SACHBUCH.<br>EIN <span>ERLEBNIS.</span></div>
+
+      <div class="ed-quote">
+        <p>Jeder Gast in diesem Podcast hat mir etwas hinterlassen &mdash; einen Satz, eine Idee, eine Haltung. Dieses Buch ist der Versuch, diese Momente festzuhalten, bevor sie im Rauschen des Alltags verschwinden.</p>
+        <cite>Ren&eacute; Wild</cite>
+      </div>
+    </div>
+
+    <div class="split-right">
+      <div class="ed-compare">
+        <div class="ed-compare-col no">
+          <h4>Das ist es nicht</h4>
+          <ul>
+            <li>Kein Transkript von Episoden</li>
+            <li>Kein Ratgeber (&bdquo;7 Schritte zum Profi&ldquo;)</li>
+            <li>Kein Bildband</li>
+            <li>Kein Vereins-PR-Produkt</li>
+          </ul>
+        </div>
+        <div class="ed-compare-col yes">
+          <h4>Das <span>ist</span> es</h4>
+          <ul>
+            <li>Momente, Einsichten und Haltungen</li>
+            <li>Ein Buch, das man nicht mehr weglegt</li>
+            <li>Die Shift2Pro-&Auml;sthetik zum Anfassen</li>
+            <li>Ein Geschenk: Trainer an Trainer, Spieler an Eltern</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 03 — FORMAT & SPECS
+     ═══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-num">03</div>
+  <div class="section-marker">Format</div>
+
+  <div class="editorial-full">
+    <div class="ed-hero-text">
+      <div class="ed-label">Format &amp; Ausstattung</div>
+      <div class="ed-headline">UNDER&shy;STATE&shy;MENT.<br>DANN <span>WOW.</span></div>
+      <p class="ed-lead">THE SHIFT ist ein Objekt, das man in die Hand nimmt und nicht mehr weglegt. Schwarzes Leinen, Pr&auml;gedruck, sichtbare Fadenheftung &mdash; jedes Detail ist Absicht.</p>
+    </div>
+
+    <div class="spec-grid">
+      <div class="spec-cell">
+        <div class="spec-cell-label">Format</div>
+        <div class="spec-cell-value">17 &times; 24 cm</div>
+        <div class="spec-cell-note">Hardcover, 200&ndash;260 Seiten</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-cell-label">Cover</div>
+        <div class="spec-cell-value">Schwarzes Leinen</div>
+        <div class="spec-cell-note">Blindpr&auml;gung in Cyan-Folie, kein Bild</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-cell-label">Papier</div>
+        <div class="spec-cell-value">Munken Lynx 120g</div>
+        <div class="spec-cell-note">Ungestrichenes Naturpapier, warmwei&szlig;</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-cell-label">Bindung</div>
+        <div class="spec-cell-value">Offene Fadenheftung</div>
+        <div class="spec-cell-note">Sichtbarer R&uuml;cken mit Cyan-Faden</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-cell-label">Typografie</div>
+        <div class="spec-cell-value">Poppins &middot; JetBrains Mono</div>
+        <div class="spec-cell-note">Bold (Headlines), Light (Body), Light Italic (Zitate)</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-cell-label">Farbe</div>
+        <div class="spec-cell-value">S/W + Cyan</div>
+        <div class="spec-cell-note">Schwarz-Wei&szlig;-Fotografie, Cyan nur als Akzent</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 04 — CHAPTERS (TOC)
+     ═══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-num">04</div>
+  <div class="section-marker">Kapitel</div>
+
+  <div class="toc-layout">
+    <div class="toc-sidebar">
+      <div class="ed-label">Kapitelstruktur</div>
+      <div class="ed-headline">9 KAPITEL.<br>EINE <span>REISE.</span></div>
+      <p class="ed-lead">Thematisch geordnet, nicht chronologisch. Jedes Kapitel destilliert die st&auml;rksten Momente aus dem Podcast.</p>
+    </div>
+
+    <div class="toc-main">
+      <div class="chapter-row">
+        <div class="ch-num">00</div>
+        <div class="ch-content">
+          <div class="ch-title">Vorwort</div>
+          <div class="ch-sub">Warum dieses Buch</div>
+          <div class="ch-desc">Pers&ouml;nlich, kurz, ungeschliffen. Warum ich dieses Buch schreiben musste.</div>
+        </div>
+      </div>
+      <div class="chapter-row">
+        <div class="ch-num">01</div>
+        <div class="ch-content">
+          <div class="ch-title">Der Anfang</div>
+          <div class="ch-sub">Wie alles beginnt</div>
+          <div class="ch-desc">Erste Schritte auf dem Eis, fr&uuml;he Tr&auml;ume, die Magie des Anfangens.</div>
+        </div>
+      </div>
+      <div class="chapter-row">
+        <div class="ch-num">02</div>
+        <div class="ch-content">
+          <div class="ch-title">Das Handwerk</div>
+          <div class="ch-sub">Entwicklung &amp; Training</div>
+          <div class="ch-desc">Was gute Trainer anders machen. Methoden, die funktionieren.</div>
+        </div>
+      </div>
+      <div class="chapter-row">
+        <div class="ch-num">03</div>
+        <div class="ch-content">
+          <div class="ch-title">Der Preis</div>
+          <div class="ch-sub">Opfer &amp; R&uuml;ckschl&auml;ge</div>
+          <div class="ch-desc">Verletzungen, Karriereenden, Zweifel. Warum Scheitern zum Weg geh&ouml;rt.</div>
+        </div>
+      </div>
+      <div class="chapter-row">
+        <div class="ch-num">04</div>
+        <div class="ch-content">
+          <div class="ch-title">Die Kabine</div>
+          <div class="ch-sub">Team &amp; Kultur</div>
+          <div class="ch-desc">Was Teams zusammenh&auml;lt. F&uuml;hrung, Hierarchien, die unsichtbaren Dinge.</div>
+        </div>
+      </div>
+      <div class="chapter-row">
+        <div class="ch-num">05</div>
+        <div class="ch-content">
+          <div class="ch-title">Das System</div>
+          <div class="ch-sub">Organisationen &amp; Strukturen</div>
+          <div class="ch-desc">Wie Clubs, Verb&auml;nde und Ligen funktionieren &mdash; und warum manchmal nicht.</div>
+        </div>
+      </div>
+      <div class="chapter-row">
+        <div class="ch-num">06</div>
+        <div class="ch-content">
+          <div class="ch-title">Der Moment</div>
+          <div class="ch-sub">G&auml;nsehaut</div>
+          <div class="ch-desc">Geschichten, die bleiben. Momente, die gr&ouml;&szlig;er sind als der Sport.</div>
+        </div>
+      </div>
+      <div class="chapter-row">
+        <div class="ch-num">07</div>
+        <div class="ch-content">
+          <div class="ch-title">Die Zukunft</div>
+          <div class="ch-sub">Wohin der Sport geht</div>
+          <div class="ch-desc">Visionen, W&uuml;nsche, Prognosen. Was sich &auml;ndern muss.</div>
+        </div>
+      </div>
+      <div class="chapter-row">
+        <div class="ch-num">08</div>
+        <div class="ch-content">
+          <div class="ch-title">Nachwort</div>
+          <div class="ch-sub">Bleib wild.</div>
+          <div class="ch-desc">Was ich gelernt habe. Was ich hoffe. Eine Einladung.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 05 — DESIGN ELEMENTS
+     ═══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-num">05</div>
+  <div class="section-marker">Design</div>
+
+  <div class="feature-grid-layout">
+    <div class="ed-hero-text">
+      <div class="ed-label">Besondere Elemente</div>
+      <div class="ed-headline">MEHR ALS <span>TEXT.</span></div>
+      <p class="ed-lead">Jedes Kapitel hat Elemente, die &uuml;ber den Text hinausgehen &mdash; zum Teilen, Aufh&auml;ngen, Zur&uuml;ckbl&auml;ttern.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-cell">
+        <div class="feature-num">01</div>
+        <h3>Take Away Pages</h3>
+        <p>Nach jedem Kapitel: 3&ndash;5 st&auml;rkste Einsichten. Gro&szlig;e Typografie, viel Wei&szlig;raum. Designt zum Fotografieren und Teilen.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-num">02</div>
+        <h3>Guest Portraits</h3>
+        <p>Jeder Gast bekommt eine visuelle Seite: S/W-Foto, Name, Rolle, ein definierendes Zitat.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-num">03</div>
+        <h3>QR Codes</h3>
+        <p>Jedes Kapitel verlinkt per QR-Code zur Original-Episode. Buch als Einstieg, Podcast als Deep Dive.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-num">04</div>
+        <h3>Pers&ouml;nliche Notizen</h3>
+        <p>Ren&eacute;s Randnotizen in Poppins Light Italic &mdash; subtil abgesetzt, aber Teil des Systems.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-num">05</div>
+        <h3>Eisfl&auml;chen-Metapher</h3>
+        <p>Jedes Kapitel &ouml;ffnet mit einer stilisierten Eisfl&auml;chen-Grafik. Minimal, abstrakt, wiedererkennbar.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-num">06</div>
+        <h3>Gro&szlig;z&uuml;gige R&auml;nder</h3>
+        <p>Platz f&uuml;r eigene Notizen. Das Buch l&auml;dt ein, weitergedacht zu werden.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 06 — CONTENT PIPELINE
+     ═══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-num">06</div>
+  <div class="section-marker">Pipeline</div>
+
+  <div class="timeline-layout">
+    <div class="timeline-left">
+      <div class="ed-label">Content Pipeline</div>
+      <div class="ed-headline">VOM PODCAST<br>ZUM <span>BUCH.</span></div>
+      <p class="ed-lead">THE SHIFT entsteht parallel zum Podcast &mdash; nicht danach. Jede Episode liefert Material. Das Buch wird destilliert, nicht transkribiert.</p>
+    </div>
+
+    <div class="timeline-right">
+      <div class="tl-item">
+        <div class="tl-date">Laufend</div>
+        <div>
+          <div class="tl-title">Momente markieren</div>
+          <div class="tl-desc">Schl&uuml;sselmomente mit Timestamp + Keyword. Nach jeder Episode: 3&ndash;5 Take Aways notieren.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Quartal</div>
+        <div>
+          <div class="tl-title">Thematisch clustern</div>
+          <div class="tl-desc">Take Aways reviewen. Welche Geschichten tragen? Welche Zitate bleiben? Was fehlt?</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Ep. 20+</div>
+        <div>
+          <div class="tl-title">Struktur finalisieren</div>
+          <div class="tl-desc">Kapitelstruktur festlegen. Material zuordnen. L&uuml;cken gezielt f&uuml;llen.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Ep. 30+</div>
+        <div>
+          <div class="tl-title">Schreibphase</div>
+          <div class="tl-desc">Destillieren, nicht transkribieren. Ren&eacute;s Stimme als roter Faden.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2027 Q3</div>
+        <div>
+          <div class="tl-title">Produktion</div>
+          <div class="tl-desc">Layout, Fotoauswahl, Lektorat, Druck. 3&ndash;4 Monate Vorlauf.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2027 Q4</div>
+        <div>
+          <div class="tl-title">Launch</div>
+          <div class="tl-desc"><span class="hl">Limited First Edition.</span> Sonder-Episode. Signing Events. Weihnachtsgesch&auml;ft.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 07 — EDITIONS
+     ═══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-num">07</div>
+  <div class="section-marker">Editionen</div>
+
+  <div class="editions-layout">
+    <div class="ed-hero-text">
+      <div class="ed-label">Editionen</div>
+      <div class="ed-headline">VIER WEGE<br>ZUM <span>BUCH.</span></div>
+    </div>
+
+    <div class="editions-grid">
+      <div class="ed-card featured">
+        <div class="ed-card-name">Limited First Edition</div>
+        <div class="ed-card-price">&euro; 59,90</div>
+        <div class="ed-card-run">200 St&uuml;ck &middot; Nummeriert &middot; Signiert</div>
+        <div class="ed-card-desc">Schuber, Bonuskapitel, exklusiver Print. F&uuml;r die, die von Anfang an dabei waren.</div>
+      </div>
+      <div class="ed-card">
+        <div class="ed-card-name">Standard</div>
+        <div class="ed-card-price">&euro; 34,90</div>
+        <div class="ed-card-run">Offene Auflage</div>
+        <div class="ed-card-desc">Hardcover, Fadenheftung, das volle Programm. Das Buch, wie es gedacht ist.</div>
+      </div>
+      <div class="ed-card">
+        <div class="ed-card-name">Digital</div>
+        <div class="ed-card-price">&euro; 19,90</div>
+        <div class="ed-card-run">Unlimited</div>
+        <div class="ed-card-desc">PDF &amp; ePub, optimiert f&uuml;r Tablet. Alle Inhalte, &uuml;berall dabei.</div>
+      </div>
+      <div class="ed-card">
+        <div class="ed-card-name">Bundle</div>
+        <div class="ed-card-price">&euro; 79,90</div>
+        <div class="ed-card-run">100 Sets</div>
+        <div class="ed-card-desc">Buch + Merch (Hoodie oder Tee). THE SHIFT zum Anziehen und Lesen.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 08 — PUBLISHING
+     ═══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-num">08</div>
+  <div class="section-marker">Publishing</div>
+
+  <div class="closing-layout">
+    <div class="closing-left">
+      <div class="ed-label">Ver&ouml;ffentlichung</div>
+      <div class="ed-headline">SELF-<br>PUBLISHING.<br><span>VOLLE<br>KONTROLLE.</span></div>
+      <p class="ed-lead" style="margin-top:24px;">THE SHIFT erscheint im Eigenverlag &mdash; weil wir bei Design, Preis und Distribution keine Kompromisse machen wollen.</p>
+    </div>
+
+    <div class="closing-right">
+      <div class="closing-cards">
+        <div class="closing-card">
+          <h4>Warum Self-Publishing</h4>
+          <p>Volle Kontrolle &uuml;ber Design, Preis, Distribution. H&ouml;here Marge. Passt zur Unabh&auml;ngigkeit von Wild Project.</p>
+        </div>
+        <div class="closing-card">
+          <h4>Druck</h4>
+          <p>Limited Edition: lokale Druckerei f&uuml;r Premiumqualit&auml;t. Standard: Books on Demand oder Bookmundo f&uuml;r skalierbare Auflage.</p>
+        </div>
+        <div class="closing-card">
+          <h4>Verlag sp&auml;ter</h4>
+          <p>Option f&uuml;r erweiterte Ausgabe oder Taschenbuch. Aber nur verhandeln mit Proof of Concept &mdash; aus einer Position der St&auml;rke.</p>
+        </div>
+      </div>
+
+      <div class="closing-quote">
+        <p>Dieses Buch geh&ouml;rt uns. Vom ersten Wort bis zum letzten Faden.</p>
+        <cite>Ren&eacute; Wild</cite>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<div class="ed-footer">
+  A <span>Wild Project</span> Book &nbsp;&bull;&nbsp; 2027
+</div>
+
+<!-- Presentation bar -->
+<div class="present-bar"><div class="present-progress"></div></div>
+
+<script>
+(() => {
+  const pages = document.querySelectorAll('.page');
+  const bar = document.querySelector('.present-progress');
+  let current = 0, presenting = false;
+
+  function show(i) {
+    current = Math.max(0, Math.min(i, pages.length - 1));
+    pages.forEach((p, idx) => p.classList.toggle('active', idx === current));
+    bar.style.width = ((current + 1) / pages.length * 100) + '%';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'p' || e.key === 'P') {
+      if (!presenting) { presenting = true; document.body.classList.add('presenting'); show(0); }
+      else { presenting = false; document.body.classList.remove('presenting'); pages.forEach(p => p.classList.remove('active')); }
+      return;
+    }
+    if (!presenting) return;
+    if (['ArrowRight','ArrowDown',' '].includes(e.key)) { e.preventDefault(); show(current + 1); }
+    if (['ArrowLeft','ArrowUp'].includes(e.key)) { e.preventDefault(); show(current - 1); }
+    if (e.key === 'f' || e.key === 'F') { document.documentElement.requestFullscreen?.(); }
+    if (e.key === 'Escape') { presenting = false; document.body.classList.remove('presenting'); pages.forEach(p => p.classList.remove('active')); }
+  });
+
+  document.addEventListener('click', e => {
+    if (!presenting) return;
+    const x = e.clientX / window.innerWidth;
+    if (x < 0.33) show(current - 1); else show(current + 1);
+  });
+})();
+</script>
+
+</body>
+</html>

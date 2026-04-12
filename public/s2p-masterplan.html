@@ -6,7 +6,7 @@
 <title>SHIFT2PRO — Masterplan 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,300&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,300&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════
    SHIFT2PRO MASTERPLAN — DESIGN SYSTEM
@@ -380,7 +380,7 @@ body {
     page-break-before: always;
     border-top: 1px solid #ddd !important;
   }
-  .chapter:last-of-type p[style*="Anton"] {
+  .chapter:last-of-type p[style*="Poppins"][style*="700"] {
     color: #000 !important;
   }
   .chapter:last-of-type p[style*="cyan"] {
@@ -436,9 +436,9 @@ body {
   content: 'S2P';
   position: absolute;
   top: -8vw; right: -4vw;
-  font-family: 'Anton', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 38vw;
-  font-weight: 400;
+  font-weight: 700;
   color: transparent;
   -webkit-text-stroke: 1px rgba(12,192,223,0.04);
   line-height: 1;
@@ -458,9 +458,10 @@ body {
   z-index: 1;
 }
 .cover-title {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(3.5rem, 10vw, 8rem);
-  font-weight: 400;
+  font-weight: 700;
+  text-transform: uppercase;
   color: var(--white);
   line-height: 0.92;
   letter-spacing: -0.02em;
@@ -553,9 +554,9 @@ body {
   position: relative;
 }
 .chapter-number {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(5rem, 12vw, 9rem);
-  font-weight: 400;
+  font-weight: 700;
   color: transparent;
   -webkit-text-stroke: 1px var(--cyan-20);
   line-height: 1;
@@ -570,9 +571,10 @@ body {
   margin-bottom: 0.8rem;
 }
 .chapter h2 {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 400;
+  font-weight: 700;
+  text-transform: uppercase;
   color: var(--white);
   line-height: 1.05;
   letter-spacing: -0.01em;
@@ -858,7 +860,8 @@ body {
   pointer-events: none;
 }
 .edit-num {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
   font-size: clamp(4rem, 8vw, 6rem);
   color: transparent;
   -webkit-text-stroke: 1px var(--cyan-20);
@@ -870,7 +873,9 @@ body {
 }
 .edit-item:hover .edit-num { -webkit-text-stroke-color: var(--cyan); }
 .edit-name {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
   font-size: clamp(1.4rem, 3vw, 2rem);
   color: var(--white);
   line-height: 1.05;
@@ -939,7 +944,9 @@ body {
 /* Print badge */
 .edit-print-badge {
   display: inline-block;
-  font-family: 'Anton', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   color: var(--cyan);
@@ -1024,7 +1031,9 @@ body {
 }
 .edit-acc:hover .edit-num { -webkit-text-stroke-color: var(--cyan); }
 .edit-acc .edit-name {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
   font-size: 1.1rem;
   color: var(--white);
   margin-bottom: 0.3rem;
@@ -1225,9 +1234,9 @@ body {
     </thead>
     <tbody>
       <tr>
-        <td class="highlight">Anton</td>
+        <td class="highlight">Poppins Bold</td>
         <td>Headlines, Sectiontitel, Hero</td>
-        <td>400 (Regular)</td>
+        <td>700 (Bold)</td>
         <td class="cyan">Display</td>
       </tr>
       <tr>
@@ -1247,7 +1256,7 @@ body {
 
   <h4>Logo-System</h4>
   <ul class="clean-list">
-    <li>Prim&auml;rlogo: Wortmarke &bdquo;SHIFT2PRO&ldquo; in Anton, die &bdquo;2&ldquo; in Cyan<span class="sub">Haupteinsatz: Website, Podcast-Cover, Merch</span></li>
+    <li>Prim&auml;rlogo: Wortmarke &bdquo;SHIFT2PRO&ldquo; in Poppins Bold, die &bdquo;2&ldquo; in Cyan<span class="sub">Haupteinsatz: Website, Podcast-Cover, Merch</span></li>
     <li>Kurzmarke: &bdquo;S2P&ldquo; als kompaktes Monogramm<span class="sub">Social-Media-Avatare, Favicon, Stempel</span></li>
     <li>Badge-Variante: S2P im Quadrat mit Scanlines<span class="sub">Merchandise, Sticker, Wasserzeichen</span></li>
   </ul>
@@ -1990,7 +1999,7 @@ body {
   <h4>Innenseiten-Design</h4>
   <ul class="clean-list">
     <li>Schwarz-Wei&szlig;-Fotografie im Wechsel mit typografischen Seiten</li>
-    <li>Headlines in Anton, Flie&szlig;text in Poppins Light, Labels in JetBrains Mono</li>
+    <li>Headlines in Poppins Bold, Flie&szlig;text in Poppins Light, Labels in JetBrains Mono</li>
     <li>Cyan nur als Akzent: Seitenzahlen, Pull-Quotes, Take Away Pages</li>
     <li>Gro&szlig;z&uuml;gige R&auml;nder &mdash; Platz f&uuml;r eigene Notizen</li>
     <li>Kapitelanfang: immer rechte Seite, Full-Bleed-Bild links</li>
@@ -2317,7 +2326,7 @@ body {
     <div class="data-cell">
       <div class="data-cell-label">VARIANTE A</div>
       <div class="data-cell-value">SHIFT2PRO</div>
-      <div class="data-cell-note">Voller Schriftzug, Anton Font, Cyan auf Schwarz</div>
+      <div class="data-cell-note">Voller Schriftzug, Poppins Bold, Cyan auf Schwarz</div>
     </div>
     <div class="data-cell">
       <div class="data-cell-label">VARIANTE B</div>
@@ -2488,7 +2497,7 @@ body {
      ═══════════════════════════════════════ -->
 <section class="chapter" style="text-align:center; max-width:100%; border-top:1px solid var(--border); padding:6rem 2rem;">
   <p style="font-family:'JetBrains Mono', monospace; font-size:0.6rem; letter-spacing:0.3em; color:var(--cyan); margin-bottom:1.5rem;">ENDE DES MASTERPLANS</p>
-  <p style="font-family:'Anton', sans-serif; font-size:clamp(1.8rem,4vw,3rem); color:var(--white); line-height:1.1; margin-bottom:1rem;">INSPIRE. DEVELOP.<br>CONNECT.</p>
+  <p style="font-family:'Poppins', sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(1.8rem,4vw,3rem); color:var(--white); line-height:1.1; margin-bottom:1rem;">INSPIRE. DEVELOP.<br>CONNECT.</p>
   <p style="color:var(--muted); font-size:0.85rem; max-width:400px; margin:0 auto 2rem;">Ein Produkt von Wild Project.<br>Designed in Rosenheim.</p>
   <p style="font-family:'JetBrains Mono', monospace; font-size:0.55rem; letter-spacing:0.2em; color:var(--border2);">&copy; 2026 WILD PROJECT &mdash; ALL RIGHTS RESERVED</p>
 </section>

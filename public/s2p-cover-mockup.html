@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE SHIFT — Cover Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --cyan:     #0CC0DF;
+    --cyan-glow: rgba(12,192,223,0.35);
+    --black:    #000000;
+    --surface:  #060606;
+    --border:   #1a1a1a;
+    --muted:    #555;
+    --light:    #DBDBDB;
+    --wp-orange:#FC5000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #0a0a0a;
+    color: var(--light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 80px 40px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mockup-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 60px;
+    opacity: 0.6;
+  }
+
+  /* ══════════════════════════════════
+     FRONT COVER — 3D BOOK
+     ══════════════════════════════════ */
+
+  .book-scene {
+    perspective: 1600px;
+    margin-bottom: 80px;
+    position: relative;
+  }
+
+  /* Ambient light behind book */
+  .book-scene::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(12,192,223,0.07) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .book {
+    width: 440px;
+    height: 620px;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateY(-14deg) rotateX(3deg);
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .book:hover {
+    transform: rotateY(-3deg) rotateX(1deg) scale(1.02);
+  }
+
+  /* ── FRONT ── */
+  .book-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--black);
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow:
+      8px 12px 40px rgba(0,0,0,0.6),
+      2px 4px 12px rgba(0,0,0,0.4),
+      inset 0 0 0 1px rgba(255,255,255,0.04);
+  }
+
+  /* Linen texture */
+  .book-front::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 1.5px, rgba(255,255,255,0.007) 1.5px, rgba(255,255,255,0.007) 3px),
+      repeating-linear-gradient(90deg, transparent, transparent 1.5px, rgba(255,255,255,0.004) 1.5px, rgba(255,255,255,0.004) 3px);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Cyan ambient light from title */
+  .book-front::after {
+    content: '';
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    height: 250px;
+    background: radial-gradient(ellipse, rgba(12,192,223,0.08) 0%, rgba(12,192,223,0.02) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Edge highlight — light catching the left edge */
+  .book-front .edge-light {
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 10%, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.06) 70%, transparent 90%);
+    z-index: 3;
+  }
+
+  /* ── SPINE ── */
+  .book-spine {
+    position: absolute;
+    width: 38px;
+    height: 100%;
+    left: 0;
+    background: linear-gradient(90deg, #0a0a0a 0%, #050505 60%, #000 100%);
+    transform: rotateY(-90deg) translateX(-19px);
+    transform-origin: left center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: inset -2px 0 8px rgba(0,0,0,0.5);
+  }
+
+  .book-spine::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 1.5px, rgba(255,255,255,0.008) 1.5px, rgba(255,255,255,0.008) 3px);
+    pointer-events: none;
+  }
+
+  .spine-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    opacity: 0.7;
+  }
+
+  .spine-thread {
+    position: absolute;
+    width: 3px;
+    height: 6px;
+    background: var(--cyan);
+    right: 4px;
+    border-radius: 1px;
+    opacity: 0.5;
+  }
+  .spine-thread:nth-child(1) { top: 18%; }
+  .spine-thread:nth-child(2) { top: 38%; }
+  .spine-thread:nth-child(3) { top: 58%; }
+  .spine-thread:nth-child(4) { top: 78%; }
+
+  /* ── PAGE EDGES (right side) ── */
+  .book-pages {
+    position: absolute;
+    width: 12px;
+    height: calc(100% - 8px);
+    right: -12px;
+    top: 4px;
+    background: linear-gradient(90deg,
+      #e8e4df 0%,
+      #f0ece7 20%,
+      #ebe7e2 40%,
+      #f0ece7 60%,
+      #e8e4df 80%,
+      #e0dcd7 100%
+    );
+    transform: rotateY(0deg);
+    transform-origin: left center;
+    box-shadow: 2px 0 4px rgba(0,0,0,0.3);
+  }
+
+  .book-pages::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(180deg,
+      transparent 0px,
+      rgba(0,0,0,0.02) 1px,
+      transparent 2px
+    );
+  }
+
+  /* ── COVER CONTENT ── */
+  .cover-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 60px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+  }
+
+  .cover-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    font-weight: 400;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    opacity: 0.4;
+    margin-bottom: auto;
+    padding-top: 24px;
+  }
+
+  /* ── THE SHIFT TITLE ── */
+  .cover-title {
+    position: relative;
+    margin-bottom: 24px;
+    width: fit-content;
+  }
+
+  .cover-title .line-the {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 76px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: -3px;
+    line-height: 0.85;
+    text-shadow: 0 2px 20px rgba(255,255,255,0.05);
+  }
+
+  .cover-title .line-shift {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-size: 108px;
+    text-transform: uppercase;
+    letter-spacing: -6px;
+    line-height: 0.85;
+    color: var(--cyan);
+    text-shadow:
+      0 0 30px rgba(12,192,223,0.4),
+      0 0 60px rgba(12,192,223,0.15),
+      0 0 120px rgba(12,192,223,0.05),
+      0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  /* ── ICE SCRATCHES ── */
+  .scratches {
+    position: absolute;
+    top: -10px; left: -30px; right: -30px; bottom: -10px;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .scratch {
+    position: absolute;
+    border-radius: 0;
+  }
+
+  /* Deep gouges — wide, visible */
+  .scratch.s1 {
+    width: 180px; height: 2px;
+    top: 20%; left: 2%;
+    transform: rotate(-14deg);
+    background: linear-gradient(90deg, transparent 0%, rgba(12,192,223,0.08) 10%, rgba(255,255,255,0.15) 30%, rgba(255,255,255,0.2) 50%, rgba(12,192,223,0.1) 75%, transparent 100%);
+    box-shadow: 0 0 6px rgba(12,192,223,0.1);
+  }
+  .scratch.s2 {
+    width: 220px; height: 1.5px;
+    top: 50%; left: 8%;
+    transform: rotate(-8deg);
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 20%, rgba(12,192,223,0.12) 45%, rgba(255,255,255,0.08) 70%, transparent 100%);
+  }
+  .scratch.s3 {
+    width: 140px; height: 2px;
+    top: 35%; right: 0%; left: auto;
+    transform: rotate(-22deg);
+    background: linear-gradient(90deg, transparent 0%, rgba(12,192,223,0.15) 25%, rgba(255,255,255,0.2) 50%, rgba(12,192,223,0.08) 80%, transparent 100%);
+    box-shadow: 0 0 4px rgba(12,192,223,0.08);
+  }
+
+  /* Fine scratches — thin, subtle */
+  .scratch.s4 {
+    width: 100px; height: 1px;
+    top: 65%; left: 15%;
+    transform: rotate(-5deg);
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0.06) 70%, transparent 100%);
+  }
+  .scratch.s5 {
+    width: 160px; height: 1px;
+    top: 78%; left: 25%;
+    transform: rotate(-12deg);
+    background: linear-gradient(90deg, transparent 0%, rgba(12,192,223,0.1) 30%, rgba(255,255,255,0.04) 60%, transparent 100%);
+  }
+  .scratch.s6 {
+    width: 70px; height: 1.5px;
+    top: 10%; left: 45%;
+    transform: rotate(-30deg);
+    background: linear-gradient(90deg, transparent 0%, rgba(12,192,223,0.2) 50%, transparent 100%);
+  }
+
+  /* Micro-scratches — hair-thin */
+  .scratch.s7 {
+    width: 200px; height: 0.5px;
+    top: 55%; left: 0%;
+    transform: rotate(-3deg);
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 20%, rgba(12,192,223,0.06) 50%, rgba(255,255,255,0.03) 80%, transparent 100%);
+  }
+  .scratch.s8 {
+    width: 80px; height: 0.5px;
+    top: 88%; right: 8%; left: auto;
+    transform: rotate(-18deg);
+    background: linear-gradient(90deg, transparent 0%, rgba(12,192,223,0.1) 50%, transparent 100%);
+  }
+  .scratch.s9 {
+    width: 110px; height: 1px;
+    top: 28%; left: 20%;
+    transform: rotate(-38deg);
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 30%, rgba(12,192,223,0.06) 70%, transparent 100%);
+  }
+  .scratch.s10 {
+    width: 150px; height: 0.5px;
+    top: 92%; left: 5%;
+    transform: rotate(-7deg);
+    background: linear-gradient(90deg, transparent 0%, rgba(12,192,223,0.06) 40%, rgba(255,255,255,0.03) 70%, transparent 100%);
+  }
+
+  /* ── REST OF COVER ── */
+  .cover-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 16px;
+  }
+
+  .cover-divider {
+    width: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0.3;
+    margin-bottom: 20px;
+  }
+
+  .cover-author {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .cover-bottom {
+    margin-top: auto;
+    padding-bottom: 24px;
+  }
+
+  .cover-bottom-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.15);
+  }
+
+  .cover-bottom-text span { color: var(--wp-orange); opacity: 0.5; }
+
+  /* ── DROP SHADOW ── */
+  .book-shadow {
+    width: 400px;
+    height: 40px;
+    background: radial-gradient(ellipse at 60% 50%, rgba(0,0,0,0.5) 0%, transparent 70%);
+    margin-top: 16px;
+    filter: blur(12px);
+    transform: skewX(-8deg);
+  }
+
+
+  /* ══════════════════════════════════
+     BACK COVER
+     ══════════════════════════════════ */
+
+  .back-cover-section {
+    margin-top: 100px;
+    width: 440px;
+  }
+
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-divider span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0.5;
+  }
+
+  .back-cover {
+    width: 100%;
+    height: 620px;
+    background: var(--black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 56px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      4px 8px 30px rgba(0,0,0,0.4),
+      inset 0 0 0 1px rgba(255,255,255,0.03);
+  }
+
+  .back-cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 1.5px, rgba(255,255,255,0.006) 1.5px, rgba(255,255,255,0.006) 3px),
+      repeating-linear-gradient(90deg, transparent, transparent 1.5px, rgba(255,255,255,0.003) 1.5px, rgba(255,255,255,0.003) 3px);
+    pointer-events: none;
+  }
+
+  .back-quote-mark {
+    font-family: 'Poppins', sans-serif;
+    font-size: 80px;
+    font-weight: 300;
+    color: var(--cyan);
+    opacity: 0.08;
+    line-height: 1;
+    margin-bottom: -20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .back-quote {
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.9;
+    text-align: center;
+    max-width: 280px;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .back-author {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    opacity: 0.4;
+    position: relative;
+    z-index: 1;
+  }
+
+  .back-bottom {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+  }
+
+  .back-isbn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.15);
+  }
+
+  .back-wp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.15);
+  }
+  .back-wp span { color: var(--wp-orange); opacity: 0.5; }
+
+
+  /* ══════════════════════════════════
+     INNER SPREAD
+     ══════════════════════════════════ */
+
+  .spread-section {
+    margin-top: 100px;
+    width: 100%;
+    max-width: 920px;
+  }
+
+  .spread {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--black);
+    overflow: hidden;
+    box-shadow:
+      4px 8px 30px rgba(0,0,0,0.4),
+      inset 0 0 0 1px rgba(255,255,255,0.03);
+  }
+
+  .spread-left {
+    padding: 64px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 520px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle gradient on chapter opener */
+  .spread-left::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 200px;
+    background: linear-gradient(180deg, transparent, rgba(12,192,223,0.02));
+    pointer-events: none;
+  }
+
+  .spread-gutter {
+    position: absolute;
+    right: 0;
+    top: 10%;
+    bottom: 10%;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--border), transparent);
+  }
+
+  .spread-right {
+    padding: 64px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 520px;
+  }
+
+  .spread-chapter-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 72px;
+    font-weight: 300;
+    color: var(--cyan);
+    opacity: 0.1;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .spread-chapter-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 40px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: -2px;
+    line-height: 0.95;
+    margin-bottom: 16px;
+  }
+
+  .spread-chapter-title span { color: var(--cyan); }
+
+  .spread-chapter-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .spread-body {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(219,219,219,0.65);
+    line-height: 2.1;
+  }
+
+  .spread-body .pull-quote {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: #fff;
+    letter-spacing: -0.5px;
+    line-height: 1.5;
+    margin: 36px 0;
+    padding-left: 16px;
+    border-left: 2px solid var(--cyan);
+  }
+
+  .spread-note {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cyan);
+    opacity: 0.35;
+    margin-top: 28px;
+  }
+
+  .spread-page-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    color: var(--cyan);
+    letter-spacing: 3px;
+    opacity: 0.25;
+    margin-top: auto;
+    padding-top: 24px;
+  }
+
+
+  /* ══════════════════════════════════
+     SPECS
+     ══════════════════════════════════ */
+
+  .specs-section {
+    margin-top: 100px;
+    width: 100%;
+    max-width: 720px;
+    margin-bottom: 80px;
+  }
+
+  .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .spec-item {
+    background: var(--black);
+    padding: 28px 20px;
+    text-align: center;
+  }
+
+  .spec-value {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: #fff;
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+  }
+
+  .spec-value.cyan { color: var(--cyan); }
+
+  .spec-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .book { width: 320px; height: 450px; }
+    .cover-title .line-the { font-size: 56px; }
+    .cover-title .line-shift { font-size: 80px; letter-spacing: -4px; }
+    .back-cover { width: 320px; height: 450px; }
+    .spread { grid-template-columns: 1fr; }
+    .spread-left { border-right: none; min-height: 360px; }
+    .spread-gutter { display: none; }
+    .specs-grid { grid-template-columns: 1fr 1fr; }
+  }
+  </style>
+</head>
+<body>
+
+  <div class="mockup-label">The Shift &mdash; Cover Mockup v2</div>
+
+  <!-- ═══════════════════════════════
+       FRONT COVER
+       ═══════════════════════════════ -->
+  <div class="book-scene">
+    <div class="book">
+
+      <!-- Spine -->
+      <div class="book-spine">
+        <div class="spine-thread"></div>
+        <div class="spine-thread"></div>
+        <div class="spine-thread"></div>
+        <div class="spine-thread"></div>
+        <span class="spine-text">S2P</span>
+      </div>
+
+      <!-- Page edges -->
+      <div class="book-pages"></div>
+
+      <!-- Front -->
+      <div class="book-front">
+        <div class="edge-light"></div>
+        <div class="cover-content">
+          <div class="cover-badge">Das Buch zum Podcast</div>
+
+          <div class="cover-title">
+            <span class="line-the">THE</span>
+            <span class="line-shift">SHIFT</span>
+            <div class="scratches">
+              <div class="scratch s1"></div>
+              <div class="scratch s2"></div>
+              <div class="scratch s3"></div>
+              <div class="scratch s4"></div>
+              <div class="scratch s5"></div>
+              <div class="scratch s6"></div>
+              <div class="scratch s7"></div>
+              <div class="scratch s8"></div>
+              <div class="scratch s9"></div>
+              <div class="scratch s10"></div>
+            </div>
+          </div>
+
+          <div class="cover-subtitle">Das Buch zum Podcast</div>
+          <div class="cover-divider"></div>
+          <div class="cover-author">Ren&eacute; Wild</div>
+
+          <div class="cover-bottom">
+            <div class="cover-bottom-text">A <span>Wild Project</span> Book</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="book-shadow"></div>
+  </div>
+
+
+  <!-- ═══════════════════════════════
+       BACK COVER
+       ═══════════════════════════════ -->
+  <div class="back-cover-section">
+    <div class="section-divider"><span>R&uuml;ckseite</span></div>
+    <div class="back-cover">
+      <div class="back-quote-mark">&ldquo;</div>
+      <div class="back-quote">
+        Jeder Gast hat mir etwas hinterlassen &mdash; einen Satz, eine Haltung, einen Moment. Dieses Buch h&auml;lt sie fest.
+      </div>
+      <div class="back-author">Ren&eacute; Wild</div>
+
+      <div class="back-bottom">
+        <div class="back-isbn">ISBN 978-3-XXXX-XXXX-X</div>
+        <div class="back-wp">A <span>Wild Project</span> Book &bull; 2027</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════
+       INNER SPREAD
+       ═══════════════════════════════ -->
+  <div class="spread-section">
+    <div class="section-divider"><span>Innenseiten</span></div>
+    <div class="spread">
+      <div class="spread-left">
+        <div class="spread-chapter-num">01</div>
+        <div class="spread-chapter-title">DER<br><span>ANFANG</span></div>
+        <div class="spread-chapter-sub">Wie alles beginnt</div>
+        <div class="spread-gutter"></div>
+      </div>
+      <div class="spread-right">
+        <div class="spread-body">
+          Es gibt diesen einen Moment auf dem Eis, den jeder kennt, der je in einer kalten Halle gestanden hat. Dieses erste Mal, wenn die Kufe greift und du merkst &mdash; das hier ist es.
+          <span class="pull-quote">&bdquo;Talent bringt dich aufs Eis.<br>Leidenschaft h&auml;lt dich dort.&ldquo;</span>
+          Nicht jeder, der mit drei Jahren das erste Mal auf Schlittschuhen steht, wird Profi. Aber jeder, der Profi wird, erinnert sich an diesen Moment.
+        </div>
+        <div class="spread-note">Das wusste ich damals noch nicht. &mdash; R.</div>
+        <div class="spread-page-num">024 &mdash; 025</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════
+       SPECS
+       ═══════════════════════════════ -->
+  <div class="specs-section">
+    <div class="section-divider"><span>Ausstattung</span></div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-value">17&times;24</div>
+        <div class="spec-key">Format (cm)</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-value cyan">~240</div>
+        <div class="spec-key">Seiten</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-value">120g</div>
+        <div class="spec-key">Munken Lynx</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-value cyan">Leinen</div>
+        <div class="spec-key">Einband</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-value">Cyan</div>
+        <div class="spec-key">Fadenheftung</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-value cyan">Folie</div>
+        <div class="spec-key">Pr&auml;gung</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

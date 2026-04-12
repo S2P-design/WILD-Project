@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHIFT2PRO — Sponsoring Deck 2026/27</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --cyan:     #0CC0DF;
+    --black:    #000000;
+    --surface:  #060606;
+    --border:   #222222;
+    --muted:    #888888;
+    --light:    #DBDBDB;
+    --wp-orange:#FC5000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--black);
+    color: var(--light);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── SLIDE SYSTEM ── */
+  .slide {
+    min-height: 100vh;
+    padding: 80px 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+  .slide-number {
+    position: absolute;
+    top: 40px;
+    right: 60px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(ellipse at 50% 40%, rgba(12,192,223,0.06) 0%, transparent 70%);
+  }
+  .cover-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 32px;
+  }
+  .cover-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 72px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .cover-title span { color: var(--cyan); }
+  .cover-subtitle {
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--muted);
+    margin-bottom: 48px;
+  }
+  .cover-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    opacity: 0.7;
+  }
+  .cover-meta {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    line-height: 1.15;
+  }
+  h2 span { color: var(--cyan); }
+  h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 20px;
+  }
+  .lead {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--light);
+    max-width: 700px;
+    margin-bottom: 40px;
+    line-height: 1.8;
+  }
+
+  /* ── CARDS ── */
+  .card-grid {
+    display: grid;
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .card-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .card-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 32px;
+    position: relative;
+  }
+  .card-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 16px;
+    color: var(--cyan);
+  }
+  .card-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--cyan);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .card-number {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--border);
+    letter-spacing: 1px;
+  }
+
+  /* ── STAT BLOCKS ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin: 32px 0;
+  }
+  .stat {
+    text-align: center;
+    padding: 28px 16px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .stat-value {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    color: var(--cyan);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── TABLES ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 400;
+  }
+  table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--light);
+    vertical-align: top;
+  }
+  table tr:last-child td { border-bottom: none; }
+  table td:first-child { font-weight: 600; }
+  table .muted { color: var(--muted); font-weight: 300; }
+
+  /* ── TIER CARDS ── */
+  .tier {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .tier.featured {
+    border-color: var(--cyan);
+    background: linear-gradient(180deg, rgba(12,192,223,0.04) 0%, var(--surface) 100%);
+  }
+  .tier.featured::before {
+    content: 'EMPFOHLEN';
+    position: absolute;
+    top: 16px;
+    right: -32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    background: var(--cyan);
+    color: var(--black);
+    padding: 4px 40px;
+    transform: rotate(45deg);
+    font-weight: 500;
+  }
+  .tier-name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .tier-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .tier-desc {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    line-height: 1.7;
+  }
+  .tier-features {
+    list-style: none;
+    padding: 0;
+  }
+  .tier-features li {
+    font-size: 13px;
+    color: var(--light);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    padding-left: 20px;
+    position: relative;
+  }
+  .tier-features li:last-child { border-bottom: none; }
+  .tier-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--cyan);
+    font-weight: 600;
+  }
+
+  /* ── QUOTE ── */
+  .quote-block {
+    border-left: 3px solid var(--cyan);
+    padding: 24px 32px;
+    margin: 32px 0;
+    background: rgba(12,192,223,0.03);
+  }
+  .quote-text {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--light);
+    font-style: italic;
+    line-height: 1.8;
+    margin-bottom: 8px;
+  }
+  .quote-author {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    margin: 32px 0;
+    padding-left: 32px;
+    border-left: 2px solid var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    padding: 0 0 32px 24px;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -38px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--cyan);
+    border: 2px solid var(--black);
+  }
+  .timeline-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .timeline-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .timeline-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── CONTACT SLIDE ── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 40px;
+  }
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .contact-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 3px;
+    color: var(--cyan);
+  }
+  .contact-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--cyan);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .contact-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 4px;
+  }
+  .contact-value {
+    font-size: 15px;
+    color: var(--light);
+  }
+
+  /* ── HOST SECTION ── */
+  .host-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 56px;
+    align-items: start;
+    margin-top: 32px;
+  }
+  .host-photo {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    border: 3px solid var(--cyan);
+    object-fit: cover;
+    object-position: center 20%;
+    filter: grayscale(100%);
+    box-shadow: 0 0 40px rgba(12,192,223,0.1);
+  }
+  .host-details h3 {
+    margin-top: 20px;
+  }
+  .host-details p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .host-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .host-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--light);
+    border: 1px solid var(--cyan);
+    padding: 6px 16px;
+    background: transparent;
+  }
+
+  /* ── WP FOOTER ── */
+  .wp-footer {
+    text-align: center;
+    padding: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-top: 1px solid var(--border);
+  }
+  .wp-footer span { color: var(--wp-orange); }
+
+  /* ── HIGHLIGHT ── */
+  .highlight {
+    color: var(--cyan);
+    font-weight: 600;
+  }
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+
+  /* ── CHANNEL ROW ── */
+  .channel-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .channel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    text-align: center;
+  }
+  .channel-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .channel-desc {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ── PRESENTATION MODE ── */
+  body.presenting {
+    overflow: hidden;
+  }
+  body.presenting .slide {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    min-height: unset;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    overflow-y: auto;
+    border-bottom: none;
+  }
+  body.presenting .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  body.presenting .wp-footer {
+    display: none;
+  }
+
+  /* Slide counter */
+  .pres-ui {
+    display: none;
+  }
+  body.presenting .pres-ui {
+    display: flex;
+    position: fixed;
+    bottom: 24px;
+    right: 32px;
+    z-index: 9999;
+    align-items: center;
+    gap: 16px;
+  }
+  .pres-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+  .pres-progress {
+    width: 120px;
+    height: 2px;
+    background: var(--border);
+    position: relative;
+  }
+  .pres-progress-bar {
+    height: 100%;
+    background: var(--cyan);
+    transition: width 0.4s ease;
+  }
+
+  /* Start button */
+  .pres-start {
+    position: fixed;
+    bottom: 24px;
+    right: 32px;
+    z-index: 999;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    background: var(--surface);
+    border: 1px solid var(--cyan);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pres-start:hover {
+    background: var(--cyan);
+    color: var(--black);
+  }
+  body.presenting .pres-start {
+    display: none;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+    body { background: #000 !important; }
+    .slide {
+      min-height: unset;
+      height: 100vh;
+      page-break-after: always;
+      page-break-inside: avoid;
+      padding: 48px 64px;
+      border-bottom: none;
+    }
+    .slide:last-child { page-break-after: auto; }
+    * { print-color-adjust: exact !important; -webkit-print-color-adjust: exact !important; }
+    .stat { background: #060606 !important; }
+    .card { background: #060606 !important; }
+    .tier { background: #060606 !important; }
+    .tier.featured { background: linear-gradient(180deg, rgba(12,192,223,0.04) 0%, #060606 100%) !important; }
+    .channel { background: #060606 !important; }
+    .host-photo { border-color: #0CC0DF !important; }
+    .host-tag { background: #060606 !important; border-color: #222 !important; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .slide { padding: 48px 32px; }
+    .cover-title { font-size: 48px; }
+    h2 { font-size: 32px; }
+    .card-grid.cols-2, .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: 1fr; }
+    .stat-row { grid-template-columns: 1fr 1fr; }
+    .channel-row { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .host-layout { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    .host-tags { justify-content: center; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════
+     SLIDE 01 — COVER
+     ════════════════════════════════════════════════════════════ -->
+<div class="slide cover">
+  <div class="cover-badge">Sponsoring &amp; Kooperationen</div>
+  <div class="cover-title">SHIFT<span>2</span>PRO</div>
+  <div class="cover-subtitle">Eishockeyentwicklung neu gedacht &mdash; aus dem DACH-Raum und den gro&szlig;en Eishockeynationen</div>
+  <div class="cover-tagline">Inspire &middot; Develop &middot; Connect</div>
+  <div class="cover-meta">Saison 2026/27 &nbsp;&bull;&nbsp; Vertraulich &nbsp;&bull;&nbsp; Wild Project</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SLIDE 02 — DAS PROBLEM / DIE LÜCKE
+     ════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-number">02</div>
+  <div class="section-label">Unsere Motivation</div>
+  <h2>Eishockey verdient<br>mehr <span>Tiefe.</span></h2>
+  <p class="lead">
+    Ergebnisse, Highlights, Vereins-PR &mdash; gibt es genug. Aber wer redet &uuml;ber das, was dahinter passiert? &Uuml;ber Spielerentwicklung, Trainingsphilosophie, Organisationskultur? Und wer schaut dabei &uuml;ber den Tellerrand &mdash; nach Schweden, Finnland, in die USA und nach Kanada? Was l&auml;uft dort anders, und was k&ouml;nnen wir davon mitnehmen? Genau diese Gespr&auml;che wollen wir f&uuml;hren.
+  </p>
+
+  <div class="quote-block">
+    <div class="quote-text">&bdquo;Ich will Gespr&auml;che f&uuml;hren, die mich selbst weiterbringen &mdash; und hoffentlich auch die, die zuh&ouml;ren.&ldquo;</div>
+    <div class="quote-author">Ren&eacute; Wild &mdash; Gr&uuml;nder &amp; Host</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SLIDE 03 — WAS IST SHIFT2PRO
+     ════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-number">03</div>
+  <div class="section-label">Das Produkt</div>
+  <h2>Mehr als ein <span>Podcast.</span><br>Eine Plattform.</h2>
+  <p class="lead">
+    Shift2Pro bringt Menschen zusammen, die Eishockey weiterdenken &mdash; aus dem DACH-Raum und aus gro&szlig;en Eishockeynationen wie Schweden, Finnland, den USA oder Kanada. Unterschiedliche Perspektiven, ein gemeinsames Ziel: voneinander lernen und den Sport voranbringen.
+  </p>
+
+  <div class="card-grid cols-4">
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 1a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V5a4 4 0 0 0-4-4z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="18" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+      <h3>Podcast</h3>
+      <p>Kernprodukt. Alle 2 Wochen. Gespr&auml;che mit Trainern, Spielern und Experten &mdash; aus dem DACH-Raum und international.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+      <h3>Buch</h3>
+      <p>&bdquo;THE SHIFT&ldquo; &mdash; destilliert aus den besten Episoden. Hardcover, Q4 2027.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M20.38 3.46L16 2 12 5 8 2 3.62 3.46a2 2 0 0 0-1.34 1.28L1 8l3 2v10h16V10l3-2-1.28-3.26a2 2 0 0 0-1.34-1.28z"/></svg></div>
+      <h3>Merch</h3>
+      <p>Limitierte Capsule Drops. Premium-Qualit&auml;t. Streetwear trifft Hockey-Kultur.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/><circle cx="12" cy="3" r="1"/></svg></div>
+      <h3>Events</h3>
+      <p>Live-Podcast, Panels, Camps. Die Community trifft sich in echt.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SLIDE 04 — CONTENT-STRATEGIE
+     ════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-number">04</div>
+  <div class="section-label">Content-Strategie</div>
+  <h2>Drei S&auml;ulen.<br><span>Ein Ziel.</span></h2>
+
+  <div class="card-grid cols-3" style="margin-top:32px;">
+    <div class="card">
+      <div class="card-number">01</div>
+      <h3>Inspire</h3>
+      <p>Pers&ouml;nliche Geschichten, Karrierewege, Scheitern &amp; Aufstehen. Menschen hinter dem Sport.</p>
+    </div>
+    <div class="card">
+      <div class="card-number">02</div>
+      <h3>Develop</h3>
+      <p>Trainingsmethodik, Spielerentwicklung, Taktik, Sportpsychologie. Wissen, das auf dem Eis ankommt.</p>
+    </div>
+    <div class="card">
+      <div class="card-number">03</div>
+      <h3>Connect</h3>
+      <p>Blick &uuml;ber den Tellerrand: Wie arbeiten Verb&auml;nde und Clubs in Eishockeynationen wie Schweden, Finnland, den USA und Kanada? Was k&ouml;nnen wir mitnehmen, was passt zu uns?</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3 style="margin-bottom:16px;">Episode-Formate</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Format</th>
+        <th>L&auml;nge</th>
+        <th>Frequenz</th>
+        <th>Beschreibung</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>The Long Shift</td>
+        <td class="muted">60&ndash;90 Min</td>
+        <td class="muted">2&times;/Monat</td>
+        <td class="muted">Deep Talk mit einem Gast</td>
+      </tr>
+      <tr>
+        <td>Quick Shift</td>
+        <td class="muted">15&ndash;25 Min</td>
+        <td class="muted">1&times;/Monat</td>
+        <td class="muted">Solo-Episode. Ein Thema, ein Take.</td>
+      </tr>
+      <tr>
+        <td>The Bench</td>
+        <td class="muted">30&ndash;45 Min</td>
+        <td class="muted">Gelegentlich</td>
+        <td class="muted">Roundtable mit 2&ndash;3 G&auml;sten</td>
+      </tr>
+      <tr>
+        <td>Overtime</td>
+        <td class="muted">10&ndash;15 Min</td>
+        <td class="muted">Bonus</td>
+        <td class="muted">Exklusiv-Content, Outtakes</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SLIDE 05 — ZIELGRUPPE
+     ════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-number">05</div>
+  <div class="section-label">Zielgruppe</div>
+  <h2>F&uuml;r wen wir <span>das</span> machen.</h2>
+  <p class="lead">
+    F&uuml;r Menschen, die im Eishockey etwas bewegen wollen &mdash; im DACH-Raum und dar&uuml;ber hinaus. Kein Breitenpublikum, sondern ein Netzwerk aus Leuten, die Tiefe suchen und bereit sind, voneinander zu lernen.
+  </p>
+
+  <div class="card-grid cols-3">
+    <div class="card">
+      <h3>Trainer &amp; Coaches</h3>
+      <p>Vom Nachwuchs bis zum Profi. Suchen Methoden, Inspiration und den Vergleich mit internationalen Ans&auml;tzen.</p>
+    </div>
+    <div class="card">
+      <h3>Spieler &amp; Talente</h3>
+      <p>U15 bis U23, ambitioniert. Wollen den Weg zum Profi verstehen &mdash; Mindset und Handwerk.</p>
+    </div>
+    <div class="card">
+      <h3>Funktion&auml;re &amp; Verb&auml;nde</h3>
+      <p>Nachwuchsleiter, Verb&auml;nde, Sportdirektoren. Suchen Best Practices und Benchmarking.</p>
+    </div>
+    <div class="card">
+      <h3>Eishockey-Eltern</h3>
+      <p>Engagiert und investiert. Brauchen Orientierung und realistische Perspektiven.</p>
+    </div>
+    <div class="card">
+      <h3>Eishockey-Fans</h3>
+      <p>Sportbegeisterte mit Tiefgang. Wollen hinter die Kulissen blicken.</p>
+    </div>
+    <div class="card">
+      <h3>Industrie &amp; Partner</h3>
+      <p>Ausr&uuml;ster, Sporttechnologie, Bildungsanbieter. Suchen Zugang zu einer internationalen Eishockey-Community.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SLIDE 06 — REICHWEITE & KANÄLE
+     ════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-number">06</div>
+  <div class="section-label">Reichweite &amp; Distribution</div>
+  <h2>Wo wir <span>stattfinden.</span></h2>
+
+  <div class="channel-row">
+    <div class="channel">
+      <div class="channel-name">Spotify &amp; Apple</div>
+      <div class="channel-desc">Audio-Distribution, Discoverability</div>
+    </div>
+    <div class="channel">
+      <div class="channel-name">YouTube</div>
+      <div class="channel-desc">Video-Episoden, Shorts, SEO</div>
+    </div>
+    <div class="channel">
+      <div class="channel-name">Instagram</div>
+      <div class="channel-desc">Community, Reels, Stories, Live</div>
+    </div>
+    <div class="channel">
+      <div class="channel-name">TikTok</div>
+      <div class="channel-desc">Reichweite bei jungem Publikum</div>
+    </div>
+    <div class="channel">
+      <div class="channel-name">Newsletter</div>
+      <div class="channel-desc">&bdquo;Weekly Shift&ldquo; &mdash; direkt, kein Algorithmus</div>
+    </div>
+    <div class="channel">
+      <div class="channel-name">Website</div>
+      <div class="channel-desc">shift2pro.com &mdash; Hub, SEO, Shop</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3 style="margin-bottom:16px;">Ziele Jahr 1</h3>
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-value">500+</div>
+      <div class="stat-label">Downloads / Episode</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">&gt;60%</div>
+      <div class="stat-label">Completion Rate</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">2.000</div>
+      <div class="stat-label">Instagram Follower</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">&gt;45%</div>
+      <div class="stat-label">Newsletter Open Rate</div>
+    </div>
+  </div>
+
+  <p style="font-size:13px; color:var(--muted); text-align:center; margin-top:8px;">
+    Jede Episode generiert <span class="highlight">5&ndash;8 Content-Pieces</span>: Full Episode, 3&times; Reels/Shorts, Quote Graphics, Newsletter, Show Notes.
+  </p>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SLIDE 07 — SPONSORING-PHILOSOPHIE
+     ════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-number">07</div>
+  <div class="section-label">Philosophie</div>
+  <h2>Wie wir <span>Partnerschaft</span> verstehen.</h2>
+  <p class="lead">
+    Wir wollen mit Partnern arbeiten, die zu uns passen. Keine eingekauften Werbeminuten &mdash; sondern Marken, die sich f&uuml;r Eishockeyentwicklung begeistern und gemeinsam mit uns wachsen wollen.
+  </p>
+
+  <div class="quote-block">
+    <div class="quote-text">&bdquo;Lieber ein Partner, der wirklich passt, als zehn Logos ohne Bezug.&ldquo;</div>
+  </div>
+
+  <div class="card-grid cols-3" style="margin-top:24px;">
+    <div class="card">
+      <h3>Relevanz</h3>
+      <p>Wir suchen Partner mit Bezug zur Eishockey-Welt &mdash; Ausr&uuml;stung, Sporttechnologie, Bildung, Gesundheit.</p>
+    </div>
+    <div class="card">
+      <h3>&Auml;sthetik</h3>
+      <p>Jede Integration f&uuml;gt sich nahtlos in das S2P-Erlebnis ein. Kein Bruch, keine st&ouml;rende Werbung.</p>
+    </div>
+    <div class="card">
+      <h3>Langfristigkeit</h3>
+      <p>Wir denken in Saisons, nicht in Einzelbuchungen. Gemeinsam wachsen, gemeinsam Wirkung erzielen.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SLIDE 08 — SPONSORING-PAKETE
+     ════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-number">08</div>
+  <div class="section-label">Pakete</div>
+  <h2>Drei Wege zur <span>Partnerschaft.</span></h2>
+
+  <div class="card-grid cols-3" style="margin-top:32px;">
+    <!-- PRESENTING PARTNER -->
+    <div class="tier featured">
+      <div class="tier-name">Presenting Partner</div>
+      <div class="tier-price">1 Partner pro Saison</div>
+      <div class="tier-desc">
+        Maximale Integration und exklusive Sichtbarkeit. Dein Brand wird Teil der Shift2Pro-Erfahrung.
+      </div>
+      <ul class="tier-features">
+        <li>Namentliche Erw&auml;hnung in jeder Episode</li>
+        <li>Logo auf allen Plattformen &amp; Website</li>
+        <li>Eigenes Segment oder Rubrik-Naming</li>
+        <li>Social-Media-Integration (monatlich)</li>
+        <li>Exklusive Merch-Kooperation m&ouml;glich</li>
+        <li>Gast-Slot f&uuml;r eigene Expert:innen</li>
+        <li>Newsletter-Feature (monatlich)</li>
+        <li>Zugang zu Live-Events &amp; Panels</li>
+      </ul>
+    </div>
+
+    <!-- CONTENT PARTNER -->
+    <div class="tier">
+      <div class="tier-name">Content Partner</div>
+      <div class="tier-price">Leistungsbasiert</div>
+      <div class="tier-desc">
+        Gemeinsam besseren Content schaffen. Fotografie, Video, Design &mdash; geteilte &Auml;sthetik, geteilte Reichweite.
+      </div>
+      <ul class="tier-features">
+        <li>Co-Branding auf gemeinsamen Inhalten</li>
+        <li>Credits in Episoden &amp; Show Notes</li>
+        <li>Cross-Promotion auf Social Media</li>
+        <li>Gemeinsame Behind-the-Scenes-Formate</li>
+        <li>Portfolio-Erw&auml;hnung auf shift2pro.com</li>
+      </ul>
+    </div>
+
+    <!-- NETWORK PARTNER -->
+    <div class="tier">
+      <div class="tier-name">Network Partner</div>
+      <div class="tier-price">Gegenseitige Reichweite</div>
+      <div class="tier-desc">
+        Clubs, Verb&auml;nde, Skills-Anbieter, Sportpodcasts. Gemeinsam die Szene st&auml;rken.
+      </div>
+      <ul class="tier-features">
+        <li>Gegenseitige Erw&auml;hnungen</li>
+        <li>Gemeinsame Events &amp; Panels</li>
+        <li>G&auml;ste-Austausch</li>
+        <li>Cross-Promotion Newsletter &amp; Social</li>
+        <li>Verlinkung auf beiden Websites</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SLIDE 09 — ROADMAP
+     ════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-number">09</div>
+  <div class="section-label">Roadmap</div>
+  <h2>Der <span>Fahrplan.</span></h2>
+  <p class="lead">
+    Wo wir stehen, wo wir hinwollen &mdash; und warum jetzt der richtige Zeitpunkt ist, dabei zu sein.
+  </p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">April &ndash; Juni 2026</div>
+      <div class="timeline-title">Pre-Launch</div>
+      <div class="timeline-desc">Brand-Finalisierung, Coming-Soon-Kampagne, Trailer-Episode, erste 3 Episoden aufnehmen. <span class="highlight">Presenting Partner sichern.</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Juli 2026</div>
+      <div class="timeline-title">Launch</div>
+      <div class="timeline-desc">3 Episoden gleichzeitig ver&ouml;ffentlichen. Alle Plattformen live. Social-Media-Kampagne, PR-Push. <span class="highlight">Hohe Sichtbarkeit f&uuml;r Partner.</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">August &ndash; Dezember 2026</div>
+      <div class="timeline-title">Growth &amp; Rhythm</div>
+      <div class="timeline-desc">Bi-weekly Episoden. Community-Aufbau. Merch Drop 01. 12&ndash;15 Episoden total.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Q1 2027</div>
+      <div class="timeline-title">Consolidation</div>
+      <div class="timeline-desc">20+ Episoden. Erstes Live-Event. Buch-Outline. Zweiter Partner m&ouml;glich.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Q4 2027</div>
+      <div class="timeline-title">Book Launch</div>
+      <div class="timeline-desc">&bdquo;THE SHIFT&ldquo; &mdash; Limited First Edition, Signing Events, Bundles. Partner-Integration im Buch m&ouml;glich.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SLIDE 10 — ÜBER DEN HOST
+     ════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-number">10</div>
+  <div class="section-label">&Uuml;ber den Host</div>
+  <h2>Ren&eacute; <span>Wild.</span></h2>
+
+  <div class="host-layout">
+    <img src="/brand-assets/rene-wild.jpg" alt="Ren&eacute; Wild" class="host-photo">
+    <div class="host-details">
+      <p style="font-size:16px; color:var(--light); margin-bottom:20px;">
+        Professioneller Nachwuchs-Eishockeytrainer, stolzer Papa und bekennender &Auml;sthetik-Junkie. Als Development Coach der Starbulls Rosenheim begleite ich t&auml;glich die Entwicklung junger Talente.
+      </p>
+      <p>
+        Heute verbinde ich Coaching, Consulting und eigene Projekte zu einem ganzheitlichen Ansatz, der Spieler, Teams und Organisationen nachhaltig weiterbringt.
+      </p>
+      <p>
+        Wild Project ist meine Kreativplattform. Shift2Pro das Sprachrohr &mdash; f&uuml;r alle, die Eishockeyentwicklung genauso ernst nehmen wie ich.
+      </p>
+      <div class="host-tags">
+        <span class="host-tag">30+ Jahre Eishockey</span>
+        <span class="host-tag">Development Coach</span>
+        <span class="host-tag">Starbulls Rosenheim</span>
+        <span class="host-tag">EC KAC</span>
+        <span class="host-tag">Wild Project</span>
+        <span class="host-tag">Dub&eacute; Skills</span>
+        <span class="host-tag">Create-Sports</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SLIDE 11 — KONTAKT / NEXT STEPS
+     ════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-number">11</div>
+  <div class="section-label">N&auml;chster Schritt</div>
+  <h2>Lass uns <span>reden.</span></h2>
+  <p class="lead">
+    20 Minuten, unverbindlich, auf Augenh&ouml;he. Alles Weitere kl&auml;ren wir pers&ouml;nlich.
+  </p>
+
+  <div class="contact-grid">
+    <div class="contact-item">
+      <div class="contact-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <div>
+        <div class="contact-label">Website</div>
+        <div class="contact-value">shift2pro.com</div>
+      </div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      <div>
+        <div class="contact-label">E-Mail</div>
+        <div class="contact-value">rene@wildproject.pro</div>
+      </div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+      <div>
+        <div class="contact-label">Instagram</div>
+        <div class="contact-value">@shift2pro</div>
+      </div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div>
+        <div class="contact-label">Standort</div>
+        <div class="contact-value">Rosenheim, Deutschland</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <p style="text-align:center; color:var(--muted); font-size:13px;">
+    Dieses Deck ist vertraulich und ausschlie&szlig;lich f&uuml;r potenzielle Partner bestimmt.
+  </p>
+</div>
+
+<!-- FOOTER -->
+<div class="wp-footer">
+  A <span>Wild Project</span> Product &nbsp;&bull;&nbsp; 2026
+</div>
+
+<!-- PRESENTATION MODE UI -->
+<button class="pres-start" onclick="startPresentation()" title="Pr&auml;sentation starten (P)">&#9654; Pr&auml;sentieren</button>
+
+<div class="pres-ui">
+  <div class="pres-progress"><div class="pres-progress-bar" id="presProgress"></div></div>
+  <div class="pres-counter" id="presCounter"></div>
+</div>
+
+<script>
+(function(){
+  let currentSlide = 0;
+  let presenting = false;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const counter = document.getElementById('presCounter');
+  const progress = document.getElementById('presProgress');
+
+  function updateUI() {
+    counter.textContent = (currentSlide + 1) + ' / ' + total;
+    progress.style.width = ((currentSlide + 1) / total * 100) + '%';
+  }
+
+  function showSlide(n) {
+    if (n < 0 || n >= total) return;
+    slides[currentSlide].classList.remove('active');
+    currentSlide = n;
+    slides[currentSlide].classList.add('active');
+    updateUI();
+  }
+
+  window.startPresentation = function() {
+    presenting = true;
+    document.body.classList.add('presenting');
+    currentSlide = 0;
+    slides[0].classList.add('active');
+    updateUI();
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(function(){});
+    }
+  };
+
+  function stopPresentation() {
+    presenting = false;
+    document.body.classList.remove('presenting');
+    slides.forEach(function(s){ s.classList.remove('active'); });
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(function(){});
+    }
+  }
+
+  document.addEventListener('keydown', function(e) {
+    // P = start presentation
+    if (!presenting && (e.key === 'p' || e.key === 'P') && !e.metaKey && !e.ctrlKey) {
+      e.preventDefault();
+      startPresentation();
+      return;
+    }
+
+    if (!presenting) return;
+
+    switch(e.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+      case ' ':
+      case 'PageDown':
+        e.preventDefault();
+        showSlide(currentSlide + 1);
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+      case 'PageUp':
+        e.preventDefault();
+        showSlide(currentSlide - 1);
+        break;
+      case 'Home':
+        e.preventDefault();
+        showSlide(0);
+        break;
+      case 'End':
+        e.preventDefault();
+        showSlide(total - 1);
+        break;
+      case 'Escape':
+        stopPresentation();
+        break;
+      case 'f':
+      case 'F':
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else {
+          document.documentElement.requestFullscreen().catch(function(){});
+        }
+        break;
+    }
+  });
+
+  // Exit presentation when leaving fullscreen
+  document.addEventListener('fullscreenchange', function() {
+    if (!document.fullscreenElement && presenting) {
+      stopPresentation();
+    }
+  });
+
+  // Click to advance (left third = back, right two thirds = forward)
+  document.addEventListener('click', function(e) {
+    if (!presenting) return;
+    if (e.target.closest('a, button, .pres-start')) return;
+    var x = e.clientX / window.innerWidth;
+    if (x < 0.33) {
+      showSlide(currentSlide - 1);
+    } else {
+      showSlide(currentSlide + 1);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
