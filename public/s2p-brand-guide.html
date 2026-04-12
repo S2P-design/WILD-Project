@@ -593,14 +593,261 @@
   }
   .footer .cyan { color: var(--cyan); }
 
-  /* ── PRINT ── */
+  /* ── PRINT / PDF ── */
   @media print {
-    body { background: #fff; color: #333; }
-    .hero { min-height: auto; padding: 60px 40px; }
-    .hero::before, .hero::after { display: none; }
-    .section { border-top-color: #eee; page-break-inside: avoid; }
-    .section h2 { color: #000; }
-    .color-swatch.bordered { border-color: #ddd; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+    @page {
+      size: A4;
+      margin: 15mm 18mm;
+    }
+
+    body {
+      background: #ffffff !important;
+      color: #222;
+      font-size: 10pt;
+      line-height: 1.5;
+    }
+
+    /* ── HERO → Title page ── */
+    .hero {
+      min-height: auto;
+      padding: 80px 40px 60px;
+      page-break-after: always;
+      background: #000 !important;
+    }
+    .hero::before, .hero::after { display: none !important; }
+    .hero-badge {
+      color: var(--cyan) !important;
+      border-color: var(--cyan) !important;
+    }
+    .hero-logo {
+      max-width: 320px;
+      filter: none;
+    }
+    .hero-sub { color: #999; }
+    .hero-line { background: var(--cyan) !important; }
+    .hero-version { color: #666; }
+
+    /* ── SECTIONS ── */
+    .section {
+      padding: 30px 0;
+      border-top: 1px solid #ddd;
+      page-break-inside: auto;
+    }
+    .section h2 {
+      color: #000 !important;
+      font-size: 28pt;
+      margin-bottom: 8px;
+    }
+    .section h2 .cyan { color: var(--cyan) !important; }
+    .section-num {
+      color: var(--cyan) !important;
+      font-size: 8pt;
+    }
+    .section-intro {
+      color: #555;
+      font-size: 10pt;
+      margin-bottom: 30px;
+    }
+
+    /* ── COLORS ── */
+    .colors-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .color-card {
+      border: 1px solid #ddd;
+      break-inside: avoid;
+    }
+    .color-swatch { height: 60px; }
+    .color-swatch.bordered { border-bottom: 1px solid #ddd !important; }
+    .color-name { color: #222; font-size: 10pt; }
+    .color-hex { color: #555; font-size: 9pt; }
+    .color-role { color: #888; font-size: 7pt; }
+    .color-rule {
+      border-color: #ddd;
+      background: #f8f8f8;
+      break-inside: avoid;
+    }
+    .color-rule-icon { color: var(--cyan) !important; }
+    .color-rule-text { color: #333; font-size: 9pt; }
+    .gradient-row { display: none; }
+
+    /* ── VALUES / TONE ── */
+    .values-grid, .tone-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .value-card, .tone-card {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd;
+      padding: 16px;
+      break-inside: avoid;
+    }
+    .value-accent { background: var(--cyan) !important; }
+    .value-title, .tone-title { color: #000; font-size: 12pt; }
+    .value-desc, .tone-desc { color: #444; font-size: 9pt; }
+
+    /* ── TYPOGRAPHY ── */
+    .type-card {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd;
+      padding: 24px;
+      margin-bottom: 10px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .type-label { color: var(--cyan) !important; font-size: 7pt; }
+    .type-display { color: #000; font-size: 36pt; }
+    .type-body-demo { color: #222; font-size: 22pt; }
+    .type-mono-demo { color: #222; font-size: 16pt; }
+    .type-note { color: #444; font-size: 9pt; }
+    .type-note strong { color: #000 !important; }
+    .type-weights { border-top-color: #ddd; }
+    .weight-sample { color: #222; font-size: 20pt; }
+    .weight-name { color: #888; font-size: 7pt; }
+
+    /* ── HIERARCHY ── */
+    .hierarchy {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd;
+      padding: 24px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .h-item { border-bottom-color: #eee; padding: 12px 0; }
+    .h-meta { color: #888; font-size: 7pt; }
+
+    /* ── LOGO GRID ── */
+    .logo-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .logo-variant {
+      border: 1px solid #ddd;
+      break-inside: avoid;
+    }
+    .logo-variant img { max-width: 70%; }
+    .logo-variant-label { font-size: 6pt; color: #888; }
+    .lv-white { background: #fff !important; }
+    .lv-dark { background: #111 !important; }
+
+    /* ── LOGO SPECS ── */
+    .logo-spec {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .spec-card {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd;
+      padding: 16px;
+      break-inside: avoid;
+    }
+    .spec-title { color: var(--cyan) !important; font-size: 7pt; }
+    .spec-value { color: #333; font-size: 9pt; }
+
+    /* ── RULES ── */
+    .rules-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .rule {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd;
+      padding: 12px 16px;
+      break-inside: avoid;
+    }
+    .rule-do .rule-icon { color: var(--cyan) !important; }
+    .rule-dont .rule-icon { color: #999; }
+    .rule-text { color: #333; font-size: 9pt; }
+    .rule-text strong { color: #000 !important; }
+
+    /* ── AUDIO ── */
+    .audio-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .audio-card {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd;
+      padding: 14px;
+      break-inside: avoid;
+    }
+    .audio-icon { color: var(--cyan) !important; font-size: 18px; }
+    .audio-name { color: #000; font-size: 9pt; }
+    .audio-count { color: #888; font-size: 7pt; }
+
+    /* ── DOMAINS / DIGITAL ── */
+    .domain-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .domain-card {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd;
+      padding: 16px;
+      break-inside: avoid;
+    }
+    .domain-badge.primary { background: var(--cyan) !important; color: #000 !important; }
+    .domain-badge.secondary { background: #ddd !important; color: #555 !important; }
+    .domain-name { color: #000; font-size: 12pt; }
+    .domain-desc { color: #444; font-size: 9pt; }
+    .social-row { gap: 6px; }
+    .social-chip {
+      border: 1px solid #ddd;
+      background: #f8f8f8 !important;
+      color: #333;
+      font-size: 9pt;
+      padding: 6px 12px;
+    }
+
+    /* ── WP TAG ── */
+    .wp-tag {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd;
+      break-inside: avoid;
+    }
+    .wp-tag-swatch { background: #FC5000 !important; }
+    .wp-tag-text { color: #333; font-size: 9pt; }
+    .wp-tag-text strong { color: #000 !important; }
+
+    /* ── PHOTOGRAPHY ── */
+    .section img[alt*="Wild"] {
+      max-width: 280px;
+      break-inside: avoid;
+    }
+
+    /* ── ASSET TREE ── */
+    .section > div[style*="JetBrains"] {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd;
+      padding: 20px;
+      font-size: 9pt;
+      break-inside: avoid;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      border-top: 1px solid #ddd;
+      padding: 30px;
+      page-break-before: auto;
+    }
+    .footer p { color: #888; font-size: 8pt; }
+
+    /* ── PAGE BREAKS — Optimal flow ── */
+    /* Title page */
+    .hero { page-break-after: always; }
+    /* Each main section tries to start on new page */
+    .section:nth-of-type(1) { page-break-before: auto; }    /* Brand Identity */
+    .section:nth-of-type(2) { page-break-before: always; }  /* Farben */
+    .section:nth-of-type(3) { page-break-before: always; }  /* Typografie */
+    .section:nth-of-type(4) { page-break-before: always; }  /* Logo */
+    .section:nth-of-type(5) { page-break-before: always; }  /* Tone */
+    .section:nth-of-type(6) { page-break-before: auto; }    /* Audio — fits after Tone */
+    .section:nth-of-type(7) { page-break-before: always; }  /* Digital */
+    .section:nth-of-type(8) { page-break-before: auto; }    /* Photography */
+    .section:nth-of-type(9) { page-break-before: auto; }    /* Assets */
   }
 
   /* ── RESPONSIVE ── */
