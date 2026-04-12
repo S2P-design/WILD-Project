@@ -161,6 +161,35 @@
   @keyframes blink { 50% { border-color: transparent; } }
   @keyframes fadeUp { to { opacity: 1; transform: none; } }
 
+  /* ── HEADER META PILLS ── */
+  .header-meta {
+    display: flex; gap: 8px; justify-content: center;
+    margin-top: 20px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.7s ease 0.8s forwards;
+  }
+  .meta-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 500;
+    letter-spacing: 2px; color: var(--cyan);
+    padding: 5px 14px;
+    border: 1px solid var(--cyan-20);
+    background: var(--cyan-05);
+    transition: all 0.3s;
+  }
+  .meta-pill:hover {
+    background: var(--cyan-10);
+    border-color: var(--cyan);
+    transform: translateY(-1px);
+  }
+  body.light .meta-pill {
+    color: var(--cyan); border-color: rgba(12,192,223,0.2);
+    background: rgba(12,192,223,0.06);
+  }
+  body.light .meta-pill:hover {
+    background: rgba(12,192,223,0.12);
+    border-color: var(--cyan);
+  }
+
   /* ── STATUS BAR ── */
   .status-bar {
     display: flex; justify-content: center;
@@ -494,6 +523,119 @@
     color: var(--muted);
   }
 
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    position: fixed; top: 20px; right: 24px;
+    z-index: 200; border: none; background: transparent;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 400;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.35);
+    transition: all 0.3s; padding: 4px 0;
+  }
+  .theme-toggle:hover { color: var(--cyan); }
+
+  /* ── LIGHT MODE ── */
+  body.light {
+    background-color: #F0F0F0;
+    background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+    color: #111;
+  }
+  body.light::before {
+    background: radial-gradient(ellipse, rgba(12,192,223,0.04) 0%, transparent 70%);
+  }
+  body.light .login-gate { background: #F0F0F0; }
+  body.light .login-logo { color: #111; }
+  body.light .login-label { color: rgba(0,0,0,0.3); }
+  body.light .login-digit {
+    background: rgba(12,192,223,0.06); border-color: rgba(12,192,223,0.15);
+    color: #0CC0DF;
+  }
+  body.light .login-hint { color: rgba(0,0,0,0.15); }
+
+  body.light .header-brand { color: #111; }
+  body.light .header-title { color: rgba(0,0,0,0.4); }
+  body.light .header-title .name { color: var(--cyan); }
+  body.light .header-title .slash { color: rgba(0,0,0,0.15); }
+  body.light .header-title .ws { color: rgba(0,0,0,0.3); }
+  body.light .header-headline { color: #111; }
+  body.light .header-tagline { color: rgba(0,0,0,0.4); border-right-color: var(--cyan); }
+
+  body.light .status-item { color: rgba(0,0,0,0.4); }
+  body.light .status-item .val { color: rgba(0,0,0,0.6); }
+  body.light .status-divider { background: rgba(0,0,0,0.1); }
+
+  body.light .section-label { color: var(--cyan); border-bottom-color: rgba(0,0,0,0.06); }
+  body.light .section-label .section-count { color: rgba(0,0,0,0.3); }
+
+  body.light .mp-card { border-bottom-color: rgba(0,0,0,0.05); }
+  body.light .mp-card:hover { background: rgba(12,192,223,0.04); }
+  body.light .mp-num { color: rgba(0,0,0,0.12); }
+  body.light .mp-card:hover .mp-num { color: rgba(12,192,223,0.3); }
+  body.light .mp-title { color: #111; }
+  body.light .mp-desc { color: rgba(0,0,0,0.4); }
+  body.light .mp-btn { color: rgba(0,0,0,0.4); border-color: rgba(0,0,0,0.1); }
+  body.light .mp-btn:hover { color: var(--cyan); border-color: rgba(12,192,223,0.3); background: rgba(12,192,223,0.05); }
+  body.light .mp-btn.primary { color: var(--cyan); border-color: rgba(12,192,223,0.25); }
+
+  body.light .link-card { border-bottom-color: rgba(0,0,0,0.05); }
+  body.light .link-card:hover { background: rgba(12,192,223,0.04); }
+  body.light .link-icon { background: rgba(12,192,223,0.06); border-color: rgba(12,192,223,0.15); }
+  body.light .link-title { color: #111; }
+  body.light .link-desc { color: rgba(0,0,0,0.4); }
+  body.light .link-arrow { color: rgba(0,0,0,0.15); }
+  body.light .link-card:hover .link-arrow { color: var(--cyan); }
+
+  body.light .contact-pill { color: rgba(0,0,0,0.5); border-color: rgba(0,0,0,0.08); background: rgba(0,0,0,0.03); }
+  body.light .contact-pill:hover { color: var(--cyan); border-color: rgba(12,192,223,0.25); background: rgba(12,192,223,0.05); }
+
+  body.light .tool-card { background: #E8E8E8; border-color: rgba(0,0,0,0.06); }
+  body.light .tool-card:hover { background: #E0E0E0; border-color: rgba(12,192,223,0.25); }
+  body.light .tool-title { color: #111; }
+  body.light .tool-desc { color: rgba(0,0,0,0.4); }
+  body.light .tool-arrow { color: rgba(0,0,0,0.25); }
+  body.light .tool-card:hover .tool-arrow { color: var(--cyan); }
+
+  body.light .cal-widget { background: #E8E8E8; border-color: rgba(0,0,0,0.06); }
+  body.light .cal-nav { border-color: rgba(0,0,0,0.1); color: rgba(0,0,0,0.4); }
+  body.light .cal-nav:hover { border-color: rgba(12,192,223,0.3); color: var(--cyan); }
+  body.light .cal-month-label { color: #111; }
+  body.light .cal-cell { color: rgba(0,0,0,0.5); }
+  body.light .cal-cell:hover { background: rgba(12,192,223,0.06); border-color: rgba(12,192,223,0.2); }
+  body.light .cal-cell.today { color: var(--cyan); border-color: rgba(12,192,223,0.3); }
+  body.light .cal-cell.other { color: rgba(0,0,0,0.15); }
+  body.light .cal-cell.day-label { color: rgba(0,0,0,0.3); }
+
+  body.light .todo-widget { background: #E8E8E8; border-color: rgba(0,0,0,0.06); }
+  body.light .todo-input { background: rgba(12,192,223,0.04); border-color: rgba(0,0,0,0.08); color: #111; }
+  body.light .todo-input:focus { border-color: rgba(12,192,223,0.3); }
+  body.light .todo-input::placeholder { color: rgba(0,0,0,0.3); }
+  body.light .todo-add-btn { background: rgba(12,192,223,0.06); border-color: rgba(12,192,223,0.2); }
+  body.light .todo-item { color: #111; border-bottom-color: rgba(0,0,0,0.04); }
+  body.light .todo-item.done { color: rgba(0,0,0,0.3); }
+  body.light .todo-check { border-color: rgba(0,0,0,0.15); }
+  body.light .todo-item.done .todo-check { border-color: rgba(12,192,223,0.3); }
+  body.light .todo-del { color: rgba(0,0,0,0.15); }
+  body.light .todo-count { color: rgba(0,0,0,0.3); }
+
+  body.light .notes-widget { background: #E8E8E8; border-color: rgba(0,0,0,0.06); }
+  body.light .notes-toolbar { border-bottom-color: rgba(0,0,0,0.06); }
+  body.light .nt-btn { color: rgba(0,0,0,0.3); }
+  body.light .nt-btn:hover { color: var(--cyan); }
+  body.light .nt-sep { background: rgba(0,0,0,0.08); }
+  body.light .notes-editor { color: #111; }
+  body.light .notes-editor:empty::before { color: rgba(0,0,0,0.3); }
+  body.light .notes-status { border-top-color: rgba(0,0,0,0.06); }
+  body.light .notes-status-text { color: rgba(0,0,0,0.3); }
+
+  body.light .ws-footer { border-top-color: rgba(0,0,0,0.06); }
+  body.light .ws-footer p { color: rgba(0,0,0,0.3); }
+  body.light .ws-footer .wp { color: var(--orange); }
+
+  body.light .theme-toggle { color: rgba(0,0,0,0.35); }
+  body.light .theme-toggle:hover { color: var(--cyan); }
+
   /* ── FOOTER ── */
   .ws-footer {
     text-align: center;
@@ -519,6 +661,9 @@
     .mp-card { flex-wrap: wrap; }
     .mp-actions { width: 100%; margin-top: 8px; }
     .link-card { padding: 12px 8px; }
+    .theme-toggle { top: 14px; right: 16px; font-size: 7px; letter-spacing: 1.5px; }
+    .header-meta { gap: 6px; }
+    .meta-pill { font-size: 7px; padding: 4px 10px; letter-spacing: 1.5px; }
   }
 </style>
 </head>
@@ -539,6 +684,9 @@
 </div>
 
 
+<!-- ══════ THEME TOGGLE ══════ -->
+<button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark"><span id="themeLabel">DARK</span></button>
+
 <div class="container locked" id="mainContent">
 
   <!-- ══════ HEADER ══════ -->
@@ -548,6 +696,12 @@
     <p class="header-title">SHIFT2PRO <span class="name">WORKSPACE</span> <span class="slash">//</span> <span class="ws">command center</span></p>
     <h1 class="header-headline">INSPIRE. DEVELOP.<br><span class="cyan">CONNECT.</span></h1>
     <p class="header-tagline">ALLES AN EINEM ORT. IMMER.</p>
+    <div class="header-meta">
+      <span class="meta-pill">PODCAST</span>
+      <span class="meta-pill">MASTERPLAN</span>
+      <span class="meta-pill">CONTENT</span>
+      <span class="meta-pill">BOOK</span>
+    </div>
   </div>
 
   <!-- ══════ STATUS BAR ══════ -->
@@ -1236,6 +1390,25 @@ function importWorkspaceData() {
   };
   input.click();
 }
+
+// ═══════════════════════════════════════
+// THEME TOGGLE — Light/Dark
+// ═══════════════════════════════════════
+(function() {
+  var btn = document.getElementById('themeToggle');
+  var label = document.getElementById('themeLabel');
+  var KEY = 's2p_theme';
+  var saved = localStorage.getItem(KEY);
+  if (saved === 'light') {
+    document.body.classList.add('light');
+    if (label) label.textContent = 'LIGHT';
+  }
+  btn.addEventListener('click', function() {
+    var isLight = document.body.classList.toggle('light');
+    if (label) label.textContent = isLight ? 'LIGHT' : 'DARK';
+    localStorage.setItem(KEY, isLight ? 'light' : 'dark');
+  });
+})();
 
 // ═══════════════════════════════════════
 // PRINT SECTION (PDF)

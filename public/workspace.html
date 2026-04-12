@@ -2524,20 +2524,38 @@
 </div>
 
 <script>
+// ── Login Gate — SHA-256 hashed PIN (no plaintext) ──
 (function() {
-  const CODE = '2026';
+  // Pre-computed SHA-256 hash of PIN — never stored in plaintext
+  const EXPECTED_HASH = '158a323a7ba44870f23d96f1516dd70aa48e9a72db4ebb026b0a89e212a208ab';
   const STORAGE_KEY = 'wp_workspace_auth';
   const gate = document.getElementById('loginGate');
   const content = document.getElementById('mainContent');
   const error = document.getElementById('loginError');
   const digits = [document.getElementById('d1'), document.getElementById('d2'), document.getElementById('d3'), document.getElementById('d4')];
 
-  // Check if already authenticated
-  if (sessionStorage.getItem(STORAGE_KEY) === 'true') {
-    unlock();
-  } else {
-    digits[0].focus();
+  async function hashPin(pin) {
+    const enc = new TextEncoder();
+    const hash = await crypto.subtle.digest('SHA-256', enc.encode(pin));
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
   }
+
+  // Check if already authenticated (stored hash must match)
+  (async function() {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored && stored.length === 64 && stored === EXPECTED_HASH) {
+      unlock();
+    } else {
+      // Migrate old sessionStorage auth
+      if (sessionStorage.getItem(STORAGE_KEY) === 'true') {
+        localStorage.setItem(STORAGE_KEY, EXPECTED_HASH);
+        sessionStorage.removeItem(STORAGE_KEY);
+        unlock();
+      } else {
+        digits[0].focus();
+      }
+    }
+  })();
 
   // Handle input on each digit
   digits.forEach((input, i) => {
@@ -2549,21 +2567,24 @@
       // Check code when all 4 digits filled
       if (digits.every(d => d.value.length === 1)) {
         const entered = digits.map(d => d.value).join('');
-        if (entered === CODE) {
-          sessionStorage.setItem(STORAGE_KEY, 'true');
-          error.textContent = '';
-          unlock();
-        } else {
-          error.textContent = 'WRONG CODE';
-          digits.forEach(d => {
-            d.value = '';
-            d.style.borderColor = 'rgba(252,80,0,0.5)';
-          });
-          setTimeout(() => {
-            digits.forEach(d => d.style.borderColor = '');
-            digits[0].focus();
-          }, 600);
-        }
+        (async () => {
+          const hash = await hashPin(entered);
+          if (hash === EXPECTED_HASH) {
+            localStorage.setItem(STORAGE_KEY, hash);
+            error.textContent = '';
+            unlock();
+          } else {
+            error.textContent = 'WRONG CODE';
+            digits.forEach(d => {
+              d.value = '';
+              d.style.borderColor = 'rgba(252,80,0,0.5)';
+            });
+            setTimeout(() => {
+              digits.forEach(d => d.style.borderColor = '');
+              digits[0].focus();
+            }, 600);
+          }
+        })();
       }
     });
 
@@ -2584,10 +2605,13 @@
       });
       if (paste.length >= 4) {
         const entered = digits.map(d => d.value).join('');
-        if (entered === CODE) {
-          sessionStorage.setItem(STORAGE_KEY, 'true');
-          unlock();
-        }
+        (async () => {
+          const hash = await hashPin(entered);
+          if (hash === EXPECTED_HASH) {
+            localStorage.setItem(STORAGE_KEY, hash);
+            unlock();
+          }
+        })();
       }
     });
   });
