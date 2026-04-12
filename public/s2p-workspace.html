@@ -741,6 +741,16 @@
     background: var(--cyan-05);
   }
   .briefing-btn.primary:hover { background: var(--cyan-10); }
+  .briefing-divider {
+    height: 1px; margin: 24px 0 16px;
+    background: linear-gradient(90deg, transparent, var(--cyan-20), transparent);
+  }
+  .briefing-section-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 16px; letter-spacing: 0.02em;
+    color: var(--light); margin-bottom: 16px;
+  }
+  .briefing-section-title span { color: var(--cyan); }
 
   /* ── RELEASE CHECKLIST ── */
   .checklist { list-style: none; }
@@ -923,7 +933,7 @@
      GLASS LIGHT MODE
      ══════════════════════════════════ */
   body.light {
-    background: linear-gradient(135deg, #f0f2f5 0%, #e8ecf1 30%, #f5f3f0 60%, #eef0f5 100%);
+    background: linear-gradient(135deg, #f6f7f9 0%, #f0f3f7 30%, #faf8f6 60%, #f4f6fa 100%);
     background-attachment: fixed;
     color: #1a1a2e;
   }
@@ -988,28 +998,28 @@
   body.light .briefing-preview,
   body.light .tool-card,
   body.light .sound-folder {
-    background: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.55);
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
-    border: 1px solid rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.7);
     border-radius: 16px;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.02),
-                inset 0 1px 0 rgba(255,255,255,0.6);
+    box-shadow: 0 4px 32px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.015),
+                inset 0 1px 0 rgba(255,255,255,0.8);
   }
 
   body.light .cal-widget:hover,
   body.light .todo-widget:hover,
   body.light .notes-widget:hover,
   body.light .briefing-preview:hover {
-    background: rgba(255,255,255,0.55);
-    box-shadow: 0 8px 40px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.03),
-                inset 0 1px 0 rgba(255,255,255,0.7);
-    border-color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.7);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.02),
+                inset 0 1px 0 rgba(255,255,255,0.9);
+    border-color: rgba(255,255,255,0.85);
   }
 
   /* Login */
   body.light .login-gate {
-    background: linear-gradient(135deg, #f0f2f5 0%, #e8ecf1 50%, #f5f3f0 100%);
+    background: linear-gradient(135deg, #f6f7f9 0%, #f0f3f7 50%, #faf8f6 100%);
   }
   body.light .login-logo { color: #1a1a2e; }
   body.light .login-label { color: rgba(0,0,0,0.3); }
@@ -1067,19 +1077,19 @@
 
   /* ── Sections: Glass Panels ── */
   body.light .section {
-    background: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.5);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.65);
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 24px;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.02);
+    box-shadow: 0 4px 32px rgba(0,0,0,0.03), 0 1px 3px rgba(0,0,0,0.015);
     transition: all 0.3s;
   }
   body.light .section:hover {
-    background: rgba(255,255,255,0.45);
-    box-shadow: 0 8px 40px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.03);
+    background: rgba(255,255,255,0.6);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.02);
   }
   body.light .section-label {
     color: var(--cyan);
@@ -1321,6 +1331,10 @@
     background: rgba(12,192,223,0.1); border-color: rgba(12,192,223,0.3); color: var(--cyan);
     box-shadow: 0 2px 8px rgba(12,192,223,0.1);
   }
+  body.light .briefing-divider {
+    background: linear-gradient(90deg, transparent, rgba(12,192,223,0.2), transparent);
+  }
+  body.light .briefing-section-title { color: #1a1a2e; }
 
   /* Checklist */
   body.light .checklist-phase { color: var(--cyan); border-bottom-color: rgba(0,0,0,0.05); }
@@ -1709,11 +1723,40 @@
               <label class="briefing-label">NOTIZEN / BESONDERES</label>
               <textarea class="briefing-textarea" id="brfNotes" placeholder="z.B. Themen meiden, besondere W&uuml;nsche, Social-Media-Handles ..." style="min-height:60px;"></textarea>
             </div>
+
+            <!-- ── SHIFT2GO — Sendungsabschluss ── -->
+            <div class="briefing-divider"></div>
+            <div class="briefing-section-title">SHIFT<span>2</span>GO &mdash; CLOSING</div>
+
+            <div class="briefing-field">
+              <label class="briefing-label">QUOTE / ZITAT DES GASTES</label>
+              <textarea class="briefing-textarea" id="brfQuote" placeholder="Ein Satz, den der Gast den H&ouml;rern mitgeben m&ouml;chte ..." style="min-height:50px;"></textarea>
+            </div>
+            <div class="briefing-field">
+              <label class="briefing-label">SHIFT2GO &mdash; 1 RAT F&Uuml;R DIE H&Ouml;RER</label>
+              <textarea class="briefing-textarea" id="brfAdvice" placeholder="Was ist der eine Rat, den du jedem auf den Weg geben w&uuml;rdest?" style="min-height:50px;"></textarea>
+            </div>
+            <div class="briefing-row">
+              <div class="briefing-field">
+                <label class="briefing-label">BUCHEMPFEHLUNG / RESOURCE</label>
+                <input type="text" class="briefing-input" id="brfBook" placeholder="z.B. The Inner Game of Hockey">
+              </div>
+              <div class="briefing-field">
+                <label class="briefing-label">SHOUTOUT / DANK</label>
+                <input type="text" class="briefing-input" id="brfShoutout" placeholder="Person, Team, Organisation ...">
+              </div>
+            </div>
+            <div class="briefing-field">
+              <label class="briefing-label">SOCIAL HANDLES F&Uuml;R SHOW NOTES</label>
+              <input type="text" class="briefing-input" id="brfSocial" placeholder="@handle (IG) · @handle (X) · Website">
+            </div>
           </div>
           <div class="briefing-actions">
-            <button class="briefing-btn primary" onclick="printBriefing()">&#9654; ALS PDF DRUCKEN</button>
-            <button class="briefing-btn" onclick="clearBriefing()">LEEREN</button>
+            <button class="briefing-btn primary" onclick="printBriefing()">&#9654; PDF / DRUCKEN</button>
+            <button class="briefing-btn" onclick="printModCards()">&#9632; MODERATIONSKARTEN</button>
+            <button class="briefing-btn" onclick="mailBriefing()">&#9993; PER MAIL</button>
             <button class="briefing-btn" onclick="saveBriefing()">SPEICHERN</button>
+            <button class="briefing-btn" onclick="clearBriefing()">LEEREN</button>
           </div>
         </div>
       </div>
@@ -2824,7 +2867,7 @@ function toggleSoundFolder(folder) {
 // ═══════════════════════════════════════
 (function(){
   const STORE = 's2p_briefing';
-  const FIELDS = ['brfGuest','brfEpisode','brfRole','brfDate','brfTopic','brfContext','brfQuestions','brfFormat','brfDuration','brfNotes'];
+  const FIELDS = ['brfGuest','brfEpisode','brfRole','brfDate','brfTopic','brfContext','brfQuestions','brfFormat','brfDuration','brfNotes','brfQuote','brfAdvice','brfBook','brfShoutout','brfSocial'];
 
   // Load saved briefing
   const saved = JSON.parse(localStorage.getItem(STORE) || '{}');
@@ -2861,8 +2904,16 @@ function toggleSoundFolder(folder) {
     const fmt = document.getElementById('brfFormat').value;
     const dur = document.getElementById('brfDuration').value;
     const notes = document.getElementById('brfNotes').value;
+    const quote = document.getElementById('brfQuote').value;
+    const advice = document.getElementById('brfAdvice').value;
+    const book = document.getElementById('brfBook').value;
+    const shoutout = document.getElementById('brfShoutout').value;
+    const social = document.getElementById('brfSocial').value;
 
-    const text = `SHIFT2PRO — BRIEFING\n${'═'.repeat(40)}\n\nGAST: ${g}\nEPISODE: ${ep}\nROLLE: ${role}\nDATUM: ${date}\n\nTHEMA: ${topic}\n\nKONTEXT:\n${ctx}\n\nKERNFRAGEN:\n${q}\n\nFORMAT: ${fmt}\nDAUER: ${dur}\n\nNOTIZEN:\n${notes}\n\n${'─'.repeat(40)}\n© ${new Date().getFullYear()} WILD PROJECT — SHIFT2PRO`;
+    const s2go = (quote || advice || book || shoutout || social) ?
+      `\n${'─'.repeat(40)}\nSHIFT2GO — CLOSING\n${'─'.repeat(40)}\n${quote ? `\nQUOTE:\n„${quote}"\n` : ''}${advice ? `\nRAT AN DIE HÖRER:\n${advice}\n` : ''}${book ? `\nBUCH / RESOURCE: ${book}\n` : ''}${shoutout ? `\nSHOUTOUT: ${shoutout}\n` : ''}${social ? `\nSOCIAL: ${social}\n` : ''}` : '';
+
+    const text = `SHIFT2PRO — BRIEFING\n${'═'.repeat(40)}\n\nGAST: ${g}\nEPISODE: ${ep}\nROLLE: ${role}\nDATUM: ${date}\n\nTHEMA: ${topic}\n\nKONTEXT:\n${ctx}\n\nKERNFRAGEN:\n${q}\n\nFORMAT: ${fmt}\nDAUER: ${dur}\n\nNOTIZEN:\n${notes}${s2go}\n\n${'─'.repeat(40)}\n© ${new Date().getFullYear()} WILD PROJECT — SHIFT2PRO`;
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.querySelector('.briefing-copy-btn');
       const orig = btn.textContent;
@@ -2882,6 +2933,11 @@ function toggleSoundFolder(folder) {
     const fmt = document.getElementById('brfFormat').value || '—';
     const dur = document.getElementById('brfDuration').value || '—';
     const notes = document.getElementById('brfNotes').value || '—';
+    const quote = document.getElementById('brfQuote').value || '';
+    const advice = document.getElementById('brfAdvice').value || '';
+    const book = document.getElementById('brfBook').value || '';
+    const shoutout = document.getElementById('brfShoutout').value || '';
+    const social = document.getElementById('brfSocial').value || '';
 
     const questions = q.split('\n').filter(l=>l.trim()).map((l,i) =>
       `<div style="padding:6px 0 6px 16px;border-bottom:1px solid #eee;position:relative;font-size:11px;">
@@ -2920,6 +2976,17 @@ function toggleSoundFolder(folder) {
     <div class="label">KERNFRAGEN</div>
     <div style="margin:8px 0;">${questions}</div>
     ${notes && notes !== '—' ? `<div class="label">NOTIZEN</div><div class="block">${notes.replace(/\n/g,'<br>')}</div>` : ''}
+    ${(quote || advice || book || shoutout || social) ? `
+    <div style="margin-top:28px;padding-top:16px;border-top:2px solid #0CC0DF;">
+      <div style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px;margin-bottom:16px;">SHIFT<span style="color:#0CC0DF;">2</span>GO — CLOSING</div>
+      ${quote ? `<div class="label">QUOTE</div><div class="block" style="font-style:italic;font-size:13px;border-left-color:#FC5000;">„${quote.replace(/\n/g,'<br>')}"</div>` : ''}
+      ${advice ? `<div class="label">RAT AN DIE HÖRER</div><div class="block">${advice.replace(/\n/g,'<br>')}</div>` : ''}
+      <div class="row">
+        ${book ? `<div><div class="label">BUCH / RESOURCE</div><div class="val">${book}</div></div>` : ''}
+        ${shoutout ? `<div><div class="label">SHOUTOUT</div><div class="val">${shoutout}</div></div>` : ''}
+      </div>
+      ${social ? `<div class="label">SOCIAL HANDLES</div><div class="val">${social}</div>` : ''}
+    </div>` : ''}
     <div class="footer">© ${new Date().getFullYear()} WILD PROJECT — SHIFT2PRO · CONFIDENTIAL</div>
     </body></html>`;
 
@@ -2927,6 +2994,111 @@ function toggleSoundFolder(folder) {
     w.document.write(html);
     w.document.close();
     setTimeout(() => w.print(), 400);
+  };
+
+  // ── MODERATIONSKARTEN ──
+  window.printModCards = function(){
+    const g = document.getElementById('brfGuest').value || '—';
+    const ep = document.getElementById('brfEpisode').value || '—';
+    const topic = document.getElementById('brfTopic').value || '—';
+    const q = document.getElementById('brfQuestions').value || '';
+    const quote = document.getElementById('brfQuote').value || '';
+    const advice = document.getElementById('brfAdvice').value || '';
+    const book = document.getElementById('brfBook').value || '';
+
+    const questions = q.split('\n').filter(l=>l.trim());
+
+    // Karte 1: Intro
+    // Karte 2-N: Je eine Frage
+    // Karte N+1: Shift2GO Closing
+    let cards = [];
+
+    // INTRO CARD
+    cards.push(`<div class="card">
+      <div class="card-badge">INTRO</div>
+      <div class="card-title">${topic}</div>
+      <div class="card-guest">${g} · ${ep}</div>
+      <div class="card-notes">Begrüßung · Gast vorstellen · Thema einleiten</div>
+    </div>`);
+
+    // FRAGEN CARDS
+    questions.forEach((frage, i) => {
+      cards.push(`<div class="card">
+        <div class="card-badge">FRAGE ${String(i+1).padStart(2,'0')}</div>
+        <div class="card-question">${frage.trim()}</div>
+        <div class="card-follow">↳ Follow-up / Nachhaken</div>
+      </div>`);
+    });
+
+    // SHIFT2GO CARD
+    cards.push(`<div class="card card-closing">
+      <div class="card-badge" style="background:#FC5000;">SHIFT2GO</div>
+      <div class="card-question">1 Rat an die Hörer?</div>
+      ${quote ? `<div class="card-notes" style="font-style:italic;">„${quote}"</div>` : ''}
+      ${book ? `<div class="card-notes">📖 ${book}</div>` : ''}
+      <div class="card-follow">↳ Verabschiedung · Social Handles · CTA</div>
+    </div>`);
+
+    const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Moderationskarten — ${g}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+      @page{size:A4 landscape;margin:10mm;}
+      body{font-family:'Poppins',sans-serif;margin:0;padding:20px;background:#f5f5f5;}
+      .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+      .card{
+        background:#fff;border-radius:12px;padding:28px 24px;
+        border:1px solid #e0e0e0;min-height:160px;
+        display:flex;flex-direction:column;justify-content:center;
+        page-break-inside:avoid;position:relative;
+        box-shadow:0 2px 8px rgba(0,0,0,0.04);
+      }
+      .card-closing{border-left:3px solid #FC5000;}
+      .card-badge{
+        position:absolute;top:12px;right:12px;
+        font-family:'JetBrains Mono',monospace;font-size:8px;
+        letter-spacing:2px;color:#fff;background:#0CC0DF;
+        padding:3px 10px;border-radius:4px;
+      }
+      .card-title{font-family:'Anton',sans-serif;font-size:20px;letter-spacing:0.02em;margin-bottom:6px;}
+      .card-guest{font-family:'JetBrains Mono',monospace;font-size:10px;color:#888;letter-spacing:1px;}
+      .card-question{font-size:16px;font-weight:600;line-height:1.5;color:#1a1a2e;}
+      .card-notes{font-size:11px;color:#666;margin-top:10px;line-height:1.5;}
+      .card-follow{font-family:'JetBrains Mono',monospace;font-size:9px;color:#0CC0DF;margin-top:12px;letter-spacing:0.5px;}
+      @media print{body{background:#fff;padding:0;}.card{box-shadow:none;border:1px solid #ddd;}}
+    </style></head><body>
+    <div class="cards">${cards.join('')}</div>
+    </body></html>`;
+
+    const w = window.open('','_blank');
+    w.document.write(html);
+    w.document.close();
+    setTimeout(() => w.print(), 400);
+  };
+
+  // ── MAIL BRIEFING ──
+  window.mailBriefing = function(){
+    const g = document.getElementById('brfGuest').value || '';
+    const ep = document.getElementById('brfEpisode').value || '';
+    const role = document.getElementById('brfRole').value || '';
+    const date = document.getElementById('brfDate').value || '';
+    const topic = document.getElementById('brfTopic').value || '';
+    const ctx = document.getElementById('brfContext').value || '';
+    const q = document.getElementById('brfQuestions').value || '';
+    const fmt = document.getElementById('brfFormat').value || '';
+    const dur = document.getElementById('brfDuration').value || '';
+    const notes = document.getElementById('brfNotes').value || '';
+
+    const subject = encodeURIComponent(`SHIFT2PRO Briefing — ${g} (${ep})`);
+    const body = encodeURIComponent(
+      `SHIFT2PRO — BRIEFING\n${'═'.repeat(40)}\n\n` +
+      `GAST: ${g}\nEPISODE: ${ep}\nROLLE: ${role}\nDATUM: ${date}\n\n` +
+      `THEMA: ${topic}\n\nKONTEXT:\n${ctx}\n\nKERNFRAGEN:\n${q}\n\n` +
+      `FORMAT: ${fmt}\nDAUER: ${dur}\n\n` +
+      (notes ? `NOTIZEN:\n${notes}\n\n` : '') +
+      `${'─'.repeat(40)}\n© ${new Date().getFullYear()} WILD PROJECT — SHIFT2PRO`
+    );
+
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
 })();
 </script>
