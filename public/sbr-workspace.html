@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Workspace — Starbulls Nachwuchs</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23005243'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='13' fill='%23F2F5F4'>SBR</text></svg>">
+<meta name="theme-color" content="#0A0A0A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SBR Workspace">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=League+Gothic&family=Titillium+Web:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  :root {
+    --black: #0A0A0A;
+    --surface: #0e0e0e;
+    --surface2: #121212;
+    --border: #1c1c1c;
+    --border2: #252525;
+    --muted: #555;
+    --text: #888;
+    --light: #ccc;
+    --white: #F2F5F4;
+    --green: #005243;
+    --green-bright: #00785f;
+    --green-20: rgba(0,82,67,0.20);
+    --green-10: rgba(0,82,67,0.10);
+    --green-05: rgba(0,82,67,0.05);
+    --red: #E4032E;
+    --red-20: rgba(228,3,46,0.20);
+  }
+
+  body {
+    font-family: 'Titillium Web', -apple-system, sans-serif;
+    background-color: var(--black);
+    background-image: url('/sbr-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 60px 24px 80px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: rgba(10,10,10,0.82);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container, .login-gate, .theme-toggle { position: relative; z-index: 1; }
+
+  .container { max-width: 1100px; width: 100%; position: relative; }
+
+  .workspace-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .workspace-col { display: flex; flex-direction: column; min-width: 0; }
+  .full-width { max-width: 520px; margin: 0 auto; }
+
+  /* ── LOGIN GATE ── */
+  .login-gate {
+    position: fixed; inset: 0;
+    background: var(--black); z-index: 1000;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .login-gate.hidden {
+    opacity: 0; transform: scale(1.02); pointer-events: none;
+  }
+  .login-logo {
+    font-family: 'League Gothic', sans-serif;
+    font-size: 2.4rem; color: var(--white);
+    margin-bottom: 24px; letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .login-logo .green { color: var(--green-bright); }
+  .login-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 3px;
+    color: rgba(255,255,255,0.3); margin-bottom: 20px;
+  }
+  .login-input-wrap { display: flex; gap: 8px; margin-bottom: 16px; }
+  .login-digit {
+    width: 44px; height: 56px;
+    background: rgba(0,82,67,0.06);
+    border: 1px solid rgba(0,82,67,0.15);
+    border-radius: 8px; color: var(--green-bright);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px; font-weight: 700;
+    text-align: center; outline: none;
+    caret-color: var(--green-bright);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .login-digit:focus {
+    border-color: rgba(0,82,67,0.4);
+    background: rgba(0,82,67,0.08);
+  }
+  .login-error {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: rgba(0,82,67,0.6);
+    letter-spacing: 1px; height: 16px; margin-top: 4px;
+  }
+  .login-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; color: rgba(255,255,255,0.15);
+    letter-spacing: 1.5px; margin-top: 32px;
+  }
+  .container.locked { display: none; }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center; margin-bottom: 48px;
+    opacity: 0; transform: translateY(16px);
+    animation: fadeUp 0.7s ease 0.1s forwards;
+  }
+  .header-brand {
+    font-family: 'League Gothic', sans-serif;
+    font-size: 2rem; color: var(--white); letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .header-brand .green { color: var(--green-bright); }
+  .header-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 400;
+    letter-spacing: 2px; color: rgba(255,255,255,0.35);
+    margin-bottom: 8px;
+  }
+  .header-title .name { color: var(--green-bright); }
+  .header-title .slash { color: rgba(255,255,255,0.15); margin: 0 4px; }
+  .header-headline {
+    font-family: 'League Gothic', sans-serif;
+    font-size: clamp(22px, 6vw, 34px);
+    font-weight: 400; line-height: 1.2;
+    letter-spacing: 0.5px; color: var(--white);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .header-headline .green { color: var(--green-bright); }
+  .header-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.30);
+    margin-top: 14px;
+    display: inline-block; overflow: hidden;
+    border-right: 2px solid var(--green-bright);
+    white-space: nowrap; width: 0;
+    animation: typing 3s steps(50) 1.2s forwards, blink 0.6s step-end infinite 1.2s;
+  }
+  @keyframes typing { to { width: 38em; } }
+  .header-divider {
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green-bright), transparent);
+    margin: 20px auto 0;
+    opacity: 0; animation: fadeUp 0.7s ease 0.6s forwards;
+  }
+  @keyframes blink { 50% { border-color: transparent; } }
+  @keyframes fadeUp { to { opacity: 1; transform: none; } }
+
+  /* ── HEADER META PILLS ── */
+  .header-meta {
+    display: flex; gap: 8px; justify-content: center;
+    margin-top: 20px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.7s ease 0.8s forwards;
+  }
+  .meta-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 500;
+    letter-spacing: 2px; color: var(--green-bright);
+    padding: 5px 14px;
+    border: 1px solid var(--green-20);
+    background: var(--green-05);
+    transition: all 0.3s;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .meta-pill:hover {
+    background: var(--green-10);
+    border-color: var(--green-bright);
+    transform: translateY(-1px);
+  }
+
+  /* ── STATUS BAR ── */
+  .status-bar {
+    display: flex; justify-content: center;
+    gap: 8px; flex-wrap: wrap;
+    margin-bottom: 40px;
+    opacity: 0; animation: fadeUp 0.7s ease 0.9s forwards;
+    padding: 10px 20px;
+    border: 1px solid rgba(255,255,255,0.04);
+    background: rgba(0,0,0,0.2);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    max-width: 600px; margin-left: auto; margin-right: auto;
+  }
+  .status-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.30);
+    display: flex; align-items: center; gap: 5px;
+  }
+  .status-item .val { color: rgba(255,255,255,0.55); }
+  .status-divider {
+    width: 1px; height: 14px;
+    background: rgba(255,255,255,0.08);
+    align-self: center;
+  }
+
+  /* ── SECTIONS ── */
+  .section { margin-bottom: 32px; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--green-bright);
+    padding: 12px 0; margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer; justify-content: space-between;
+  }
+  .section-label .section-toggle {
+    font-size: 10px; color: var(--muted); transition: transform 0.3s;
+    display: inline-block; margin-left: 8px;
+  }
+  .section.collapsed .section-toggle { transform: rotate(-90deg); }
+  .section.collapsed .section-body { max-height: 0; overflow: hidden; opacity: 0; pointer-events: none; }
+  .section .section-body { max-height: 5000px; overflow: visible; opacity: 1; transition: max-height 0.4s ease, opacity 0.3s ease; }
+
+  /* ── LINK CARDS ── */
+  .link-card {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    text-decoration: none; color: inherit;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .link-card:hover {
+    background: var(--green-05);
+    transform: translateX(4px);
+  }
+  .link-icon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; color: var(--green-bright);
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--green-20);
+    background: var(--green-05);
+    flex-shrink: 0;
+  }
+  .link-text { flex: 1; min-width: 0; }
+  .link-title {
+    font-size: 13px; font-weight: 500;
+    color: var(--white); white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .link-desc {
+    font-size: 11px; color: var(--text);
+    white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; margin-top: 1px;
+  }
+  .link-arrow {
+    font-size: 14px; color: var(--muted);
+    transition: color 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+  .link-card:hover .link-arrow { color: var(--green-bright); transform: translateX(2px); }
+
+  /* ── STATUS BADGES ── */
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px; font-weight: 500;
+    letter-spacing: 1px; padding: 2px 6px;
+    border: 1px solid; border-radius: 3px;
+    margin-left: 6px;
+  }
+  .badge-live { color: #4CAF50; border-color: #4CAF50; }
+  .badge-done { color: var(--green-bright); border-color: var(--green-bright); }
+  .badge-wip { color: var(--red); border-color: var(--red); }
+  .badge-pending { color: var(--muted); border-color: var(--muted); }
+
+  /* ── TOOLS GRID ── */
+  .tools-grid { display: flex; flex-direction: column; gap: 4px; }
+  .tool-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    text-decoration: none; color: inherit;
+    transition: all 0.2s;
+  }
+  .tool-card:hover {
+    border-color: var(--green-20);
+    background: var(--green-05);
+    transform: translateY(-1px);
+  }
+  .tool-ico { font-size: 16px; width: 28px; text-align: center; color: var(--green-bright); }
+  .tool-meta { flex: 1; }
+  .tool-title { font-size: 12px; font-weight: 500; color: var(--white); }
+  .tool-desc { font-size: 10px; color: var(--muted); }
+  .tool-arrow { font-size: 12px; color: var(--muted); }
+  .tool-card:hover .tool-arrow { color: var(--green-bright); }
+
+  /* ── STAFF TABLE ── */
+  .staff-table { width: 100%; border-collapse: collapse; }
+  .staff-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 2px;
+    color: var(--green-bright); text-align: left;
+    padding: 8px 6px; border-bottom: 1px solid var(--border);
+  }
+  .staff-table td {
+    font-size: 12px; color: var(--light);
+    padding: 8px 6px; border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .staff-table td:first-child { font-weight: 600; color: var(--white); }
+
+  /* ── STAT CARDS ── */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-card {
+    padding: 16px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 2px; color: var(--green-bright);
+  }
+  .stat-value {
+    font-family: 'League Gothic', sans-serif;
+    font-size: 2rem; color: var(--white); margin-top: 4px;
+  }
+  .stat-value .unit { font-size: 1rem; color: var(--muted); }
+  .stat-desc { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  /* ── CHECKLIST ── */
+  .checklist { list-style: none; }
+  .checklist-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.02);
+    cursor: pointer; transition: opacity 0.2s; user-select: none;
+  }
+  .checklist-item.done { opacity: 0.35; }
+  .checklist-check {
+    width: 14px; height: 14px;
+    border: 1px solid var(--border2);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: transparent;
+    transition: all 0.2s;
+  }
+  .checklist-item.done .checklist-check {
+    border-color: var(--green-20); color: var(--green-bright);
+  }
+  .checklist-text { font-size: 12px; color: var(--light); }
+  .checklist-item.done .checklist-text {
+    text-decoration: line-through; color: var(--muted);
+  }
+
+  /* ── TODO ── */
+  .todo-widget {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+  .todo-add-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .todo-input {
+    flex: 1; background: rgba(0,82,67,0.04);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 12px; padding: 8px 12px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .todo-input:focus { border-color: var(--green-20); }
+  .todo-input::placeholder { color: var(--muted); }
+  .todo-add-btn {
+    background: var(--green-05); border: 1px solid var(--green-20);
+    color: var(--green-bright); cursor: pointer;
+    font-size: 16px; width: 36px;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.2s;
+  }
+  .todo-add-btn:hover { background: var(--green-10); }
+  .todo-list { list-style: none; }
+  .todo-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    font-size: 12px; color: var(--light);
+    cursor: pointer; transition: opacity 0.2s;
+  }
+  .todo-item.done {
+    text-decoration: line-through;
+    opacity: 0.35; color: var(--muted);
+  }
+  .todo-check {
+    width: 14px; height: 14px;
+    border: 1px solid var(--border2);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: transparent;
+    transition: all 0.2s;
+  }
+  .todo-item.done .todo-check {
+    border-color: var(--green-20); color: var(--green-bright);
+  }
+  .todo-text { flex: 1; }
+  .todo-del {
+    font-size: 10px; color: var(--border2);
+    cursor: pointer; opacity: 0; transition: all 0.2s;
+  }
+  .todo-item:hover .todo-del { opacity: 1; }
+  .todo-del:hover { color: var(--red); }
+  .todo-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 1px; margin-top: 8px;
+    text-align: right;
+  }
+
+  /* ── NOTES ── */
+  .notes-widget {
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .notes-area {
+    width: 100%; min-height: 120px;
+    background: transparent; border: none;
+    color: var(--light); font-family: 'Titillium Web', sans-serif;
+    font-size: 12px; line-height: 1.6;
+    padding: 12px 16px; outline: none;
+    resize: vertical;
+  }
+  .notes-area::placeholder { color: var(--muted); }
+  .notes-footer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 1.5px;
+    color: var(--muted); padding: 6px 16px;
+    border-top: 1px solid var(--border);
+    text-align: right;
+  }
+
+  /* ── FOOTER ── */
+  .ws-footer {
+    text-align: center;
+    margin-top: 60px; padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .ws-footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1.5px;
+    color: var(--muted);
+  }
+  .ws-footer .red { color: var(--red); }
+  .ws-footer .green { color: var(--green-bright); }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    position: fixed; top: 20px; right: 24px;
+    z-index: 200; border: none; background: transparent;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 400;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.35);
+    transition: all 0.3s; padding: 4px 0;
+  }
+  .theme-toggle:hover { color: var(--green-bright); }
+
+  /* ══════ AWAY MODE (White Jersey) ══════ */
+  body.light {
+    background-image: url('/sbr-bg-away.png');
+    background-color: #e8ebe9;
+    color: #1a1a2e;
+  }
+  body.light::before {
+    background: rgba(240,242,240,0.88);
+  }
+  body.light .ambient-glow { position: fixed; pointer-events: none; z-index: 0; border-radius: 50%; filter: blur(100px); opacity: 0; transition: opacity 1.5s; }
+  body.light .ambient-glow.active { opacity: 1; }
+  body.light .ambient-glow.g1 { width: 700px; height: 700px; top: 5%; left: 8%; background: rgba(0,82,67,0.06); animation: orbFloat1 18s ease-in-out infinite alternate; }
+  body.light .ambient-glow.g2 { width: 600px; height: 600px; bottom: 8%; right: 5%; background: rgba(228,3,46,0.04); animation: orbFloat2 22s ease-in-out infinite alternate; }
+  @keyframes orbFloat1 { 0%{transform:translate(0,0)} 100%{transform:translate(40px,30px)} }
+  @keyframes orbFloat2 { 0%{transform:translate(0,0)} 100%{transform:translate(-30px,-40px)} }
+
+  /* Light mode overrides */
+  body.light .container { position: relative; z-index: 1; }
+  body.light .header-brand { color: #1a1a2e; }
+  body.light .header-title { color: rgba(0,0,0,0.35); }
+  body.light .header-title .name { color: var(--green); }
+  body.light .header-headline { color: #1a1a2e; }
+  body.light .header-tagline { color: rgba(0,0,0,0.35); border-right-color: var(--green); }
+  body.light .status-bar { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.5); backdrop-filter: blur(12px); }
+  body.light .status-item { color: rgba(0,0,0,0.30); }
+  body.light .status-item .val { color: rgba(0,0,0,0.55); }
+  body.light .status-divider { background: rgba(0,0,0,0.08); }
+  body.light .header-divider { background: linear-gradient(90deg, transparent, var(--green), transparent); }
+
+  body.light .section {
+    background: rgba(255,255,255,0.35);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 16px;
+    padding: 4px 16px 16px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.03), inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+  body.light .section-label { color: var(--green); border-bottom-color: rgba(0,0,0,0.06); }
+  body.light .section-label .section-toggle { color: rgba(0,0,0,0.25); }
+  body.light .link-card { border-bottom-color: rgba(0,0,0,0.04); }
+  body.light .link-card:hover { background: rgba(0,82,67,0.04); }
+  body.light .link-title { color: #1a1a2e; }
+  body.light .link-desc { color: rgba(0,0,0,0.45); }
+  body.light .link-icon {
+    border-color: rgba(0,82,67,0.15); background: rgba(0,82,67,0.06);
+    border-radius: 10px;
+  }
+  body.light .stat-card {
+    background: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.7);
+    border-radius: 12px; backdrop-filter: blur(12px);
+  }
+  body.light .stat-label { color: var(--green); }
+  body.light .stat-value { color: #1a1a2e; }
+  body.light .stat-desc { color: rgba(0,0,0,0.4); }
+  body.light .staff-table th { color: var(--green); border-bottom-color: rgba(0,0,0,0.06); }
+  body.light .staff-table td { color: #1a1a2e; border-bottom-color: rgba(0,0,0,0.04); }
+  body.light .staff-table td:first-child { color: #1a1a2e; }
+  body.light .tool-card {
+    background: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.7);
+    border-radius: 10px; backdrop-filter: blur(12px);
+  }
+  body.light .tool-card:hover { background: rgba(0,82,67,0.06); border-color: rgba(0,82,67,0.2); }
+  body.light .tool-title { color: #1a1a2e; }
+  body.light .tool-desc { color: rgba(0,0,0,0.4); }
+  body.light .todo-widget, body.light .notes-widget {
+    background: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.7);
+    border-radius: 12px; backdrop-filter: blur(12px);
+  }
+  body.light .todo-input, body.light .notes-area {
+    background: rgba(255,255,255,0.6); border-color: rgba(255,255,255,0.8);
+    color: #1a1a2e; border-radius: 8px;
+  }
+  body.light .todo-item { color: #1a1a2e; }
+  body.light .checklist-text { color: #1a1a2e; }
+  body.light .checklist-item.done .checklist-text { color: rgba(0,0,0,0.3); }
+  body.light .meta-pill { color: var(--green); border-color: rgba(0,82,67,0.2); background: rgba(0,82,67,0.06); }
+  body.light .meta-pill:hover { background: rgba(0,82,67,0.12); border-color: var(--green); }
+  body.light .ws-footer { border-top-color: rgba(0,0,0,0.06); }
+  body.light .ws-footer p { color: rgba(0,0,0,0.25); }
+  body.light .theme-toggle { color: rgba(0,0,0,0.3); }
+  body.light .theme-toggle:hover { color: var(--green); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    body { padding: 40px 12px 60px; }
+    .workspace-grid { grid-template-columns: 1fr; gap: 0; }
+    .full-width { max-width: 100%; }
+    .status-bar { gap: 12px; }
+    .stat-grid { grid-template-columns: 1fr; }
+    .link-card { padding: 12px 8px; }
+    .header-meta { gap: 6px; }
+    .meta-pill { font-size: 7px; padding: 4px 10px; letter-spacing: 1.5px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ambient glow orbs (glass mode only) -->
+<div class="ambient-glow g1 active"></div>
+<div class="ambient-glow g2 active"></div>
+
+<!-- ══════ HOME / AWAY TOGGLE ══════ -->
+<button class="theme-toggle" id="themeToggle" title="Toggle Home/Away"><span id="themeLabel">HOME</span></button>
+
+<!-- ══════ LOGIN GATE ══════ -->
+<div class="login-gate" id="loginGate">
+  <div class="login-logo">STARBULLS <span class="green">NACHWUCHS</span></div>
+  <p class="login-label">// workspace access</p>
+  <div class="login-input-wrap">
+    <input type="tel" maxlength="1" class="login-digit" id="d1" autocomplete="off" inputmode="numeric">
+    <input type="tel" maxlength="1" class="login-digit" id="d2" autocomplete="off" inputmode="numeric">
+    <input type="tel" maxlength="1" class="login-digit" id="d3" autocomplete="off" inputmode="numeric">
+    <input type="tel" maxlength="1" class="login-digit" id="d4" autocomplete="off" inputmode="numeric">
+  </div>
+  <p class="login-error" id="loginError"></p>
+  <p class="login-hint">STARBULLS ROSENHEIM E.V. &mdash; PRIVATE WORKSPACE</p>
+</div>
+
+
+<div class="container locked" id="mainContent">
+
+  <!-- ══════ HEADER ══════ -->
+  <div class="full-width">
+  <div class="header">
+    <div class="header-brand">STARBULLS <span class="green">NACHWUCHS</span></div>
+    <p class="header-title"><span class="name">WORKSPACE</span> <span class="slash">//</span> command center</p>
+    <h1 class="header-headline">AUSBILDEN. ENTWICKELN. <span class="green">GEWINNEN.</span></h1>
+    <div class="header-divider"></div>
+    <p class="header-tagline">STOP COMPLAINING, LET'S FUCKING GO.</p>
+    <div class="header-meta">
+      <a href="#sec-guideline" class="meta-pill">GUIDELINE</a>
+      <a href="#sec-kader" class="meta-pill">KADER</a>
+      <a href="#sec-training" class="meta-pill">TRAINING</a>
+      <a href="#sec-camp" class="meta-pill">CAMP</a>
+      <a href="#sec-marketing" class="meta-pill">MARKETING</a>
+    </div>
+  </div>
+
+  <!-- ══════ STATUS BAR ══════ -->
+  <div class="status-bar">
+    <div class="status-item">
+      <span id="weatherDesc">&middot;&middot;&middot;</span>
+      <span class="val" id="weatherTemp">&middot;&middot;&middot;</span>
+    </div>
+    <div class="status-divider"></div>
+    <div class="status-item">SAISON <span class="val">2026/27</span></div>
+    <div class="status-divider"></div>
+    <div class="status-item">KADER <span class="val">213 + 20</span></div>
+    <div class="status-divider"></div>
+    <div class="status-item" id="dateDisplay"></div>
+    <div class="status-divider"></div>
+    <div class="status-item"><span class="val" id="statusTime">&middot;&middot;&middot;</span></div>
+  </div>
+  </div>
+
+  <!-- ══════ GRID ══════ -->
+  <div class="workspace-grid">
+
+    <!-- ══════ LEFT COLUMN ══════ -->
+    <div class="workspace-col">
+
+      <!-- ══════ GUIDELINE ══════ -->
+      <div class="section" id="sec-guideline">
+        <div class="section-label" onclick="toggleSection(this)">Guideline <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+
+        <a href="https://www.canva.com/design/DAGg9azbtsg/0GWx4rlV91EBUuTXlA98qg/edit" class="link-card" target="_blank" style="border-color:var(--green-20);">
+          <div class="link-icon">GL</div>
+          <div class="link-text">
+            <div class="link-title">Guideline 2026/27 <span class="badge badge-wip">IN ARBEIT</span></div>
+            <div class="link-desc">Canva &mdash; 27 Seiten, Vorschau Saison 2026-2027</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <div style="padding:12px 16px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px; color:var(--green-bright); margin-bottom:8px;">FEHLENDE KAPITEL</div>
+          <ul class="checklist" id="guidelineChecklist">
+            <li class="checklist-item" onclick="toggleCheck(this)"><span class="checklist-check">&check;</span><span class="checklist-text">Verhaltenskodex (Spieler/Eltern/Trainer)</span></li>
+            <li class="checklist-item" onclick="toggleCheck(this)"><span class="checklist-check">&check;</span><span class="checklist-text">Kabinen-Standards &amp; Branding</span></li>
+            <li class="checklist-item" onclick="toggleCheck(this)"><span class="checklist-check">&check;</span><span class="checklist-text">Pr&auml;vention sexualisierter Gewalt (PSG)</span></li>
+            <li class="checklist-item" onclick="toggleCheck(this)"><span class="checklist-check">&check;</span><span class="checklist-text">Anti-Mobbing</span></li>
+            <li class="checklist-item" onclick="toggleCheck(this)"><span class="checklist-check">&check;</span><span class="checklist-text">Social Media Richtlinien</span></li>
+            <li class="checklist-item" onclick="toggleCheck(this)"><span class="checklist-check">&check;</span><span class="checklist-text">Kostenstruktur &amp; Beitr&auml;ge</span></li>
+            <li class="checklist-item" onclick="toggleCheck(this)"><span class="checklist-check">&check;</span><span class="checklist-text">Stellenprofile (Betreuer/MF)</span></li>
+            <li class="checklist-item" onclick="toggleCheck(this)"><span class="checklist-check">&check;</span><span class="checklist-text">Feedback-Kultur (Entry &rarr; Exit)</span></li>
+            <li class="checklist-item" onclick="toggleCheck(this)"><span class="checklist-check">&check;</span><span class="checklist-text">Try-Out Ablauf &amp; SOP</span></li>
+            <li class="checklist-item" onclick="toggleCheck(this)"><span class="checklist-check">&check;</span><span class="checklist-text">Breitensport-Konzept U11-U15</span></li>
+          </ul>
+        </div>
+
+      </div></div>
+
+      <!-- ══════ ONBOARDING ══════ -->
+      <div class="section">
+        <div class="section-label" onclick="toggleSection(this)">Onboarding <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+
+        <a href="https://www.sbr-nachwuchs.de/jetzt-mitmachen/" class="link-card" target="_blank">
+          <div class="link-icon">01</div>
+          <div class="link-text">
+            <div class="link-title">Erste Schritte aufs Eis <span class="badge badge-done">FERTIG</span></div>
+            <div class="link-desc">F&uuml;r Kinder 3&ndash;6 Jahre &mdash; Einstieg U7 Bambini</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="https://www.sbr-nachwuchs.de/jetzt-mitmachen/" class="link-card" target="_blank">
+          <div class="link-icon">02</div>
+          <div class="link-text">
+            <div class="link-title">Try-Out / Probetraining <span class="badge badge-done">FERTIG</span></div>
+            <div class="link-desc">Erfahrene Spieler &mdash; altersungebunden</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="#" class="link-card" style="opacity:0.5; pointer-events:none;">
+          <div class="link-icon">03</div>
+          <div class="link-text">
+            <div class="link-title">Breitensport U11&ndash;U15 <span class="badge badge-pending">OFFEN</span></div>
+            <div class="link-desc">Konzept in Vorbereitung</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+      </div></div>
+
+      <!-- ══════ SOMMER CAMP ══════ -->
+      <div class="section" id="sec-camp">
+        <div class="section-label" onclick="toggleSection(this)">Sommer Camp 2026 <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+
+        <div class="stat-grid" style="margin-bottom:12px;">
+          <div class="stat-card">
+            <div class="stat-label">DATUM</div>
+            <div class="stat-value" style="font-size:1.4rem;">29.07&ndash;02.08</div>
+            <div class="stat-desc">ROFA-Stadion Rosenheim</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">STATUS</div>
+            <div class="stat-value" style="font-size:1.4rem; color:var(--red);">PLANUNG</div>
+            <div class="stat-desc">Online-Anmeldung: Ende April</div>
+          </div>
+        </div>
+
+      </div></div>
+
+      <!-- ══════ TRAVEL TEAM ══════ -->
+      <div class="section">
+        <div class="section-label" onclick="toggleSection(this)">Travel Team <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+
+        <a href="#" class="link-card">
+          <div class="link-icon">U17</div>
+          <div class="link-text">
+            <div class="link-title">Travel Team U17</div>
+            <div class="link-desc">Kooperation Bad Aibling</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="#" class="link-card">
+          <div class="link-icon">U20</div>
+          <div class="link-text">
+            <div class="link-title">Travel Team U20</div>
+            <div class="link-desc">Prospect Miesbach &mdash; Schweden 2024, 2025</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+      </div></div>
+
+      <!-- ══════ MARKETING & WEBSITE ══════ -->
+      <div class="section" id="sec-marketing">
+        <div class="section-label" onclick="toggleSection(this)">Marketing &amp; Website <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+
+        <a href="https://www.sbr-nachwuchs.de" class="link-card" target="_blank">
+          <div class="link-icon" style="color:#4CAF50;">WEB</div>
+          <div class="link-text">
+            <div class="link-title">sbr-nachwuchs.de <span class="badge badge-live">LIVE</span></div>
+            <div class="link-desc">Aktuelle Website &mdash; Relaunch geplant</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="https://www.instagram.com/starbulls_nachwuchs/" class="link-card" target="_blank">
+          <div class="link-icon">IG</div>
+          <div class="link-text">
+            <div class="link-title">Instagram</div>
+            <div class="link-desc">@starbulls_nachwuchs</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+      </div></div>
+
+      <!-- ══════ DIGITALE TOOLS ══════ -->
+      <div class="section">
+        <div class="section-label" onclick="toggleSection(this)">Digitale Tools <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+        <div class="tools-grid">
+
+          <a href="https://spond.com" class="tool-card" target="_blank">
+            <div class="tool-ico">&oplus;</div>
+            <div class="tool-meta"><div class="tool-title">Spond</div><div class="tool-desc">Organisation &amp; Kommunikation</div></div>
+            <div class="tool-arrow">&rarr;</div>
+          </a>
+
+          <a href="https://www.hudl.com" class="tool-card" target="_blank">
+            <div class="tool-ico">&blacktriangleright;</div>
+            <div class="tool-meta"><div class="tool-title">Hudl / InStat</div><div class="tool-desc">Videoanalyse ab U15</div></div>
+            <div class="tool-arrow">&rarr;</div>
+          </a>
+
+          <a href="https://www.coachthem.com" class="tool-card" target="_blank">
+            <div class="tool-ico">&equiv;</div>
+            <div class="tool-meta"><div class="tool-title">CoachThem</div><div class="tool-desc">Trainingsplanung &amp; &Uuml;bungen</div></div>
+            <div class="tool-arrow">&rarr;</div>
+          </a>
+
+          <a href="https://starbulls.sharepoint.com/:x:/r/sites/Nachwuchs/_layouts/15/Doc.aspx?sourcedoc=%7B420F38F4-C3C7-4695-978E-E1B1A389A6BB%7D&file=Datenbank_Starbulls_Nachwuchs_2026.xlsx&action=default&mobileredirect=true" class="tool-card" target="_blank" style="border-color:var(--green-20);">
+            <div class="tool-ico">DB</div>
+            <div class="tool-meta"><div class="tool-title">Spieler-Datenbank</div><div class="tool-desc">OneDrive &mdash; Datenbank Starbulls Nachwuchs 2026</div></div>
+            <div class="tool-arrow">&rarr;</div>
+          </a>
+
+          <a href="https://office.com" class="tool-card" target="_blank">
+            <div class="tool-ico">MS</div>
+            <div class="tool-meta"><div class="tool-title">Microsoft Office</div><div class="tool-desc">SharePoint &amp; OneDrive &mdash; Org-Paket</div></div>
+            <div class="tool-arrow">&rarr;</div>
+          </a>
+
+          <a href="https://www.thecoachessite.com" class="tool-card" target="_blank">
+            <div class="tool-ico">TCS</div>
+            <div class="tool-meta"><div class="tool-title">The Coaches Site</div><div class="tool-desc">Coaching-Wissen &amp; Weiterbildung</div></div>
+            <div class="tool-arrow">&rarr;</div>
+          </a>
+
+          <a href="https://www.deb-online.de" class="tool-card" target="_blank">
+            <div class="tool-ico">DEB</div>
+            <div class="tool-meta"><div class="tool-title">DEB Online</div><div class="tool-desc">Deutscher Eishockey-Bund</div></div>
+            <div class="tool-arrow">&rarr;</div>
+          </a>
+
+          <a href="https://www.eliteprospects.com" class="tool-card" target="_blank">
+            <div class="tool-ico">EP</div>
+            <div class="tool-meta"><div class="tool-title">Elite Prospects</div><div class="tool-desc">Spieler- &amp; Statistik-Recherche</div></div>
+            <div class="tool-arrow">&rarr;</div>
+          </a>
+
+          <a href="https://padlet.com" class="tool-card" target="_blank">
+            <div class="tool-ico">&square;</div>
+            <div class="tool-meta"><div class="tool-title">Padlet</div><div class="tool-desc">DEB / DEL2 Austausch</div></div>
+            <div class="tool-arrow">&rarr;</div>
+          </a>
+
+          <a href="https://www.canva.com" class="tool-card" target="_blank">
+            <div class="tool-ico">C</div>
+            <div class="tool-meta"><div class="tool-title">Canva Pro</div><div class="tool-desc">Design &amp; Pr&auml;sentationen</div></div>
+            <div class="tool-arrow">&rarr;</div>
+          </a>
+
+        </div>
+      </div></div>
+
+    </div><!-- /left col -->
+
+    <!-- ══════ RIGHT COLUMN ══════ -->
+    <div class="workspace-col">
+
+      <!-- ══════ KADER & SAISON ══════ -->
+      <div class="section" id="sec-kader">
+        <div class="section-label" onclick="toggleSection(this)">Kader &amp; Saison 2026/27 <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+
+        <div class="stat-grid" style="margin-bottom:16px;">
+          <div class="stat-card">
+            <div class="stat-label">FELDSPIELER</div>
+            <div class="stat-value">213<span class="unit">/226</span></div>
+            <div class="stat-desc">Aktuelle / maximale Kapazit&auml;t</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">TORH&Uuml;TER</div>
+            <div class="stat-value">20<span class="unit">/21</span></div>
+            <div class="stat-desc">Aktuelle / maximale Kapazit&auml;t</div>
+          </div>
+        </div>
+
+        <table class="staff-table">
+          <thead>
+            <tr><th>TEAM</th><th>KOOPERATION</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>U20</td><td>Bayernliga + Prospect (Miesbach)</td></tr>
+            <tr><td>U17</td><td>Kooperation Bad Aibling</td></tr>
+            <tr><td>U15</td><td>SPG Trostberg (F&ouml;rderlizenz)</td></tr>
+            <tr><td>U13</td><td>2 Mannschaften</td></tr>
+            <tr><td>U11</td><td>1. + 2. Mannschaft</td></tr>
+            <tr><td>U9</td><td>1. + 2. Mannschaft</td></tr>
+            <tr><td>U7</td><td>&mdash;</td></tr>
+          </tbody>
+        </table>
+
+      </div></div>
+
+      <!-- ══════ STAFF ══════ -->
+      <div class="section" id="sec-staff">
+        <div class="section-label" onclick="toggleSection(this)">Staff &amp; Struktur <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+
+        <table class="staff-table">
+          <thead>
+            <tr><th>TEAM</th><th>HEAD COACH</th><th>ASSISTENT</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>U20</td><td>Hohenadl</td><td>Hiemer</td></tr>
+            <tr><td>U17</td><td>Wild</td><td>&mdash;</td></tr>
+            <tr><td>U15</td><td>Bergmann</td><td>Kornberger</td></tr>
+            <tr><td>U13</td><td>B&ouml;hm</td><td>&mdash;</td></tr>
+            <tr><td>U11/U9</td><td>Sch&auml;dler</td><td>Kolb</td></tr>
+            <tr><td>U7</td><td>Bergmann</td><td>Wild, Schneider</td></tr>
+            <tr><td>Laufschule</td><td>Schneider</td><td>Isa, Waldner</td></tr>
+            <tr><td>TW U17-20</td><td>Tarvainen</td><td>&mdash;</td></tr>
+            <tr><td>TW U11-15</td><td>Klimesch</td><td>&mdash;</td></tr>
+            <tr><td>Athletik</td><td>Schillhuber</td><td>Dorsch</td></tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:12px; padding:0 6px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px; color:var(--green-bright); margin-bottom:6px;">KOORDINATION</div>
+          <div style="font-size:12px; color:var(--light);">Heiko Stein &mdash; Nachwuchskoordinator</div>
+          <div style="font-size:12px; color:var(--light);">Markus Wallner &mdash; Assistent</div>
+        </div>
+
+      </div></div>
+
+      <!-- ══════ TRAININGSPLANUNG ══════ -->
+      <div class="section" id="sec-training">
+        <div class="section-label" onclick="toggleSection(this)">Trainingsplanung <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+
+        <div class="stat-grid" style="margin-bottom:12px;">
+          <div class="stat-card">
+            <div class="stat-label">PRE-SEASON</div>
+            <div class="stat-value" style="font-size:1.1rem;">AUG 2026</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">IN-SEASON</div>
+            <div class="stat-value" style="font-size:1.1rem;">SEP&ndash;APR</div>
+          </div>
+        </div>
+
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px; color:var(--green-bright); padding:8px 6px;">SOMMERTRAINING START: MAI 2026</div>
+        <table class="staff-table">
+          <thead><tr><th>TEAM</th><th>EINHEITEN</th><th>ORT</th></tr></thead>
+          <tbody>
+            <tr><td>U20/U17</td><td>60</td><td>ROFA Stadion</td></tr>
+            <tr><td>U15</td><td>40</td><td>Crossfit Rosenheim</td></tr>
+            <tr><td>U13</td><td>30</td><td>Fliegerhalle Bad Aibling</td></tr>
+            <tr><td>U11/U9</td><td>25&ndash;30</td><td>Sportplatz 60er</td></tr>
+            <tr><td>U7</td><td>10</td><td>TBD</td></tr>
+          </tbody>
+        </table>
+
+      </div></div>
+
+      <!-- ══════ 5-STERNE ══════ -->
+      <div class="section">
+        <div class="section-label" onclick="toggleSection(this)">5-Sterne-Programm <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+
+        <div style="padding:8px 6px; font-size:12px; color:var(--light); line-height:1.6;">
+          <strong style="color:var(--green-bright);">Status:</strong> Top bewertet f&uuml;r unseren Standort.<br>
+          <strong style="color:var(--red);">5. Stern:</strong> Infrastrukturell nicht erreichbar (keine 2. Eisfl&auml;che, kein Internat, kein Fr&uuml;htraining).
+        </div>
+
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px; color:var(--green-bright); padding:12px 6px 6px;">ZUSTÄNDIGKEITEN</div>
+        <div style="font-size:12px; color:var(--light); padding:0 6px;">
+          Heiko Stein &amp; Markus Wallner &mdash; Betreuung &amp; Umsetzung<br>
+          DEB-Vereinsbetreuer DEL2: Markus Gleich
+        </div>
+
+      </div></div>
+
+      <!-- ══════ DOKUMENTE ══════ -->
+      <div class="section">
+        <div class="section-label" onclick="toggleSection(this)">Dokumente &amp; SOPs <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+
+        <a href="#" class="link-card">
+          <div class="link-icon">SA</div>
+          <div class="link-text">
+            <div class="link-title">Satzung Starbulls e.V.</div>
+            <div class="link-desc">Dezember 2024 &mdash; PDF</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="#" class="link-card">
+          <div class="link-icon">BT</div>
+          <div class="link-text">
+            <div class="link-title">Beitragsschreiben 2026/27</div>
+            <div class="link-desc">U7: 300&euro; &mdash; U20: 1.500&euro; &mdash; Familienrabatt</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="#" class="link-card">
+          <div class="link-icon">SM</div>
+          <div class="link-text">
+            <div class="link-title">Sponsorenmappe 2025/26</div>
+            <div class="link-desc">Nachwuchs &mdash; PDF</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="#" class="link-card">
+          <div class="link-icon">SOP</div>
+          <div class="link-text">
+            <div class="link-title">Try-Out SOP</div>
+            <div class="link-desc">8 Schritte &mdash; 24h-Regel &mdash; Vier-Augen-Prinzip</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="#" class="link-card">
+          <div class="link-icon">CD</div>
+          <div class="link-text">
+            <div class="link-title">Corporate Design Starbulls</div>
+            <div class="link-desc">7 Seiten &mdash; Juni 2025</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+      </div></div>
+
+      <!-- ══════ TODO ══════ -->
+      <div class="section">
+        <div class="section-label" onclick="toggleSection(this)">To Do <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+        <div class="todo-widget">
+          <div class="todo-add-row">
+            <input type="text" class="todo-input" id="sbrTodoInput" placeholder="Neue Aufgabe...">
+            <button class="todo-add-btn" onclick="addTodo()">+</button>
+          </div>
+          <ul class="todo-list" id="sbrTodoList"></ul>
+          <div class="todo-count" id="sbrTodoCount"></div>
+        </div>
+      </div></div>
+
+      <!-- ══════ NOTES ══════ -->
+      <div class="section">
+        <div class="section-label" onclick="toggleSection(this)">Notes <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-body">
+        <div class="notes-widget">
+          <textarea class="notes-area" id="sbrNotes" placeholder="Notizen hier..."></textarea>
+          <div class="notes-footer"><span id="notesStatus">Gespeichert</span></div>
+        </div>
+      </div></div>
+
+    </div><!-- /right col -->
+
+  </div><!-- /grid -->
+
+  <!-- ══════ FOOTER ══════ -->
+  <div class="ws-footer">
+    <p>STARBULLS <span class="green">NACHWUCHS</span> &middot; Workspace</p>
+    <p style="margin-top:4px;">Privates Dashboard &mdash; nicht &ouml;ffentlich verlinkt</p>
+    <p style="margin-top:8px;">A <span class="red">Wild Project</span> Product</p>
+  </div>
+
+</div><!-- /container -->
+
+
+<script>
+// ══════ LOGIN ══════
+const PIN = '5243';
+const digits = [document.getElementById('d1'), document.getElementById('d2'), document.getElementById('d3'), document.getElementById('d4')];
+const gate = document.getElementById('loginGate');
+const main = document.getElementById('mainContent');
+const errorEl = document.getElementById('loginError');
+
+if (sessionStorage.getItem('sbr-ws-auth') === '1') {
+  gate.classList.add('hidden');
+  main.classList.remove('locked');
+}
+
+digits.forEach((d, i) => {
+  d.addEventListener('input', () => {
+    if (d.value && i < 3) digits[i + 1].focus();
+    const code = digits.map(x => x.value).join('');
+    if (code.length === 4) {
+      if (code === PIN) {
+        sessionStorage.setItem('sbr-ws-auth', '1');
+        gate.classList.add('hidden');
+        main.classList.remove('locked');
+      } else {
+        errorEl.textContent = 'WRONG PIN';
+        digits.forEach(x => { x.value = ''; });
+        digits[0].focus();
+        setTimeout(() => errorEl.textContent = '', 2000);
+      }
+    }
+  });
+  d.addEventListener('keydown', e => {
+    if (e.key === 'Backspace' && !d.value && i > 0) digits[i - 1].focus();
+  });
+});
+digits[0]?.focus();
+
+// ══════ DATE & TIME ══════
+const now = new Date();
+const days = ['SO','MO','DI','MI','DO','FR','SA'];
+const pad = n => String(n).padStart(2, '0');
+document.getElementById('dateDisplay').innerHTML =
+  `${days[now.getDay()]} <span class="val">${pad(now.getDate())}.${pad(now.getMonth()+1)}.${now.getFullYear()}</span>`;
+
+function updateTime() {
+  const n = new Date();
+  document.getElementById('statusTime').textContent = pad(n.getHours()) + ':' + pad(n.getMinutes());
+}
+updateTime();
+setInterval(updateTime, 30000);
+
+// ══════ WEATHER (Rosenheim) ══════
+(function() {
+  const API = 'https://wttr.in/Rosenheim?format=%c+%t&lang=de';
+  fetch(API).then(r => r.text()).then(data => {
+    const parts = data.trim().split(/\s+/);
+    document.getElementById('weatherDesc').textContent = parts[0] || '';
+    document.getElementById('weatherTemp').textContent = parts[1] || '';
+  }).catch(() => {});
+})();
+
+// ══════ HOME / AWAY TOGGLE ══════
+(function() {
+  const toggle = document.getElementById('themeToggle');
+  const label = document.getElementById('themeLabel');
+  const saved = localStorage.getItem('sbr-theme');
+  if (saved === 'away') { document.body.classList.add('light'); label.textContent = 'AWAY'; }
+  else { label.textContent = 'HOME'; }
+
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    const isAway = document.body.classList.contains('light');
+    label.textContent = isAway ? 'AWAY' : 'HOME';
+    localStorage.setItem('sbr-theme', isAway ? 'away' : 'home');
+  });
+})();
+
+// ══════ TOGGLE SECTIONS ══════
+function toggleSection(label) {
+  label.parentElement.classList.toggle('collapsed');
+}
+
+// ══════ CHECKLIST ══════
+function toggleCheck(item) {
+  item.classList.toggle('done');
+  saveChecklist();
+}
+function saveChecklist() {
+  const items = document.querySelectorAll('#guidelineChecklist .checklist-item');
+  const state = Array.from(items).map(i => i.classList.contains('done'));
+  localStorage.setItem('sbr-checklist', JSON.stringify(state));
+}
+function loadChecklist() {
+  const state = JSON.parse(localStorage.getItem('sbr-checklist') || '[]');
+  const items = document.querySelectorAll('#guidelineChecklist .checklist-item');
+  state.forEach((done, i) => { if (items[i] && done) items[i].classList.add('done'); });
+}
+loadChecklist();
+
+// ══════ TODO ══════
+let todos = JSON.parse(localStorage.getItem('sbr-todos') || '[]');
+function renderTodos() {
+  const list = document.getElementById('sbrTodoList');
+  list.innerHTML = todos.map((t, i) => `
+    <li class="todo-item ${t.done ? 'done' : ''}" onclick="toggleTodo(${i})">
+      <span class="todo-check">&check;</span>
+      <span class="todo-text">${t.text}</span>
+      <span class="todo-del" onclick="event.stopPropagation(); delTodo(${i})">&times;</span>
+    </li>
+  `).join('');
+  const done = todos.filter(t => t.done).length;
+  document.getElementById('sbrTodoCount').textContent = `${done}/${todos.length} ERLEDIGT`;
+}
+function addTodo() {
+  const input = document.getElementById('sbrTodoInput');
+  if (!input.value.trim()) return;
+  todos.push({ text: input.value.trim(), done: false });
+  input.value = '';
+  localStorage.setItem('sbr-todos', JSON.stringify(todos));
+  renderTodos();
+}
+function toggleTodo(i) {
+  todos[i].done = !todos[i].done;
+  localStorage.setItem('sbr-todos', JSON.stringify(todos));
+  renderTodos();
+}
+function delTodo(i) {
+  todos.splice(i, 1);
+  localStorage.setItem('sbr-todos', JSON.stringify(todos));
+  renderTodos();
+}
+document.getElementById('sbrTodoInput').addEventListener('keydown', e => { if (e.key === 'Enter') addTodo(); });
+renderTodos();
+
+// ══════ NOTES ══════
+const notesArea = document.getElementById('sbrNotes');
+notesArea.value = localStorage.getItem('sbr-notes') || '';
+let saveTimer;
+notesArea.addEventListener('input', () => {
+  document.getElementById('notesStatus').textContent = 'Speichert...';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    localStorage.setItem('sbr-notes', notesArea.value);
+    document.getElementById('notesStatus').textContent = 'Gespeichert';
+  }, 500);
+});
+</script>
+</body>
+</html>
