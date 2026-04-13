@@ -3,11 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Guideline 2026/27 — Starbulls Nachwuchs</title>
+<title>Guideline 2026/27 — Starbulls Rosenheim e.V. — Nachwuchs</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23005243'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='13' fill='%23F2F5F4'>SBR</text></svg>">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=League+Gothic&family=Titillium+Web:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+  @font-face {
+    font-family: 'League 200';
+    src: url('/League-200ExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -32,14 +39,18 @@
     display: flex; gap: 8px; align-items: center;
   }
   .ctrl-btn {
-    border: 1px solid var(--border); background: rgba(255,255,255,0.8);
-    backdrop-filter: blur(12px); cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    cursor: pointer;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8px; letter-spacing: 2px; color: var(--muted);
+    font-size: 8px; letter-spacing: 2px; color: rgba(255,255,255,0.7);
     padding: 6px 14px; transition: all 0.3s;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.2);
   }
-  .ctrl-btn:hover { color: var(--green); border-color: var(--green-20); }
-  .ctrl-btn.active { color: var(--green); border-color: var(--green); background: var(--green-05); }
+  .ctrl-btn:hover { color: #fff; border-color: rgba(228,3,46,0.5); background: rgba(228,3,46,0.2); box-shadow: 0 2px 12px rgba(228,3,46,0.15); }
+  .ctrl-btn.active { color: #fff; border-color: var(--green); background: rgba(0,82,67,0.3); }
 
   /* ── HERO HEADER ── */
   .hero {
@@ -50,10 +61,7 @@
     align-items: center; justify-content: center;
   }
   .hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,82,67,0.82); }
-  .hero::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
-    background: linear-gradient(to top, var(--bg), transparent);
-  }
+  .hero::after { display: none; }
   .hero * { position: relative; z-index: 1; }
   .hero-brand {
     font-family: 'JetBrains Mono', monospace;
@@ -61,7 +69,7 @@
     margin-bottom: 16px;
   }
   .hero-title {
-    font-family: 'League Gothic', sans-serif;
+    font-family: 'League 200', 'League Gothic', sans-serif;
     font-size: clamp(60px, 12vw, 140px); color: #fff;
     text-transform: uppercase; letter-spacing: 2px; line-height: 0.9;
   }
@@ -88,7 +96,7 @@
   .toc {
     background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 8px 32px rgba(0,0,0,0.06);
-    padding: 36px; margin: -60px auto 60px; position: relative; z-index: 2; max-width: 860px;
+    padding: 36px; margin: 0 auto 60px; position: relative; z-index: 2; max-width: 860px;
     border-radius: 2px;
   }
   .toc-label {
@@ -103,8 +111,8 @@
   }
   .toc-item:hover { color: var(--green); transform: translateX(6px); }
   .toc-num {
-    font-family: 'League Gothic', sans-serif;
-    font-size: 22px; color: var(--green); opacity: 0.4; width: 30px; flex-shrink: 0;
+    font-family: 'League 200', 'League Gothic', sans-serif;
+    font-size: 22px; color: var(--red); opacity: 0.5; width: 30px; flex-shrink: 0;
     transition: opacity 0.3s;
   }
   .toc-item:hover .toc-num { opacity: 1; }
@@ -117,7 +125,7 @@
   .vision-break::before { content: ''; position: absolute; inset: 0; background: rgba(0,82,67,0.92); }
   .vision-break * { position: relative; z-index: 1; }
   .vision-quote {
-    font-family: 'League Gothic', sans-serif;
+    font-family: 'League 200', 'League Gothic', sans-serif;
     font-size: clamp(28px, 5vw, 48px); color: #fff;
     text-transform: uppercase; letter-spacing: 1px; line-height: 1.15;
     max-width: 700px; margin: 0 auto;
@@ -136,8 +144,8 @@
   .section.visible { opacity: 1; transform: none; }
   .section-head { display: flex; align-items: flex-end; gap: 16px; margin-bottom: 20px; }
   .section-big-num {
-    font-family: 'League Gothic', sans-serif;
-    font-size: clamp(48px, 8vw, 80px); color: var(--green); opacity: 0.12;
+    font-family: 'League 200', 'League Gothic', sans-serif;
+    font-size: clamp(48px, 8vw, 80px); color: var(--red); opacity: 0.18;
     line-height: 0.85; flex-shrink: 0;
   }
   .section-titles { flex: 1; }
@@ -146,7 +154,7 @@
     font-size: 9px; letter-spacing: 3px; color: var(--green); margin-bottom: 2px;
   }
   .section h2 {
-    font-family: 'League Gothic', sans-serif;
+    font-family: 'League 200', 'League Gothic', sans-serif;
     font-size: clamp(26px, 4vw, 40px); color: var(--dark);
     text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.05;
   }
@@ -209,10 +217,10 @@
   .step-list li::before {
     content: counter(steps, decimal-leading-zero);
     position: absolute; left: 0; top: 14px;
-    font-family: 'League Gothic', sans-serif; font-size: 20px; color: var(--green); opacity: 0.5;
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 20px; color: var(--red); opacity: 0.5;
   }
   .leitsatz {
-    font-family: 'League Gothic', sans-serif;
+    font-family: 'League 200', 'League Gothic', sans-serif;
     font-size: 22px; color: var(--dark);
     text-transform: uppercase; letter-spacing: 0.5px;
     padding: 10px 0; border-bottom: 1px solid var(--border);
@@ -225,7 +233,7 @@
   }
   .phase-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,82,67,0.08); }
   .phase-card-title {
-    font-family: 'League Gothic', sans-serif; font-size: 24px; color: var(--green); text-transform: uppercase;
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 24px; color: var(--green); text-transform: uppercase;
   }
   .phase-card-desc { font-size: 12px; color: var(--text); margin-top: 4px; }
 
@@ -236,7 +244,7 @@
     border: 1px solid var(--green-20); background: var(--green-05);
   }
   .stat-box-num {
-    font-family: 'League Gothic', sans-serif; font-size: 36px; color: var(--green);
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 36px; color: var(--red);
   }
   .stat-box-label {
     font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px;
@@ -255,7 +263,7 @@
     font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.4);
   }
   .doc-footer .brand {
-    font-family: 'League Gothic', sans-serif;
+    font-family: 'League 200', 'League Gothic', sans-serif;
     font-size: 24px; color: #fff; text-transform: uppercase; letter-spacing: 1px;
     margin-bottom: 12px;
   }
@@ -274,7 +282,8 @@
     background: rgba(10,10,10,0.82); pointer-events: none; z-index: 0;
   }
   body.home .hero, body.home .container, body.home .toc,
-  body.home .doc-footer, body.home .controls, body.home .vision-break { position: relative; z-index: 1; }
+  body.home .doc-footer, body.home .vision-break { position: relative; z-index: 1; }
+  body.home .controls { position: fixed; z-index: 201; }
   body.home .toc {
     background: rgba(17,17,17,0.85); backdrop-filter: blur(16px);
     border-color: rgba(255,255,255,0.05); box-shadow: 0 8px 32px rgba(0,0,0,0.3);
@@ -282,9 +291,10 @@
   body.home .toc-item { color: var(--light); border-bottom-color: rgba(255,255,255,0.04); }
   body.home .toc-item:hover { color: var(--green); }
   body.home .info-box { background: rgba(17,17,17,0.8); border-color: #1c1c1c; }
-  body.home .ctrl-btn { background: rgba(17,17,17,0.8); border-color: #1c1c1c; color: rgba(255,255,255,0.35); }
-  body.home .ctrl-btn:hover { color: var(--green); border-color: var(--green-20); }
-  body.home .ctrl-btn.active { color: var(--green); border-color: var(--green); background: rgba(0,82,67,0.1); }
+  body.home .ctrl-btn { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); }
+  body.home .ctrl-btn:hover { color: #fff; border-color: rgba(228,3,46,0.5); background: rgba(228,3,46,0.2); }
+  body.home .ctrl-btn.active { color: #fff; border-color: var(--green); background: rgba(0,82,67,0.2); }
+  body.home .hero::after { display: none; }
   body.home .quote-block { background: rgba(0,82,67,0.08); }
   body.home .red-zone { background: rgba(228,3,46,0.05); }
   body.home .phase-card { background: rgba(0,82,67,0.08); }
@@ -366,8 +376,8 @@
 
 <!-- ══════ HERO ══════ -->
 <header class="hero">
-  <img src="/sbr-logo-bw.png" alt="Starbulls Rosenheim" style="width:120px; height:auto; opacity:0.85; margin-bottom:20px; filter:brightness(10);">
-  <div class="hero-brand">STARBULLS ROSENHEIM E.V. &middot; NACHWUCHSABTEILUNG</div>
+  <img src="/sbr-logo-bw.png" alt="Starbulls Rosenheim" style="width:120px; height:auto; opacity:0.9; margin-bottom:20px;">
+  <div class="hero-brand">STARBULLS ROSENHEIM E.V. &mdash; NACHWUCHS</div>
   <h1 class="hero-title">GUIDE<br>LINE</h1>
   <p class="hero-sub">Der Kompass f&uuml;r unsere Nachwuchsarbeit. Saison 2026/2027.</p>
   <div class="hero-meta">VERSION 1.0 &middot; APRIL 2026 &middot; VERTRAULICH</div>
@@ -427,8 +437,8 @@
 
 <!-- ═══ VISION BREAK ═══ -->
 <div class="vision-break">
-  <div class="vision-quote">STOP COMPLAINING,<br>LET'S FUCKING GO.</div>
-  <div class="vision-attr">REN&Eacute; WILD &middot; HEAD OF COACHES</div>
+  <div class="vision-quote">STRUKTUR. ENTWICKLUNG. ZUKUNFT.</div>
+  <div class="vision-attr">STARBULLS ROSENHEIM E.V. &mdash; NACHWUCHS</div>
 </div>
 
 <div class="container">
@@ -494,10 +504,11 @@
         <tr><td>Head of Coaches</td><td>Ren&eacute; Wild</td><td>U7&ndash;U20 gesamt</td></tr>
         <tr><td>CT U20</td><td>Frank Hohenadl</td><td>Leistung</td></tr>
         <tr><td>AC U20</td><td>Manuel Hiemer</td><td>Leistung</td></tr>
-        <tr><td>CT U17</td><td>Ren&eacute; Wild</td><td>Leistung</td></tr>
+        <tr><td>AC U17</td><td style="color:var(--muted); font-style:italic;">TBD</td><td>Leistung</td></tr>
         <tr><td>CT U15</td><td>Matthias Bergmann</td><td>Entwicklung</td></tr>
         <tr><td>AC U15</td><td>Christian Kornberger</td><td>Entwicklung</td></tr>
         <tr><td>CT U13</td><td>Rick B&ouml;hm</td><td>Entwicklung</td></tr>
+        <tr><td>AC U13</td><td style="color:var(--muted); font-style:italic;">TBD</td><td>Entwicklung</td></tr>
         <tr><td>SL Grundlagen</td><td>Thomas Sch&auml;dler</td><td>U9&ndash;U11</td></tr>
         <tr><td>CT U7</td><td>Matthias Bergmann</td><td>Grundlagen</td></tr>
         <tr><td>SL Laufschule</td><td>Astrid Schneider</td><td>Recruiting</td></tr>
@@ -505,8 +516,13 @@
         <tr><td>TW U11&ndash;15</td><td>Kai Klimesch</td><td>Torwart &amp; Digital</td></tr>
         <tr><td>Athletik</td><td>Florian Schillhuber</td><td>U17&ndash;U20</td></tr>
         <tr><td>Athletik</td><td>Thomas Dorsch</td><td>U11&ndash;U15</td></tr>
+        <tr><td>SL Entwicklung (U13&ndash;U15)</td><td style="color:var(--muted); font-style:italic;">TBD</td><td>Entwicklung</td></tr>
         <tr><td>Koordination</td><td>Heiko Stein</td><td>Orga &amp; 5-Sterne</td></tr>
         <tr><td>Koordination</td><td>Markus Wallner</td><td>Assistent</td></tr>
+        <tr><td>Co-Trainer</td><td style="color:var(--muted); font-style:italic;">TBD</td><td>Diverse</td></tr>
+        <tr><td>Mannschaftsf&uuml;hrer</td><td style="color:var(--muted); font-style:italic;">TBD</td><td>Pro Team</td></tr>
+        <tr><td>Betreuer</td><td style="color:var(--muted); font-style:italic;">TBD</td><td>Pro Team</td></tr>
+        <tr><td>Vertrauensperson</td><td style="color:var(--muted); font-style:italic;">TBD</td><td>PSG</td></tr>
       </tbody>
     </table>
   </section>
@@ -565,8 +581,8 @@
 
 <!-- ═══ VISION BREAK ═══ -->
 <div class="vision-break">
-  <div class="vision-quote">WIR WOLLEN DIE BESTEN SPIELER ENTWICKELN &mdash; UND VON AUSSEN ZU UNS HOLEN.</div>
-  <div class="vision-attr">VISION STARBULLS NACHWUCHS 2026&ndash;2031</div>
+  <div class="vision-quote">DER MENSCH STEHT AN OBERSTER STELLE.</div>
+  <div class="vision-attr">VISION 2026&ndash;2031</div>
 </div>
 
 <div class="container">
@@ -819,8 +835,8 @@
 
 <!-- ══════ FOOTER ══════ -->
 <footer class="doc-footer">
-  <img src="/sbr-logo-bw.png" alt="Starbulls" style="width:60px; height:auto; opacity:0.3; margin-bottom:12px; filter:brightness(10);">
-  <div class="brand">STARBULLS NACHWUCHS</div>
+  <img src="/sbr-logo-bw.png" alt="Starbulls" style="width:60px; height:auto; opacity:0.3; margin-bottom:12px;">
+  <div class="brand">STARBULLS ROSENHEIM E.V.</div>
   <p>GUIDELINE 2026/2027 &middot; VERSION 1.0 &middot; APRIL 2026</p>
   <p style="margin-top:8px;">VERTRAULICH &mdash; NUR F&Uuml;R DEN INTERNEN GEBRAUCH</p>
 </footer>
