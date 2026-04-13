@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jahresplanung 2026/27 — Starbulls Nachwuchs</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23005243'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='13' fill='%23F2F5F4'>SBR</text></svg>">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=League+Gothic&family=Titillium+Web:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+  @font-face { font-family: 'League 200'; src: url('/League-200ExtraBold.otf') format('opentype'); font-weight: 800; font-display: swap; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  :root {
+    --black: #0A0A0A; --surface: #ffffff; --border: #e8e8e8;
+    --muted: #999; --text: #555; --light: #333; --dark: #1a1a1a;
+    --green: #005243; --green-10: rgba(0,82,67,0.10); --green-05: rgba(0,82,67,0.05);
+    --green-20: rgba(0,82,67,0.20); --red: #E4032E; --red-10: rgba(228,3,46,0.10);
+    --bg: #F2F5F4;
+  }
+  body { font-family: 'Titillium Web', -apple-system, sans-serif; background: var(--bg); color: var(--light); min-height: 100vh; -webkit-font-smoothing: antialiased; line-height: 1.7; }
+
+  .controls { position: fixed; top: 16px; right: 24px; z-index: 200; display: flex; gap: 8px; }
+  .ctrl-btn { border: 1px solid var(--green-20); background: var(--surface); backdrop-filter: blur(20px); cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px; color: var(--green); padding: 7px 16px; transition: all 0.3s; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .ctrl-btn:hover { color: #fff; border-color: var(--red); background: var(--red); }
+
+  .hero { background: var(--green); background-image: url('/sbr-bg.png'); background-size: cover; background-position: center; position: relative; padding: 100px 40px 80px; text-align: center; overflow: hidden; min-height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,82,67,0.82); }
+  .hero * { position: relative; z-index: 1; }
+  .hero-brand { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 4px; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+  .hero-title { font-family: 'League 200', 'League Gothic', sans-serif; font-size: clamp(48px, 10vw, 120px); color: #fff; text-transform: uppercase; letter-spacing: 2px; line-height: 0.9; }
+  .hero-season { font-family: 'League 200', 'League Gothic', sans-serif; font-size: clamp(36px, 8vw, 80px); color: var(--red); text-transform: uppercase; letter-spacing: 1px; line-height: 0.9; margin-top: 8px; }
+  .hero-sub { font-family: 'Titillium Web', sans-serif; font-size: clamp(14px, 2vw, 18px); font-weight: 300; color: rgba(255,255,255,0.5); margin-top: 20px; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+  .toc { background: var(--surface); border: none; box-shadow: 0 16px 48px rgba(0,0,0,0.1); padding: 44px 48px; margin: -40px auto 60px; position: relative; z-index: 2; max-width: 900px; }
+  .toc-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 2px solid var(--green); }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--green); }
+  .toc-count { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--red); opacity: 0.6; }
+  .toc-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 32px; }
+  .toc-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.04); text-decoration: none; color: var(--text); transition: all 0.25s; font-size: 13px; }
+  .toc-item:hover { color: var(--dark); }
+  .toc-num { font-family: 'League 200', 'League Gothic', sans-serif; font-size: 18px; color: var(--red); opacity: 0.35; width: 26px; flex-shrink: 0; transition: all 0.25s; }
+  .toc-item:hover .toc-num { opacity: 1; }
+
+  .section { margin-bottom: 48px; padding-top: 40px; opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .section.visible { opacity: 1; transform: none; }
+  .section-head { display: flex; align-items: flex-end; gap: 16px; margin-bottom: 20px; }
+  .section-big-num { font-family: 'League 200', 'League Gothic', sans-serif; font-size: clamp(48px, 8vw, 80px); color: var(--red); opacity: 0.18; line-height: 0.85; flex-shrink: 0; }
+  .section-titles { flex: 1; }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--green); margin-bottom: 2px; }
+  .section h2 { font-family: 'League 200', 'League Gothic', sans-serif; font-size: clamp(26px, 4vw, 40px); color: var(--dark); text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.05; }
+  .section-divider { width: 40px; height: 3px; background: var(--red); margin: 16px 0 20px; }
+  .section-intro { font-size: 15px; color: var(--text); line-height: 1.8; margin-bottom: 24px; max-width: 720px; }
+  .section h3 { font-size: 15px; font-weight: 700; color: var(--dark); margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--green-20); }
+
+  .quote-block { background: var(--green-05); border-left: 3px solid var(--green); padding: 24px 28px; margin: 24px 0; font-style: italic; font-size: 16px; color: var(--green); line-height: 1.6; }
+  .rule-list { list-style: none; margin: 12px 0; }
+  .rule-list li { padding: 12px 0 12px 22px; position: relative; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--light); line-height: 1.6; }
+  .rule-list li::before { content: ''; position: absolute; left: 4px; top: 20px; width: 5px; height: 5px; border-radius: 50%; background: var(--green); opacity: 0.4; }
+  .info-box { background: var(--surface); border: 1px solid var(--border); padding: 24px 28px; margin: 20px 0; border-left: 3px solid var(--green-20); }
+  .info-box-label { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 3px; color: var(--green); margin-bottom: 8px; }
+  .data-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  .data-table th { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--green); text-align: left; padding: 12px 10px; border-bottom: 2px solid var(--green-20); }
+  .data-table td { font-size: 13px; color: var(--light); padding: 12px 10px; border-bottom: 1px solid var(--border); }
+  .data-table td:first-child { font-weight: 600; color: var(--dark); }
+  .data-table tr:hover { background: var(--green-05); }
+  .phase-grid { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+  .phase-card { flex: 1; min-width: 140px; background: var(--green-05); border: 1px solid var(--green-20); padding: 20px; text-align: center; }
+  .phase-card-title { font-family: 'League 200', 'League Gothic', sans-serif; font-size: 24px; color: var(--green); text-transform: uppercase; }
+  .phase-card-desc { font-size: 12px; color: var(--text); margin-top: 4px; }
+  .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 24px 0; }
+  .stat-box { padding: 28px 16px; text-align: center; border: 1px solid var(--green-20); background: var(--green-05); }
+  .stat-box-num { font-family: 'League 200', 'League Gothic', sans-serif; font-size: 42px; color: var(--red); line-height: 1; }
+  .stat-box-label { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px; color: var(--muted); margin-top: 8px; }
+  .vision-break { padding: 100px 40px; text-align: center; position: relative; background: var(--green); margin: 60px -24px; overflow: hidden; background-image: url('/sbr-bg.png'); background-size: cover; background-position: center; }
+  .vision-break::before { content: ''; position: absolute; inset: 0; background: rgba(0,82,67,0.88); }
+  .vision-break * { position: relative; z-index: 1; }
+  .vision-quote { font-family: 'League 200', 'League Gothic', sans-serif; font-size: clamp(28px, 5vw, 48px); color: #fff; text-transform: uppercase; letter-spacing: 1px; line-height: 1.15; max-width: 700px; margin: 0 auto; }
+  .vision-attr { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 3px; color: rgba(255,255,255,0.35); margin-top: 20px; }
+
+  .doc-footer { text-align: center; padding: 48px 24px; background: var(--green); position: relative; margin-top: 60px; }
+  .doc-footer::before { content: ''; position: absolute; inset: 0; background: rgba(0,82,67,0.95); }
+  .doc-footer * { position: relative; z-index: 1; }
+  .doc-footer p { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.4); }
+  .doc-footer .brand { font-family: 'League 200', 'League Gothic', sans-serif; font-size: 24px; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+
+  body.home { --surface: #111; --border: #1c1c1c; --muted: #555; --text: #888; --light: #ccc; --dark: #F2F5F4; --bg: #0A0A0A; --green-05: rgba(0,82,67,0.06); --green-10: rgba(0,82,67,0.12); --green-20: rgba(0,82,67,0.20); --red-10: rgba(228,3,46,0.06); background: var(--bg); background-image: url('/sbr-bg.png'); background-size: cover; background-position: center; background-attachment: fixed; }
+  body.home::after { content: ''; position: fixed; inset: 0; background: rgba(10,10,10,0.82); pointer-events: none; z-index: 0; }
+  body.home .hero, body.home .container, body.home .toc, body.home .doc-footer, body.home .vision-break { position: relative; z-index: 1; }
+  body.home .controls { position: fixed; z-index: 201; }
+  body.home .toc { background: rgba(17,17,17,0.9); backdrop-filter: blur(20px); box-shadow: 0 16px 48px rgba(0,0,0,0.5); }
+  body.home .toc-header { border-bottom-color: rgba(255,255,255,0.08); }
+  body.home .toc-item { color: rgba(255,255,255,0.5); border-bottom-color: rgba(255,255,255,0.03); }
+  body.home .toc-item:hover { color: #fff; }
+  body.home .info-box { background: rgba(17,17,17,0.8); border-color: #1c1c1c; }
+  body.home .ctrl-btn { background: rgba(20,20,20,0.9); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); }
+  body.home .ctrl-btn:hover { color: #fff; border-color: var(--red); background: var(--red); }
+  body.home .quote-block { background: rgba(0,82,67,0.08); }
+  body.home .phase-card { background: rgba(0,82,67,0.08); }
+  body.home .stat-box { background: rgba(0,82,67,0.08); }
+  body.home .data-table tr:hover { background: rgba(0,82,67,0.06); }
+
+  @media (max-width: 768px) { .hero { padding: 80px 20px 60px; min-height: 60vh; } .toc { padding: 24px; margin: -40px 12px 40px; } .toc-grid { grid-template-columns: 1fr 1fr; } .section h2 { font-size: 28px; } .section-big-num { font-size: 48px; } .controls { right: 12px; } .stat-row { flex-direction: column; } }
+  @media print { body { background: #fff !important; } .controls { display: none !important; } .hero { break-after: page; min-height: auto; padding: 60px 40px; } .section { break-inside: avoid; opacity: 1 !important; transform: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <button class="ctrl-btn" id="themeToggle"><span id="themeLabel">AWAY</span></button>
+  <button class="ctrl-btn" onclick="window.print()">PDF</button>
+</div>
+
+<header class="hero">
+  <img src="/sbr-logo-bw.png" alt="Starbulls Rosenheim" style="width:100px; height:auto; opacity:0.9; margin-bottom:20px;">
+  <div class="hero-brand">STARBULLS ROSENHEIM E.V. &mdash; NACHWUCHS</div>
+  <h1 class="hero-title">JAHRES<br>PLANUNG</h1>
+  <div class="hero-season">2026/2027</div>
+  <p class="hero-sub">Alle saisonspezifischen Details an einem Ort.</p>
+</header>
+
+<nav class="toc container">
+  <div class="toc-header">
+    <div class="toc-label">INHALTSVERZEICHNIS</div>
+    <div class="toc-count">SAISON 2026/27</div>
+  </div>
+  <div class="toc-grid">
+    <a href="#j1" class="toc-item"><span class="toc-num">01</span>Saisoneinteilung</a>
+    <a href="#j2" class="toc-item"><span class="toc-num">02</span>Trainerstruktur</a>
+    <a href="#j3" class="toc-item"><span class="toc-num">03</span>Kader &amp; Ist-Stand</a>
+    <a href="#j4" class="toc-item"><span class="toc-num">04</span>Kooperationen</a>
+    <a href="#j5" class="toc-item"><span class="toc-num">05</span>Sommertraining</a>
+    <a href="#j6" class="toc-item"><span class="toc-num">06</span>Sommer Camp</a>
+    <a href="#j7" class="toc-item"><span class="toc-num">07</span>Kostenstruktur</a>
+    <a href="#j8" class="toc-item"><span class="toc-num">08</span>5-Sterne-Programm</a>
+    <a href="#j9" class="toc-item"><span class="toc-num">09</span>Digitale Tools</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- 01 SAISONEINTEILUNG -->
+  <section class="section" id="j1">
+    <div class="section-head"><div class="section-big-num">01</div><div class="section-titles"><div class="section-label">SAISON 2026/27</div><h2>Saisoneinteilung</h2></div></div>
+    <div class="section-divider"></div>
+    <div class="phase-grid">
+      <div class="phase-card"><div class="phase-card-title">Post-Season</div><div class="phase-card-desc">Apr &ndash; Jul 2026</div></div>
+      <div class="phase-card"><div class="phase-card-title">Pre-Season</div><div class="phase-card-desc">August 2026</div></div>
+      <div class="phase-card"><div class="phase-card-title">In-Season</div><div class="phase-card-desc">Sep 2026 &ndash; Apr 2027</div></div>
+    </div>
+    <h3>Wichtige Termine</h3>
+    <table class="data-table">
+      <thead><tr><th>DATUM</th><th>EVENT</th></tr></thead>
+      <tbody>
+        <tr><td>Mai 2026</td><td>Start Sommertraining U20&ndash;U9</td></tr>
+        <tr><td>8. Juni 2026</td><td>Start Sommertraining U7</td></tr>
+        <tr><td>31. Jul &ndash; 2. Aug</td><td>Starbulls Sommer Camp, ROFA-Stadion</td></tr>
+        <tr><td>August 2026</td><td>Start Eistraining, Pre-Season</td></tr>
+        <tr><td>September 2026</td><td>Saisonstart In-Season</td></tr>
+        <tr><td>Dezember 2026</td><td>Entwicklungsgespr&auml;che</td></tr>
+        <tr><td>M&auml;rz/April 2027</td><td>Exit Meetings, Kadereinteilung n&auml;chste Saison</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 02 TRAINERSTRUKTUR -->
+  <section class="section" id="j2">
+    <div class="section-head"><div class="section-big-num">02</div><div class="section-titles"><div class="section-label">SAISON 2026/27</div><h2>Trainerstruktur</h2></div></div>
+    <div class="section-divider"></div>
+    <p class="section-intro"><strong>Ren&eacute; Wild</strong> &mdash; Nachwuchsleitung &amp; Head of Coaches, U7&ndash;U20.</p>
+
+    <h3>Sektionsleiter</h3>
+    <div class="phase-grid">
+      <div class="phase-card"><div class="phase-card-title">U20&ndash;U17</div><div class="phase-card-desc">Ren&eacute; Wild &middot; SL</div></div>
+      <div class="phase-card"><div class="phase-card-title">U15&ndash;U13</div><div class="phase-card-desc">Rick B&ouml;hm &middot; SL</div></div>
+      <div class="phase-card"><div class="phase-card-title">U11&ndash;U9</div><div class="phase-card-desc">Thomas Sch&auml;dler &middot; SL</div></div>
+      <div class="phase-card"><div class="phase-card-title">U7 &amp; Laufschule</div><div class="phase-card-desc">Astrid Schneider &middot; SL</div></div>
+    </div>
+
+    <h3>Leistungsbereich</h3>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>CT</th><th>AT</th></tr></thead>
+      <tbody>
+        <tr><td>U20</td><td>Frank Hohenadl</td><td>Manuel Hiemer</td></tr>
+        <tr><td>U17</td><td>Ren&eacute; Wild</td><td style="color:var(--muted); font-style:italic;">TBD</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Entwicklungsbereich</h3>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>CT</th><th>AT</th></tr></thead>
+      <tbody>
+        <tr><td>U15</td><td>Matthias Bergmann</td><td>Christian Kornberger</td></tr>
+        <tr><td>U13</td><td>Rick B&ouml;hm</td><td style="color:var(--muted); font-style:italic;">TBD</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Grundlagenbereich</h3>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>CT / SL</th><th>WEITERE</th></tr></thead>
+      <tbody>
+        <tr><td>U11/U9</td><td>Thomas Sch&auml;dler (SL)</td><td>Kolb</td></tr>
+        <tr><td>U7</td><td>Matthias Bergmann</td><td>Wild, Schneider</td></tr>
+        <tr><td>Laufschule</td><td>Astrid Schneider (SL)</td><td>Isa, Waldner</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Spezialisten</h3>
+    <table class="data-table">
+      <thead><tr><th>BEREICH</th><th>NAME</th><th>EINSATZ</th></tr></thead>
+      <tbody>
+        <tr><td>TW U17&ndash;U20</td><td>Mika Tarvainen</td><td>Torwarttraining</td></tr>
+        <tr><td>TW U11&ndash;U15</td><td>Kai Klimesch</td><td>Torwart &amp; Digital</td></tr>
+        <tr><td>Athletik</td><td>Florian Schillhuber</td><td>Head of Athletik, U17&ndash;U20</td></tr>
+        <tr><td>Athletik</td><td>Thomas Dorsch</td><td>U11&ndash;U15</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Koordination</h3>
+    <table class="data-table">
+      <thead><tr><th>FUNKTION</th><th>NAME</th></tr></thead>
+      <tbody>
+        <tr><td>Nachwuchskoordinator</td><td>Heiko Stein</td></tr>
+        <tr><td>Assistent</td><td>Markus Wallner</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 03 KADER IST-STAND -->
+  <section class="section" id="j3">
+    <div class="section-head"><div class="section-big-num">03</div><div class="section-titles"><div class="section-label">SAISON 2026/27</div><h2>Kader &amp; Ist-Stand</h2></div></div>
+    <div class="section-divider"></div>
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-box-num">205</div><div class="stat-box-label">FELDSPIELER</div></div>
+      <div class="stat-box"><div class="stat-box-num">18</div><div class="stat-box-label">TORH&Uuml;TER</div></div>
+      <div class="stat-box"><div class="stat-box-num">223</div><div class="stat-box-label">GESAMT</div></div>
+      <div class="stat-box"><div class="stat-box-num">7</div><div class="stat-box-label">ALTERSKLASSEN</div></div>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>BEREICH</th><th>STRUKTUR</th><th>IST</th><th>MAX</th></tr></thead>
+      <tbody>
+        <tr><td>U20</td><td>Leistung</td><td>Bayernliga + Prospect</td><td>13</td><td>28</td></tr>
+        <tr><td>U17</td><td>Leistung</td><td>DNL / Bayernliga</td><td>30</td><td>28</td></tr>
+        <tr><td>U15</td><td>Entwicklung</td><td>A-Kader</td><td>28</td><td>28</td></tr>
+        <tr><td>U13</td><td>Entwicklung</td><td>A + B-Kader</td><td>51</td><td>50</td></tr>
+        <tr><td>U11</td><td>Grundlagen</td><td>1. + 2. Mannschaft</td><td>5</td><td>44</td></tr>
+        <tr><td>U9</td><td>Grundlagen</td><td>1. + 2. Mannschaft</td><td>5</td><td>37</td></tr>
+        <tr><td>U7</td><td>Grundlagen</td><td>Laufschule + Bambini</td><td>2</td><td>32</td></tr>
+        <tr><td>Breitensport</td><td>U11&ndash;U15</td><td>In Aufbau</td><td>2</td><td>&mdash;</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 04 KOOPERATIONEN -->
+  <section class="section" id="j4">
+    <div class="section-head"><div class="section-big-num">04</div><div class="section-titles"><div class="section-label">SAISON 2026/27</div><h2>Kooperationen</h2></div></div>
+    <div class="section-divider"></div>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>PARTNER</th><th>ART</th></tr></thead>
+      <tbody>
+        <tr><td>U20</td><td>TSV Miesbach</td><td>Prospect Group</td></tr>
+        <tr><td>U17</td><td>Bad Aibling</td><td>Kooperation</td></tr>
+        <tr><td>U15</td><td>Trostberg</td><td>SPG (F&ouml;rderlizenz)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+<div class="vision-break"><div class="vision-quote">STOP COMPLAINING, LET'S FUCKING GO.</div><div class="vision-attr">REN&Eacute; WILD &middot; HEAD OF COACHES</div></div>
+<div class="container">
+
+  <!-- 05 SOMMERTRAINING -->
+  <section class="section" id="j5">
+    <div class="section-head"><div class="section-big-num">05</div><div class="section-titles"><div class="section-label">SAISON 2026/27</div><h2>Sommertraining 2026</h2></div></div>
+    <div class="section-divider"></div>
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-box-num">MAI</div><div class="stat-box-label">START SOMMER</div></div>
+      <div class="stat-box"><div class="stat-box-num">31.07</div><div class="stat-box-label">CAMP START</div></div>
+      <div class="stat-box"><div class="stat-box-num">AUG</div><div class="stat-box-label">EISTRAINING</div></div>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>START</th><th>EINHEITEN</th><th>ORT</th></tr></thead>
+      <tbody>
+        <tr><td>U20/U17</td><td>5. Mai</td><td>60</td><td>ROFA Stadion</td></tr>
+        <tr><td>U15</td><td>5. Mai</td><td>40</td><td>Crossfit Rosenheim</td></tr>
+        <tr><td>U13</td><td>5. Mai</td><td>30</td><td>Fliegerhalle Bad Aibling</td></tr>
+        <tr><td>U11/U9</td><td>4. Mai</td><td>25&ndash;30</td><td>Sportplatz 60er</td></tr>
+        <tr><td>U7</td><td>8. Juni</td><td>10</td><td>TBD</td></tr>
+        <tr><td>Goalies U9&ndash;U13</td><td>TBD</td><td>TBD</td><td>Fliegerhalle Bad Aibling (DFI)</td></tr>
+        <tr><td>Goalies U15&ndash;U20</td><td>TBD</td><td>TBD</td><td>Mediana Stephanskirchen</td></tr>
+      </tbody>
+    </table>
+    <h3>Kooperationen Sommertraining</h3>
+    <ul class="rule-list">
+      <li>TU M&uuml;nchen (Flo)</li>
+      <li>Wasserski (Thomas Bauer)</li>
+      <li>Skills-Court Mediana</li>
+      <li>Airpark Rosenheim</li>
+      <li>Crossfit Rosenheim</li>
+    </ul>
+  </section>
+
+  <!-- 06 SOMMER CAMP -->
+  <section class="section" id="j6">
+    <div class="section-head"><div class="section-big-num">06</div><div class="section-titles"><div class="section-label">SAISON 2026/27</div><h2>Starbulls Sommer Camp</h2></div></div>
+    <div class="section-divider"></div>
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-box-num">31.07</div><div class="stat-box-label">START</div></div>
+      <div class="stat-box"><div class="stat-box-num">02.08</div><div class="stat-box-label">ENDE</div></div>
+      <div class="stat-box"><div class="stat-box-num">ROFA</div><div class="stat-box-label">STADION</div></div>
+    </div>
+    <div class="info-box">
+      <div class="info-box-label">STATUS</div>
+      <p style="font-size:14px;">Planung l&auml;uft. Online-Anmeldung: <strong>Ende April 2026</strong>.</p>
+    </div>
+  </section>
+
+  <!-- 07 KOSTENSTRUKTUR -->
+  <section class="section" id="j7">
+    <div class="section-head"><div class="section-big-num">07</div><div class="section-titles"><div class="section-label">SAISON 2026/27</div><h2>Kostenstruktur &amp; Beitr&auml;ge</h2></div></div>
+    <div class="section-divider"></div>
+    <p class="section-intro">G&uuml;ltig ab 1. Mai 2026. Familienrabatt: 1. Kind 100%, 2. Kind 75%, 3. Kind 50%, ab 4. Kind frei.</p>
+    <h3>Jahresbeitr&auml;ge</h3>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>JAHRESBEITRAG</th><th>MONATLICH</th></tr></thead>
+      <tbody>
+        <tr><td>U7</td><td>300 &euro;</td><td>25 &euro;</td></tr>
+        <tr><td>U9</td><td>nach Staffelung</td><td>&mdash;</td></tr>
+        <tr><td>U11</td><td>nach Staffelung</td><td>&mdash;</td></tr>
+        <tr><td>U13</td><td>nach Staffelung</td><td>&mdash;</td></tr>
+        <tr><td>U15</td><td>nach Staffelung</td><td>&mdash;</td></tr>
+        <tr><td>U17</td><td>nach Staffelung</td><td>&mdash;</td></tr>
+        <tr><td>U20</td><td>1.500 &euro;</td><td>125 &euro;</td></tr>
+        <tr><td>Breitensport</td><td>240 &euro;</td><td>&mdash;</td></tr>
+        <tr><td>Sommertraining (Nicht-Kader)</td><td>500 &euro;</td><td>&mdash;</td></tr>
+      </tbody>
+    </table>
+    <h3>Buskosten</h3>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>REGELUNG</th><th>KOSTEN</th></tr></thead>
+      <tbody>
+        <tr><td>U7&ndash;U11</td><td>Kein Zuschuss</td><td>Eigenleistung</td></tr>
+        <tr><td>U13/U15</td><td>Ab 90 km</td><td>25 &euro; / Person / Tag</td></tr>
+        <tr><td>U17/U20</td><td>Pauschal</td><td>25 &euro; / Fahrt</td></tr>
+      </tbody>
+    </table>
+    <h3>Verpflegung</h3>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>REGELUNG</th></tr></thead>
+      <tbody>
+        <tr><td>U7&ndash;U15</td><td>Kein Zuschuss (Eigenleistung)</td></tr>
+        <tr><td>U17/U20</td><td>Im Jahresbeitrag inkludiert</td></tr>
+      </tbody>
+    </table>
+    <div class="info-box"><div class="info-box-label">CATERING</div><p style="font-size:13px;"><strong>Ausw&auml;rts U17/U20:</strong> Caf&eacute; Hisig<br><strong>Heim U17/U20:</strong> Amici</p></div>
+  </section>
+
+  <!-- 08 5-STERNE -->
+  <section class="section" id="j8">
+    <div class="section-head"><div class="section-big-num">08</div><div class="section-titles"><div class="section-label">SAISON 2026/27</div><h2>5-Sterne-Programm</h2></div></div>
+    <div class="section-divider"></div>
+    <div class="info-box"><div class="info-box-label">STATUS</div><p style="font-size:14px;"><strong>Top bewertet f&uuml;r unseren Standort.</strong> 5. Stern infrastrukturell nicht erreichbar (keine 2. Eisfl&auml;che, kein Internat).</p></div>
+    <h3>Zust&auml;ndigkeiten</h3>
+    <ul class="rule-list">
+      <li><strong>Heiko Stein &amp; Markus Wallner</strong> &mdash; Betreuung &amp; Umsetzung</li>
+      <li><strong>DEB-Vereinsbetreuer DEL2:</strong> Markus Gleich</li>
+    </ul>
+  </section>
+
+  <!-- 09 DIGITALE TOOLS -->
+  <section class="section" id="j9">
+    <div class="section-head"><div class="section-big-num">09</div><div class="section-titles"><div class="section-label">SAISON 2026/27</div><h2>Digitale Tools</h2></div></div>
+    <div class="section-divider"></div>
+    <table class="data-table">
+      <thead><tr><th>TOOL</th><th>EINSATZ</th></tr></thead>
+      <tbody>
+        <tr><td>Spond</td><td>Organisation, Kommunikation, Events</td></tr>
+        <tr><td>Hudl / InStat</td><td>Videoanalyse ab U15</td></tr>
+        <tr><td>CoachThem</td><td>Trainingsplanung &amp; &Uuml;bungen</td></tr>
+        <tr><td>Elite Prospects</td><td>Spieler-Recherche</td></tr>
+        <tr><td>Microsoft Office / OneDrive</td><td>Dokumente, Kaderlisten, Datenbank</td></tr>
+        <tr><td>Canva Pro</td><td>Design &amp; Pr&auml;sentationen</td></tr>
+        <tr><td>Padlet</td><td>DEB / DEL2 Austausch</td></tr>
+        <tr><td>The Coaches Site</td><td>Coaching-Weiterbildung</td></tr>
+        <tr><td>DEB Online</td><td>Verbandsinfos &amp; Regularien</td></tr>
+      </tbody>
+    </table>
+    <h3>Infrastruktur</h3>
+    <ul class="rule-list">
+      <li>Eishalle &mdash; ROFA-Stadion Rosenheim</li>
+      <li>Gym &mdash; ROFA-Stadion</li>
+      <li>DFI &mdash; Bad Aibling</li>
+      <li>Crossfit Rosenheim</li>
+      <li>Fliegerhalle Bad Aibling</li>
+      <li>Sportplatz 60er</li>
+      <li>Mediana Stephanskirchen (Skillscourt)</li>
+    </ul>
+  </section>
+
+</div>
+
+<div class="vision-break"><div class="vision-quote">AUSBILDEN. ENTWICKELN. GEWINNEN.</div><div class="vision-attr">SAISON 2026/2027</div></div>
+
+<footer class="doc-footer">
+  <img src="/sbr-logo-bw.png" alt="Starbulls" style="width:60px; height:auto; opacity:0.3; margin-bottom:12px;">
+  <div class="brand">STARBULLS ROSENHEIM E.V.</div>
+  <p>JAHRESPLANUNG 2026/2027 &middot; VERTRAULICH</p>
+</footer>
+
+<script>
+(function() {
+  const toggle = document.getElementById('themeToggle');
+  const label = document.getElementById('themeLabel');
+  const saved = localStorage.getItem('sbr-jp-theme');
+  if (saved === 'home') { document.body.classList.add('home'); label.textContent = 'HOME'; }
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('home');
+    const isHome = document.body.classList.contains('home');
+    label.textContent = isHome ? 'HOME' : 'AWAY';
+    localStorage.setItem('sbr-jp-theme', isHome ? 'home' : 'away');
+  });
+})();
+(function() {
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  sections.forEach(s => observer.observe(s));
+})();
+</script>
+</body>
+</html>

@@ -172,12 +172,13 @@
   .section-divider {
     width: 40px; height: 3px; background: var(--red); margin: 16px 0 20px;
   }
-  .section-intro { font-size: 15px; color: var(--text); line-height: 1.8; margin-bottom: 24px; max-width: 720px; }
+  .section-intro { font-size: 16px; color: var(--text); line-height: 1.8; margin-bottom: 28px; max-width: 720px; }
   .section h3 {
-    font-size: 15px; font-weight: 700; color: var(--dark);
-    margin: 28px 0 10px; padding-bottom: 6px;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 16px; font-weight: 700; color: var(--green);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin: 32px 0 12px; padding-bottom: 8px;
     border-bottom: 2px solid var(--green-20);
-    letter-spacing: 0.3px;
   }
 
   /* ── COMPONENTS ── */
@@ -232,13 +233,14 @@
     font-family: 'League 200', 'League Gothic', sans-serif; font-size: 20px; color: var(--red); opacity: 0.5;
   }
   .leitsatz {
-    font-family: 'League 200', 'League Gothic', sans-serif;
-    font-size: 22px; color: var(--dark);
-    text-transform: uppercase; letter-spacing: 0.5px;
-    padding: 14px 0; border-bottom: 1px solid var(--border);
-    transition: color 0.3s;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 14px; font-weight: 600; color: var(--dark);
+    letter-spacing: 0.3px;
+    padding: 14px 20px; margin: 4px 0;
+    background: var(--green-05); border-left: 3px solid var(--green);
+    transition: all 0.3s;
   }
-  .leitsatz:hover { color: var(--red); }
+  .leitsatz:hover { background: var(--green-10); border-left-color: var(--red); }
   .phase-grid { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
   .phase-card {
     flex: 1; min-width: 140px; background: var(--green-05);
@@ -505,18 +507,22 @@
         <div><strong style="color:var(--red);">B</strong> Betreuer</div>
       </div>
     </div>
-    <h3>Bereiche</h3>
+    <h3>Bereiche (Top-Down)</h3>
     <table class="data-table">
-      <thead><tr><th>BEREICH</th><th>TEAMS</th><th>LEITUNG</th></tr></thead>
+      <thead><tr><th>TEAM</th><th>BEREICH</th><th>LEITUNG</th></tr></thead>
       <tbody>
-        <tr><td>Nachwuchsleitung</td><td>U7&ndash;U20 gesamt</td><td>Head of Coaches</td></tr>
-        <tr><td>Leistungsbereich</td><td>U20, U17</td><td>SL Leistung</td></tr>
-        <tr><td>Entwicklungsbereich</td><td>U15, U13</td><td>SL Entwicklung</td></tr>
-        <tr><td>Grundlagenbereich</td><td>U11, U9</td><td>SL Grundlagen</td></tr>
-        <tr><td>Laufschule &amp; U7</td><td>U7, Laufschule</td><td>SL Laufschule</td></tr>
+        <tr><td style="font-size:11px; color:var(--green); font-weight:400;">GESAMT</td><td>Nachwuchsleitung U7&ndash;U20</td><td>Head of Coaches</td></tr>
+        <tr><td>U20</td><td>Leistungsbereich</td><td>SL Leistung</td></tr>
+        <tr><td>U17</td><td>Leistungsbereich</td><td>SL Leistung</td></tr>
+        <tr><td>U15</td><td>Entwicklungsbereich</td><td>SL Entwicklung</td></tr>
+        <tr><td>U13</td><td>Entwicklungsbereich</td><td>SL Entwicklung</td></tr>
+        <tr><td>U11</td><td>Grundlagenbereich</td><td>SL Grundlagen</td></tr>
+        <tr><td>U9</td><td>Grundlagenbereich</td><td>SL Grundlagen</td></tr>
+        <tr><td>U7</td><td>Laufschule &amp; Bambini</td><td>SL Laufschule</td></tr>
+        <tr><td>Laufschule</td><td>Einstieg &amp; Recruiting</td><td>SL Laufschule</td></tr>
         <tr><td>Breitensport</td><td>U11&ndash;U15</td><td>Koordination</td></tr>
-        <tr><td>Torwart</td><td>U9&ndash;U20</td><td>TW-Koordination</td></tr>
-        <tr><td>Athletik</td><td>U11&ndash;U20</td><td>Head of Athletik</td></tr>
+        <tr><td style="font-size:11px; color:var(--green); font-weight:400;">QUER</td><td>Torwartentwicklung U9&ndash;U20</td><td>TW-Koordination</td></tr>
+        <tr><td style="font-size:11px; color:var(--green); font-weight:400;">QUER</td><td>Athletik U11&ndash;U20</td><td>Head of Athletik</td></tr>
       </tbody>
     </table>
     <h3>Mindestbesetzung pro Team</h3>
