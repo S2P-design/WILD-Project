@@ -13,730 +13,874 @@
   html { scroll-behavior: smooth; }
 
   :root {
-    --black: #0A0A0A;
-    --surface: #ffffff;
-    --border: #e8e8e8;
-    --border2: #d0d0d0;
-    --muted: #999;
-    --text: #555;
-    --light: #333;
-    --dark: #1a1a1a;
-    --green: #005243;
-    --green-bright: #005243;
-    --green-10: rgba(0,82,67,0.10);
-    --green-05: rgba(0,82,67,0.05);
-    --green-20: rgba(0,82,67,0.20);
-    --red: #E4032E;
-    --red-10: rgba(228,3,46,0.10);
+    --black: #0A0A0A; --surface: #ffffff; --border: #e8e8e8;
+    --muted: #999; --text: #555; --light: #333; --dark: #1a1a1a;
+    --green: #005243; --green-10: rgba(0,82,67,0.10); --green-05: rgba(0,82,67,0.05);
+    --green-20: rgba(0,82,67,0.20); --red: #E4032E; --red-10: rgba(228,3,46,0.10);
     --bg: #F2F5F4;
   }
 
   body {
     font-family: 'Titillium Web', -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--light);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-    line-height: 1.7;
+    background: var(--bg); color: var(--light);
+    min-height: 100vh; -webkit-font-smoothing: antialiased; line-height: 1.7;
   }
 
-  /* ── THEME TOGGLE ── */
-  .theme-toggle {
-    position: fixed; top: 20px; right: 24px; z-index: 200;
-    border: none; background: transparent; cursor: pointer;
+  /* ── CONTROLS ── */
+  .controls {
+    position: fixed; top: 16px; right: 24px; z-index: 200;
+    display: flex; gap: 8px; align-items: center;
+  }
+  .ctrl-btn {
+    border: 1px solid var(--border); background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(12px); cursor: pointer;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8px; font-weight: 400; letter-spacing: 2px;
-    color: var(--muted); transition: all 0.3s; padding: 4px 0;
+    font-size: 8px; letter-spacing: 2px; color: var(--muted);
+    padding: 6px 14px; transition: all 0.3s;
   }
-  .theme-toggle:hover { color: var(--green); }
+  .ctrl-btn:hover { color: var(--green); border-color: var(--green-20); }
+  .ctrl-btn.active { color: var(--green); border-color: var(--green); background: var(--green-05); }
 
-  /* ── PRINT BUTTON ── */
-  .print-btn {
-    position: fixed; top: 20px; right: 100px; z-index: 200;
-    border: 1px solid var(--border); background: var(--surface); cursor: pointer;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 8px; font-weight: 400; letter-spacing: 2px;
-    color: var(--muted); padding: 4px 12px; transition: all 0.3s;
-  }
-  .print-btn:hover { color: var(--green); border-color: var(--green-20); }
-
-  /* ── HEADER ── */
-  .doc-header {
-    background: var(--green);
-    background-image: url('/sbr-bg.png');
+  /* ── HERO HEADER ── */
+  .hero {
+    background: var(--green); background-image: url('/sbr-bg.png');
     background-size: cover; background-position: center;
-    position: relative; padding: 80px 40px 60px; text-align: center;
-    overflow: hidden;
+    position: relative; padding: 100px 40px 80px; text-align: center;
+    overflow: hidden; min-height: 80vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
   }
-  .doc-header::before {
-    content: ''; position: absolute; inset: 0;
-    background: rgba(0,82,67,0.85);
+  .hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,82,67,0.82); }
+  .hero::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+    background: linear-gradient(to top, var(--bg), transparent);
   }
-  .doc-header * { position: relative; z-index: 1; }
-  .doc-header-brand {
-    font-family: 'League Gothic', sans-serif;
-    font-size: clamp(28px, 5vw, 42px); color: #fff;
-    text-transform: uppercase; letter-spacing: 2px;
-  }
-  .doc-header-brand .accent { color: rgba(255,255,255,0.5); }
-  .doc-header-sub {
+  .hero * { position: relative; z-index: 1; }
+  .hero-brand {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.5);
-    margin-top: 8px;
+    font-size: 10px; letter-spacing: 4px; color: rgba(255,255,255,0.4);
+    margin-bottom: 16px;
   }
-  .doc-header-title {
+  .hero-title {
     font-family: 'League Gothic', sans-serif;
-    font-size: clamp(36px, 7vw, 64px); color: #fff;
-    text-transform: uppercase; letter-spacing: 1px;
-    margin-top: 16px; line-height: 1.1;
+    font-size: clamp(60px, 12vw, 140px); color: #fff;
+    text-transform: uppercase; letter-spacing: 2px; line-height: 0.9;
   }
-  .doc-header-meta {
+  .hero-sub {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: clamp(16px, 2.5vw, 22px); font-weight: 300;
+    color: rgba(255,255,255,0.6); margin-top: 16px; max-width: 500px;
+  }
+  .hero-meta {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.4);
-    margin-top: 20px;
+    font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.3); margin-top: 32px;
   }
+  .hero-scroll {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 2;
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 3px;
+    color: rgba(255,255,255,0.3); animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:0.3;transform:translateX(-50%) translateY(0)} 50%{opacity:0.6;transform:translateX(-50%) translateY(4px)} }
 
   /* ── CONTAINER ── */
   .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
 
-  /* ── TABLE OF CONTENTS ── */
+  /* ── TOC (Glass) ── */
   .toc {
-    background: var(--surface); border: 1px solid var(--border);
-    padding: 32px; margin: -30px auto 40px; position: relative; z-index: 2;
-    max-width: 860px;
+    background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+    padding: 36px; margin: -60px auto 60px; position: relative; z-index: 2; max-width: 860px;
+    border-radius: 2px;
   }
   .toc-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; letter-spacing: 2px; color: var(--green);
-    margin-bottom: 16px;
+    font-size: 9px; letter-spacing: 3px; color: var(--green); margin-bottom: 20px;
   }
-  .toc-list { list-style: none; }
-  .toc-list li { border-bottom: 1px solid var(--border); }
-  .toc-list a {
+  .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+  .toc-item {
     display: flex; align-items: center; gap: 12px;
-    padding: 10px 0; text-decoration: none; color: var(--light);
-    transition: all 0.2s;
+    padding: 10px 0; border-bottom: 1px solid rgba(0,82,67,0.08);
+    text-decoration: none; color: var(--light); transition: all 0.3s; font-size: 13px;
   }
-  .toc-list a:hover { color: var(--green); transform: translateX(4px); }
+  .toc-item:hover { color: var(--green); transform: translateX(6px); }
   .toc-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; font-weight: 700; color: var(--green);
-    width: 28px; flex-shrink: 0;
+    font-family: 'League Gothic', sans-serif;
+    font-size: 22px; color: var(--green); opacity: 0.4; width: 30px; flex-shrink: 0;
+    transition: opacity 0.3s;
   }
-  .toc-title { font-size: 14px; font-weight: 600; }
-  .toc-desc { font-size: 11px; color: var(--muted); margin-left: auto; }
+  .toc-item:hover .toc-num { opacity: 1; }
+
+  /* ── VISION BREAKS ── */
+  .vision-break {
+    padding: 80px 40px; text-align: center; position: relative;
+    background: var(--green); margin: 60px -24px; overflow: hidden;
+  }
+  .vision-break::before { content: ''; position: absolute; inset: 0; background: rgba(0,82,67,0.92); }
+  .vision-break * { position: relative; z-index: 1; }
+  .vision-quote {
+    font-family: 'League Gothic', sans-serif;
+    font-size: clamp(28px, 5vw, 48px); color: #fff;
+    text-transform: uppercase; letter-spacing: 1px; line-height: 1.15;
+    max-width: 700px; margin: 0 auto;
+  }
+  .vision-attr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 3px; color: rgba(255,255,255,0.35); margin-top: 20px;
+  }
 
   /* ── SECTIONS ── */
   .section {
-    margin-bottom: 48px; padding-top: 32px;
-    border-top: 2px solid var(--green-10);
+    margin-bottom: 48px; padding-top: 40px;
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
-  .section-num {
+  .section.visible { opacity: 1; transform: none; }
+  .section-head { display: flex; align-items: flex-end; gap: 16px; margin-bottom: 20px; }
+  .section-big-num {
+    font-family: 'League Gothic', sans-serif;
+    font-size: clamp(48px, 8vw, 80px); color: var(--green); opacity: 0.12;
+    line-height: 0.85; flex-shrink: 0;
+  }
+  .section-titles { flex: 1; }
+  .section-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 2px; color: var(--green);
-    margin-bottom: 4px;
+    font-size: 9px; letter-spacing: 3px; color: var(--green); margin-bottom: 2px;
   }
   .section h2 {
     font-family: 'League Gothic', sans-serif;
-    font-size: clamp(24px, 4vw, 36px); color: var(--dark);
-    text-transform: uppercase; letter-spacing: 0.5px;
-    margin-bottom: 8px; line-height: 1.1;
+    font-size: clamp(26px, 4vw, 40px); color: var(--dark);
+    text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.05;
   }
-  .section-intro {
-    font-size: 15px; color: var(--text); line-height: 1.7;
-    margin-bottom: 24px; max-width: 720px;
+  .section-divider {
+    width: 40px; height: 3px; background: var(--green); margin: 16px 0 20px;
   }
+  .section-intro { font-size: 15px; color: var(--text); line-height: 1.8; margin-bottom: 24px; max-width: 720px; }
   .section h3 {
-    font-family: 'Titillium Web', sans-serif;
-    font-size: 16px; font-weight: 700; color: var(--dark);
-    margin: 24px 0 8px;
-    padding-left: 12px; border-left: 3px solid var(--green);
+    font-size: 15px; font-weight: 700; color: var(--dark);
+    margin: 28px 0 10px; padding-left: 14px; border-left: 3px solid var(--green);
+    letter-spacing: 0.3px;
   }
 
-  /* ── QUOTE BLOCK ── */
+  /* ── COMPONENTS ── */
   .quote-block {
-    background: var(--green-05);
-    border-left: 3px solid var(--green);
-    padding: 20px 24px; margin: 20px 0;
-    font-style: italic; font-size: 15px;
+    background: var(--green-05); border-left: 3px solid var(--green);
+    padding: 24px 28px; margin: 24px 0; font-style: italic; font-size: 16px;
     color: var(--green); line-height: 1.6;
   }
-
-  /* ── RULE LIST ── */
   .rule-list { list-style: none; margin: 12px 0; }
   .rule-list li {
-    padding: 10px 0 10px 20px; position: relative;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px; color: var(--light);
+    padding: 12px 0 12px 22px; position: relative;
+    border-bottom: 1px solid var(--border); font-size: 14px; color: var(--light); line-height: 1.6;
   }
   .rule-list li::before {
-    content: ''; position: absolute; left: 0; top: 18px;
-    width: 8px; height: 2px; background: var(--green);
+    content: ''; position: absolute; left: 0; top: 20px;
+    width: 10px; height: 2px; background: var(--green);
   }
-
-  /* ── RED ZONE (Null-Toleranz) ── */
   .red-zone {
-    background: var(--red-10);
-    border-left: 3px solid var(--red);
-    padding: 20px 24px; margin: 20px 0;
+    background: var(--red-10); border-left: 3px solid var(--red);
+    padding: 24px 28px; margin: 24px 0;
   }
   .red-zone-title {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; letter-spacing: 2px; color: var(--red);
-    margin-bottom: 8px;
+    font-size: 9px; letter-spacing: 3px; color: var(--red); margin-bottom: 10px;
   }
-
-  /* ── INFO BOX ── */
   .info-box {
     background: var(--surface); border: 1px solid var(--border);
-    padding: 20px 24px; margin: 16px 0;
+    padding: 24px 28px; margin: 20px 0; border-left: 3px solid var(--green-20);
   }
   .info-box-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8px; letter-spacing: 2px; color: var(--green);
-    margin-bottom: 8px;
+    font-size: 8px; letter-spacing: 3px; color: var(--green); margin-bottom: 8px;
   }
-
-  /* ── TABLE ── */
   .data-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
   .data-table th {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; letter-spacing: 2px; color: var(--green);
-    text-align: left; padding: 10px 8px;
-    border-bottom: 2px solid var(--green-20);
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px;
+    color: var(--green); text-align: left; padding: 12px 10px; border-bottom: 2px solid var(--green-20);
   }
   .data-table td {
-    font-size: 13px; color: var(--light);
-    padding: 10px 8px; border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--light); padding: 12px 10px; border-bottom: 1px solid var(--border);
   }
   .data-table td:first-child { font-weight: 600; color: var(--dark); }
-
-  /* ── STEP LIST ── */
+  .data-table tr:hover { background: var(--green-05); }
   .step-list { list-style: none; counter-reset: steps; margin: 16px 0; }
   .step-list li {
-    counter-increment: steps;
-    padding: 12px 0 12px 48px; position: relative;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
+    counter-increment: steps; padding: 14px 0 14px 52px; position: relative;
+    border-bottom: 1px solid var(--border); font-size: 14px; line-height: 1.6;
   }
   .step-list li::before {
     content: counter(steps, decimal-leading-zero);
-    position: absolute; left: 0; top: 12px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; font-weight: 700; color: var(--green);
+    position: absolute; left: 0; top: 14px;
+    font-family: 'League Gothic', sans-serif; font-size: 20px; color: var(--green); opacity: 0.5;
   }
-
-  /* ── LEITSATZ ── */
   .leitsatz {
     font-family: 'League Gothic', sans-serif;
-    font-size: 20px; color: var(--dark);
+    font-size: 22px; color: var(--dark);
     text-transform: uppercase; letter-spacing: 0.5px;
-    padding: 8px 0; border-bottom: 1px solid var(--border);
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+  }
+  .phase-grid { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+  .phase-card {
+    flex: 1; min-width: 140px; background: var(--green-05);
+    border: 1px solid var(--green-20); padding: 20px; text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .phase-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,82,67,0.08); }
+  .phase-card-title {
+    font-family: 'League Gothic', sans-serif; font-size: 24px; color: var(--green); text-transform: uppercase;
+  }
+  .phase-card-desc { font-size: 12px; color: var(--text); margin-top: 4px; }
+
+  /* ── STAT HERO (inline) ── */
+  .stat-row { display: flex; gap: 12px; margin: 20px 0; flex-wrap: wrap; }
+  .stat-box {
+    flex: 1; min-width: 120px; padding: 20px; text-align: center;
+    border: 1px solid var(--green-20); background: var(--green-05);
+  }
+  .stat-box-num {
+    font-family: 'League Gothic', sans-serif; font-size: 36px; color: var(--green);
+  }
+  .stat-box-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px;
+    color: var(--muted); margin-top: 4px;
   }
 
   /* ── FOOTER ── */
   .doc-footer {
-    text-align: center; padding: 40px 24px;
-    border-top: 2px solid var(--green-10); margin-top: 60px;
+    text-align: center; padding: 48px 24px;
+    background: var(--green); position: relative; margin-top: 60px;
   }
+  .doc-footer::before { content: ''; position: absolute; inset: 0; background: rgba(0,82,67,0.95); }
+  .doc-footer * { position: relative; z-index: 1; }
   .doc-footer p {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; letter-spacing: 1.5px; color: var(--muted);
+    font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.4);
   }
-  .doc-footer .green { color: var(--green); }
+  .doc-footer .brand {
+    font-family: 'League Gothic', sans-serif;
+    font-size: 24px; color: #fff; text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
 
-  /* ── DARK MODE (HOME) ── */
-  body.dark {
-    --surface: #111;
-    --border: #1c1c1c;
-    --border2: #252525;
-    --muted: #555;
-    --text: #888;
-    --light: #ccc;
-    --dark: #F2F5F4;
-    --bg: #0A0A0A;
-    --green-05: rgba(0,120,95,0.06);
-    --green-10: rgba(0,120,95,0.12);
-    --green-20: rgba(0,120,95,0.20);
-    --red-10: rgba(228,3,46,0.08);
-    background: var(--bg);
-    background-image: url('/sbr-bg.png');
-    background-size: cover; background-position: center;
-    background-attachment: fixed;
+  /* ══════ HOME MODE ══════ */
+  body.home {
+    --surface: #111; --border: #1c1c1c; --muted: #555; --text: #888;
+    --light: #ccc; --dark: #F2F5F4; --bg: #0A0A0A;
+    --green-05: rgba(0,82,67,0.06); --green-10: rgba(0,82,67,0.12);
+    --green-20: rgba(0,82,67,0.20); --red-10: rgba(228,3,46,0.06);
+    background: var(--bg); background-image: url('/sbr-bg.png');
+    background-size: cover; background-position: center; background-attachment: fixed;
   }
-  body.dark::after {
+  body.home::after {
     content: ''; position: fixed; inset: 0;
-    background: rgba(10,10,10,0.85); pointer-events: none; z-index: 0;
+    background: rgba(10,10,10,0.82); pointer-events: none; z-index: 0;
   }
-  body.dark .doc-header, body.dark .container,
-  body.dark .toc, body.dark .doc-footer,
-  body.dark .theme-toggle, body.dark .print-btn { position: relative; z-index: 1; }
-  body.dark .toc { background: rgba(17,17,17,0.9); backdrop-filter: blur(12px); border-color: #1c1c1c; }
-  body.dark .info-box { background: rgba(17,17,17,0.8); border-color: #1c1c1c; }
-  body.dark .theme-toggle { color: rgba(255,255,255,0.35); }
-  body.dark .theme-toggle:hover { color: var(--green-bright); }
-  body.dark .print-btn { background: rgba(17,17,17,0.8); border-color: #1c1c1c; color: rgba(255,255,255,0.35); }
-  body.dark .print-btn:hover { color: var(--green-bright); border-color: var(--green-20); }
+  body.home .hero, body.home .container, body.home .toc,
+  body.home .doc-footer, body.home .controls, body.home .vision-break { position: relative; z-index: 1; }
+  body.home .toc {
+    background: rgba(17,17,17,0.85); backdrop-filter: blur(16px);
+    border-color: rgba(255,255,255,0.05); box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  body.home .toc-item { color: var(--light); border-bottom-color: rgba(255,255,255,0.04); }
+  body.home .toc-item:hover { color: var(--green); }
+  body.home .info-box { background: rgba(17,17,17,0.8); border-color: #1c1c1c; }
+  body.home .ctrl-btn { background: rgba(17,17,17,0.8); border-color: #1c1c1c; color: rgba(255,255,255,0.35); }
+  body.home .ctrl-btn:hover { color: var(--green); border-color: var(--green-20); }
+  body.home .ctrl-btn.active { color: var(--green); border-color: var(--green); background: rgba(0,82,67,0.1); }
+  body.home .quote-block { background: rgba(0,82,67,0.08); }
+  body.home .red-zone { background: rgba(228,3,46,0.05); }
+  body.home .phase-card { background: rgba(0,82,67,0.08); }
+  body.home .stat-box { background: rgba(0,82,67,0.08); }
+  body.home .hero::after { background: linear-gradient(to top, var(--bg), transparent); }
+  body.home .data-table tr:hover { background: rgba(0,82,67,0.06); }
+
+  /* ══════ PRESENTATION MODE ══════ */
+  body.presenting .controls { top: 20px; }
+  body.presenting .hero, body.presenting .toc, body.presenting .doc-footer, body.presenting .vision-break { display: none; }
+  body.presenting .container { max-width: 100%; padding: 0; }
+  body.presenting .section {
+    min-height: 100vh; display: none; margin: 0; padding: 60px 80px;
+    opacity: 1; transform: none; justify-content: center; flex-direction: column;
+  }
+  body.presenting .section.active-slide { display: flex; }
+  body.presenting .section h2 { font-size: clamp(32px, 5vw, 52px); }
+  body.presenting .section-big-num { font-size: 100px; }
+  body.presenting .section-intro { font-size: 18px; }
+  body.presenting .rule-list li { font-size: 16px; padding: 14px 0 14px 24px; }
+  .slide-nav {
+    display: none; position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    z-index: 200; gap: 12px; align-items: center;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(12px);
+    padding: 8px 16px; border-radius: 40px;
+  }
+  body.presenting .slide-nav { display: flex; }
+  .slide-nav-btn {
+    width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.15);
+    background: transparent; color: #fff; cursor: pointer; border-radius: 50%;
+    font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  }
+  .slide-nav-btn:hover { border-color: var(--green); background: rgba(0,82,67,0.2); }
+  .slide-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.5);
+  }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
-    .doc-header { padding: 60px 20px 40px; }
-    .toc { padding: 20px; margin: -20px 12px 30px; }
+    .hero { padding: 80px 20px 60px; min-height: 60vh; }
+    .toc { padding: 24px; margin: -40px 12px 40px; }
+    .toc-grid { grid-template-columns: 1fr; }
     .section h2 { font-size: 28px; }
-    .print-btn { display: none; }
+    .section-big-num { font-size: 48px; }
+    .controls { right: 12px; gap: 4px; }
+    .ctrl-btn { padding: 4px 8px; font-size: 7px; }
+    .vision-break { padding: 60px 24px; margin: 40px -24px; }
+    .vision-quote { font-size: 28px; }
+    body.presenting .section { padding: 40px 24px; }
+    .stat-row { flex-direction: column; }
   }
 
-  /* ── PRINT ── */
   @media print {
     body { background: #fff !important; }
-    .theme-toggle, .print-btn { display: none; }
-    .doc-header { break-after: page; }
-    .section { break-inside: avoid; }
-    .toc { border: 1px solid #ddd; }
+    .controls, .slide-nav { display: none !important; }
+    .hero { break-after: page; min-height: auto; padding: 60px 40px; }
+    .section { break-inside: avoid; opacity: 1 !important; transform: none !important; }
+    .vision-break { break-before: page; }
   }
 </style>
 </head>
 <body>
 
-<!-- Toggle & Print -->
-<button class="theme-toggle" id="themeToggle"><span id="themeLabel">AWAY</span></button>
-<button class="print-btn" onclick="window.print()">PDF / PRINT</button>
+<!-- Controls -->
+<div class="controls">
+  <button class="ctrl-btn" id="themeToggle"><span id="themeLabel">AWAY</span></button>
+  <button class="ctrl-btn" id="presentBtn">PRESENT</button>
+  <button class="ctrl-btn" onclick="window.print()">PDF</button>
+</div>
 
-<!-- ══════ HEADER ══════ -->
-<header class="doc-header">
-  <div class="doc-header-brand">STARBULLS <span class="accent">ROSENHEIM E.V.</span></div>
-  <div class="doc-header-sub">NACHWUCHSABTEILUNG &middot; SAISON 2026/2027</div>
-  <h1 class="doc-header-title">GUIDELINE</h1>
-  <div class="doc-header-meta">VERSION 1.0 &middot; APRIL 2026 &middot; VERTRAULICH</div>
+<!-- Slide Nav -->
+<div class="slide-nav" id="slideNav">
+  <button class="slide-nav-btn" id="prevSlide">&larr;</button>
+  <span class="slide-counter" id="slideCounter">1 / 18</span>
+  <button class="slide-nav-btn" id="nextSlide">&rarr;</button>
+  <button class="slide-nav-btn" id="exitPresent" style="margin-left:8px; font-size:11px;">&times;</button>
+</div>
+
+<!-- ══════ HERO ══════ -->
+<header class="hero">
+  <img src="/sbr-logo-bw.png" alt="Starbulls Rosenheim" style="width:120px; height:auto; opacity:0.85; margin-bottom:20px; filter:brightness(10);">
+  <div class="hero-brand">STARBULLS ROSENHEIM E.V. &middot; NACHWUCHSABTEILUNG</div>
+  <h1 class="hero-title">GUIDE<br>LINE</h1>
+  <p class="hero-sub">Der Kompass f&uuml;r unsere Nachwuchsarbeit. Saison 2026/2027.</p>
+  <div class="hero-meta">VERSION 1.0 &middot; APRIL 2026 &middot; VERTRAULICH</div>
+  <div class="hero-scroll">&darr; SCROLL</div>
 </header>
 
-<!-- ══════ TABLE OF CONTENTS ══════ -->
+<!-- ══════ TOC ══════ -->
 <nav class="toc container">
   <div class="toc-label">INHALTSVERZEICHNIS</div>
-  <ol class="toc-list">
-    <li><a href="#s1"><span class="toc-num">01</span><span class="toc-title">Leitbild &amp; Werte</span></a></li>
-    <li><a href="#s2"><span class="toc-num">02</span><span class="toc-title">Verhaltenskodex &mdash; Trainer &amp; Betreuer</span></a></li>
-    <li><a href="#s3"><span class="toc-num">03</span><span class="toc-title">Verhaltenskodex &mdash; Spieler</span></a></li>
-    <li><a href="#s4"><span class="toc-num">04</span><span class="toc-title">Verhaltenskodex &mdash; Eltern</span></a></li>
-    <li><a href="#s5"><span class="toc-num">05</span><span class="toc-title">Kabine &mdash; Unser Standard</span></a></li>
-    <li><a href="#s6"><span class="toc-num">06</span><span class="toc-title">Pr&auml;vention &amp; Schutzkonzept</span></a></li>
-    <li><a href="#s7"><span class="toc-num">07</span><span class="toc-title">Social Media Richtlinien</span></a></li>
-    <li><a href="#s8"><span class="toc-num">08</span><span class="toc-title">Ausbildungsweg &mdash; Der rote Faden</span></a></li>
-    <li><a href="#s9"><span class="toc-num">09</span><span class="toc-title">Kostenstruktur &amp; Beitr&auml;ge</span></a></li>
-    <li><a href="#s10"><span class="toc-num">10</span><span class="toc-title">Staff &amp; Betreuerstruktur</span></a></li>
-    <li><a href="#s11"><span class="toc-num">11</span><span class="toc-title">Feedback- &amp; Entwicklungskultur</span></a></li>
-    <li><a href="#s12"><span class="toc-num">12</span><span class="toc-title">Standardprozesse (SOPs)</span></a></li>
-  </ol>
+  <div class="toc-grid">
+    <a href="#s1" class="toc-item"><span class="toc-num">01</span>Leitbild &amp; Werte</a>
+    <a href="#s10" class="toc-item"><span class="toc-num">10</span>Kabine</a>
+    <a href="#s2" class="toc-item"><span class="toc-num">02</span>Ausbildungsphilosophie</a>
+    <a href="#s11" class="toc-item"><span class="toc-num">11</span>Pr&auml;vention &amp; Schutz</a>
+    <a href="#s3" class="toc-item"><span class="toc-num">03</span>Ausbildungsweg</a>
+    <a href="#s12" class="toc-item"><span class="toc-num">12</span>Social Media</a>
+    <a href="#s4" class="toc-item"><span class="toc-num">04</span>Trainer &amp; Struktur</a>
+    <a href="#s13" class="toc-item"><span class="toc-num">13</span>Kostenstruktur</a>
+    <a href="#s5" class="toc-item"><span class="toc-num">05</span>Kader &amp; Saison</a>
+    <a href="#s14" class="toc-item"><span class="toc-num">14</span>Feedback-Kultur</a>
+    <a href="#s6" class="toc-item"><span class="toc-num">06</span>Sommertraining</a>
+    <a href="#s15" class="toc-item"><span class="toc-num">15</span>SOPs</a>
+    <a href="#s7" class="toc-item"><span class="toc-num">07</span>Kodex: Trainer</a>
+    <a href="#s16" class="toc-item"><span class="toc-num">16</span>5-Sterne</a>
+    <a href="#s8" class="toc-item"><span class="toc-num">08</span>Kodex: Spieler</a>
+    <a href="#s17" class="toc-item"><span class="toc-num">17</span>Digitale Tools</a>
+    <a href="#s9" class="toc-item"><span class="toc-num">09</span>Kodex: Eltern</a>
+    <a href="#s18" class="toc-item"><span class="toc-num">18</span>Sponsoring</a>
+  </div>
 </nav>
 
 <div class="container">
 
-  <!-- ══════ 01 LEITBILD ══════ -->
+  <!-- 01 LEITBILD -->
   <section class="section" id="s1">
-    <div class="section-num">01</div>
-    <h2>Leitbild &amp; Werte</h2>
-    <p class="section-intro">Die Starbulls Rosenheim stehen seit Jahrzehnten f&uuml;r eine Top-Ausbildung im deutschen Nachwuchs-Eishockey. Wir wollen in Zukunft wieder eigene Spieler in den Profi-Kader bringen &mdash; und gleichzeitig unsere Verantwortung f&uuml;r den Breitensport ernst nehmen. Nicht weil wir m&uuml;ssen, sondern weil wir wollen.</p>
-
-    <div class="quote-block">
-      &bdquo;Im Vordergrund steht der Sport, die Leistung &mdash; aber der Mensch steht absolut an oberster Stelle.&ldquo;
+    <div class="section-head">
+      <div class="section-big-num">01</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 01</div><h2>Leitbild &amp; Werte</h2></div>
     </div>
-
+    <div class="section-divider"></div>
+    <p class="section-intro">Die Starbulls Rosenheim stehen seit Jahrzehnten f&uuml;r eine Top-Ausbildung im deutschen Nachwuchs-Eishockey. Wir wollen wieder eigene Spieler in den Profi-Kader bringen &mdash; und gleichzeitig unsere Verantwortung f&uuml;r den Breitensport ernst nehmen. Nicht weil wir m&uuml;ssen, sondern weil wir wollen.</p>
+    <div class="quote-block">&bdquo;Im Vordergrund steht der Sport, die Leistung &mdash; aber der Mensch steht absolut an oberster Stelle.&ldquo;</div>
     <h3>Unser dualer Auftrag</h3>
     <ul class="rule-list">
-      <li><strong>Leistungsorientierte Ausbildung</strong> &mdash; altersgerecht, mit Long-Term Development Plan, mit dem klaren Ziel: Spieler f&uuml;r den Profisport entwickeln.</li>
-      <li><strong>Breitensport als Fundament</strong> &mdash; ein zus&auml;tzliches Angebot f&uuml;r Kinder, die Eishockey als Sport und Gemeinschaft erleben wollen.</li>
+      <li><strong>Leistungsorientierte Ausbildung</strong> &mdash; altersgerecht, Long-Term Development Plan, Ziel: Profisport.</li>
+      <li><strong>Breitensport als Fundament</strong> &mdash; weil wir unsere soziale Verantwortung sehen.</li>
     </ul>
-
     <h3>Unsere Werte</h3>
-    <div class="leitsatz">Geradlinig</div>
-    <p style="padding:6px 0; font-size:14px;">Klare Positionen, keine Ausreden.</p>
-    <div class="leitsatz">Offen &amp; Transparent</div>
-    <p style="padding:6px 0; font-size:14px;">Ehrliche Kommunikation, auch wenn sie unbequem ist.</p>
-    <div class="leitsatz">Respektvoll</div>
-    <p style="padding:6px 0; font-size:14px;">Der Mensch steht an oberster Stelle.</p>
-    <div class="leitsatz">Leistungsorientiert</div>
-    <p style="padding:6px 0; font-size:14px;">Sport und Leistung im Vordergrund &mdash; aber menschlich.</p>
+    <div class="leitsatz">Geradlinig &mdash; Klare Positionen, keine Ausreden</div>
+    <div class="leitsatz">Offen &amp; Transparent &mdash; Ehrliche Kommunikation, auch unbequem</div>
+    <div class="leitsatz">Respektvoll &mdash; Der Mensch an oberster Stelle</div>
+    <div class="leitsatz">Leistungsorientiert &mdash; Sport im Vordergrund, aber menschlich</div>
+    <div class="info-box"><div class="info-box-label">SELBSTVERST&Auml;NDNIS</div><p style="font-size:16px; font-weight:600; color:var(--green);">Gemeinsam. Klar. Verl&auml;sslich.</p></div>
   </section>
 
+</div>
 
-  <!-- ══════ 02 VERHALTENSKODEX TRAINER ══════ -->
+<!-- ═══ VISION BREAK ═══ -->
+<div class="vision-break">
+  <div class="vision-quote">STOP COMPLAINING,<br>LET'S FUCKING GO.</div>
+  <div class="vision-attr">REN&Eacute; WILD &middot; HEAD OF COACHES</div>
+</div>
+
+<div class="container">
+
+  <!-- 02 AUSBILDUNGSPHILOSOPHIE -->
   <section class="section" id="s2">
-    <div class="section-num">02</div>
-    <h2>Verhaltenskodex &mdash; Trainer &amp; Betreuer</h2>
-    <p class="section-intro">Verbindlich f&uuml;r alle Trainer, Co-Trainer und Betreuer im Nachwuchsbereich.</p>
-
-    <h3>Grundsätze</h3>
-    <ul class="rule-list">
-      <li>Jedes Kind hat Anspruch auf respektvolle Behandlung &mdash; unabh&auml;ngig von Leistung, Rolle oder Vereinswechsel.</li>
-      <li>Sportliche F&ouml;rderung und p&auml;dagogische Verantwortung sind untrennbar.</li>
-      <li>Gewalt, Mobbing und Ausgrenzung werden nicht toleriert.</li>
-      <li>Trainer und Betreuer handeln als Vorbilder.</li>
-    </ul>
-
-    <h3>Verantwortungsbereiche</h3>
-    <p style="font-size:14px; margin-bottom:12px;">Trainer und Betreuer tragen Verantwortung:</p>
-    <ul class="rule-list">
-      <li>Auf dem Eis und Spielfeld</li>
-      <li>In der Kabine</li>
-      <li>Vor und nach Training und Spiel</li>
-      <li>Bei Ausw&auml;rtsfahrten</li>
-      <li>In &Uuml;bergangs- und Wartezeiten</li>
-    </ul>
-
-    <h3>Aufsichtspflicht</h3>
-    <ul class="rule-list">
-      <li>Kabinen d&uuml;rfen nicht unbeaufsichtigt sein.</li>
-      <li>W&auml;hrend Trainingszeiten ist mindestens ein verantwortlicher Erwachsener anwesend.</li>
-      <li>Entscheidungen &uuml;ber Betreuungsbedarf werden nicht durch die Mannschaft getroffen.</li>
-      <li>Betreuer sind aktiv, nicht nur organisatorisch anwesend.</li>
-    </ul>
-
-    <div class="red-zone">
-      <div class="red-zone-title">NULL-TOLERANZ-BEREICH</div>
-      <ul class="rule-list">
-        <li>Beleidigungen, Abwertungen oder Dem&uuml;tigungen</li>
-        <li>Ausgrenzung einzelner Kinder</li>
-        <li>L&auml;cherlichmachen von Ausr&uuml;stung, Herkunft oder Vereinszugeh&ouml;rigkeit</li>
-        <li>Werfen von Gegenst&auml;nden</li>
-        <li>K&ouml;rperliche &Uuml;bergriffe</li>
-        <li>Gruppenbezogene Einsch&uuml;chterung</li>
-      </ul>
-      <p style="font-size:13px; color:var(--red); margin-top:8px; font-weight:600;">K&ouml;rperliche Gewalt erfordert sofortiges Eingreifen und Konsequenzen.</p>
+    <div class="section-head">
+      <div class="section-big-num">02</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 02</div><h2>Ausbildungsphilosophie</h2></div>
     </div>
-
-    <h3>Vorgehen bei Fehlverhalten</h3>
-    <ol class="step-list">
-      <li>Unverz&uuml;glich eingreifen</li>
-      <li>Verhalten klar benennen</li>
-      <li>Konsequenzen umsetzen</li>
-      <li>Vorkommnisse sachlich dokumentieren</li>
-      <li>Sportliche Leitung informieren, falls erforderlich</li>
-    </ol>
-
-    <div class="quote-block" style="border-left-color:var(--red); color:var(--red);">
-      &bdquo;Nicht eingreifen&ldquo; ist keine Option.
+    <div class="section-divider"></div>
+    <p class="section-intro">Qualit&auml;t durch Kapazit&auml;tsbegrenzung. Hochwertige Entwicklung braucht intensives, individuelles Training.</p>
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-box-num">226</div><div class="stat-box-label">MAX. FELDSPIELER</div></div>
+      <div class="stat-box"><div class="stat-box-num">21</div><div class="stat-box-label">MAX. TORH&Uuml;TER</div></div>
+      <div class="stat-box"><div class="stat-box-num">223</div><div class="stat-box-label">AKTUELLER KADER</div></div>
+      <div class="stat-box"><div class="stat-box-num">7</div><div class="stat-box-label">ALTERSKLASSEN</div></div>
     </div>
-
-    <h3>Konsequenzen</h3>
-    <p style="font-size:14px; margin-bottom:8px;">Je nach Schwere und Wiederholung:</p>
-    <ol class="step-list">
-      <li>Verwarnung und Gespr&auml;ch</li>
-      <li>Zeitlich begrenzter Trainingsausschluss</li>
-      <li>Spielausschluss</li>
-      <li>Suspendierung bei Gewalt</li>
-    </ol>
-    <p style="font-size:13px; color:var(--muted); margin-top:8px;">Ziel ist Verhaltens&auml;nderung &mdash; nicht Blo&szlig;stellung.</p>
-
-    <h3>Leits&auml;tze</h3>
-    <div class="leitsatz">Respekt ist Pflicht, keine Option</div>
-    <div class="leitsatz">Leistung rechtfertigt keine Grenzverletzung</div>
-    <div class="leitsatz">Aufsicht sch&uuml;tzt Kinder und Erwachsene</div>
-    <div class="leitsatz">Gewalt beendet jede Diskussion</div>
-    <div class="leitsatz">Erziehung ist Teil der Trainert&auml;tigkeit</div>
+    <h3>Entwicklung vor Selektion</h3>
+    <ul class="rule-list">
+      <li>Bis U15: <strong>Entwicklungsbasierte Gruppierung</strong> statt klassischer Selektion.</li>
+      <li>Ab U15: <strong>&Uuml;bergang Leistungsbereich</strong> &mdash; best&auml;tigt durch Kanada, Schweden, Finnland.</li>
+      <li><strong>Relative Age Effect</strong> wird aktiv beobachtet. Sp&auml;t Reifende haben h&ouml;chstes Langzeitpotenzial.</li>
+    </ul>
+    <h3>Multisportive Ausbildung (3&ndash;10 Jahre)</h3>
+    <p style="font-size:14px;">Kooperationen mit Leichtathletik, Turnen, Tennis, Basketball, Wasserski. Breite motorische Grundausbildung vor Spezialisierung.</p>
   </section>
 
-
-  <!-- ══════ 03 VERHALTENSKODEX SPIELER ══════ -->
+  <!-- 03 AUSBILDUNGSWEG -->
   <section class="section" id="s3">
-    <div class="section-num">03</div>
-    <h2>Verhaltenskodex &mdash; Spieler</h2>
-
-    <ul class="rule-list">
-      <li><strong>P&uuml;nktlichkeit</strong> &mdash; 30 Minuten vor Trainingsbeginn in der Kabine. Ausr&uuml;stung vorbereitet.</li>
-      <li><strong>Respekt</strong> &mdash; gegen&uuml;ber Trainern, Mitspielern, Gegnern und Schiedsrichtern. Immer.</li>
-      <li><strong>Eigenverantwortung</strong> &mdash; f&uuml;r Ausrüstung, Verhalten und eigene Entwicklung.</li>
-      <li><strong>Zero Tolerance</strong> &mdash; Mobbing, Ausgrenzung und Gewalt haben bei uns keinen Platz.</li>
-      <li><strong>Teamgeist</strong> &mdash; wir gewinnen zusammen, wir verlieren zusammen.</li>
-      <li><strong>Kabine</strong> &mdash; Ordnung, Sauberkeit, kein Handy w&auml;hrend Training und Spiel.</li>
-      <li><strong>Repr&auml;sentation</strong> &mdash; im Trikot der Starbulls vertritt jeder den Verein. Auf und neben dem Eis.</li>
-    </ul>
-  </section>
-
-
-  <!-- ══════ 04 VERHALTENSKODEX ELTERN ══════ -->
-  <section class="section" id="s4">
-    <div class="section-num">04</div>
-    <h2>Verhaltenskodex &mdash; Eltern</h2>
-
-    <ul class="rule-list">
-      <li><strong>Training den Trainern</strong> &mdash; beobachten von der Trib&uuml;ne, nicht hinter der Bande. Kein Seitenlinie-Coaching.</li>
-      <li><strong>Kritik direkt ansprechen</strong> &mdash; Gespr&auml;ch mit dem Trainer suchen, nicht auf dem Parkplatz diskutieren.</li>
-      <li><strong>Kein Druck</strong> &mdash; Kinder entwickeln sich besser ohne elterlichen Leistungsdruck.</li>
-      <li><strong>Respekt</strong> &mdash; gegen&uuml;ber Gegnern, Schiedsrichtern und anderen Vereinen.</li>
-      <li><strong>Unterst&uuml;tzung</strong> &mdash; den Verein durch Engagement mittragen (Elternbetreuer, Fahrgemeinschaften, Events).</li>
-      <li><strong>Entscheidungen akzeptieren</strong> &mdash; Kader- und Aufstellungsentscheidungen liegen beim Trainerteam.</li>
-    </ul>
-
-    <div class="info-box">
-      <div class="info-box-label">ANSPRECHPARTNER BEI FRAGEN</div>
-      <p style="font-size:13px;">Heiko Stein &mdash; Nachwuchskoordinator<br>
-      Direkter Kontakt bei Anliegen, Beschwerden oder Anregungen.</p>
+    <div class="section-head">
+      <div class="section-big-num">03</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 03</div><h2>Ausbildungsweg &mdash; Der rote Faden</h2></div>
     </div>
-  </section>
-
-
-  <!-- ══════ 05 KABINE ══════ -->
-  <section class="section" id="s5">
-    <div class="section-num">05</div>
-    <h2>Kabine &mdash; Unser Standard</h2>
-
-    <h3>Kabinenbranding</h3>
-    <p style="font-size:14px;">Unsere Kabinen repr&auml;sentieren den Verein. Starbulls-CI sichtbar, Leitbild an der Wand, Ordnung als Grundhaltung.</p>
-
-    <h3>Verhaltensregeln</h3>
-    <ul class="rule-list">
-      <li><strong>Handyfreie Zone</strong> &mdash; kein Handy in der Kabine w&auml;hrend Training und Spiel. Keine Ausnahmen.</li>
-      <li><strong>Ordnung &amp; Sauberkeit</strong> &mdash; Ausr&uuml;stung ordentlich verstauen, pers&ouml;nliche Gegenst&auml;nde mitnehmen.</li>
-      <li><strong>Respektvoller Umgang</strong> &mdash; keine Ausgrenzung, kein L&auml;cherlichmachen.</li>
-      <li><strong>Vorbild&shy;funktion</strong> &mdash; &auml;ltere Spieler gehen voran und setzen den Standard.</li>
-    </ul>
-
-    <div class="info-box">
-      <div class="info-box-label">GESCHÜTZTE RÄUME</div>
-      <p style="font-size:13px;">Kabine und Mannschaftsbus sind gesch&uuml;tzte R&auml;ume. Es werden keine Bilder oder Videos aus diesen Bereichen auf digitalen Kan&auml;len geteilt.</p>
+    <div class="section-divider"></div>
+    <div class="phase-grid">
+      <div class="phase-card"><div class="phase-card-title">Grundlagen</div><div class="phase-card-desc">U7&ndash;U11 &middot; Spa&szlig; &amp; Basis</div></div>
+      <div class="phase-card"><div class="phase-card-title">Entwicklung</div><div class="phase-card-desc">U13&ndash;U15 &middot; &Uuml;bergang</div></div>
+      <div class="phase-card"><div class="phase-card-title">Leistung</div><div class="phase-card-desc">U17&ndash;U20 &middot; Profi-Weg</div></div>
     </div>
-  </section>
-
-
-  <!-- ══════ 06 PRÄVENTION ══════ -->
-  <section class="section" id="s6">
-    <div class="section-num">06</div>
-    <h2>Pr&auml;vention &amp; Schutzkonzept</h2>
-
-    <h3>Anti-Mobbing</h3>
-    <ul class="rule-list">
-      <li>Klare Definition: Wiederholte, gezielte Handlungen gegen Einzelne &mdash; verbal, physisch oder digital.</li>
-      <li>Meldeweg: Spieler &rarr; Trainer/Betreuer &rarr; Sportliche Leitung &rarr; Vorstand</li>
-      <li>Jeder Hinweis wird ernst genommen und vertraulich behandelt.</li>
-      <li>Konsequenzen gem&auml;&szlig; Stufenmodell (siehe Kapitel 02).</li>
-    </ul>
-
-    <h3>Pr&auml;vention sexualisierter Gewalt (PSG)</h3>
-    <ul class="rule-list">
-      <li>Ab U15: keine gemischtgeschlechtliche Kabinensituation.</li>
-      <li>Keine 1:1-Situationen zwischen Erwachsenen und Minderj&auml;hrigen in geschlossenen R&auml;umen.</li>
-      <li>Umziehen: Trainer betreten die Kabine erst nach Anklopfen.</li>
-      <li>Benannte Vertrauensperson(en) im Verein als Anlaufstelle.</li>
-      <li>Orientierung an DOSB-Richtlinien und Kinderschutzgesetz.</li>
-    </ul>
-
-    <div class="red-zone">
-      <div class="red-zone-title">BEI VERDACHT ODER VORFALL</div>
-      <p style="font-size:13px;">Sofortige Meldung an die sportliche Leitung und den Vorstand. Dokumentation. Kein Alleingang. Schutz des Kindes hat oberste Priorit&auml;t.</p>
-    </div>
-  </section>
-
-
-  <!-- ══════ 07 SOCIAL MEDIA ══════ -->
-  <section class="section" id="s7">
-    <div class="section-num">07</div>
-    <h2>Social Media Richtlinien</h2>
-    <p class="section-intro">G&uuml;ltig ab M&auml;rz 2026 f&uuml;r alle Spieler, Eltern, Trainer und Betreuer.</p>
-
-    <h3>Inhalte auf unseren Kan&auml;len</h3>
-    <p style="font-size:14px;">Ausschlie&szlig;lich Inhalte zu Training und Spielbetrieb. Keine Fotos oder Beitr&auml;ge aus der Kabine oder mannschaftsinternen Aktivit&auml;ten.</p>
-
-    <h3>Regeln</h3>
-    <ul class="rule-list">
-      <li><strong>Kabine &amp; Bus = gesch&uuml;tzte R&auml;ume</strong> &mdash; keine Bilder oder Videos aus diesen Bereichen.</li>
-      <li><strong>Verantwortungsbewusst posten</strong> &mdash; nichts, das dem Verein, der Mannschaft oder Mitspielern schaden k&ouml;nnte.</li>
-      <li><strong>Handyfreie Zone</strong> &mdash; Kabine ist ab sofort handyfreie Zone.</li>
-      <li><strong>Bildrechte</strong> &mdash; keine Fotos von Minderj&auml;hrigen ohne Einwilligung der Erziehungsberechtigten.</li>
-      <li><strong>Konsequenzen</strong> &mdash; Verst&ouml;&szlig;e werden gem&auml;&szlig; Stufenmodell behandelt.</li>
-    </ul>
-  </section>
-
-
-  <!-- ══════ 08 AUSBILDUNGSWEG ══════ -->
-  <section class="section" id="s8">
-    <div class="section-num">08</div>
-    <h2>Ausbildungsweg &mdash; Der rote Faden</h2>
-    <p class="section-intro">Unser Ausbildungskonzept orientiert sich an der DEB-Rahmentrainingskonzeption (RTK) und den Erkenntnissen f&uuml;hrender Eishockeynationen.</p>
-
     <table class="data-table">
-      <thead>
-        <tr><th>PHASE</th><th>ALTER</th><th>FOKUS</th></tr>
-      </thead>
+      <thead><tr><th>PHASE</th><th>ALTER</th><th>FOKUS</th></tr></thead>
       <tbody>
         <tr><td>Basisschulung</td><td>U7&ndash;U11</td><td>Spa&szlig;, Koordination, Laufschule, Multi-Sport</td></tr>
-        <tr><td>Grundlagen</td><td>U13</td><td>Technik, erstes K&ouml;rperspiel, Spielverst&auml;ndnis</td></tr>
-        <tr><td>Aufbau 1</td><td>U15</td><td>Individualtechnik, Taktik, &Uuml;bergang Leistungsbereich</td></tr>
-        <tr><td>Aufbau 2</td><td>U17</td><td>Leistungsorientierung, Mentaltraining, Belastungssteuerung</td></tr>
-        <tr><td>Anschluss</td><td>U20</td><td>Profivorbereitung, Dual Career, Eigenverantwortung</td></tr>
+        <tr><td>Grundlagen</td><td>U13</td><td>Technik, K&ouml;rperspiel, Spielverst&auml;ndnis</td></tr>
+        <tr><td>Aufbau 1</td><td>U15</td><td>Individualtechnik, Taktik, &Uuml;bergang</td></tr>
+        <tr><td>Aufbau 2</td><td>U17</td><td>Leistung, Mentaltraining, Belastung</td></tr>
+        <tr><td>Anschluss</td><td>U20</td><td>Profivorbereitung, Dual Career</td></tr>
       </tbody>
     </table>
-
-    <div class="info-box">
-      <div class="info-box-label">ENTWICKLUNG VOR SELEKTION</div>
-      <p style="font-size:13px;">Bis U15 setzen wir auf entwicklungsbasierte Gruppierung statt klassischer Selektion. Ab U15 beginnt der &Uuml;bergang in den Leistungsbereich &mdash; alle f&uuml;hrenden Eishockeynationen best&auml;tigen diesen Drehpunkt.</p>
-    </div>
-
-    <h3>Kaderkapazit&auml;ten 2026/27</h3>
-    <p style="font-size:14px;">Maximal 226 Feldspieler und 21 Torh&uuml;ter. Qualit&auml;t durch Kapazit&auml;tsbegrenzung.</p>
   </section>
 
-
-  <!-- ══════ 09 KOSTENSTRUKTUR ══════ -->
-  <section class="section" id="s9">
-    <div class="section-num">09</div>
-    <h2>Kostenstruktur &amp; Beitr&auml;ge</h2>
-    <p class="section-intro">G&uuml;ltig ab 1. Mai 2026. Familienrabatt: 100% (1. Kind), 75% (2. Kind), 50% (3. Kind), ab 4. Kind frei.</p>
-
+  <!-- 04 TRAINER-STRUKTUR -->
+  <section class="section" id="s4">
+    <div class="section-head">
+      <div class="section-big-num">04</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 04</div><h2>Trainer- &amp; Funktionsstruktur</h2></div>
+    </div>
+    <div class="section-divider"></div>
     <table class="data-table">
-      <thead>
-        <tr><th>TEAM</th><th>JAHRESBEITRAG</th><th>MONATLICH</th></tr>
-      </thead>
+      <thead><tr><th>FUNKTION</th><th>NAME</th><th>BEREICH</th></tr></thead>
+      <tbody>
+        <tr><td>Head of Coaches</td><td>Ren&eacute; Wild</td><td>U7&ndash;U20 gesamt</td></tr>
+        <tr><td>CT U20</td><td>Frank Hohenadl</td><td>Leistung</td></tr>
+        <tr><td>AC U20</td><td>Manuel Hiemer</td><td>Leistung</td></tr>
+        <tr><td>CT U17</td><td>Ren&eacute; Wild</td><td>Leistung</td></tr>
+        <tr><td>CT U15</td><td>Matthias Bergmann</td><td>Entwicklung</td></tr>
+        <tr><td>AC U15</td><td>Christian Kornberger</td><td>Entwicklung</td></tr>
+        <tr><td>CT U13</td><td>Rick B&ouml;hm</td><td>Entwicklung</td></tr>
+        <tr><td>SL Grundlagen</td><td>Thomas Sch&auml;dler</td><td>U9&ndash;U11</td></tr>
+        <tr><td>CT U7</td><td>Matthias Bergmann</td><td>Grundlagen</td></tr>
+        <tr><td>SL Laufschule</td><td>Astrid Schneider</td><td>Recruiting</td></tr>
+        <tr><td>TW U17&ndash;20</td><td>Mika Tarvainen</td><td>Torwart</td></tr>
+        <tr><td>TW U11&ndash;15</td><td>Kai Klimesch</td><td>Torwart &amp; Digital</td></tr>
+        <tr><td>Athletik</td><td>Florian Schillhuber</td><td>U17&ndash;U20</td></tr>
+        <tr><td>Athletik</td><td>Thomas Dorsch</td><td>U11&ndash;U15</td></tr>
+        <tr><td>Koordination</td><td>Heiko Stein</td><td>Orga &amp; 5-Sterne</td></tr>
+        <tr><td>Koordination</td><td>Markus Wallner</td><td>Assistent</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 05 KADER -->
+  <section class="section" id="s5">
+    <div class="section-head">
+      <div class="section-big-num">05</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 05</div><h2>Kader &amp; Saisonplanung</h2></div>
+    </div>
+    <div class="section-divider"></div>
+    <div class="phase-grid">
+      <div class="phase-card"><div class="phase-card-title">Pre-Season</div><div class="phase-card-desc">August 2026</div></div>
+      <div class="phase-card"><div class="phase-card-title">In-Season</div><div class="phase-card-desc">Sep 2026 &ndash; Apr 2027</div></div>
+      <div class="phase-card"><div class="phase-card-title">Post-Season</div><div class="phase-card-desc">Apr &ndash; Jul 2027</div></div>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>STRUKTUR</th></tr></thead>
+      <tbody>
+        <tr><td>U20</td><td>Bayernliga + Prospect (Miesbach)</td></tr>
+        <tr><td>U17</td><td>Kooperation Bad Aibling</td></tr>
+        <tr><td>U15</td><td>SPG Trostberg (F&ouml;rderlizenz)</td></tr>
+        <tr><td>U13</td><td>2 Mannschaften</td></tr>
+        <tr><td>U11</td><td>1. + 2. Mannschaft</td></tr>
+        <tr><td>U9</td><td>1. + 2. Mannschaft</td></tr>
+        <tr><td>U7</td><td>Laufschule + Bambini</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 06 SOMMERTRAINING -->
+  <section class="section" id="s6">
+    <div class="section-head">
+      <div class="section-big-num">06</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 06</div><h2>Sommertraining 2026</h2></div>
+    </div>
+    <div class="section-divider"></div>
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-box-num">MAI</div><div class="stat-box-label">START SOMMERTRAINING</div></div>
+      <div class="stat-box"><div class="stat-box-num">31.07</div><div class="stat-box-label">SOMMER CAMP START</div></div>
+      <div class="stat-box"><div class="stat-box-num">AUG</div><div class="stat-box-label">EISTRAINING START</div></div>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>START</th><th>EINHEITEN</th><th>ORT</th></tr></thead>
+      <tbody>
+        <tr><td>U20/U17</td><td>5. Mai</td><td>60</td><td>ROFA Stadion</td></tr>
+        <tr><td>U15</td><td>5. Mai</td><td>40</td><td>Crossfit Rosenheim</td></tr>
+        <tr><td>U13</td><td>5. Mai</td><td>30</td><td>Fliegerhalle Bad Aibling</td></tr>
+        <tr><td>U11/U9</td><td>4. Mai</td><td>25&ndash;30</td><td>Sportplatz 60er</td></tr>
+        <tr><td>U7</td><td>8. Juni</td><td>10</td><td>TBD</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+<!-- ═══ VISION BREAK ═══ -->
+<div class="vision-break">
+  <div class="vision-quote">WIR WOLLEN DIE BESTEN SPIELER ENTWICKELN &mdash; UND VON AUSSEN ZU UNS HOLEN.</div>
+  <div class="vision-attr">VISION STARBULLS NACHWUCHS 2026&ndash;2031</div>
+</div>
+
+<div class="container">
+
+  <!-- 07 KODEX TRAINER -->
+  <section class="section" id="s7">
+    <div class="section-head">
+      <div class="section-big-num">07</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 07</div><h2>Verhaltenskodex &mdash; Trainer &amp; Betreuer</h2></div>
+    </div>
+    <div class="section-divider"></div>
+    <p class="section-intro">Verbindlich f&uuml;r alle Trainer, Co-Trainer und Betreuer. Sch&uuml;tzt Kinder, Ehrenamtliche und schafft Klarheit.</p>
+    <h3>Rollen</h3>
+    <ul class="rule-list">
+      <li><strong>Trainer:</strong> Fachliche, p&auml;dagogische und organisatorische Gesamtverantwortung.</li>
+      <li><strong>Betreuer:</strong> Unterst&uuml;tzende Funktion, keine eigenst&auml;ndigen disziplinarischen Ma&szlig;nahmen.</li>
+    </ul>
+    <h3>Aufsichtspflicht</h3>
+    <ul class="rule-list">
+      <li>Kabinen nie unbeaufsichtigt. Mindestens ein Erwachsener anwesend.</li>
+      <li>Betreuer aktiv eingebunden, nicht nur organisatorisch anwesend.</li>
+    </ul>
+    <div class="red-zone">
+      <div class="red-zone-title">NULL-TOLERANZ</div>
+      <ul class="rule-list">
+        <li>Beleidigungen, Dem&uuml;tigungen, Ausgrenzung</li>
+        <li>L&auml;cherlichmachen von Ausr&uuml;stung, Herkunft, Leistungsstand</li>
+        <li>K&ouml;rperliche &Uuml;bergriffe oder Einsch&uuml;chterung</li>
+      </ul>
+    </div>
+    <h3>Konsequenzen</h3>
+    <ol class="step-list">
+      <li>Verwarnung und Gespr&auml;ch</li>
+      <li>Trainingsausschluss</li>
+      <li>Spielausschluss</li>
+      <li>Suspendierung</li>
+    </ol>
+    <div class="quote-block" style="border-left-color:var(--red); color:var(--red);">&bdquo;Nicht eingreifen&ldquo; ist keine Option.</div>
+  </section>
+
+  <!-- 08 KODEX SPIELER -->
+  <section class="section" id="s8">
+    <div class="section-head">
+      <div class="section-big-num">08</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 08</div><h2>Verhaltenskodex &mdash; Spieler</h2></div>
+    </div>
+    <div class="section-divider"></div>
+    <ul class="rule-list">
+      <li><strong>P&uuml;nktlichkeit</strong> &mdash; 30 Min. vor Training. Ausr&uuml;stung bereit.</li>
+      <li><strong>Respekt</strong> &mdash; Trainer, Mitspieler, Gegner, Schiedsrichter.</li>
+      <li><strong>Eigenverantwortung</strong> &mdash; Ausr&uuml;stung, Verhalten, Entwicklung.</li>
+      <li><strong>Zero Tolerance</strong> &mdash; Mobbing und Gewalt haben keinen Platz.</li>
+      <li><strong>Teamgeist</strong> &mdash; Zusammen gewinnen, zusammen verlieren.</li>
+      <li><strong>Kabine</strong> &mdash; Ordnung, kein Handy w&auml;hrend Training/Spiel.</li>
+      <li><strong>Repr&auml;sentation</strong> &mdash; Im Trikot = Verein vertreten.</li>
+    </ul>
+  </section>
+
+  <!-- 09 KODEX ELTERN -->
+  <section class="section" id="s9">
+    <div class="section-head">
+      <div class="section-big-num">09</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 09</div><h2>Verhaltenskodex &mdash; Eltern</h2></div>
+    </div>
+    <div class="section-divider"></div>
+    <ul class="rule-list">
+      <li><strong>Training den Trainern</strong> &mdash; Trib&uuml;ne, nicht Bande.</li>
+      <li><strong>Kritik direkt</strong> &mdash; Gespr&auml;ch mit Trainer, nicht Parkplatz.</li>
+      <li><strong>Kein Druck</strong> &mdash; Kinder entwickeln sich ohne Leistungsdruck besser.</li>
+      <li><strong>Respekt</strong> &mdash; Gegner, Schiedsrichter, andere Vereine.</li>
+      <li><strong>Entscheidungen akzeptieren</strong> &mdash; Kader liegt beim Trainerteam.</li>
+    </ul>
+  </section>
+
+  <!-- 10 KABINE -->
+  <section class="section" id="s10">
+    <div class="section-head">
+      <div class="section-big-num">10</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 10</div><h2>Kabine &mdash; Unser Standard</h2></div>
+    </div>
+    <div class="section-divider"></div>
+    <ul class="rule-list">
+      <li><strong>Handyfreie Zone</strong> &mdash; Keine Ausnahmen.</li>
+      <li><strong>Kabinenbranding</strong> &mdash; Starbulls-CI sichtbar, Leitbild an der Wand.</li>
+      <li><strong>Ordnung</strong> &mdash; Ausr&uuml;stung ordentlich, Gegenst&auml;nde mitnehmen.</li>
+      <li><strong>Gesch&uuml;tzter Raum</strong> &mdash; Keine Bilder/Videos aus Kabine oder Bus.</li>
+    </ul>
+  </section>
+
+  <!-- 11 PRÄVENTION -->
+  <section class="section" id="s11">
+    <div class="section-head">
+      <div class="section-big-num">11</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 11</div><h2>Pr&auml;vention &amp; Schutzkonzept</h2></div>
+    </div>
+    <div class="section-divider"></div>
+    <h3>Anti-Mobbing</h3>
+    <ul class="rule-list">
+      <li>Meldeweg: Spieler &rarr; Trainer &rarr; Sportl. Leitung &rarr; Vorstand</li>
+      <li>Jeder Hinweis vertraulich behandelt.</li>
+    </ul>
+    <h3>PSG &mdash; Pr&auml;vention sexualisierter Gewalt</h3>
+    <ul class="rule-list">
+      <li>Ab U15: keine gemischtgeschlechtliche Kabinensituation.</li>
+      <li>Keine 1:1-Situationen mit Minderj&auml;hrigen.</li>
+      <li>Benannte Vertrauensperson(en) im Verein.</li>
+    </ul>
+    <div class="red-zone"><div class="red-zone-title">BEI VERDACHT</div><p style="font-size:14px;">Sofortige Meldung. Dokumentation. Kein Alleingang. Schutz des Kindes = oberste Priorit&auml;t.</p></div>
+  </section>
+
+  <!-- 12 SOCIAL MEDIA -->
+  <section class="section" id="s12">
+    <div class="section-head">
+      <div class="section-big-num">12</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 12</div><h2>Social Media Richtlinien</h2></div>
+    </div>
+    <div class="section-divider"></div>
+    <ul class="rule-list">
+      <li>Nur Inhalte zu <strong>Training und Spielbetrieb</strong>.</li>
+      <li><strong>Kabine &amp; Bus = gesch&uuml;tzt</strong> &mdash; keine Bilder/Videos.</li>
+      <li><strong>Handyfreie Zone</strong> in der Kabine.</li>
+      <li><strong>Bildrechte</strong> &mdash; keine Minderj&auml;hrigen-Fotos ohne Einwilligung.</li>
+      <li>Verst&ouml;&szlig;e = Konsequenzen gem&auml;&szlig; Stufenmodell.</li>
+    </ul>
+  </section>
+
+  <!-- 13 KOSTEN -->
+  <section class="section" id="s13">
+    <div class="section-head">
+      <div class="section-big-num">13</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 13</div><h2>Kostenstruktur &amp; Beitr&auml;ge</h2></div>
+    </div>
+    <div class="section-divider"></div>
+    <p class="section-intro">Ab 1. Mai 2026. Familienrabatt: 100% / 75% / 50% / ab 4. Kind frei.</p>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>JAHRESBEITRAG</th><th>MONATLICH</th></tr></thead>
       <tbody>
         <tr><td>U7</td><td>300 &euro;</td><td>25 &euro;</td></tr>
-        <tr><td>U9</td><td>nach Staffelung</td><td>&mdash;</td></tr>
-        <tr><td>U11</td><td>nach Staffelung</td><td>&mdash;</td></tr>
-        <tr><td>U13</td><td>nach Staffelung</td><td>&mdash;</td></tr>
-        <tr><td>U15</td><td>nach Staffelung</td><td>&mdash;</td></tr>
-        <tr><td>U17</td><td>nach Staffelung</td><td>&mdash;</td></tr>
+        <tr><td>U9&ndash;U17</td><td>nach Staffelung</td><td>&mdash;</td></tr>
         <tr><td>U20</td><td>1.500 &euro;</td><td>125 &euro;</td></tr>
         <tr><td>Breitensport</td><td>240 &euro;</td><td>&mdash;</td></tr>
         <tr><td>Sommertraining (Nicht-Kader)</td><td>500 &euro;</td><td>&mdash;</td></tr>
       </tbody>
     </table>
-
     <h3>Bus &amp; Verpflegung</h3>
     <ul class="rule-list">
-      <li><strong>U7&ndash;U11:</strong> Kein Zuschuss vom Verein (Bus, Verpflegung).</li>
-      <li><strong>U13/U15:</strong> Bus ab 90 km &mdash; 25 &euro; pro Person/Tag.</li>
-      <li><strong>U17/U20:</strong> Bus 25 &euro; pro Ausw&auml;rtsfahrt (pauschal). Verpflegung im Jahresbeitrag inkludiert.</li>
+      <li><strong>U7&ndash;U11:</strong> Kein Zuschuss vom Verein.</li>
+      <li><strong>U13/U15:</strong> Bus ab 90 km &mdash; 25 &euro;/Person/Tag.</li>
+      <li><strong>U17/U20:</strong> 25 &euro; pauschal. Verpflegung inkludiert.</li>
     </ul>
   </section>
 
-
-  <!-- ══════ 10 STAFF ══════ -->
-  <section class="section" id="s10">
-    <div class="section-num">10</div>
-    <h2>Staff &amp; Betreuerstruktur</h2>
-
-    <h3>Trainer&uuml;bersicht</h3>
-    <table class="data-table">
-      <thead>
-        <tr><th>TEAM</th><th>HEAD COACH</th><th>ASSISTENT</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Sportl. Leitung</td><td>Ren&eacute; Wild</td><td>Head of Coaches, U20&ndash;U7</td></tr>
-        <tr><td>U20</td><td>Frank Hohenadl</td><td>Manuel Hiemer</td></tr>
-        <tr><td>U17</td><td>Ren&eacute; Wild</td><td>&mdash;</td></tr>
-        <tr><td>U15</td><td>Matthias Bergmann</td><td>Christian Kornberger</td></tr>
-        <tr><td>U13</td><td>Rick B&ouml;hm</td><td>&mdash;</td></tr>
-        <tr><td>U11/U9</td><td>Thomas Sch&auml;dler</td><td>Kolb</td></tr>
-        <tr><td>U7</td><td>Matthias Bergmann</td><td>Wild, Schneider</td></tr>
-        <tr><td>Laufschule</td><td>Astrid Schneider</td><td>Isa, Waldner</td></tr>
-        <tr><td>Torwart U17&ndash;20</td><td>Mika Tarvainen</td><td>&mdash;</td></tr>
-        <tr><td>Torwart U11&ndash;15</td><td>Kai Klimesch</td><td>&mdash;</td></tr>
-        <tr><td>Athletik</td><td>Florian Schillhuber</td><td>Thomas Dorsch</td></tr>
-      </tbody>
-    </table>
-
-    <h3>Mindestbesetzung pro Altersgruppe</h3>
-    <table class="data-table">
-      <thead>
-        <tr><th>TEAM</th><th>BESETZUNG</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>U20/U17</td><td>HC + AC + Betreuer + Mannschaftsf&uuml;hrer</td></tr>
-        <tr><td>U15/U13</td><td>HC + AC + Betreuer + Mannschaftsf&uuml;hrer</td></tr>
-        <tr><td>U11/U9</td><td>HC + 2&times;AC + 2&times;Betreuer + 2&times;MF</td></tr>
-        <tr><td>U7</td><td>4 Betreuer + 2 Springer</td></tr>
-      </tbody>
-    </table>
-
-    <div class="info-box">
-      <div class="info-box-label">KOORDINATION</div>
-      <p style="font-size:13px;">Heiko Stein &mdash; Nachwuchskoordinator<br>Markus Wallner &mdash; Assistent<br><br>Aufgaben: Spielbetrieb, DEB 5-Sterne-Programm, Pass- und Meldewesen.</p>
+  <!-- 14 FEEDBACK -->
+  <section class="section" id="s14">
+    <div class="section-head">
+      <div class="section-big-num">14</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 14</div><h2>Feedback- &amp; Entwicklungskultur</h2></div>
     </div>
-  </section>
-
-
-  <!-- ══════ 11 FEEDBACK ══════ -->
-  <section class="section" id="s11">
-    <div class="section-num">11</div>
-    <h2>Feedback- &amp; Entwicklungskultur</h2>
-
-    <h3>Der Entwicklungszyklus</h3>
-    <div style="display:flex; gap:8px; margin:16px 0; flex-wrap:wrap;">
-      <div style="flex:1; min-width:140px; background:var(--green-05); border:1px solid var(--green-20); padding:16px; text-align:center;">
-        <div style="font-family:'League Gothic',sans-serif; font-size:24px; color:var(--green); text-transform:uppercase;">Entry</div>
-        <div style="font-size:12px; color:var(--text); margin-top:4px;">Onboarding &amp; Einstieg</div>
-      </div>
-      <div style="flex:1; min-width:140px; background:var(--green-05); border:1px solid var(--green-20); padding:16px; text-align:center;">
-        <div style="font-family:'League Gothic',sans-serif; font-size:24px; color:var(--green); text-transform:uppercase;">Entwicklung</div>
-        <div style="font-size:12px; color:var(--text); margin-top:4px;">Gespr&auml;che &amp; Begleitung</div>
-      </div>
-      <div style="flex:1; min-width:140px; background:var(--green-05); border:1px solid var(--green-20); padding:16px; text-align:center;">
-        <div style="font-family:'League Gothic',sans-serif; font-size:24px; color:var(--green); text-transform:uppercase;">Exit</div>
-        <div style="font-size:12px; color:var(--text); margin-top:4px;">Abschluss &amp; Feedback</div>
-      </div>
+    <div class="section-divider"></div>
+    <div class="phase-grid">
+      <div class="phase-card"><div class="phase-card-title">Entry</div><div class="phase-card-desc">Onboarding</div></div>
+      <div class="phase-card"><div class="phase-card-title">Entwicklung</div><div class="phase-card-desc">Begleitung</div></div>
+      <div class="phase-card"><div class="phase-card-title">Exit</div><div class="phase-card-desc">Feedback</div></div>
     </div>
-
-    <h3>Entwicklungsgespr&auml;che</h3>
     <ul class="rule-list">
-      <li>Dezember: strukturiertes Entwicklungsgespr&auml;ch mit jedem Spieler.</li>
+      <li>Dezember: Entwicklungsgespr&auml;ch mit jedem Spieler.</li>
       <li>Nach Kadereinteilung: Einzelgespr&auml;che am Folgetag.</li>
-      <li>Alle Daten perfekt aufbereitet als Grundlage.</li>
-      <li>Meeting-Kultur schaffen: regelm&auml;&szlig;ig, strukturiert, dokumentiert.</li>
+      <li>Daten perfekt aufbereitet als Grundlage.</li>
     </ul>
   </section>
 
-
-  <!-- ══════ 12 SOPs ══════ -->
-  <section class="section" id="s12">
-    <div class="section-num">12</div>
-    <h2>Standardprozesse (SOPs)</h2>
-    <p class="section-intro">Klare Abl&auml;ufe f&uuml;r wiederkehrende Situationen. Jeder wei&szlig;, was zu tun ist.</p>
-
+  <!-- 15 SOPs -->
+  <section class="section" id="s15">
+    <div class="section-head">
+      <div class="section-big-num">15</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 15</div><h2>Standardprozesse (SOPs)</h2></div>
+    </div>
+    <div class="section-divider"></div>
     <h3>Try-Out / Probetraining</h3>
     <ol class="step-list">
-      <li>Spieler meldet sich &uuml;ber Online-Formular an.</li>
-      <li>Nachwuchsteam pr&uuml;ft: Ist der Spieler ein Kandidat?</li>
-      <li><strong>Antwort binnen 24 Stunden</strong> &mdash; jede Anmeldung bekommt eine R&uuml;ckmeldung.</li>
-      <li>Bei Einladung: Spieler erh&auml;lt alle relevanten Daten. Best&auml;tigung erforderlich.</li>
-      <li>Spieler wird vom Head Coach pers&ouml;nlich in Empfang genommen, in die Kabine begleitet, Ablauf erkl&auml;rt.</li>
-      <li>Try-Out (1&ndash;3+ Tage): Teilnahme am Training, Beobachtung durch Trainerteam.</li>
-      <li>Nach dem letzten Training: Feedback vom Head Coach, in Begleitung eines Betreuers (Vier-Augen-Prinzip).</li>
-      <li>Schriftliche R&uuml;ckmeldung &mdash; bei Zusage: Onboarding-Prozess starten. Bei Absage: Dank und Gl&uuml;ckw&uuml;nsche.</li>
+      <li>Online-Anmeldung</li>
+      <li>Sichtung: Kandidat ja/nein?</li>
+      <li><strong>Antwort binnen 24 Stunden</strong></li>
+      <li>Datenpaket an Spieler, Best&auml;tigung erforderlich</li>
+      <li>Head Coach nimmt pers&ouml;nlich in Empfang</li>
+      <li>Try-Out (1&ndash;3+ Tage)</li>
+      <li>Feedback: HC + Betreuer (Vier-Augen-Prinzip)</li>
+      <li>Schriftliche R&uuml;ckmeldung: Zusage + Onboarding oder Absage + Dank</li>
     </ol>
-
-    <div class="info-box">
-      <div class="info-box-label">PRINZIPIEN F&Uuml;R ALLE SOPS</div>
-      <ul class="rule-list">
-        <li><strong>24-Stunden-Regel</strong> &mdash; keine Anfrage bleibt l&auml;nger als 24h unbeantwortet.</li>
-        <li><strong>Vier-Augen-Prinzip</strong> &mdash; Feedback-Gespr&auml;che nie allein f&uuml;hren.</li>
-        <li><strong>Schriftlichkeit</strong> &mdash; jede Entscheidung wird schriftlich best&auml;tigt.</li>
-        <li><strong>Respekt</strong> &mdash; auch eine Absage ist eine Chance, den Verein positiv zu repr&auml;sentieren.</li>
-      </ul>
-    </div>
   </section>
 
-</div><!-- /container -->
+  <!-- 16 5-STERNE -->
+  <section class="section" id="s16">
+    <div class="section-head">
+      <div class="section-big-num">16</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 16</div><h2>5-Sterne-Programm</h2></div>
+    </div>
+    <div class="section-divider"></div>
+    <div class="info-box"><div class="info-box-label">STATUS</div><p style="font-size:14px;"><strong>Top bewertet f&uuml;r unseren Standort.</strong> 5. Stern infrastrukturell nicht erreichbar (keine 2. Eisfl&auml;che, kein Internat).</p></div>
+    <p style="font-size:14px; margin-top:12px;">Zust&auml;ndig: Heiko Stein &amp; Markus Wallner. DEB-Betreuer DEL2: Markus Gleich.</p>
+  </section>
 
+  <!-- 17 TOOLS -->
+  <section class="section" id="s17">
+    <div class="section-head">
+      <div class="section-big-num">17</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 17</div><h2>Digitale Tools &amp; Infrastruktur</h2></div>
+    </div>
+    <div class="section-divider"></div>
+    <table class="data-table">
+      <thead><tr><th>TOOL</th><th>EINSATZ</th></tr></thead>
+      <tbody>
+        <tr><td>Spond</td><td>Organisation &amp; Kommunikation</td></tr>
+        <tr><td>Hudl / InStat</td><td>Videoanalyse ab U15</td></tr>
+        <tr><td>CoachThem</td><td>Trainingsplanung</td></tr>
+        <tr><td>Elite Prospects</td><td>Spieler-Recherche</td></tr>
+        <tr><td>MS Office / OneDrive</td><td>Dokumente &amp; Datenbank</td></tr>
+        <tr><td>Canva Pro</td><td>Design &amp; Pr&auml;sentationen</td></tr>
+        <tr><td>The Coaches Site</td><td>Weiterbildung</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 18 SPONSORING -->
+  <section class="section" id="s18">
+    <div class="section-head">
+      <div class="section-big-num">18</div>
+      <div class="section-titles"><div class="section-label">KAPITEL 18</div><h2>Sponsoring &amp; Vermarktung</h2></div>
+    </div>
+    <div class="section-divider"></div>
+    <p class="section-intro">#ZukunftbrauchtUnterst&uuml;tzung &mdash; Wer in den Nachwuchs investiert, investiert in junge Menschen und eine ganze Region.</p>
+    <table class="data-table">
+      <thead><tr><th>STUFE</th><th>INVESTITION</th></tr></thead>
+      <tbody>
+        <tr><td>Team Partner</td><td>500 &ndash; 5.000 &euro;</td></tr>
+        <tr><td>Business Partner</td><td>5.000 &ndash; 10.000 &euro;</td></tr>
+        <tr><td>Premium Partner</td><td>ab 10.000 &euro;</td></tr>
+        <tr><td>Travel-Team Sponsor</td><td>Namenssponsor + Social Media</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+<!-- ═══ VISION BREAK ═══ -->
+<div class="vision-break">
+  <div class="vision-quote">NACHWUCHSARBEIT IST MEHR ALS TRAINING &mdash; SIE IST VERANTWORTUNG, ZUKUNFT UND GEMEINSCHAFT.</div>
+  <div class="vision-attr">STARBULLS ROSENHEIM E.V.</div>
+</div>
 
 <!-- ══════ FOOTER ══════ -->
 <footer class="doc-footer">
-  <p>STARBULLS <span class="green">ROSENHEIM E.V.</span> &middot; NACHWUCHSABTEILUNG</p>
-  <p style="margin-top:4px;">GUIDELINE 2026/2027 &middot; VERSION 1.0 &middot; APRIL 2026</p>
+  <img src="/sbr-logo-bw.png" alt="Starbulls" style="width:60px; height:auto; opacity:0.3; margin-bottom:12px; filter:brightness(10);">
+  <div class="brand">STARBULLS NACHWUCHS</div>
+  <p>GUIDELINE 2026/2027 &middot; VERSION 1.0 &middot; APRIL 2026</p>
   <p style="margin-top:8px;">VERTRAULICH &mdash; NUR F&Uuml;R DEN INTERNEN GEBRAUCH</p>
 </footer>
 
 <script>
-// ══════ HOME / AWAY TOGGLE ══════
+// HOME / AWAY
 (function() {
   const toggle = document.getElementById('themeToggle');
   const label = document.getElementById('themeLabel');
   const saved = localStorage.getItem('sbr-guide-theme');
-  if (saved === 'home') { document.body.classList.add('dark'); label.textContent = 'HOME'; }
-  else { label.textContent = 'AWAY'; }
-
+  if (saved === 'home') { document.body.classList.add('home'); label.textContent = 'HOME'; }
   toggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    const isHome = document.body.classList.contains('dark');
+    document.body.classList.toggle('home');
+    const isHome = document.body.classList.contains('home');
     label.textContent = isHome ? 'HOME' : 'AWAY';
     localStorage.setItem('sbr-guide-theme', isHome ? 'home' : 'away');
+  });
+})();
+
+// SCROLL REVEAL
+(function() {
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  sections.forEach(s => observer.observe(s));
+})();
+
+// PRESENTATION MODE
+(function() {
+  const presentBtn = document.getElementById('presentBtn');
+  const exitBtn = document.getElementById('exitPresent');
+  const counter = document.getElementById('slideCounter');
+  let current = 0, sections = [];
+
+  function enter() {
+    document.body.classList.add('presenting');
+    presentBtn.classList.add('active'); presentBtn.textContent = 'EXIT';
+    sections = Array.from(document.querySelectorAll('.section'));
+    current = 0; show(0);
+  }
+  function exit() {
+    document.body.classList.remove('presenting');
+    presentBtn.classList.remove('active'); presentBtn.textContent = 'PRESENT';
+    sections.forEach(s => { s.classList.remove('active-slide'); s.style.display = ''; });
+  }
+  function show(idx) {
+    sections.forEach(s => s.classList.remove('active-slide'));
+    if (sections[idx]) { sections[idx].classList.add('active-slide'); current = idx; counter.textContent = (idx+1)+' / '+sections.length; }
+  }
+
+  presentBtn.addEventListener('click', () => document.body.classList.contains('presenting') ? exit() : enter());
+  exitBtn.addEventListener('click', exit);
+  document.getElementById('prevSlide').addEventListener('click', () => { if (current > 0) show(current-1); });
+  document.getElementById('nextSlide').addEventListener('click', () => { if (current < sections.length-1) show(current+1); });
+  document.addEventListener('keydown', e => {
+    if (!document.body.classList.contains('presenting')) return;
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); if (current < sections.length-1) show(current+1); }
+    if (e.key === 'ArrowLeft') { if (current > 0) show(current-1); }
+    if (e.key === 'Escape') exit();
   });
 })();
 </script>
