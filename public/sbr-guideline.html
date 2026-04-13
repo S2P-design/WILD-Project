@@ -96,8 +96,8 @@
   .toc {
     background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 8px 32px rgba(0,0,0,0.06);
-    padding: 36px; margin: 0 auto 60px; position: relative; z-index: 2; max-width: 860px;
-    border-radius: 2px;
+    padding: 36px; padding-left: 40px; margin: 0 auto 60px; position: relative; z-index: 2; max-width: 860px;
+    border-radius: 2px; border-left: 4px solid var(--green);
   }
   .toc-label {
     font-family: 'JetBrains Mono', monospace;
@@ -119,10 +119,11 @@
 
   /* ── VISION BREAKS ── */
   .vision-break {
-    padding: 80px 40px; text-align: center; position: relative;
+    padding: 100px 40px; text-align: center; position: relative;
     background: var(--green); margin: 60px -24px; overflow: hidden;
+    background-image: url('/sbr-bg.png'); background-size: cover; background-position: center;
   }
-  .vision-break::before { content: ''; position: absolute; inset: 0; background: rgba(0,82,67,0.92); }
+  .vision-break::before { content: ''; position: absolute; inset: 0; background: rgba(0,82,67,0.88); }
   .vision-break * { position: relative; z-index: 1; }
   .vision-quote {
     font-family: 'League 200', 'League Gothic', sans-serif;
@@ -159,7 +160,7 @@
     text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.05;
   }
   .section-divider {
-    width: 40px; height: 3px; background: var(--green); margin: 16px 0 20px;
+    width: 40px; height: 3px; background: var(--red); margin: 16px 0 20px;
   }
   .section-intro { font-size: 15px; color: var(--text); line-height: 1.8; margin-bottom: 24px; max-width: 720px; }
   .section h3 {
@@ -221,10 +222,13 @@
   }
   .leitsatz {
     font-family: 'League 200', 'League Gothic', sans-serif;
-    font-size: 22px; color: var(--dark);
+    font-size: 24px; color: var(--dark);
     text-transform: uppercase; letter-spacing: 0.5px;
-    padding: 10px 0; border-bottom: 1px solid var(--border);
+    padding: 14px 0 14px 16px; border-bottom: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    transition: background 0.3s;
   }
+  .leitsatz:hover { background: var(--red-10); }
   .phase-grid { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
   .phase-card {
     flex: 1; min-width: 140px; background: var(--green-05);
@@ -238,17 +242,20 @@
   .phase-card-desc { font-size: 12px; color: var(--text); margin-top: 4px; }
 
   /* ── STAT HERO (inline) ── */
-  .stat-row { display: flex; gap: 12px; margin: 20px 0; flex-wrap: wrap; }
+  .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 24px 0; }
   .stat-box {
-    flex: 1; min-width: 120px; padding: 20px; text-align: center;
+    padding: 28px 16px; text-align: center;
     border: 1px solid var(--green-20); background: var(--green-05);
+    transition: transform 0.3s, box-shadow 0.3s;
   }
+  .stat-box:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(228,3,46,0.06); }
   .stat-box-num {
-    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 36px; color: var(--red);
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 42px; color: var(--red);
+    line-height: 1;
   }
   .stat-box-label {
     font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px;
-    color: var(--muted); margin-top: 4px;
+    color: var(--muted); margin-top: 8px;
   }
 
   /* ── FOOTER ── */
