@@ -39,17 +39,17 @@
     display: flex; gap: 8px; align-items: center;
   }
   .ctrl-btn {
-    border: 1px solid rgba(255,255,255,0.3);
-    background: rgba(255,255,255,0.15);
+    border: 1px solid var(--green-20);
+    background: rgba(0,82,67,0.08);
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     cursor: pointer;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8px; letter-spacing: 2px; color: rgba(255,255,255,0.7);
+    font-size: 8px; letter-spacing: 2px; color: var(--green);
     padding: 6px 14px; transition: all 0.3s;
     border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
-  .ctrl-btn:hover { color: #fff; border-color: rgba(228,3,46,0.5); background: rgba(228,3,46,0.2); box-shadow: 0 2px 12px rgba(228,3,46,0.15); }
+  .ctrl-btn:hover { color: #fff; border-color: rgba(228,3,46,0.5); background: rgba(228,3,46,0.25); box-shadow: 0 2px 12px rgba(228,3,46,0.15); }
   .ctrl-btn.active { color: #fff; border-color: var(--green); background: rgba(0,82,67,0.3); }
 
   /* ── HERO HEADER ── */
@@ -103,7 +103,7 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px; letter-spacing: 3px; color: var(--green); margin-bottom: 20px;
   }
-  .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+  .toc-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 24px; }
   .toc-item {
     display: flex; align-items: center; gap: 12px;
     padding: 10px 0; border-bottom: 1px solid rgba(0,82,67,0.08);
@@ -344,7 +344,7 @@
   @media (max-width: 768px) {
     .hero { padding: 80px 20px 60px; min-height: 60vh; }
     .toc { padding: 24px; margin: -40px 12px 40px; }
-    .toc-grid { grid-template-columns: 1fr; }
+    .toc-grid { grid-template-columns: 1fr 1fr; }
     .section h2 { font-size: 28px; }
     .section-big-num { font-size: 48px; }
     .controls { right: 12px; gap: 4px; }
@@ -396,22 +396,22 @@
   <div class="toc-label">INHALTSVERZEICHNIS</div>
   <div class="toc-grid">
     <a href="#s1" class="toc-item"><span class="toc-num">01</span>Leitbild &amp; Werte</a>
-    <a href="#s10" class="toc-item"><span class="toc-num">10</span>Kabine</a>
     <a href="#s2" class="toc-item"><span class="toc-num">02</span>Ausbildungsphilosophie</a>
-    <a href="#s11" class="toc-item"><span class="toc-num">11</span>Pr&auml;vention &amp; Schutz</a>
     <a href="#s3" class="toc-item"><span class="toc-num">03</span>Ausbildungsweg</a>
-    <a href="#s12" class="toc-item"><span class="toc-num">12</span>Social Media</a>
     <a href="#s4" class="toc-item"><span class="toc-num">04</span>Trainer &amp; Struktur</a>
-    <a href="#s13" class="toc-item"><span class="toc-num">13</span>Kostenstruktur</a>
     <a href="#s5" class="toc-item"><span class="toc-num">05</span>Kader &amp; Saison</a>
-    <a href="#s14" class="toc-item"><span class="toc-num">14</span>Feedback-Kultur</a>
     <a href="#s6" class="toc-item"><span class="toc-num">06</span>Sommertraining</a>
-    <a href="#s15" class="toc-item"><span class="toc-num">15</span>SOPs</a>
     <a href="#s7" class="toc-item"><span class="toc-num">07</span>Kodex: Trainer</a>
-    <a href="#s16" class="toc-item"><span class="toc-num">16</span>5-Sterne</a>
     <a href="#s8" class="toc-item"><span class="toc-num">08</span>Kodex: Spieler</a>
-    <a href="#s17" class="toc-item"><span class="toc-num">17</span>Digitale Tools</a>
     <a href="#s9" class="toc-item"><span class="toc-num">09</span>Kodex: Eltern</a>
+    <a href="#s10" class="toc-item"><span class="toc-num">10</span>Kabine</a>
+    <a href="#s11" class="toc-item"><span class="toc-num">11</span>Pr&auml;vention &amp; Schutz</a>
+    <a href="#s12" class="toc-item"><span class="toc-num">12</span>Social Media</a>
+    <a href="#s13" class="toc-item"><span class="toc-num">13</span>Kostenstruktur</a>
+    <a href="#s14" class="toc-item"><span class="toc-num">14</span>Feedback-Kultur</a>
+    <a href="#s15" class="toc-item"><span class="toc-num">15</span>SOPs</a>
+    <a href="#s16" class="toc-item"><span class="toc-num">16</span>5-Sterne</a>
+    <a href="#s17" class="toc-item"><span class="toc-num">17</span>Digitale Tools</a>
     <a href="#s18" class="toc-item"><span class="toc-num">18</span>Sponsoring</a>
     <a href="#s19" class="toc-item"><span class="toc-num">19</span>Rechtliche Grundlagen</a>
   </div>
