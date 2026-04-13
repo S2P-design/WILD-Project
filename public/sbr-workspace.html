@@ -13,6 +13,13 @@
 <meta name="apple-mobile-web-app-title" content="SBR Workspace">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=League+Gothic&family=Titillium+Web:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+  @font-face {
+    font-family: 'League 200';
+    src: url('/League-200ExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -85,7 +92,7 @@
     opacity: 0; transform: scale(1.02); pointer-events: none;
   }
   .login-logo {
-    font-family: 'League Gothic', sans-serif;
+    font-family: 'League 200', 'League Gothic', sans-serif;
     font-size: 2.4rem; color: var(--white);
     margin-bottom: 24px; letter-spacing: 2px;
     text-transform: uppercase;
@@ -131,7 +138,7 @@
     animation: fadeUp 0.7s ease 0.1s forwards;
   }
   .header-brand {
-    font-family: 'League Gothic', sans-serif;
+    font-family: 'League 200', 'League Gothic', sans-serif;
     font-size: 2rem; color: var(--white); letter-spacing: 1px;
     text-transform: uppercase;
     margin-bottom: 8px;
@@ -146,7 +153,7 @@
   .header-title .name { color: var(--green-bright); }
   .header-title .slash { color: rgba(255,255,255,0.15); margin: 0 4px; }
   .header-headline {
-    font-family: 'League Gothic', sans-serif;
+    font-family: 'League 200', 'League Gothic', sans-serif;
     font-size: clamp(22px, 6vw, 34px);
     font-weight: 400; line-height: 1.2;
     letter-spacing: 0.5px; color: var(--white);
@@ -343,7 +350,7 @@
     font-size: 8px; letter-spacing: 2px; color: var(--green-bright);
   }
   .stat-value {
-    font-family: 'League Gothic', sans-serif;
+    font-family: 'League 200', 'League Gothic', sans-serif;
     font-size: 2rem; color: var(--white); margin-top: 4px;
   }
   .stat-value .unit { font-size: 1rem; color: var(--muted); }
