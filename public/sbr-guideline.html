@@ -179,7 +179,8 @@
   .section-intro { font-size: 15px; color: var(--text); line-height: 1.8; margin-bottom: 24px; max-width: 720px; }
   .section h3 {
     font-size: 15px; font-weight: 700; color: var(--dark);
-    margin: 28px 0 10px; padding-left: 14px; border-left: 3px solid var(--green);
+    margin: 28px 0 10px; padding-bottom: 6px;
+    border-bottom: 2px solid var(--green-20);
     letter-spacing: 0.3px;
   }
 
@@ -195,8 +196,8 @@
     border-bottom: 1px solid var(--border); font-size: 14px; color: var(--light); line-height: 1.6;
   }
   .rule-list li::before {
-    content: ''; position: absolute; left: 0; top: 20px;
-    width: 10px; height: 2px; background: var(--green);
+    content: ''; position: absolute; left: 4px; top: 20px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--green); opacity: 0.4;
   }
   .red-zone {
     background: var(--red-10); border-left: 3px solid var(--red);
@@ -236,13 +237,12 @@
   }
   .leitsatz {
     font-family: 'League 200', 'League Gothic', sans-serif;
-    font-size: 24px; color: var(--dark);
+    font-size: 22px; color: var(--dark);
     text-transform: uppercase; letter-spacing: 0.5px;
-    padding: 14px 0 14px 16px; border-bottom: 1px solid var(--border);
-    border-left: 3px solid var(--red);
-    transition: background 0.3s;
+    padding: 14px 0; border-bottom: 1px solid var(--border);
+    transition: color 0.3s;
   }
-  .leitsatz:hover { background: var(--red-10); }
+  .leitsatz:hover { color: var(--red); }
   .phase-grid { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
   .phase-card {
     flex: 1; min-width: 140px; background: var(--green-05);
@@ -758,23 +758,51 @@
       <div class="section-titles"><div class="section-label">KAPITEL 13</div><h2>Kostenstruktur &amp; Beitr&auml;ge</h2></div>
     </div>
     <div class="section-divider"></div>
-    <p class="section-intro">Ab 1. Mai 2026. Familienrabatt: 100% / 75% / 50% / ab 4. Kind frei.</p>
+    <p class="section-intro">G&uuml;ltig ab 1. Mai 2026. Familienrabatt: 1. Kind 100%, 2. Kind 75%, 3. Kind 50%, ab 4. Kind frei.</p>
+
+    <h3>Jahresbeitr&auml;ge</h3>
     <table class="data-table">
       <thead><tr><th>TEAM</th><th>JAHRESBEITRAG</th><th>MONATLICH</th></tr></thead>
       <tbody>
         <tr><td>U7</td><td>300 &euro;</td><td>25 &euro;</td></tr>
-        <tr><td>U9&ndash;U17</td><td>nach Staffelung</td><td>&mdash;</td></tr>
+        <tr><td>U9</td><td>nach Staffelung</td><td>&mdash;</td></tr>
+        <tr><td>U11</td><td>nach Staffelung</td><td>&mdash;</td></tr>
+        <tr><td>U13</td><td>nach Staffelung</td><td>&mdash;</td></tr>
+        <tr><td>U15</td><td>nach Staffelung</td><td>&mdash;</td></tr>
+        <tr><td>U17</td><td>nach Staffelung</td><td>&mdash;</td></tr>
         <tr><td>U20</td><td>1.500 &euro;</td><td>125 &euro;</td></tr>
         <tr><td>Breitensport</td><td>240 &euro;</td><td>&mdash;</td></tr>
         <tr><td>Sommertraining (Nicht-Kader)</td><td>500 &euro;</td><td>&mdash;</td></tr>
       </tbody>
     </table>
-    <h3>Bus &amp; Verpflegung</h3>
-    <ul class="rule-list">
-      <li><strong>U7&ndash;U11:</strong> Kein Zuschuss vom Verein.</li>
-      <li><strong>U13/U15:</strong> Bus ab 90 km &mdash; 25 &euro;/Person/Tag.</li>
-      <li><strong>U17/U20:</strong> 25 &euro; pauschal. Verpflegung inkludiert.</li>
-    </ul>
+
+    <h3>Buskosten (Ausw&auml;rtsfahrten)</h3>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>REGELUNG</th><th>KOSTEN</th></tr></thead>
+      <tbody>
+        <tr><td>U7&ndash;U11</td><td>Kein Zuschuss vom Verein</td><td>Eigenleistung</td></tr>
+        <tr><td>U13/U15</td><td>Ab 90 km Entfernung</td><td>25 &euro; / Person / Tag</td></tr>
+        <tr><td>U17/U20</td><td>Pauschal pro Ausw&auml;rtsfahrt (1 oder 2 Tage)</td><td>25 &euro; / Fahrt</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Verpflegung</h3>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>REGELUNG</th><th>DETAILS</th></tr></thead>
+      <tbody>
+        <tr><td>U7&ndash;U11</td><td>Kein Zuschuss vom Verein</td><td>Eigenleistung</td></tr>
+        <tr><td>U13/U15</td><td>Kein Zuschuss vom Verein</td><td>Eigenleistung</td></tr>
+        <tr><td>U17/U20</td><td>Im Jahresbeitrag inkludiert</td><td>&mdash;</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box">
+      <div class="info-box-label">CATERING</div>
+      <p style="font-size:13px;">
+        <strong>U17/U20 Ausw&auml;rtsspiel:</strong> Caf&eacute; Hisig<br>
+        <strong>U17/U20 Heimspiel:</strong> Amici
+      </p>
+    </div>
   </section>
 
   <!-- 14 FEEDBACK -->
