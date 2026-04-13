@@ -39,18 +39,18 @@
     display: flex; gap: 8px; align-items: center;
   }
   .ctrl-btn {
-    border: 1px solid rgba(255,255,255,0.25);
-    background: rgba(255,255,255,0.1);
+    border: 1px solid var(--green-20);
+    background: var(--surface);
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     cursor: pointer;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8px; letter-spacing: 2px; color: rgba(255,255,255,0.8);
+    font-size: 8px; letter-spacing: 2px; color: var(--green);
     padding: 7px 16px; transition: all 0.3s;
     border-radius: 8px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.15);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   }
-  .ctrl-btn:hover { color: #fff; border-color: rgba(228,3,46,0.6); background: rgba(228,3,46,0.3); box-shadow: 0 4px 16px rgba(228,3,46,0.2); }
-  .ctrl-btn.active { color: #fff; border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.2); }
+  .ctrl-btn:hover { color: #fff; border-color: var(--red); background: var(--red); box-shadow: 0 4px 16px rgba(228,3,46,0.2); }
+  .ctrl-btn.active { color: var(--surface); border-color: var(--green); background: var(--green); }
 
   /* ── HERO HEADER ── */
   .hero {
@@ -309,9 +309,9 @@
   body.home .toc-item { color: rgba(255,255,255,0.5); border-bottom-color: rgba(255,255,255,0.03); }
   body.home .toc-item:hover { color: #fff; }
   body.home .info-box { background: rgba(17,17,17,0.8); border-color: #1c1c1c; }
-  body.home .ctrl-btn { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); }
-  body.home .ctrl-btn:hover { color: #fff; border-color: rgba(228,3,46,0.5); background: rgba(228,3,46,0.2); }
-  body.home .ctrl-btn.active { color: #fff; border-color: var(--green); background: rgba(0,82,67,0.2); }
+  body.home .ctrl-btn { background: rgba(20,20,20,0.9); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); }
+  body.home .ctrl-btn:hover { color: #fff; border-color: var(--red); background: var(--red); }
+  body.home .ctrl-btn.active { color: #fff; border-color: var(--green); background: var(--green); }
   body.home .hero::after { display: none; }
   body.home .quote-block { background: rgba(0,82,67,0.08); }
   body.home .red-zone { background: rgba(228,3,46,0.05); }
