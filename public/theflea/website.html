@@ -30,6 +30,12 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
+/* ── Iframe Detection: hide nav when embedded ── */
+body.in-iframe .nav,
+body.in-iframe .mobile-menu,
+body.in-iframe .nav-burger { display:none !important; }
+body.in-iframe .hero { height:100vh; }
+body.in-iframe .subpage-hero { padding-top:100px; }
 img{ display:block; max-width:100%; }
 a{ text-decoration:none; color:inherit; }
 ::selection{ background:var(--rust); color:var(--cream); }
@@ -148,9 +154,9 @@ body::after{
 .hero-overlay{
   position:absolute; inset:0;
   background:linear-gradient(180deg,
-    rgba(26,26,26,0.4) 0%,
-    rgba(26,26,26,0.2) 40%,
-    rgba(26,26,26,0.6) 70%,
+    rgba(26,26,26,0.55) 0%,
+    rgba(26,26,26,0.45) 30%,
+    rgba(26,26,26,0.65) 60%,
     rgba(26,26,26,0.95) 100%
   );
 }
@@ -160,51 +166,64 @@ body::after{
 }
 .hero-badge{
   font-family:'Space Mono',monospace;
-  font-size:9px; letter-spacing:6px;
+  font-size:11px; letter-spacing:5px;
   color:var(--rust);
   text-transform:uppercase;
-  margin-bottom:24px;
+  margin-bottom:28px;
   opacity:0; animation:fadeUp 0.8s 0.3s forwards;
+  text-shadow:0 1px 8px rgba(0,0,0,0.5);
 }
 .hero-logo{
-  line-height:0.85;
-  margin-bottom:24px;
+  margin-bottom:28px;
   opacity:0; animation:fadeUp 0.8s 0.5s forwards;
 }
-.hero-logo .the{
-  font-family:'Space Mono',monospace;
-  font-size:clamp(12px,1.5vw,16px);
-  letter-spacing:clamp(8px,1.5vw,18px);
-  color:var(--warm-grey);
-  display:block;
-  margin-bottom:4px;
+.logo-stack{
+  display:inline-flex;
+  flex-direction:column;
+  position:relative;
 }
-.hero-logo .flea{
-  font-family:'Anton',sans-serif;
-  font-size:clamp(80px,18vw,220px);
-  letter-spacing:clamp(2px,0.5vw,8px);
-  color:var(--cream);
-  display:block;
+.logo-row-top{
+  text-align:left;
+  padding-left:4px;
+}
+.logo-the{
+  font-family:'Space Mono',monospace;
+  font-size:clamp(14px,1.8vw,20px);
+  letter-spacing:clamp(8px,1.5vw,16px);
+  color:rgba(245,240,232,0.65);
+  text-shadow:0 1px 8px rgba(0,0,0,0.5);
+}
+.logo-row-main{
   line-height:0.85;
 }
-.hero-logo .ro{
-  font-family:'Space Mono',monospace;
-  font-size:clamp(10px,1.2vw,14px);
-  letter-spacing:clamp(6px,1.2vw,14px);
-  color:var(--warm-grey);
-  display:block;
-  margin-top:8px;
+.logo-flea{
+  font-family:'Anton',sans-serif;
+  font-size:clamp(100px,20vw,240px);
+  letter-spacing:clamp(4px,1vw,12px);
+  color:var(--cream);
+  text-shadow:0 4px 30px rgba(0,0,0,0.4);
+}
+.logo-row-bottom{
   text-align:right;
-  padding-right:5%;
+  padding-right:4px;
+  margin-top:2px;
+}
+.logo-ro{
+  font-family:'Space Mono',monospace;
+  font-size:clamp(13px,1.5vw,18px);
+  letter-spacing:clamp(8px,1.5vw,16px);
+  color:rgba(245,240,232,0.55);
+  text-shadow:0 1px 8px rgba(0,0,0,0.5);
 }
 .hero-tagline{
   font-family:'Space Mono',monospace;
-  font-size:clamp(8px,1vw,11px);
-  letter-spacing:clamp(3px,0.5vw,6px);
-  color:var(--kraft);
+  font-size:clamp(10px,1.2vw,13px);
+  letter-spacing:clamp(4px,0.6vw,7px);
+  color:var(--cream);
   text-transform:uppercase;
-  margin-top:32px;
+  margin-top:36px;
   opacity:0; animation:fadeUp 0.8s 0.7s forwards;
+  text-shadow:0 1px 8px rgba(0,0,0,0.5);
 }
 .hero-scroll{
   position:absolute; bottom:40px; left:50%;
@@ -214,7 +233,7 @@ body::after{
 }
 .hero-scroll span{
   font-family:'Space Mono',monospace;
-  font-size:8px; letter-spacing:3px;
+  font-size:10px; letter-spacing:3px;
   color:var(--warm-grey); text-transform:uppercase;
 }
 .hero-scroll .arrow{
@@ -246,9 +265,9 @@ body::after{
 .section-inner{ max-width:1100px; margin:0 auto; }
 .section-label{
   font-family:'Space Mono',monospace;
-  font-size:9px; letter-spacing:4px;
+  font-size:11px; letter-spacing:4px;
   text-transform:uppercase;
-  margin-bottom:12px;
+  margin-bottom:14px;
 }
 .section-label.rust{ color:var(--rust); }
 .section-label.cream{ color:var(--kraft); }
@@ -401,7 +420,7 @@ body::after{
 }
 .date-card .edition{
   font-family:'Space Mono',monospace;
-  font-size:9px; letter-spacing:4px;
+  font-size:11px; letter-spacing:4px;
   color:var(--rust);
   text-transform:uppercase;
   margin-bottom:24px;
@@ -412,7 +431,7 @@ body::after{
 }
 .date-card .month-year{
   font-family:'Space Mono',monospace;
-  font-size:11px; letter-spacing:3px;
+  font-size:12px; letter-spacing:3px;
   color:var(--warm-grey);
   text-transform:uppercase;
   margin-top:4px; margin-bottom:20px;
@@ -423,7 +442,7 @@ body::after{
 }
 .date-card .location{
   font-family:'Space Mono',monospace;
-  font-size:9px; letter-spacing:2px;
+  font-size:10px; letter-spacing:2px;
   color:var(--warm-grey);
   text-transform:uppercase;
   margin-top:20px;
@@ -471,7 +490,7 @@ body::after{
 }
 .price-tier{
   font-family:'Space Mono',monospace;
-  font-size:9px; letter-spacing:4px;
+  font-size:11px; letter-spacing:4px;
   color:var(--warm-grey);
   text-transform:uppercase;
   margin-bottom:16px;
@@ -488,7 +507,7 @@ body::after{
 }
 .price-size{
   font-family:'Space Mono',monospace;
-  font-size:10px; color:var(--warm-grey);
+  font-size:12px; color:var(--warm-grey);
   letter-spacing:1px;
   margin-top:8px; margin-bottom:24px;
   padding-bottom:24px;
@@ -1022,9 +1041,17 @@ body::after{
     <div class="hero-content">
       <div class="hero-badge">Saison 2026 — Rosenheim</div>
       <div class="hero-logo">
-        <span class="the">THE</span>
-        <span class="flea">FLEA</span>
-        <span class="ro">ROSENHEIM</span>
+        <div class="logo-stack">
+          <div class="logo-row-top">
+            <span class="logo-the">THE</span>
+          </div>
+          <div class="logo-row-main">
+            <span class="logo-flea">FLEA</span>
+          </div>
+          <div class="logo-row-bottom">
+            <span class="logo-ro">RO</span>
+          </div>
+        </div>
       </div>
       <div class="hero-tagline">Kuratiert · Handgemacht · Lokal</div>
     </div>
@@ -1426,6 +1453,11 @@ body::after{
 
 <!-- ══ SCRIPTS ══ -->
 <script>
+// ── Iframe detection ──
+if (window.self !== window.top) {
+  document.body.classList.add('in-iframe');
+}
+
 // ── Nav scroll ──
 var nav = document.getElementById('navbar');
 window.addEventListener('scroll', function() {
