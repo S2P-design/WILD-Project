@@ -325,9 +325,23 @@ body::after {
 @media (max-width: 600px) {
   .gate-logo .flea { font-size: 52px; }
   .gate-code { font-size: 16px; letter-spacing: 8px; }
-  .content-nav { padding: 0 12px; gap: 4px; }
-  .tab-btn { font-size: 8px; letter-spacing: 1px; padding: 6px 10px; }
-  .content-nav-logo { margin-right: 12px; font-size: 14px; }
+  .content-nav {
+    padding: 0 8px;
+    gap: 2px;
+    height: 44px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .content-nav::-webkit-scrollbar { display: none; }
+  .content-nav-logo { margin-right: 8px; font-size: 12px; flex-shrink: 0; }
+  .content-nav-logo .the { font-size: 6px; letter-spacing: 2px; }
+  .tab-btn { font-size: 7px; letter-spacing: 1px; padding: 6px 8px; white-space: nowrap; flex-shrink: 0; }
+  .content-nav-right { flex-shrink: 0; }
+  .lock-btn { font-size: 7px; padding: 4px 8px; }
+  .content-frame { margin-top: 44px; height: calc(100vh - 44px); }
+  .loading-bar { top: 44px; }
 }
 </style>
 </head>
