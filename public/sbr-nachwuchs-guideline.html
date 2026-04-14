@@ -294,6 +294,23 @@
   }
   .data-table td:first-child { font-weight: 600; color: var(--dark); }
   .data-table tr:hover { background: var(--green-05); }
+  .data-table td[contenteditable="true"] {
+    cursor: text; position: relative;
+    border-bottom: 1px dashed var(--green-20);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .data-table td[contenteditable="true"]:hover {
+    background: var(--green-05); border-bottom-color: var(--green);
+  }
+  .data-table td[contenteditable="true"]:focus {
+    outline: none; background: var(--green-05);
+    border-bottom: 2px solid var(--green);
+  }
+  .data-table td[contenteditable="true"].saved {
+    border-bottom-color: var(--red);
+  }
+  body.home .data-table td[contenteditable="true"]:hover { background: rgba(0,82,67,0.1); }
+  body.home .data-table td[contenteditable="true"]:focus { background: rgba(0,82,67,0.12); }
   .step-list { list-style: none; counter-reset: steps; margin: 16px 0; }
   .step-list li {
     counter-increment: steps; padding: 14px 0 14px 52px; position: relative;
@@ -1407,6 +1424,40 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
   }, { threshold: 0.1 });
   sections.forEach(s => observer.observe(s));
+})();
+
+// EDITABLE NUMBER FIELDS
+(function() {
+  // Make all non-header, non-first-column data cells editable
+  document.querySelectorAll('.data-table').forEach((table, tIdx) => {
+    table.querySelectorAll('tbody tr').forEach((row, rIdx) => {
+      row.querySelectorAll('td').forEach((cell, cIdx) => {
+        if (cIdx === 0) return; // skip label column
+        cell.contentEditable = 'true';
+        cell.spellcheck = false;
+        const key = `sbr-guide-cell-${tIdx}-${rIdx}-${cIdx}`;
+        // Restore saved value
+        const saved = localStorage.getItem(key);
+        if (saved !== null) { cell.innerHTML = saved; cell.classList.add('saved'); }
+        // Save on change
+        cell.addEventListener('blur', () => {
+          localStorage.setItem(key, cell.innerHTML);
+          cell.classList.add('saved');
+          setTimeout(() => cell.classList.remove('saved'), 1500);
+        });
+        cell.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); cell.blur(); }
+          if (e.key === 'Tab') {
+            e.preventDefault();
+            const next = cIdx < row.cells.length - 1
+              ? row.cells[cIdx + 1]
+              : row.nextElementSibling?.cells[1];
+            if (next) next.focus();
+          }
+        });
+      });
+    });
+  });
 })();
 
 // PRESENTATION MODE
