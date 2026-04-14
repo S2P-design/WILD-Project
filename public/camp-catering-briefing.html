@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catering-Briefing — Starbulls Sommer Camp 2026</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Titillium+Web:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: 'League 200'; src: url('/League-200ExtraBold.otf') format('opentype'); font-weight: 800; font-display: swap; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --green: #005243; --red: #E4032E; --bg: #F2F5F4; --dark: #1a1a1a; --text: #555; --muted: #999; --border: #e0e4e3; }
+
+  body {
+    font-family: 'Titillium Web', -apple-system, sans-serif;
+    background: #fff; color: var(--text); line-height: 1.7;
+    max-width: 860px; margin: 0 auto; padding: 48px 32px 80px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header */
+  .doc-header {
+    border-bottom: 3px solid var(--green); padding-bottom: 32px; margin-bottom: 40px;
+  }
+  .doc-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 4px;
+    color: var(--red); opacity: 0.6; margin-bottom: 4px;
+  }
+  .doc-title {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 42px;
+    color: var(--dark); text-transform: uppercase; letter-spacing: 1px; line-height: 0.95;
+  }
+  .doc-subtitle {
+    font-size: 16px; color: var(--muted); margin-top: 8px; font-weight: 300;
+  }
+  .doc-meta {
+    display: flex; gap: 32px; margin-top: 20px; flex-wrap: wrap;
+  }
+  .doc-meta-item {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--muted);
+  }
+  .doc-meta-item strong { color: var(--dark); font-weight: 600; }
+
+  /* Sections */
+  h2 {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 28px;
+    color: var(--dark); text-transform: uppercase; letter-spacing: 1px;
+    margin: 48px 0 6px; line-height: 1;
+  }
+  .sec-div { width: 28px; height: 3px; background: var(--red); margin-bottom: 20px; }
+  h3 {
+    font-family: 'Titillium Web', sans-serif; font-size: 16px; font-weight: 700;
+    color: var(--dark); margin: 28px 0 8px; padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  h3:first-of-type { border-top: none; padding-top: 0; }
+  p { margin-bottom: 12px; font-size: 14px; }
+  p strong { color: var(--dark); }
+
+  /* Lists */
+  ul { list-style: none; padding: 0; margin: 0 0 16px; }
+  ul li {
+    font-size: 14px; line-height: 1.8; padding-left: 20px; position: relative; margin-bottom: 2px;
+  }
+  ul li::before {
+    content: ''; position: absolute; left: 0; top: 11px;
+    width: 6px; height: 6px; border-radius: 1px; background: var(--green); opacity: 0.4;
+  }
+  ul li strong { color: var(--dark); }
+
+  /* Day cards */
+  .day-card {
+    background: var(--bg); border-left: 3px solid var(--green); padding: 28px 28px 20px;
+    margin: 20px 0; border-radius: 0 4px 4px 0;
+  }
+  .day-card.highlight { border-left-color: var(--red); }
+  .day-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 3px;
+    color: var(--red); margin-bottom: 4px;
+  }
+  .day-title {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 22px;
+    color: var(--dark); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+  }
+  .menu-section { margin-bottom: 14px; }
+  .menu-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px;
+    color: var(--muted); margin-bottom: 4px;
+  }
+  .menu-items { font-size: 14px; color: var(--text); }
+  .menu-items strong { color: var(--dark); }
+
+  /* Info box */
+  .info-box {
+    background: var(--bg); padding: 24px; border-radius: 4px; margin: 20px 0;
+    border: 1px solid var(--border);
+  }
+  .info-box p { margin-bottom: 8px; }
+  .info-box p:last-child { margin-bottom: 0; }
+
+  /* Highlight box */
+  .highlight-box {
+    background: rgba(228,3,46,0.03); border-left: 3px solid var(--red);
+    padding: 20px 24px; margin: 20px 0; border-radius: 0 4px 4px 0;
+  }
+
+  /* Table */
+  .summary-table {
+    width: 100%; border-collapse: collapse; margin: 20px 0;
+  }
+  .summary-table th {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px;
+    color: var(--green); text-align: left; padding: 12px 16px;
+    border-bottom: 2px solid var(--green); background: var(--bg);
+  }
+  .summary-table td {
+    font-size: 14px; color: var(--text); padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .summary-table td strong { color: var(--dark); }
+
+  /* Footer */
+  .doc-footer {
+    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .doc-footer-text {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px;
+    color: var(--muted);
+  }
+
+  /* Print */
+  @media print {
+    body { padding: 24px; max-width: 100%; }
+    .day-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="doc-label">CATERING-BRIEFING</div>
+  <div class="doc-title">Anforderungsblatt<br>Mittagsverpflegung</div>
+  <div class="doc-subtitle">Starbulls Sommer Camp 2026 &mdash; MOP Lounge, ROFA-Stadion</div>
+  <div class="doc-meta">
+    <div class="doc-meta-item"><strong>DATUM</strong> 31. Juli &ndash; 2. August 2026</div>
+    <div class="doc-meta-item"><strong>ORT</strong> MOP Lounge, ROFA-Stadion Rosenheim</div>
+    <div class="doc-meta-item"><strong>PERSONEN</strong> ca. 90&ndash;100 (Teilnehmer + Staff)</div>
+    <div class="doc-meta-item"><strong>FORMAT</strong> Buffet</div>
+  </div>
+</div>
+
+<!-- ═══════ &Uuml;BERSICHT ═══════ -->
+<h2>&Uuml;bersicht</h2>
+<div class="sec-div"></div>
+
+<table class="summary-table">
+  <thead>
+    <tr>
+      <th>TAG</th>
+      <th>DATUM</th>
+      <th>ESSENSZEIT</th>
+      <th>PERSONEN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Tag 1</strong> &mdash; Freitag</td>
+      <td>31. Juli 2026</td>
+      <td>12:30 &ndash; 13:30 Uhr</td>
+      <td>ca. 90&ndash;100</td>
+    </tr>
+    <tr>
+      <td><strong>Tag 2</strong> &mdash; Samstag</td>
+      <td>1. August 2026</td>
+      <td>12:30 &ndash; 13:30 Uhr</td>
+      <td>ca. 90&ndash;100</td>
+    </tr>
+    <tr>
+      <td><strong>Tag 3</strong> &mdash; Sonntag</td>
+      <td>2. August 2026</td>
+      <td>12:00 &ndash; 13:00 Uhr</td>
+      <td>ca. 90&ndash;100</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Hinweis:</strong> Die Gruppen essen gestaffelt (ca. 30 Min. pro Durchgang). Das Buffet muss &uuml;ber den gesamten Zeitraum warm gehalten bzw. nachgelegt werden.</p>
+
+<!-- ═══════ ANFORDERUNGEN ═══════ -->
+<h2>Anforderungen</h2>
+<div class="sec-div"></div>
+
+<h3>Zielgruppe</h3>
+<p>Eishockeyspieler im Alter von <strong>8 bis 15 Jahren</strong> plus ca. 15 Betreuer/Trainer. Die Kinder haben vor dem Essen bereits eine Eis- und eine Athletikeinheit hinter sich &mdash; der Hunger ist real.</p>
+
+<h3>Grundprinzipien</h3>
+<ul>
+  <li><strong>Sportlergerecht</strong> &mdash; Kohlenhydrate + Protein als Basis, wenig Fett, leicht verdaulich</li>
+  <li><strong>Kindgerecht</strong> &mdash; Gerichte, die Kinder tats&auml;chlich essen (keine Experimente)</li>
+  <li><strong>Gut verdaulich</strong> &mdash; Nachmittags folgt eine weitere Eiseinheit, niemand soll mit vollem Magen aufs Eis</li>
+  <li><strong>Buffet-Format</strong> &mdash; Jeder nimmt sich, was er mag und so viel er braucht</li>
+  <li><strong>Abwechslung</strong> &mdash; Drei Tage, drei verschiedene Hauptgerichte</li>
+</ul>
+
+<div class="highlight-box">
+  <p><strong>Allergien &amp; Unvertr&auml;glichkeiten:</strong> Werden bei der Anmeldung abgefragt und vor Camp-Beginn an den Caterer weitergeleitet. Bitte Kennzeichnung der Allergene am Buffet sicherstellen (mindestens die 14 EU-Hauptallergene).</p>
+</div>
+
+<h3>Was wir NICHT wollen</h3>
+<ul>
+  <li>Frittiertes, Paniertes oder extrem Fettiges (Pommes, Schnitzel etc.)</li>
+  <li>Schwer verdauliche Sachen (Rahmsaucen, sehr scharfes Essen)</li>
+  <li>S&uuml;&szlig;e Hauptgerichte</li>
+  <li>Fertigprodukte / Convenience-Ware</li>
+</ul>
+
+<!-- ═══════ MEN&Uuml;PLAN ═══════ -->
+<h2>Men&uuml;plan</h2>
+<div class="sec-div"></div>
+
+<div class="day-card">
+  <div class="day-label">TAG 1 &mdash; FREITAG, 31. JULI</div>
+  <div class="day-title">Pasta-Buffet</div>
+
+  <div class="menu-section">
+    <div class="menu-label">HAUPTKOMPONENTE</div>
+    <div class="menu-items">
+      <strong>Penne &amp; Spaghetti</strong> &mdash; zwei Sorten zur Auswahl<br>
+      <strong>Tomatensauce</strong> (klassisch, mit Basilikum) &mdash; leicht, gut verdaulich<br>
+      <strong>Bolognese</strong> (Rinderhack, mager) &mdash; Protein + Kohlenhydrate
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <div class="menu-label">BEILAGE</div>
+    <div class="menu-items">
+      <strong>Gemischter Blattsalat</strong> mit Gurke, Karotte, Mais &mdash; leichtes Dressing (Essig-&Ouml;l)<br>
+      <strong>Brot &amp; Butter</strong> &mdash; Ciabatta oder Vollkornbr&ouml;tchen
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <div class="menu-label">NACHTISCH</div>
+    <div class="menu-items">
+      <strong>Obstplatte</strong> &mdash; Wassermelone, Weintrauben, &Auml;pfel, Bananen<br>
+      <strong>Joghurt natur</strong> mit Honig-Station
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <div class="menu-label">GETR&Auml;NKE</div>
+    <div class="menu-items">Wasser (still + sprudel), Apfelschorle, unges&uuml;&szlig;ter Eistee</div>
+  </div>
+</div>
+
+<div class="day-card">
+  <div class="day-label">TAG 2 &mdash; SAMSTAG, 1. AUGUST</div>
+  <div class="day-title">Reis-Bowl-Buffet</div>
+
+  <div class="menu-section">
+    <div class="menu-label">HAUPTKOMPONENTE</div>
+    <div class="menu-items">
+      <strong>Basmati-Reis</strong> (locker gekocht)<br>
+      <strong>H&auml;hnchenbrust</strong> &mdash; gegrillt, in Streifen geschnitten, mild gew&uuml;rzt<br>
+      <strong>Gem&uuml;sepfanne</strong> &mdash; Paprika, Zucchini, Karotten (bissfest, nicht matschig)
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <div class="menu-label">TOPPINGS &amp; SAUCEN</div>
+    <div class="menu-items">
+      <strong>Sojasauce</strong> (mild), <strong>Sweet-Chili</strong> (wenig scharf), <strong>Joghurt-Dip</strong><br>
+      <strong>Mais, Edamame, Gurkenw&uuml;rfel</strong> &mdash; zum Selber-Toppen
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <div class="menu-label">BEILAGE</div>
+    <div class="menu-items">
+      <strong>Gurkensalat</strong> (leicht, mit Dill)<br>
+      <strong>Fladenbrot</strong> &mdash; warm
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <div class="menu-label">NACHTISCH</div>
+    <div class="menu-items">
+      <strong>Bananensplit-Station</strong> &mdash; Banane, Vanillejoghurt, Haferflocken, Beeren<br>
+      <strong>Obstplatte</strong> &mdash; saisonal
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <div class="menu-label">GETR&Auml;NKE</div>
+    <div class="menu-items">Wasser (still + sprudel), Apfelschorle, unges&uuml;&szlig;ter Eistee</div>
+  </div>
+</div>
+
+<div class="day-card highlight">
+  <div class="day-label">TAG 3 &mdash; SONNTAG, 2. AUGUST &middot; LETZTER TAG</div>
+  <div class="day-title">Wrap- &amp; Kartoffel-Buffet</div>
+
+  <div class="menu-section">
+    <div class="menu-label">HAUPTKOMPONENTE</div>
+    <div class="menu-items">
+      <strong>Wraps / Tortillas</strong> (Weizen) &mdash; zum Selbstf&uuml;llen<br>
+      <strong>Ofenkartoffeln</strong> &mdash; klein, mit Rosmarin, aus dem Ofen<br>
+      <strong>H&auml;hnchen</strong> (Streifen, gegrillt) + <strong>Falafel</strong> (vegetarisch)
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <div class="menu-label">F&Uuml;LLUNGEN &amp; TOPPINGS</div>
+    <div class="menu-items">
+      <strong>Eisbergsalat, Tomaten, Mais, Gurke, K&auml;se (gerieben)</strong><br>
+      <strong>Kr&auml;uterquark</strong>, <strong>Guacamole</strong> (mild), <strong>Salsa</strong> (mild)
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <div class="menu-label">BEILAGE</div>
+    <div class="menu-items">
+      <strong>Karottensticks &amp; Gurkensticks</strong> mit Hummus<br>
+      <strong>Couscous-Salat</strong> (mit Minze, Tomate, leicht)
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <div class="menu-label">NACHTISCH</div>
+    <div class="menu-items">
+      <strong>Eis-Station</strong> &mdash; Vanille &amp; Schoko (Abschluss-Highlight f&uuml;r die Kids!)<br>
+      <strong>Obstplatte</strong> &mdash; saisonal
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <div class="menu-label">GETR&Auml;NKE</div>
+    <div class="menu-items">Wasser (still + sprudel), Apfelschorle, unges&uuml;&szlig;ter Eistee</div>
+  </div>
+</div>
+
+<!-- ═══════ LOGISTIK ═══════ -->
+<h2>Logistik &amp; Setup</h2>
+<div class="sec-div"></div>
+
+<h3>Location</h3>
+<p><strong>MOP Lounge</strong>, ROFA-Stadion, Jahnstra&szlig;e 1, 83022 Rosenheim. Das Buffet wird in der Lounge aufgebaut. Die Kinder kommen direkt von der Eishalle.</p>
+
+<h3>Zeitfenster</h3>
+<ul>
+  <li><strong>Aufbau:</strong> sp&auml;testens 12:00 Uhr (Tag 3: 11:30 Uhr)</li>
+  <li><strong>Buffet offen:</strong> 12:30 &ndash; 13:30 Uhr (Tag 3: 12:00 &ndash; 13:00 Uhr)</li>
+  <li><strong>Abbau:</strong> bis 14:00 Uhr</li>
+</ul>
+
+<h3>Gestaffelte Essenszeiten</h3>
+<p>Die drei Gruppen (Hager, Reichel, Grubauer) essen gestaffelt &mdash; ca. <strong>30&ndash;35 Kinder pro Durchgang</strong>. Das Buffet muss &uuml;ber den gesamten Zeitraum warm und aufgef&uuml;llt bleiben.</p>
+
+<h3>Ausstattung</h3>
+<ul>
+  <li><strong>Geschirr &amp; Besteck:</strong> Wird vom Caterer gestellt oder steht in der MOP Lounge zur Verf&uuml;gung? <em>&rarr; Bitte kl&auml;ren</em></li>
+  <li><strong>Chafing Dishes / W&auml;rmebeh&auml;lter:</strong> Vom Caterer mitzubringen</li>
+  <li><strong>Servietten, Becher, Tabletts:</strong> Vom Caterer mitzubringen</li>
+  <li><strong>Abfallentsorgung:</strong> Eimer / S&auml;cke bereitstellen, M&uuml;lltrennung</li>
+</ul>
+
+<h3>Hygienestandards</h3>
+<ul>
+  <li>Allergen-Kennzeichnung am Buffet (14 EU-Hauptallergene)</li>
+  <li>Handschuhe &amp; Haarnetze beim Servieren</li>
+  <li>K&uuml;hlkette bei verderblichen Lebensmitteln sicherstellen</li>
+  <li>Getrennte Zangen/L&ouml;ffel pro Gericht (Kreuzkontamination vermeiden)</li>
+</ul>
+
+<!-- ═══════ BESONDERHEITEN ═══════ -->
+<h2>Besonderheiten</h2>
+<div class="sec-div"></div>
+
+<div class="info-box">
+  <p><strong>Vegetarische Option:</strong> An jedem Tag muss eine vollwertige vegetarische Alternative vorhanden sein (Pasta-Sauce, Gem&uuml;se-Bowl, Falafel). Nicht als Beilage, sondern als eigenst&auml;ndiges Gericht.</p>
+  <p><strong>Glutenfrei / Laktosefrei:</strong> Falls bei den Anmeldungen Unvertr&auml;glichkeiten gemeldet werden, wird der Caterer mind. 2 Wochen vor Camp-Beginn informiert.</p>
+  <p><strong>Portionsgr&ouml;&szlig;en:</strong> Kinder essen unterschiedlich viel. Lieber etwas mehr kalkulieren. Richtwert: ca. 350&ndash;450g pro Person (Hauptgang + Beilage).</p>
+  <p><strong>Nachhaltigkeit:</strong> M&ouml;glichst regionale Zutaten, wenig Verpackungsm&uuml;ll, kein Einwegplastik.</p>
+</div>
+
+<!-- ═══════ BUDGET ═══════ -->
+<h2>Budget-Rahmen</h2>
+<div class="sec-div"></div>
+
+<div class="info-box">
+  <p><strong>Richtwert:</strong> ca. 12&ndash;18 &euro; pro Person / pro Tag (inkl. Getr&auml;nke, Nachtisch, Aufbau/Abbau).</p>
+  <p><strong>Gesamt (3 Tage, 100 Personen):</strong> ca. 3.600 &ndash; 5.400 &euro;</p>
+  <p>Bitte um Angebot mit Aufschl&uuml;sselung pro Tag und pro Person. Auf- und Abbau, Geschirr und Entsorgung im Preis inkludieren.</p>
+</div>
+
+<!-- ═══════ KONTAKT ═══════ -->
+<h2>Kontakt &amp; Ansprechpartner</h2>
+<div class="sec-div"></div>
+
+<div class="info-box">
+  <p><strong>Ren&eacute; Wild</strong> &mdash; Camp-Leitung / Nachwuchsleiter</p>
+  <p>E-Mail: <strong>camps@starbulls.de</strong></p>
+  <p>Starbulls Rosenheim e.V. &mdash; Jahnstra&szlig;e 1, 83022 Rosenheim</p>
+</div>
+
+<div class="highlight-box">
+  <p><strong>N&auml;chste Schritte:</strong></p>
+  <ul style="margin-bottom:0;">
+    <li>Angebot bis <strong>[DATUM]</strong> einreichen</li>
+    <li>Probebuffet / Men&uuml;abstimmung ca. 4 Wochen vor Camp</li>
+    <li>Finale Teilnehmerzahl + Allergien bis 2 Wochen vor Camp</li>
+    <li>Aufbau-Besichtigung MOP Lounge nach Vereinbarung</li>
+  </ul>
+</div>
+
+<div class="doc-footer">
+  <div class="doc-footer-text">STARBULLS SOMMER CAMP 2026 &middot; CATERING-BRIEFING &middot; VERTRAULICH</div>
+</div>
+
+</body>
+</html>

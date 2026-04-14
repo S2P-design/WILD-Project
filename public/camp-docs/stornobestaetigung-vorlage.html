@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stornobestätigung — Starbulls Sommer Camp 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --sbr-green: #005243;
+      --sbr-red: #E4032E;
+      --sbr-light: #F2F5F4;
+      --sbr-dark: #1a1a1a;
+      --sbr-white: #ffffff;
+      --sbr-border: #d0d8d5;
+    }
+
+    body {
+      font-family: 'Titillium Web', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--sbr-dark);
+      background: #e8e8e8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- Print --- */
+    @media print {
+      .no-print { display: none !important; }
+      body { font-size: 11pt; background: white; }
+      .top-accent { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page { box-shadow: none; margin: 0; max-width: 100%; border-radius: 0; }
+      .vorlage-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    @page {
+      size: A4;
+      margin: 18mm 16mm 20mm 16mm;
+    }
+
+    /* --- Page container --- */
+    .page {
+      max-width: 794px; /* ~210mm */
+      min-height: 1090px; /* ~A4 height */
+      margin: 32px auto;
+      background: var(--sbr-white);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* --- Green accent bar --- */
+    .top-accent {
+      height: 6px;
+      background: var(--sbr-green);
+      flex-shrink: 0;
+    }
+
+    /* --- Vorlage badge --- */
+    .vorlage-badge {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      background: var(--sbr-red);
+      color: white;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 3px;
+    }
+
+    /* --- Content area --- */
+    .content {
+      padding: 48px 56px 40px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* --- Header --- */
+    .doc-header {
+      margin-bottom: 36px;
+    }
+
+    .doc-header h1 {
+      font-family: 'Titillium Web', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--sbr-green);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .sender-info {
+      font-size: 12px;
+      color: #6b7c76;
+      line-height: 1.5;
+    }
+
+    /* --- Document meta --- */
+    .doc-meta {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 20px;
+      margin-bottom: 32px;
+      padding: 16px 20px;
+      background: var(--sbr-light);
+      border-radius: 4px;
+      border-left: 3px solid var(--sbr-green);
+    }
+
+    .meta-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: #6b7c76;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 0;
+    }
+
+    .meta-value {
+      font-size: 14px;
+      color: var(--sbr-dark);
+      padding: 3px 0;
+    }
+
+    /* --- Platzhalter --- */
+    .platzhalter {
+      border: 1.5px dashed var(--sbr-red);
+      border-radius: 3px;
+      padding: 1px 8px;
+      background: rgba(228, 3, 46, 0.04);
+      color: var(--sbr-red);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9em;
+      white-space: nowrap;
+    }
+
+    /* --- Empfänger --- */
+    .empfaenger {
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+
+    .empfaenger .platzhalter {
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+
+    /* --- Body text --- */
+    .body-text {
+      margin-bottom: 24px;
+    }
+
+    .body-text p {
+      margin-bottom: 12px;
+    }
+
+    /* --- Detail blocks --- */
+    .detail-block {
+      margin-bottom: 24px;
+    }
+
+    .detail-block h3 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--sbr-green);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--sbr-border);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 6px 16px;
+    }
+
+    .detail-grid .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #6b7c76;
+      padding: 2px 0;
+    }
+
+    .detail-grid .value {
+      font-size: 14px;
+      color: var(--sbr-dark);
+      padding: 2px 0;
+    }
+
+    /* --- Schlusstext --- */
+    .schlusstext {
+      margin-top: 8px;
+      margin-bottom: 32px;
+      padding: 16px 20px;
+      background: var(--sbr-light);
+      border-radius: 4px;
+      font-style: italic;
+      color: #3a4a45;
+      line-height: 1.7;
+    }
+
+    /* --- Unterschrift --- */
+    .unterschrift {
+      margin-top: auto;
+      padding-top: 20px;
+    }
+
+    .unterschrift .name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--sbr-dark);
+      margin-bottom: 2px;
+    }
+
+    .unterschrift .role,
+    .unterschrift .org {
+      font-size: 13px;
+      color: #6b7c76;
+      line-height: 1.5;
+    }
+
+    /* --- Footer --- */
+    .doc-footer {
+      padding: 14px 56px;
+      background: var(--sbr-light);
+      border-top: 1px solid var(--sbr-border);
+      text-align: center;
+      font-size: 11px;
+      color: #6b7c76;
+      letter-spacing: 0.3px;
+      flex-shrink: 0;
+    }
+
+    /* --- Print button --- */
+    .print-bar {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .print-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 28px;
+      background: var(--sbr-green);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Titillium Web', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .print-btn:hover {
+      background: #003d32;
+    }
+
+    .print-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-bar no-print">
+    <button class="print-btn" onclick="window.print()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Drucken / Als PDF speichern
+    </button>
+  </div>
+
+  <div class="page">
+    <div class="top-accent"></div>
+    <span class="vorlage-badge no-print">Vorlage</span>
+
+    <div class="content">
+
+      <!-- Header -->
+      <div class="doc-header">
+        <h1>Stornobestätigung</h1>
+        <div class="sender-info">
+          Starbulls Rosenheim e.V. &middot; Jahnstr. 1 &middot; 83022 Rosenheim
+        </div>
+      </div>
+
+      <!-- Document Meta -->
+      <div class="doc-meta">
+        <span class="meta-label">Storno-Nr.</span>
+        <span class="meta-value"><span class="platzhalter">ST-2026-XXXX</span></span>
+        <span class="meta-label">Datum</span>
+        <span class="meta-value"><span class="platzhalter">TT.MM.JJJJ</span></span>
+        <span class="meta-label">Bezug</span>
+        <span class="meta-value">Anmeldung Starbulls Sommer Camp 2026</span>
+      </div>
+
+      <!-- Empfänger -->
+      <div class="empfaenger">
+        <span class="platzhalter">Name Erziehungsberechtigter</span><br>
+        <span class="platzhalter">Straße Hausnummer</span><br>
+        <span class="platzhalter">PLZ Ort</span>
+      </div>
+
+      <!-- Body -->
+      <div class="body-text">
+        <p>Hiermit bestätigen wir die Stornierung der Anmeldung zum Starbulls Sommer Camp 2026.</p>
+      </div>
+
+      <!-- Stornierte Leistung -->
+      <div class="detail-block">
+        <h3>Stornierte Leistung</h3>
+        <div class="detail-grid">
+          <span class="label">Teilnehmer</span>
+          <span class="value"><span class="platzhalter">Name Kind</span></span>
+          <span class="label">Altersgruppe</span>
+          <span class="value"><span class="platzhalter">Hager / Reichel / Grubauer</span></span>
+          <span class="label">Zeitraum</span>
+          <span class="value">31. Juli – 2. August 2026</span>
+          <span class="label">Urspr. Anmeldung</span>
+          <span class="value"><span class="platzhalter">TT.MM.JJJJ</span></span>
+        </div>
+      </div>
+
+      <!-- Erstattung -->
+      <div class="detail-block">
+        <h3>Erstattung</h3>
+        <div class="detail-grid">
+          <span class="label">Gezahlter Betrag</span>
+          <span class="value"><span class="platzhalter">XXX,XX &euro;</span></span>
+          <span class="label">Erstattungsbetrag</span>
+          <span class="value"><span class="platzhalter">XXX,XX &euro;</span></span>
+          <span class="label">Erstattung auf</span>
+          <span class="value">IBAN &bull;&bull;&bull;&bull; <span class="platzhalter">XXXX</span></span>
+          <span class="label">Voraussichtl. Eingang</span>
+          <span class="value">Innerhalb von 14 Werktagen</span>
+        </div>
+      </div>
+
+      <!-- Schlusstext -->
+      <div class="schlusstext">
+        Es ist schade, dass es dieses Mal nicht klappt. Wir hätten <span class="platzhalter">Name Kind</span> gerne auf dem Eis dabei gehabt. Wenn sich nächstes Jahr eine Gelegenheit ergibt — du weißt, wo du uns findest.
+      </div>
+
+      <!-- Unterschrift -->
+      <div class="unterschrift">
+        <div class="name">René Wild</div>
+        <div class="role">Nachwuchsleiter</div>
+        <div class="org">Starbulls Rosenheim e.V.</div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="doc-footer">
+      Starbulls Rosenheim e.V. &middot; Jahnstr. 1 &middot; 83022 Rosenheim &middot; camps@starbulls.de
+    </div>
+  </div>
+
+</body>
+</html>

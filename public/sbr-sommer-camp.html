@@ -1,0 +1,2157 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starbulls Sommer Camp 2026 — 31. Juli bis 2. August</title>
+<meta name="description" content="Starbulls Sommer Camp 2026 im ROFA-Stadion Rosenheim. Drei Tage intensives Eishockey-Training für U9 bis U15.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23005243'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='13' fill='%23F2F5F4'>SBR</text></svg>">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=League+Gothic&family=Titillium+Web:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+  @font-face { font-family: 'League 200'; src: url('/League-200ExtraBold.otf') format('opentype'); font-weight: 800; font-display: swap; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  :root { --green: #005243; --red: #E4032E; --bg: #F2F5F4; --dark: #1a1a1a; --text: #555; --muted: #999; --border: #e0e4e3; }
+
+  body {
+    font-family: 'Titillium Web', -apple-system, sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; -webkit-font-smoothing: antialiased; line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    position: fixed; top: 12px; right: 16px; z-index: 999;
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 10px; border-radius: 8px;
+    background: rgba(10,10,10,0.7); backdrop-filter: blur(24px) saturate(1.8);
+    border: 1px solid rgba(255,255,255,0.06);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .top-bar-cd {
+    display: flex; align-items: baseline; gap: 0;
+    font-size: 10px; color: rgba(255,255,255,0.7); letter-spacing: 0.5px;
+    padding-right: 10px; margin-right: 6px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .top-bar-cd .cd-val { font-weight: 600; min-width: 16px; text-align: right; }
+  .top-bar-cd .cd-lbl { font-size: 6px; letter-spacing: 1px; color: rgba(255,255,255,0.25); margin-right: 6px; }
+  .top-bar-cd .cd-sep { display: none; }
+  .lang-toggle {
+    font-size: 9px; letter-spacing: 1px; padding: 3px 8px;
+    cursor: pointer; user-select: none; color: rgba(255,255,255,0.35);
+    border-radius: 4px; background: rgba(255,255,255,0.06); transition: all 0.2s;
+  }
+  .lang-toggle:hover { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+  .lang-toggle .active-lang { color: #fff; font-weight: 700; }
+  .badge {
+    font-size: 6px; letter-spacing: 2px; color: var(--red); opacity: 0.6;
+    margin-left: 2px;
+  }
+
+  /* ── LANGUAGE TOGGLE ── */
+  html:not([lang="en"]) [data-en] { display: none !important; }
+  html[lang="en"] [data-de] { display: none !important; }
+
+  /* ── IMAGE STRIP ── */
+  .img-strip {
+    width: 100%; height: 480px; overflow: hidden; position: relative;
+    margin-top: -1px;
+  }
+  .img-strip img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center 25%;
+    display: block; filter: saturate(0.85);
+    transform: scale(1.03);
+    transition: transform 6s ease-out;
+  }
+  .img-strip.in-view img { transform: scale(1); }
+  .img-strip::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 30%; z-index: 1;
+    background: linear-gradient(180deg, rgba(0,40,32,0.95) 0%, rgba(0,60,48,0.4) 50%, transparent 100%);
+  }
+  .img-strip::after {
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(180deg, transparent 65%, #fff 100%);
+  }
+  @media (max-width: 768px) { .img-strip { height: 280px; } }
+
+  /* ── HERO (dark) ── */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; position: relative; overflow: hidden;
+    padding: 80px 24px;
+    background: var(--green); background-image: url('/sbr-bg.png');
+    background-size: cover; background-position: center;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(160deg, rgba(0,40,32,0.96) 0%, rgba(0,82,67,0.86) 50%, rgba(0,30,24,0.97) 100%);
+  }
+  .hero::after { display: none; }
+  .hero > * { position: relative; z-index: 1; }
+  .hero-logo { width: 72px; height: auto; opacity: 0.6; margin-bottom: 16px; }
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 5px;
+    color: rgba(255,255,255,0.3); margin-bottom: 24px;
+  }
+  .hero-title {
+    font-family: 'League 200', 'League Gothic', sans-serif;
+    font-size: clamp(52px, 11vw, 120px); color: #fff;
+    text-transform: uppercase; letter-spacing: 3px; line-height: 0.82;
+  }
+  .hero-title span { color: var(--red); }
+  .hero-date {
+    font-family: 'Titillium Web', sans-serif; font-weight: 300;
+    font-size: clamp(13px, 2vw, 17px); color: rgba(255,255,255,0.35);
+    margin-top: 20px; letter-spacing: 1px;
+  }
+
+  .hero-cta {
+    margin-top: 48px; display: inline-block;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 3px;
+    color: #fff; text-decoration: none; text-transform: uppercase;
+    padding: 16px 48px; background: var(--red); transition: all 0.3s;
+  }
+  .hero-cta:hover { background: #c8022a; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(228,3,46,0.3); }
+  .hero-scroll {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 3px;
+    color: rgba(255,255,255,0.12); animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:0.12} 50%{opacity:0.3;transform:translateX(-50%) translateY(4px)} }
+
+  /* ── EDGE ── */
+  .edge { height: 3px; background: linear-gradient(90deg, var(--red), var(--green)); }
+
+  /* ── SECTIONS (light) ── */
+  .sec { padding: 100px 24px; position: relative; }
+  .sec-inner { max-width: 900px; margin: 0 auto; }
+  .sec-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 4px;
+    color: var(--red); opacity: 0.5; margin-bottom: 4px;
+  }
+  .sec-title {
+    font-family: 'League 200', 'League Gothic', sans-serif;
+    font-size: clamp(36px, 7vw, 64px); color: var(--dark); text-transform: uppercase;
+    letter-spacing: 1px; line-height: 0.95; margin-bottom: 8px;
+  }
+  .sec-div { width: 36px; height: 3px; background: var(--red); margin-bottom: 28px; }
+  .sec-text { font-size: 15px; color: var(--text); line-height: 1.8; max-width: 620px; margin-bottom: 28px; }
+  .sec-text strong { color: var(--dark); }
+
+  /* Alternating */
+  .sec-white { background: #fff; }
+  .sec-light { background: var(--bg); }
+  .sec-green {
+    background: var(--green); background-image: url('/sbr-bg.png');
+    background-size: cover; background-position: center; background-attachment: fixed;
+  }
+  .sec-green::before { content: ''; position: absolute; inset: 0; background: rgba(0,40,32,0.94); }
+  .sec-green > * { position: relative; z-index: 1; }
+  .sec-green .sec-label { color: var(--red); opacity: 0.6; }
+  .sec-green .sec-title { color: #fff; }
+  .sec-green .sec-text { color: rgba(255,255,255,0.45); }
+  .sec-green .sec-text strong { color: rgba(255,255,255,0.85); }
+
+  /* Schedule on green bg */
+  .sec-green .s-tab { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.08); }
+  .sec-green .s-tab:hover { background: rgba(255,255,255,0.08); }
+  .sec-green .s-tab .s-tab-day { color: rgba(255,255,255,0.2); }
+  .sec-green .s-tab .s-tab-name { color: rgba(255,255,255,0.25); }
+  .sec-green .s-tab .s-tab-date { color: rgba(255,255,255,0.15); }
+  .sec-green .s-tab.active { background: rgba(228,3,46,0.15); border-color: rgba(228,3,46,0.3); }
+  .sec-green .s-tab.active .s-tab-day { color: var(--red); }
+  .sec-green .s-tab.active .s-tab-name { color: rgba(255,255,255,0.6); }
+  .sec-green .s-tab.active .s-tab-date { color: rgba(255,255,255,0.3); }
+  .sec-green .s-body { background: rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.06); border-top: 3px solid var(--red); }
+  .sec-green .r-hc { color: rgba(255,255,255,0.35); border-color: rgba(255,255,255,0.06); }
+  .sec-green .r-hc:first-child { color: rgba(255,255,255,0.15); }
+  .sec-green .r-row { border-color: rgba(255,255,255,0.03); }
+  .sec-green .r-time { color: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.04); }
+  .sec-green .r-cell { border-color: rgba(255,255,255,0.02); }
+  .sec-green .r-cell.ice { background: rgba(228,3,46,0.1); }
+  .sec-green .r-cell.ath { background: rgba(0,200,160,0.06); }
+  .sec-green .r-cell.off { background: rgba(255,255,255,0.02); }
+  .sec-green .r-cell.brk { background: transparent; }
+  .sec-green .r-cell.mtg { background: rgba(255,200,0,0.08); }
+  .sec-green .r-cell.mtg .r-type { color: rgba(255,220,100,0.7); }
+  .sec-green .r-cell.mtg .r-desc { color: rgba(255,255,255,0.4); }
+  .sec-green .r-cell.off .r-type { color: rgba(255,255,255,0.2); }
+  .sec-green .r-cell.brk .r-type { color: rgba(255,255,255,0.1); }
+  .sec-green .r-cell.brk .r-desc { color: rgba(255,255,255,0.08); }
+  .sec-green .r-desc { color: rgba(255,255,255,0.5); }
+  .sec-green .r-cell.ath .r-type { color: rgba(0,200,160,0.7); }
+  .sec-green .r-head { border-color: rgba(255,255,255,0.1); }
+  .sec-green .r-break { border-color: rgba(255,255,255,0.03); }
+  .sec-green .r-break-full { background: rgba(255,255,255,0.02); }
+  .sec-green .r-break-event { background: rgba(228,3,46,0.06); }
+  .sec-green .r-break-full .r-type { color: rgba(255,255,255,0.12) !important; }
+  .sec-green .r-break-full .r-desc { color: rgba(255,255,255,0.1) !important; }
+  .sec-green .s-legend-i { color: rgba(255,255,255,0.2); }
+  .sec-green .s-dot.off { background: rgba(255,255,255,0.15); }
+  .sec-green .s-dot.mtg { background: rgba(255,220,100,0.7); }
+
+  /* ── KEY FACTS (horizontal strip) ── */
+  .facts {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    background: #fff; border-top: 3px solid var(--green); border-bottom: 1px solid var(--border);
+  }
+  .fact {
+    padding: 36px 20px; text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .fact:last-child { border-right: none; }
+  .fact-num {
+    font-family: 'League 200', 'League Gothic', sans-serif;
+    font-size: 48px; color: var(--green); line-height: 1;
+  }
+  .fact-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px;
+    color: var(--muted); margin-top: 8px;
+  }
+
+  /* ── GROUP CARDS ── */
+  .groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 20px; }
+  .g-card {
+    background: #fff; border: 1px solid var(--border); padding: 0;
+    text-align: center; transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative; overflow: hidden; border-radius: 4px;
+  }
+  .g-card:hover {
+    box-shadow: 0 20px 60px rgba(0,82,67,0.12), 0 8px 24px rgba(0,0,0,0.06);
+    transform: translateY(-6px) scale(1.015);
+    border-color: var(--green);
+  }
+  .g-card-top {
+    background: var(--green); padding: 40px 24px 32px; position: relative;
+    overflow: hidden; transition: padding 0.3s;
+  }
+  .g-card:hover .g-card-top { padding: 44px 24px 36px; }
+  .g-card-top::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 120%, rgba(228,3,46,0.12), transparent 70%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .g-card:hover .g-card-top::before { opacity: 1; }
+  .g-card-top::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 3px;
+    background: var(--red); transition: height 0.3s;
+  }
+  .g-card:hover .g-card-top::after { height: 4px; }
+  .g-name {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 22px;
+    color: #fff; text-transform: uppercase; line-height: 1; letter-spacing: 2px;
+    transition: transform 0.3s, letter-spacing 0.3s;
+  }
+  .g-card:hover .g-name { transform: scale(1.04); letter-spacing: 3px; }
+  .g-card-body { padding: 28px 24px; }
+  .g-age-info {
+    font-family: 'Titillium Web', sans-serif; font-size: 15px;
+    color: var(--dark); margin-bottom: 4px; letter-spacing: 0.3px;
+  }
+  .g-age-info strong {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .g-info { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .g-idol {
+    margin-top: 16px; padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .g-idol-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 2px;
+    color: var(--muted); margin-bottom: 2px;
+  }
+  .g-idol-name {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 16px;
+    color: var(--dark); text-transform: uppercase; letter-spacing: 1px; line-height: 1.2;
+  }
+
+  /* ── SCHEDULE (new) ── */
+  .sched-tabs { display: flex; gap: 0; margin-bottom: 0; }
+  .s-tab {
+    flex: 1; padding: 20px 16px; text-align: center; cursor: pointer;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+    border-bottom: none; transition: all 0.3s; border-radius: 8px 8px 0 0;
+    margin: 0 1px;
+  }
+  .s-tab:hover { background: rgba(255,255,255,0.08); }
+  .s-tab.active { background: rgba(228,3,46,0.12); border-color: rgba(228,3,46,0.2); }
+  .s-tab-day {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 28px;
+    color: rgba(255,255,255,0.2); line-height: 1;
+  }
+  .s-tab.active .s-tab-day { color: var(--red); }
+  .s-tab-name {
+    font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.15); margin-top: 2px;
+  }
+  .s-tab.active .s-tab-name { color: rgba(255,255,255,0.5); }
+  .s-tab-date { font-size: 11px; color: rgba(255,255,255,0.1); margin-top: 2px; }
+  .s-tab.active .s-tab-date { color: rgba(255,255,255,0.3); }
+
+  .s-panel { display: none; }
+  .s-panel.active { display: block; }
+
+  /* Schedule table */
+  .sched-table {
+    width: 100%; border-collapse: separate; border-spacing: 0;
+    background: rgba(0,0,0,0.2); border-radius: 0 0 8px 8px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06); border-top: 3px solid var(--red);
+  }
+  .sched-table thead th {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.5); padding: 14px 12px; text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(0,0,0,0.15);
+  }
+  .sched-table thead th:first-child { text-align: left; color: rgba(255,255,255,0.2); width: 110px; }
+  .sched-table tbody td {
+    padding: 14px 12px; text-align: center; vertical-align: middle;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    font-size: 13px; color: rgba(255,255,255,0.5);
+    transition: background 0.2s;
+  }
+  .sched-table tbody tr:last-child td { border-bottom: none; }
+
+  /* Time column */
+  .sched-table .s-time {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.25); text-align: left; white-space: nowrap;
+  }
+
+  /* Cell types */
+  .sched-table .s-ice {
+    background: rgba(228,3,46,0.08); border-left: 3px solid var(--red);
+  }
+  .sched-table .s-ice .s-label { color: var(--red); }
+  .sched-table .s-ath {
+    background: rgba(0,200,160,0.05); border-left: 3px solid rgba(0,200,160,0.6);
+  }
+  .sched-table .s-ath .s-label { color: rgba(0,200,160,0.8); }
+  .sched-table .s-mtg {
+    background: rgba(255,200,0,0.06); border-left: 3px solid rgba(255,200,0,0.5);
+  }
+  .sched-table .s-mtg .s-label { color: rgba(255,220,100,0.8); }
+  .sched-table .s-evt {
+    background: rgba(228,3,46,0.04); border-left: 3px solid rgba(228,3,46,0.3);
+  }
+  .sched-table .s-evt .s-label { color: var(--red); opacity: 0.7; }
+  .sched-table .s-off { background: transparent; border-left: 3px solid transparent; }
+  .sched-table .s-off .s-label { color: rgba(255,255,255,0.1); }
+  .sched-table .s-reg { background: rgba(255,255,255,0.03); border-left: 3px solid rgba(255,255,255,0.1); }
+
+  .s-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px;
+    text-transform: uppercase; display: block;
+  }
+  .s-detail {
+    font-family: 'Titillium Web', sans-serif; font-size: 11px;
+    color: rgba(255,255,255,0.3); margin-top: 2px;
+  }
+
+  /* Side events row (full-width) */
+  .sched-table .s-event-row td {
+    text-align: left; padding: 12px 12px;
+    background: rgba(228,3,46,0.03); border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .s-event-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 2px;
+    color: var(--red); opacity: 0.5; margin-right: 8px;
+  }
+
+  /* Edit mode */
+  .sched-edit-bar {
+    display: flex; gap: 8px; margin-bottom: 12px; align-items: center;
+  }
+  .sched-edit-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08); padding: 8px 16px;
+    cursor: pointer; transition: all 0.3s; border-radius: 4px; text-transform: uppercase;
+  }
+  .sched-edit-btn:hover { color: #fff; border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); }
+  .sched-edit-btn.active { color: var(--red); border-color: rgba(228,3,46,0.3); background: rgba(228,3,46,0.1); }
+  .sched-edit-hint {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 1px;
+    color: rgba(255,255,255,0.15); display: none;
+  }
+  .sched-edit-hint.show { display: inline; }
+
+  /* Editable cells */
+  .sched-table.editing td[contenteditable="true"] {
+    outline: 1px dashed rgba(255,255,255,0.12); cursor: text;
+  }
+  .sched-table.editing td[contenteditable="true"]:focus {
+    outline: 1px solid var(--red); background: rgba(228,3,46,0.06) !important;
+  }
+  .sched-table.editing .s-label[contenteditable="true"]:focus,
+  .sched-table.editing .s-detail[contenteditable="true"]:focus {
+    outline: none;
+  }
+
+  /* Legend */
+  .s-legend { display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
+  .s-legend-i {
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px; color: rgba(255,255,255,0.2);
+  }
+  .s-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .s-dot.ice { background: var(--red); }
+  .s-dot.ath { background: rgba(0,200,160,0.7); }
+  .s-dot.off { background: rgba(255,255,255,0.15); }
+  .s-dot.mtg { background: rgba(255,220,100,0.7); }
+  .r-cell.brk .r-desc { color: #ccc; }
+
+  .r-break { display: grid; grid-template-columns: 100px 1fr; border-bottom: 1px solid rgba(0,0,0,0.04); }
+  .r-break-full { padding: 12px 10px; text-align: center; background: rgba(0,0,0,0.015); }
+  .r-break-event { padding: 12px 10px; text-align: center; background: rgba(228,3,46,0.03); }
+
+  .s-legend { display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
+  .s-legend-i {
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px; color: var(--muted);
+  }
+  .s-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .s-dot.ice { background: var(--red); }
+  .s-dot.ath { background: var(--green); }
+  .s-dot.off { background: #ddd; }
+  .s-dot.mtg { background: #e6a800; }
+
+  /* ── EVENTS ── */
+  .ev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .ev-card { background: #fff; border: 1px solid var(--border); padding: 28px 20px; transition: all 0.3s; }
+  .ev-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+  .ev-day { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 3px; color: var(--red); opacity: 0.5; margin-bottom: 6px; }
+  .ev-title { font-family: 'League 200', 'League Gothic', sans-serif; font-size: 22px; color: var(--dark); text-transform: uppercase; line-height: 1.1; margin-bottom: 6px; }
+  .ev-time { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+
+  /* ── CAMP-PAKET (editorial) ── */
+  .paket-list { max-width: 480px; }
+  .paket-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 16px 0; border-bottom: 1px solid var(--border);
+  }
+  .paket-item:first-child { border-top: 2px solid var(--green); padding-top: 20px; }
+  .paket-name {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 22px;
+    color: var(--dark); text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .paket-brand {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px;
+    color: var(--muted);
+  }
+
+  /* ── TRAINER ── */
+  .tr-section { margin-bottom: 28px; }
+  .tr-label { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 3px; color: var(--muted); margin-bottom: 10px; }
+  .tr-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tr-tag {
+    font-size: 13px; color: var(--text); padding: 8px 14px;
+    background: #fff; border: 1px solid var(--border); transition: all 0.3s;
+  }
+  .tr-tag:hover { border-color: var(--green); color: var(--dark); }
+  .tr-tag.hl { color: var(--dark); border-color: rgba(228,3,46,0.2); background: rgba(228,3,46,0.03); font-weight: 600; }
+  .tr-tag small { font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 1px; color: var(--muted); margin-left: 4px; }
+
+  /* ── INFO ── */
+  .info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .info-card { background: #fff; border: 1px solid var(--border); padding: 24px 20px; }
+  .info-card-label { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 3px; color: var(--green); margin-bottom: 8px; }
+  .info-card p { font-size: 14px; color: var(--text); line-height: 1.6; }
+  .info-card p strong { color: var(--dark); }
+  .info-card a { color: var(--red); text-decoration: none; }
+
+  /* ── PARTNER / SPONSOREN ── */
+  .partners {
+    padding: 48px 24px; background: #fff; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); text-align: center;
+  }
+  .partners-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 4px;
+    color: var(--muted); margin-bottom: 28px;
+  }
+  .partners-grid {
+    display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap;
+    max-width: 800px; margin: 0 auto;
+  }
+  .partner-logo {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 22px;
+    color: var(--dark); text-transform: uppercase; letter-spacing: 2px;
+    opacity: 0.2; transition: opacity 0.3s;
+  }
+  .partner-logo:hover { opacity: 0.5; }
+  .partner-logo img { height: 28px; width: auto; filter: grayscale(1); opacity: 0.25; transition: all 0.3s; }
+  .partner-logo:hover img { opacity: 0.6; filter: grayscale(0); }
+
+  /* ── CTA ── */
+  .cta {
+    background: var(--green); padding: 100px 24px; text-align: center; position: relative;
+    background-image: url('/sbr-bg.png'); background-size: cover; background-position: center;
+  }
+  .cta::before { content: ''; position: absolute; inset: 0; background: rgba(0,50,40,0.94); }
+  .cta > * { position: relative; z-index: 1; }
+  .cta-title {
+    font-family: 'League 200', 'League Gothic', sans-serif;
+    font-size: clamp(40px, 8vw, 72px); color: #fff; text-transform: uppercase;
+    letter-spacing: 2px; line-height: 0.9;
+  }
+  .cta-title span { color: var(--red); }
+  .cta-sub {
+    font-family: 'Titillium Web', sans-serif; font-size: clamp(15px, 2vw, 19px);
+    font-weight: 300; color: rgba(255,255,255,0.4); margin-top: 16px;
+    letter-spacing: 0.5px;
+  }
+  .cta-price {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 56px; color: #fff; margin-top: 32px;
+  }
+  .cta-note { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.25); margin-top: 4px; }
+  .cta-btn {
+    margin-top: 36px; display: inline-block;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px;
+    color: #fff; text-decoration: none; text-transform: uppercase;
+    padding: 18px 56px; background: var(--red); border: none; cursor: pointer;
+    transition: all 0.3s;
+  }
+  .cta-btn:hover { background: #c8022a; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(228,3,46,0.3); }
+
+  /* ── CHECKLIST (Materialliste) ── */
+  .check-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border-top: 2px solid var(--green); max-width: 600px;
+  }
+  .check-item {
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 14px 0; border-bottom: 1px solid var(--border);
+    font-size: 14px; color: var(--text); line-height: 1.5;
+  }
+  .check-item:nth-child(odd) { padding-right: 24px; }
+  .check-item:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--border); }
+  .check-mark {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--green); flex-shrink: 0; font-weight: 700;
+  }
+  .check-item strong { color: var(--dark); font-weight: 600; }
+  .check-note {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 1px; color: var(--muted); display: block; margin-top: 2px;
+  }
+
+  /* ── FAQ ── */
+  .faq-list { max-width: 680px; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-item:first-child { border-top: 2px solid var(--green); }
+  .faq-q {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 0; cursor: pointer; gap: 16px; user-select: none;
+  }
+  .faq-q:hover .faq-q-text { color: var(--dark); }
+  .faq-q-text {
+    font-family: 'Titillium Web', sans-serif; font-size: 15px; font-weight: 600;
+    color: var(--text); transition: color 0.2s; line-height: 1.4;
+  }
+  .faq-toggle {
+    font-family: 'JetBrains Mono', monospace; font-size: 16px;
+    color: var(--muted); flex-shrink: 0; transition: transform 0.3s;
+    width: 20px; text-align: center;
+  }
+  .faq-item.open .faq-toggle { transform: rotate(45deg); color: var(--red); }
+  .faq-a {
+    max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease;
+  }
+  .faq-item.open .faq-a { max-height: 200px; }
+  .faq-a-inner {
+    padding: 0 0 20px; font-size: 14px; color: var(--text); line-height: 1.7;
+  }
+  .faq-a-inner strong { color: var(--dark); }
+
+  /* ── SOCIAL MEDIA SECTION ── */
+  .social-bar {
+    padding: 48px 24px; background: var(--bg); text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .social-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 4px;
+    color: var(--muted); margin-bottom: 20px;
+  }
+  .social-links { display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; }
+  .social-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px;
+    color: var(--text); text-decoration: none; padding: 12px 24px;
+    border: 1px solid var(--border); background: #fff; transition: all 0.3s;
+  }
+  .social-link:hover { border-color: var(--green); color: var(--dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
+  .social-link svg { width: 18px; height: 18px; fill: currentColor; }
+
+  /* ── GROUP COUNTER ── */
+  .g-counters {
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border);
+  }
+  .g-counter-row {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  }
+  .g-counter-role {
+    font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 1.5px;
+    color: var(--muted); width: 68px; flex-shrink: 0; text-align: right;
+  }
+  .g-counter-bar {
+    flex: 1; height: 4px; background: rgba(0,0,0,0.06); border-radius: 2px; overflow: hidden;
+  }
+  .g-counter-fill {
+    height: 100%; border-radius: 2px; transition: width 1s ease-out;
+    width: 0;
+  }
+  .g-counter-fill.skater { background: var(--green); }
+  .g-counter-fill.goalie { background: var(--red); }
+  .g-counter-fill.waitlist { background: #e6a800; }
+  .g-counter-row.waitlist-row { display: none; }
+  .g-counter-row.waitlist-row.show { display: flex; }
+  .g-counter-text {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 1px; color: var(--muted);
+    min-width: 42px;
+  }
+  .g-counter-num { font-weight: 700; color: var(--dark); }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center; padding: 56px 24px 40px; background: var(--dark); border-top: 3px solid var(--green);
+  }
+  .footer-brand {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 20px;
+    color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 3px;
+  }
+  .footer-address {
+    font-family: 'Titillium Web', sans-serif; font-size: 13px; line-height: 1.7;
+    color: rgba(255,255,255,0.25); margin-top: 8px;
+  }
+  .footer-address a { color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.2s; }
+  .footer-address a:hover { color: var(--red); }
+  .footer-note {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.12); margin-top: 12px;
+  }
+  .footer-legal {
+    display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+    margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-legal a {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px;
+    color: rgba(255,255,255,0.3); text-decoration: none; transition: all 0.2s;
+    padding: 8px 16px; border: 1px solid rgba(255,255,255,0.06); border-radius: 4px;
+  }
+  .footer-legal a:hover { color: #fff; border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); }
+  .footer-copy {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 1px;
+    color: rgba(255,255,255,0.12); margin-top: 24px;
+  }
+
+  /* ── HERO ANIMATIONS ── */
+  @keyframes heroFadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes heroScale { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+  @keyframes heroSlideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes heroPulseGlow { 0%,100% { opacity: 0.03; } 50% { opacity: 0.08; } }
+  @keyframes heroGradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes iceShaving {
+    0% { transform: translateY(-10px) translateX(0) rotate(0deg); opacity: 0; }
+    8% { opacity: 0.6; }
+    50% { transform: translateY(50vh) translateX(60px) rotate(180deg); opacity: 0.4; }
+    100% { transform: translateY(100vh) translateX(-30px) rotate(360deg); opacity: 0; }
+  }
+  @keyframes iceShimmer {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.15; }
+  }
+
+  .hero-logo { animation: heroScale 0.8s ease-out 0.2s both; }
+  .hero-label { animation: heroFadeUp 0.6s ease-out 0.5s both; }
+  .hero-title { animation: heroFadeUp 0.7s ease-out 0.7s both; }
+  .hero-date { animation: heroFadeUp 0.6s ease-out 1.0s both; }
+  .hero-cta { animation: heroFadeUp 0.6s ease-out 1.3s both; }
+  .hero-scroll { animation: heroFadeUp 0.6s ease-out 1.6s both; }
+
+  /* Animated gradient overlay on hero */
+  .hero::after {
+    display: block !important;
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 30% 20%, rgba(228,3,46,0.06), transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(0,82,67,0.08), transparent 60%);
+    background-size: 200% 200%;
+    animation: heroGradientShift 12s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* Ice shavings effect in hero */
+  .hero-ice {
+    position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+  }
+  .ice-shaving {
+    position: absolute; top: -20px;
+    width: 3px; height: 1px; border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    box-shadow: 0 0 4px rgba(255,255,255,0.1);
+    animation: iceShaving linear infinite;
+  }
+  .ice-shimmer {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+    animation: iceShimmer ease-in-out infinite;
+  }
+
+  /* Parallax hero on scroll */
+  .hero { will-change: transform; }
+
+  /* ── SCROLL-TO-TOP BUTTON (Puck Style) ── */
+  .scroll-top {
+    position: fixed; bottom: 24px; right: 20px; z-index: 998;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--green);
+    border: 2px solid rgba(255,255,255,0.12);
+    box-shadow: 0 4px 20px rgba(0,82,67,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; opacity: 0; transform: translateY(20px) scale(0.8);
+    transition: opacity 0.4s, transform 0.4s cubic-bezier(0.34,1.56,0.64,1), background 0.2s, box-shadow 0.2s;
+    pointer-events: none;
+  }
+  .scroll-top.visible { opacity: 1; transform: none; pointer-events: auto; }
+  .scroll-top:hover {
+    background: var(--red); border-color: rgba(228,3,46,0.4);
+    box-shadow: 0 4px 24px rgba(228,3,46,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+  }
+  .scroll-top:active { transform: translateY(0) scale(0.95); }
+  .scroll-top svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .scroll-top::after {
+    content: ''; position: absolute; inset: -4px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.06);
+    animation: scrollPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.15); opacity: 0; }
+  }
+
+  /* ── PRINT / DOWNLOAD BUTTON ── */
+  .sec-action-bar {
+    display: flex; gap: 8px; margin-top: 20px;
+  }
+  .print-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px;
+    color: var(--muted); background: none; border: 1px solid var(--border);
+    padding: 8px 16px; cursor: pointer; transition: all 0.3s; text-transform: uppercase;
+  }
+  .print-btn:hover { color: var(--dark); border-color: var(--green); background: rgba(0,82,67,0.03); }
+  .print-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Print styles */
+  @media print {
+    .top-bar, .scroll-top, .hero, .edge, .img-strip, .cta, .partners, .footer,
+    .sec-action-bar, .hero-ice { display: none !important; }
+    body { background: #fff !important; }
+    .sec { padding: 24px 0 !important; break-inside: avoid; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .print-target { display: block !important; }
+    section:not(.print-target) { display: none !important; }
+    .print-target .sec-inner { max-width: 100% !important; }
+  }
+
+  /* ── REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* Staggered children reveal */
+  .reveal.visible .reveal-child { animation: heroFadeUp 0.5s ease-out both; }
+  .reveal.visible .reveal-child:nth-child(1) { animation-delay: 0.1s; }
+  .reveal.visible .reveal-child:nth-child(2) { animation-delay: 0.2s; }
+  .reveal.visible .reveal-child:nth-child(3) { animation-delay: 0.3s; }
+  .reveal.visible .reveal-child:nth-child(4) { animation-delay: 0.35s; }
+  .reveal.visible .reveal-child:nth-child(5) { animation-delay: 0.4s; }
+  .reveal.visible .reveal-child:nth-child(6) { animation-delay: 0.45s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .hero { padding: 80px 16px; }
+    .top-bar { top: 8px; right: 8px; padding: 5px 8px; gap: 4px; }
+    .top-bar-cd { font-size: 8px; padding-right: 8px; margin-right: 4px; }
+    .top-bar-cd .cd-lbl { font-size: 5px; margin-right: 4px; }
+    .lang-toggle { font-size: 8px; padding: 2px 6px; }
+    .facts { grid-template-columns: repeat(2, 1fr); }
+    .groups, .ev-grid { grid-template-columns: 1fr; }
+    .check-grid { grid-template-columns: 1fr; }
+    .check-item:nth-child(even) { padding-left: 0; border-left: none; }
+    .ga-grid { grid-template-columns: repeat(3, 1fr); }
+    .info-grid { grid-template-columns: 1fr 1fr; }
+    .r-head, .r-row { grid-template-columns: 72px 1fr 1fr 1fr; }
+    .r-time, .r-hc { font-size: 7px; padding: 10px 5px; }
+    .sec { padding: 60px 16px; }
+    .s-tab-day { font-size: 20px; }
+    .scroll-top { bottom: 16px; right: 12px; width: 42px; height: 42px; }
+    .scroll-top::after { display: none; }
+    .print-btn { font-size: 8px; padding: 6px 12px; }
+    .social-links { gap: 12px; }
+    .social-link { padding: 10px 18px; font-size: 10px; }
+    .footer-legal { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-cd">
+    <span class="cd-val" id="cd-d">--</span><span class="cd-lbl">D</span><span class="cd-sep">:</span>
+    <span class="cd-val" id="cd-h">--</span><span class="cd-lbl">H</span><span class="cd-sep">:</span>
+    <span class="cd-val" id="cd-m">--</span><span class="cd-lbl">M</span><span class="cd-sep">:</span>
+    <span class="cd-val" id="cd-s">--</span><span class="cd-lbl">S</span>
+  </div>
+  <div class="lang-toggle" id="langToggle"><span class="active-lang">DE</span>&thinsp;/&thinsp;<span>EN</span></div>
+  <div class="badge">CLICK-DUMMY</div>
+</div>
+
+<!-- ═══════ HERO ═══════ -->
+<header class="hero" id="top">
+  <div class="hero-ice" id="heroIce"></div>
+  <img src="/sbr-logo-bw.png" alt="Starbulls Rosenheim" class="hero-logo">
+  <div class="hero-label">STARBULLS ROSENHEIM E.V.</div>
+  <h1 class="hero-title">SOMMER<br><span>CAMP</span></h1>
+  <div class="hero-date">31. Juli bis 2. August 2026 &middot; ROFA Stadion &middot; Rosenheim</div>
+  <a href="#anmeldung" class="hero-cta" data-de>JETZT ANMELDEN</a>
+  <a href="#anmeldung" class="hero-cta" data-en>REGISTER NOW</a>
+  <div class="hero-scroll">&#x25BC;&ensp;SCROLL</div>
+</header>
+
+<!-- ═══════ IMAGE STRIP ═══════ -->
+<div class="img-strip" id="imgStrip">
+  <img src="/camp-img/bench-celly.jpg" alt="Starbulls Nachwuchs an der Bande">
+</div>
+
+<!-- ═══════ INTRO ═══════ -->
+<section class="sec sec-white" id="intro" style="padding: 80px 24px 60px;">
+  <div class="sec-inner reveal" style="max-width:720px;">
+    <div class="sec-label" data-de>DAS CAMP</div>
+    <div class="sec-label" data-en>THE CAMP</div>
+    <h2 class="sec-title" data-de>Basics. Wiederholung.<br>Details.</h2>
+    <h2 class="sec-title" data-en>Basics. Repetition.<br>Details.</h2>
+    <div class="sec-div"></div>
+    <p class="sec-text" style="max-width:600px;" data-de>In unseren Camps schaffen wir ein Umfeld, in dem <strong>Basics, Wiederholungen und Details</strong> im Mittelpunkt stehen &mdash; denn genau dort beginnt echte Entwicklung. Unsere Trainer arbeiten strukturiert, altersgerecht und mit klaren Inhalten, um jedem Teilnehmer die bestm&ouml;gliche Unterst&uuml;tzung auf seinem individuellen Weg zu geben.</p>
+    <p class="sec-text" style="max-width:600px;" data-en>Our camps create an environment where <strong>basics, repetition and details</strong> take center stage &mdash; because that&rsquo;s where real development starts. Our coaches work with structure, age-appropriate methods and clear content to give every player the best possible support on their individual path.</p>
+    <p class="sec-text" style="max-width:600px;" data-de>Egal ob Feldspieler oder Torh&uuml;ter: Ziel ist es, <strong>F&auml;higkeiten zu festigen, Spielverst&auml;ndnis zu f&ouml;rdern und Selbstvertrauen aufzubauen.</strong> Neben den Einheiten auf dem Eis legen wir gro&szlig;en Wert auf Athletik, Regeneration, Teamgeist und den pers&ouml;nlichen Austausch.</p>
+    <p class="sec-text" style="max-width:600px;" data-en>Whether skater or goaltender: the goal is to <strong>solidify skills, build game sense and develop confidence.</strong> Beyond the on-ice sessions, we emphasize athletics, recovery, team spirit and personal connection.</p>
+    <p class="sec-text" style="max-width:600px;" data-de>Die Camps sollen fordern, aber auch Spa&szlig; machen &mdash; sie sollen inspirieren, motivieren und Lust auf den n&auml;chsten Entwicklungsschritt machen. Wir freuen uns darauf, viele engagierte junge Talente im ROFA-Stadion begr&uuml;&szlig;en zu d&uuml;rfen.</p>
+    <p class="sec-text" style="max-width:600px;" data-en>The camps should challenge, but also be fun &mdash; they should inspire, motivate and create excitement for the next step. We look forward to welcoming committed young talent at the ROFA Arena.</p>
+  </div>
+</section>
+
+<!-- ═══════ ALTERSGRUPPEN STRIP ═══════ -->
+<div class="facts">
+  <div class="fact">
+    <div class="fact-num">U9/U11</div>
+    <div class="fact-label">JAHRGANG 2016 &amp; J&Uuml;NGER</div>
+  </div>
+  <div class="fact">
+    <div class="fact-num">U13</div>
+    <div class="fact-label">JAHRGANG 2014 &amp; J&Uuml;NGER</div>
+  </div>
+  <div class="fact">
+    <div class="fact-num">U15</div>
+    <div class="fact-label">JAHRGANG 2012 &amp; J&Uuml;NGER</div>
+  </div>
+</div>
+
+<!-- ═══════ GRUPPEN ═══════ -->
+<section class="sec sec-light" id="gruppen">
+  <div class="sec-inner reveal">
+    <div class="sec-label" data-de>GRUPPENEINTEILUNG</div>
+    <div class="sec-label" data-en>GROUP ALLOCATION</div>
+    <h2 class="sec-title" data-de>Drei Gruppen,<br>benannt nach unseren Idolen.</h2>
+    <h2 class="sec-title" data-en>Three Groups,<br>Named After Our Idols.</h2>
+    <div class="sec-div"></div>
+    <div class="groups">
+      <div class="g-card">
+        <div class="g-card-top">
+          <div class="g-name">Hager</div>
+        </div>
+        <div class="g-card-body">
+          <div class="g-age-info" data-de>Jahrgang <strong>2016</strong> &amp; j&uuml;nger</div>
+          <div class="g-age-info" data-en>Born <strong>2016</strong> &amp; younger</div>
+          <div class="g-info" data-de>max. 30 Spieler + 6 Goalies</div>
+          <div class="g-info" data-en>max. 30 players + 6 goalies</div>
+          <div class="g-idol">
+            <div class="g-idol-label" data-de>BENANNT NACH</div>
+            <div class="g-idol-label" data-en>NAMED AFTER</div>
+            <div class="g-idol-name">Patrick Hager</div>
+          </div>
+          <div class="g-counters">
+            <div class="g-counter-row">
+              <div class="g-counter-role">SPIELER</div>
+              <div class="g-counter-bar"><div class="g-counter-fill skater" data-max="30" data-current="0" style="width:0%"></div></div>
+              <div class="g-counter-text"><span class="g-counter-num">0</span> / 30</div>
+            </div>
+            <div class="g-counter-row">
+              <div class="g-counter-role">GOALIES</div>
+              <div class="g-counter-bar"><div class="g-counter-fill goalie" data-max="6" data-current="0" style="width:0%"></div></div>
+              <div class="g-counter-text"><span class="g-counter-num">0</span> / 6</div>
+            </div>
+            <div class="g-counter-row waitlist-row">
+              <div class="g-counter-role" data-de>WARTELISTE</div>
+              <div class="g-counter-role" data-en>WAITLIST</div>
+              <div class="g-counter-bar"><div class="g-counter-fill waitlist" data-current="0" style="width:0%"></div></div>
+              <div class="g-counter-text"><span class="g-counter-num">0</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="g-card">
+        <div class="g-card-top">
+          <div class="g-name">Reichel</div>
+        </div>
+        <div class="g-card-body">
+          <div class="g-age-info" data-de>Jahrgang <strong>2014</strong> &amp; j&uuml;nger</div>
+          <div class="g-age-info" data-en>Born <strong>2014</strong> &amp; younger</div>
+          <div class="g-info" data-de>max. 24 Spieler + 4 Goalies</div>
+          <div class="g-info" data-en>max. 24 players + 4 goalies</div>
+          <div class="g-idol">
+            <div class="g-idol-label" data-de>BENANNT NACH</div>
+            <div class="g-idol-label" data-en>NAMED AFTER</div>
+            <div class="g-idol-name">Lukas Reichel</div>
+          </div>
+          <div class="g-counters">
+            <div class="g-counter-row">
+              <div class="g-counter-role">SPIELER</div>
+              <div class="g-counter-bar"><div class="g-counter-fill skater" data-max="24" data-current="0" style="width:0%"></div></div>
+              <div class="g-counter-text"><span class="g-counter-num">0</span> / 24</div>
+            </div>
+            <div class="g-counter-row">
+              <div class="g-counter-role">GOALIES</div>
+              <div class="g-counter-bar"><div class="g-counter-fill goalie" data-max="4" data-current="0" style="width:0%"></div></div>
+              <div class="g-counter-text"><span class="g-counter-num">0</span> / 4</div>
+            </div>
+            <div class="g-counter-row waitlist-row">
+              <div class="g-counter-role" data-de>WARTELISTE</div>
+              <div class="g-counter-role" data-en>WAITLIST</div>
+              <div class="g-counter-bar"><div class="g-counter-fill waitlist" data-current="0" style="width:0%"></div></div>
+              <div class="g-counter-text"><span class="g-counter-num">0</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="g-card">
+        <div class="g-card-top">
+          <div class="g-name">Grubauer</div>
+        </div>
+        <div class="g-card-body">
+          <div class="g-age-info" data-de>Jahrgang <strong>2012</strong> &amp; j&uuml;nger</div>
+          <div class="g-age-info" data-en>Born <strong>2012</strong> &amp; younger</div>
+          <div class="g-info" data-de>max. 24 Spieler + 4 Goalies</div>
+          <div class="g-info" data-en>max. 24 players + 4 goalies</div>
+          <div class="g-idol">
+            <div class="g-idol-label" data-de>BENANNT NACH</div>
+            <div class="g-idol-label" data-en>NAMED AFTER</div>
+            <div class="g-idol-name">Philipp Grubauer</div>
+          </div>
+          <div class="g-counters">
+            <div class="g-counter-row">
+              <div class="g-counter-role">SPIELER</div>
+              <div class="g-counter-bar"><div class="g-counter-fill skater" data-max="24" data-current="0" style="width:0%"></div></div>
+              <div class="g-counter-text"><span class="g-counter-num">0</span> / 24</div>
+            </div>
+            <div class="g-counter-row">
+              <div class="g-counter-role">GOALIES</div>
+              <div class="g-counter-bar"><div class="g-counter-fill goalie" data-max="4" data-current="0" style="width:0%"></div></div>
+              <div class="g-counter-text"><span class="g-counter-num">0</span> / 4</div>
+            </div>
+            <div class="g-counter-row waitlist-row">
+              <div class="g-counter-role" data-de>WARTELISTE</div>
+              <div class="g-counter-role" data-en>WAITLIST</div>
+              <div class="g-counter-bar"><div class="g-counter-fill waitlist" data-current="0" style="width:0%"></div></div>
+              <div class="g-counter-text"><span class="g-counter-num">0</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ ZEITPLAN ═══════ -->
+<section class="sec sec-green" id="zeitplan">
+  <div class="sec-inner reveal">
+    <div class="sec-label" data-de>ZEITPLAN</div>
+    <div class="sec-label" data-en>SCHEDULE</div>
+    <h2 class="sec-title" data-de>Schedule.</h2>
+    <h2 class="sec-title" data-en>Schedule.</h2>
+    <div class="sec-div"></div>
+
+    <div class="sched-tabs">
+      <div class="s-tab active" data-day="1"><div class="s-tab-day">FR</div><div class="s-tab-name">FREITAG</div><div class="s-tab-date">31. Juli</div></div>
+      <div class="s-tab" data-day="2"><div class="s-tab-day">SA</div><div class="s-tab-name">SAMSTAG</div><div class="s-tab-date">1. August</div></div>
+      <div class="s-tab" data-day="3"><div class="s-tab-day">SO</div><div class="s-tab-name">SONNTAG</div><div class="s-tab-date">2. August</div></div>
+    </div>
+
+    <!-- FREITAG -->
+    <div class="s-panel active" id="day1">
+      <div class="sched-edit-bar">
+        <button class="sched-edit-btn" onclick="toggleScheduleEdit(this)" data-de>&#9998; BEARBEITEN</button>
+        <button class="sched-edit-btn" onclick="toggleScheduleEdit(this)" data-en>&#9998; EDIT</button>
+        <span class="sched-edit-hint" data-de>Klicke in eine Zelle zum Bearbeiten</span>
+        <span class="sched-edit-hint" data-en>Click any cell to edit</span>
+      </div>
+      <table class="sched-table" id="sched-day1">
+        <thead>
+          <tr>
+            <th>ZEIT</th>
+            <th>HAGER</th>
+            <th>REICHEL</th>
+            <th>GRUBAUER</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="s-time">08:00</td>
+            <td class="s-reg"><span class="s-label">ANMELDUNG</span></td>
+            <td class="s-reg"><span class="s-label">ANMELDUNG</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">09:00</td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">09:00 &ndash; 10:00</span></td>
+            <td class="s-ath"><span class="s-label">ATHLETIK</span><span class="s-detail">09:00 &ndash; 10:00</span></td>
+            <td class="s-reg"><span class="s-label">ANMELDUNG</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">10:15</td>
+            <td class="s-ath"><span class="s-label">ATHLETIK</span><span class="s-detail">10:15 &ndash; 11:15</span></td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">10:15 &ndash; 11:15</span></td>
+            <td class="s-ath"><span class="s-label">ATHLETIK</span><span class="s-detail">10:15 &ndash; 11:15</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">11:30</td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">11:30 &ndash; 12:30</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">MITTAG</td>
+            <td class="s-mtg"><span class="s-label">MITTAGESSEN</span><span class="s-detail">11:30 &ndash; 12:00</span></td>
+            <td class="s-mtg"><span class="s-label">MITTAGESSEN</span><span class="s-detail">11:45 &ndash; 12:15</span></td>
+            <td class="s-mtg"><span class="s-label">MITTAGESSEN</span><span class="s-detail">12:45 &ndash; 13:15</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">13:30</td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">13:30 &ndash; 14:30</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-evt"><span class="s-label">Q&amp;A</span><span class="s-detail">&Uuml;berraschungsgast 14:00&ndash;15:00</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">15:00</td>
+            <td class="s-evt"><span class="s-label">Q&amp;A</span><span class="s-detail">&Uuml;berraschungsgast 15:00&ndash;16:00</span></td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">14:45 &ndash; 15:45</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">16:00</td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-evt"><span class="s-label">Q&amp;A</span><span class="s-detail">&Uuml;berraschungsgast 16:00&ndash;17:00</span></td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">16:00 &ndash; 17:00</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">ENDE</td>
+            <td class="s-reg"><span class="s-label">16:00 Uhr</span></td>
+            <td class="s-reg"><span class="s-label">17:00 Uhr</span></td>
+            <td class="s-reg"><span class="s-label">17:15 Uhr</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SAMSTAG -->
+    <div class="s-panel" id="day2">
+      <div class="sched-edit-bar">
+        <button class="sched-edit-btn" onclick="toggleScheduleEdit(this)" data-de>&#9998; BEARBEITEN</button>
+        <button class="sched-edit-btn" onclick="toggleScheduleEdit(this)" data-en>&#9998; EDIT</button>
+        <span class="sched-edit-hint" data-de>Klicke in eine Zelle zum Bearbeiten</span>
+        <span class="sched-edit-hint" data-en>Click any cell to edit</span>
+      </div>
+      <table class="sched-table" id="sched-day2">
+        <thead>
+          <tr>
+            <th>ZEIT</th>
+            <th>HAGER</th>
+            <th>REICHEL</th>
+            <th>GRUBAUER</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="s-time">TREFFPUNKT</td>
+            <td class="s-reg"><span class="s-label">07:30 Uhr</span></td>
+            <td class="s-reg"><span class="s-label">07:30 Uhr</span></td>
+            <td class="s-reg"><span class="s-label">08:45 Uhr</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">08:00</td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">08:00 &ndash; 09:00</span></td>
+            <td class="s-ath"><span class="s-label">ATHLETIK</span><span class="s-detail">07:45 &ndash; 08:45</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">09:15</td>
+            <td class="s-ath"><span class="s-label">ATHLETIK</span><span class="s-detail">09:30 &ndash; 10:30</span></td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">09:15 &ndash; 10:15</span></td>
+            <td class="s-ath"><span class="s-label">ATHLETIK</span><span class="s-detail">09:15 &ndash; 10:15</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">10:30</td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">10:30 &ndash; 11:30</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">MITTAG</td>
+            <td class="s-mtg"><span class="s-label">MITTAGESSEN</span><span class="s-detail">11:15 &ndash; 11:45</span></td>
+            <td class="s-mtg"><span class="s-label">MITTAGESSEN</span><span class="s-detail">11:45 &ndash; 12:15</span></td>
+            <td class="s-mtg"><span class="s-label">MITTAGESSEN</span><span class="s-detail">12:15 &ndash; 12:45</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">13:00</td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">13:30 &ndash; 14:30</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-evt"><span class="s-label">FREIBAD</span><span class="s-detail">13:00 &ndash; 15:00</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">15:00</td>
+            <td class="s-evt"><span class="s-label">FREIBAD</span><span class="s-detail">15:00 &ndash; 17:00</span></td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">14:45 &ndash; 15:45</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">16:00</td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-evt"><span class="s-label">FREIBAD</span><span class="s-detail">16:00 &ndash; 18:00</span></td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">16:00 &ndash; 17:00</span></td>
+          </tr>
+          <tr class="s-event-row">
+            <td class="s-time">18:00</td>
+            <td colspan="3" class="s-evt"><span class="s-label">&Uuml;BERRASCHUNG</span><span class="s-detail">alle Gruppen gemeinsam</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SONNTAG -->
+    <div class="s-panel" id="day3">
+      <div class="sched-edit-bar">
+        <button class="sched-edit-btn" onclick="toggleScheduleEdit(this)" data-de>&#9998; BEARBEITEN</button>
+        <button class="sched-edit-btn" onclick="toggleScheduleEdit(this)" data-en>&#9998; EDIT</button>
+        <span class="sched-edit-hint" data-de>Klicke in eine Zelle zum Bearbeiten</span>
+        <span class="sched-edit-hint" data-en>Click any cell to edit</span>
+      </div>
+      <table class="sched-table" id="sched-day3">
+        <thead>
+          <tr>
+            <th>ZEIT</th>
+            <th>HAGER</th>
+            <th>REICHEL</th>
+            <th>GRUBAUER</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="s-time">TREFFPUNKT</td>
+            <td class="s-reg"><span class="s-label">07:30 Uhr</span></td>
+            <td class="s-reg"><span class="s-label">07:30 Uhr</span></td>
+            <td class="s-reg"><span class="s-label">08:45 Uhr</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">08:00</td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">08:00 &ndash; 09:00</span></td>
+            <td class="s-ath"><span class="s-label">ATHLETIK</span><span class="s-detail">07:45 &ndash; 08:45</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">09:15</td>
+            <td class="s-ath"><span class="s-label">ATHLETIK</span><span class="s-detail">09:30 &ndash; 10:30</span></td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">09:15 &ndash; 10:15</span></td>
+            <td class="s-ath"><span class="s-label">ATHLETIK</span><span class="s-detail">09:15 &ndash; 10:15</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">10:30</td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">10:30 &ndash; 11:30</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">MITTAG</td>
+            <td class="s-mtg"><span class="s-label">MITTAGESSEN</span><span class="s-detail">11:15 &ndash; 11:45</span></td>
+            <td class="s-mtg"><span class="s-label">MITTAGESSEN</span><span class="s-detail">11:45 &ndash; 12:15</span></td>
+            <td class="s-mtg"><span class="s-label">MITTAGESSEN</span><span class="s-detail">12:15 &ndash; 12:45</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">13:30</td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">13:30 &ndash; 14:30</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-ath"><span class="s-label">ATHLETIK</span><span class="s-detail">14:00 &ndash; 15:00</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">14:45</td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">14:45 &ndash; 15:45</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">16:00</td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-off"><span class="s-label">&mdash;</span></td>
+            <td class="s-ice"><span class="s-label">EISTRAINING</span><span class="s-detail">16:00 &ndash; 17:00</span></td>
+          </tr>
+          <tr>
+            <td class="s-time">ENDE</td>
+            <td class="s-reg"><span class="s-label">15:00 Uhr</span></td>
+            <td class="s-reg"><span class="s-label">16:00 Uhr</span></td>
+            <td class="s-reg"><span class="s-label">17:30 Uhr</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="s-legend">
+      <div class="s-legend-i"><div class="s-dot ice"></div>EISTRAINING</div>
+      <div class="s-legend-i"><div class="s-dot ath"></div>ATHLETIK</div>
+      <div class="s-legend-i"><div class="s-dot mtg"></div>MITTAGESSEN</div>
+    </div>
+    <div class="sec-action-bar">
+      <button class="print-btn" onclick="printSection('ablaufplan')" data-de>
+        <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        DRUCKEN / PDF
+      </button>
+      <button class="print-btn" onclick="printSection('ablaufplan')" data-en>
+        <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        PRINT / PDF
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ SIDE EVENTS ═══════ -->
+<section class="sec sec-light" id="events">
+  <div class="sec-inner reveal">
+    <div class="sec-label" data-de>NEBEN DEM EIS</div>
+    <div class="sec-label" data-en>OFF THE ICE</div>
+    <h2 class="sec-title">Side Events.</h2>
+    <div class="sec-div"></div>
+    <div class="ev-grid">
+      <div class="ev-card">
+        <div class="ev-day">OUTDOOR</div>
+        <div class="ev-title" data-de>Freibad</div>
+        <div class="ev-title" data-en>Pool Day</div>
+        <div class="ev-time" data-de>Wetterabh&auml;ngig</div>
+        <div class="ev-time" data-en>Weather permitting</div>
+      </div>
+      <div class="ev-card">
+        <div class="ev-day">SPECIAL</div>
+        <div class="ev-title" data-de>Q&amp;A &Uuml;berraschungsgast</div>
+        <div class="ev-title" data-en>Q&amp;A Surprise Guest</div>
+        <div class="ev-time" data-de>Wetterunabh&auml;ngig</div>
+        <div class="ev-time" data-en>Rain or shine</div>
+      </div>
+      <div class="ev-card">
+        <div class="ev-day">???</div>
+        <div class="ev-title" data-de>&Uuml;berraschung</div>
+        <div class="ev-title" data-en>Surprise</div>
+        <div class="ev-time" data-de>Du wirst schon sehen</div>
+        <div class="ev-time" data-en>You&rsquo;ll see</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CAMP-PAKET ═══════ -->
+<section class="sec sec-white" id="paket">
+  <div class="sec-inner reveal">
+    <div class="sec-label" data-de>IM PREIS ENTHALTEN</div>
+    <div class="sec-label" data-en>INCLUDED</div>
+    <h2 class="sec-title" data-de>Dein Camp-Paket.</h2>
+    <h2 class="sec-title" data-en>Your Camp Package.</h2>
+    <div class="sec-div"></div>
+    <div class="paket-list">
+      <div class="paket-item"><span class="paket-name">Jersey</span></div>
+      <div class="paket-item"><span class="paket-name">Socks</span></div>
+      <div class="paket-item"><span class="paket-name" data-de>Trinkflasche</span><span class="paket-name" data-en>Water Bottle</span></div>
+      <div class="paket-item"><span class="paket-name">Cap</span></div>
+      <div class="paket-item"><span class="paket-name">Gym Bag</span></div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-top:28px;" data-de>+ Freibad-Eintritt &middot; Mittagessen &amp; Snacks &middot; alle 3 Camp-Tage</p>
+    <p style="font-size:13px;color:var(--muted);margin-top:28px;" data-en>+ Pool entry &middot; Lunch &amp; snacks &middot; all 3 camp days</p>
+    <p style="font-size:12px;color:var(--muted);margin-top:16px;font-family:'JetBrains Mono',monospace;letter-spacing:2px;opacity:0.5;">BAUER&ensp;|&ensp;SCHANNER Hockey</p>
+  </div>
+</section>
+
+<!-- ═══════ MATERIALLISTE ═══════ -->
+<section class="sec sec-light" id="packliste">
+  <div class="sec-inner reveal">
+    <div class="sec-label" data-de>PACKLISTE</div>
+    <div class="sec-label" data-en>PACKING LIST</div>
+    <h2 class="sec-title" data-de>Was mitbringen.</h2>
+    <h2 class="sec-title" data-en>What to Bring.</h2>
+    <div class="sec-div"></div>
+    <div class="check-grid" data-de>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Komplette Eishockey-Ausr&uuml;stung</strong><span class="check-note">INKL. HELM MIT GITTER/VOLLVISIER</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Halsschutz</strong><span class="check-note">PFLICHT</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Schlittschuhe</strong><span class="check-note">FRISCH GESCHLIFFEN</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Sportkleidung</strong><span class="check-note">F&Uuml;R ATHLETIK-EINHEITEN</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Hallenschuhe</strong><span class="check-note">SAUBERE SOHLE</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Handtuch &amp; Duschsachen</strong></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Badekleidung &amp; Sonnencreme</strong><span class="check-note">F&Uuml;R FREIBAD-BESUCH</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Snacks &amp; Getr&auml;nke</strong><span class="check-note">F&Uuml;R ZWISCHENDURCH</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Tape &amp; Ersatzschn&uuml;rsenkel</strong><span class="check-note">OPTIONAL</span></div></div>
+    </div>
+    <div class="check-grid" data-en>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Full hockey gear</strong><span class="check-note">INCL. HELMET W/ CAGE/VISOR</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Neck guard</strong><span class="check-note">MANDATORY</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Skates</strong><span class="check-note">FRESHLY SHARPENED</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Athletic wear</strong><span class="check-note">FOR OFF-ICE SESSIONS</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Indoor shoes</strong><span class="check-note">CLEAN SOLE</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Towel &amp; shower supplies</strong></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Swimwear &amp; sunscreen</strong><span class="check-note">FOR POOL DAY</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Snacks &amp; drinks</strong><span class="check-note">FOR BETWEEN SESSIONS</span></div></div>
+      <div class="check-item"><span class="check-mark">&#x2713;</span><div><strong>Tape &amp; spare laces</strong><span class="check-note">OPTIONAL</span></div></div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:24px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;" data-de>JERSEY, STUTZEN, TRINKFLASCHE, CAP &amp; GYM BAG WERDEN GESTELLT.</p>
+    <p style="font-size:12px;color:var(--muted);margin-top:24px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;" data-en>JERSEY, SOCKS, WATER BOTTLE, CAP &amp; GYM BAG PROVIDED.</p>
+    <div class="sec-action-bar">
+      <button class="print-btn" onclick="printSection('packliste')" data-de>
+        <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        DRUCKEN / PDF
+      </button>
+      <button class="print-btn" onclick="printSection('packliste')" data-en>
+        <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        PRINT / PDF
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ TRAINER ═══════ -->
+<section class="sec sec-white" id="trainer">
+  <div class="sec-inner reveal">
+    <div class="sec-label" data-de>TRAINERSTAB</div>
+    <div class="sec-label" data-en>COACHING STAFF</div>
+    <h2 class="sec-title" data-de>Das Team.</h2>
+    <h2 class="sec-title" data-en>The Team.</h2>
+    <div class="sec-div"></div>
+    <div class="tr-section">
+      <div class="tr-label" data-de>EIS</div>
+      <div class="tr-label" data-en>ON ICE</div>
+      <div class="tr-grid">
+        <div class="tr-tag hl">Ren&eacute; Wild<small>HEAD</small></div>
+        <div class="tr-tag">Rick B&ouml;hm</div>
+        <div class="tr-tag">Matthias Bergmann</div>
+        <div class="tr-tag">Thomas Sch&auml;dler</div>
+      </div>
+    </div>
+    <div class="tr-section">
+      <div class="tr-label" data-de>TORWART</div>
+      <div class="tr-label" data-en>GOALTENDING</div>
+      <div class="tr-grid">
+        <div class="tr-tag">Kai Klimesch<small>TW</small></div>
+      </div>
+    </div>
+    <div class="tr-section">
+      <div class="tr-label">ATHLETIK</div>
+      <div class="tr-grid">
+        <div class="tr-tag">Florian Schillhuber</div>
+        <div class="tr-tag">Thomas Dorsch</div>
+      </div>
+    </div>
+    <div class="tr-section">
+      <div class="tr-label" data-de>GASTTRAINER</div>
+      <div class="tr-label" data-en>GUEST COACH</div>
+      <div class="tr-grid">
+        <div class="tr-tag" style="border-style:dashed;color:var(--muted);" data-de>to be announced</div>
+        <div class="tr-tag" style="border-style:dashed;color:var(--muted);" data-en>to be announced</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FAQ ═══════ -->
+<section class="sec sec-light" id="faq">
+  <div class="sec-inner reveal">
+    <div class="sec-label">FAQ</div>
+    <h2 class="sec-title" data-de>Fragen? Antworten.</h2>
+    <h2 class="sec-title" data-en>Questions? Answers.</h2>
+    <div class="sec-div"></div>
+
+    <!-- DE FAQ -->
+    <div class="faq-list" data-de>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">F&uuml;r welches Niveau ist das Camp?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner"><strong>Vereinsspieler, U9 bis U15.</strong> Die drei Altersgruppen trainieren getrennt. Das Camp ist f&uuml;r Anf&auml;nger nicht geeignet!</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">Was ist mit Verpflegung?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Das <strong>Mittagessen ist im Camp-Preis inbegriffen</strong> und wird in der VIP-Lounge, gestaffelt nach Gruppen bereitgestellt. Eigene Snacks und genug Wasser f&uuml;r die Pausen trotzdem einpacken &mdash; nach zwei Eiseinheiten braucht man das.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">Wie melde ich mich an?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Hier gehts zur Anmeldung: <a href="#anmeldung" style="color:var(--red);font-weight:600;">Anmeldeformular &rarr;</a></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">Goalies &mdash; eigene Ausr&uuml;stung?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner"><strong>Ja.</strong> Komplette Goalie-Ausr&uuml;stung mitbringen. Die TW-Einheiten laufen mit eigenen Torwarttrainern.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">Stornierung m&ouml;glich?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner"><a href="mailto:camps@starbulls.de" style="color:var(--red);font-weight:600;">Melde dich</a> &mdash; wir finden eine L&ouml;sung!</div></div>
+      </div>
+    </div>
+
+    <!-- EN FAQ -->
+    <div class="faq-list" data-en>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">What skill level is required?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner"><strong>Club players, U9 to U15.</strong> Three age groups train separately. The camp is not suitable for beginners!</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">Is food included?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner"><strong>Lunch is included</strong> and served in the VIP lounge, staggered by group. Still pack your own snacks and enough water for between sessions &mdash; you&rsquo;ll need it after two ice slots.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">How do I register?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Register here: <a href="#anmeldung" style="color:var(--red);font-weight:600;">Registration form &rarr;</a></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">Goalies &mdash; own gear?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner"><strong>Yes.</strong> Bring your full goalie setup. Goaltender sessions run with dedicated goalie coaches.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">Cancellation possible?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner"><a href="mailto:camps@starbulls.de" style="color:var(--red);font-weight:600;">Reach out</a> &mdash; we&rsquo;ll find a solution!</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════ INFO ═══════ -->
+<section class="sec sec-white" id="info">
+  <div class="sec-inner reveal">
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-label" data-de>ORT</div>
+        <div class="info-card-label" data-en>VENUE</div>
+        <p><strong>ROFA-Stadion</strong><br>Jahnstr. 1, 83022 Rosenheim</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label" data-de>ZEITRAUM</div>
+        <div class="info-card-label" data-en>DATES</div>
+        <p><strong>31. Juli &ndash; 2. August</strong><br data-de><span data-de>T&auml;glich ab 08:00 Uhr</span><br data-en><span data-en>Daily from 08:00</span></p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label" data-de>INVESTITION</div>
+        <div class="info-card-label" data-en>PRICE</div>
+        <p><strong>549,00 &euro;</strong><br data-de><span data-de>Alles inklusive</span><br data-en><span data-en>All inclusive</span></p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label" data-de>KONTAKT</div>
+        <div class="info-card-label" data-en>CONTACT</div>
+        <p><strong>Ren&eacute; Wild</strong><br><a href="mailto:camps@starbulls.de">camps@starbulls.de</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PARTNER ═══════ -->
+<section class="partners">
+  <div class="partners-label" data-de>PARTNER &amp; SPONSOREN</div>
+  <div class="partners-label" data-en>PARTNERS &amp; SPONSORS</div>
+  <div class="partners-grid">
+    <div class="partner-logo">BAUER</div>
+    <div class="partner-logo">SCHANNER</div>
+    <div class="partner-logo">ROFA STADION</div>
+    <div class="partner-logo">STARBULLS</div>
+  </div>
+</section>
+
+<!-- ═══════ CTA ═══════ -->
+<section class="cta" id="anmeldung">
+  <h2 class="cta-title" data-de>Bereit f&uuml;rs<br><span>Camp?</span></h2>
+  <h2 class="cta-title" data-en>Ready for<br><span>Camp?</span></h2>
+  <div class="cta-sub" data-de>Hier geht es zur Anmeldung.</div>
+  <div class="cta-sub" data-en>Register here.</div>
+  <div class="cta-price">549&thinsp;&euro;</div>
+  <div class="cta-note" data-de>PRO TEILNEHMER &middot; ALLES INKLUSIVE</div>
+  <div class="cta-note" data-en>PER PLAYER &middot; ALL INCLUSIVE</div>
+  <button class="cta-btn" data-de onclick="alert('Anmeldung startet Ende April 2026.')">JETZT ANMELDEN</button>
+  <button class="cta-btn" data-en onclick="alert('Registration opens late April 2026.')">REGISTER NOW</button>
+</section>
+
+<!-- ═══════ SOCIAL MEDIA ═══════ -->
+<section class="social-bar">
+  <div class="social-label" data-de>FOLGE UNS</div>
+  <div class="social-label" data-en>FOLLOW US</div>
+  <div class="social-links">
+    <a href="https://www.instagram.com/starbulls_nachwuchs/" target="_blank" rel="noopener" class="social-link">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
+      @STARBULLS_NACHWUCHS
+    </a>
+    <a href="https://www.tiktok.com/@starbulls_nachwuchs" target="_blank" rel="noopener" class="social-link">
+      <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.88-2.88 2.89 2.89 0 012.88-2.88c.28 0 .56.04.82.11v-3.5a6.37 6.37 0 00-.82-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.35 6.34 6.34 0 006.34-6.35V9.48a8.3 8.3 0 004.85 1.56V7.59a4.86 4.86 0 01-1.09-.9z"/></svg>
+      @STARBULLS_NACHWUCHS
+    </a>
+  </div>
+</section>
+
+<div class="edge"></div>
+
+<footer class="footer">
+  <img src="/sbr-logo-bw.png" alt="Starbulls" style="width:56px;height:auto;opacity:0.45;margin-bottom:16px;">
+  <div class="footer-brand">Starbulls Rosenheim e.V.</div>
+  <div class="footer-address">
+    Jahnstr. 1 &middot; 83022 Rosenheim<br>
+    <a href="mailto:camps@starbulls.de">camps@starbulls.de</a>
+  </div>
+  <div class="footer-note">SOMMER CAMP 2026 &middot; CLICK-DUMMY &middot; VERTRAULICH</div>
+  <div class="footer-legal">
+    <a href="#" data-de onclick="event.preventDefault();document.getElementById('modal-impressum').style.display='flex'">Impressum</a>
+    <a href="#" data-en onclick="event.preventDefault();document.getElementById('modal-impressum').style.display='flex'">Imprint</a>
+    <a href="#" data-de onclick="event.preventDefault();document.getElementById('modal-datenschutz').style.display='flex'">Datenschutz</a>
+    <a href="#" data-en onclick="event.preventDefault();document.getElementById('modal-datenschutz').style.display='flex'">Privacy</a>
+    <a href="#" data-de onclick="event.preventDefault();document.getElementById('modal-storno').style.display='flex'">Storno</a>
+    <a href="#" data-en onclick="event.preventDefault();document.getElementById('modal-storno').style.display='flex'">Cancellation</a>
+    <a href="#" data-de onclick="event.preventDefault();document.getElementById('modal-zahlung').style.display='flex'">Zahlung</a>
+    <a href="#" data-en onclick="event.preventDefault();document.getElementById('modal-zahlung').style.display='flex'">Payment</a>
+    <a href="#" data-de onclick="event.preventDefault();document.getElementById('modal-agb').style.display='flex'">AGB</a>
+    <a href="#" data-en onclick="event.preventDefault();document.getElementById('modal-agb').style.display='flex'">Terms</a>
+  </div>
+  <div class="footer-copy" data-de>&copy; 2026 Starbulls Rosenheim e.V. &middot; Alle Rechte vorbehalten.</div>
+  <div class="footer-copy" data-en>&copy; 2026 Starbulls Rosenheim e.V. &middot; All rights reserved.</div>
+</footer>
+
+<!-- ═══════ LEGAL MODALS ═══════ -->
+<style>
+  .legal-modal {
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.65); backdrop-filter: blur(12px);
+    align-items: flex-start; justify-content: center; padding: 40px 24px;
+    overflow-y: auto;
+  }
+  .legal-modal-box {
+    background: #fff; max-width: 680px; width: 100%;
+    padding: 56px 44px 48px; position: relative; border-radius: 4px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.3);
+    margin: auto;
+  }
+  .legal-modal-box .lm-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 4px;
+    color: var(--red); opacity: 0.5; margin-bottom: 4px;
+  }
+  .legal-modal-box h3 {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 36px;
+    color: var(--dark); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+  }
+  .legal-modal-box .lm-div { width: 32px; height: 3px; background: var(--red); margin-bottom: 28px; }
+  .legal-modal-box h4 {
+    font-family: 'Titillium Web', sans-serif; font-size: 15px; font-weight: 700;
+    color: var(--dark); margin: 28px 0 8px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .legal-modal-box h4:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+  .legal-modal-box p {
+    font-size: 14px; color: var(--text); line-height: 1.8; margin-bottom: 12px;
+  }
+  .legal-modal-box p strong { color: var(--dark); }
+  .legal-modal-box p em { color: var(--muted); font-size: 13px; }
+  .legal-modal-box ul {
+    list-style: none; padding: 0; margin: 0 0 16px;
+  }
+  .legal-modal-box ul li {
+    font-size: 14px; color: var(--text); line-height: 1.8;
+    padding-left: 20px; position: relative; margin-bottom: 4px;
+  }
+  .legal-modal-box ul li::before {
+    content: ''; position: absolute; left: 0; top: 11px;
+    width: 6px; height: 6px; border-radius: 1px; background: var(--green); opacity: 0.4;
+  }
+  .legal-modal-box .lm-contact {
+    margin-top: 28px; padding: 20px; background: var(--bg); border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text);
+    line-height: 1.8;
+  }
+  .legal-modal-box .lm-contact strong { color: var(--dark); }
+  .legal-modal-box .lm-contact a { color: var(--red); text-decoration: none; }
+  .legal-modal-box .lm-dummy {
+    margin-top: 24px; padding: 12px 16px; border-left: 3px solid var(--red);
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px;
+    color: var(--muted); background: rgba(228,3,46,0.02);
+  }
+  .legal-modal-close {
+    position: absolute; top: 20px; right: 20px; width: 36px; height: 36px;
+    border: 1px solid var(--border); border-radius: 4px; background: #fff;
+    cursor: pointer; font-size: 18px; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .legal-modal-close:hover { color: var(--dark); border-color: var(--dark); }
+  @media (max-width: 768px) {
+    .legal-modal { padding: 16px; }
+    .legal-modal-box { padding: 36px 24px 32px; }
+    .legal-modal-box h3 { font-size: 28px; }
+  }
+</style>
+
+<!-- IMPRESSUM -->
+<div class="legal-modal" id="modal-impressum" onclick="if(event.target===this)this.style.display='none'">
+  <div class="legal-modal-box">
+    <button class="legal-modal-close" onclick="this.closest('.legal-modal').style.display='none'">&times;</button>
+    <div class="lm-label">LEGAL</div>
+    <h3 data-de>Impressum</h3>
+    <h3 data-en>Imprint</h3>
+    <div class="lm-div"></div>
+
+    <h4 data-de>Wer steckt dahinter?</h4>
+    <h4 data-en>Who&rsquo;s behind this?</h4>
+    <p><strong>Starbulls Rosenheim e.V.</strong><br>Jahnstra&szlig;e 1<br>83022 Rosenheim<br>Deutschland / Germany</p>
+
+    <h4 data-de>Vertretung</h4>
+    <h4 data-en>Representation</h4>
+    <p data-de>Vertreten durch den <strong>Vorstand</strong> gem&auml;&szlig; Vereinssatzung.</p>
+    <p data-en>Represented by the <strong>Board of Directors</strong> as per the club&rsquo;s statutes.</p>
+
+    <h4 data-de>Registereintrag</h4>
+    <h4 data-en>Registration</h4>
+    <p data-de>Eingetragen im Vereinsregister beim <strong>Amtsgericht Rosenheim</strong>.</p>
+    <p data-en>Registered at the <strong>Amtsgericht Rosenheim</strong> (local court).</p>
+
+    <h4 data-de>Camp-Leitung &amp; Ansprechpartner</h4>
+    <h4 data-en>Camp Director &amp; Contact</h4>
+    <p data-de><strong>Ren&eacute; Wild</strong> &mdash; Nachwuchsleiter Starbulls Rosenheim</p>
+    <p data-en><strong>Ren&eacute; Wild</strong> &mdash; Head of Youth Development, Starbulls Rosenheim</p>
+
+    <h4 data-de>Haftung f&uuml;r Inhalte</h4>
+    <h4 data-en>Content Liability</h4>
+    <p data-de>Wir geben uns M&uuml;he, dass hier alles stimmt. Trotzdem: Sollte uns ein Fehler durchrutschen, &uuml;bernehmen wir keine Haftung f&uuml;r die Richtigkeit, Vollst&auml;ndigkeit oder Aktualit&auml;t der bereitgestellten Inhalte. Sobald uns ein Problem bekannt wird, k&uuml;mmern wir uns darum.</p>
+    <p data-en>We do our best to keep everything accurate. That said, we can&rsquo;t guarantee the correctness, completeness or timeliness of all content. If we become aware of any issues, we&rsquo;ll fix them promptly.</p>
+
+    <h4 data-de>Haftung f&uuml;r Links</h4>
+    <h4 data-en>External Links</h4>
+    <p data-de>Externe Links f&uuml;hren zu Inhalten anderer Anbieter. Zum Zeitpunkt der Verlinkung waren keine Verst&ouml;&szlig;e erkennbar. Ohne konkreten Hinweis auf eine Rechtsverletzung ist eine laufende Kontrolle nicht zumutbar. Bei Bekanntwerden entfernen wir entsprechende Links umgehend.</p>
+    <p data-en>External links lead to third-party content. At the time of linking, no violations were apparent. Without specific evidence of infringement, continuous monitoring isn&rsquo;t feasible. We&rsquo;ll remove any problematic links as soon as we&rsquo;re made aware.</p>
+
+    <div class="lm-contact">
+      <strong>E-Mail:</strong> <a href="mailto:camps@starbulls.de">camps@starbulls.de</a><br>
+      <strong>Web:</strong> starbulls.de
+    </div>
+
+    <div class="lm-dummy" data-de>CLICK-DUMMY &mdash; Das vollst&auml;ndige Impressum inkl. Registernummer wird auf der finalen Website erg&auml;nzt.</div>
+    <div class="lm-dummy" data-en>CLICK-DUMMY &mdash; Full imprint incl. registration number will be added to the final website.</div>
+  </div>
+</div>
+
+<!-- DATENSCHUTZ -->
+<div class="legal-modal" id="modal-datenschutz" onclick="if(event.target===this)this.style.display='none'">
+  <div class="legal-modal-box">
+    <button class="legal-modal-close" onclick="this.closest('.legal-modal').style.display='none'">&times;</button>
+    <div class="lm-label">LEGAL</div>
+    <h3 data-de>Datenschutz</h3>
+    <h3 data-en>Privacy Policy</h3>
+    <div class="lm-div"></div>
+
+    <p data-de><strong>Kurz gesagt:</strong> Wir sammeln nur, was wir brauchen, geben nichts weiter und l&ouml;schen alles, sobald es nicht mehr n&ouml;tig ist.</p>
+    <p data-en><strong>In short:</strong> We only collect what we need, don&rsquo;t share it, and delete everything once it&rsquo;s no longer necessary.</p>
+
+    <h4 data-de>Wer ist verantwortlich?</h4>
+    <h4 data-en>Who is responsible?</h4>
+    <p><strong>Starbulls Rosenheim e.V.</strong><br>Jahnstra&szlig;e 1, 83022 Rosenheim<br>E-Mail: <a href="mailto:camps@starbulls.de" style="color:var(--red);text-decoration:none;">camps@starbulls.de</a></p>
+
+    <h4 data-de>Welche Daten erheben wir?</h4>
+    <h4 data-en>What data do we collect?</h4>
+    <p data-de>Bei der Camp-Anmeldung:</p>
+    <p data-en>During camp registration:</p>
+    <ul data-de>
+      <li><strong>Name und Geburtsdatum</strong> des Teilnehmers &mdash; damit wir die richtige Altersgruppe zuordnen k&ouml;nnen</li>
+      <li><strong>Name und Kontaktdaten</strong> eines Erziehungsberechtigten &mdash; f&uuml;r R&uuml;ckfragen und Notf&auml;lle</li>
+      <li><strong>E-Mail-Adresse</strong> &mdash; f&uuml;r die Anmeldebest&auml;tigung und Camp-Infos</li>
+      <li><strong>Gesundheitsrelevante Hinweise</strong> (falls angegeben) &mdash; Allergien, Medikamente etc.</li>
+    </ul>
+    <ul data-en>
+      <li><strong>Name and date of birth</strong> of the participant &mdash; to assign the correct age group</li>
+      <li><strong>Name and contact details</strong> of a guardian &mdash; for questions and emergencies</li>
+      <li><strong>Email address</strong> &mdash; for registration confirmation and camp info</li>
+      <li><strong>Health-related notes</strong> (if provided) &mdash; allergies, medications, etc.</li>
+    </ul>
+
+    <h4 data-de>Wof&uuml;r nutzen wir die Daten?</h4>
+    <h4 data-en>What do we use it for?</h4>
+    <p data-de>Ausschlie&szlig;lich f&uuml;r die <strong>Durchf&uuml;hrung und Organisation des Sommer Camps</strong>. Keine Werbung, kein Newsletter-Spam, keine Weitergabe an Sponsoren oder Dritte. Punkt.</p>
+    <p data-en>Exclusively for <strong>running and organizing the Summer Camp</strong>. No ads, no newsletter spam, no sharing with sponsors or third parties. Period.</p>
+
+    <h4 data-de>Rechtsgrundlage</h4>
+    <h4 data-en>Legal basis</h4>
+    <p data-de>Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO) &mdash; wir brauchen die Daten, um den Camp-Vertrag zu erf&uuml;llen. Gesundheitsdaten verarbeiten wir nur mit ausdr&uuml;cklicher Einwilligung (Art. 9 Abs. 2 lit. a DSGVO).</p>
+    <p data-en>Contract performance (Art. 6(1)(b) GDPR) &mdash; we need the data to fulfill the camp agreement. Health data is processed only with explicit consent (Art. 9(2)(a) GDPR).</p>
+
+    <h4 data-de>Wie lange speichern wir?</h4>
+    <h4 data-en>How long do we store data?</h4>
+    <p data-de>Anmeldedaten werden <strong>sp&auml;testens 6 Monate nach Camp-Ende gel&ouml;scht</strong>. Rechnungsdaten bleiben aufgrund steuerlicher Aufbewahrungspflichten bis zu 10 Jahre gespeichert &mdash; daran k&ouml;nnen wir nichts &auml;ndern.</p>
+    <p data-en>Registration data is <strong>deleted no later than 6 months after the camp ends</strong>. Invoice data must be retained for up to 10 years due to tax regulations &mdash; that&rsquo;s not our call.</p>
+
+    <h4 data-de>Deine Rechte</h4>
+    <h4 data-en>Your rights</h4>
+    <p data-de>Du hast jederzeit das Recht auf <strong>Auskunft, Berichtigung, L&ouml;schung und Widerspruch</strong>. Einfach eine Mail an uns &mdash; wir k&uuml;mmern uns. Wenn du der Meinung bist, dass etwas nicht passt, kannst du dich auch bei der zust&auml;ndigen Aufsichtsbeh&ouml;rde beschweren (Bayerisches Landesamt f&uuml;r Datenschutzaufsicht).</p>
+    <p data-en>You have the right to <strong>access, correct, delete and object</strong> at any time. Just drop us an email &mdash; we&rsquo;ll handle it. If you think something&rsquo;s off, you can also file a complaint with the supervisory authority (Bayerisches Landesamt f&uuml;r Datenschutzaufsicht).</p>
+
+    <h4 data-de>Fotos &amp; Videos</h4>
+    <h4 data-en>Photos &amp; Videos</h4>
+    <p data-de>W&auml;hrend des Camps werden <strong>Fotos und Videoaufnahmen</strong> erstellt. Diese werden ausschlie&szlig;lich f&uuml;r die Bewerbung des Sommer Camps und f&uuml;r interne Zwecke auf den <strong>offiziellen Kan&auml;len des Starbulls Rosenheim Nachwuchs</strong> (Website, Instagram, TikTok) verwendet. Eine Weitergabe an Dritte findet nicht statt. Die Einwilligung wird bei der Anmeldung abgefragt. Kein Ja? Keine Fotos von deinem Kind.</p>
+    <p data-en>During the camp, <strong>photos and videos</strong> will be taken. These are used exclusively for promoting the Summer Camp and for internal purposes on the <strong>official Starbulls Rosenheim Nachwuchs channels</strong> (website, Instagram, TikTok). No sharing with third parties. Consent is requested during registration. No consent? No photos of your child.</p>
+
+    <h4 data-de>Cookies &amp; Tracking</h4>
+    <h4 data-en>Cookies &amp; Tracking</h4>
+    <p data-de>Diese Seite verwendet <strong>keine Cookies, kein Tracking, keine Analyse-Tools</strong>. Kein Google Analytics, kein Facebook Pixel, nichts. Wir wollen, dass ihr euch anmeldet &mdash; nicht, dass wir euch im Internet verfolgen.</p>
+    <p data-en>This page uses <strong>no cookies, no tracking, no analytics tools</strong>. No Google Analytics, no Facebook Pixel, nothing. We want you to sign up &mdash; not stalk you across the internet.</p>
+
+    <div class="lm-contact">
+      <strong data-de>Fragen zum Datenschutz?</strong>
+      <strong data-en>Privacy questions?</strong><br>
+      <a href="mailto:camps@starbulls.de">camps@starbulls.de</a>
+    </div>
+
+    <div class="lm-dummy" data-de>CLICK-DUMMY &mdash; Die vollst&auml;ndige Datenschutzerkl&auml;rung gem. DSGVO wird auf der finalen Website bereitgestellt.</div>
+    <div class="lm-dummy" data-en>CLICK-DUMMY &mdash; The complete GDPR-compliant privacy policy will be published on the final website.</div>
+  </div>
+</div>
+
+<!-- STORNO -->
+<div class="legal-modal" id="modal-storno" onclick="if(event.target===this)this.style.display='none'">
+  <div class="legal-modal-box">
+    <button class="legal-modal-close" onclick="this.closest('.legal-modal').style.display='none'">&times;</button>
+    <div class="lm-label">LEGAL</div>
+    <h3 data-de>Stornierung</h3>
+    <h3 data-en>Cancellation</h3>
+    <div class="lm-div"></div>
+
+    <p data-de><strong>Kurz gesagt:</strong> Fr&uuml;h absagen kostet nichts. Sp&auml;t absagen kostet alles. Fair f&uuml;r alle.</p>
+    <p data-en><strong>In short:</strong> Cancel early, pay nothing. Cancel late, pay everything. Fair for everyone.</p>
+
+    <h4 data-de>Kostenlos stornieren</h4>
+    <h4 data-en>Free cancellation</h4>
+    <p data-de>Bis <strong>4 Wochen vor Camp-Beginn (3. Juli 2026)</strong> kannst du ohne Angabe von Gr&uuml;nden stornieren. Volle R&uuml;ckerstattung, keine Geb&uuml;hren, kein Drama.</p>
+    <p data-en>Up to <strong>4 weeks before camp start (July 3, 2026)</strong>, you can cancel without giving any reason. Full refund, no fees, no drama.</p>
+
+    <h4 data-de>Danach</h4>
+    <h4 data-en>After that</h4>
+    <p data-de>Ab dem 4. Juli 2026 gilt: Die vollen <strong>549,00 &euro;</strong> werden f&auml;llig. Der Grund ist einfach &mdash; Trainer sind gebucht, Material ist bestellt, Eiszeiten sind reserviert. Das l&auml;sst sich nicht mehr r&uuml;ckg&auml;ngig machen.</p>
+    <p data-en>From July 4, 2026: the full <strong>&euro;549.00</strong> applies. The reason is simple &mdash; coaches are booked, gear is ordered, ice time is reserved. That can&rsquo;t be undone.</p>
+
+    <h4 data-de>Ersatzteilnehmer</h4>
+    <h4 data-en>Substitute participant</h4>
+    <p data-de>Du kannst deinen Platz <strong>jederzeit an jemand anderen &uuml;bertragen</strong>. Einfach kurz bei uns melden mit Name und Daten des Ersatzteilnehmers &mdash; fertig.</p>
+    <p data-en>You can <strong>transfer your spot to someone else at any time</strong>. Just let us know with the replacement&rsquo;s name and details &mdash; done.</p>
+
+    <h4 data-de>Krankheit oder Verletzung</h4>
+    <h4 data-en>Illness or injury</h4>
+    <p data-de>Wenn dein Kind krank wird oder sich verletzt: Schick uns ein <strong>&auml;rztliches Attest</strong>, und wir finden eine L&ouml;sung. Wir sind keine Anw&auml;lte &mdash; wir sind ein Eishockeyverein. Wir reden miteinander.</p>
+    <p data-en>If your child gets sick or injured: send us a <strong>medical certificate</strong>, and we&rsquo;ll work something out. We&rsquo;re not lawyers &mdash; we&rsquo;re a hockey club. We talk to each other.</p>
+
+    <h4 data-de>Absage durch den Veranstalter</h4>
+    <h4 data-en>Cancellation by the organizer</h4>
+    <p data-de>Sollten wir das Camp aus Gr&uuml;nden absagen m&uuml;ssen, die au&szlig;erhalb unserer Kontrolle liegen (h&ouml;here Gewalt, Stadionsperrung, etc.), erstatten wir den <strong>vollen Betrag zur&uuml;ck</strong>. Weitergehende Anspr&uuml;che sind ausgeschlossen.</p>
+    <p data-en>If we have to cancel due to circumstances beyond our control (force majeure, arena closure, etc.), we&rsquo;ll provide a <strong>full refund</strong>. Further claims are excluded.</p>
+
+    <h4 data-de>Wie stornieren?</h4>
+    <h4 data-en>How to cancel?</h4>
+    <p data-de>Eine E-Mail reicht. An <a href="mailto:camps@starbulls.de" style="color:var(--red);text-decoration:none;"><strong>camps@starbulls.de</strong></a> mit dem Namen des Teilnehmers. Wir best&auml;tigen innerhalb von 3 Werktagen.</p>
+    <p data-en>One email is enough. To <a href="mailto:camps@starbulls.de" style="color:var(--red);text-decoration:none;"><strong>camps@starbulls.de</strong></a> with the participant&rsquo;s name. We&rsquo;ll confirm within 3 business days.</p>
+
+    <div class="lm-dummy" data-de>CLICK-DUMMY &mdash; Die finalen Stornobedingungen werden mit den AGB auf der fertigen Website ver&ouml;ffentlicht.</div>
+    <div class="lm-dummy" data-en>CLICK-DUMMY &mdash; Final cancellation terms will be published with the T&amp;C on the finished website.</div>
+  </div>
+</div>
+
+<!-- ZAHLUNG -->
+<div class="legal-modal" id="modal-zahlung" onclick="if(event.target===this)this.style.display='none'">
+  <div class="legal-modal-box">
+    <button class="legal-modal-close" onclick="this.closest('.legal-modal').style.display='none'">&times;</button>
+    <div class="lm-label">LEGAL</div>
+    <h3 data-de>Zahlung</h3>
+    <h3 data-en>Payment</h3>
+    <div class="lm-div"></div>
+
+    <p data-de><strong>Kurz gesagt:</strong> 549&thinsp;&euro;, alles drin, &Uuml;berweisung, sofort f&auml;llig. Platz gesichert nach Zahlungseingang.</p>
+    <p data-en><strong>In short:</strong> &euro;549, everything included, bank transfer, due immediately. Spot secured upon payment.</p>
+
+    <h4 data-de>Was kostet das Camp?</h4>
+    <h4 data-en>How much does it cost?</h4>
+    <p data-de><strong>549,00 &euro; pro Teilnehmer.</strong> Darin enthalten:</p>
+    <p data-en><strong>&euro;549.00 per participant.</strong> This includes:</p>
+    <ul data-de>
+      <li>Alle Eis- und Athletik-Einheiten &uuml;ber 3 Tage</li>
+      <li>Mittagessen (MOP Lounge)</li>
+      <li>Camp-Paket: Trikot, Stutzen, Trinkflasche, Cap, Gym Bag</li>
+      <li>Side Events</li>
+    </ul>
+    <ul data-en>
+      <li>All ice and athletic sessions over 3 days</li>
+      <li>Lunch (MOP Lounge)</li>
+      <li>Camp package: jersey, socks, water bottle, cap, gym bag</li>
+      <li>Side events</li>
+    </ul>
+
+    <h4 data-de>Wie bezahlen?</h4>
+    <h4 data-en>How to pay?</h4>
+    <p data-de><strong>&Uuml;berweisung, sofort f&auml;llig.</strong> Du erh&auml;ltst nach der Anmeldung eine Best&auml;tigungsmail mit der Bankverbindung. Der Betrag ist <strong>sofort nach Anmeldung</strong> zu &uuml;berweisen.</p>
+    <p data-en><strong>Bank transfer, due immediately.</strong> After registration, you&rsquo;ll receive a confirmation email with bank details. Payment is <strong>due immediately</strong> upon registration.</p>
+
+    <h4 data-de>Wann ist der Platz fix?</h4>
+    <h4 data-en>When is the spot confirmed?</h4>
+    <p data-de>Nach Zahlungseingang wird dein Platz fixiert. Die <strong>Anmeldung allein reserviert keinen Platz</strong>. Sobald die Zahlung bei uns eingeht, bekommst du eine finale Best&auml;tigung per Mail.</p>
+    <p data-en>Your spot is confirmed once payment is received. <strong>Registration alone doesn&rsquo;t reserve a spot.</strong> Once we receive payment, you&rsquo;ll get a final confirmation by email.</p>
+
+    <h4 data-de>Was passiert bei Nichtzahlung?</h4>
+    <h4 data-en>What happens without payment?</h4>
+    <p data-de>Ohne Zahlungseingang wird der Platz <strong>f&uuml;r Nachr&uuml;cker freigegeben</strong>. Du erh&auml;ltst vorher eine Erinnerung.</p>
+    <p data-en>Without payment, the spot will be <strong>released to the waitlist</strong>. You&rsquo;ll get a reminder first.</p>
+
+    <div class="lm-contact">
+      <strong data-de>Fragen zur Zahlung?</strong>
+      <strong data-en>Payment questions?</strong><br>
+      <a href="mailto:camps@starbulls.de">camps@starbulls.de</a>
+    </div>
+
+    <div class="lm-dummy" data-de>CLICK-DUMMY &mdash; Finale Zahlungsbedingungen werden mit den AGB auf der fertigen Website ver&ouml;ffentlicht.</div>
+    <div class="lm-dummy" data-en>CLICK-DUMMY &mdash; Final payment terms will be published with the T&amp;C on the finished website.</div>
+  </div>
+</div>
+
+<!-- AGB -->
+<div class="legal-modal" id="modal-agb" onclick="if(event.target===this)this.style.display='none'">
+  <div class="legal-modal-box">
+    <button class="legal-modal-close" onclick="this.closest('.legal-modal').style.display='none'">&times;</button>
+    <div class="lm-label">LEGAL</div>
+    <h3 data-de>Teilnahmebedingungen</h3>
+    <h3 data-en>Terms &amp; Conditions</h3>
+    <div class="lm-div"></div>
+
+    <p data-de><strong>Kurz gesagt:</strong> Die Spielregeln f&uuml;rs Camp. Damit alle wissen, woran sie sind.</p>
+    <p data-en><strong>In short:</strong> The ground rules for camp. So everyone knows where they stand.</p>
+
+    <h4 data-de>Veranstalter</h4>
+    <h4 data-en>Organizer</h4>
+    <p data-de>Das Starbulls Sommer Camp wird veranstaltet von <strong>Starbulls Rosenheim e.V.</strong>, Jahnstra&szlig;e 1, 83022 Rosenheim.</p>
+    <p data-en>The Starbulls Summer Camp is organized by <strong>Starbulls Rosenheim e.V.</strong>, Jahnstra&szlig;e 1, 83022 Rosenheim, Germany.</p>
+
+    <h4 data-de>Anmeldung &amp; Vertrag</h4>
+    <h4 data-en>Registration &amp; Agreement</h4>
+    <p data-de>Mit dem Absenden des Anmeldeformulars gibst du ein verbindliches Angebot zur Teilnahme ab. Der Vertrag kommt zustande, sobald wir die <strong>Anmeldebest&auml;tigung per E-Mail</strong> verschicken. Die Anmeldung erfolgt durch einen Erziehungsberechtigten.</p>
+    <p data-en>By submitting the registration form, you make a binding offer to participate. The agreement is established once we send the <strong>registration confirmation by email</strong>. Registration must be done by a legal guardian.</p>
+
+    <h4 data-de>Teilnahmevoraussetzungen</h4>
+    <h4 data-en>Requirements</h4>
+    <ul data-de>
+      <li>Vereinsspieler im Alter von <strong>U9 bis U15</strong></li>
+      <li>Eigene, vollst&auml;ndige <strong>Eishockey-Ausr&uuml;stung</strong> (inkl. Halsschutz &mdash; Pflicht!)</li>
+      <li>Sportliche Grundfitness und Eislaufkompetenz</li>
+      <li>Unterschriebene <strong>Einverst&auml;ndniserkl&auml;rung</strong> eines Erziehungsberechtigten</li>
+    </ul>
+    <ul data-en>
+      <li>Club players aged <strong>U9 to U15</strong></li>
+      <li>Own, complete <strong>hockey equipment</strong> (incl. neck guard &mdash; mandatory!)</li>
+      <li>Basic athletic fitness and skating ability</li>
+      <li>Signed <strong>consent form</strong> from a legal guardian</li>
+    </ul>
+
+    <h4 data-de>Aufsichtspflicht</h4>
+    <h4 data-en>Supervision</h4>
+    <p data-de>W&auml;hrend der Camp-Zeiten (laut Schedule) liegt die Aufsichtspflicht beim Veranstalter und seinem Trainerteam. <strong>Au&szlig;erhalb der offiziellen Camp-Zeiten</strong> &mdash; also vor dem Programm, nach Programmende und in Pausen ohne Betreuung &mdash; sind die <strong>Erziehungsberechtigten</strong> verantwortlich. Bitte sorge daf&uuml;r, dass dein Kind p&uuml;nktlich gebracht und abgeholt wird.</p>
+    <p data-en>During camp hours (per schedule), supervision lies with the organizer and coaching staff. <strong>Outside official camp hours</strong> &mdash; before the program, after it ends, and during unsupervised breaks &mdash; <strong>guardians</strong> are responsible. Please make sure your child is dropped off and picked up on time.</p>
+
+    <h4 data-de>Haftung &amp; Sporttypisches Risiko</h4>
+    <h4 data-en>Liability &amp; Inherent Sport Risk</h4>
+    <p data-de>Eishockey ist ein <strong>Kontaktsport</strong>. Trotz aller Vorsichtsma&szlig;nahmen, professioneller Ausr&uuml;stung und qualifizierter Betreuung lassen sich sportbedingte Verletzungen (Prellungen, Verstauchungen, Sch&uuml;rfwunden etc.) nie vollst&auml;ndig ausschlie&szlig;en. Mit der Anmeldung erkennen die Erziehungsberechtigten dieses <strong>sportartentypische Verletzungsrisiko</strong> ausdr&uuml;cklich an.</p>
+    <p data-en>Ice hockey is a <strong>contact sport</strong>. Despite all precautions, professional equipment and qualified supervision, sport-related injuries (bruises, sprains, abrasions, etc.) can never be fully excluded. By registering, guardians expressly acknowledge this <strong>inherent risk of the sport</strong>.</p>
+    <p data-de>Der Veranstalter haftet <strong>nur bei Vorsatz oder grober Fahrl&auml;ssigkeit</strong> seitens seiner Mitarbeiter oder Trainer. F&uuml;r einfache Fahrl&auml;ssigkeit wird die Haftung &mdash; soweit gesetzlich zul&auml;ssig &mdash; ausgeschlossen. Das gilt nicht f&uuml;r Sch&auml;den an Leben, K&ouml;rper oder Gesundheit, f&uuml;r die der Veranstalter unabh&auml;ngig vom Verschuldensgrad haftet.</p>
+    <p data-en>The organizer is liable <strong>only for intent or gross negligence</strong> on the part of its staff or coaches. Liability for ordinary negligence is excluded to the extent permitted by law. This does not apply to damages to life, body or health, for which the organizer is liable regardless of the degree of fault.</p>
+
+    <h4 data-de>Versicherung &mdash; Eigenverantwortung der Eltern</h4>
+    <h4 data-en>Insurance &mdash; Parents&rsquo; Responsibility</h4>
+    <p data-de><strong>Wichtig: Der Veranstalter schlie&szlig;t keine Unfallversicherung f&uuml;r die Teilnehmer ab.</strong> Die Absicherung liegt in der Verantwortung der Erziehungsberechtigten. Wir empfehlen dringend:</p>
+    <p data-en><strong>Important: The organizer does not provide accident insurance for participants.</strong> Coverage is the responsibility of guardians. We strongly recommend:</p>
+    <ul data-de>
+      <li><strong>Private Unfallversicherung</strong> &mdash; deckt Verletzungen ab, die &uuml;ber die gesetzliche Krankenversicherung hinausgehen (z.B. Invalidit&auml;t, Krankenhaustagegeld). Das ist kein &bdquo;Nice-to-have&ldquo;, sondern unsere klare Empfehlung f&uuml;r jeden Eishockeyspieler.</li>
+      <li><strong>Private Haftpflichtversicherung</strong> &mdash; falls dein Kind beim Training einem anderen Teilnehmer einen Schaden zuf&uuml;gt. In der Regel &uuml;ber die Familienhaftpflicht abgedeckt &mdash; bitte pr&uuml;fen.</li>
+      <li><strong>Krankenversicherung</strong> &mdash; eine g&uuml;ltige Krankenversicherung (gesetzlich oder privat) ist Teilnahmevoraussetzung. Bitte die Versicherungskarte am ersten Tag mitbringen.</li>
+    </ul>
+    <ul data-en>
+      <li><strong>Private accident insurance</strong> &mdash; covers injuries beyond statutory health insurance (e.g. disability, hospital daily allowance). This isn&rsquo;t a &ldquo;nice-to-have&rdquo; &mdash; it&rsquo;s our clear recommendation for every ice hockey player.</li>
+      <li><strong>Private liability insurance</strong> &mdash; in case your child causes damage to another participant during training. Usually covered by family liability insurance &mdash; please check.</li>
+      <li><strong>Health insurance</strong> &mdash; valid health insurance (statutory or private) is a participation requirement. Please bring the insurance card on the first day.</li>
+    </ul>
+    <p data-de><strong>Der Verein haftet nicht</strong> f&uuml;r Sch&auml;den an pers&ouml;nlicher Ausr&uuml;stung, Kleidung, Wertgegenst&auml;nden oder mitgebrachten Gegenst&auml;nden. Wertgegenst&auml;nde (Handys, Schmuck etc.) bitte zu Hause lassen oder in verschlie&szlig;baren Taschen sichern.</p>
+    <p data-en><strong>The club is not liable</strong> for damage to personal equipment, clothing, valuables or personal belongings. Valuables (phones, jewelry, etc.) should be left at home or secured in lockable bags.</p>
+
+    <h4 data-de>Hausordnung &amp; Verhalten</h4>
+    <h4 data-en>Conduct</h4>
+    <p data-de>Die Teilnehmer halten sich an die Anweisungen des Trainerteams und die Hausordnung des ROFA-Stadions. Bei <strong>schwerwiegendem Fehlverhalten</strong> (Gef&auml;hrdung anderer, Sachbesch&auml;digung, etc.) beh&auml;lt sich der Veranstalter den Ausschluss ohne R&uuml;ckerstattung vor.</p>
+    <p data-en>Participants follow the coaching staff&rsquo;s instructions and the arena&rsquo;s house rules. In cases of <strong>serious misconduct</strong> (endangering others, property damage, etc.), the organizer reserves the right to exclude participants without refund.</p>
+
+    <h4 data-de>&Auml;nderungen am Programm</h4>
+    <h4 data-en>Schedule changes</h4>
+    <p data-de>Wir behalten uns das Recht vor, den Ablauf, die Trainer oder den Veranstaltungsort bei Bedarf anzupassen. Das Camp findet statt &mdash; auch wenn sich Details &auml;ndern. Bei wesentlichen &Auml;nderungen wirst du vorab informiert.</p>
+    <p data-en>We reserve the right to adjust the schedule, coaches or venue if necessary. The camp will happen &mdash; even if details change. You&rsquo;ll be notified in advance of any significant changes.</p>
+
+    <h4 data-de>Gerichtsstand</h4>
+    <h4 data-en>Jurisdiction</h4>
+    <p data-de>Es gilt deutsches Recht. Gerichtsstand ist <strong>Rosenheim</strong>.</p>
+    <p data-en>German law applies. Jurisdiction is <strong>Rosenheim</strong>.</p>
+
+    <div class="lm-contact">
+      <strong data-de>Fragen?</strong>
+      <strong data-en>Questions?</strong><br>
+      <a href="mailto:camps@starbulls.de">camps@starbulls.de</a>
+    </div>
+
+    <div class="lm-dummy" data-de>CLICK-DUMMY &mdash; Die finalen AGB werden von einem Rechtsberater gepr&uuml;ft und auf der fertigen Website ver&ouml;ffentlicht.</div>
+    <div class="lm-dummy" data-en>CLICK-DUMMY &mdash; Final T&amp;C will be reviewed by legal counsel and published on the finished website.</div>
+  </div>
+</div>
+
+<!-- SCROLL TO TOP -->
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<script>
+// Countdown (compact top bar)
+(function() {
+  const target = new Date('2026-07-31T08:00:00+02:00').getTime();
+  const $d = document.getElementById('cd-d');
+  const $h = document.getElementById('cd-h');
+  const $m = document.getElementById('cd-m');
+  const $s = document.getElementById('cd-s');
+  function update() {
+    const diff = target - Date.now();
+    if (diff <= 0) { $d.textContent=$h.textContent=$m.textContent=$s.textContent='00'; return; }
+    $d.textContent = String(Math.floor(diff / 86400000)).padStart(2,'0');
+    $h.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0');
+    $m.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+    $s.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
+  }
+  update();
+  setInterval(update, 1000);
+})();
+
+// Day tabs
+document.querySelectorAll('.s-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.s-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('day' + tab.dataset.day).classList.add('active');
+  });
+});
+
+// Language toggle
+(function() {
+  const toggle = document.getElementById('langToggle');
+  const html = document.documentElement;
+  let lang = 'de';
+  toggle.addEventListener('click', () => {
+    lang = lang === 'de' ? 'en' : 'de';
+    html.setAttribute('lang', lang);
+    const spans = toggle.querySelectorAll('span');
+    spans.forEach(s => s.classList.remove('active-lang'));
+    spans[lang === 'de' ? 0 : 1].classList.add('active-lang');
+    // close all FAQ when switching
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  });
+})();
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const list = item.closest('.faq-list');
+    const wasOpen = item.classList.contains('open');
+    list.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+// Scroll reveal
+(function() {
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+})();
+
+// Image strip ken-burns
+(function() {
+  const strip = document.getElementById('imgStrip');
+  if (!strip) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { strip.classList.add('in-view'); } });
+  }, { threshold: 0.3 });
+  obs.observe(strip);
+})();
+
+// Ice shavings + shimmer effect (like ice rink atmosphere)
+(function() {
+  const container = document.getElementById('heroIce');
+  if (!container) return;
+  // Ice shavings — small white flakes drifting down
+  for (let i = 0; i < 22; i++) {
+    const s = document.createElement('div');
+    s.className = 'ice-shaving';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.animationDuration = (10 + Math.random() * 18) + 's';
+    s.style.animationDelay = (Math.random() * 12) + 's';
+    const size = 1.5 + Math.random() * 3;
+    s.style.width = size + 'px';
+    s.style.height = (size * 0.4) + 'px';
+    s.style.opacity = 0.1 + Math.random() * 0.3;
+    container.appendChild(s);
+  }
+  // Shimmer spots — soft glowing circles (like arena lights on ice)
+  for (let i = 0; i < 4; i++) {
+    const g = document.createElement('div');
+    g.className = 'ice-shimmer';
+    const sz = 80 + Math.random() * 160;
+    g.style.width = g.style.height = sz + 'px';
+    g.style.left = (10 + Math.random() * 80) + '%';
+    g.style.top = (10 + Math.random() * 80) + '%';
+    g.style.animationDuration = (4 + Math.random() * 6) + 's';
+    g.style.animationDelay = (Math.random() * 4) + 's';
+    container.appendChild(g);
+  }
+})();
+
+// Parallax hero on scroll
+(function() {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        if (scrollY < window.innerHeight * 1.5) {
+          hero.style.transform = 'translateY(' + (scrollY * 0.35) + 'px)';
+          hero.style.opacity = Math.max(0, 1 - scrollY / (window.innerHeight * 0.9));
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+})();
+
+// Scroll-to-top button
+(function() {
+  const btn = document.getElementById('scrollTop');
+  if (!btn) return;
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        btn.classList.toggle('visible', window.scrollY > window.innerHeight * 0.6);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+// Schedule edit mode toggle
+function toggleScheduleEdit(btn) {
+  const panel = btn.closest('.s-panel');
+  const table = panel.querySelector('.sched-table');
+  const hint = panel.querySelector('.sched-edit-hint');
+  const isEditing = table.classList.toggle('editing');
+  btn.classList.toggle('active', isEditing);
+  if (hint) hint.classList.toggle('show', isEditing);
+  table.querySelectorAll('tbody td:not(.s-time)').forEach(td => {
+    if (isEditing) {
+      td.setAttribute('contenteditable', 'true');
+      td.querySelectorAll('.s-label, .s-detail').forEach(el => el.setAttribute('contenteditable', 'true'));
+    } else {
+      td.removeAttribute('contenteditable');
+      td.querySelectorAll('.s-label, .s-detail').forEach(el => el.removeAttribute('contenteditable'));
+    }
+  });
+}
+
+// Print specific section
+// Group counter logic — waitlist appears when group is full
+// To update counters, call: updateGroupCounters({ hager: {skaters: 28, goalies: 5, waitlist: 3}, ... })
+// Or set values directly via data-current attributes and call refreshCounters()
+function refreshCounters() {
+  document.querySelectorAll('.g-counters').forEach(container => {
+    const rows = container.querySelectorAll('.g-counter-row');
+    let allFull = true;
+    rows.forEach(row => {
+      if (row.classList.contains('waitlist-row')) return;
+      const fill = row.querySelector('.g-counter-fill');
+      const max = parseInt(fill.dataset.max) || 0;
+      const current = parseInt(fill.dataset.current) || 0;
+      // Update bar width
+      fill.style.width = max > 0 ? Math.min(100, (current / max) * 100) + '%' : '0%';
+      // Update text
+      const numEl = row.querySelector('.g-counter-num');
+      const textEl = row.querySelector('.g-counter-text');
+      if (numEl) numEl.textContent = current;
+      if (textEl) textEl.innerHTML = '<span class="g-counter-num">' + current + '</span> / ' + max;
+      if (current < max) allFull = false;
+    });
+    // Show/hide waitlist
+    const waitlistRow = container.querySelector('.waitlist-row');
+    if (waitlistRow) {
+      if (allFull) {
+        waitlistRow.classList.add('show');
+        const wFill = waitlistRow.querySelector('.g-counter-fill');
+        const wCurrent = parseInt(wFill.dataset.current) || 0;
+        wFill.style.width = wCurrent > 0 ? '100%' : '0%';
+        const wNum = waitlistRow.querySelector('.g-counter-num');
+        if (wNum) wNum.textContent = wCurrent;
+      } else {
+        waitlistRow.classList.remove('show');
+      }
+    }
+  });
+}
+// Run on load
+refreshCounters();
+
+function printSection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+  // Clone and open print window
+  const win = window.open('', '_blank', 'width=900,height=700');
+  const styles = document.querySelector('style').textContent;
+  const fonts = document.querySelector('link[rel="stylesheet"], style').outerHTML;
+  win.document.write('<!DOCTYPE html><html lang="' + document.documentElement.lang + '"><head><meta charset="UTF-8"><title>Starbulls Sommer Camp 2026</title>');
+  win.document.write('<link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Titillium+Web:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">');
+  win.document.write('<style>' + styles + '</style>');
+  win.document.write('<style>body{background:#fff!important;padding:40px 24px;} .sec{padding:24px 0!important;} .reveal{opacity:1!important;transform:none!important;} .sec-action-bar{display:none!important;} .s-panel{display:block!important;margin-bottom:32px;} .s-panel:not(.active) .s-body::before{content:attr(data-day-label);display:block;font-family:"League 200","League Gothic",sans-serif;font-size:24px;padding:12px 16px;color:var(--green);} .sched-tabs{display:none!important;}</style>');
+  win.document.write('</head><body>');
+  win.document.write('<div style="margin-bottom:24px;padding-bottom:16px;border-bottom:3px solid #005243;"><span style="font-family:League Gothic,sans-serif;font-size:28px;color:#005243;text-transform:uppercase;letter-spacing:2px;">Starbulls Sommer Camp 2026</span></div>');
+  win.document.write(section.outerHTML);
+  win.document.write('</body></html>');
+  win.document.close();
+  setTimeout(() => { win.print(); }, 500);
+}
+</script>
+</body>
+</html>

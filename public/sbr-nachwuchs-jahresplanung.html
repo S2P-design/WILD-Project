@@ -103,8 +103,304 @@
   body.home .stat-box { background: rgba(0,82,67,0.08); }
   body.home .data-table tr:hover { background: rgba(0,82,67,0.06); }
 
-  @media (max-width: 768px) { .hero { padding: 80px 20px 60px; min-height: 60vh; } .toc { padding: 24px; margin: -40px 12px 40px; } .toc-grid { grid-template-columns: 1fr 1fr; } .section h2 { font-size: 28px; } .section-big-num { font-size: 48px; } .controls { right: 12px; } .stat-row { flex-direction: column; } }
-  @media print { body { background: #fff !important; } .controls { display: none !important; } .hero { break-after: page; min-height: auto; padding: 60px 40px; } .section { break-inside: avoid; opacity: 1 !important; transform: none !important; } }
+  /* ── CAMP ZONE ── */
+  .camp-zone {
+    margin: 60px -24px 0; position: relative; z-index: 1;
+  }
+  .camp-hero {
+    background: var(--green); position: relative; overflow: hidden;
+    padding: 100px 40px 80px; text-align: center;
+    background-image: url('/sbr-bg.png'); background-size: cover; background-position: center;
+  }
+  .camp-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,82,67,0.94) 0%, rgba(0,40,32,0.97) 100%); }
+  .camp-hero::after {
+    content: 'CAMP'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: clamp(200px, 30vw, 400px);
+    color: rgba(255,255,255,0.03); text-transform: uppercase; letter-spacing: 20px;
+    pointer-events: none; white-space: nowrap;
+  }
+  .camp-hero * { position: relative; z-index: 1; }
+  .camp-hero-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 5px;
+    color: var(--red); margin-bottom: 12px; display: inline-block;
+    padding: 4px 16px; border: 1px solid rgba(228,3,46,0.3);
+  }
+  .camp-hero-title {
+    font-family: 'League 200', 'League Gothic', sans-serif;
+    font-size: clamp(56px, 12vw, 130px); color: #fff; text-transform: uppercase;
+    letter-spacing: 3px; line-height: 0.85; margin-top: 8px;
+  }
+  .camp-hero-title span { color: var(--red); }
+  .camp-hero-date {
+    font-family: 'League 200', 'League Gothic', sans-serif;
+    font-size: clamp(24px, 5vw, 48px); color: rgba(255,255,255,0.25);
+    text-transform: uppercase; letter-spacing: 6px; margin-top: 16px;
+  }
+  .camp-hero-sub {
+    font-family: 'Titillium Web', sans-serif; font-size: 16px; font-weight: 300;
+    color: rgba(255,255,255,0.45); margin-top: 20px; max-width: 520px; margin-left: auto; margin-right: auto;
+  }
+  .camp-hero-stats {
+    display: flex; justify-content: center; gap: 48px; margin-top: 48px; flex-wrap: wrap;
+  }
+  .camp-hero-stat { text-align: center; }
+  .camp-hero-stat-num {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 52px;
+    color: #fff; line-height: 1;
+  }
+  .camp-hero-stat-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 3px;
+    color: rgba(255,255,255,0.3); margin-top: 6px;
+  }
+
+  .camp-content {
+    background: var(--green); position: relative;
+    background-image: url('/sbr-bg.png'); background-size: cover; background-position: center; background-attachment: fixed;
+  }
+  .camp-content::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,40,32,0.97) 0%, rgba(0,82,67,0.95) 100%); }
+  .camp-content > * { position: relative; z-index: 1; }
+  .camp-inner { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+
+  .camp-section-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 4px;
+    color: var(--red); margin-bottom: 6px; opacity: 0.7;
+  }
+  .camp-h2 {
+    font-family: 'League 200', 'League Gothic', sans-serif;
+    font-size: clamp(28px, 5vw, 44px); color: #fff; text-transform: uppercase;
+    letter-spacing: 1px; line-height: 1.05; margin-bottom: 8px;
+  }
+  .camp-divider { width: 40px; height: 3px; background: var(--red); margin: 0 0 24px; }
+  .camp-text { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.8; margin-bottom: 20px; max-width: 700px; }
+  .camp-text strong { color: rgba(255,255,255,0.85); }
+
+  .camp-block { padding-top: 56px; opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .camp-block.visible { opacity: 1; transform: none; }
+
+  /* Groups — 3 cards */
+  .camp-groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+  .camp-group-card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    padding: 28px 20px; text-align: center; transition: all 0.3s;
+  }
+  .camp-group-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(228,3,46,0.3); }
+  .camp-group-name {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 36px;
+    color: var(--red); text-transform: uppercase; line-height: 1;
+  }
+  .camp-group-detail {
+    font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 10px; line-height: 1.6;
+  }
+  .camp-group-detail strong { color: rgba(255,255,255,0.8); display: block; margin-top: 6px; }
+
+  /* Timeline schedule */
+  .camp-timeline { position: relative; padding-left: 32px; margin: 24px 0; }
+  .camp-timeline::before {
+    content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
+    width: 1px; background: rgba(228,3,46,0.2);
+  }
+  .camp-tl-item { position: relative; padding: 10px 0 10px 20px; }
+  .camp-tl-item::before {
+    content: ''; position: absolute; left: -29px; top: 18px;
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--red); opacity: 0.5;
+  }
+  .camp-tl-item.highlight::before { opacity: 1; box-shadow: 0 0 12px rgba(228,3,46,0.4); }
+  .camp-tl-time {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.3);
+  }
+  .camp-tl-title {
+    font-size: 14px; color: rgba(255,255,255,0.75); margin-top: 2px; font-weight: 600;
+  }
+  .camp-tl-sub { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 1px; }
+
+  /* Give-Away cards */
+  .camp-giveaway-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 24px 0; }
+  .camp-giveaway-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    padding: 24px 12px; text-align: center; transition: all 0.3s;
+  }
+  .camp-giveaway-card:hover { background: rgba(255,255,255,0.06); border-color: var(--red); }
+  .camp-giveaway-icon { font-size: 28px; margin-bottom: 10px; filter: grayscale(0.3); }
+  .camp-giveaway-name {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.5); text-transform: uppercase;
+  }
+  .camp-giveaway-brand { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 4px; }
+
+  /* Camp data table override */
+  .camp-content .data-table th { color: var(--red); border-bottom-color: rgba(255,255,255,0.08); }
+  .camp-content .data-table td { color: rgba(255,255,255,0.6); border-bottom-color: rgba(255,255,255,0.04); }
+  .camp-content .data-table td:first-child { color: rgba(255,255,255,0.85); }
+  .camp-content .data-table tr:hover { background: rgba(255,255,255,0.03); }
+
+  /* Camp finance row */
+  .camp-finance { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+  .camp-finance-card {
+    padding: 32px 16px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .camp-finance-card:last-child { border-color: rgba(228,3,46,0.3); background: rgba(228,3,46,0.06); }
+  .camp-finance-num {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 38px;
+    color: rgba(255,255,255,0.8); line-height: 1;
+  }
+  .camp-finance-card:last-child .camp-finance-num { color: var(--red); }
+  .camp-finance-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.25); margin-top: 8px;
+  }
+
+  /* Camp info box override */
+  .camp-info {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-left: 3px solid var(--red); padding: 24px 28px; margin: 20px 0;
+  }
+  .camp-info-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 3px;
+    color: var(--red); margin-bottom: 8px; opacity: 0.7;
+  }
+  .camp-info p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+  .camp-info p strong { color: rgba(255,255,255,0.8); }
+
+  /* Camp rule list override */
+  .camp-content .rule-list li { color: rgba(255,255,255,0.55); border-bottom-color: rgba(255,255,255,0.04); }
+  .camp-content .rule-list li::before { background: var(--red); }
+  .camp-content .rule-list li strong { color: rgba(255,255,255,0.85); }
+
+  /* Rotation Schedule Grid */
+  .camp-rotation { margin: 28px 0; }
+  .camp-rotation-header {
+    display: grid; grid-template-columns: 100px 1fr 1fr 1fr; gap: 1px;
+    margin-bottom: 1px;
+  }
+  .camp-rotation-header-cell {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.35); padding: 10px 12px; text-align: center;
+  }
+  .camp-rotation-header-cell:first-child { text-align: left; }
+  .camp-rotation-row {
+    display: grid; grid-template-columns: 100px 1fr 1fr 1fr; gap: 1px;
+    margin-bottom: 1px;
+  }
+  .camp-rot-time {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 1px;
+    color: rgba(255,255,255,0.3); padding: 14px 8px; display: flex; align-items: center;
+  }
+  .camp-rot-cell {
+    padding: 12px 14px; text-align: center; transition: all 0.3s; position: relative;
+  }
+  .camp-rot-cell.ice {
+    background: rgba(228,3,46,0.12); border: 1px solid rgba(228,3,46,0.2);
+  }
+  .camp-rot-cell.ice::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--red);
+  }
+  .camp-rot-cell.ath {
+    background: rgba(0,82,67,0.12); border: 1px solid rgba(0,82,67,0.2);
+  }
+  .camp-rot-cell.ath::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--green);
+  }
+  .camp-rot-cell.off {
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+  }
+  .camp-rot-cell.break {
+    background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.03);
+  }
+  .camp-rot-type {
+    font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 3px;
+  }
+  .camp-rot-cell.ice .camp-rot-type { color: var(--red); }
+  .camp-rot-cell.ath .camp-rot-type { color: rgba(0,200,160,0.8); }
+  .camp-rot-cell.off .camp-rot-type { color: rgba(255,255,255,0.25); }
+  .camp-rot-cell.break .camp-rot-type { color: rgba(255,255,255,0.15); }
+  .camp-rot-desc {
+    font-size: 11px; color: rgba(255,255,255,0.6); line-height: 1.4;
+  }
+  .camp-rot-cell.break .camp-rot-desc { color: rgba(255,255,255,0.2); font-style: italic; }
+
+  .camp-rotation-break {
+    display: grid; grid-template-columns: 100px 1fr; gap: 1px; margin-bottom: 1px;
+  }
+  .camp-break-full {
+    padding: 16px 14px; text-align: center;
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04);
+  }
+  .camp-break-full .camp-rot-type { color: rgba(255,255,255,0.15); }
+  .camp-break-full .camp-rot-desc { color: rgba(255,255,255,0.2); font-style: italic; }
+
+  /* Legend */
+  .camp-legend {
+    display: flex; gap: 24px; margin: 16px 0 0; flex-wrap: wrap;
+  }
+  .camp-legend-item {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.3);
+  }
+  .camp-legend-dot {
+    width: 10px; height: 10px; border-radius: 2px;
+  }
+  .camp-legend-dot.ice { background: var(--red); }
+  .camp-legend-dot.ath { background: var(--green); }
+  .camp-legend-dot.off { background: rgba(255,255,255,0.12); }
+
+  /* Day tabs */
+  .camp-day-tabs { display: flex; gap: 2px; margin-bottom: 24px; }
+  .camp-day-tab {
+    flex: 1; padding: 14px 12px; text-align: center; cursor: pointer;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    transition: all 0.3s; position: relative;
+  }
+  .camp-day-tab:hover { background: rgba(255,255,255,0.06); }
+  .camp-day-tab.active {
+    background: rgba(228,3,46,0.1); border-color: rgba(228,3,46,0.3);
+  }
+  .camp-day-tab.active::after {
+    content: ''; position: absolute; bottom: -1px; left: 20%; right: 20%;
+    height: 2px; background: var(--red);
+  }
+  .camp-day-tab-num {
+    font-family: 'League 200', 'League Gothic', sans-serif; font-size: 28px;
+    color: rgba(255,255,255,0.15); line-height: 1;
+  }
+  .camp-day-tab.active .camp-day-tab-num { color: var(--red); }
+  .camp-day-tab-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.25); margin-top: 4px;
+  }
+  .camp-day-tab.active .camp-day-tab-label { color: rgba(255,255,255,0.5); }
+
+  .camp-day-panel { display: none; }
+  .camp-day-panel.active { display: block; }
+
+  /* Camp bottom edge */
+  .camp-edge {
+    height: 4px; background: linear-gradient(90deg, var(--red) 0%, var(--green) 100%);
+  }
+
+  /* HOME mode camp overrides */
+  body.home .camp-zone { margin-left: 0; margin-right: 0; }
+
+  @media (max-width: 768px) {
+    .hero { padding: 80px 20px 60px; min-height: 60vh; }
+    .toc { padding: 24px; margin: -40px 12px 40px; }
+    .toc-grid { grid-template-columns: 1fr 1fr; }
+    .section h2 { font-size: 28px; } .section-big-num { font-size: 48px; }
+    .controls { right: 12px; } .stat-row { flex-direction: column; }
+    .camp-hero { padding: 80px 20px 60px; }
+    .camp-hero-stats { gap: 24px; }
+    .camp-groups { grid-template-columns: 1fr; }
+    .camp-giveaway-grid { grid-template-columns: repeat(3, 1fr); }
+    .camp-finance { grid-template-columns: 1fr; }
+    .camp-hero-title { letter-spacing: 1px; }
+  }
+  @media print { body { background: #fff !important; } .controls { display: none !important; } .hero { break-after: page; min-height: auto; padding: 60px 40px; } .section { break-inside: avoid; opacity: 1 !important; transform: none !important; } .camp-zone { margin: 40px 0 0; } .camp-hero { padding: 60px 40px; } .camp-content::before { background: #fff !important; } .camp-h2, .camp-text, .camp-tl-title { color: #333 !important; } }
 </style>
 </head>
 <body>
@@ -303,20 +599,204 @@
     </ul>
   </section>
 
-  <!-- 06 SOMMER CAMP -->
-  <section class="section" id="j6">
-    <div class="section-head"><div class="section-big-num">06</div><div class="section-titles"><div class="section-label">SAISON 2026/27</div><h2>Starbulls Sommer Camp</h2></div></div>
-    <div class="section-divider"></div>
-    <div class="stat-row">
-      <div class="stat-box"><div class="stat-box-num">31.07</div><div class="stat-box-label">START</div></div>
-      <div class="stat-box"><div class="stat-box-num">02.08</div><div class="stat-box-label">ENDE</div></div>
-      <div class="stat-box"><div class="stat-box-num">ROFA</div><div class="stat-box-label">STADION</div></div>
+  </div><!-- close .container before camp zone -->
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- 06 SOMMER CAMP — FULL-WIDTH EVENT ZONE            -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="camp-zone" id="j6">
+
+    <!-- CAMP HERO -->
+    <div class="camp-hero">
+      <div class="camp-hero-label">STARBULLS ROSENHEIM E.V.</div>
+      <h2 class="camp-hero-title">SOMMER<br><span>CAMP</span></h2>
+      <div class="camp-hero-date">31. Juli &mdash; 02. August 2026</div>
+      <p class="camp-hero-sub">Drei Tage intensives Training im ROFA-Stadion. Exklusives Camp-Paket f&uuml;r jeden Teilnehmer. U9 bis U15.</p>
+      <div class="camp-hero-stats">
+        <div class="camp-hero-stat"><div class="camp-hero-stat-num">92</div><div class="camp-hero-stat-label">TEILNEHMER</div></div>
+        <div class="camp-hero-stat"><div class="camp-hero-stat-num">3</div><div class="camp-hero-stat-label">GRUPPEN</div></div>
+        <div class="camp-hero-stat"><div class="camp-hero-stat-num">13</div><div class="camp-hero-stat-label">TRAINER</div></div>
+        <div class="camp-hero-stat"><div class="camp-hero-stat-num">549&thinsp;&euro;</div><div class="camp-hero-stat-label">CAMP FEE</div></div>
+      </div>
     </div>
-    <div class="info-box">
-      <div class="info-box-label">STATUS</div>
-      <p style="font-size:14px;">Planung l&auml;uft. Online-Anmeldung: <strong>Ende April 2026</strong>.</p>
-    </div>
-  </section>
+
+    <!-- CAMP CONTENT -->
+    <div class="camp-content">
+      <div class="camp-inner">
+
+        <!-- GRUPPEN -->
+        <div class="camp-block">
+          <div class="camp-section-label">GRUPPEN &amp; STRUKTUR</div>
+          <h3 class="camp-h2">Drei Gruppen. Individuelle Betreuung.</h3>
+          <div class="camp-divider"></div>
+          <p class="camp-text">Jede Gruppe wird von einem eigenen Trainerteam betreut &mdash; inklusive dedizierter Torwarttrainer. Maximale Betreuungsqualit&auml;t durch kleine Gruppenverh&auml;ltnisse.</p>
+          <div class="camp-groups">
+            <div class="camp-group-card">
+              <div class="camp-group-name">U9/U11</div>
+              <div class="camp-group-detail">30 Feldspieler + 6 Goalies<strong>5 Trainer + 2 TW-Trainer</strong></div>
+            </div>
+            <div class="camp-group-card">
+              <div class="camp-group-name">U13</div>
+              <div class="camp-group-detail">24 Feldspieler + 4 Goalies<strong>4 Trainer + 2 TW-Trainer</strong></div>
+            </div>
+            <div class="camp-group-card">
+              <div class="camp-group-name">U15</div>
+              <div class="camp-group-detail">24 Feldspieler + 4 Goalies<strong>4 Trainer + 2 TW-Trainer</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAGESABLAUF -->
+        <div class="camp-block">
+          <div class="camp-section-label">TAGESABLAUF</div>
+          <h3 class="camp-h2">Ein Tag im Camp</h3>
+          <div class="camp-divider"></div>
+          <p class="camp-text">Drei Eiseinheiten pro Tag, erg&auml;nzt durch Off-Ice-Training und Pausen. Fokus auf Entwicklung, nicht auf Ergebnis.</p>
+          <div class="camp-timeline">
+            <div class="camp-tl-item">
+              <div class="camp-tl-time">08:00 &mdash; 08:30</div>
+              <div class="camp-tl-title">Check-in &amp; Umziehen</div>
+            </div>
+            <div class="camp-tl-item">
+              <div class="camp-tl-time">08:30 &mdash; 09:00</div>
+              <div class="camp-tl-title">Warm-up &amp; Athletik</div>
+              <div class="camp-tl-sub">Off-Ice Activation</div>
+            </div>
+            <div class="camp-tl-item highlight">
+              <div class="camp-tl-time">09:00 &mdash; 10:15</div>
+              <div class="camp-tl-title">Eiseinheit 1 &mdash; Skills &amp; Technik</div>
+              <div class="camp-tl-sub">Skating, Puck Control, individuelle F&ouml;rderung</div>
+            </div>
+            <div class="camp-tl-item">
+              <div class="camp-tl-time">10:15 &mdash; 10:45</div>
+              <div class="camp-tl-title">Pause &amp; Snack</div>
+            </div>
+            <div class="camp-tl-item highlight">
+              <div class="camp-tl-time">10:45 &mdash; 12:00</div>
+              <div class="camp-tl-title">Eiseinheit 2 &mdash; Taktik &amp; Spielformen</div>
+              <div class="camp-tl-sub">Passing, Shooting, Small Area Games</div>
+            </div>
+            <div class="camp-tl-item">
+              <div class="camp-tl-time">12:00 &mdash; 13:00</div>
+              <div class="camp-tl-title">Mittagessen</div>
+              <div class="camp-tl-sub">Catering vor Ort</div>
+            </div>
+            <div class="camp-tl-item">
+              <div class="camp-tl-time">13:00 &mdash; 13:45</div>
+              <div class="camp-tl-title">Off-Ice Station</div>
+              <div class="camp-tl-sub">Stickhandling, Reaktion, Fun-Challenges</div>
+            </div>
+            <div class="camp-tl-item highlight">
+              <div class="camp-tl-time">13:45 &mdash; 15:00</div>
+              <div class="camp-tl-title">Eiseinheit 3 &mdash; Scrimmage</div>
+              <div class="camp-tl-sub">Game Situations, Wettkampf</div>
+            </div>
+            <div class="camp-tl-item">
+              <div class="camp-tl-time">15:00 &mdash; 15:30</div>
+              <div class="camp-tl-title">Cool-down &amp; Tagesabschluss</div>
+            </div>
+          </div>
+          <div class="camp-info">
+            <div class="camp-info-label">ABSCHLUSSTAG</div>
+            <p>Letzter Tag mit <strong>Eltern-Showcase</strong> (Trib&uuml;ne offen f&uuml;r letzte Eiseinheit), <strong>Skills-Competition</strong> &uuml;ber alle Gruppen, Siegerehrung &amp; Camp-Awards.</p>
+          </div>
+        </div>
+
+        <!-- GIVE-AWAYS -->
+        <div class="camp-block">
+          <div class="camp-section-label">CAMP-PAKET</div>
+          <h3 class="camp-h2">Give-Aways powered by BAUER</h3>
+          <div class="camp-divider"></div>
+          <p class="camp-text">Jeder Teilnehmer erh&auml;lt ein exklusives Camp-Paket. Alle Artikel sind gleichzeitig <strong>Premium-Werbefl&auml;chen</strong> f&uuml;r Camp-Sponsoren.</p>
+          <div class="camp-giveaway-grid">
+            <div class="camp-giveaway-card">
+              <div class="camp-giveaway-icon">&#x1F3BD;</div>
+              <div class="camp-giveaway-name">JERSEY</div>
+              <div class="camp-giveaway-brand">BAUER Flex Training</div>
+            </div>
+            <div class="camp-giveaway-card">
+              <div class="camp-giveaway-icon">&#x1F9E6;</div>
+              <div class="camp-giveaway-name">SOCKS</div>
+              <div class="camp-giveaway-brand">SCHANNER Stutzen</div>
+            </div>
+            <div class="camp-giveaway-card">
+              <div class="camp-giveaway-icon">&#x1F4A7;</div>
+              <div class="camp-giveaway-name">FLASCHE</div>
+              <div class="camp-giveaway-brand">BAUER Flylite</div>
+            </div>
+            <div class="camp-giveaway-card">
+              <div class="camp-giveaway-icon">&#x1F9E2;</div>
+              <div class="camp-giveaway-name">CAP</div>
+              <div class="camp-giveaway-brand">BAUER Core Adj.</div>
+            </div>
+            <div class="camp-giveaway-card">
+              <div class="camp-giveaway-icon">&#x1F392;</div>
+              <div class="camp-giveaway-name">GYM BAG</div>
+              <div class="camp-giveaway-brand">Home of Hockey</div>
+            </div>
+          </div>
+          <div class="camp-info">
+            <div class="camp-info-label">SPONSORING-M&Ouml;GLICHKEITEN</div>
+            <p>Logos auf <strong>Jersey, Socks, Flasche oder Cap</strong>. Zus&auml;tzlich: <strong>LED-Bandenwerbung</strong> im Stadion, Social-Media-Pr&auml;senz auf Instagram/TikTok/Facebook, Foto- &amp; Videomaterial, Eventpr&auml;senz mit Banner, Roll-ups &amp; Promo-St&auml;nden. Namensgebung von Trainingsgruppen oder Awards m&ouml;glich.</p>
+          </div>
+        </div>
+
+        <!-- KOSTENSTRUKTUR -->
+        <div class="camp-block">
+          <div class="camp-section-label">FINANZEN</div>
+          <h3 class="camp-h2">Kostenstruktur</h3>
+          <div class="camp-divider"></div>
+          <table class="data-table">
+            <thead><tr><th>POSITION</th><th style="text-align:right;">BETRAG</th></tr></thead>
+            <tbody>
+              <tr><td>Eismiete (ROFA-Stadion)</td><td style="text-align:right;">6.000&thinsp;&euro;</td></tr>
+              <tr><td>Trainer (13 &times; 100&thinsp;&euro; &times; Camp-Tage)</td><td style="text-align:right;">6.000&thinsp;&euro;</td></tr>
+              <tr><td>Verpflegung Teilnehmer</td><td style="text-align:right;">5.700&thinsp;&euro;</td></tr>
+              <tr><td>Verpflegung Staff (18 Personen)</td><td style="text-align:right;">1.350&thinsp;&euro;</td></tr>
+              <tr><td>Give-Aways (&uuml;ber Sponsoren)</td><td style="text-align:right;">0&thinsp;&euro;</td></tr>
+              <tr><td style="color:#fff !important; border-top:1px solid rgba(255,255,255,0.12);"><strong>Gesamtkosten</strong></td><td style="text-align:right; color:#fff !important; border-top:1px solid rgba(255,255,255,0.12);"><strong>19.050&thinsp;&euro;</strong></td></tr>
+            </tbody>
+          </table>
+          <div class="camp-finance">
+            <div class="camp-finance-card">
+              <div class="camp-finance-num">50.508</div>
+              <div class="camp-finance-label">EINNAHMEN (&euro;)</div>
+            </div>
+            <div class="camp-finance-card">
+              <div class="camp-finance-num">19.050</div>
+              <div class="camp-finance-label">KOSTEN (&euro;)</div>
+            </div>
+            <div class="camp-finance-card">
+              <div class="camp-finance-num">31.458</div>
+              <div class="camp-finance-label">GEWINN (&euro;)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MARKETING & ANMELDUNG -->
+        <div class="camp-block">
+          <div class="camp-section-label">VERMARKTUNG</div>
+          <h3 class="camp-h2">Marketing &amp; Anmeldung</h3>
+          <div class="camp-divider"></div>
+          <ul class="rule-list">
+            <li><strong>Anmeldestart:</strong> Ende April 2026 &mdash; Online-Formular &uuml;ber sbr-nachwuchs.de</li>
+            <li><strong>Social-Media-Kampagne:</strong> Teaser ab Anfang April, Countdown-Posts, Highlight-Reels vom Vorjahr</li>
+            <li><strong>Eltern-Info:</strong> Direkt-Schreiben &uuml;ber Spond an alle Kader U9&ndash;U15</li>
+            <li><strong>Extern:</strong> Bewerbung &uuml;ber DEL2-Netzwerk, Partnerstadien, Schulen &amp; Sportvereine</li>
+            <li><strong>Kapazit&auml;t:</strong> 92 Pl&auml;tze (78 Feld + 14 TW) &mdash; Vereinsmitglieder zuerst, dann extern</li>
+          </ul>
+          <div class="camp-info">
+            <div class="camp-info-label">CONTENT-PLAN</div>
+            <p><strong>Woche 1:</strong> Teaser (dunkles Visual, nur Datum) &rarr; <strong>Woche 2:</strong> Reveal mit allen Details &rarr; <strong>Woche 3+:</strong> Give-Away-Reveal, Trainer-Vorstellungen &rarr; <strong>Camp-Woche:</strong> T&auml;gliche Stories &amp; Reels &rarr; <strong>Danach:</strong> 60-Sek-Recap-Video, Gruppenfoto, Danke-Post an Sponsoren</p>
+          </div>
+        </div>
+
+      </div><!-- .camp-inner -->
+    </div><!-- .camp-content -->
+    <div class="camp-edge"></div>
+  </div><!-- .camp-zone -->
+
+  <div class="container"><!-- re-open container for remaining sections -->
 
   <!-- 07 KOSTENSTRUKTUR -->
   <section class="section" id="j7">
@@ -424,7 +904,7 @@
   });
 })();
 (function() {
-  const sections = document.querySelectorAll('.section');
+  const sections = document.querySelectorAll('.section, .camp-block');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
   }, { threshold: 0.1 });

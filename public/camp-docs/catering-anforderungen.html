@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anforderungsprofil Catering — Starbulls Sommer Camp 2026</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700;900&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --green: #005243;
+    --red: #E4032E;
+    --bg: #F2F5F4;
+    --dark: #1a1a1a;
+    --text: #444;
+    --muted: #888;
+    --border: #dde1e0;
+  }
+
+  body {
+    font-family: 'Titillium Web', -apple-system, Helvetica, sans-serif;
+    background: #fff;
+    color: var(--text);
+    line-height: 1.7;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── ENTWURF Badge ── */
+  .badge-entwurf {
+    position: fixed;
+    top: 28px;
+    right: -38px;
+    background: var(--red);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    padding: 6px 52px;
+    transform: rotate(45deg);
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  /* ── Print Button ── */
+  .print-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 12px 24px;
+    cursor: pointer;
+    border-radius: 4px;
+    z-index: 100;
+    transition: background 0.2s;
+  }
+  .print-btn:hover { background: #003d32; }
+
+  /* ── Header Bar ── */
+  .header-bar {
+    background: var(--green);
+    margin: 0 -40px;
+    padding: 48px 40px 40px;
+    margin-bottom: 40px;
+  }
+  .header-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 12px;
+  }
+  .header-title {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.15;
+  }
+  .header-subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 10px;
+    font-weight: 300;
+  }
+
+  /* ── Sections ── */
+  .section {
+    margin-bottom: 48px;
+  }
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  h2 {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--dark);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+  .sec-line {
+    width: 32px;
+    height: 3px;
+    background: var(--red);
+    margin-bottom: 20px;
+  }
+  h3 {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 24px 0 8px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  h3:first-of-type { border-top: none; padding-top: 0; }
+  p { margin-bottom: 12px; font-size: 14px; }
+  p strong { color: var(--dark); }
+
+  /* ── Lists ── */
+  ul { list-style: none; padding: 0; margin: 0 0 16px; }
+  ul li {
+    font-size: 14px;
+    line-height: 1.8;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 2px;
+  }
+  ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 6px;
+    height: 6px;
+    border-radius: 1px;
+    background: var(--green);
+    opacity: 0.4;
+  }
+  ul li strong { color: var(--dark); }
+
+  /* ── Eckdaten Table ── */
+  .eckdaten-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+  }
+  .eckdaten-table td {
+    font-size: 14px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .eckdaten-table td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--green);
+    font-weight: 600;
+    width: 200px;
+    white-space: nowrap;
+  }
+  .eckdaten-table td:last-child {
+    color: var(--dark);
+    font-weight: 400;
+  }
+
+  /* ── Summary Table ── */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  .summary-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--green);
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--green);
+    background: var(--bg);
+  }
+  .summary-table td {
+    font-size: 14px;
+    color: var(--text);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .summary-table td strong { color: var(--dark); }
+
+  /* ── Day Cards ── */
+  .day-card {
+    background: var(--bg);
+    border-left: 3px solid var(--green);
+    padding: 28px 28px 20px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .day-card.highlight { border-left-color: var(--red); }
+  .day-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  .day-title {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--dark);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+  .menu-section { margin-bottom: 14px; }
+  .menu-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .menu-items { font-size: 14px; color: var(--text); }
+  .menu-items strong { color: var(--dark); }
+
+  /* ── Info / Highlight boxes ── */
+  .info-box {
+    background: var(--bg);
+    padding: 24px;
+    border-radius: 4px;
+    margin: 16px 0;
+    border: 1px solid var(--border);
+  }
+  .info-box p { margin-bottom: 8px; }
+  .info-box p:last-child { margin-bottom: 0; }
+
+  .highlight-box {
+    background: rgba(228,3,46,0.03);
+    border-left: 3px solid var(--red);
+    padding: 20px 24px;
+    margin: 16px 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* ── Contact Card ── */
+  .contact-card {
+    background: var(--green);
+    color: #fff;
+    padding: 28px 32px;
+    border-radius: 4px;
+    margin: 16px 0;
+  }
+  .contact-card p { color: rgba(255,255,255,0.8); margin-bottom: 6px; }
+  .contact-card strong { color: #fff; }
+  .contact-card .contact-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .contact-card .contact-email {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.9);
+  }
+
+  /* ── Footer ── */
+  .doc-footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .doc-footer-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { padding: 20px; max-width: 100%; font-size: 12px; }
+    .header-bar { margin: 0 -20px; padding: 32px 20px 28px; }
+    .badge-entwurf { position: absolute; }
+    .print-btn { display: none; }
+    .day-card { break-inside: avoid; }
+    .section { break-inside: avoid; }
+    .contact-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="badge-entwurf">ENTWURF</div>
+<button class="print-btn" onclick="window.print()">DRUCKEN</button>
+
+<!-- ═══════ HEADER ═══════ -->
+<div class="header-bar">
+  <div class="header-label">ANFORDERUNGSPROFIL</div>
+  <div class="header-title">Catering &mdash; Starbulls<br>Sommer Camp 2026</div>
+  <div class="header-subtitle">Dokument f&uuml;r Catering-Partner &middot; Stand: April 2026</div>
+</div>
+
+<!-- ═══════ 1. ECKDATEN ═══════ -->
+<div class="section">
+  <div class="section-number">01</div>
+  <h2>Eckdaten</h2>
+  <div class="sec-line"></div>
+
+  <table class="eckdaten-table">
+    <tr>
+      <td>VERANSTALTUNG</td>
+      <td>Starbulls Sommer Camp 2026</td>
+    </tr>
+    <tr>
+      <td>DATUM</td>
+      <td>31. Juli &ndash; 2. August 2026 (Freitag bis Sonntag)</td>
+    </tr>
+    <tr>
+      <td>ORT</td>
+      <td>ROFA Stadion, Jahnstra&szlig;e 1, 83022 Rosenheim<br><em>MOP Lounge / VIP-Lounge</em></td>
+    </tr>
+    <tr>
+      <td>TEILNEHMER</td>
+      <td>ca. 80&ndash;90 Kinder (8&ndash;15 Jahre) + 15&ndash;20 Betreuer/Trainer</td>
+    </tr>
+    <tr>
+      <td>MAHLZEITEN</td>
+      <td>3&times; Mittagessen (FR / SA / SO), Buffet-Style</td>
+    </tr>
+    <tr>
+      <td>ZEITFENSTER</td>
+      <td>Gestaffelt nach Gruppen &mdash; 3 Schichten &agrave; ca. 30 Minuten</td>
+    </tr>
+  </table>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>TAG</th>
+        <th>DATUM</th>
+        <th>ESSENSZEIT</th>
+        <th>PERSONEN</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Tag 1</strong> &mdash; Freitag</td>
+        <td>31. Juli 2026</td>
+        <td>12:30 &ndash; 13:30 Uhr</td>
+        <td>ca. 90&ndash;100</td>
+      </tr>
+      <tr>
+        <td><strong>Tag 2</strong> &mdash; Samstag</td>
+        <td>1. August 2026</td>
+        <td>12:30 &ndash; 13:30 Uhr</td>
+        <td>ca. 90&ndash;100</td>
+      </tr>
+      <tr>
+        <td><strong>Tag 3</strong> &mdash; Sonntag</td>
+        <td>2. August 2026</td>
+        <td>12:00 &ndash; 13:00 Uhr</td>
+        <td>ca. 90&ndash;100</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════ 2. MENUPLAN ═══════ -->
+<div class="section">
+  <div class="section-number">02</div>
+  <h2>Men&uuml;plan</h2>
+  <div class="sec-line"></div>
+
+  <div class="day-card">
+    <div class="day-label">TAG 1 &mdash; FREITAG, 31. JULI</div>
+    <div class="day-title">Pasta-Buffet</div>
+
+    <div class="menu-section">
+      <div class="menu-label">HAUPTKOMPONENTE</div>
+      <div class="menu-items">
+        <strong>Penne &amp; Spaghetti</strong> &mdash; zwei Sorten zur Auswahl<br>
+        <strong>Tomatensauce</strong> (klassisch, mit Basilikum) &mdash; leicht, gut verdaulich<br>
+        <strong>Bolognese</strong> (Rinderhack, mager) &mdash; Protein + Kohlenhydrate
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">BEILAGE</div>
+      <div class="menu-items">
+        <strong>Gemischter Blattsalat</strong> mit Gurke, Karotte, Mais &mdash; leichtes Dressing (Essig-&Ouml;l)<br>
+        <strong>Brot &amp; Butter</strong> &mdash; Ciabatta oder Vollkornbr&ouml;tchen
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">NACHTISCH</div>
+      <div class="menu-items">
+        <strong>Obstplatte</strong> &mdash; Wassermelone, Weintrauben, &Auml;pfel, Bananen<br>
+        <strong>Joghurt natur</strong> mit Honig-Station
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">GETR&Auml;NKE</div>
+      <div class="menu-items">Wasser (still + sprudel), Apfelschorle</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-label">TAG 2 &mdash; SAMSTAG, 1. AUGUST</div>
+    <div class="day-title">Reis-Bowl-Buffet</div>
+
+    <div class="menu-section">
+      <div class="menu-label">HAUPTKOMPONENTE</div>
+      <div class="menu-items">
+        <strong>Basmati-Reis</strong> (locker gekocht)<br>
+        <strong>H&auml;hnchenbrust</strong> &mdash; gegrillt, in Streifen geschnitten, mild gew&uuml;rzt<br>
+        <strong>Gem&uuml;sepfanne</strong> &mdash; Paprika, Zucchini, Karotten (bissfest)
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">TOPPINGS &amp; SAUCEN</div>
+      <div class="menu-items">
+        <strong>Sojasauce</strong> (mild), <strong>Sweet-Chili</strong> (wenig scharf), <strong>Joghurt-Dip</strong><br>
+        <strong>Mais, Edamame, Gurkenw&uuml;rfel</strong> &mdash; zum Selber-Toppen
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">BEILAGE</div>
+      <div class="menu-items">
+        <strong>Gurkensalat</strong> (leicht, mit Dill)<br>
+        <strong>Fladenbrot</strong> &mdash; warm
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">NACHTISCH</div>
+      <div class="menu-items">
+        <strong>Bananensplit-Station</strong> &mdash; Banane, Vanillejoghurt, Haferflocken, Beeren<br>
+        <strong>Obstplatte</strong> &mdash; saisonal
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">GETR&Auml;NKE</div>
+      <div class="menu-items">Wasser (still + sprudel), Apfelschorle</div>
+    </div>
+  </div>
+
+  <div class="day-card highlight">
+    <div class="day-label">TAG 3 &mdash; SONNTAG, 2. AUGUST &middot; LETZTER TAG</div>
+    <div class="day-title">Wrap- &amp; Kartoffel-Buffet</div>
+
+    <div class="menu-section">
+      <div class="menu-label">HAUPTKOMPONENTE</div>
+      <div class="menu-items">
+        <strong>Wraps / Tortillas</strong> (Weizen) &mdash; zum Selbstf&uuml;llen<br>
+        <strong>Ofenkartoffeln</strong> &mdash; klein, mit Rosmarin, aus dem Ofen<br>
+        <strong>H&auml;hnchen</strong> (Streifen, gegrillt) + <strong>Falafel</strong> (vegetarisch)
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">F&Uuml;LLUNGEN &amp; TOPPINGS</div>
+      <div class="menu-items">
+        <strong>Eisbergsalat, Tomaten, Mais, Gurke, K&auml;se (gerieben)</strong><br>
+        <strong>Kr&auml;uterquark</strong>, <strong>Guacamole</strong> (mild), <strong>Salsa</strong> (mild)
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">BEILAGE</div>
+      <div class="menu-items">
+        <strong>Karottensticks &amp; Gurkensticks</strong> mit Hummus<br>
+        <strong>Couscous-Salat</strong> (mit Minze, Tomate, leicht)
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">NACHTISCH</div>
+      <div class="menu-items">
+        <strong>Eis-Station</strong> &mdash; Vanille &amp; Schoko (Abschluss-Highlight!)<br>
+        <strong>Obstplatte</strong> &mdash; saisonal
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">GETR&Auml;NKE</div>
+      <div class="menu-items">Wasser (still + sprudel), Apfelschorle</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 3. ANFORDERUNGEN ═══════ -->
+<div class="section">
+  <div class="section-number">03</div>
+  <h2>Anforderungen</h2>
+  <div class="sec-line"></div>
+
+  <h3>Grundprinzipien</h3>
+  <ul>
+    <li><strong>Sportlergerecht</strong> &mdash; Kohlenhydrate + Protein als Basis, wenig Fett, leicht verdaulich</li>
+    <li><strong>Kindgerecht</strong> &mdash; Gerichte, die Kinder tats&auml;chlich essen (keine Experimente)</li>
+    <li><strong>Gut verdaulich</strong> &mdash; Nachmittags folgt eine weitere Eiseinheit</li>
+    <li><strong>Buffet-Aufbau</strong> &mdash; Jeder nimmt sich, was und wie viel er braucht</li>
+    <li><strong>Abwechslung</strong> &mdash; Drei Tage, drei verschiedene Hauptgerichte</li>
+  </ul>
+
+  <h3>Vegetarische Option</h3>
+  <p>An jedem Tag muss eine <strong>vollwertige vegetarische Alternative</strong> vorhanden sein (Tag 1: Tomatensauce, Tag 2: Gem&uuml;se-Bowl, Tag 3: Falafel). Nicht als Beilage, sondern als eigenst&auml;ndiges Gericht.</p>
+
+  <h3>Allergien &amp; Unvertr&auml;glichkeiten</h3>
+  <div class="highlight-box">
+    <p><strong>Allergenliste muss verf&uuml;gbar sein:</strong> Kennzeichnung der 14 EU-Hauptallergene am Buffet. Allergien werden bei der Anmeldung abgefragt und mindestens 2 Wochen vor Camp-Beginn an den Caterer weitergeleitet.</p>
+  </div>
+
+  <h3>Getr&auml;nke</h3>
+  <p><strong>Wasser</strong> (still + sprudel) und <strong>Apfelschorle</strong> &mdash; &uuml;ber den gesamten Essenszeitraum verf&uuml;gbar.</p>
+
+  <h3>Geschirr &amp; Besteck</h3>
+  <p>Wird <strong>vom Caterer gestellt</strong> (Teller, Besteck, Becher, Servietten, Tabletts). Kein Einwegplastik.</p>
+
+  <h3>Portionsgr&ouml;&szlig;en</h3>
+  <p>Kinder essen unterschiedlich viel. Lieber etwas mehr kalkulieren. Richtwert: ca. <strong>350&ndash;450 g pro Person</strong> (Hauptgang + Beilage).</p>
+</div>
+
+<!-- ═══════ 4. HYGIENE ═══════ -->
+<div class="section">
+  <div class="section-number">04</div>
+  <h2>Hygiene</h2>
+  <div class="sec-line"></div>
+
+  <ul>
+    <li><strong>HACCP-konform</strong> &mdash; Einhaltung der gesetzlichen Hygienevorschriften</li>
+    <li><strong>Warmhaltevorrichtungen</strong> &mdash; Chafing Dishes / W&auml;rmebeh&auml;lter vom Caterer mitzubringen</li>
+    <li><strong>K&uuml;hlkette</strong> &mdash; Bei verderblichen Lebensmitteln durchgehend sicherstellen</li>
+    <li><strong>Allergenkennzeichnung</strong> &mdash; 14 EU-Hauptallergene am Buffet ausweisen</li>
+    <li><strong>Handschuhe &amp; Haarnetze</strong> beim Servieren</li>
+    <li><strong>Getrennte Zangen/L&ouml;ffel</strong> pro Gericht (Kreuzkontamination vermeiden)</li>
+  </ul>
+</div>
+
+<!-- ═══════ 5. LOGISTIK ═══════ -->
+<div class="section">
+  <div class="section-number">05</div>
+  <h2>Logistik</h2>
+  <div class="sec-line"></div>
+
+  <h3>Anlieferung &amp; Location</h3>
+  <p><strong>MOP Lounge</strong>, ROFA-Stadion, Jahnstra&szlig;e 1, 83022 Rosenheim. Das Buffet wird in der Lounge aufgebaut. Die Kinder kommen direkt von der Eishalle.</p>
+
+  <h3>Auf- &amp; Abbau</h3>
+  <ul>
+    <li><strong>Aufbau:</strong> sp&auml;testens 12:00 Uhr (Tag 3: 11:30 Uhr)</li>
+    <li><strong>Buffet offen:</strong> 12:30 &ndash; 13:30 Uhr (Tag 3: 12:00 &ndash; 13:00 Uhr)</li>
+    <li><strong>Abbau:</strong> bis 14:00 Uhr</li>
+    <li><strong>Auf- und Abbau komplett durch Caterer</strong></li>
+  </ul>
+
+  <h3>Gestaffelte Essenszeiten</h3>
+  <p>Die drei Gruppen essen gestaffelt &mdash; ca. <strong>30&ndash;35 Kinder pro Durchgang</strong>. Das Buffet muss &uuml;ber den gesamten Zeitraum warm gehalten und nachgelegt werden.</p>
+
+  <h3>Ausstattung vom Caterer</h3>
+  <ul>
+    <li>Chafing Dishes / W&auml;rmebeh&auml;lter</li>
+    <li>Geschirr, Besteck, Becher, Servietten, Tabletts</li>
+    <li>Abfallentsorgung (Eimer, S&auml;cke, M&uuml;lltrennung)</li>
+  </ul>
+</div>
+
+<!-- ═══════ 6. BUDGET ═══════ -->
+<div class="section">
+  <div class="section-number">06</div>
+  <h2>Budget</h2>
+  <div class="sec-line"></div>
+
+  <div class="info-box">
+    <p><strong>Richtwert:</strong> ca. 12&ndash;18 &euro; pro Person / pro Tag (inkl. Getr&auml;nke, Nachtisch, Auf-/Abbau)</p>
+    <p><strong>Gesamt (3 Tage, ca. 100 Personen):</strong> ca. 3.600 &ndash; 5.400 &euro;</p>
+    <p>Bitte um Angebot mit <strong>Aufschl&uuml;sselung pro Tag und pro Person</strong>. Auf- und Abbau, Geschirr und Entsorgung sind im Preis zu inkludieren.</p>
+  </div>
+</div>
+
+<!-- ═══════ 7. KONTAKT ═══════ -->
+<div class="section">
+  <div class="section-number">07</div>
+  <h2>Kontakt</h2>
+  <div class="sec-line"></div>
+
+  <div class="contact-card">
+    <div class="contact-name">Ren&eacute; Wild</div>
+    <p>Camp-Leitung / Nachwuchsleiter</p>
+    <div class="contact-email">camps@starbulls.de</div>
+    <p style="margin-top: 12px;">Starbulls Rosenheim e.V.<br>Jahnstra&szlig;e 1, 83022 Rosenheim</p>
+  </div>
+
+  <div class="highlight-box" style="margin-top: 24px;">
+    <p><strong>N&auml;chste Schritte:</strong></p>
+    <ul style="margin-bottom: 0;">
+      <li>Angebot einreichen</li>
+      <li>Probebuffet / Men&uuml;abstimmung ca. 4 Wochen vor Camp</li>
+      <li>Finale Teilnehmerzahl + Allergien bis 2 Wochen vor Camp</li>
+      <li>Aufbau-Besichtigung MOP Lounge nach Vereinbarung</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════ FOOTER ═══════ -->
+<div class="doc-footer">
+  <div class="doc-footer-text">STARBULLS SOMMER CAMP 2026 &middot; ANFORDERUNGSPROFIL CATERING &middot; VERTRAULICH</div>
+</div>
+
+</body>
+</html>

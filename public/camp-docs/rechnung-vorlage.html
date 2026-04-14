@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rechnung Vorlage — Starbulls Sommer Camp 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #005243;
+    --red: #E4032E;
+    --light: #F2F5F4;
+    --dark: #1a1a1a;
+    --placeholder-border: 2px dashed var(--red);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @page {
+    size: A4;
+    margin: 18mm 16mm 20mm 16mm;
+  }
+
+  body {
+    font-family: 'Titillium Web', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    color: var(--dark);
+    background: #e0e0e0;
+    line-height: 1.5;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 20px auto;
+    background: #fff;
+    padding: 18mm 16mm 20mm 16mm;
+    position: relative;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.12);
+  }
+
+  /* --- Vorlage Banner --- */
+  .vorlage-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--red);
+    color: #fff;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 9pt;
+    letter-spacing: 3px;
+    padding: 4px 0;
+    text-transform: uppercase;
+  }
+
+  /* --- Print Button --- */
+  .print-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,82,67,0.35);
+    z-index: 100;
+    transition: background 0.2s;
+  }
+  .print-btn:hover { background: #003d32; }
+
+  /* --- Placeholder Fields --- */
+  .ph {
+    border: var(--placeholder-border);
+    padding: 1px 6px;
+    border-radius: 3px;
+    display: inline-block;
+    color: var(--red);
+    font-weight: 600;
+    background: rgba(228,3,46,0.04);
+    min-width: 60px;
+  }
+
+  /* --- Green Accent Line --- */
+  .accent-line {
+    height: 4px;
+    background: var(--green);
+    margin-bottom: 20px;
+    border-radius: 2px;
+  }
+
+  /* --- Header --- */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 14px;
+  }
+  .header-left h1 {
+    font-family: 'Titillium Web', 'League Gothic', Impact, sans-serif;
+    font-weight: 700;
+    font-size: 32pt;
+    letter-spacing: 2px;
+    color: var(--green);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .header-right {
+    text-align: right;
+    padding-top: 4px;
+  }
+  .header-right .logo-placeholder {
+    border: 2px solid var(--green);
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9pt;
+    color: var(--green);
+    font-weight: 600;
+    text-align: center;
+    display: inline-block;
+    line-height: 1.4;
+  }
+
+  .subtitle {
+    font-size: 11pt;
+    color: var(--green);
+    font-weight: 600;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  /* --- Sender / Recipient --- */
+  .sender-line {
+    font-size: 7.5pt;
+    color: #888;
+    margin-top: 32px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 6px;
+  }
+
+  .address-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 6px;
+  }
+
+  .recipient {
+    line-height: 1.7;
+    font-size: 10pt;
+  }
+
+  .invoice-meta {
+    text-align: right;
+    font-size: 9.5pt;
+  }
+  .invoice-meta table {
+    margin-left: auto;
+  }
+  .invoice-meta td {
+    padding: 2px 0;
+  }
+  .invoice-meta td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: var(--green);
+    padding-right: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .invoice-meta td:last-child {
+    font-weight: 600;
+    text-align: right;
+  }
+
+  /* --- Betreff --- */
+  .betreff {
+    margin-top: 30px;
+    font-weight: 700;
+    font-size: 11pt;
+  }
+
+  /* --- Table --- */
+  .invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 9.5pt;
+  }
+  .invoice-table thead th {
+    background: var(--green);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 8px 10px;
+    text-align: left;
+  }
+  .invoice-table thead th:nth-child(3),
+  .invoice-table thead th:nth-child(4),
+  .invoice-table thead th:nth-child(5) {
+    text-align: right;
+  }
+  .invoice-table tbody td {
+    padding: 10px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+  }
+  .invoice-table tbody td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    text-align: center;
+    width: 40px;
+    color: var(--green);
+  }
+  .invoice-table tbody td:nth-child(3),
+  .invoice-table tbody td:nth-child(4),
+  .invoice-table tbody td:nth-child(5) {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+  }
+  .invoice-table tbody td:nth-child(2) {
+    line-height: 1.5;
+  }
+  .desc-detail {
+    display: block;
+    font-size: 8.5pt;
+    color: #666;
+    margin-top: 2px;
+  }
+
+  /* --- Totals --- */
+  .totals {
+    margin-top: 8px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .totals table {
+    font-size: 9.5pt;
+    min-width: 280px;
+  }
+  .totals td {
+    padding: 5px 10px;
+  }
+  .totals td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .totals td:last-child {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+  }
+  .totals .ust-row td {
+    font-size: 8.5pt;
+    color: #666;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .totals .total-row {
+    border-top: 2px solid var(--green);
+  }
+  .totals .total-row td {
+    font-size: 12pt;
+    font-weight: 700;
+    padding-top: 8px;
+    color: var(--dark);
+  }
+  .totals .total-row td:first-child {
+    color: var(--green);
+    font-size: 9pt;
+  }
+
+  /* --- Bank Details --- */
+  .bank-section {
+    margin-top: 32px;
+    background: var(--light);
+    border-radius: 6px;
+    padding: 14px 18px;
+    border-left: 4px solid var(--green);
+  }
+  .bank-section h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .bank-section table {
+    font-size: 9.5pt;
+  }
+  .bank-section td {
+    padding: 2px 0;
+  }
+  .bank-section td:first-child {
+    font-weight: 600;
+    padding-right: 16px;
+    white-space: nowrap;
+    width: 140px;
+  }
+
+  /* --- Note --- */
+  .note {
+    margin-top: 28px;
+    font-size: 9pt;
+    color: #666;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 12px;
+  }
+
+  /* --- Footer --- */
+  .footer {
+    position: absolute;
+    bottom: 18mm;
+    left: 16mm;
+    right: 16mm;
+    border-top: 2px solid var(--green);
+    padding-top: 10px;
+    font-size: 7.5pt;
+    color: #888;
+    display: flex;
+    justify-content: space-between;
+    line-height: 1.6;
+  }
+  .footer div { flex: 1; }
+  .footer div:nth-child(2) { text-align: center; }
+  .footer div:last-child { text-align: right; }
+
+  /* --- Print Styles --- */
+  @media print {
+    body { background: none; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      padding: 0;
+      min-height: auto;
+    }
+    .print-btn { display: none !important; }
+    .vorlage-banner { position: fixed; top: 0; }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">Drucken / PDF</button>
+
+<div class="page">
+  <div class="vorlage-banner">VORLAGE</div>
+
+  <div class="accent-line"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>Rechnung</h1>
+      <div class="subtitle">Starbulls Sommer Camp 2026</div>
+    </div>
+    <div class="header-right">
+      <div class="logo-placeholder">
+        STARBULLS<br>ROSENHEIM e.V.<br><span style="font-size:7pt;color:#888;">[ Logo hier einsetzen ]</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sender Line -->
+  <div class="sender-line">
+    Starbulls Rosenheim e.V. &middot; Jahnstr. 1 &middot; 83022 Rosenheim
+  </div>
+
+  <!-- Recipient + Invoice Meta -->
+  <div class="address-meta-row">
+    <div class="recipient">
+      <span class="ph">[Name Erziehungsberechtigter]</span><br>
+      <span class="ph">[Stra&szlig;e Hausnummer]</span><br>
+      <span class="ph">[PLZ Ort]</span>
+    </div>
+    <div class="invoice-meta">
+      <table>
+        <tr>
+          <td>Rechnungsnummer</td>
+          <td><span class="ph">[RE-2026-XXXX]</span></td>
+        </tr>
+        <tr>
+          <td>Rechnungsdatum</td>
+          <td><span class="ph">[TT.MM.JJJJ]</span></td>
+        </tr>
+        <tr>
+          <td>Zahlungsziel</td>
+          <td>sofort</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Betreff -->
+  <div class="betreff">
+    Rechnung &mdash; Teilnahme Starbulls Sommer Camp 2026
+  </div>
+
+  <!-- Invoice Table -->
+  <table class="invoice-table">
+    <thead>
+      <tr>
+        <th>Pos.</th>
+        <th>Beschreibung</th>
+        <th>Menge</th>
+        <th>Einzelpreis</th>
+        <th>Gesamt</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>
+          Teilnahme Starbulls Sommer Camp 2026 (31.07.&ndash;02.08.2026)
+          <span class="desc-detail">inkl. Eis-/Athletiktraining, Mittagessen, Camp-Paket, Side Events</span>
+        </td>
+        <td>1</td>
+        <td>549,00&nbsp;&euro;</td>
+        <td>549,00&nbsp;&euro;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Totals -->
+  <div class="totals">
+    <table>
+      <tr>
+        <td>Nettobetrag</td>
+        <td>549,00&nbsp;&euro;</td>
+      </tr>
+      <tr class="ust-row">
+        <td>USt.</td>
+        <td>Umsatzsteuerbefreit gem. &sect;&nbsp;4 Nr.&nbsp;22 UStG<br>(gemeinn&uuml;tziger Verein)</td>
+      </tr>
+      <tr class="total-row">
+        <td>Gesamtbetrag</td>
+        <td>549,00&nbsp;&euro;</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Bank Details -->
+  <div class="bank-section">
+    <h3>Bankverbindung</h3>
+    <table>
+      <tr>
+        <td>Empf&auml;nger</td>
+        <td>Starbulls Rosenheim e.V.</td>
+      </tr>
+      <tr>
+        <td>IBAN</td>
+        <td><span class="ph">[DE XX XXXX XXXX XXXX XXXX XX]</span></td>
+      </tr>
+      <tr>
+        <td>BIC</td>
+        <td><span class="ph">[XXXXXXXX]</span></td>
+      </tr>
+      <tr>
+        <td>Verwendungszweck</td>
+        <td><span class="ph">[RE-2026-XXXX]</span> / <span class="ph">[Name Kind]</span> / Sommer Camp 2026</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Note -->
+  <div class="note">
+    Zahlungsziel: sofort. Nach Zahlungseingang wird der Platz fixiert.
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div>
+      Starbulls Rosenheim e.V.<br>
+      Jahnstr. 1 &middot; 83022 Rosenheim
+    </div>
+    <div>
+      Vereinsregister: AG Rosenheim <span class="ph" style="font-size:7pt;">[VR XXXX]</span><br>
+      Steuernummer: <span class="ph" style="font-size:7pt;">[XXX/XXX/XXXXX]</span>
+    </div>
+    <div>
+      camps@starbulls.de
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

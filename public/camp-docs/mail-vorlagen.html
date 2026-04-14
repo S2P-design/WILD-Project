@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Mail Vorlagen — Starbulls Sommer Camp 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Titillium Web', 'Helvetica Neue', Arial, sans-serif;
+    background: #F2F5F4;
+    color: #1a1a1a;
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+
+  .page-header {
+    max-width: 720px;
+    margin: 0 auto 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .page-header h1 {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #005243;
+    border-left: 4px solid #005243;
+    padding-left: 0.75rem;
+  }
+
+  .badge-draft {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #E4032E;
+    border: 2px solid #E4032E;
+    border-radius: 4px;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .btn-print {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #fff;
+    background: #005243;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.25rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-print:hover { background: #003d32; }
+
+  .email-card {
+    max-width: 720px;
+    margin: 0 auto 2.5rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    overflow: hidden;
+  }
+
+  .email-card-bar {
+    height: 6px;
+    background: #005243;
+  }
+
+  .email-card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #888;
+    padding: 1.25rem 2rem 0;
+  }
+
+  .email-subject {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #005243;
+    padding: 0.5rem 2rem 0;
+  }
+
+  .email-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #999;
+    padding: 0.25rem 2rem 1rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .email-body {
+    padding: 1.5rem 2rem 2rem;
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  .email-body p { margin-bottom: 0.9rem; }
+
+  .email-body strong { font-weight: 700; }
+
+  .email-body ul {
+    list-style: none;
+    margin: 0.5rem 0 1rem 0;
+    padding: 0;
+  }
+  .email-body ul li {
+    padding: 0.2rem 0;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .email-body ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: #005243;
+    font-weight: 700;
+  }
+
+  .email-body blockquote {
+    background: #F2F5F4;
+    border-left: 4px solid #005243;
+    margin: 1rem 0;
+    padding: 1rem 1.25rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.8;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .email-body a {
+    color: #005243;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid #005243;
+  }
+
+  .email-body .signature {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  .email-body .highlight-box {
+    background: #fef6f0;
+    border: 1px solid #f0d0b0;
+    border-radius: 6px;
+    padding: 0.85rem 1.1rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+
+  /* Platzhalter */
+  .var {
+    display: inline;
+    color: #E4032E;
+    border: 1.5px dashed #E4032E;
+    border-radius: 3px;
+    padding: 0.05rem 0.35rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82em;
+    font-weight: 600;
+    background: rgba(228, 3, 46, 0.04);
+    white-space: nowrap;
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .btn-print { display: none; }
+    .email-card { box-shadow: none; break-inside: avoid; border: 1px solid #ddd; margin-bottom: 2rem; }
+    .badge-draft { color: #E4032E; border-color: #E4032E; }
+  }
+
+  @media (max-width: 600px) {
+    .email-body, .email-card-label, .email-subject, .email-meta { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .page-header { padding: 0 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="page-header">
+  <h1>E-Mail Vorlagen — Sommer Camp 2026</h1>
+  <div style="display:flex;align-items:center;gap:0.75rem;">
+    <span class="badge-draft">Entwurf</span>
+    <button class="btn-print" onclick="window.print()">Drucken</button>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- E-MAIL 1: ANMELDEBESTÄTIGUNG                 -->
+<!-- ============================================ -->
+<div class="email-card">
+  <div class="email-card-bar"></div>
+  <div class="email-card-label">E-Mail 1 — Anmeldebestätigung</div>
+  <div class="email-subject">Deine Anmeldung zum Starbulls Sommer Camp 2026 &#127954;</div>
+  <div class="email-meta">An: <span class="var">[E-Mail Eltern]</span></div>
+
+  <div class="email-body">
+
+    <p>Hey <span class="var">[Vorname Kind]</span>,</p>
+
+    <p>das freut uns! Deine Anmeldung zum <strong>Starbulls Sommer Camp 2026</strong> ist bei uns eingegangen.</p>
+
+    <p><strong>Deine Daten:</strong></p>
+    <ul>
+      <li>Name: <span class="var">[Vorname Name Kind]</span></li>
+      <li>Altersgruppe: <span class="var">[Gruppe Hager / Reichel / Grubauer]</span></li>
+      <li>Zeitraum: 31. Juli – 2. August 2026</li>
+      <li>Ort: ROFA Stadion, Rosenheim</li>
+    </ul>
+
+    <p><strong>Nächster Schritt — Zahlung:</strong><br>
+    Damit dein Platz fix ist, überweise bitte <strong>549,00 €</strong> auf folgendes Konto:</p>
+
+    <blockquote>
+      Empfänger: Starbulls Rosenheim e.V.<br>
+      IBAN: <span class="var">[PLATZHALTER]</span><br>
+      BIC: <span class="var">[PLATZHALTER]</span><br>
+      Verwendungszweck: <span class="var">[Rechnungsnr.]</span> / <span class="var">[Name Kind]</span> / Sommer Camp 2026
+    </blockquote>
+
+    <div class="highlight-box">
+      <strong>Wichtig:</strong> Die Anmeldung allein reserviert keinen Platz. Erst nach Zahlungseingang wird dein Platz fixiert und du bekommst eine finale Bestätigung per Mail.
+    </div>
+
+    <p>Alle Infos zum Camp findest du auf unserer Website:<br>
+    <a href="https://www.sbr-nachwuchs.de/camps" target="_blank"><strong>www.sbr-nachwuchs.de/camps</strong></a></p>
+
+    <p>Wir freuen uns, mit dir zu arbeiten — und auf drei richtig gute Tage auf dem Eis!</p>
+
+    <div class="signature">
+      Sportliche Grüße,<br>
+      <strong>René Wild</strong><br>
+      Nachwuchsleiter · Starbulls Rosenheim e.V.<br>
+      <a href="mailto:camps@starbulls.de">camps@starbulls.de</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- E-MAIL 2: STORNOBESTÄTIGUNG                  -->
+<!-- ============================================ -->
+<div class="email-card">
+  <div class="email-card-bar"></div>
+  <div class="email-card-label">E-Mail 2 — Stornobestätigung</div>
+  <div class="email-subject">Deine Stornierung — Starbulls Sommer Camp 2026</div>
+  <div class="email-meta">An: <span class="var">[E-Mail Eltern]</span></div>
+
+  <div class="email-body">
+
+    <p>Hey <span class="var">[Vorname Kind]</span>,</p>
+
+    <p>schade, dass du dieses Mal nicht dabei sein kannst. Wir hätten dich gerne auf dem Eis gesehen.</p>
+
+    <p>Deine Anmeldung zum <strong>Starbulls Sommer Camp 2026</strong> (31. Juli – 2. August) wurde storniert.</p>
+
+    <p><strong>Storno-Details:</strong></p>
+    <ul>
+      <li>Name: <span class="var">[Vorname Name Kind]</span></li>
+      <li>Altersgruppe: <span class="var">[Gruppe]</span></li>
+      <li>Stornodatum: <span class="var">[TT.MM.JJJJ]</span></li>
+      <li>Erstattung: <span class="var">[Betrag wird erstattet / Teilerstattung / keine Erstattung]</span> — <span class="var">[Details]</span></li>
+    </ul>
+
+    <p>Falls eine Rückerstattung erfolgt, wird diese innerhalb von 14 Werktagen auf das ursprüngliche Konto überwiesen.</p>
+
+    <p>Wenn sich doch noch was ändert oder du nächstes Jahr dabei sein willst — du weißt, wo du uns findest.</p>
+
+    <p>Bis bald auf dem Eis!</p>
+
+    <div class="signature">
+      <strong>René Wild</strong><br>
+      Nachwuchsleiter · Starbulls Rosenheim e.V.<br>
+      <a href="mailto:camps@starbulls.de">camps@starbulls.de</a>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
