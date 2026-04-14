@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE FLEA — Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --coal: #1A1A1A;
+  --cream: #F5F0E8;
+  --rust: #D4572A;
+  --sage: #3A6B5A;
+  --kraft: #C4B091;
+  --warm-grey: #8A8278;
+  --light-grey: #E8E3DB;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--coal);
+  color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ── Grain ── */
+body::after {
+  content:'';
+  position:fixed; inset:0;
+  pointer-events:none; z-index:99999;
+  opacity:0.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:128px;
+}
+
+/* ══ LOGIN GATE ══ */
+#loginGate {
+  position: fixed; inset: 0; z-index: 10000;
+  background: var(--coal);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+#loginGate.hidden {
+  opacity: 0;
+  transform: scale(1.02);
+  pointer-events: none;
+}
+
+.gate-inner {
+  text-align: center;
+  max-width: 400px;
+  padding: 0 24px;
+}
+
+/* Logo */
+.gate-logo {
+  margin-bottom: 48px;
+  line-height: 0.85;
+}
+.gate-logo .the {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 10px;
+  color: var(--warm-grey);
+  display: block;
+  margin-bottom: 2px;
+}
+.gate-logo .flea {
+  font-family: 'Anton', sans-serif;
+  font-size: 72px;
+  letter-spacing: 4px;
+  color: var(--cream);
+  display: block;
+  line-height: 0.85;
+}
+.gate-logo .ro {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 8px;
+  color: var(--warm-grey);
+  display: block;
+  margin-top: 8px;
+  text-align: right;
+}
+
+/* Badge */
+.gate-badge {
+  display: inline-block;
+  border: 1px solid rgba(245,240,232,0.1);
+  padding: 6px 18px;
+  margin-bottom: 40px;
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--kraft);
+}
+
+/* Subtitle */
+.gate-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+  margin-bottom: 32px;
+}
+
+/* Code Input */
+.gate-code-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+.gate-code {
+  width: 100%;
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+  letter-spacing: 12px;
+  text-align: center;
+  padding: 18px 24px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(245,240,232,0.1);
+  color: var(--cream);
+  outline: none;
+  transition: border-color 0.3s;
+  -webkit-text-security: disc;
+}
+.gate-code::placeholder {
+  color: var(--warm-grey);
+  letter-spacing: 6px;
+  font-size: 12px;
+}
+.gate-code:focus {
+  border-color: var(--rust);
+}
+.gate-code.error {
+  border-color: var(--rust);
+  animation: shake 0.4s ease;
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+.gate-btn {
+  width: 100%;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 16px;
+  background: var(--rust);
+  color: var(--cream);
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+.gate-btn:hover { opacity: 0.85; }
+
+.gate-error {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--rust);
+  margin-top: 16px;
+  min-height: 20px;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.gate-error.show { opacity: 1; }
+
+/* Decorative */
+.gate-line {
+  width: 1px;
+  height: 40px;
+  background: rgba(245,240,232,0.08);
+  margin: 32px auto 0;
+}
+.gate-footer {
+  margin-top: 24px;
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: rgba(245,240,232,0.2);
+  text-transform: uppercase;
+}
+
+/* Corner marks */
+.gate-corner {
+  position: fixed;
+  width: 24px; height: 24px;
+  border-color: rgba(245,240,232,0.06);
+  border-style: solid;
+}
+.gate-corner.tl { top:24px; left:24px; border-width:1px 0 0 1px; }
+.gate-corner.tr { top:24px; right:24px; border-width:1px 1px 0 0; }
+.gate-corner.bl { bottom:24px; left:24px; border-width:0 0 1px 1px; }
+.gate-corner.br { bottom:24px; right:24px; border-width:0 1px 1px 0; }
+
+/* ══ NAV TABS (after login) ══ */
+#contentWrap {
+  display: none;
+  height: 100vh;
+  flex-direction: column;
+}
+#contentWrap.show {
+  display: flex;
+}
+
+.content-nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 9000;
+  height: 56px;
+  background: rgba(26,26,26,0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(245,240,232,0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 8px;
+}
+.content-nav-logo {
+  font-family: 'Anton', sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-right: 24px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.content-nav-logo .the {
+  font-family: 'Space Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 3px;
+  color: var(--warm-grey);
+}
+
+.tab-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: color 0.3s, background 0.3s;
+  border-radius: 2px;
+}
+.tab-btn:hover { color: var(--cream); }
+.tab-btn.active {
+  color: var(--cream);
+  background: rgba(245,240,232,0.06);
+}
+
+.content-nav-right {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 16px;
+}
+.lock-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--warm-grey);
+  background: none;
+  border: 1px solid rgba(245,240,232,0.1);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+.lock-btn:hover { border-color: var(--rust); color: var(--rust); }
+
+/* Iframe content */
+.content-frame {
+  flex: 1;
+  margin-top: 56px;
+  border: none;
+  width: 100%;
+  height: calc(100vh - 56px);
+}
+
+/* ══ Mobile ══ */
+@media (max-width: 600px) {
+  .gate-logo .flea { font-size: 52px; }
+  .gate-code { font-size: 16px; letter-spacing: 8px; }
+  .content-nav { padding: 0 12px; gap: 4px; }
+  .tab-btn { font-size: 8px; letter-spacing: 1px; padding: 6px 10px; }
+  .content-nav-logo { margin-right: 12px; font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN GATE ══ -->
+<div id="loginGate">
+  <div class="gate-corner tl"></div>
+  <div class="gate-corner tr"></div>
+  <div class="gate-corner bl"></div>
+  <div class="gate-corner br"></div>
+
+  <div class="gate-inner">
+    <div class="gate-badge">Preview · Confidential</div>
+
+    <div class="gate-logo">
+      <span class="the">THE</span>
+      <span class="flea">FLEA</span>
+      <span class="ro">ROSENHEIM</span>
+    </div>
+
+    <div class="gate-sub">Enter access code</div>
+
+    <div class="gate-code-wrap">
+      <input
+        type="password"
+        class="gate-code"
+        id="codeInput"
+        placeholder="· · · · · ·"
+        maxlength="12"
+        autocomplete="off"
+        autofocus
+      >
+    </div>
+
+    <button class="gate-btn" id="codeBtn" onclick="checkCode()">Zugang</button>
+
+    <div class="gate-error" id="gateError">Code falsch</div>
+
+    <div class="gate-line"></div>
+    <div class="gate-footer">Wild Projects · 2026</div>
+  </div>
+</div>
+
+<!-- ══ CONTENT (after login) ══ -->
+<div id="contentWrap">
+  <nav class="content-nav">
+    <div class="content-nav-logo">
+      <span class="the">THE</span>
+      <span>FLEA</span>
+    </div>
+    <button class="tab-btn active" onclick="switchTab('website', this)">Website</button>
+    <button class="tab-btn" onclick="switchTab('brand', this)">Brand ID</button>
+    <button class="tab-btn" onclick="switchTab('timeline', this)">Timeline</button>
+    <button class="tab-btn" onclick="switchTab('logo', this)">Logo</button>
+    <div class="content-nav-right">
+      <button class="lock-btn" onclick="lockSession()">Lock</button>
+    </div>
+  </nav>
+  <iframe id="contentFrame" class="content-frame" src="website.html"></iframe>
+</div>
+
+<script>
+var CODE_HASH = '7bc28';
+var sessionKey = 'theflea_session';
+
+function simpleHash(s) {
+  var h = 0;
+  for (var i = 0; i < s.length; i++) {
+    h = ((h << 5) - h) + s.charCodeAt(i);
+    h |= 0;
+  }
+  return Math.abs(h).toString(16).substring(0, 5);
+}
+
+function checkCode() {
+  var input = document.getElementById('codeInput');
+  var val = input.value.trim();
+  if (simpleHash(val) === CODE_HASH) {
+    sessionStorage.setItem(sessionKey, '1');
+    unlock();
+  } else {
+    input.classList.add('error');
+    document.getElementById('gateError').classList.add('show');
+    setTimeout(function() {
+      input.classList.remove('error');
+    }, 500);
+    setTimeout(function() {
+      document.getElementById('gateError').classList.remove('show');
+    }, 2500);
+    input.value = '';
+    input.focus();
+  }
+}
+
+function unlock() {
+  var gate = document.getElementById('loginGate');
+  gate.classList.add('hidden');
+  document.body.style.overflow = '';
+  var wrap = document.getElementById('contentWrap');
+  wrap.classList.add('show');
+  setTimeout(function() { gate.style.display = 'none'; }, 600);
+}
+
+function lockSession() {
+  sessionStorage.removeItem(sessionKey);
+  location.reload();
+}
+
+function switchTab(name, btn) {
+  var map = {
+    'website': 'website.html',
+    'brand': 'brand.html',
+    'timeline': 'timeline.html',
+    'logo': 'logo.html'
+  };
+  document.getElementById('contentFrame').src = map[name];
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+
+// Enter key
+document.getElementById('codeInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkCode();
+});
+
+// Auto-unlock if session active
+if (sessionStorage.getItem(sessionKey) === '1') {
+  unlock();
+}
+</script>
+
+</body>
+</html>

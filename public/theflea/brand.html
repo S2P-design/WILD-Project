@@ -1,0 +1,2643 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE FLEA — Brand Identity Guidelines 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ============================================
+     THE FLEA — Brand Identity Guidelines
+     ============================================ */
+
+  :root {
+    --coal: #1A1A1A;
+    --cream: #F5F0E8;
+    --rust: #D4572A;
+    --sage: #3A6B5A;
+    --kraft: #C4B091;
+    --warm-grey: #8A8278;
+    --light-grey: #E8E3DB;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--coal);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.6;
+  }
+
+  /* --- Utility --- */
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .section-description {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--warm-grey);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  .section-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 48px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    margin-bottom: 16px;
+    color: var(--coal);
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--light-grey);
+    margin: 0;
+  }
+
+  .dot-separator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 40px 0;
+    color: var(--kraft);
+    font-size: 10px;
+    letter-spacing: 12px;
+  }
+
+  .dot-separator::before,
+  .dot-separator::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--light-grey);
+  }
+
+  /* --- Layout --- */
+  .page-section {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 100px 60px;
+  }
+
+  .page-section + .page-section {
+    border-top: 1px solid var(--light-grey);
+  }
+
+  /* --- NAV --- */
+  .brand-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--cream);
+    border-bottom: 1px solid var(--light-grey);
+    padding: 0 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    transition: transform 0.3s ease;
+  }
+
+  .brand-nav .nav-logo {
+    font-family: 'Anton', sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--coal);
+    text-decoration: none;
+  }
+
+  .brand-nav .nav-logo span {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--warm-grey);
+    margin-left: 12px;
+    vertical-align: middle;
+  }
+
+  .brand-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+  }
+
+  .brand-nav a {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .brand-nav a:hover {
+    color: var(--rust);
+  }
+
+  /* =====================
+     SECTION 1: COVER
+     ===================== */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    border-bottom: 1px solid var(--light-grey);
+  }
+
+  .cover-logo {
+    margin-bottom: 60px;
+  }
+
+  .cover-logo .the {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .cover-logo .flea {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(80px, 14vw, 160px);
+    text-transform: uppercase;
+    line-height: 0.85;
+    color: var(--coal);
+    display: block;
+    letter-spacing: -2px;
+  }
+
+  .cover-logo .rosenheim {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    display: block;
+    margin-top: 12px;
+  }
+
+  .cover-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--kraft);
+    margin-top: 80px;
+  }
+
+  .cover-rule {
+    width: 40px;
+    height: 1px;
+    background: var(--rust);
+    margin: 24px auto 0;
+  }
+
+  .cover-bottom {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    right: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .cover-bottom-left,
+  .cover-bottom-right {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--kraft);
+  }
+
+  /* =====================
+     SECTION 2: BRAND STORY
+     ===================== */
+  .brand-story .story-hero {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.15;
+    text-transform: uppercase;
+    max-width: 700px;
+    margin-bottom: 48px;
+    color: var(--coal);
+  }
+
+  .brand-story .story-hero em {
+    color: var(--rust);
+    font-style: normal;
+  }
+
+  .brand-story .story-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 48px;
+  }
+
+  .brand-story .story-columns p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--coal);
+    opacity: 0.8;
+  }
+
+  .brand-story .story-columns p + p {
+    margin-top: 16px;
+  }
+
+  .brand-story .story-values {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 80px;
+    padding-top: 48px;
+    border-top: 1px solid var(--light-grey);
+  }
+
+  .brand-story .value-item {
+    text-align: center;
+    padding: 32px 16px;
+    border: 1px solid var(--light-grey);
+  }
+
+  .brand-story .value-item .value-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--kraft);
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .brand-story .value-item .value-label {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    color: var(--coal);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .brand-story .value-item .value-desc {
+    font-size: 12px;
+    color: var(--warm-grey);
+    line-height: 1.6;
+  }
+
+  /* =====================
+     SECTION 3: LOGO SYSTEM
+     ===================== */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .logo-card {
+    border: 1px solid var(--light-grey);
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+    position: relative;
+  }
+
+  .logo-card.dark {
+    background: var(--coal);
+  }
+
+  .logo-card.kraft-bg {
+    background: var(--kraft);
+  }
+
+  .logo-card.sage-bg {
+    background: var(--sage);
+  }
+
+  .logo-card .card-label {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+  }
+
+  .logo-card.dark .card-label,
+  .logo-card.sage-bg .card-label {
+    color: rgba(255,255,255,0.4);
+  }
+
+  .logo-card.kraft-bg .card-label {
+    color: var(--coal);
+    opacity: 0.4;
+  }
+
+  /* Primary logo rendering */
+  .logo-primary {
+    text-align: left;
+    line-height: 1;
+  }
+
+  .logo-primary .logo-the {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .logo-primary .logo-flea {
+    font-family: 'Anton', sans-serif;
+    font-size: 72px;
+    text-transform: uppercase;
+    line-height: 0.85;
+    display: block;
+    letter-spacing: -1px;
+  }
+
+  .logo-primary .logo-ro {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    display: block;
+    text-align: right;
+    margin-top: 6px;
+  }
+
+  .logo-card.dark .logo-primary .logo-flea {
+    color: var(--cream);
+  }
+
+  .logo-card.dark .logo-primary .logo-the,
+  .logo-card.dark .logo-primary .logo-ro {
+    color: rgba(245, 240, 232, 0.4);
+  }
+
+  .logo-card.sage-bg .logo-primary .logo-flea {
+    color: var(--cream);
+  }
+
+  .logo-card.sage-bg .logo-primary .logo-the,
+  .logo-card.sage-bg .logo-primary .logo-ro {
+    color: rgba(245, 240, 232, 0.5);
+  }
+
+  .logo-card.kraft-bg .logo-primary .logo-flea {
+    color: var(--coal);
+  }
+
+  .logo-card.kraft-bg .logo-primary .logo-the,
+  .logo-card.kraft-bg .logo-primary .logo-ro {
+    color: rgba(26, 26, 26, 0.4);
+  }
+
+  /* Badge variant */
+  .logo-badge {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 2px solid var(--coal);
+    outline: 1px solid var(--coal);
+    outline-offset: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: visible;
+  }
+
+  .logo-badge .badge-top-text,
+  .logo-badge .badge-bottom-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    position: absolute;
+  }
+
+  .logo-badge .badge-top-text {
+    top: 22px;
+    color: var(--warm-grey);
+  }
+
+  .logo-badge .badge-bottom-text {
+    bottom: 22px;
+    color: var(--warm-grey);
+  }
+
+  .logo-badge .badge-flea {
+    font-family: 'Anton', sans-serif;
+    font-size: 48px;
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: 2px;
+  }
+
+  .logo-badge .badge-the {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    margin-bottom: -2px;
+  }
+
+  .logo-card.dark .logo-badge {
+    border-color: var(--cream);
+    outline-color: var(--cream);
+  }
+
+  .logo-card.dark .logo-badge .badge-flea {
+    color: var(--cream);
+  }
+
+  .logo-card.dark .logo-badge .badge-the,
+  .logo-card.dark .logo-badge .badge-top-text,
+  .logo-card.dark .logo-badge .badge-bottom-text {
+    color: rgba(245, 240, 232, 0.5);
+  }
+
+  /* Inline variant */
+  .logo-inline {
+    font-family: 'Anton', sans-serif;
+    font-size: 36px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .logo-inline .inline-the {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: var(--warm-grey);
+  }
+
+  .logo-card.dark .logo-inline {
+    color: var(--cream);
+  }
+
+  .logo-card.dark .logo-inline .inline-the {
+    color: rgba(245, 240, 232, 0.5);
+  }
+
+  /* Clear space & min size */
+  .clear-space-demo {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .clear-space-box {
+    border: 1px solid var(--light-grey);
+    padding: 48px;
+    text-align: center;
+  }
+
+  .clear-space-box .cs-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .clear-space-visual {
+    display: inline-block;
+    position: relative;
+    padding: 24px;
+    border: 1px dashed var(--rust);
+  }
+
+  .clear-space-visual::before {
+    content: 'X';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    color: var(--rust);
+  }
+
+  .clear-space-visual .logo-primary {
+    transform: scale(0.6);
+    transform-origin: center;
+  }
+
+  .min-size-visual {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .min-size-item {
+    text-align: center;
+  }
+
+  .min-size-item .size-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--warm-grey);
+    margin-top: 12px;
+    display: block;
+  }
+
+  /* =====================
+     SECTION 4: COLORS
+     ===================== */
+  .color-swatches {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .color-swatch {
+    border: 1px solid var(--light-grey);
+    overflow: hidden;
+  }
+
+  .color-swatch .swatch-fill {
+    height: 160px;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+  }
+
+  .color-swatch .swatch-fill .swatch-name-overlay {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .color-swatch .swatch-info {
+    padding: 20px;
+    background: white;
+  }
+
+  .color-swatch .swatch-hex {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--coal);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .color-swatch .swatch-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .color-swatch .swatch-usage {
+    font-size: 12px;
+    color: var(--warm-grey);
+    line-height: 1.6;
+  }
+
+  .color-swatch.primary {
+    grid-column: span 1;
+  }
+
+  .color-swatch.wide {
+    grid-column: span 2;
+  }
+
+  /* Color combinations */
+  .color-combos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 64px;
+  }
+
+  .color-combo {
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--light-grey);
+    position: relative;
+  }
+
+  .color-combo .combo-text {
+    font-family: 'Anton', sans-serif;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .color-combo .combo-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 12px;
+    opacity: 0.5;
+  }
+
+  /* =====================
+     SECTION 5: TYPOGRAPHY
+     ===================== */
+  .type-showcase {
+    margin-top: 48px;
+  }
+
+  .type-family {
+    padding: 48px 0;
+    border-bottom: 1px solid var(--light-grey);
+  }
+
+  .type-family:last-child {
+    border-bottom: none;
+  }
+
+  .type-family-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+  }
+
+  .type-family-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  .type-family-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--warm-grey);
+    text-align: right;
+  }
+
+  .type-sample-anton {
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+  }
+
+  .type-sample-mono {
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .type-sample-body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    max-width: 600px;
+    margin-bottom: 24px;
+  }
+
+  .type-usage-note {
+    font-size: 12px;
+    color: var(--warm-grey);
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  .type-usage-note strong {
+    color: var(--coal);
+    font-weight: 500;
+  }
+
+  /* Type scale */
+  .type-scale {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid var(--light-grey);
+  }
+
+  .type-scale-row {
+    display: flex;
+    align-items: baseline;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--light-grey);
+    gap: 24px;
+  }
+
+  .type-scale-row:last-child {
+    border-bottom: none;
+  }
+
+  .scale-meta {
+    flex: 0 0 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .scale-size {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--coal);
+  }
+
+  .scale-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+  }
+
+  .scale-sample {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  /* =====================
+     SECTION 6: PHOTOGRAPHY
+     ===================== */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 280px 280px;
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .photo-card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    border: 1px solid var(--light-grey);
+  }
+
+  .photo-card.span-2 {
+    grid-column: span 2;
+  }
+
+  .photo-card .photo-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .photo-card .photo-label {
+    position: relative;
+    z-index: 1;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: white;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+
+  .photo-card .photo-type {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 1;
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: white;
+    opacity: 0.6;
+  }
+
+  .photo-direction {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .photo-rule {
+    text-align: center;
+    padding: 24px 16px;
+    border: 1px solid var(--light-grey);
+  }
+
+  .photo-rule .rule-icon {
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    color: var(--rust);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .photo-rule .rule-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--coal);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .photo-rule .rule-desc {
+    font-size: 11px;
+    color: var(--warm-grey);
+    line-height: 1.5;
+  }
+
+  /* =====================
+     SECTION 7: TONE OF VOICE
+     ===================== */
+  .voice-hero-quote {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(32px, 5vw, 56px);
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin: 48px 0;
+    max-width: 700px;
+    color: var(--coal);
+  }
+
+  .voice-hero-quote em {
+    color: var(--rust);
+    font-style: normal;
+  }
+
+  .voice-attributes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .voice-attr {
+    padding: 32px;
+    border: 1px solid var(--light-grey);
+  }
+
+  .voice-attr .attr-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 20px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .voice-attr .attr-desc {
+    font-size: 13px;
+    color: var(--warm-grey);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .voice-attr .attr-example {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--coal);
+    padding: 12px 16px;
+    background: var(--cream);
+    border-left: 2px solid var(--rust);
+    line-height: 1.6;
+  }
+
+  .voice-examples {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid var(--light-grey);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .voice-example-block .ve-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .voice-example-block .ve-item {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--light-grey);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .voice-example-block .ve-item:last-child {
+    border-bottom: none;
+  }
+
+  .voice-example-block .ve-lang {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--kraft);
+    flex-shrink: 0;
+    width: 24px;
+  }
+
+  .voice-example-block .ve-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--coal);
+  }
+
+  /* =====================
+     SECTION 8: APPLICATIONS
+     ===================== */
+  .applications-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .app-card {
+    border: 1px solid var(--light-grey);
+    overflow: hidden;
+  }
+
+  .app-card .app-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--light-grey);
+    background: white;
+  }
+
+  .app-card .app-preview {
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+    position: relative;
+  }
+
+  /* Business card */
+  .biz-card-front,
+  .biz-card-back {
+    width: 240px;
+    height: 144px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    position: relative;
+  }
+
+  .biz-cards-wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .biz-card-front {
+    background: var(--coal);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 16px;
+  }
+
+  .biz-card-front .bc-the {
+    font-family: 'Space Mono', monospace;
+    font-size: 5px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.4);
+    margin-bottom: 1px;
+  }
+
+  .biz-card-front .bc-flea {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    text-transform: uppercase;
+    color: var(--cream);
+    line-height: 0.85;
+  }
+
+  .biz-card-front .bc-ro {
+    font-family: 'Space Mono', monospace;
+    font-size: 5px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.3);
+    align-self: flex-end;
+    margin-top: 4px;
+  }
+
+  .biz-card-front .bc-accent {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    background: var(--rust);
+  }
+
+  .biz-card-back {
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    border: 1px solid var(--light-grey);
+  }
+
+  .biz-card-back .bc-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--coal);
+  }
+
+  .biz-card-back .bc-role {
+    font-family: 'Space Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    margin-top: 2px;
+  }
+
+  .biz-card-back .bc-contact {
+    font-family: 'Space Mono', monospace;
+    font-size: 6px;
+    line-height: 1.8;
+    color: var(--warm-grey);
+  }
+
+  .biz-card-back .bc-website {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    color: var(--rust);
+    letter-spacing: 1px;
+  }
+
+  /* Instagram post */
+  .ig-post {
+    width: 280px;
+    height: 280px;
+    background: var(--coal);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+  }
+
+  .ig-post .ig-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 8px;
+  }
+
+  .ig-post .ig-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 36px;
+    text-transform: uppercase;
+    color: var(--cream);
+    line-height: 0.9;
+    margin-bottom: 12px;
+  }
+
+  .ig-post .ig-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.5);
+  }
+
+  .ig-post .ig-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(245, 240, 232, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ig-post .ig-badge-the {
+    font-family: 'Space Mono', monospace;
+    font-size: 4px;
+    letter-spacing: 2px;
+    color: rgba(245, 240, 232, 0.4);
+  }
+
+  .ig-post .ig-badge-flea {
+    font-family: 'Anton', sans-serif;
+    font-size: 14px;
+    color: var(--cream);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .ig-post .ig-rust-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--rust);
+  }
+
+  /* Vendor badge */
+  .vendor-badge {
+    width: 200px;
+    height: 280px;
+    background: var(--cream);
+    border: 1px solid var(--light-grey);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  .vendor-badge .vb-header {
+    background: var(--coal);
+    padding: 20px 16px 16px;
+    text-align: center;
+  }
+
+  .vendor-badge .vb-the {
+    font-family: 'Space Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.4);
+  }
+
+  .vendor-badge .vb-flea {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    color: var(--cream);
+    text-transform: uppercase;
+    line-height: 0.85;
+  }
+
+  .vendor-badge .vb-edition {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-top: 8px;
+  }
+
+  .vendor-badge .vb-photo-area {
+    height: 100px;
+    background: var(--light-grey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .vendor-badge .vb-photo-area span {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+  }
+
+  .vendor-badge .vb-info {
+    padding: 16px;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .vendor-badge .vb-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--coal);
+    margin-bottom: 4px;
+  }
+
+  .vendor-badge .vb-category {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    margin-bottom: 12px;
+  }
+
+  .vendor-badge .vb-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--rust);
+  }
+
+  .vendor-badge .vb-footer {
+    padding: 8px;
+    border-top: 1px solid var(--light-grey);
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--kraft);
+  }
+
+  /* Poster concept */
+  .poster-concept {
+    width: 220px;
+    height: 320px;
+    background: var(--coal);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  }
+
+  .poster-concept .poster-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .poster-concept .poster-edition {
+    font-family: 'Space Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  .poster-concept .poster-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.4);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  .poster-concept .poster-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .poster-concept .poster-the {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.3);
+    margin-bottom: 2px;
+  }
+
+  .poster-concept .poster-flea {
+    font-family: 'Anton', sans-serif;
+    font-size: 60px;
+    text-transform: uppercase;
+    color: var(--cream);
+    line-height: 0.85;
+    letter-spacing: -1px;
+  }
+
+  .poster-concept .poster-tagline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 8px;
+    color: rgba(245, 240, 232, 0.5);
+    margin-top: 12px;
+    max-width: 140px;
+    line-height: 1.6;
+  }
+
+  .poster-concept .poster-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .poster-concept .poster-location {
+    font-family: 'Space Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.4);
+    line-height: 1.8;
+  }
+
+  .poster-concept .poster-rust-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--rust);
+  }
+
+  /* Sticker concepts */
+  .stickers-wrapper {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .sticker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .sticker-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sticker-circle.coal-bg {
+    background: var(--coal);
+  }
+
+  .sticker-circle.rust-bg {
+    background: var(--rust);
+  }
+
+  .sticker-circle.sage-bg {
+    background: var(--sage);
+  }
+
+  .sticker-rect {
+    padding: 12px 20px;
+    border: 2px solid var(--coal);
+  }
+
+  .sticker-rect .sr-the {
+    font-family: 'Space Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+  }
+
+  .sticker-rect .sr-flea {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    color: var(--coal);
+    line-height: 0.85;
+  }
+
+  .sticker-rect .sr-ro {
+    font-family: 'Space Mono', monospace;
+    font-size: 5px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    text-align: right;
+  }
+
+  .sticker-pill {
+    padding: 8px 20px;
+    border-radius: 100px;
+    background: var(--coal);
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+
+  /* =====================
+     SECTION 9: DO'S & DON'TS
+     ===================== */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .rule-card {
+    border: 1px solid var(--light-grey);
+    overflow: hidden;
+  }
+
+  .rule-card .rule-header {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .rule-card .rule-header.do-header {
+    background: var(--sage);
+    color: var(--cream);
+  }
+
+  .rule-card .rule-header.dont-header {
+    background: var(--rust);
+    color: var(--cream);
+  }
+
+  .rule-card .rule-preview {
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    background: white;
+  }
+
+  .rule-card .rule-description {
+    padding: 16px 20px;
+    font-size: 12px;
+    color: var(--warm-grey);
+    line-height: 1.5;
+    border-top: 1px solid var(--light-grey);
+    background: white;
+  }
+
+  /* Stretched logo simulation */
+  .logo-stretched {
+    transform: scaleX(1.6);
+  }
+
+  .logo-gradient-fill .logo-flea {
+    background: linear-gradient(135deg, var(--rust), var(--sage));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .logo-off-color .logo-flea {
+    color: #FF69B4 !important;
+  }
+
+  .logo-off-color .logo-the,
+  .logo-off-color .logo-ro {
+    color: #FF69B4 !important;
+    opacity: 0.6;
+  }
+
+  .logo-shadow .logo-flea {
+    text-shadow: 4px 4px 0 var(--rust);
+  }
+
+  /* =====================
+     FOOTER
+     ===================== */
+  .brand-footer {
+    padding: 80px 60px;
+    text-align: center;
+    border-top: 1px solid var(--light-grey);
+  }
+
+  .brand-footer .footer-logo .f-the {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--kraft);
+    display: block;
+  }
+
+  .brand-footer .footer-logo .f-flea {
+    font-family: 'Anton', sans-serif;
+    font-size: 48px;
+    text-transform: uppercase;
+    color: var(--coal);
+    display: block;
+    line-height: 0.85;
+  }
+
+  .brand-footer .footer-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--kraft);
+    margin-top: 32px;
+  }
+
+  .brand-footer .footer-copy {
+    font-size: 11px;
+    color: var(--warm-grey);
+    margin-top: 8px;
+  }
+
+  /* =====================
+     RESPONSIVE
+     ===================== */
+  @media (max-width: 900px) {
+    .page-section {
+      padding: 60px 32px;
+    }
+
+    .brand-nav {
+      padding: 0 24px;
+    }
+
+    .brand-nav ul {
+      display: none;
+    }
+
+    .brand-story .story-columns {
+      grid-template-columns: 1fr;
+    }
+
+    .brand-story .story-values {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .logo-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .color-swatches {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .color-swatch.wide {
+      grid-column: span 1;
+    }
+
+    .color-combos {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .photo-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+
+    .photo-card.span-2 {
+      grid-column: span 1;
+    }
+
+    .photo-direction {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .voice-attributes {
+      grid-template-columns: 1fr;
+    }
+
+    .voice-examples {
+      grid-template-columns: 1fr;
+    }
+
+    .applications-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .rules-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .clear-space-demo {
+      grid-template-columns: 1fr;
+    }
+
+    .cover-bottom {
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .biz-cards-wrapper {
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .page-section {
+      padding: 48px 20px;
+    }
+
+    .section-title {
+      font-size: 36px;
+    }
+
+    .brand-story .story-values {
+      grid-template-columns: 1fr;
+    }
+
+    .color-swatches {
+      grid-template-columns: 1fr;
+    }
+
+    .color-combos {
+      grid-template-columns: 1fr;
+    }
+
+    .photo-direction {
+      grid-template-columns: 1fr;
+    }
+
+    .type-scale-row {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .scale-meta {
+      flex: none;
+    }
+  }
+
+  /* Print styles */
+  @media print {
+    .brand-nav { display: none; }
+    .page-section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================
+     NAVIGATION
+     ============================ -->
+<nav class="brand-nav">
+  <a href="#cover" class="nav-logo">THE FLEA <span>Brand Guidelines</span></a>
+  <ul>
+    <li><a href="#story">Story</a></li>
+    <li><a href="#logo">Logo</a></li>
+    <li><a href="#colors">Farben</a></li>
+    <li><a href="#typography">Typografie</a></li>
+    <li><a href="#photography">Fotografie</a></li>
+    <li><a href="#voice">Stimme</a></li>
+    <li><a href="#applications">Anwendung</a></li>
+    <li><a href="#rules">Regeln</a></li>
+  </ul>
+</nav>
+
+<!-- ============================
+     SECTION 1: COVER
+     ============================ -->
+<section class="cover" id="cover">
+  <div class="cover-logo">
+    <span class="the">THE</span>
+    <span class="flea">FLEA</span>
+    <span class="rosenheim">Rosenheim</span>
+  </div>
+  <div class="cover-subtitle">Brand Identity Guidelines &mdash; 2026</div>
+  <div class="cover-rule"></div>
+  <div class="cover-bottom">
+    <div class="cover-bottom-left">Confidential</div>
+    <div class="cover-bottom-right">Wild Projects &middot; Rosenheim, DE</div>
+  </div>
+</section>
+
+<!-- ============================
+     SECTION 2: BRAND STORY
+     ============================ -->
+<section class="page-section brand-story" id="story">
+  <span class="section-label">01 &mdash; Markenstory</span>
+  <h2 class="section-title">Warum wir das machen</h2>
+  <p class="section-description">Was THE FLEA antreibt und wofur es steht.</p>
+
+  <div class="story-hero" style="margin-top: 48px;">
+    THE FLEA ist kein Flohmarkt.<br>
+    Es ist ein <em>kuratiertes Erlebnis.</em>
+  </div>
+
+  <div class="story-columns">
+    <div>
+      <p>THE FLEA bringt American-style Flea Market Kultur nach Rosenheim &mdash; kuratiert, gestaltet, mit Haltung. Kein zufalliges Sammelsurium, sondern eine bewusste Auswahl an Vintage, Handmade, Local Food und Live Music.</p>
+      <p>Wir glauben daran, dass jedes Stuck eine Geschichte hat. Und dass die Art, wie Dinge prasentiert werden, einen Unterschied macht. THE FLEA ist der Ort, an dem sich Rosenheims kreative Community trifft.</p>
+    </div>
+    <div>
+      <p>American-style curated market meets European design sensibility. Every vendor is hand-picked. Every corner is considered. Every edition is unique.</p>
+      <p>THE FLEA ist mehr als ein Event &mdash; es ist eine Plattform fur Menschen, die Dinge mit Leidenschaft machen. Ein Treffpunkt fur alle, die Qualitat uber Quantitat stellen.</p>
+    </div>
+  </div>
+
+  <div class="story-values">
+    <div class="value-item">
+      <span class="value-number">01</span>
+      <span class="value-label">Kuratiert</span>
+      <span class="value-desc">Jeder Vendor wird handverlesen. Qualitat vor Masse.</span>
+    </div>
+    <div class="value-item">
+      <span class="value-number">02</span>
+      <span class="value-label">Authentisch</span>
+      <span class="value-desc">Echte Menschen, echte Produkte, echte Geschichten.</span>
+    </div>
+    <div class="value-item">
+      <span class="value-number">03</span>
+      <span class="value-label">Gestaltet</span>
+      <span class="value-desc">Von der Beschilderung bis zum Layout &mdash; alles durchdacht.</span>
+    </div>
+    <div class="value-item">
+      <span class="value-number">04</span>
+      <span class="value-label">Lokal</span>
+      <span class="value-desc">Rosenheim ist Heimat. Wir starken die lokale Kreativszene.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     SECTION 3: LOGO SYSTEM
+     ============================ -->
+<section class="page-section" id="logo">
+  <span class="section-label">02 &mdash; Logo System</span>
+  <h2 class="section-title">Unser Zeichen</h2>
+  <p class="section-description">Das Logo existiert in drei Varianten: Primary (gestapelt), Badge (rund) und Inline. Jede Variante hat klare Einsatzregeln.</p>
+
+  <div class="logo-grid">
+    <!-- Primary on light -->
+    <div class="logo-card">
+      <span class="card-label">Primary &mdash; Light</span>
+      <div class="logo-primary">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">Rosenheim</span>
+      </div>
+    </div>
+
+    <!-- Primary on dark -->
+    <div class="logo-card dark">
+      <span class="card-label">Primary &mdash; Dark</span>
+      <div class="logo-primary">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">Rosenheim</span>
+      </div>
+    </div>
+
+    <!-- Badge on light -->
+    <div class="logo-card">
+      <span class="card-label">Badge Variant</span>
+      <div class="logo-badge">
+        <span class="badge-top-text">Edition 01</span>
+        <span class="badge-the">THE</span>
+        <span class="badge-flea">FLEA</span>
+        <span class="badge-bottom-text">Rosenheim</span>
+      </div>
+    </div>
+
+    <!-- Badge on dark -->
+    <div class="logo-card dark">
+      <span class="card-label">Badge &mdash; Dark</span>
+      <div class="logo-badge">
+        <span class="badge-top-text">Edition 01</span>
+        <span class="badge-the">THE</span>
+        <span class="badge-flea">FLEA</span>
+        <span class="badge-bottom-text">Rosenheim</span>
+      </div>
+    </div>
+
+    <!-- Inline on kraft -->
+    <div class="logo-card kraft-bg">
+      <span class="card-label">Inline &mdash; Kraft</span>
+      <div class="logo-inline">
+        <span class="inline-the">THE</span>
+        FLEA
+      </div>
+    </div>
+
+    <!-- Primary on sage -->
+    <div class="logo-card sage-bg">
+      <span class="card-label">Primary &mdash; Sage</span>
+      <div class="logo-primary">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">Rosenheim</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clear Space & Minimum Size -->
+  <div class="clear-space-demo">
+    <div class="clear-space-box">
+      <span class="cs-label">Clear Space &mdash; Minimum Freiraum</span>
+      <div class="clear-space-visual">
+        <div class="logo-primary" style="pointer-events:none;">
+          <span class="logo-the" style="font-size:7px;letter-spacing:5px;">THE</span>
+          <span class="logo-flea" style="font-size:42px;">FLEA</span>
+          <span class="logo-ro" style="font-size:6px;letter-spacing:4px;">Rosenheim</span>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--warm-grey);margin-top:16px;line-height:1.6;">
+        Der Freiraum um das Logo entspricht mindestens der Hohe des Buchstabens "F" in FLEA (= X). Dieser Bereich muss frei von Text, Grafik und Kanten bleiben.
+      </p>
+    </div>
+    <div class="clear-space-box">
+      <span class="cs-label">Minimum Size</span>
+      <div class="min-size-visual">
+        <div class="min-size-item">
+          <div class="logo-primary" style="pointer-events:none;">
+            <span class="logo-the" style="font-size:5px;letter-spacing:3px;">THE</span>
+            <span class="logo-flea" style="font-size:24px;">FLEA</span>
+            <span class="logo-ro" style="font-size:4px;letter-spacing:2px;">Rosenheim</span>
+          </div>
+          <span class="size-label">Print: 20mm</span>
+        </div>
+        <div class="min-size-item">
+          <div class="logo-primary" style="pointer-events:none;">
+            <span class="logo-the" style="font-size:3px;letter-spacing:2px;">THE</span>
+            <span class="logo-flea" style="font-size:16px;">FLEA</span>
+            <span class="logo-ro" style="font-size:3px;letter-spacing:1px;">Rosenheim</span>
+          </div>
+          <span class="size-label">Digital: 48px</span>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--warm-grey);margin-top:16px;line-height:1.6;">
+        Unter diesen Grossen wird das Logo unleserlich. Bei kleinen Anwendungen die Inline-Variante oder nur "FLEA" als Wortmarke verwenden.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     SECTION 4: COLOR PALETTE
+     ============================ -->
+<section class="page-section" id="colors">
+  <span class="section-label">03 &mdash; Farbpalette</span>
+  <h2 class="section-title">Unsere Farben</h2>
+  <p class="section-description">Eine warme, erdige Palette, die Vintage-Charakter mit moderner Klarheit verbindet. Coal und Cream bilden immer die Basis.</p>
+
+  <div class="color-swatches">
+    <!-- Coal -->
+    <div class="color-swatch">
+      <div class="swatch-fill" style="background: #1A1A1A;">
+        <span class="swatch-name-overlay" style="color: var(--cream);">Coal</span>
+      </div>
+      <div class="swatch-info">
+        <span class="swatch-hex">#1A1A1A</span>
+        <span class="swatch-name">Coal &mdash; Primary Dark</span>
+        <span class="swatch-usage">Hintergrunde, Text, Logo. Ersetzt reines Schwarz fur einen warmeren, wertigeren Eindruck.</span>
+      </div>
+    </div>
+
+    <!-- Cream -->
+    <div class="color-swatch">
+      <div class="swatch-fill" style="background: #F5F0E8; border-bottom: 1px solid var(--light-grey);">
+        <span class="swatch-name-overlay" style="color: var(--coal);">Cream</span>
+      </div>
+      <div class="swatch-info">
+        <span class="swatch-hex">#F5F0E8</span>
+        <span class="swatch-name">Cream &mdash; Primary Light</span>
+        <span class="swatch-usage">Hintergrunde, Flachen, Papierersatz. Die "Leinwand" aller THE FLEA Materialien.</span>
+      </div>
+    </div>
+
+    <!-- Rust -->
+    <div class="color-swatch">
+      <div class="swatch-fill" style="background: #D4572A;">
+        <span class="swatch-name-overlay" style="color: var(--cream);">Rust</span>
+      </div>
+      <div class="swatch-info">
+        <span class="swatch-hex">#D4572A</span>
+        <span class="swatch-name">Rust &mdash; Accent</span>
+        <span class="swatch-usage">CTAs, Highlights, Akzente, Energie. Sparsam einsetzen &mdash; Rust ist der Blickfang, nie der Hintergrund.</span>
+      </div>
+    </div>
+
+    <!-- Sage -->
+    <div class="color-swatch">
+      <div class="swatch-fill" style="background: #3A6B5A;">
+        <span class="swatch-name-overlay" style="color: var(--cream);">Sage</span>
+      </div>
+      <div class="swatch-info">
+        <span class="swatch-hex">#3A6B5A</span>
+        <span class="swatch-name">Sage &mdash; Secondary</span>
+        <span class="swatch-usage">Natur, Ruhe, Vertrauen. Fur sekundare Elemente, Badges, Kategorien, erganzende Flachen.</span>
+      </div>
+    </div>
+
+    <!-- Kraft -->
+    <div class="color-swatch">
+      <div class="swatch-fill" style="background: #C4B091;">
+        <span class="swatch-name-overlay" style="color: var(--coal);">Kraft</span>
+      </div>
+      <div class="swatch-info">
+        <span class="swatch-hex">#C4B091</span>
+        <span class="swatch-name">Kraft &mdash; Neutral Warm</span>
+        <span class="swatch-usage">Warme, Papier-Feeling, Erdigkeit. Tags, Hintergrunde, dezente UI-Elemente.</span>
+      </div>
+    </div>
+
+    <!-- Warm Grey -->
+    <div class="color-swatch">
+      <div class="swatch-fill" style="background: #8A8278;">
+        <span class="swatch-name-overlay" style="color: var(--cream);">Warm Grey</span>
+      </div>
+      <div class="swatch-info">
+        <span class="swatch-hex">#8A8278</span>
+        <span class="swatch-name">Warm Grey &mdash; Neutral</span>
+        <span class="swatch-usage">Sekundarer Text, Labels, Beschriftungen, dezente Linien. Der ruhige Begleiter der Palette.</span>
+      </div>
+    </div>
+
+    <!-- Light Grey -->
+    <div class="color-swatch wide">
+      <div class="swatch-fill" style="background: #E8E3DB; border-bottom: 1px solid #d5d0c8;">
+        <span class="swatch-name-overlay" style="color: var(--coal);">Light Grey</span>
+      </div>
+      <div class="swatch-info">
+        <span class="swatch-hex">#E8E3DB</span>
+        <span class="swatch-name">Light Grey &mdash; Border &amp; Divider</span>
+        <span class="swatch-usage">Trennlinien, Borders, Karten-Hintergrunde. Subtil genug, um Struktur zu schaffen, ohne zu dominieren.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Color Combinations -->
+  <div style="margin-top:64px;">
+    <span class="section-label">Farbkombinationen</span>
+    <p class="section-description" style="margin-top:8px;">Zugelassene Paarungen fur Text und Hintergrund.</p>
+  </div>
+
+  <div class="color-combos">
+    <div class="color-combo" style="background: var(--cream);">
+      <span class="combo-text" style="color: var(--coal);">THE FLEA</span>
+      <span class="combo-label" style="color: var(--warm-grey);">Coal on Cream</span>
+    </div>
+    <div class="color-combo" style="background: var(--coal);">
+      <span class="combo-text" style="color: var(--cream);">THE FLEA</span>
+      <span class="combo-label" style="color: rgba(245,240,232,0.4);">Cream on Coal</span>
+    </div>
+    <div class="color-combo" style="background: var(--coal);">
+      <span class="combo-text" style="color: var(--rust);">THE FLEA</span>
+      <span class="combo-label" style="color: rgba(245,240,232,0.4);">Rust on Coal</span>
+    </div>
+    <div class="color-combo" style="background: var(--cream);">
+      <span class="combo-text" style="color: var(--sage);">THE FLEA</span>
+      <span class="combo-label" style="color: var(--warm-grey);">Sage on Cream</span>
+    </div>
+    <div class="color-combo" style="background: var(--kraft);">
+      <span class="combo-text" style="color: var(--coal);">THE FLEA</span>
+      <span class="combo-label" style="color: rgba(26,26,26,0.4);">Coal on Kraft</span>
+    </div>
+    <div class="color-combo" style="background: var(--sage);">
+      <span class="combo-text" style="color: var(--cream);">THE FLEA</span>
+      <span class="combo-label" style="color: rgba(245,240,232,0.4);">Cream on Sage</span>
+    </div>
+    <div class="color-combo" style="background: var(--cream);">
+      <span class="combo-text" style="color: var(--rust);">THE FLEA</span>
+      <span class="combo-label" style="color: var(--warm-grey);">Rust on Cream</span>
+    </div>
+    <div class="color-combo" style="background: var(--rust);">
+      <span class="combo-text" style="color: var(--cream);">THE FLEA</span>
+      <span class="combo-label" style="color: rgba(245,240,232,0.4);">Cream on Rust</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     SECTION 5: TYPOGRAPHY
+     ============================ -->
+<section class="page-section" id="typography">
+  <span class="section-label">04 &mdash; Typografie</span>
+  <h2 class="section-title">Unsere Schriften</h2>
+  <p class="section-description">Drei Schriftfamilien mit klaren Rollen. Anton schreit, Space Mono organisiert, DM Sans erzahlt.</p>
+
+  <div class="type-showcase">
+    <!-- Anton -->
+    <div class="type-family">
+      <div class="type-family-header">
+        <span class="type-family-name">Anton &mdash; Display</span>
+        <span class="type-family-meta">Google Fonts &middot; Regular 400</span>
+      </div>
+      <div class="type-sample-anton">
+        Finden statt suchen.
+      </div>
+      <div class="type-sample-anton" style="font-size:36px;color:var(--rust);">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+        0123456789
+      </div>
+      <p class="type-usage-note">
+        <strong>Einsatz:</strong> Headlines, Poster-Titel, Hero-Texte, Logo. Immer Uppercase. Nie fur Fliesstext. Anton ist laut &mdash; das ist Absicht. Sparsamkeit verstarkt die Wirkung.
+      </p>
+    </div>
+
+    <!-- Space Mono -->
+    <div class="type-family">
+      <div class="type-family-header">
+        <span class="type-family-name">Space Mono &mdash; Labels</span>
+        <span class="type-family-meta">Google Fonts &middot; Regular 400 &middot; Bold 700</span>
+      </div>
+      <div class="type-sample-mono">
+        EDITION 01 &mdash; 15. JUNI 2026<br>
+        VINTAGE &middot; HANDMADE &middot; LOCAL FOOD &middot; LIVE MUSIC
+      </div>
+      <div class="type-sample-mono" style="font-size:14px;color:var(--warm-grey);">
+        abcdefghijklmnopqrstuvwxyz<br>
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+        0123456789 !@#$%&amp;*()
+      </div>
+      <p class="type-usage-note">
+        <strong>Einsatz:</strong> Labels, Navigation, Datum/Uhrzeit, Preise, Kategorien, Section Tags, Monospaced Data. Oft in Uppercase mit Letterspacing. Gibt dem Design technische Prazision und Vintage-Charakter.
+      </p>
+    </div>
+
+    <!-- DM Sans -->
+    <div class="type-family">
+      <div class="type-family-header">
+        <span class="type-family-name">DM Sans &mdash; Body</span>
+        <span class="type-family-meta">Google Fonts &middot; Light 300 &middot; Regular 400 &middot; Medium 500 &middot; Bold 700</span>
+      </div>
+      <div class="type-sample-body">
+        THE FLEA bringt American-style Flea Market Kultur nach Rosenheim &mdash; kuratiert, gestaltet, mit Haltung.
+      </div>
+      <div class="type-sample-body" style="font-size:14px;color:var(--warm-grey);">
+        Jedes Stuck hat eine Geschichte. Und die Art, wie wir diese Geschichten prasentieren, macht den Unterschied. Deshalb kuratieren wir jede Edition sorgfaltig &mdash; von den Vendors uber das Layout bis zur Musik.
+      </div>
+      <p class="type-usage-note">
+        <strong>Einsatz:</strong> Fliesstext, Beschreibungen, Vendor-Infos, Website-Body, E-Mails. Die lesbare, freundliche Stimme von THE FLEA. Immer Mixed Case.
+      </p>
+    </div>
+  </div>
+
+  <!-- Type Scale -->
+  <div class="type-scale">
+    <span class="section-label">Type Scale</span>
+    <p class="section-description" style="margin-top:8px;margin-bottom:32px;">Konsistente Grossen fur alle Medien.</p>
+
+    <div class="type-scale-row">
+      <div class="scale-meta">
+        <span class="scale-size">72px</span>
+        <span class="scale-name">Display</span>
+      </div>
+      <div class="scale-sample" style="font-family:'Anton',sans-serif;font-size:72px;text-transform:uppercase;line-height:1;">THE FLEA</div>
+    </div>
+
+    <div class="type-scale-row">
+      <div class="scale-meta">
+        <span class="scale-size">48px</span>
+        <span class="scale-name">Heading 1</span>
+      </div>
+      <div class="scale-sample" style="font-family:'Anton',sans-serif;font-size:48px;text-transform:uppercase;line-height:1;">Kuratiert, nicht zufallig</div>
+    </div>
+
+    <div class="type-scale-row">
+      <div class="scale-meta">
+        <span class="scale-size">32px</span>
+        <span class="scale-name">Heading 2</span>
+      </div>
+      <div class="scale-sample" style="font-family:'Anton',sans-serif;font-size:32px;text-transform:uppercase;line-height:1;">Vintage &amp; Handmade</div>
+    </div>
+
+    <div class="type-scale-row">
+      <div class="scale-meta">
+        <span class="scale-size">24px</span>
+        <span class="scale-name">Heading 3</span>
+      </div>
+      <div class="scale-sample" style="font-family:'Anton',sans-serif;font-size:24px;text-transform:uppercase;line-height:1;">Local Food &amp; Live Music</div>
+    </div>
+
+    <div class="type-scale-row">
+      <div class="scale-meta">
+        <span class="scale-size">16px</span>
+        <span class="scale-name">Body</span>
+      </div>
+      <div class="scale-sample" style="font-family:'DM Sans',sans-serif;font-size:16px;">Jedes Stuck hat eine Geschichte. Finden statt suchen.</div>
+    </div>
+
+    <div class="type-scale-row">
+      <div class="scale-meta">
+        <span class="scale-size">13px</span>
+        <span class="scale-name">Small</span>
+      </div>
+      <div class="scale-sample" style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--warm-grey);">Einlass ab 10 Uhr. Hunde willkommen. Kein Eintritt.</div>
+    </div>
+
+    <div class="type-scale-row">
+      <div class="scale-meta">
+        <span class="scale-size">10px</span>
+        <span class="scale-name">Micro</span>
+      </div>
+      <div class="scale-sample" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-grey);">Edition 01 &middot; 15. Juni 2026 &middot; Rosenheim</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     SECTION 6: PHOTOGRAPHY
+     ============================ -->
+<section class="page-section" id="photography">
+  <span class="section-label">05 &mdash; Fotografie</span>
+  <h2 class="section-title">Bildsprache</h2>
+  <p class="section-description">Warm, golden hour, analog feel. Leicht entsattigt, nie uberbearbeitet. Die Bilder sollen sich anfuhlen wie eine Erinnerung an einen perfekten Samstagnachmittag.</p>
+
+  <div class="photo-grid">
+    <!-- Overhead market shot -->
+    <div class="photo-card span-2">
+      <div class="photo-gradient" style="background: linear-gradient(135deg, #8A7560 0%, #C4A67D 40%, #D4A55A 70%, #A67D52 100%);"></div>
+      <span class="photo-type">Hero</span>
+      <span class="photo-label">Overhead Market Shot &mdash; Totale von oben, buntes Treiben, warmes Licht</span>
+    </div>
+
+    <!-- Detail: vintage objects -->
+    <div class="photo-card">
+      <div class="photo-gradient" style="background: linear-gradient(160deg, #6B5E4F 0%, #8A7A68 50%, #A69279 100%);"></div>
+      <span class="photo-type">Detail</span>
+      <span class="photo-label">Vintage Objects &mdash; Nahaufnahme, Textur, Patina</span>
+    </div>
+
+    <!-- People browsing -->
+    <div class="photo-card">
+      <div class="photo-gradient" style="background: linear-gradient(145deg, #7A8B7E 0%, #9BA88E 50%, #B8C4A2 100%);"></div>
+      <span class="photo-type">Lifestyle</span>
+      <span class="photo-label">People Browsing &mdash; Authentische Momente, keine gestellten Posen</span>
+    </div>
+
+    <!-- Food & drinks -->
+    <div class="photo-card">
+      <div class="photo-gradient" style="background: linear-gradient(130deg, #B87A4A 0%, #D4945C 50%, #E8B87A 100%);"></div>
+      <span class="photo-type">Food</span>
+      <span class="photo-label">Food &amp; Drinks &mdash; Street Food Close-up, dampfend, einladend</span>
+    </div>
+
+    <!-- Vendor portrait -->
+    <div class="photo-card">
+      <div class="photo-gradient" style="background: linear-gradient(150deg, #5A5047 0%, #7A6E62 50%, #9A8E80 100%);"></div>
+      <span class="photo-type">Portrait</span>
+      <span class="photo-label">Vendor Portrait &mdash; Echte Gesichter, beim Arbeiten, stolz</span>
+    </div>
+
+    <!-- Atmosphere -->
+    <div class="photo-card">
+      <div class="photo-gradient" style="background: linear-gradient(140deg, #4A4540 0%, #6B6050 40%, #D4A55A 80%, #E8C87A 100%);"></div>
+      <span class="photo-type">Atmosphere</span>
+      <span class="photo-label">Lights at Dusk &mdash; Lichterketten, Dammerung, magische Stimmung</span>
+    </div>
+  </div>
+
+  <!-- Photography rules -->
+  <div class="photo-direction">
+    <div class="photo-rule">
+      <span class="rule-icon">//</span>
+      <span class="rule-label">Warm Tones</span>
+      <span class="rule-desc">Immer warmtonig. Kein kuhles Blau, kein klinisches Weiss.</span>
+    </div>
+    <div class="photo-rule">
+      <span class="rule-icon">&mdash;</span>
+      <span class="rule-label">Desaturated</span>
+      <span class="rule-desc">Leicht entsattigt. Farben durfen atmen, nie schreien.</span>
+    </div>
+    <div class="photo-rule">
+      <span class="rule-icon">O</span>
+      <span class="rule-label">Analog Feel</span>
+      <span class="rule-desc">Leichtes Filmkorn, weiche Schatten, naturliches Licht.</span>
+    </div>
+    <div class="photo-rule">
+      <span class="rule-icon">+</span>
+      <span class="rule-label">Authentic</span>
+      <span class="rule-desc">Keine Stock-Fotos. Keine gestellten Szenen. Echt oder gar nicht.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     SECTION 7: TONE OF VOICE
+     ============================ -->
+<section class="page-section" id="voice">
+  <span class="section-label">06 &mdash; Stimme &amp; Tonalitat</span>
+  <h2 class="section-title">So klingen wir</h2>
+  <p class="section-description">Direkt, warm, selbstbewusst &mdash; nie ubertrieben. Wir reden wie ein guter Freund, der weiss, was er tut.</p>
+
+  <div class="voice-hero-quote">
+    Finden statt <em>suchen.</em>
+  </div>
+
+  <div class="voice-attributes">
+    <div class="voice-attr">
+      <div class="attr-title">Direkt</div>
+      <p class="attr-desc">Kein Drumherumreden. Wir sagen, was Sache ist. Kurze Satze, klare Aussagen.</p>
+      <div class="attr-example">"Kein Ramsch. Kein Mainstream. Kein Zufall."</div>
+    </div>
+    <div class="voice-attr">
+      <div class="attr-title">Warm</div>
+      <p class="attr-desc">Einladend, nicht distanziert. Wir sprechen Menschen an, nicht Zielgruppen.</p>
+      <div class="attr-example">"Komm vorbei. Bleib so lang du willst."</div>
+    </div>
+    <div class="voice-attr">
+      <div class="attr-title">Selbstbewusst</div>
+      <p class="attr-desc">Wir wissen, was wir tun und stehen dazu. Keine Entschuldigungen, keine Ubertreibungen.</p>
+      <div class="attr-example">"Jedes Stuck hat eine Geschichte."</div>
+    </div>
+  </div>
+
+  <div class="voice-examples">
+    <div class="voice-example-block">
+      <span class="ve-label">Headlines &amp; Claims</span>
+      <div class="ve-item">
+        <span class="ve-lang">DE</span>
+        <span class="ve-text">Finden statt suchen.</span>
+      </div>
+      <div class="ve-item">
+        <span class="ve-lang">DE</span>
+        <span class="ve-text">Jedes Stuck hat eine Geschichte.</span>
+      </div>
+      <div class="ve-item">
+        <span class="ve-lang">DE</span>
+        <span class="ve-text">Kein Ramsch. Kein Mainstream. Kein Zufall.</span>
+      </div>
+      <div class="ve-item">
+        <span class="ve-lang">EN</span>
+        <span class="ve-text">Curated, not random.</span>
+      </div>
+      <div class="ve-item">
+        <span class="ve-lang">EN</span>
+        <span class="ve-text">Every piece tells a story.</span>
+      </div>
+      <div class="ve-item">
+        <span class="ve-lang">DE</span>
+        <span class="ve-text">Rosenheims Kreativmarkt.</span>
+      </div>
+    </div>
+    <div class="voice-example-block">
+      <span class="ve-label">Sprache &amp; Regeln</span>
+      <div class="ve-item" style="flex-direction:column;align-items:flex-start;gap:8px;">
+        <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);">Deutsch ist Hauptsprache</span>
+        <span class="ve-text" style="font-size:13px;color:var(--warm-grey);">Alle Fliesstexte, Beschreibungen und offizielle Kommunikation in Deutsch.</span>
+      </div>
+      <div class="ve-item" style="flex-direction:column;align-items:flex-start;gap:8px;">
+        <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);">Englisch als Akzent</span>
+        <span class="ve-text" style="font-size:13px;color:var(--warm-grey);">Event-Namen, Taglines, Labels (z.B. "Edition 01", "THE FLEA", "Curated Market").</span>
+      </div>
+      <div class="ve-item" style="flex-direction:column;align-items:flex-start;gap:8px;">
+        <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);">Duzen, nicht Siezen</span>
+        <span class="ve-text" style="font-size:13px;color:var(--warm-grey);">Wir sprechen unsere Community direkt an. Personlich, nie formell.</span>
+      </div>
+      <div class="ve-item" style="flex-direction:column;align-items:flex-start;gap:8px;">
+        <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);">Keine Ausrufezeichen-Inflation</span>
+        <span class="ve-text" style="font-size:13px;color:var(--warm-grey);">Maximal eines pro Text. Punktuation mit Bedacht. Kraft kommt aus den Worten.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     SECTION 8: APPLICATIONS
+     ============================ -->
+<section class="page-section" id="applications">
+  <span class="section-label">07 &mdash; Anwendungen</span>
+  <h2 class="section-title">So sieht es aus</h2>
+  <p class="section-description">Von der Visitenkarte bis zum Poster &mdash; alle Materialien folgen derselben Gestaltungslogik.</p>
+
+  <div class="applications-grid">
+    <!-- Business Card -->
+    <div class="app-card">
+      <div class="app-label">Visitenkarte</div>
+      <div class="app-preview" style="background: var(--light-grey);">
+        <div class="biz-cards-wrapper">
+          <div class="biz-card-front">
+            <div class="bc-accent"></div>
+            <span class="bc-the">THE</span>
+            <span class="bc-flea">FLEA</span>
+            <span class="bc-ro">Rosenheim</span>
+          </div>
+          <div class="biz-card-back">
+            <div>
+              <div class="bc-name">Max Mustermann</div>
+              <div class="bc-role">Vendor Relations</div>
+            </div>
+            <div class="bc-contact">
+              max@theflea-rosenheim.de<br>
+              +49 176 1234 5678
+            </div>
+            <div class="bc-website">theflea-rosenheim.de</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instagram Post -->
+    <div class="app-card">
+      <div class="app-label">Instagram Post</div>
+      <div class="app-preview" style="background: var(--light-grey);">
+        <div class="ig-post">
+          <div class="ig-badge">
+            <span class="ig-badge-the">THE</span>
+            <span class="ig-badge-flea">FLEA</span>
+          </div>
+          <span class="ig-date">15. Juni 2026</span>
+          <span class="ig-title">Edition<br>Eins</span>
+          <span class="ig-subtitle">Vintage &middot; Handmade &middot; Food &middot; Music</span>
+          <div class="ig-rust-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vendor Badge -->
+    <div class="app-card">
+      <div class="app-label">Vendor Badge</div>
+      <div class="app-preview" style="background: var(--light-grey);">
+        <div class="vendor-badge">
+          <div class="vb-header">
+            <span class="vb-the">THE</span>
+            <span class="vb-flea">FLEA</span>
+            <div class="vb-edition">Edition 01</div>
+          </div>
+          <div class="vb-photo-area">
+            <span>Vendor Photo</span>
+          </div>
+          <div class="vb-info">
+            <div class="vb-name">Anna Schmidt</div>
+            <div class="vb-category">Vintage Textiles</div>
+            <div class="vb-number">#024</div>
+          </div>
+          <div class="vb-footer">15. Juni 2026 &middot; Rosenheim</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Poster -->
+    <div class="app-card">
+      <div class="app-label">Poster Konzept</div>
+      <div class="app-preview" style="background: var(--light-grey);">
+        <div class="poster-concept">
+          <div class="poster-rust-bar"></div>
+          <div class="poster-top">
+            <span class="poster-edition">Edition 01</span>
+            <span class="poster-date">15. Juni<br>2026</span>
+          </div>
+          <div class="poster-center">
+            <span class="poster-the">THE</span>
+            <span class="poster-flea">FLEA</span>
+            <p class="poster-tagline">Kuratierter Markt fur Vintage, Handmade, Local Food &amp; Live Music</p>
+          </div>
+          <div class="poster-bottom">
+            <span class="poster-location">Rosenheim<br>Innstadt</span>
+            <span class="poster-location">10&ndash;18 Uhr<br>Eintritt frei</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stickers -->
+    <div class="app-card" style="grid-column: span 2;">
+      <div class="app-label">Sticker Konzepte</div>
+      <div class="app-preview" style="background: var(--light-grey); flex-wrap: wrap;">
+        <div class="stickers-wrapper">
+          <!-- Circle sticker coal -->
+          <div class="sticker">
+            <div class="sticker-circle coal-bg">
+              <span style="font-family:'Space Mono',monospace;font-size:5px;letter-spacing:3px;text-transform:uppercase;color:rgba(245,240,232,0.4);">THE</span>
+              <span style="font-family:'Anton',sans-serif;font-size:26px;text-transform:uppercase;color:var(--cream);line-height:0.85;">FLEA</span>
+              <span style="font-family:'Space Mono',monospace;font-size:5px;letter-spacing:2px;text-transform:uppercase;color:rgba(245,240,232,0.3);margin-top:2px;">RO</span>
+            </div>
+          </div>
+
+          <!-- Circle sticker rust -->
+          <div class="sticker">
+            <div class="sticker-circle rust-bg">
+              <span style="font-family:'Anton',sans-serif;font-size:22px;text-transform:uppercase;color:var(--cream);line-height:0.85;">ED.01</span>
+              <span style="font-family:'Space Mono',monospace;font-size:5px;letter-spacing:2px;text-transform:uppercase;color:rgba(245,240,232,0.5);margin-top:4px;">2026</span>
+            </div>
+          </div>
+
+          <!-- Rect sticker -->
+          <div class="sticker">
+            <div class="sticker-rect">
+              <span class="sr-the">THE</span>
+              <span class="sr-flea">FLEA</span>
+              <span class="sr-ro">Rosenheim</span>
+            </div>
+          </div>
+
+          <!-- Circle sage -->
+          <div class="sticker">
+            <div class="sticker-circle sage-bg">
+              <span style="font-family:'Space Mono',monospace;font-size:6px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);line-height:1.8;">Curated<br>Market</span>
+            </div>
+          </div>
+
+          <!-- Pill sticker -->
+          <div class="sticker">
+            <div class="sticker-pill">the flea &middot; ro</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     SECTION 9: DO'S & DON'TS
+     ============================ -->
+<section class="page-section" id="rules">
+  <span class="section-label">08 &mdash; Do's &amp; Don'ts</span>
+  <h2 class="section-title">Regeln</h2>
+  <p class="section-description">Klare Grenzen schutzen die Marke. Hier ist, was geht und was nicht.</p>
+
+  <div class="rules-grid">
+    <!-- DO: Correct proportions -->
+    <div class="rule-card">
+      <div class="rule-header do-header">&#10003; Korrekte Proportionen</div>
+      <div class="rule-preview">
+        <div class="logo-primary">
+          <span class="logo-the">THE</span>
+          <span class="logo-flea" style="font-size:56px;">FLEA</span>
+          <span class="logo-ro">Rosenheim</span>
+        </div>
+      </div>
+      <div class="rule-description">Logo immer in den Original-Proportionen verwenden. Niemals verzerren.</div>
+    </div>
+
+    <!-- DON'T: Stretched -->
+    <div class="rule-card">
+      <div class="rule-header dont-header">&#10007; Gestreckt / Verzerrt</div>
+      <div class="rule-preview">
+        <div class="logo-primary logo-stretched">
+          <span class="logo-the">THE</span>
+          <span class="logo-flea" style="font-size:56px;">FLEA</span>
+          <span class="logo-ro">Rosenheim</span>
+        </div>
+      </div>
+      <div class="rule-description">Das Logo darf niemals horizontal oder vertikal gestreckt werden.</div>
+    </div>
+
+    <!-- DO: Approved colors -->
+    <div class="rule-card">
+      <div class="rule-header do-header">&#10003; Freigegebene Farben</div>
+      <div class="rule-preview" style="background:var(--coal);">
+        <div class="logo-primary">
+          <span class="logo-the" style="color:rgba(245,240,232,0.4);">THE</span>
+          <span class="logo-flea" style="font-size:56px;color:var(--cream);">FLEA</span>
+          <span class="logo-ro" style="color:rgba(245,240,232,0.4);">Rosenheim</span>
+        </div>
+      </div>
+      <div class="rule-description">Logo nur in den definierten CI-Farbkombinationen verwenden.</div>
+    </div>
+
+    <!-- DON'T: Off-brand colors -->
+    <div class="rule-card">
+      <div class="rule-header dont-header">&#10007; Fremde Farben</div>
+      <div class="rule-preview">
+        <div class="logo-primary logo-off-color">
+          <span class="logo-the">THE</span>
+          <span class="logo-flea" style="font-size:56px;">FLEA</span>
+          <span class="logo-ro">Rosenheim</span>
+        </div>
+      </div>
+      <div class="rule-description">Keine Farben verwenden, die nicht in der CI-Palette definiert sind.</div>
+    </div>
+
+    <!-- DO: Clean background -->
+    <div class="rule-card">
+      <div class="rule-header do-header">&#10003; Klarer Hintergrund</div>
+      <div class="rule-preview">
+        <div class="logo-primary">
+          <span class="logo-the">THE</span>
+          <span class="logo-flea" style="font-size:56px;">FLEA</span>
+          <span class="logo-ro">Rosenheim</span>
+        </div>
+      </div>
+      <div class="rule-description">Logo immer auf ruhigem, einfarbigem Hintergrund mit genug Freiraum platzieren.</div>
+    </div>
+
+    <!-- DON'T: Gradient on logo -->
+    <div class="rule-card">
+      <div class="rule-header dont-header">&#10007; Verlauf auf dem Logo</div>
+      <div class="rule-preview">
+        <div class="logo-primary logo-gradient-fill">
+          <span class="logo-the">THE</span>
+          <span class="logo-flea" style="font-size:56px;">FLEA</span>
+          <span class="logo-ro">Rosenheim</span>
+        </div>
+      </div>
+      <div class="rule-description">Keine Farbverlaufe auf oder im Logo. Immer einfarbig (Flat).</div>
+    </div>
+
+    <!-- DO: Consistent spacing -->
+    <div class="rule-card">
+      <div class="rule-header do-header">&#10003; Anton nur fur Headlines</div>
+      <div class="rule-preview" style="flex-direction:column;gap:8px;padding:24px;">
+        <span style="font-family:'Anton',sans-serif;font-size:28px;text-transform:uppercase;color:var(--coal);">Edition Eins</span>
+        <span style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--warm-grey);max-width:200px;text-align:center;line-height:1.5;">Kuratierter Markt fur Vintage und Handmade in Rosenheim.</span>
+      </div>
+      <div class="rule-description">Anton ausschliesslich fur Headlines. Fliesstext immer in DM Sans.</div>
+    </div>
+
+    <!-- DON'T: Shadow on logo -->
+    <div class="rule-card">
+      <div class="rule-header dont-header">&#10007; Schatten / Effekte</div>
+      <div class="rule-preview">
+        <div class="logo-primary logo-shadow">
+          <span class="logo-the">THE</span>
+          <span class="logo-flea" style="font-size:56px;">FLEA</span>
+          <span class="logo-ro">Rosenheim</span>
+        </div>
+      </div>
+      <div class="rule-description">Keine Schatten, Outlines, 3D-Effekte oder sonstige Verfremdung des Logos.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     FOOTER
+     ============================ -->
+<footer class="brand-footer">
+  <div class="footer-logo">
+    <span class="f-the">THE</span>
+    <span class="f-flea">FLEA</span>
+  </div>
+  <p class="footer-text">Brand Identity Guidelines &mdash; Version 1.0</p>
+  <p class="footer-copy">Erstellt von Wild Projects &middot; April 2026 &middot; Rosenheim, Deutschland</p>
+</footer>
+
+</body>
+</html>

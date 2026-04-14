@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE FLEA — Timeline Saison 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coal: #1A1A1A;
+    --cream: #F5F0E8;
+    --rust: #D4572A;
+    --sage: #3A6B5A;
+    --kraft: #C4B091;
+    --warm-grey: #8A8278;
+    --light-grey: #E8E3DB;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--coal);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Header ── */
+  .header {
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--light-grey);
+  }
+  .header-logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+  .header-logo .the { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 6px; color: var(--warm-grey); }
+  .header-logo .flea { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 2px; line-height: 0.9; }
+  .header-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--warm-grey);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: right;
+  }
+
+  /* ── Page Title ── */
+  .page-title {
+    padding: 80px 48px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .page-title .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--rust);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .page-title h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+  .page-title .subtitle {
+    font-size: 15px;
+    color: var(--warm-grey);
+    margin-top: 12px;
+    line-height: 1.6;
+    max-width: 560px;
+  }
+
+  /* ── Overview Cards ── */
+  .overview {
+    padding: 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+  .event-card {
+    border: 1px solid var(--light-grey);
+    padding: 32px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .event-card:hover { border-color: var(--rust); }
+  .event-card .edition {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--rust);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .event-card .date {
+    font-family: 'Anton', sans-serif;
+    font-size: 36px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .event-card .month {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--warm-grey);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .event-card .tagline {
+    font-size: 14px;
+    color: var(--warm-grey);
+    font-style: italic;
+  }
+  .event-card .stands {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--kraft);
+    letter-spacing: 1px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--light-grey);
+  }
+
+  /* ── Timeline ── */
+  .timeline-section {
+    padding: 0 48px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .timeline-section .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--rust);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--light-grey);
+  }
+
+  .tl-month {
+    position: relative;
+    margin-bottom: 48px;
+  }
+  .tl-month:last-child { margin-bottom: 0; }
+
+  .tl-month-label {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .tl-month-label::before {
+    content: '';
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 2px solid var(--rust);
+  }
+
+  .tl-item {
+    margin-bottom: 12px;
+    padding: 16px 20px;
+    background: rgba(255,255,255,0.5);
+    border: 1px solid var(--light-grey);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .tl-item:hover { border-color: var(--kraft); }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -37px;
+    top: 22px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--light-grey);
+  }
+  .tl-item.milestone::before { background: var(--rust); }
+  .tl-item.event-day { border-left: 3px solid var(--rust); background: rgba(212,87,42,0.04); }
+  .tl-item.event-day::before { background: var(--rust); width: 9px; height: 9px; left: -38px; top: 21px; }
+
+  .tl-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--warm-grey);
+    letter-spacing: 1px;
+    min-width: 80px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .tl-content { flex: 1; }
+  .tl-title {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+  .tl-desc {
+    font-size: 13px;
+    color: var(--warm-grey);
+    line-height: 1.5;
+  }
+  .tl-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-top: 6px;
+  }
+  .tl-tag.admin { background: var(--light-grey); color: var(--warm-grey); }
+  .tl-tag.marketing { background: rgba(212,87,42,0.1); color: var(--rust); }
+  .tl-tag.production { background: rgba(58,107,90,0.1); color: var(--sage); }
+  .tl-tag.finance { background: rgba(196,176,145,0.2); color: var(--warm-grey); }
+
+  /* ── Budget Summary ── */
+  .budget-section {
+    padding: 60px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-top: 1px solid var(--light-grey);
+  }
+  .budget-section .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--rust);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .budget-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .budget-card {
+    padding: 24px;
+    border: 1px solid var(--light-grey);
+    text-align: center;
+  }
+  .budget-card .amount {
+    font-family: 'Anton', sans-serif;
+    font-size: 36px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .budget-card .amount.positive { color: var(--sage); }
+  .budget-card .amount.negative { color: var(--rust); }
+  .budget-card .amount.neutral { color: var(--coal); }
+  .budget-card .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    margin-top: 8px;
+  }
+  .budget-card .note {
+    font-size: 12px;
+    color: var(--kraft);
+    margin-top: 8px;
+  }
+
+  /* ── Checklist ── */
+  .checklist-section {
+    padding: 60px 48px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-top: 1px solid var(--light-grey);
+  }
+  .checklist-section .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--rust);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  .checklist-group h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--light-grey);
+  }
+  .checklist-group ul {
+    list-style: none;
+  }
+  .checklist-group li {
+    font-size: 14px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(232,227,219,0.5);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .check {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--light-grey);
+    border-radius: 2px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+  .check.done { border-color: var(--sage); color: var(--sage); }
+  .check.progress { border-color: var(--rust); }
+  .check.progress::after { content: ''; width: 6px; height: 6px; background: var(--rust); border-radius: 1px; }
+
+  /* ── Footer ── */
+  .footer {
+    padding: 32px 48px;
+    border-top: 1px solid var(--light-grey);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-left {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--warm-grey);
+    letter-spacing: 2px;
+  }
+  .footer-right {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--kraft);
+    letter-spacing: 1px;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    .header, .page-title, .overview, .timeline-section, .budget-section, .checklist-section, .footer { padding-left: 24px; padding-right: 24px; }
+    .page-title h1 { font-size: 42px; }
+    .overview-grid { grid-template-columns: 1fr; }
+    .budget-grid { grid-template-columns: repeat(2, 1fr); }
+    .checklist-grid { grid-template-columns: 1fr; }
+    .timeline { padding-left: 32px; }
+    .tl-item { flex-direction: column; gap: 4px; }
+    .tl-date { min-width: unset; }
+  }
+
+  @media print {
+    body { font-size: 11px; }
+    .tl-item { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="header">
+  <div class="header-logo">
+    <span class="the">THE</span>
+    <span class="flea">FLEA</span>
+  </div>
+  <div class="header-meta">
+    Timeline & Planung<br>Saison 2026
+  </div>
+</header>
+
+<!-- ── Page Title ── -->
+<div class="page-title">
+  <div class="label">Projektplanung</div>
+  <h1>SAISON 2026</h1>
+  <p class="subtitle">
+    Drei Events von Mai bis Juli. Vom Konzept bis zur Umsetzung — jeder Schritt, jede Deadline, alles auf einen Blick.
+  </p>
+</div>
+
+<!-- ── Event Overview ── -->
+<div class="overview">
+  <div class="overview-grid">
+    <div class="event-card">
+      <div class="edition">Edition 01</div>
+      <div class="date">30</div>
+      <div class="month">Mai 2026</div>
+      <div class="tagline">"Der Anfang"</div>
+      <div class="stands">Ziel: 30–40 Staende</div>
+    </div>
+    <div class="event-card">
+      <div class="edition">Edition 02</div>
+      <div class="date">27</div>
+      <div class="month">Juni 2026</div>
+      <div class="tagline">"Der Groove"</div>
+      <div class="stands">Ziel: 40–50 Staende</div>
+    </div>
+    <div class="event-card">
+      <div class="edition">Edition 03</div>
+      <div class="date">18</div>
+      <div class="month">Juli 2026</div>
+      <div class="tagline">"Das Finale"</div>
+      <div class="stands">Ziel: 50–60 Staende</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Timeline ── -->
+<div class="timeline-section">
+  <div class="section-label">Timeline — Gesamtuebersicht</div>
+
+  <div class="timeline">
+
+    <!-- MAERZ -->
+    <div class="tl-month">
+      <div class="tl-month-label">MAERZ</div>
+
+      <div class="tl-item milestone">
+        <div class="tl-date">KW 10–11</div>
+        <div class="tl-content">
+          <div class="tl-title">Konzept finalisieren</div>
+          <div class="tl-desc">Event-Format, Standkategorien, Preisstruktur, Ablaufplan festlegen.</div>
+          <span class="tl-tag admin">Admin</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 11</div>
+        <div class="tl-content">
+          <div class="tl-title">Location sichern</div>
+          <div class="tl-desc">Faerberviertel anfragen, Gespraech mit Stadt Rosenheim / Ordnungsamt. Genehmigung Sondernutzung beantragen.</div>
+          <span class="tl-tag admin">Admin</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 12</div>
+        <div class="tl-content">
+          <div class="tl-title">Versicherung abschliessen</div>
+          <div class="tl-desc">Veranstalterhaftpflicht (ca. 150–300 € / Saison). Angebote einholen.</div>
+          <span class="tl-tag finance">Finanzen</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 12–13</div>
+        <div class="tl-content">
+          <div class="tl-title">Brand & Website live</div>
+          <div class="tl-desc">Logo finalisieren, Website launchen (Coming Soon mit Newsletter), Instagram @theflea.ro starten.</div>
+          <span class="tl-tag marketing">Marketing</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- APRIL -->
+    <div class="tl-month">
+      <div class="tl-month-label">APRIL</div>
+
+      <div class="tl-item milestone">
+        <div class="tl-date">KW 14</div>
+        <div class="tl-content">
+          <div class="tl-title">Standanmeldung oeffnen</div>
+          <div class="tl-desc">Online-Formular live schalten. Aussteller-AGB fertigstellen. Kurationsrichtlinien definieren.</div>
+          <span class="tl-tag admin">Admin</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 14–15</div>
+        <div class="tl-content">
+          <div class="tl-title">Gastro-Partner akquirieren</div>
+          <div class="tl-desc">2–3 Food Trucks / lokale Gastronomen ansprechen. Faerberviertel-Lokale fuer Kooperation anfragen.</div>
+          <span class="tl-tag production">Produktion</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 15–16</div>
+        <div class="tl-content">
+          <div class="tl-title">Social Media Kampagne starten</div>
+          <div class="tl-desc">Teaser-Content, Behind-the-Scenes, Countdown. Lokale Influencer / Kreative ansprechen.</div>
+          <span class="tl-tag marketing">Marketing</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 16–17</div>
+        <div class="tl-content">
+          <div class="tl-title">Musik & Programm</div>
+          <div class="tl-desc">Akustik-Acts / DJs fuer Edition 01 buchen. Zeitplan erstellen.</div>
+          <span class="tl-tag production">Produktion</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 17–18</div>
+        <div class="tl-content">
+          <div class="tl-title">Infrastruktur planen</div>
+          <div class="tl-desc">Tische, Zelte, Strom, Toiletten, Muell, Absperrungen. Angebote einholen, Equipment-Liste.</div>
+          <span class="tl-tag production">Produktion</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAI -->
+    <div class="tl-month">
+      <div class="tl-month-label">MAI</div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 18–19</div>
+        <div class="tl-content">
+          <div class="tl-title">Plakat- & Flyer-Kampagne</div>
+          <div class="tl-desc">Poster drucken, in Rosenheim verteilen (Cafes, Laeden, Uni). Online-Ads starten.</div>
+          <span class="tl-tag marketing">Marketing</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 20</div>
+        <div class="tl-content">
+          <div class="tl-title">Aussteller-Briefing</div>
+          <div class="tl-desc">Info-Mail an alle Aussteller: Standplan, Aufbauzeiten, Regeln, Anfahrt. Standplaetze zuweisen.</div>
+          <span class="tl-tag admin">Admin</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 21</div>
+        <div class="tl-content">
+          <div class="tl-title">Generalprobe / Begehung</div>
+          <div class="tl-desc">Location mit finalem Standplan ablaufen. Stromversorgung testen. Notfallplan.</div>
+          <span class="tl-tag production">Produktion</span>
+        </div>
+      </div>
+
+      <div class="tl-item event-day">
+        <div class="tl-date">30. MAI</div>
+        <div class="tl-content">
+          <div class="tl-title">EDITION 01 — "DER ANFANG"</div>
+          <div class="tl-desc">
+            06:00 Aufbau Team<br>
+            08:00 Aussteller-Aufbau<br>
+            10:00 Eroeffnung<br>
+            10:00–18:00 Markt<br>
+            12:00–17:00 Live Musik<br>
+            18:00 Abbau<br>
+            20:00 Location geraeumtbr>
+          </div>
+          <span class="tl-tag marketing">Event</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 23</div>
+        <div class="tl-content">
+          <div class="tl-title">Nachbereitung Edition 01</div>
+          <div class="tl-desc">Feedback einsammeln (Aussteller + Besucher). Fotos/Videos sichten. Umsatz auswerten. Learnings dokumentieren.</div>
+          <span class="tl-tag admin">Admin</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- JUNI -->
+    <div class="tl-month">
+      <div class="tl-month-label">JUNI</div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 23–24</div>
+        <div class="tl-content">
+          <div class="tl-title">Edition 02 Vorbereitung</div>
+          <div class="tl-desc">Learnings aus Ed.01 umsetzen. Neue Aussteller aufnehmen. Standplan optimieren.</div>
+          <span class="tl-tag admin">Admin</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 24–25</div>
+        <div class="tl-content">
+          <div class="tl-title">Marketing-Push Edition 02</div>
+          <div class="tl-desc">Recap-Content von Ed.01 posten. Neue Aussteller vorstellen. Lokale Presse einladen.</div>
+          <span class="tl-tag marketing">Marketing</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 25</div>
+        <div class="tl-content">
+          <div class="tl-title">Sponsoring ansprechen</div>
+          <div class="tl-desc">Mit Proof-of-Concept von Ed.01 lokale Sponsoren kontaktieren fuer Ed.03 und Saison 2027.</div>
+          <span class="tl-tag finance">Finanzen</span>
+        </div>
+      </div>
+
+      <div class="tl-item event-day">
+        <div class="tl-date">27. JUNI</div>
+        <div class="tl-content">
+          <div class="tl-title">EDITION 02 — "DER GROOVE"</div>
+          <div class="tl-desc">
+            06:00 Aufbau Team<br>
+            08:00 Aussteller-Aufbau<br>
+            10:00 Eroeffnung<br>
+            10:00–18:00 Markt<br>
+            11:00–17:00 Live Musik & DJ<br>
+            18:00 Abbau
+          </div>
+          <span class="tl-tag marketing">Event</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- JULI -->
+    <div class="tl-month">
+      <div class="tl-month-label">JULI</div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 28</div>
+        <div class="tl-content">
+          <div class="tl-title">Edition 03 — Grosses Finale vorbereiten</div>
+          <div class="tl-desc">Erweitertes Programm: mehr Staende, evtl. Abendprogramm, Kooperation mit lokalen Kuenstlern.</div>
+          <span class="tl-tag production">Produktion</span>
+        </div>
+      </div>
+
+      <div class="tl-item event-day">
+        <div class="tl-date">18. JULI</div>
+        <div class="tl-content">
+          <div class="tl-title">EDITION 03 — "DAS FINALE"</div>
+          <div class="tl-desc">
+            06:00 Aufbau Team<br>
+            08:00 Aussteller-Aufbau<br>
+            10:00 Eroeffnung<br>
+            10:00–20:00 Markt (verlaengert)<br>
+            12:00–19:00 Live Musik & Programm<br>
+            20:00 Abbau
+          </div>
+          <span class="tl-tag marketing">Event</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">KW 30</div>
+        <div class="tl-content">
+          <div class="tl-title">Saison-Review</div>
+          <div class="tl-desc">Gesamtauswertung: Finanzen, Besucherzahlen, Aussteller-Feedback, Medienresonanz. Entscheidung Saison 2027.</div>
+          <span class="tl-tag admin">Admin</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Budget Uebersicht ── -->
+<div class="budget-section">
+  <div class="section-label">Budget — Saison 2026 (realistisches Szenario)</div>
+  <div class="budget-grid">
+    <div class="budget-card">
+      <div class="amount neutral">~120</div>
+      <div class="label">Staende gesamt</div>
+      <div class="note">ueber 3 Events</div>
+    </div>
+    <div class="budget-card">
+      <div class="amount positive">11.880 €</div>
+      <div class="label">Einnahmen</div>
+      <div class="note">Ø 99 € × 40 × 3</div>
+    </div>
+    <div class="budget-card">
+      <div class="amount negative">7.500 €</div>
+      <div class="label">Ausgaben</div>
+      <div class="note">Infrastruktur, Genehmigungen, Marketing</div>
+    </div>
+    <div class="budget-card">
+      <div class="amount positive">4.380 €</div>
+      <div class="label">Gewinn</div>
+      <div class="note">+ Zusatzeinnahmen moeglich</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Checklist ── -->
+<div class="checklist-section">
+  <div class="section-label">Checkliste — Naechste Schritte</div>
+  <div class="checklist-grid">
+
+    <div class="checklist-group">
+      <h3>Administrativ</h3>
+      <ul>
+        <li><span class="check done">✓</span> Konzept & Kalkulation erstellen</li>
+        <li><span class="check done">✓</span> Brand Identity definieren</li>
+        <li><span class="check done">✓</span> Logo entwerfen</li>
+        <li><span class="check progress"></span> Location anfragen (Faerberviertel)</li>
+        <li><span class="check"></span> Genehmigung Sondernutzung beantragen</li>
+        <li><span class="check"></span> Veranstalterhaftpflicht abschliessen</li>
+        <li><span class="check"></span> Aussteller-AGB erstellen</li>
+        <li><span class="check"></span> Standanmeldeformular bauen</li>
+      </ul>
+    </div>
+
+    <div class="checklist-group">
+      <h3>Marketing & Digital</h3>
+      <ul>
+        <li><span class="check done">✓</span> Website-Konzept erstellen</li>
+        <li><span class="check progress"></span> Website finalisieren & launchen</li>
+        <li><span class="check"></span> Instagram @theflea.ro sichern</li>
+        <li><span class="check"></span> Domain theflea.ro registrieren</li>
+        <li><span class="check"></span> Newsletter-System einrichten</li>
+        <li><span class="check"></span> Poster & Flyer designen</li>
+        <li><span class="check"></span> Presse-Kit erstellen</li>
+      </ul>
+    </div>
+
+    <div class="checklist-group">
+      <h3>Produktion</h3>
+      <ul>
+        <li><span class="check"></span> Standplan / Lageplan zeichnen</li>
+        <li><span class="check"></span> Infrastruktur-Angebote einholen</li>
+        <li><span class="check"></span> Food Trucks / Gastro anfragen</li>
+        <li><span class="check"></span> Musik-Acts buchen</li>
+        <li><span class="check"></span> Aufbau-Helfer organisieren</li>
+        <li><span class="check"></span> Notfall- & Regenplan erstellen</li>
+      </ul>
+    </div>
+
+    <div class="checklist-group">
+      <h3>Finanzen</h3>
+      <ul>
+        <li><span class="check done">✓</span> Kostenvoranschlag erstellen</li>
+        <li><span class="check"></span> Separates Konto / Unterkonto einrichten</li>
+        <li><span class="check"></span> Rechnungsvorlage fuer Standmieten</li>
+        <li><span class="check"></span> Sponsoring-Mappe erstellen</li>
+        <li><span class="check"></span> Kassensystem fuer Eintritt (optional)</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Footer ── -->
+<footer class="footer">
+  <div class="footer-left">THE FLEA — Ein Wild Projects Konzept</div>
+  <div class="footer-right">Stand: April 2026 · Vertraulich</div>
+</footer>
+
+</body>
+</html>

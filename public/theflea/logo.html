@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE FLEA — Logo Konzept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #1A1A1A;
+    --cream: #F5F0E8;
+    --rust: #D4572A;
+    --sage: #3A6B5A;
+    --warm-grey: #8A8278;
+    --light-grey: #E8E3DB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--black);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Page Header ── */
+  .page-header {
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--light-grey);
+  }
+  .page-header h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    color: var(--warm-grey);
+    text-transform: uppercase;
+  }
+  .page-header .date {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--warm-grey);
+    letter-spacing: 1px;
+  }
+
+  /* ── Section ── */
+  .section {
+    padding: 80px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--rust);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--warm-grey);
+    margin-bottom: 48px;
+    line-height: 1.6;
+  }
+
+  /* ── Logo Display ── */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 64px;
+  }
+
+  .logo-card {
+    border-radius: 12px;
+    padding: 80px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 360px;
+  }
+
+  .logo-card.dark { background: var(--black); }
+  .logo-card.light { background: var(--cream); border: 1px solid var(--light-grey); }
+  .logo-card.rust { background: var(--rust); }
+  .logo-card.sage { background: var(--sage); }
+  .logo-card.kraft { background: #C4B091; }
+
+  .card-label {
+    position: absolute;
+    top: 20px;
+    left: 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .logo-card.dark .card-label { color: rgba(255,255,255,0.2); }
+  .logo-card.light .card-label { color: rgba(0,0,0,0.2); }
+  .logo-card.rust .card-label,
+  .logo-card.sage .card-label,
+  .logo-card.kraft .card-label { color: rgba(255,255,255,0.3); }
+
+  /* ── Logo Typemark — LEFT-ALIGNED "THE" ── */
+  .logo {
+    display: inline-block;
+    line-height: 1;
+    text-align: left;
+  }
+
+  .logo-the {
+    font-family: 'Space Mono', monospace;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    display: block;
+  }
+
+  .logo-flea {
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: block;
+    line-height: 0.88;
+  }
+
+  .logo-ro {
+    font-family: 'Space Mono', monospace;
+    font-weight: 400;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 6px;
+    text-align: right;
+  }
+
+  /* Sizes */
+  .logo.xl .logo-the { font-size: 14px; margin-bottom: 2px; }
+  .logo.xl .logo-flea { font-size: 96px; }
+  .logo.xl .logo-ro { font-size: 12px; }
+
+  .logo.lg .logo-the { font-size: 12px; margin-bottom: 1px; }
+  .logo.lg .logo-flea { font-size: 72px; }
+  .logo.lg .logo-ro { font-size: 10px; }
+
+  .logo.md .logo-the { font-size: 9px; margin-bottom: 1px; }
+  .logo.md .logo-flea { font-size: 48px; }
+  .logo.md .logo-ro { font-size: 8px; }
+
+  .logo.sm .logo-the { font-size: 6px; margin-bottom: 1px; }
+  .logo.sm .logo-flea { font-size: 28px; }
+  .logo.sm .logo-ro { font-size: 5px; }
+
+  /* Colors */
+  .logo.on-dark .logo-the { color: rgba(255,255,255,0.35); }
+  .logo.on-dark .logo-flea { color: #F5F0E8; }
+  .logo.on-dark .logo-ro { color: rgba(255,255,255,0.25); }
+
+  .logo.on-light .logo-the { color: rgba(26,26,26,0.3); }
+  .logo.on-light .logo-flea { color: var(--black); }
+  .logo.on-light .logo-ro { color: rgba(26,26,26,0.2); }
+
+  .logo.on-rust .logo-the { color: rgba(255,255,255,0.4); }
+  .logo.on-rust .logo-flea { color: #fff; }
+  .logo.on-rust .logo-ro { color: rgba(255,255,255,0.3); }
+
+  .logo.on-sage .logo-the { color: rgba(255,255,255,0.35); }
+  .logo.on-sage .logo-flea { color: var(--cream); }
+  .logo.on-sage .logo-ro { color: rgba(255,255,255,0.25); }
+
+  .logo.on-kraft .logo-the { color: rgba(26,26,26,0.25); }
+  .logo.on-kraft .logo-flea { color: var(--black); }
+  .logo.on-kraft .logo-ro { color: rgba(26,26,26,0.18); }
+
+  .logo.rust-accent .logo-the { color: rgba(255,255,255,0.35); }
+  .logo.rust-accent .logo-flea { color: var(--rust); }
+  .logo.rust-accent .logo-ro { color: rgba(255,255,255,0.25); }
+
+  /* ── Full Width Hero ── */
+  .logo-hero {
+    background: var(--black);
+    padding: 120px 48px;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ── Badge Version — Stamped ── */
+  .badge {
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    border: 3px solid currentColor;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: inset 0 0 0 6px transparent, inset 0 0 0 8px currentColor;
+  }
+  .badge.on-dark { color: var(--cream); }
+  .badge.on-light { color: var(--black); }
+  .badge.on-rust-bg { color: #fff; }
+
+  .badge .badge-top,
+  .badge .badge-bottom {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+  .badge .badge-top { margin-bottom: 4px; }
+  .badge .badge-bottom { margin-top: 4px; }
+  .badge .badge-main {
+    font-family: 'Anton', sans-serif;
+    font-size: 44px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 0.85;
+  }
+  .badge .badge-line {
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.3;
+    margin: 3px 0;
+  }
+
+  /* ── Inline / Horizontal ── */
+  .logo-inline {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .logo-inline .logo-the {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .logo-inline .logo-flea {
+    font-family: 'Anton', sans-serif;
+    font-size: 44px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .logo-inline .logo-ro {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 400;
+    opacity: 0.35;
+  }
+  .logo-inline.on-dark { color: var(--cream); }
+  .logo-inline.on-light { color: var(--black); }
+
+  /* ── Color Swatches ── */
+  .swatch-row {
+    display: flex;
+    gap: 16px;
+    margin: 32px 0;
+    flex-wrap: wrap;
+  }
+  .swatch { width: 100px; text-align: center; }
+  .swatch-color {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .swatch-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--black);
+    margin-bottom: 2px;
+  }
+  .swatch-hex {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--warm-grey);
+  }
+
+  /* ── Type Specimen ── */
+  .type-row {
+    margin: 24px 0;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--light-grey);
+  }
+  .type-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--warm-grey);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .type-sample-anton {
+    font-family: 'Anton', sans-serif;
+    font-size: 48px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--black);
+  }
+  .type-sample-mono {
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    color: var(--black);
+    letter-spacing: 2px;
+  }
+  .type-sample-body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--black);
+    line-height: 1.6;
+  }
+
+  /* ── Mockups ── */
+  .mockup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+
+  /* Instagram Post */
+  .mockup-insta {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--black);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .mockup-insta::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(212,87,42,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(58,107,90,0.1) 0%, transparent 60%);
+  }
+  .mockup-insta .m-label {
+    position: absolute;
+    bottom: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.15);
+    text-transform: uppercase;
+  }
+  .mockup-insta .m-date {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.2);
+  }
+  .mockup-insta .m-tagline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.35);
+    margin-top: 16px;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Paper Bag */
+  .mockup-bag {
+    width: 100%;
+    aspect-ratio: 0.75;
+    background: #C4B091;
+    border-radius: 4px 4px 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 4px 4px 20px rgba(0,0,0,0.1);
+  }
+  .mockup-bag::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.015) 3px,
+      rgba(0,0,0,0.015) 4px
+    );
+  }
+  .mockup-bag::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.06) 0%, transparent 100%);
+  }
+  .mockup-bag .m-label {
+    position: absolute;
+    bottom: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 2px;
+    color: rgba(26,26,26,0.2);
+    text-transform: uppercase;
+  }
+
+  /* Poster */
+  .mockup-poster {
+    width: 100%;
+    aspect-ratio: 0.707;
+    background: var(--cream);
+    border: 1px solid var(--light-grey);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 24px;
+    position: relative;
+    box-shadow: 4px 4px 20px rgba(0,0,0,0.08);
+  }
+  .mockup-poster .poster-top {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    color: var(--rust);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .mockup-poster .poster-logo {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  .mockup-poster .poster-info {
+    border-top: 1px solid var(--light-grey);
+    padding-top: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .mockup-poster .poster-info .pi-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 2px;
+    color: var(--warm-grey);
+    text-transform: uppercase;
+  }
+  .mockup-poster .poster-info .pi-value {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--black);
+    margin-top: 2px;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: var(--light-grey);
+    margin: 0 48px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .logo-grid { grid-template-columns: 1fr; }
+    .mockup-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
+    .section { padding: 48px 24px; }
+    .page-header { padding: 24px; }
+    .logo-hero { padding: 80px 24px; }
+    .logo.xl .logo-flea { font-size: 64px; }
+    .logo.xl .logo-the { font-size: 11px; }
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: #fff; }
+    .logo-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>The Flea &mdash; Logo Konzept</h1>
+  <span class="date">April 2026 &middot; Draft 02</span>
+</div>
+
+<!-- ════════════════════════════════════ -->
+<!-- HERO                                -->
+<!-- ════════════════════════════════════ -->
+<div class="logo-hero">
+  <div class="logo xl on-dark">
+    <span class="logo-the">THE</span>
+    <span class="logo-flea">FLEA</span>
+    <span class="logo-ro">RO</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════ -->
+<!-- PRIMARY LOGO                        -->
+<!-- ════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">01 &mdash; Primary Logo</div>
+  <div class="section-title">Linksbündiges &ldquo;THE&rdquo;, dominantes &ldquo;FLEA&rdquo;, &ldquo;RO&rdquo; rechts unten abgesetzt. Asymmetrisch, dynamisch.</div>
+
+  <div class="logo-grid">
+    <div class="logo-card dark">
+      <div class="card-label">On Dark</div>
+      <div class="logo lg on-dark">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+    </div>
+    <div class="logo-card light">
+      <div class="card-label">On Light</div>
+      <div class="logo lg on-light">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+    </div>
+    <div class="logo-card rust">
+      <div class="card-label">On Rust</div>
+      <div class="logo lg on-rust">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+    </div>
+    <div class="logo-card sage">
+      <div class="card-label">On Sage</div>
+      <div class="logo lg on-sage">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+    </div>
+    <div class="logo-card kraft">
+      <div class="card-label">On Kraft</div>
+      <div class="logo lg on-kraft">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+    </div>
+    <div class="logo-card dark">
+      <div class="card-label">Accent</div>
+      <div class="logo lg rust-accent">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════ -->
+<!-- INLINE VARIANT                      -->
+<!-- ════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">02 &mdash; Inline Variant</div>
+  <div class="section-title">Horizontale Version f&uuml;r Header, Merch-Tags, Armb&auml;nder.</div>
+
+  <div class="logo-grid">
+    <div class="logo-card dark" style="min-height:200px;">
+      <div class="card-label">Inline / Dark</div>
+      <div class="logo-inline on-dark">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+    </div>
+    <div class="logo-card light" style="min-height:200px;">
+      <div class="card-label">Inline / Light</div>
+      <div class="logo-inline on-light">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════ -->
+<!-- BADGE VARIANT                       -->
+<!-- ════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">03 &mdash; Badge / Stempel</div>
+  <div class="section-title">Doppelrand, Stempel-Charakter. F&uuml;r Aufkleber, Profilbild, Papiertüten, Wachssiegel.</div>
+
+  <div class="logo-grid">
+    <div class="logo-card dark" style="min-height:320px;">
+      <div class="card-label">Badge / Dark</div>
+      <div class="badge on-dark">
+        <span class="badge-top">EDITION 01</span>
+        <div class="badge-line"></div>
+        <span class="badge-main">FLEA</span>
+        <div class="badge-line"></div>
+        <span class="badge-bottom">Rosenheim</span>
+      </div>
+    </div>
+    <div class="logo-card light" style="min-height:320px;">
+      <div class="card-label">Badge / Light</div>
+      <div class="badge on-light">
+        <span class="badge-top">EDITION 01</span>
+        <div class="badge-line"></div>
+        <span class="badge-main">FLEA</span>
+        <div class="badge-line"></div>
+        <span class="badge-bottom">Rosenheim</span>
+      </div>
+    </div>
+    <div class="logo-card rust" style="min-height:320px;">
+      <div class="card-label">Badge / Rust</div>
+      <div class="badge on-rust-bg">
+        <span class="badge-top">EDITION 01</span>
+        <div class="badge-line"></div>
+        <span class="badge-main">FLEA</span>
+        <div class="badge-line"></div>
+        <span class="badge-bottom">Rosenheim</span>
+      </div>
+    </div>
+    <div class="logo-card kraft" style="min-height:320px;">
+      <div class="card-label">Badge / Kraft</div>
+      <div class="badge on-light">
+        <span class="badge-top">EDITION 01</span>
+        <div class="badge-line"></div>
+        <span class="badge-main">FLEA</span>
+        <div class="badge-line"></div>
+        <span class="badge-bottom">Rosenheim</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════ -->
+<!-- SCALE                               -->
+<!-- ════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">04 &mdash; Scale</div>
+  <div class="section-title">Logo in verschiedenen Gr&ouml;&szlig;en &mdash; von Plakat bis Visitenkarte.</div>
+
+  <div class="logo-card dark" style="min-height:auto; padding:60px 48px;">
+    <div style="display:flex; align-items:flex-end; gap:64px; flex-wrap:wrap; justify-content:center;">
+      <div class="logo xl on-dark">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+      <div class="logo lg on-dark">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+      <div class="logo md on-dark">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+      <div class="logo sm on-dark">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════ -->
+<!-- MOCKUPS                             -->
+<!-- ════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">05 &mdash; Anwendung</div>
+  <div class="section-title">Wie das Logo in der Praxis wirkt &mdash; Instagram, Papiert&uuml;te, Plakat.</div>
+
+  <div class="mockup-grid">
+
+    <!-- Instagram Post -->
+    <div class="mockup-insta">
+      <span class="m-date">12. JUL 2026</span>
+      <div class="logo md on-dark" style="position:relative;z-index:1;">
+        <span class="logo-the">THE</span>
+        <span class="logo-flea">FLEA</span>
+        <span class="logo-ro">RO</span>
+      </div>
+      <div class="m-tagline">Vintage &middot; Handmade &middot; Food &middot; Musik</div>
+      <span class="m-label">Instagram Post 1:1</span>
+    </div>
+
+    <!-- Paper Bag -->
+    <div class="mockup-bag">
+      <div class="badge on-light" style="position:relative;z-index:1;transform:scale(0.75);">
+        <span class="badge-top">EDITION 01</span>
+        <div class="badge-line"></div>
+        <span class="badge-main">FLEA</span>
+        <div class="badge-line"></div>
+        <span class="badge-bottom">Rosenheim</span>
+      </div>
+      <span class="m-label">Kraftpapier-T&uuml;te</span>
+    </div>
+
+    <!-- Poster -->
+    <div class="mockup-poster">
+      <div class="poster-top">Kuratierter Markt</div>
+      <div class="poster-logo">
+        <div class="logo lg on-light">
+          <span class="logo-the">THE</span>
+          <span class="logo-flea">FLEA</span>
+          <span class="logo-ro">RO</span>
+        </div>
+      </div>
+      <div class="poster-info">
+        <div>
+          <div class="pi-label">Datum</div>
+          <div class="pi-value">12. Juli 2026</div>
+        </div>
+        <div>
+          <div class="pi-label">Location</div>
+          <div class="pi-value">F&auml;rberviertel</div>
+        </div>
+        <div>
+          <div class="pi-label">Zeit</div>
+          <div class="pi-value">10 &ndash; 18 Uhr</div>
+        </div>
+        <div>
+          <div class="pi-label">Eintritt</div>
+          <div class="pi-value">Frei</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════ -->
+<!-- COLORS                              -->
+<!-- ════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">06 &mdash; Farbpalette</div>
+  <div class="section-title">Warm, analog, handgemacht. Kein Corporate-Blau, kein Tech-Schwarz.</div>
+
+  <div class="swatch-row">
+    <div class="swatch">
+      <div class="swatch-color" style="background:var(--black);"></div>
+      <div class="swatch-name">Coal</div>
+      <div class="swatch-hex">#1A1A1A</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:var(--cream);"></div>
+      <div class="swatch-name">Cream</div>
+      <div class="swatch-hex">#F5F0E8</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:var(--rust);"></div>
+      <div class="swatch-name">Rust</div>
+      <div class="swatch-hex">#D4572A</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:var(--sage);"></div>
+      <div class="swatch-name">Sage</div>
+      <div class="swatch-hex">#3A6B5A</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#C4B091;"></div>
+      <div class="swatch-name">Kraft</div>
+      <div class="swatch-hex">#C4B091</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:var(--warm-grey);"></div>
+      <div class="swatch-name">Warm Grey</div>
+      <div class="swatch-hex">#8A8278</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════ -->
+<!-- TYPOGRAPHY                          -->
+<!-- ════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">07 &mdash; Typografie</div>
+  <div class="section-title">Drei Schriften, klare Rollen.</div>
+
+  <div class="type-row">
+    <div class="type-label">Display &mdash; Anton</div>
+    <div class="type-sample-anton">THE FLEA ROSENHEIM</div>
+  </div>
+  <div class="type-row">
+    <div class="type-label">Mono &mdash; Space Mono</div>
+    <div class="type-sample-mono">EDITION 01 &middot; 12. JUL 2026 &middot; F&Auml;RBERVIERTEL</div>
+  </div>
+  <div class="type-row" style="border-bottom:none;">
+    <div class="type-label">Body &mdash; DM Sans</div>
+    <div class="type-sample-body">Kuratierter Markt. Vintage, Handmade, Food, Musik. Kein Ramsch, nur gute Sachen.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════ -->
+<!-- FOOTER                              -->
+<!-- ════════════════════════════════════ -->
+<div style="padding:40px 48px; border-top:1px solid var(--light-grey); display:flex; justify-content:space-between; align-items:center;">
+  <span style="font-family:'Space Mono',monospace; font-size:9px; letter-spacing:3px; color:var(--warm-grey);">THE FLEA &middot; WILD PROJECT &middot; 2026</span>
+  <span style="font-family:'Space Mono',monospace; font-size:9px; color:var(--warm-grey);">DRAFT 02 &mdash; INTERNAL</span>
+</div>
+
+</body>
+</html>
