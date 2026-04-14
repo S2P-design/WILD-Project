@@ -30,12 +30,22 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
-/* ── Iframe Detection: hide nav when embedded ── */
-body.in-iframe .nav,
-body.in-iframe .mobile-menu,
+/* ── Iframe Detection: adjust when embedded ── */
+body.in-iframe .nav-logo { display:none; }
+body.in-iframe .nav {
+  height:48px;
+  background:rgba(26,26,26,0.95);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  justify-content:center;
+  gap:24px;
+}
+body.in-iframe .nav.scrolled { background:rgba(26,26,26,0.95); }
+body.in-iframe .nav-links { display:flex !important; gap:28px; }
+body.in-iframe .nav-cta { display:inline-block !important; }
 body.in-iframe .nav-burger { display:none !important; }
-body.in-iframe .hero { height:100vh; }
-body.in-iframe .subpage-hero { padding-top:100px; }
+body.in-iframe .hero { height:calc(100vh - 48px); min-height:500px; }
+body.in-iframe .subpage-hero { padding-top:120px; }
 img{ display:block; max-width:100%; }
 a{ text-decoration:none; color:inherit; }
 ::selection{ background:var(--rust); color:var(--cream); }
