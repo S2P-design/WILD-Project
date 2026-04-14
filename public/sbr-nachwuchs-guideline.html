@@ -231,21 +231,22 @@
     font-size: 22px; font-weight: 400; color: var(--green);
     text-transform: uppercase; letter-spacing: 1px;
   }
-  .priority-divider {
-    padding: 8px 0;
+  .priority-dual {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .priority-plus {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; letter-spacing: 3px;
-    color: var(--muted); text-align: center;
-    text-transform: uppercase;
-    position: relative;
+    font-size: 10px; letter-spacing: 1px; color: var(--red);
+    font-weight: 700;
   }
-  .priority-divider::before, .priority-divider::after {
-    content: ''; position: absolute; top: 50%;
-    width: calc(50% - 30px); height: 1px;
-    background: var(--border);
+  .priority-item.dual {
+    background: var(--green-05);
+    border-left: 3px solid var(--green);
   }
-  .priority-divider::before { left: 0; }
-  .priority-divider::after { right: 0; }
+  body.home .priority-item.dual {
+    background: rgba(0,82,67,0.08);
+    border-left-color: var(--green-bright);
+  }
   .priority-text {
     font-size: 14px; line-height: 1.7; color: var(--text);
     max-width: 440px; margin: 0 auto;
@@ -520,11 +521,16 @@
       <div class="priority-stack">
         <div class="priority-item p1"><span class="priority-num">01</span><span class="priority-name">Gesundheit</span></div>
         <div class="priority-item p2"><span class="priority-num">02</span><span class="priority-name">Familie &amp; Umfeld</span></div>
-        <div class="priority-item p3"><span class="priority-num">03</span><span class="priority-name">Schule &amp; Ausbildung</span></div>
-        <div class="priority-divider"><span>dann</span></div>
-        <div class="priority-item p4"><span class="priority-num">04</span><span class="priority-name">Sport</span></div>
+        <div class="priority-item p3 dual">
+          <span class="priority-num">03</span>
+          <span class="priority-dual">
+            <span class="priority-name">Schule / Ausbildung</span>
+            <span class="priority-plus">&amp;</span>
+            <span class="priority-name">Sport</span>
+          </span>
+        </div>
       </div>
-      <p class="priority-text">Immer in dieser Reihenfolge. Wer sportliche H&ouml;chstleistung bringen will, braucht k&ouml;rperliche Gesundheit, ein stabiles Umfeld und schulische Sicherheit als Fundament. Nur wenn diese Basis stimmt, kann ein Spieler sich voll auf den Sport konzentrieren &mdash; und sein Potenzial wirklich aussch&ouml;pfen.</p>
+      <p class="priority-text">Immer in dieser Reihenfolge. Gesundheit und ein stabiles Umfeld sind das Fundament. Schule oder Berufsausbildung und Sport stehen f&uuml;r uns auf derselben Stufe &mdash; als dualer Weg, der nur mit konsequentem Zeitmanagement funktioniert. Die sportliche Ausbildung ist umfangreich, aber sie ersetzt keine schulische. Beides gemeinsam erm&ouml;glicht eine nachhaltige Entwicklung.</p>
     </div>
 
     <h3>Unser dualer Auftrag</h3>
