@@ -7,6 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- Prefetch subpages for faster tab switching -->
+<link rel="prefetch" href="website.html">
+<link rel="prefetch" href="brand.html">
+<link rel="prefetch" href="timeline.html">
+<link rel="prefetch" href="logo.html">
 <style>
 :root {
   --coal: #1A1A1A;
@@ -289,6 +294,33 @@ body::after {
   height: calc(100vh - 56px);
 }
 
+/* ══ Loading Bar ══ */
+.loading-bar {
+  position: fixed;
+  top: 56px; left: 0;
+  height: 2px;
+  background: var(--rust);
+  z-index: 9001;
+  width: 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.loading-bar.active {
+  opacity: 1;
+  animation: loadProgress 1.2s ease-out forwards;
+}
+@keyframes loadProgress {
+  0% { width: 0; }
+  30% { width: 60%; }
+  60% { width: 85%; }
+  100% { width: 95%; }
+}
+.loading-bar.done {
+  width: 100% !important;
+  opacity: 0;
+  transition: width 0.15s, opacity 0.4s 0.15s;
+}
+
 /* ══ Mobile ══ */
 @media (max-width: 600px) {
   .gate-logo .flea { font-size: 52px; }
@@ -355,6 +387,7 @@ body::after {
       <button class="lock-btn" onclick="lockSession()">Lock</button>
     </div>
   </nav>
+  <div id="loadingBar" class="loading-bar"></div>
   <iframe id="contentFrame" class="content-frame" src="website.html"></iframe>
 </div>
 
@@ -405,6 +438,8 @@ function lockSession() {
   location.reload();
 }
 
+var tabCache = {};
+
 function switchTab(name, btn) {
   var map = {
     'website': 'website.html',
@@ -412,10 +447,23 @@ function switchTab(name, btn) {
     'timeline': 'timeline.html',
     'logo': 'logo.html'
   };
-  document.getElementById('contentFrame').src = map[name];
+  var frame = document.getElementById('contentFrame');
+  var bar = document.getElementById('loadingBar');
+
+  // Show loading bar
+  bar.className = 'loading-bar active';
+
+  frame.src = map[name];
   document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
 }
+
+// Loading bar complete on iframe load
+document.getElementById('contentFrame').addEventListener('load', function() {
+  var bar = document.getElementById('loadingBar');
+  bar.className = 'loading-bar done';
+  setTimeout(function() { bar.className = 'loading-bar'; }, 600);
+});
 
 // Enter key
 document.getElementById('codeInput').addEventListener('keydown', function(e) {

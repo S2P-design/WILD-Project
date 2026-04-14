@@ -179,36 +179,48 @@
 
   .cover-logo {
     margin-bottom: 60px;
+    display: inline-block;
   }
 
-  .cover-logo .the {
+  .cover-logo .logo-row-top {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .cover-logo .logo-the {
     font-family: 'Space Mono', monospace;
     font-size: 14px;
     letter-spacing: 12px;
     text-transform: uppercase;
     color: var(--warm-grey);
-    display: block;
-    margin-bottom: 4px;
   }
 
-  .cover-logo .flea {
+  .cover-logo .logo-row-main {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .cover-logo .logo-flea {
     font-family: 'Anton', sans-serif;
     font-size: clamp(80px, 14vw, 160px);
     text-transform: uppercase;
     line-height: 0.85;
     color: var(--coal);
-    display: block;
     letter-spacing: -2px;
   }
 
-  .cover-logo .rosenheim {
+  .cover-logo .logo-row-bottom {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .cover-logo .logo-ro {
     font-family: 'Space Mono', monospace;
     font-size: 11px;
     letter-spacing: 8px;
     text-transform: uppercase;
     color: var(--warm-grey);
-    display: block;
-    margin-top: 12px;
+    margin-top: 4px;
   }
 
   .cover-subtitle {
@@ -1780,9 +1792,9 @@
      ============================ -->
 <section class="cover" id="cover">
   <div class="cover-logo">
-    <span class="the">THE</span>
-    <span class="flea">FLEA</span>
-    <span class="rosenheim">Rosenheim</span>
+    <div class="logo-row-top"><span class="logo-the">THE</span></div>
+    <div class="logo-row-main"><span class="logo-flea">FLEA</span></div>
+    <div class="logo-row-bottom"><span class="logo-ro">RO</span></div>
   </div>
   <div class="cover-subtitle">Brand Identity Guidelines &mdash; 2026</div>
   <div class="cover-rule"></div>
