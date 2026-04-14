@@ -160,7 +160,7 @@
   }
   .section-big-num {
     font-family: 'League 200', 'League Gothic', sans-serif;
-    font-size: clamp(56px, 10vw, 100px); color: var(--red); opacity: 0.25;
+    font-size: clamp(56px, 10vw, 100px); color: var(--red); opacity: 0.6;
     line-height: 0.75; flex-shrink: 0; margin-top: -8px;
   }
   .section-titles { flex: 1; padding-top: 8px; }
@@ -205,57 +205,60 @@
     font-size: 8px; letter-spacing: 4px; color: var(--green);
     margin-bottom: 28px;
   }
-  .priority-stack {
-    display: flex; flex-direction: column; gap: 0;
-    margin-bottom: 24px;
+  .priority-tower {
+    display: flex; flex-direction: column; align-items: center;
+    margin-bottom: 28px;
   }
-  .priority-item {
-    display: flex; align-items: center; gap: 16px;
-    padding: 14px 24px;
-    border-bottom: 1px solid var(--border);
-    text-align: left;
+  .priority-top {
+    background: var(--green-05); border: 1px solid var(--green-20);
+    padding: 20px 36px; text-align: center;
+    width: 70%; max-width: 320px;
   }
-  .priority-item:first-child { border-top: 1px solid var(--border); }
-  .priority-num {
-    font-family: 'League 200', 'League Gothic', sans-serif;
-    font-size: 28px; line-height: 1; color: var(--red);
-    min-width: 36px;
-  }
-  .priority-name {
-    font-family: 'Titillium Web', sans-serif;
-    font-size: 16px; font-weight: 600; color: var(--light);
-    letter-spacing: 0.5px;
-  }
-  .priority-item.p4 .priority-name {
-    font-family: 'League 200', 'League Gothic', sans-serif;
-    font-size: 22px; font-weight: 400; color: var(--green);
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-  .priority-dual {
-    display: flex; align-items: center; gap: 10px;
-  }
-  .priority-plus {
+  .priority-top-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 1px; color: var(--red);
-    font-weight: 700;
+    font-size: 7px; letter-spacing: 3px; color: var(--green);
+    margin-bottom: 8px;
   }
-  .priority-item.dual {
-    background: var(--green-05);
-    border-left: 3px solid var(--green);
+  .priority-top-items {
+    font-family: 'League 200', 'League Gothic', sans-serif;
+    font-size: 20px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--green); line-height: 1.3;
   }
-  body.home .priority-item.dual {
-    background: rgba(0,82,67,0.08);
-    border-left-color: var(--green-bright);
+  .priority-amp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--red); font-weight: 700;
+    margin: 0 4px; vertical-align: middle;
+  }
+  .priority-arrow {
+    font-size: 14px; color: var(--muted); line-height: 1;
+    margin: 6px 0;
+  }
+  .priority-base {
+    background: var(--green); padding: 22px 36px;
+    text-align: center; width: 100%;
+  }
+  .priority-base-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px; letter-spacing: 3px; color: rgba(255,255,255,0.5);
+    margin-bottom: 8px;
+  }
+  .priority-base-items {
+    font-family: 'League 200', 'League Gothic', sans-serif;
+    font-size: 22px; text-transform: uppercase; letter-spacing: 1px;
+    color: #fff;
+  }
+  .priority-dot {
+    font-size: 14px; margin: 0 8px; opacity: 0.4;
+    vertical-align: middle;
   }
   .priority-text {
     font-size: 14px; line-height: 1.7; color: var(--text);
     max-width: 440px; margin: 0 auto;
   }
   body.home .priority-block { background: rgba(17,17,17,0.8); border-color: #1c1c1c; }
-  body.home .priority-item { border-bottom-color: #1c1c1c; }
-  body.home .priority-item:first-child { border-top-color: #1c1c1c; }
-  body.home .priority-name { color: rgba(255,255,255,0.85); }
-  body.home .priority-divider::before, body.home .priority-divider::after { background: #1c1c1c; }
+  body.home .priority-top { background: rgba(0,82,67,0.12); border-color: rgba(0,82,67,0.3); }
+  body.home .priority-top-items { color: var(--green-bright); }
+  body.home .priority-base { background: var(--green); }
   body.home .priority-text { color: rgba(255,255,255,0.5); }
 
   .rule-list { list-style: none; margin: 8px 0; }
@@ -392,6 +395,20 @@
   body.home .stat-box { background: rgba(0,82,67,0.08); }
   body.home .hero::after { background: linear-gradient(to top, var(--bg), transparent); }
   body.home .data-table tr:hover { background: rgba(0,82,67,0.06); }
+  body.home .section-big-num { opacity: 0.7; }
+  body.home .section { color: rgba(255,255,255,0.7); }
+  body.home .section h2 { color: #fff; }
+  body.home .section h3 { color: rgba(255,255,255,0.85); }
+  body.home .section-intro { color: rgba(255,255,255,0.6); }
+  body.home .section-label { color: rgba(255,255,255,0.3); }
+  body.home .section-divider { background: rgba(255,255,255,0.06); }
+  body.home .rule-list li { border-bottom-color: rgba(255,255,255,0.04); color: rgba(255,255,255,0.7); }
+  body.home .data-table th { color: var(--green-bright); border-bottom-color: rgba(255,255,255,0.08); }
+  body.home .data-table td { color: rgba(255,255,255,0.7); border-bottom-color: rgba(255,255,255,0.04); }
+  body.home .leitsatz { background: rgba(0,82,67,0.08); border-color: rgba(0,82,67,0.2); color: rgba(255,255,255,0.85); }
+  body.home .leitsatz span { color: rgba(255,255,255,0.5); }
+  body.home .quote-block { color: var(--green-bright); border-color: rgba(255,255,255,0.06); }
+  body.home .step-list li { color: rgba(255,255,255,0.7); }
 
   /* ══════ PRESENTATION MODE ══════ */
   body.presenting .controls { top: 20px; }
@@ -460,7 +477,7 @@
 <!-- Slide Nav -->
 <div class="slide-nav" id="slideNav">
   <button class="slide-nav-btn" id="prevSlide">&larr;</button>
-  <span class="slide-counter" id="slideCounter">1 / 18</span>
+  <span class="slide-counter" id="slideCounter">1 / 19</span>
   <button class="slide-nav-btn" id="nextSlide">&rarr;</button>
   <button class="slide-nav-btn" id="exitPresent" style="margin-left:8px; font-size:11px;">&times;</button>
 </div>
@@ -482,7 +499,7 @@
     <div class="toc-count">18 KAPITEL</div>
   </div>
   <div class="toc-grid">
-    <a href="#s1" class="toc-item"><span class="toc-num">01</span>Leitbild &amp; Werte</a>
+        <a href="#s1" class="toc-item"><span class="toc-num">01</span>Leitbild &amp; Werte</a>
     <a href="#s2" class="toc-item"><span class="toc-num">02</span>Ausbildungsphilosophie</a>
     <a href="#s3" class="toc-item"><span class="toc-num">03</span>Ausbildungsweg</a>
     <a href="#s4" class="toc-item"><span class="toc-num">04</span>Organisationsstruktur</a>
@@ -491,16 +508,17 @@
     <a href="#s7" class="toc-item"><span class="toc-num">07</span>Kodex: Trainer</a>
     <a href="#s8" class="toc-item"><span class="toc-num">08</span>Kodex: Spieler</a>
     <a href="#s9" class="toc-item"><span class="toc-num">09</span>Kodex: Eltern</a>
-    <a href="#s10" class="toc-item"><span class="toc-num">10</span>Kabine</a>
-    <a href="#s11" class="toc-item"><span class="toc-num">11</span>Pr&auml;vention &amp; Schutz</a>
-    <a href="#s12" class="toc-item"><span class="toc-num">12</span>Social Media</a>
-    <a href="#s13" class="toc-item"><span class="toc-num">13</span>Feedback &amp; Meetings</a>
-    <a href="#s14" class="toc-item"><span class="toc-num">14</span>Standardprozesse</a>
-    <a href="#s15" class="toc-item"><span class="toc-num">15</span>Torwartentwicklung</a>
-    <a href="#s16" class="toc-item"><span class="toc-num">16</span>Rechtliche Grundlagen</a>
-    <a href="#s17" class="toc-item"><span class="toc-num">17</span>5-Sterne-Programm</a>
-    <a href="#s18" class="toc-item"><span class="toc-num">18</span>Athletik &amp; Entwicklung</a>
-  </div>
+    <a href="#s10" class="toc-item"><span class="toc-num">10</span>Kommunikation</a>
+    <a href="#s11" class="toc-item"><span class="toc-num">11</span>Kabine</a>
+    <a href="#s12" class="toc-item"><span class="toc-num">12</span>Pr&auml;vention &amp; Schutz</a>
+    <a href="#s13" class="toc-item"><span class="toc-num">13</span>Social Media</a>
+    <a href="#s14" class="toc-item"><span class="toc-num">14</span>Feedback &amp; Meetings</a>
+    <a href="#s15" class="toc-item"><span class="toc-num">15</span>Standardprozesse</a>
+    <a href="#s16" class="toc-item"><span class="toc-num">16</span>Torwartentwicklung</a>
+    <a href="#s17" class="toc-item"><span class="toc-num">17</span>Rechtliche Grundlagen</a>
+    <a href="#s18" class="toc-item"><span class="toc-num">18</span>5-Sterne-Programm</a>
+    <a href="#s19" class="toc-item"><span class="toc-num">19</span>Athletik &amp; Entwicklung</a>
+</div>
 </nav>
 
 <div class="vision-break" style="margin-top:0; padding:80px 40px;">
@@ -518,19 +536,28 @@
 
     <div class="priority-block">
       <div class="priority-label">UNSERE PRIORIT&Auml;TEN</div>
-      <div class="priority-stack">
-        <div class="priority-item p1"><span class="priority-num">01</span><span class="priority-name">Gesundheit</span></div>
-        <div class="priority-item p2"><span class="priority-num">02</span><span class="priority-name">Familie &amp; Umfeld</span></div>
-        <div class="priority-item p3 dual">
-          <span class="priority-num">03</span>
-          <span class="priority-dual">
-            <span class="priority-name">Schule / Ausbildung</span>
-            <span class="priority-plus">&amp;</span>
-            <span class="priority-name">Sport</span>
-          </span>
+      <div class="priority-tower">
+        <div class="priority-top">
+          <div class="priority-top-label">DUALER WEG</div>
+          <div class="priority-top-items">
+            <span>Schule / Ausbildung</span>
+            <span class="priority-amp">&amp;</span>
+            <span>Sport</span>
+          </div>
+        </div>
+        <div class="priority-arrow">&darr;</div>
+        <div class="priority-base">
+          <div class="priority-base-label">FUNDAMENT</div>
+          <div class="priority-base-items">
+            <span>Gesundheit</span>
+            <span class="priority-dot">&middot;</span>
+            <span>Familie</span>
+            <span class="priority-dot">&middot;</span>
+            <span>Umfeld</span>
+          </div>
         </div>
       </div>
-      <p class="priority-text">Immer in dieser Reihenfolge. Gesundheit und ein stabiles Umfeld sind das Fundament. Schule oder Berufsausbildung und Sport stehen f&uuml;r uns auf derselben Stufe &mdash; als dualer Weg, der nur mit konsequentem Zeitmanagement funktioniert. Die sportliche Ausbildung ist umfangreich, aber sie ersetzt keine schulische. Beides gemeinsam erm&ouml;glicht eine nachhaltige Entwicklung.</p>
+      <p class="priority-text">Gesundheit, Familie und ein stabiles Umfeld bilden das Fundament. Darauf bauen Schule und Sport gemeinsam auf &mdash; als dualer Weg, der nur mit konsequentem Zeitmanagement funktioniert. Die sportliche Ausbildung ist umfangreich, aber sie ersetzt keine schulische oder berufliche. Beides zusammen erm&ouml;glicht nachhaltige Entwicklung.</p>
     </div>
 
     <h3>Unser dualer Auftrag</h3>
@@ -619,7 +646,7 @@
         <tr><td>U7</td><td>Laufschule</td><td>SL Laufschule</td></tr>
         <tr><td>Laufschule</td><td>Einstieg &amp; Recruiting</td><td>SL Laufschule</td></tr>
         <tr><td>Breitensport</td><td>U11&ndash;U15</td><td>Koordination</td></tr>
-        <tr><td style="font-size:11px; color:var(--green); font-weight:400;">QUER</td><td>Torwartentwicklung U9&ndash;U20</td><td>TW-Koordination</td></tr>
+        <tr><td style="font-size:11px; color:var(--green); font-weight:400;">QUER</td><td>Torwartentwicklung U20&ndash;U9</td><td>TW-Koordination</td></tr>
         <tr><td style="font-size:11px; color:var(--green); font-weight:400;">QUER</td><td>Athletik U11&ndash;U20</td><td>Head of Athletik</td></tr>
       </tbody>
     </table>
@@ -630,7 +657,7 @@
         <tr><td>U20 / U17</td><td>CT + AT + B + MF</td></tr>
         <tr><td>U15 / U13</td><td>CT + AT + B + MF</td></tr>
         <tr><td>U11 / U9</td><td>CT + 2&times;AT + 2&times;B + 2&times;MF</td></tr>
-        <tr><td>U7</td><td>4 Betreuer + 2 Springer</td></tr>
+        <tr><td>U7</td><td>CT + 2&times;AT</td></tr>
       </tbody>
     </table>
   </section>
@@ -666,22 +693,44 @@
       </tbody>
     </table>
 
-    <h3>Trainingsfrequenz</h3>
+    <h3>Gewichtung</h3>
+    <div class="quote-block">Gesundheit &middot; Familie &middot; Schule/Ausbildung &amp; Sport &mdash; als dualer Weg.<br>Die Verh&auml;ltnism&auml;&szlig;igkeit: <strong>51&thinsp;% Mensch, 49&thinsp;% Athlet.</strong></div>
+
+    <h3>Trainingsphilosophie</h3>
+    <div class="info-box" style="border-left-color:var(--green);">
+      <div class="info-box-label">KEIN ON-ICE OHNE OFF-ICE</div>
+      <p style="font-size:14px;">Wir denken nicht mehr in &bdquo;Eistraining&ldquo; und &bdquo;Athletik&ldquo; als getrennte Welten. Ein <strong>Trainingstag = Athletik &amp; Eistraining</strong>. Beides geh&ouml;rt zusammen. Zus&auml;tzlich erm&ouml;glichen wir bis zu <strong>3 Einheiten am Vormittag</strong> f&uuml;r den Leistungsbereich.</p>
+    </div>
+
+    <h3>Trainingsfrequenz (gem&auml;&szlig; 5-Sterne-Programm)</h3>
     <table class="data-table">
-      <thead><tr><th>TEAM</th><th>EIS / WOCHE</th><th>ATHLETIK / WOCHE</th><th>GESAMT</th></tr></thead>
+      <thead><tr><th>TEAM</th><th>EIS / WOCHE</th><th>ATHLETIK / WOCHE</th><th>TW-TRAINING</th><th>GESAMT</th></tr></thead>
       <tbody>
-        <tr><td>U20</td><td>4&ndash;5</td><td>2&ndash;3</td><td>6&ndash;8</td></tr>
-        <tr><td>U17</td><td>4&ndash;5</td><td>2&ndash;3</td><td>6&ndash;8</td></tr>
-        <tr><td>U15</td><td>3&ndash;4</td><td>2</td><td>5&ndash;6</td></tr>
-        <tr><td>U13</td><td>3</td><td>1&ndash;2</td><td>4&ndash;5</td></tr>
-        <tr><td>U11</td><td>2&ndash;3</td><td>1</td><td>3&ndash;4</td></tr>
-        <tr><td>U9</td><td>2</td><td>1</td><td>3</td></tr>
-        <tr><td>U7 / Laufschule</td><td>1&ndash;2</td><td>&mdash;</td><td>1&ndash;2</td></tr>
+        <tr><td>Prospect</td><td>5&ndash;6 (450&prime;)</td><td>3 (180&prime;)</td><td>2 (120&prime;)</td><td>10&ndash;11</td></tr>
+        <tr><td>U20</td><td>4&ndash;5 (360&prime;)</td><td>2&ndash;3 (150&prime;)</td><td>2 (120&prime;)</td><td>8&ndash;10</td></tr>
+        <tr><td>U17</td><td>4&ndash;5 (360&prime;)</td><td>2&ndash;3 (150&prime;)</td><td>2 (120&prime;)</td><td>8&ndash;10</td></tr>
+        <tr><td>U15</td><td>3&ndash;4 (270&prime;)</td><td>2 (120&prime;)</td><td>1&ndash;2 (90&prime;)</td><td>6&ndash;8</td></tr>
+        <tr><td>U13</td><td>3 (225&prime;)</td><td>1&ndash;2 (90&prime;)</td><td>1 (60&prime;)</td><td>5&ndash;6</td></tr>
+        <tr><td>U11</td><td>2&ndash;3 (180&prime;)</td><td>1 (60&prime;)</td><td>1 (60&prime;)</td><td>4&ndash;5</td></tr>
+        <tr><td>U9</td><td>2 (120&prime;)</td><td>1 (60&prime;)</td><td>1 (60&prime;)</td><td>4</td></tr>
+        <tr><td>U7 / Laufschule</td><td>1&ndash;2 (90&prime;)</td><td>&mdash;</td><td>&mdash;</td><td>1&ndash;2</td></tr>
       </tbody>
     </table>
 
-    <h3>Gewichtung</h3>
-    <div class="quote-block">Gesundheit &middot; Familie &middot; Schule &mdash; dann Sport.<br>Die Verh&auml;ltnism&auml;&szlig;igkeit: <strong>51% Mensch, 49% Athlet.</strong></div>
+    <h3>Hochrechnung Saison (Anfang August &ndash; Mitte April &asymp; 37 Wochen)</h3>
+    <table class="data-table">
+      <thead><tr><th>TEAM</th><th>EIS / SAISON</th><th>ATHLETIK / SAISON</th><th>TW / SAISON</th><th>GESAMT</th></tr></thead>
+      <tbody>
+        <tr><td>Prospect</td><td>&asymp; 200</td><td>&asymp; 111</td><td>&asymp; 74</td><td>&asymp; 385</td></tr>
+        <tr><td>U20</td><td>&asymp; 167</td><td>&asymp; 93</td><td>&asymp; 74</td><td>&asymp; 334</td></tr>
+        <tr><td>U17</td><td>&asymp; 167</td><td>&asymp; 93</td><td>&asymp; 74</td><td>&asymp; 334</td></tr>
+        <tr><td>U15</td><td>&asymp; 130</td><td>&asymp; 74</td><td>&asymp; 56</td><td>&asymp; 260</td></tr>
+        <tr><td>U13</td><td>&asymp; 111</td><td>&asymp; 56</td><td>&asymp; 37</td><td>&asymp; 204</td></tr>
+        <tr><td>U11</td><td>&asymp; 93</td><td>&asymp; 37</td><td>&asymp; 37</td><td>&asymp; 167</td></tr>
+        <tr><td>U9</td><td>&asymp; 74</td><td>&asymp; 37</td><td>&asymp; 37</td><td>&asymp; 148</td></tr>
+        <tr><td>U7 / Laufschule</td><td>&asymp; 56</td><td>&mdash;</td><td>&mdash;</td><td>&asymp; 56</td></tr>
+      </tbody>
+    </table>
 
     <h3>Prinzipien</h3>
     <ul class="rule-list">
@@ -810,18 +859,24 @@
     <div class="section-head"><div class="section-big-num">08</div><div class="section-titles"><div class="section-label">KAPITEL 08</div><h2>Verhaltenskodex &mdash; Spieler</h2></div></div>
     <div class="section-divider"></div>
 
+    <div class="quote-block">&bdquo;Sobald du das Trainingsgel&auml;nde betrittst, schl&uuml;pfst du in die Rolle des Athleten. Egal ob du 7 oder 20 bist &mdash; ab hier z&auml;hlt dein Mindset.&ldquo;</div>
+
     <h3>Grundregeln</h3>
     <ul class="rule-list">
-      <li><strong>P&uuml;nktlichkeit</strong> &mdash; 30 Minuten vor Trainingsbeginn in der Kabine. Ausr&uuml;stung vorbereitet.</li>
-      <li><strong>Respekt</strong> &mdash; gegen&uuml;ber Trainern, Mitspielern, Gegnern und Schiedsrichtern. Immer.</li>
-      <li><strong>Eigenverantwortung</strong> &mdash; f&uuml;r Ausr&uuml;stung, Verhalten und eigene Entwicklung.</li>
+      <li><strong>P&uuml;nktlichkeit</strong> &mdash; zeigt Trainern und Mitspielern: Ich bin bereit, 100&thinsp;% zu geben.</li>
+      <li><strong>Respekt</strong> &mdash; gegen&uuml;ber Trainern, Mitspielern, Gegnern und Schiedsrichtern. Und dir selbst.</li>
+      <li><strong>Ownership</strong> &mdash; Eigenverantwortung f&uuml;r Ausr&uuml;stung, Verhalten und eigene Entwicklung.</li>
       <li><strong>Zero Tolerance</strong> &mdash; Mobbing, Ausgrenzung und Gewalt haben keinen Platz.</li>
       <li><strong>Teamgeist</strong> &mdash; zusammen gewinnen, zusammen verlieren.</li>
       <li><strong>Kabine</strong> &mdash; Ordnung, Sauberkeit, kein Handy w&auml;hrend Training und Spiel.</li>
-      <li><strong>Repr&auml;sentation</strong> &mdash; im Trikot vertritt jeder den Verein. Auf und neben dem Eis.</li>
+      <li><strong>Repr&auml;sentation</strong> &mdash; im Trikot und in der Team&nbsp;Wear vertritt jeder den Verein. Auf und neben dem Eis.</li>
     </ul>
 
     <h3>Verletzung &amp; Krankheit</h3>
+    <div class="info-box" style="border-left-color:var(--red);">
+      <div class="info-box-label">WICHTIG</div>
+      <p style="font-size:14px;">Wir wollen keine kranken Kinder im Trainings- oder Spielbetrieb.</p>
+    </div>
     <ul class="rule-list">
       <li><strong>Kommunikation:</strong> Trainer fr&uuml;hzeitig &uuml;ber Krankheiten oder Verletzungen informieren.</li>
       <li><strong>Laufend updaten:</strong> Status regelm&auml;&szlig;ig mitteilen, nicht einfach verschwinden.</li>
@@ -830,6 +885,16 @@
       <li><strong>L&ouml;sungsunterst&uuml;tzung:</strong> Wir helfen bei Behandlung, &Auml;rzten, Rehabilitation.</li>
     </ul>
 
+    <div class="info-box">
+      <div class="info-box-label">BERICHTSWEG BEI VERLETZUNG</div>
+      <ol class="step-list">
+        <li>Spieler / Eltern informieren Trainer (Telefon, Spond oder E-Mail)</li>
+        <li>Trainer informiert Sektionsleiter</li>
+        <li>Bei l&auml;ngerer Abwesenheit: R&uuml;ckkehr-Plan mit Athletik-Team</li>
+        <li>Return-to-Play erst nach &auml;rztlicher Freigabe</li>
+      </ol>
+    </div>
+
     <h3>Athletik &amp; Off-Ice</h3>
     <ul class="rule-list">
       <li>Athletiktraining ist <strong>fester Bestandteil</strong> der Ausbildung &mdash; keine optionale Erg&auml;nzung.</li>
@@ -837,34 +902,24 @@
       <li>Ern&auml;hrung und Regeneration sind Teil der Eigenverantwortung.</li>
       <li>Schlaf, Hydration, gesunde Ern&auml;hrung &mdash; wer den K&ouml;rper nicht pflegt, kann nicht performen.</li>
     </ul>
-
-    <div class="info-box">
-      <div class="info-box-label">BERICHTSWEG BEI VERLETZUNG</div>
-      <ul class="rule-list">
-        <li>Spieler / Eltern informieren Trainer (Spond oder E-Mail)</li>
-        <li>Trainer informiert Sektionsleiter</li>
-        <li>Bei l&auml;ngerer Abwesenheit: R&uuml;ckkehr-Plan mit Athletik-Team</li>
-        <li>Return-to-Play erst nach &auml;rztlicher Freigabe</li>
-      </ul>
-    </div>
   </section>
 
   <!-- ══════ 08 KODEX ELTERN ══════ -->
-  <section class="section" id="s8">
+  <section class="section" id="s9">
     <div class="section-head"><div class="section-big-num">09</div><div class="section-titles"><div class="section-label">KAPITEL 09</div><h2>Verhaltenskodex &mdash; Eltern</h2></div></div>
     <div class="section-divider"></div>
     <p class="section-intro">Eltern sind wichtige Partner &mdash; jedoch mit klaren Rollen. Trainer coachen, Eltern unterst&uuml;tzen.</p>
     <h3>Grundregeln</h3>
     <ul class="rule-list">
-      <li><strong>Training den Trainern</strong> &mdash; Trib&uuml;ne, nicht Bande.</li>
+      <li><strong>Training den Trainern</strong> &mdash; Trib&uuml;ne, nicht Bande. Empfehlung: Kinder alleine trainieren lassen.</li>
       <li><strong>Kein Druck</strong> &mdash; Kinder entwickeln sich ohne Leistungsdruck besser.</li>
-      <li><strong>Respekt</strong> &mdash; gegen&uuml;ber Gegnern, Schiedsrichtern, anderen Vereinen.</li>
+      <li><strong>Respekt</strong> &mdash; gegen&uuml;ber Trainern, Eltern, Gegnern, Schiedsrichtern, anderen Vereinen.</li>
       <li><strong>Entscheidungen akzeptieren</strong> &mdash; Kader und Aufstellung liegen beim Trainerteam.</li>
     </ul>
-    <h3>24-Stunden-Regel</h3>
+    <h3>48-Stunden-Regel</h3>
     <div class="info-box" style="border-left-color:var(--red);">
       <div class="info-box-label">VERBINDLICH NACH JEDEM SPIEL</div>
-      <p style="font-size:14px;">Nach dem Schlusspfiff gilt eine <strong>24-Stunden-Abk&uuml;hlphase</strong>. Kein Kontakt zum Trainer &uuml;ber Spielentscheidungen. Ausnahme: Sicherheitsanliegen.</p>
+      <p style="font-size:14px;">Nach dem Schlusspfiff gilt eine <strong>48-Stunden-Abk&uuml;hlphase</strong>. Kein Kontakt zum Trainer &uuml;ber Spielentscheidungen. Ausnahme: Sicherheitsanliegen.</p>
     </div>
     <h3>Kommunikation mit Trainern</h3>
     <ul class="rule-list">
@@ -875,10 +930,10 @@
     </ul>
     <h3>Erlaubte Themen</h3>
     <ul class="rule-list">
-      <li>Wohlbefinden und Freude des eigenen Kindes</li>
-      <li>Individuelle Entwicklung</li>
-      <li>Sicherheitsbedenken</li>
-      <li>Wie man das Kind zu Hause unterst&uuml;tzen kann</li>
+      <li><strong>Wohlbefinden</strong> &mdash; Krankheit, Verletzung, mentale Gesundheit und Freude des eigenen Kindes</li>
+      <li><strong>Individuelle Entwicklung</strong> &mdash; siehe Feedback &amp; Meetingkultur (Kap.&thinsp;14)</li>
+      <li><strong>Sicherheitsbedenken</strong></li>
+      <li><strong>Unterst&uuml;tzung zu Hause</strong> &mdash; wie man das Kind abseits des Eises f&ouml;rdern kann</li>
     </ul>
     <div class="red-zone">
       <div class="red-zone-title">DAR&Uuml;BER WIRD NICHT DISKUTIERT</div>
@@ -898,22 +953,84 @@
     </ul>
   </section>
 
-  <!-- ══════ 09 KABINE ══════ -->
-  <section class="section" id="s9">
-    <div class="section-head"><div class="section-big-num">10</div><div class="section-titles"><div class="section-label">KAPITEL 10</div><h2>Kabine &mdash; Unser Standard</h2></div></div>
+  <!-- ══════ 10 KOMMUNIKATION ══════ -->
+  <section class="section" id="s10">
+    <div class="section-head"><div class="section-big-num">10</div><div class="section-titles"><div class="section-label">KAPITEL 10</div><h2>Kommunikation</h2></div></div>
     <div class="section-divider"></div>
+    <p class="section-intro">Klare Kommunikation ist das R&uuml;ckgrat unserer Nachwuchsarbeit. Wer mit wem spricht, &uuml;ber welchen Kanal und in welchem Rahmen &mdash; das regeln wir verbindlich.</p>
+
+    <h3>Interne Kommunikationswege</h3>
+    <table class="data-table">
+      <thead><tr><th>VON</th><th>AN</th><th>KANAL</th><th>FREQUENZ</th></tr></thead>
+      <tbody>
+        <tr><td>Vorstand</td><td>Nachwuchsleitung</td><td>Pers&ouml;nlich, E-Mail</td><td>Nach Bedarf</td></tr>
+        <tr><td>Nachwuchsleitung</td><td>Sektionsleiter</td><td>Meeting, E-Mail</td><td>Monatlich + ad hoc</td></tr>
+        <tr><td>Sektionsleiter</td><td>Trainer &amp; Betreuer</td><td>Meeting, Spond</td><td>W&ouml;chentlich</td></tr>
+        <tr><td>Trainer</td><td>Spieler</td><td>Pers&ouml;nlich, Spond</td><td>Jede Einheit</td></tr>
+        <tr><td>Trainer / SL</td><td>Eltern</td><td>Spond, E-Mail</td><td>Nach Bedarf</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Kommunikationskan&auml;le</h3>
+    <div class="phase-grid">
+      <div class="phase-card"><div class="phase-card-title">Spond</div><div class="phase-card-desc">Aktueller Hauptkanal &middot; Events, Anwesenheit, Nachrichten</div></div>
+      <div class="phase-card"><div class="phase-card-title">E-Mail</div><div class="phase-card-desc">Offizieller Kanal &middot; Dokumentation, Vertr&auml;ge, Beschwerden</div></div>
+      <div class="phase-card"><div class="phase-card-title">SBR Portal</div><div class="phase-card-desc">In Entwicklung &middot; Zuk&uuml;nftig zentrales Vereinsportal</div></div>
+    </div>
+    <div class="info-box">
+      <div class="info-box-label">GRUNDSATZ</div>
+      <p style="font-size:14px;">Kein privater WhatsApp-Kontakt zwischen Trainern und Spielern/Eltern. Alle relevante Kommunikation l&auml;uft &uuml;ber die offiziellen Kan&auml;le &mdash; dokumentierbar, nachvollziehbar, transparent.</p>
+    </div>
+
+    <h3>Elternveranstaltungen</h3>
+    <ul class="rule-list">
+      <li><strong>Elternabende</strong> &mdash; mindestens 2&times; pro Saison pro Team (Saisonstart + R&uuml;ckrunde). Information &uuml;ber Saisonplanung, Erwartungen, organisatorische Themen.</li>
+      <li><strong>Virtuelle Elternabende</strong> &mdash; zuk&uuml;nftig als erg&auml;nzendes Format, z.&thinsp;B. f&uuml;r Zwischenberichte oder Themenabende.</li>
+      <li><strong>Saisonkick-off</strong> &mdash; Gro&szlig;er Elternabend zu Saisonbeginn mit allen Teams. Vorstellung Trainerteam, Saisonziele, Guideline.</li>
+    </ul>
+
+    <h3>Spieler-Kommunikation</h3>
+    <ul class="rule-list">
+      <li><strong>Ansprache durch Trainer</strong> &mdash; vor und nach jeder Einheit. Klare Ziele, ehrliches Feedback.</li>
+      <li><strong>Entwicklungsgespr&auml;che</strong> &mdash; strukturiert und terminiert (siehe Kap.&thinsp;14).</li>
+      <li><strong>Offene-T&uuml;r-Prinzip</strong> &mdash; Spieler k&ouml;nnen jederzeit ein Gespr&auml;ch anfragen (siehe Kap.&thinsp;14).</li>
+      <li><strong>Mannschaftssitzungen</strong> &mdash; Saisonstart, Halbzeit, Saisonende. Gemeinsame Ziele und R&uuml;ckblick.</li>
+    </ul>
+
+    <h3>Externe Kommunikation</h3>
+    <ul class="rule-list">
+      <li><strong>Social Media</strong> &mdash; Instagram, TikTok, YouTube. Richtlinien siehe Kap.&thinsp;13.</li>
+      <li><strong>Podcast</strong> &mdash; Einblicke in die Nachwuchsarbeit, Interviews, Spielerentwicklung.</li>
+      <li><strong>Presse &amp; Medien</strong> &mdash; offizielle Statements ausschlie&szlig;lich &uuml;ber die Nachwuchsleitung oder den Vorstand.</li>
+      <li><strong>Website</strong> &mdash; sbr-nachwuchs.de als zentrale Informationsplattform f&uuml;r Interessierte und Familien.</li>
+    </ul>
+
+    <div class="red-zone">
+      <div class="red-zone-title">NICHT AUTORISIERT</div>
+      <ul class="rule-list">
+        <li>Keine eigenm&auml;chtigen Presseaussagen von Trainern, Betreuern oder Spielern.</li>
+        <li>Keine Weitergabe interner Informationen (Kader, Taktik, pers&ouml;nliche Daten).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════ 11 KABINE ══════ -->
+  <section class="section" id="s11">
+    <div class="section-head"><div class="section-big-num">11</div><div class="section-titles"><div class="section-label">KAPITEL 11</div><h2>Kabine &mdash; Unser Standard</h2></div></div>
+    <div class="section-divider"></div>
+    <p class="section-intro">Die Kabine ist ausschlie&szlig;lich f&uuml;r Spieler der jeweiligen Mannschaft und deren Staff zug&auml;nglich.</p>
     <ul class="rule-list">
       <li><strong>Handyfreie Zone</strong> &mdash; Keine Ausnahmen.</li>
       <li><strong>Kabinenbranding</strong> &mdash; Starbulls-CI sichtbar, Leitbild an der Wand.</li>
-      <li><strong>Ordnung</strong> &mdash; Ausr&uuml;stung ordentlich, Gegenst&auml;nde mitnehmen.</li>
+      <li><strong>Ordnung</strong> &mdash; Ausr&uuml;stung ordentlich, Gegenst&auml;nde mitnehmen, die nicht gebraucht werden.</li>
       <li><strong>Gesch&uuml;tzter Raum</strong> &mdash; Keine Bilder/Videos aus Kabine oder Bus.</li>
       <li><strong>Vorbildfunktion</strong> &mdash; &Auml;ltere Spieler setzen den Standard.</li>
     </ul>
   </section>
 
   <!-- ══════ 10 PRÄVENTION ══════ -->
-  <section class="section" id="s10">
-    <div class="section-head"><div class="section-big-num">11</div><div class="section-titles"><div class="section-label">KAPITEL 11</div><h2>Pr&auml;vention &amp; Schutzkonzept</h2></div></div>
+  <section class="section" id="s12">
+    <div class="section-head"><div class="section-big-num">12</div><div class="section-titles"><div class="section-label">KAPITEL 12</div><h2>Pr&auml;vention &amp; Schutzkonzept</h2></div></div>
     <div class="section-divider"></div>
     <h3>Anti-Mobbing</h3>
     <ul class="rule-list">
@@ -927,11 +1044,32 @@
       <li>Benannte Vertrauensperson(en) im Verein.</li>
     </ul>
     <div class="red-zone"><div class="red-zone-title">BEI VERDACHT</div><p style="font-size:14px;">Sofortige Meldung. Dokumentation. Kein Alleingang. Schutz des Kindes = oberste Priorit&auml;t.</p></div>
+
+    <h3>Notfall &amp; Rettungskette</h3>
+    <p style="font-size:14px; margin-bottom:12px;">Umgang bei Notf&auml;llen im Trainings- und Spielbetrieb. Jeder Trainer und Betreuer muss diese Abl&auml;ufe kennen.</p>
+    <div class="info-box" style="border-left-color:var(--red);">
+      <div class="info-box-label">AKUTE VERLETZUNG &mdash; SOFORTMASSNAHMEN</div>
+      <ol class="step-list">
+        <li><strong>Situation sichern</strong> &mdash; Spielunterbruch, verletzte Person nicht bewegen (au&szlig;er bei Gefahr).</li>
+        <li><strong>Erste Hilfe</strong> &mdash; Ausgebildeter Ersthelfer &uuml;bernimmt. Erste-Hilfe-Koffer muss bei jeder Einheit griffbereit sein.</li>
+        <li><strong>Notruf 112</strong> &mdash; bei schweren Verletzungen sofort. Klare Angaben: Ort, Halle, Zugang, Art der Verletzung.</li>
+        <li><strong>Eltern informieren</strong> &mdash; unverz&uuml;glich durch CT oder SL.</li>
+        <li><strong>Dokumentation</strong> &mdash; Unfallbericht, Zeugen, Fotos (nur Situation, nicht das Kind).</li>
+        <li><strong>Meldung an Nachwuchsleitung</strong> &mdash; innerhalb von 24 Stunden.</li>
+      </ol>
+    </div>
+    <h3>R&auml;umlichkeiten &amp; Ausstattung</h3>
+    <ul class="rule-list">
+      <li>Erste-Hilfe-Koffer in jeder Kabine und am Spielfeldrand.</li>
+      <li>Defibrillatoren (AED): Standorte m&uuml;ssen allen Trainern bekannt sein.</li>
+      <li>Rettungswege und Zufahrten f&uuml;r den Rettungsdienst freihalten.</li>
+      <li>Notfallnummern sichtbar in der Kabine ausgehangen.</li>
+    </ul>
   </section>
 
   <!-- ══════ 11 SOCIAL MEDIA ══════ -->
-  <section class="section" id="s11">
-    <div class="section-head"><div class="section-big-num">12</div><div class="section-titles"><div class="section-label">KAPITEL 12</div><h2>Social Media Richtlinien</h2></div></div>
+  <section class="section" id="s13">
+    <div class="section-head"><div class="section-big-num">13</div><div class="section-titles"><div class="section-label">KAPITEL 13</div><h2>Social Media Richtlinien</h2></div></div>
     <div class="section-divider"></div>
     <ul class="rule-list">
       <li>Nur Inhalte zu <strong>Training und Spielbetrieb</strong>.</li>
@@ -943,8 +1081,8 @@
   </section>
 
   <!-- ══════ 12 FEEDBACK ══════ -->
-  <section class="section" id="s12">
-    <div class="section-head"><div class="section-big-num">13</div><div class="section-titles"><div class="section-label">KAPITEL 13</div><h2>Feedback- &amp; Meetingkultur</h2></div></div>
+  <section class="section" id="s14">
+    <div class="section-head"><div class="section-big-num">14</div><div class="section-titles"><div class="section-label">KAPITEL 14</div><h2>Feedback- &amp; Meetingkultur</h2></div></div>
     <div class="section-divider"></div>
     <p class="section-intro">Strukturierte Gespr&auml;che zu festen Zeitpunkten im Saisonverlauf. Jeder Spieler durchl&auml;uft den gleichen Zyklus.</p>
     <h3>Der Saisonzyklus</h3>
@@ -961,7 +1099,7 @@
     </ul>
     <h3>Entwicklungsgespr&auml;ch</h3>
     <ul class="rule-list">
-      <li>Strukturiertes Einzelgespr&auml;ch mit jedem Spieler.</li>
+      <li>Strukturiertes Einzelgespr&auml;ch mit jedem Spieler &amp; Eltern (bis U15 Pflicht, ab U17 optional).</li>
       <li>Leistungsentwicklung, St&auml;rken, Entwicklungsfelder.</li>
       <li>Konkrete Ziele f&uuml;r die R&uuml;ckrunde.</li>
     </ul>
@@ -978,11 +1116,16 @@
       <li><strong>Dokumentiert</strong> &mdash; Protokoll, offene Punkte in n&auml;chste Agenda.</li>
       <li><strong>Vier-Augen-Prinzip</strong> &mdash; Gespr&auml;che mit Spielern nie allein.</li>
     </ul>
+
+    <div class="info-box" style="border-left-color:var(--green);">
+      <div class="info-box-label">OFFENE-T&Uuml;R-PRINZIP</div>
+      <p style="font-size:14px;">Bei uns herrscht das Prinzip einer offenen T&uuml;r. Bei Anliegen kann jeder Spieler jederzeit ins B&uuml;ro kommen, um einen Termin zu vereinbaren &mdash; oder wenn es wirklich dringend und wichtig ist, um direkt ein Gespr&auml;ch zu bitten.</p>
+    </div>
   </section>
 
   <!-- ══════ 13 SOPs ══════ -->
-  <section class="section" id="s13">
-    <div class="section-head"><div class="section-big-num">14</div><div class="section-titles"><div class="section-label">KAPITEL 14</div><h2>Standardprozesse (SOPs)</h2></div></div>
+  <section class="section" id="s15">
+    <div class="section-head"><div class="section-big-num">15</div><div class="section-titles"><div class="section-label">KAPITEL 15</div><h2>Standardprozesse (SOPs)</h2></div></div>
     <div class="section-divider"></div>
     <p class="section-intro">Klare Abl&auml;ufe f&uuml;r wiederkehrende Situationen. Jeder wei&szlig;, was zu tun ist.</p>
 
@@ -999,18 +1142,19 @@
     <ul class="rule-list">
       <li><strong>Onboarding &amp; Try-Out</strong> &mdash; siehe Kapitel 06</li>
       <li><strong>Kadereinteilung</strong> &mdash; Evaluierung, Testungen, Kommunikation an Spieler und Eltern</li>
-      <li><strong>Entwicklungsgespr&auml;che</strong> &mdash; Entry / Entwicklung / Exit (siehe Kapitel 13)</li>
+      <li><strong>Feedback &amp; Meetingkultur</strong> &mdash; Entry / Entwicklung / Exit (siehe Kapitel 14)</li>
       <li><strong>Vereinswechsel / Abgang</strong> &mdash; Exit-Gespr&auml;ch, Freigabe, Dokumentation</li>
       <li><strong>Umgang mit Beschwerden</strong> &mdash; Ansprechperson, Eskalationsweg, Dokumentation</li>
       <li><strong>Spieltag-Ablauf</strong> &mdash; Heim und Ausw&auml;rts (Zeiten, Kabine, Warm-up, Nachbesprechung)</li>
-      <li><strong>PSG-Meldekette</strong> &mdash; siehe Kapitel 11</li>
-      <li><strong>Social Media Vorfall</strong> &mdash; siehe Kapitel 12</li>
+      <li><strong>PSG-Meldekette</strong> &mdash; siehe Kapitel 12</li>
+      <li><strong>Social Media Vorfall</strong> &mdash; siehe Kapitel 13</li>
+      <li><strong>Notfall: Akute Verletzung</strong> &mdash; Rettungskette (siehe Kapitel 12)</li>
     </ul>
   </section>
 
   <!-- ══════ 14 TORWARTENTWICKLUNG ══════ -->
-  <section class="section" id="s14">
-    <div class="section-head"><div class="section-big-num">15</div><div class="section-titles"><div class="section-label">KAPITEL 15</div><h2>Torwartentwicklung &mdash; The Path</h2></div></div>
+  <section class="section" id="s16">
+    <div class="section-head"><div class="section-big-num">16</div><div class="section-titles"><div class="section-label">KAPITEL 16</div><h2>Torwartentwicklung &mdash; The Path</h2></div></div>
     <div class="section-divider"></div>
     <p class="section-intro">Torh&uuml;ter brauchen die l&auml;ngste Entwicklungszeit aller Positionen. Unser Konzept begleitet sie &uuml;ber mehrere Jahre.</p>
     <div class="quote-block">&bdquo;Goaltending is like building a house &mdash; you have to start at the foundation.&ldquo;</div>
@@ -1051,8 +1195,8 @@
   </section>
 
   <!-- ══════ 15 RECHTLICHE GRUNDLAGEN ══════ -->
-  <section class="section" id="s15">
-    <div class="section-head"><div class="section-big-num">16</div><div class="section-titles"><div class="section-label">KAPITEL 16</div><h2>Rechtliche Grundlagen</h2></div></div>
+  <section class="section" id="s17">
+    <div class="section-head"><div class="section-big-num">17</div><div class="section-titles"><div class="section-label">KAPITEL 17</div><h2>Rechtliche Grundlagen</h2></div></div>
     <div class="section-divider"></div>
     <p class="section-intro">Verbindliche gesetzliche Anforderungen f&uuml;r einen eingetragenen Verein mit Jugendarbeit.</p>
     <h3>Datenschutz (DSGVO)</h3>
@@ -1100,8 +1244,8 @@
   </section>
 
   <!-- ══════ 17 5-STERNE-PROGRAMM ══════ -->
-  <section class="section" id="s17">
-    <div class="section-head"><div class="section-big-num">17</div><div class="section-titles"><div class="section-label">KAPITEL 17</div><h2>5-Sterne-Programm</h2></div></div>
+  <section class="section" id="s18">
+    <div class="section-head"><div class="section-big-num">18</div><div class="section-titles"><div class="section-label">KAPITEL 18</div><h2>5-Sterne-Programm</h2></div></div>
     <div class="section-divider"></div>
     <p class="section-intro">Das DEB-Qualit&auml;tsprogramm f&uuml;r Nachwuchsarbeit. F&uuml;r DEL2-Clubs verpflichtend. Die Sterne bewerten die Qualit&auml;t in f&uuml;nf Bereichen.</p>
 
@@ -1132,8 +1276,8 @@
   </section>
 
   <!-- ══════ 18 ATHLETIK ══════ -->
-  <section class="section" id="s18">
-    <div class="section-head"><div class="section-big-num">18</div><div class="section-titles"><div class="section-label">KAPITEL 18</div><h2>Athletik &amp; K&ouml;rperliche Entwicklung</h2></div></div>
+  <section class="section" id="s19">
+    <div class="section-head"><div class="section-big-num">19</div><div class="section-titles"><div class="section-label">KAPITEL 19</div><h2>Athletik &amp; K&ouml;rperliche Entwicklung</h2></div></div>
     <div class="section-divider"></div>
     <p class="section-intro">Der Athletikbereich hat einen zentralen Stellenwert in unserer Ausbildung. K&ouml;rperliche Entwicklung ist nicht optional &mdash; sie ist das Fundament f&uuml;r sportliche Leistung und Verletzungspr&auml;vention.</p>
 
@@ -1165,8 +1309,6 @@
       <li>Ern&auml;hrungsberatung altersgerecht &mdash; Kooperation mit Fachleuten.</li>
       <li>Regeneration als Trainingsbestandteil: Schlaf, Belastungssteuerung, Recovery.</li>
     </ul>
-
-    <div class="quote-block">Gesundheit &middot; Familie &middot; Schule &mdash; dann Sport. Immer in dieser Reihenfolge.</div>
   </section>
 
 </div>
