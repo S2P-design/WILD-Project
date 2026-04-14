@@ -232,15 +232,116 @@
     transform: translateX(-50%) translateY(0);
   }
 
+  /* ── LOGIN GATE ── */
+  .login-gate {
+    position: fixed; inset: 0; z-index: 10000;
+    background: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .login-gate.hidden {
+    opacity: 0; transform: scale(1.02);
+    pointer-events: none;
+  }
+  .login-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 16px;
+  }
+  .login-title {
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .login-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .login-input-wrap {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .login-input {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    letter-spacing: 8px;
+    text-align: center;
+    width: 180px;
+    padding: 14px 16px;
+    border: 2px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .login-input::placeholder {
+    color: rgba(255,255,255,0.15);
+    letter-spacing: 4px;
+    font-size: 14px;
+  }
+  .login-input:focus { border-color: rgba(255,255,255,0.3); }
+  .login-input.error {
+    border-color: var(--red);
+    animation: loginShake 0.4s;
+  }
+  .login-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 16px 24px;
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .login-btn:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.3);
+  }
+  @keyframes loginShake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+  .main-content { display: none; }
+  .main-content.visible { display: block; }
+
   @media (max-width: 600px) {
     .top-bar { padding: 16px 20px; }
     .hero { padding: 32px 20px 40px; }
     .links-section { padding: 32px 20px; }
     .link-card { padding: 16px 18px; }
+    .login-input { width: 140px; font-size: 18px; }
   }
 </style>
 </head>
 <body>
+
+<!-- LOGIN GATE -->
+<div class="login-gate" id="loginGate">
+  <div class="login-label">STARBULLS ROSENHEIM E.V.</div>
+  <div class="login-title">Sommer Camp 2026</div>
+  <div class="login-sub">Zugang nur mit Code</div>
+  <div class="login-input-wrap">
+    <input class="login-input" id="loginCode" type="text" inputmode="numeric" maxlength="4" placeholder="CODE" autofocus>
+    <button class="login-btn" onclick="checkCode()">ENTER</button>
+  </div>
+</div>
+
+<div class="main-content" id="mainContent">
 
 <div class="top-bar">
   <h1>Starbulls Sommer Camp 2026</h1>
@@ -346,21 +447,45 @@
 
 <div class="copy-toast" id="toast"></div>
 
+</div><!-- /main-content -->
+
 <script>
+var CODE = '1928';
+function checkCode() {
+  var input = document.getElementById('loginCode');
+  if (input.value === CODE) {
+    document.getElementById('loginGate').classList.add('hidden');
+    document.getElementById('mainContent').classList.add('visible');
+    sessionStorage.setItem('camp-docs-auth', '1');
+  } else {
+    input.classList.add('error');
+    input.value = '';
+    setTimeout(function() { input.classList.remove('error'); }, 500);
+  }
+}
+document.getElementById('loginCode').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkCode();
+});
+// Session persistence
+if (sessionStorage.getItem('camp-docs-auth') === '1') {
+  document.getElementById('loginGate').classList.add('hidden');
+  document.getElementById('mainContent').classList.add('visible');
+}
+
 function copyLink(path, msg) {
-  const base = window.location.origin;
-  const url = base + path;
-  navigator.clipboard.writeText(url).then(() => {
+  var base = window.location.origin;
+  var url = base + path;
+  navigator.clipboard.writeText(url).then(function() {
     showToast(msg || 'Link kopiert!');
-  }).catch(() => {
+  }).catch(function() {
     window.open(path, '_blank');
   });
 }
 function showToast(msg) {
-  const t = document.getElementById('toast');
+  var t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
+  setTimeout(function() { t.classList.remove('show'); }, 2200);
 }
 </script>
 
