@@ -503,9 +503,13 @@
     body { background: #fff; }
     .logo-card { break-inside: avoid; }
   }
+
+  /* ── Iframe Detection ── */
+  body.in-iframe .page-header { display: none !important; }
 </style>
 </head>
 <body>
+<script>if(window.self!==window.top)document.body.classList.add('in-iframe');</script>
 
 <div class="page-header">
   <h1>The Flea &mdash; Logo Konzept</h1>

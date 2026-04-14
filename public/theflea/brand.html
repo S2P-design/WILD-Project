@@ -1749,9 +1749,14 @@
     .brand-nav { display: none; }
     .page-section { break-inside: avoid; }
   }
+
+  /* ── Iframe Detection ── */
+  body.in-iframe .brand-nav { display: none !important; }
+  body.in-iframe .cover { padding-top: 80px; }
 </style>
 </head>
 <body>
+<script>if(window.self!==window.top)document.body.classList.add('in-iframe');</script>
 
 <!-- ============================
      NAVIGATION

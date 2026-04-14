@@ -390,9 +390,13 @@
     body { font-size: 11px; }
     .tl-item { break-inside: avoid; }
   }
+
+  /* ── Iframe Detection ── */
+  body.in-iframe .header { display: none !important; }
 </style>
 </head>
 <body>
+<script>if(window.self!==window.top)document.body.classList.add('in-iframe');</script>
 
 <!-- ── Header ── -->
 <header class="header">
