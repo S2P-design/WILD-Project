@@ -133,65 +133,66 @@
 
   /* ── HEADER ── */
   .header {
-    text-align: center; margin-bottom: 48px;
-    opacity: 0; transform: translateY(16px);
-    animation: fadeUp 0.7s ease 0.1s forwards;
+    text-align: center; margin-bottom: 20px;
+    padding: 48px 0 0;
+  }
+  .header-logo {
+    width: 64px; height: auto; margin: 0 auto 20px;
+    opacity: 0; animation: fadeUp 0.7s ease 0.1s forwards;
+    filter: drop-shadow(0 2px 12px rgba(0,82,67,0.25));
+  }
+  .header-top {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    margin-bottom: 6px;
+    opacity: 0; animation: fadeUp 0.7s ease 0.2s forwards;
   }
   .header-brand {
     font-family: 'League 200', 'League Gothic', sans-serif;
-    font-size: 2rem; color: var(--white); letter-spacing: 1px;
+    font-size: 1.1rem; color: var(--white); letter-spacing: 3px;
     text-transform: uppercase;
-    margin-bottom: 8px;
   }
   .header-brand .green { color: var(--green-bright); }
+  .header-rule {
+    width: 1px; height: 16px;
+    background: rgba(255,255,255,0.15);
+  }
   .header-title {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; font-weight: 400;
-    letter-spacing: 2px; color: rgba(255,255,255,0.35);
-    margin-bottom: 8px;
+    font-size: 9px; font-weight: 400;
+    letter-spacing: 3px; color: rgba(255,255,255,0.30);
+    text-transform: uppercase;
   }
-  .header-title .name { color: var(--green-bright); }
-  .header-title .slash { color: rgba(255,255,255,0.15); margin: 0 4px; }
   .header-headline {
     font-family: 'League 200', 'League Gothic', sans-serif;
-    font-size: clamp(22px, 6vw, 34px);
-    font-weight: 400; line-height: 1.2;
-    letter-spacing: 0.5px; color: var(--white);
+    font-size: clamp(36px, 8vw, 56px);
+    font-weight: 400; line-height: 1.05;
+    letter-spacing: 1px; color: var(--white);
     text-transform: uppercase;
-    margin-top: 4px;
+    margin: 12px 0 0;
+    opacity: 0; animation: fadeUp 0.7s ease 0.35s forwards;
   }
   .header-headline .green { color: var(--green-bright); }
+  .header-headline .dot { color: var(--red); }
   .header-tagline {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; letter-spacing: 2.5px;
-    color: rgba(255,255,255,0.30);
-    margin-top: 14px;
-    display: inline-block; overflow: hidden;
-    border-right: 2px solid var(--green-bright);
-    white-space: nowrap; width: 0;
-    animation: typing 3s steps(50) 1.2s forwards, blink 0.6s step-end infinite 1.2s;
+    font-size: 8px; letter-spacing: 3px;
+    color: rgba(255,255,255,0.25);
+    margin-top: 16px;
+    opacity: 0; animation: fadeUp 0.7s ease 0.5s forwards;
   }
-  @keyframes typing { to { width: 38em; } }
-  .header-divider {
-    width: 60px; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--green-bright), transparent);
-    margin: 20px auto 0;
-    opacity: 0; animation: fadeUp 0.7s ease 0.6s forwards;
-  }
-  @keyframes blink { 50% { border-color: transparent; } }
   @keyframes fadeUp { to { opacity: 1; transform: none; } }
 
   /* ── HEADER META PILLS ── */
   .header-meta {
-    display: flex; gap: 8px; justify-content: center;
-    margin-top: 20px; flex-wrap: wrap;
-    opacity: 0; animation: fadeUp 0.7s ease 0.8s forwards;
+    display: flex; gap: 6px; justify-content: center;
+    margin-top: 24px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.7s ease 0.65s forwards;
   }
   .meta-pill {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8px; font-weight: 500;
+    font-size: 7px; font-weight: 500;
     letter-spacing: 2px; color: var(--green-bright);
-    padding: 5px 14px;
+    padding: 4px 12px;
     border: 1px solid var(--green-20);
     background: var(--green-05);
     transition: all 0.3s;
@@ -209,11 +210,11 @@
     display: flex; justify-content: center;
     gap: 8px; flex-wrap: wrap;
     margin-bottom: 40px;
-    opacity: 0; animation: fadeUp 0.7s ease 0.9s forwards;
-    padding: 10px 20px;
-    border: 1px solid rgba(255,255,255,0.04);
-    background: rgba(0,0,0,0.2);
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    opacity: 0; animation: fadeUp 0.7s ease 0.8s forwards;
+    padding: 8px 20px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: transparent;
     max-width: 600px; margin-left: auto; margin-right: auto;
   }
   .status-item {
@@ -509,16 +510,16 @@
 
   /* Light mode overrides */
   body.light .container { position: relative; z-index: 1; }
+  body.light .header-logo { filter: drop-shadow(0 2px 12px rgba(0,82,67,0.15)); }
   body.light .header-brand { color: #1a1a2e; }
-  body.light .header-title { color: rgba(0,0,0,0.35); }
-  body.light .header-title .name { color: var(--green); }
+  body.light .header-rule { background: rgba(0,0,0,0.12); }
+  body.light .header-title { color: rgba(0,0,0,0.30); }
   body.light .header-headline { color: #1a1a2e; }
-  body.light .header-tagline { color: rgba(0,0,0,0.35); border-right-color: var(--green); }
-  body.light .status-bar { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.5); backdrop-filter: blur(12px); }
+  body.light .header-tagline { color: rgba(0,0,0,0.25); }
+  body.light .status-bar { border-top-color: rgba(0,0,0,0.06); border-bottom-color: rgba(0,0,0,0.06); }
   body.light .status-item { color: rgba(0,0,0,0.30); }
   body.light .status-item .val { color: rgba(0,0,0,0.55); }
   body.light .status-divider { background: rgba(0,0,0,0.08); }
-  body.light .header-divider { background: linear-gradient(90deg, transparent, var(--green), transparent); }
 
   body.light .section {
     background: rgba(255,255,255,0.35);
@@ -579,10 +580,13 @@
     body { padding: 40px 12px 60px; }
     .workspace-grid { grid-template-columns: 1fr; gap: 0; }
     .full-width { max-width: 100%; }
-    .status-bar { gap: 12px; }
+    .header { padding-top: 24px; }
+    .header-logo { width: 48px; margin-bottom: 16px; }
+    .header-headline { font-size: clamp(28px, 7vw, 40px); }
+    .status-bar { gap: 6px; padding: 6px 12px; }
     .stat-grid { grid-template-columns: 1fr; }
     .link-card { padding: 12px 8px; }
-    .header-meta { gap: 6px; }
+    .header-meta { gap: 4px; }
     .meta-pill { font-size: 7px; padding: 4px 10px; letter-spacing: 1.5px; }
   }
 </style>
@@ -616,10 +620,13 @@
   <!-- ══════ HEADER ══════ -->
   <div class="full-width">
   <div class="header">
-    <div class="header-brand">STARBULLS <span class="green">NACHWUCHS</span></div>
-    <p class="header-title"><span class="name">WORKSPACE</span> <span class="slash">//</span> command center</p>
-    <h1 class="header-headline" style="white-space:nowrap;">AUSBILDEN. ENTWICKELN. <span class="green">GEWINNEN.</span></h1>
-    <div class="header-divider"></div>
+    <img src="/sbr-logo-bw.png" alt="Starbulls Rosenheim" class="header-logo">
+    <div class="header-top">
+      <div class="header-brand">STARBULLS <span class="green">NACHWUCHS</span></div>
+      <div class="header-rule"></div>
+      <div class="header-title">WORKSPACE</div>
+    </div>
+    <h1 class="header-headline">AUSBILDEN<span class="dot">.</span> ENTWICKELN<span class="dot">.</span> <span class="green">GEWINNEN<span class="dot">.</span></span></h1>
     <p class="header-tagline">STOP COMPLAINING, LET'S FUCKING GO.</p>
     <div class="header-meta">
       <a href="#sec-guideline" class="meta-pill">GUIDELINE</a>
