@@ -304,9 +304,47 @@
     .status-bar { flex-wrap: wrap; gap: 12px; }
     .stat { min-width: 80px; }
   }
+  /* ── Internal Gate ── */
+  .gate {
+    position: fixed; inset: 0; z-index: 999;
+    background: var(--midnight);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .gate-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+  .gate-icon {
+    font-size: 28px;
+    color: rgba(255,255,255,0.08);
+  }
 </style>
 </head>
 <body>
+
+<div class="gate" id="gate">
+  <div class="gate-icon">◉</div>
+  <div class="gate-label">Internal &mdash; Workspace Only</div>
+</div>
+
+<script>
+(function(){
+  var ok = document.referrer.indexOf('wildproject.pro') !== -1
+        || document.referrer.indexOf('localhost') !== -1
+        || window.location.hash === '#internal';
+  if(ok){
+    var g = document.getElementById('gate');
+    if(g) g.style.display = 'none';
+  }
+})();
+</script>
 
 <div class="container">
 
