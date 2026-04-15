@@ -18,8 +18,8 @@
   .header h1{font-size:28px;font-weight:700;margin-bottom:6px;}
   .header p{font-size:13px;color:var(--muted);line-height:1.6;}
   .header .date{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);letter-spacing:1px;margin-top:4px;}
-  .section{margin-bottom:36px;}
-  .section-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+  .section{margin-bottom:28px;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:4px 18px 18px;}
+  .section-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:14px;padding:14px 0 8px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
   .btn-add-row{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1px;padding:4px 10px;background:rgba(0,82,67,0.1);color:var(--green);border:1px solid rgba(0,82,67,0.2);border-radius:6px;cursor:pointer;}
   .btn-add-row:hover{background:rgba(0,82,67,0.2);}
   table{width:100%;border-collapse:collapse;margin-bottom:8px;}
@@ -53,10 +53,66 @@
   .del-btn{opacity:0;cursor:pointer;color:var(--red);font-size:11px;padding:2px 6px;transition:opacity 0.2s;}
   tr:hover .del-btn{opacity:0.5;}
   .del-btn:hover{opacity:1 !important;}
+  /* ── HOME / AWAY TOGGLE ── */
+  .theme-toggle {
+    position: fixed; top: 20px; right: 24px;
+    z-index: 200; border: none; background: transparent;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 400;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.35);
+    transition: all 0.3s; padding: 4px 0;
+  }
+  .theme-toggle:hover { color: var(--green); }
+
+  /* ══════ AWAY MODE (Light) ══════ */
+  body.light {
+    background: #e8ebe9;
+    color: #1a1a2e;
+  }
+  body.light::before {
+    background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 1px);
+  }
+  body.light .header-label { color: var(--green); }
+  body.light .header h1 { color: #1a1a2e; }
+  body.light .header p { color: rgba(0,0,0,0.45); }
+  body.light .header .date { color: var(--green); }
+  body.light .section { background: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.7); border-radius: 14px; padding: 4px 16px 16px; backdrop-filter: blur(16px); box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+  body.light .section-label { color: var(--green); border-bottom-color: rgba(0,0,0,0.06); }
+  body.light .btn-add-row { background: rgba(0,82,67,0.08); border-color: rgba(0,82,67,0.15); }
+  body.light th { background: rgba(0,82,67,0.06); border-bottom-color: rgba(0,82,67,0.1); color: var(--green); }
+  body.light td { color: #1a1a2e; border-bottom-color: rgba(0,0,0,0.05); }
+  body.light td[contenteditable="true"]:focus { background: rgba(0,82,67,0.06); }
+  body.light td[contenteditable="true"]:hover { background: rgba(0,82,67,0.03); }
+  body.light tr:hover td { background: rgba(0,82,67,0.03); }
+  body.light .summary-card { background: rgba(255,255,255,0.6); border-color: rgba(255,255,255,0.8); border-radius: 12px; backdrop-filter: blur(12px); box-shadow: 0 2px 12px rgba(0,0,0,0.03); }
+  body.light .summary-label { color: rgba(0,0,0,0.4); }
+  body.light .note { background: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.7); color: rgba(0,0,0,0.55); backdrop-filter: blur(12px); }
+  body.light .note strong { color: var(--green); }
+  body.light .footer { color: rgba(0,0,0,0.12); }
+  body.light .toolbar button { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  body.light .btn-save { background: var(--green); }
+  body.light .toast-ok { background: rgba(255,255,255,0.95); color: var(--green); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  body.light .theme-toggle { color: rgba(0,0,0,0.3); }
+  body.light .theme-toggle:hover { color: var(--green); }
+  body.light .del-btn { color: var(--red); }
+
+  /* Status badges in light mode */
+  body.light .s-belegt { color: #2e8b57; border-color: rgba(46,139,87,0.25); background: rgba(46,139,87,0.06); }
+  body.light .s-frei { color: #c0392b; border-color: rgba(192,57,43,0.25); background: rgba(192,57,43,0.06); }
+  body.light .s-geplant { color: #d4850a; border-color: rgba(212,133,10,0.25); background: rgba(212,133,10,0.06); }
+  body.light .s-gesucht { color: #c0392b; border-color: rgba(192,57,43,0.3); background: rgba(192,57,43,0.08); }
+  body.light .s-erledigt { color: #2e8b57; border-color: rgba(46,139,87,0.25); background: rgba(46,139,87,0.06); }
+
   @media(max-width:700px){body{padding:24px 14px 100px;}.summary-grid{grid-template-columns:repeat(2,1fr);}td,th{padding:8px 6px;font-size:12px;}.toolbar{bottom:10px;left:10px;right:10px;justify-content:center;}}
 </style>
 </head>
 <body>
+
+<!-- HOME / AWAY TOGGLE -->
+<button class="theme-toggle" id="themeToggle"><span id="themeLabel">HOME</span></button>
+
 <div class="container">
 
   <div class="header">
@@ -271,6 +327,20 @@ function loadAll(){
     return;
   }
   loadAll();
+
+  // Theme toggle — sync with SBR workspace
+  var toggle = document.getElementById('themeToggle');
+  var label = document.getElementById('themeLabel');
+  var saved = localStorage.getItem('sbr-theme');
+  if (saved === 'away') { document.body.classList.add('light'); label.textContent = 'AWAY'; }
+  else { label.textContent = 'HOME'; }
+
+  toggle.addEventListener('click', function() {
+    document.body.classList.toggle('light');
+    var isAway = document.body.classList.contains('light');
+    label.textContent = isAway ? 'AWAY' : 'HOME';
+    localStorage.setItem('sbr-theme', isAway ? 'away' : 'home');
+  });
 })();
 </script>
 </body>
