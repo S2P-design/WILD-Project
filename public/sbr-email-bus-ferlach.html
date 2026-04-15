@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email — Busanfrage Trainingslager Ferlach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'League';
+    src: url('/fonts/League-200ExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Titillium Web', -apple-system, Helvetica, sans-serif;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    padding: 40px 24px;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.65;
+  }
+
+  .toolbar {
+    position: fixed; top: 20px; right: 24px;
+    z-index: 200; display: flex; gap: 8px;
+  }
+  .toolbar button {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 16px; border-radius: 6px;
+    cursor: pointer; border: 1px solid #e0e0e0;
+    background: white; color: #005243;
+    transition: all 0.2s;
+  }
+  .toolbar button:hover { background: #f5f8f7; border-color: #005243; }
+
+  .email-container {
+    max-width: 640px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
+    overflow: hidden;
+  }
+
+  .email-header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .email-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 2px;
+    text-transform: uppercase; color: #005243;
+    margin-bottom: 12px;
+  }
+
+  .email-meta { margin-bottom: 8px; display: flex; gap: 10px; align-items: baseline; }
+  .meta-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 1px;
+    text-transform: uppercase; color: #999;
+    min-width: 55px;
+  }
+  .meta-val {
+    font-size: 14px; color: #333;
+  }
+  .meta-val.subject {
+    font-family: 'League', 'Titillium Web', sans-serif;
+    font-weight: 800; font-size: 16px;
+    text-transform: uppercase; letter-spacing: 0.3px;
+    color: #1a1a1a;
+  }
+
+  .email-body {
+    padding: 28px 32px 36px;
+  }
+  .email-body p {
+    margin-bottom: 14px;
+    font-size: 14px;
+    color: #333;
+  }
+  .email-body .greeting { margin-bottom: 20px; }
+  .email-body .signoff { margin-top: 24px; margin-bottom: 4px; }
+  .email-body .name { font-weight: 700; color: #1a1a1a; margin-bottom: 0; }
+
+  .detail-box {
+    background: #f8faf9;
+    border: 1px solid #e8ece9;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin: 20px 0;
+  }
+  .detail-box h3 {
+    font-family: 'League', 'Titillium Web', sans-serif;
+    font-weight: 800; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: #005243;
+    margin-bottom: 10px;
+  }
+  .detail-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 6px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(0,82,67,0.06);
+    font-size: 13px;
+  }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.5px;
+    color: #888; padding-top: 2px;
+  }
+  .detail-value { color: #333; }
+
+  .email-footer {
+    padding: 16px 32px;
+    border-top: 1px solid #f0f0f0;
+    background: #fafafa;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 2px;
+    color: #ccc; text-transform: uppercase;
+  }
+  .email-footer .green { color: #005243; }
+
+  /* ── EDITABLE ── */
+  [contenteditable="true"] {
+    outline: none; border-radius: 3px;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  [contenteditable="true"]:hover { background: rgba(0,82,67,0.04); }
+  [contenteditable="true"]:focus {
+    background: rgba(0,82,67,0.06);
+    box-shadow: 0 0 0 2px rgba(0,82,67,0.15);
+  }
+
+  .save-indicator {
+    position: fixed; bottom: 20px; right: 24px; z-index: 300;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 8px 16px; border-radius: 6px;
+    background: #005243; color: white;
+    opacity: 0; transform: translateY(8px);
+    transition: all 0.3s; pointer-events: none;
+  }
+  .save-indicator.show { opacity: 1; transform: translateY(0); }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .toolbar { display: none !important; }
+    .save-indicator { display: none !important; }
+    .email-container { box-shadow: none; border-radius: 0; }
+    [contenteditable="true"]:hover,
+    [contenteditable="true"]:focus { background: none; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="copyEmail()">Kopieren</button>
+  <button onclick="window.print()">PDF / Drucken</button>
+  <button onclick="window.location.href='/sbr-trainingslager-ferlach.html#internal'">Wochenplan</button>
+</div>
+
+<div class="email-container">
+
+  <div class="email-header">
+    <div class="email-label">Email-Entwurf — Busanfrage</div>
+    <div class="email-meta">
+      <span class="meta-key">An</span>
+      <span class="meta-val" contenteditable="true" data-field="email-to">Stefan</span>
+    </div>
+    <div class="email-meta">
+      <span class="meta-key">Von</span>
+      <span class="meta-val" contenteditable="true" data-field="email-from">Rene Wild — Starbulls Rosenheim Nachwuchs</span>
+    </div>
+    <div class="email-meta">
+      <span class="meta-key">Betreff</span>
+      <span class="meta-val subject" contenteditable="true" data-field="email-subject">Anfrage Busanmietung — U17 Trainingslager Ferlach, 10.–16. August 2026</span>
+    </div>
+  </div>
+
+  <div class="email-body">
+    <p class="greeting" contenteditable="true" data-field="email-greeting">Hallo Stefan,</p>
+
+    <p contenteditable="true" data-field="email-p1">ich hoffe, dir geht es gut. Ich melde mich bezueglich unseres U17-Trainingslagers in Ferlach (Kaernten) und wuerde gerne einen Bus fuer die gesamte Woche bei dir anfragen.</p>
+
+    <div class="detail-box">
+      <h3>Fahrtdetails</h3>
+      <div class="detail-row"><div class="detail-key">Team</div><div class="detail-value" contenteditable="true" data-field="email-team">U17 Starbulls Rosenheim</div></div>
+      <div class="detail-row"><div class="detail-key">Personen</div><div class="detail-value" contenteditable="true" data-field="email-persons">ca. 22 Personen (Spieler + Trainer Wild, Klimesch, Betreuer Aichinger)</div></div>
+      <div class="detail-row"><div class="detail-key">Gepaeck</div><div class="detail-value" contenteditable="true" data-field="email-gepaeck">Eishockey-Ausruestung (grosse Taschen + Schlaeger)</div></div>
+    </div>
+
+    <div class="detail-box">
+      <h3>Hinfahrt — Montag, 10. August 2026</h3>
+      <div class="detail-row"><div class="detail-key">Abfahrt</div><div class="detail-value" contenteditable="true" data-field="email-hin-ab">08:00 Uhr — ROFA-Stadion, Rosenheim</div></div>
+      <div class="detail-row"><div class="detail-key">Ziel</div><div class="detail-value" contenteditable="true" data-field="email-hin-ziel">Ferlach, Kaernten (Oesterreich)</div></div>
+      <div class="detail-row"><div class="detail-key">Fahrzeit</div><div class="detail-value" contenteditable="true" data-field="email-hin-dauer">ca. 3 Stunden</div></div>
+    </div>
+
+    <div class="detail-box">
+      <h3>Aufenthalt — Standzeit in Ferlach</h3>
+      <div class="detail-row"><div class="detail-key">Zeitraum</div><div class="detail-value" contenteditable="true" data-field="email-stand-zeit">Montag 10.08. bis Sonntag 16.08.2026</div></div>
+      <div class="detail-row"><div class="detail-key">Hinweis</div><div class="detail-value" contenteditable="true" data-field="email-stand-info">Der Bus wird waehrend der gesamten Woche fuer lokale Transfers (Hotel — Eishalle — Turnierstaette) benoetigt.</div></div>
+    </div>
+
+    <div class="detail-box">
+      <h3>Rueckfahrt — Sonntag, 16. August 2026</h3>
+      <div class="detail-row"><div class="detail-key">Abfahrt</div><div class="detail-value" contenteditable="true" data-field="email-rueck-ab">Sonntag Abend (voraussichtlich nach dem letzten Turnierspiel, ca. 16:00–18:00 Uhr)</div></div>
+      <div class="detail-row"><div class="detail-key">Ziel</div><div class="detail-value" contenteditable="true" data-field="email-rueck-ziel">ROFA-Stadion, Rosenheim</div></div>
+      <div class="detail-row"><div class="detail-key">Fahrzeit</div><div class="detail-value" contenteditable="true" data-field="email-rueck-dauer">ca. 3 Stunden</div></div>
+    </div>
+
+    <p contenteditable="true" data-field="email-p2">Zusammengefasst: Hinfahrt Montag frueh, Standzeit die gesamte Woche in Ferlach mit lokalen Transfers, und Rueckfahrt Sonntag Abend nach dem Turnier.</p>
+
+    <p contenteditable="true" data-field="email-p3">Koenntest du mir bitte ein Angebot fuer die komplette Woche (Hin- und Rueckfahrt + Standzeit + lokale Fahrten) zukommen lassen? Gerne auch mit Angabe, ob ein Fahrer die gesamte Woche vor Ort bleibt oder ob alternative Modelle moeglich sind.</p>
+
+    <p contenteditable="true" data-field="email-p4">Bei Fragen stehe ich jederzeit zur Verfuegung. Ich freue mich auf deine Rueckmeldung!</p>
+
+    <p class="signoff" contenteditable="true" data-field="email-signoff">Beste Gruesse</p>
+    <p class="name" contenteditable="true" data-field="email-name">Rene Wild</p>
+    <p contenteditable="true" data-field="email-role" style="font-size:12px; color:#888; margin-top:2px;">Trainer U17 — Starbulls Rosenheim Nachwuchs</p>
+  </div>
+
+  <div class="email-footer">
+    Starbulls <span class="green">Nachwuchs</span> &middot; Email-Entwurf &middot; Stand 15. April 2026
+  </div>
+
+</div>
+
+<div class="save-indicator" id="saveInd">Gespeichert</div>
+
+<script>
+(function(){
+  var KEY = 'sbr-email-bus-';
+
+  function saveAll(){
+    document.querySelectorAll('[data-field]').forEach(function(el){
+      localStorage.setItem(KEY + el.getAttribute('data-field'), el.innerHTML);
+    });
+    showSave();
+  }
+
+  function loadAll(){
+    document.querySelectorAll('[data-field]').forEach(function(el){
+      var v = localStorage.getItem(KEY + el.getAttribute('data-field'));
+      if(v !== null) el.innerHTML = v;
+    });
+  }
+
+  function showSave(){
+    var ind = document.getElementById('saveInd');
+    ind.classList.add('show');
+    clearTimeout(window._saveTimer);
+    window._saveTimer = setTimeout(function(){ ind.classList.remove('show'); }, 1800);
+  }
+
+  document.addEventListener('focusout', function(e){
+    if(e.target && e.target.hasAttribute && e.target.hasAttribute('data-field')){
+      saveAll();
+    }
+  });
+
+  loadAll();
+})();
+
+function copyEmail(){
+  var body = document.querySelector('.email-body');
+  var text = body.innerText;
+  var subject = document.querySelector('[data-field="email-subject"]').innerText;
+  var full = 'Betreff: ' + subject + '\n\n' + text;
+  navigator.clipboard.writeText(full).then(function(){
+    var ind = document.getElementById('saveInd');
+    ind.textContent = 'Kopiert!';
+    ind.classList.add('show');
+    clearTimeout(window._saveTimer);
+    window._saveTimer = setTimeout(function(){
+      ind.classList.remove('show');
+      ind.textContent = 'Gespeichert';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

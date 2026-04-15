@@ -8,8 +8,15 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23005243'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='13' fill='%23F2F5F4'>U17</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Titillium+Web:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+  @font-face {
+    font-family: 'League';
+    src: url('/fonts/League-200ExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
   :root {
     --green: #005243;
     --green-bright: #00785f;
@@ -52,9 +59,9 @@
   }
   .header-meta .dot { color: var(--muted); }
   .header h1 {
-    font-family: 'League Gothic', sans-serif;
+    font-family: 'League', 'Titillium Web', sans-serif;
     font-size: clamp(36px, 7vw, 56px);
-    font-weight: 400;
+    font-weight: 800;
     text-transform: uppercase;
     line-height: 1.05;
     letter-spacing: 1px;
@@ -107,7 +114,7 @@
   .day-card.tournament .day-header { background: rgba(228,3,46,0.06); }
 
   .day-label {
-    font-family: 'League Gothic', sans-serif;
+    font-family: 'League', 'Titillium Web', sans-serif; font-weight: 800;
     font-size: 22px;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -315,6 +322,161 @@
   body.light .theme-toggle { color: rgba(0,0,0,0.3); }
   body.light .theme-toggle:hover { color: var(--green); }
   body.light .print-btn { color: var(--green); background: rgba(0,82,67,0.04); border-color: rgba(0,82,67,0.12); }
+
+  /* ── KALKULATION ── */
+  .calc-section {
+    margin-top: 48px; margin-bottom: 40px;
+  }
+  .calc-header {
+    font-family: 'League', 'Titillium Web', sans-serif; font-weight: 800;
+    font-size: 28px; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--light);
+    margin-bottom: 6px;
+  }
+  .calc-header .green { color: var(--green-bright); }
+  .calc-sub {
+    font-size: 13px; color: var(--muted); margin-bottom: 24px;
+  }
+
+  .calc-card {
+    background: rgba(255,255,255,0.015);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .calc-card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 22px;
+    background: rgba(0,82,67,0.06);
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--green-bright);
+  }
+  .calc-card-header .total {
+    font-size: 14px; font-weight: 700;
+    color: var(--light);
+    letter-spacing: 0;
+  }
+
+  .calc-row {
+    display: grid;
+    grid-template-columns: 1fr 100px 80px 60px 100px;
+    align-items: center;
+    padding: 12px 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.025);
+    font-size: 13px;
+    gap: 8px;
+  }
+  .calc-row:last-child { border-bottom: none; }
+  .calc-row .label { color: var(--light); font-weight: 500; }
+  .calc-row .detail { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .calc-input {
+    background: rgba(0,82,67,0.05);
+    border: 1px solid rgba(0,82,67,0.15);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 500;
+    color: var(--green-bright);
+    text-align: right;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+  .calc-input:focus { border-color: rgba(0,120,95,0.4); }
+  .calc-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--light);
+    text-align: right; font-weight: 500;
+  }
+  .calc-unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    text-align: center; letter-spacing: 0.5px;
+  }
+
+  /* Param bar */
+  .calc-params {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .calc-param {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.015);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .calc-param-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1.5px;
+    color: var(--muted); text-transform: uppercase;
+  }
+  .calc-param .calc-input { width: 60px; text-align: center; }
+
+  /* Summary */
+  .calc-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .calc-summary-card {
+    padding: 20px;
+    background: rgba(0,82,67,0.06);
+    border: 1px solid rgba(0,82,67,0.15);
+    border-radius: 14px;
+    text-align: center;
+  }
+  .calc-summary-card.highlight {
+    background: rgba(0,82,67,0.12);
+    border-color: rgba(0,82,67,0.3);
+  }
+  .calc-summary-val {
+    font-family: 'League', 'Titillium Web', sans-serif; font-weight: 800;
+    font-size: 2rem; color: var(--green-bright);
+    line-height: 1;
+  }
+  .calc-summary-card.highlight .calc-summary-val { color: var(--light); font-size: 2.2rem; }
+  .calc-summary-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted);
+    margin-top: 4px;
+  }
+  .calc-summary-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* Light mode calc */
+  body.light .calc-header { color: #1a1a2e; }
+  body.light .calc-sub { color: rgba(0,0,0,0.45); }
+  body.light .calc-card {
+    background: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.7);
+    backdrop-filter: blur(16px); box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  }
+  body.light .calc-card-header { background: rgba(0,82,67,0.04); border-bottom-color: rgba(0,0,0,0.05); color: var(--green); }
+  body.light .calc-card-header .total { color: #1a1a2e; }
+  body.light .calc-row { border-bottom-color: rgba(0,0,0,0.04); }
+  body.light .calc-row .label { color: #1a1a2e; }
+  body.light .calc-row .detail { color: rgba(0,0,0,0.4); }
+  body.light .calc-input { background: rgba(0,82,67,0.04); border-color: rgba(0,82,67,0.12); color: var(--green); }
+  body.light .calc-val { color: #1a1a2e; }
+  body.light .calc-unit { color: rgba(0,0,0,0.35); }
+  body.light .calc-param { background: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.7); }
+  body.light .calc-param-label { color: rgba(0,0,0,0.4); }
+  body.light .calc-summary-card { background: rgba(0,82,67,0.04); border-color: rgba(0,82,67,0.12); }
+  body.light .calc-summary-card.highlight { background: rgba(0,82,67,0.1); border-color: rgba(0,82,67,0.25); }
+  body.light .calc-summary-val { color: var(--green); }
+  body.light .calc-summary-card.highlight .calc-summary-val { color: #1a1a2e; }
+  body.light .calc-summary-label { color: rgba(0,0,0,0.35); }
+  body.light .calc-summary-sub { color: rgba(0,0,0,0.35); }
 
   /* ── PRINT STYLES ── */
   @media print {
@@ -735,6 +897,125 @@
     <div class="legend-item"><div class="legend-dot" style="background:var(--red);"></div> Turnier</div>
   </div>
 
+  <!-- ══════════════════════════════════════
+       KALKULATION
+       ══════════════════════════════════════ -->
+  <div class="calc-section">
+    <div class="calc-header">KOSTEN<span class="green">KALKULATION</span></div>
+    <div class="calc-sub">Alle Preise in Euro &middot; Werte editierbar &middot; Berechnung automatisch</div>
+
+    <!-- PARAMETER -->
+    <div class="calc-params">
+      <div class="calc-param">
+        <span class="calc-param-label">Personen</span>
+        <input type="number" class="calc-input" id="pPersons" value="22" min="1" max="50" onchange="recalc()">
+      </div>
+      <div class="calc-param">
+        <span class="calc-param-label">N&auml;chte</span>
+        <input type="number" class="calc-input" id="pNights" value="6" min="1" max="14" onchange="recalc()">
+      </div>
+      <div class="calc-param">
+        <span class="calc-param-label">Tage</span>
+        <input type="number" class="calc-input" id="pDays" value="7" min="1" max="14" onchange="recalc()">
+      </div>
+      <div class="calc-param">
+        <span class="calc-param-label">Eis-Einheiten</span>
+        <input type="number" class="calc-input" id="pIce" value="4" min="0" max="14" onchange="recalc()">
+      </div>
+    </div>
+
+    <!-- UNTERKUNFT -->
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <span>Unterkunft &amp; Verpflegung</span>
+        <span class="total" id="totalAccom">&mdash;</span>
+      </div>
+      <div class="calc-row">
+        <div>
+          <div class="label">Zimmer (inkl. Fr&uuml;hst&uuml;ck)</div>
+          <div class="detail">Pro Person / Pro Nacht</div>
+        </div>
+        <input type="number" class="calc-input" id="priceRoom" value="60" step="0.5" onchange="recalc()">
+        <div class="calc-unit">&times; Pers. &times; N&auml;chte</div>
+        <div class="calc-unit">=</div>
+        <div class="calc-val" id="valRoom">&mdash;</div>
+      </div>
+      <div class="calc-row">
+        <div>
+          <div class="label">Mittag- &amp; Abendessen</div>
+          <div class="detail">Pro Person / Pro Mahlzeit &middot; 2&times; t&auml;glich (Mo&ndash;Sa) + 1&times; So</div>
+        </div>
+        <input type="number" class="calc-input" id="priceMeal" value="25" step="0.5" onchange="recalc()">
+        <div class="calc-unit">&times; Pers. &times; Meals</div>
+        <div class="calc-unit">=</div>
+        <div class="calc-val" id="valMeals">&mdash;</div>
+      </div>
+      <div class="calc-row">
+        <div>
+          <div class="label">Snacks &amp; Getr&auml;nke</div>
+          <div class="detail">Pro Person / Pro Tag</div>
+        </div>
+        <input type="number" class="calc-input" id="priceSnack" value="5" step="0.5" onchange="recalc()">
+        <div class="calc-unit">&times; Pers. &times; Tage</div>
+        <div class="calc-unit">=</div>
+        <div class="calc-val" id="valSnacks">&mdash;</div>
+      </div>
+    </div>
+
+    <!-- EIS & TRAINING -->
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <span>Eis &amp; Training</span>
+        <span class="total" id="totalIce">&mdash;</span>
+      </div>
+      <div class="calc-row">
+        <div>
+          <div class="label">Eiszeit</div>
+          <div class="detail">Pro Stunde &middot; <span id="iceHoursInfo">4 Einheiten &agrave; 1,5h = 6h</span></div>
+        </div>
+        <input type="number" class="calc-input" id="priceIce" value="190" step="5" onchange="recalc()">
+        <div class="calc-unit">&times; <span id="iceHoursVal">6</span>h</div>
+        <div class="calc-unit">=</div>
+        <div class="calc-val" id="valIce">&mdash;</div>
+      </div>
+    </div>
+
+    <!-- TRANSPORT -->
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <span>Transport</span>
+        <span class="total" id="totalTransport">&mdash;</span>
+      </div>
+      <div class="calc-row">
+        <div>
+          <div class="label">Busanreise (1 Woche)</div>
+          <div class="detail">Rosenheim &harr; Ferlach &middot; Hin- &amp; R&uuml;ckreise + Standzeit &middot; Pauschal</div>
+        </div>
+        <input type="number" class="calc-input" id="priceBus" value="3500" step="50" onchange="recalc()">
+        <div class="calc-unit">pauschal</div>
+        <div class="calc-unit">=</div>
+        <div class="calc-val" id="valBus">&mdash;</div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="calc-summary">
+      <div class="calc-summary-card">
+        <div class="calc-summary-val" id="sumAccom">&mdash;</div>
+        <div class="calc-summary-label">Unterkunft &amp; Verpflegung</div>
+      </div>
+      <div class="calc-summary-card">
+        <div class="calc-summary-val" id="sumOps">&mdash;</div>
+        <div class="calc-summary-label">Eis &amp; Transport</div>
+      </div>
+      <div class="calc-summary-card highlight">
+        <div class="calc-summary-val" id="sumTotal">&mdash;</div>
+        <div class="calc-summary-label">Gesamtkosten</div>
+        <div class="calc-summary-sub" id="sumPP">&mdash;</div>
+      </div>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <div class="footer">
     Starbulls <span class="green">Nachwuchs</span> &middot; U17 Trainingslager Ferlach &middot; August 2026
@@ -758,6 +1039,59 @@
     localStorage.setItem('sbr-theme', isAway ? 'away' : 'home');
   });
 })();
+
+// ══════ KALKULATION ══════
+function fmt(n) { return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' \u20AC'; }
+
+function recalc() {
+  var persons = parseInt(document.getElementById('pPersons').value) || 22;
+  var nights = parseInt(document.getElementById('pNights').value) || 6;
+  var days = parseInt(document.getElementById('pDays').value) || 7;
+  var iceUnits = parseInt(document.getElementById('pIce').value) || 4;
+
+  var priceRoom = parseFloat(document.getElementById('priceRoom').value) || 60;
+  var priceMeal = parseFloat(document.getElementById('priceMeal').value) || 25;
+  var priceSnack = parseFloat(document.getElementById('priceSnack').value) || 5;
+  var priceIce = parseFloat(document.getElementById('priceIce').value) || 190;
+  var priceBus = parseFloat(document.getElementById('priceBus').value) || 3500;
+
+  // Meals: 2 per day for (days-1) + 1 for last day (lunch before departure)
+  var meals = (days - 1) * 2 + 1;
+
+  // Ice hours: 1.5h per unit
+  var iceHours = iceUnits * 1.5;
+  document.getElementById('iceHoursVal').textContent = iceHours;
+  document.getElementById('iceHoursInfo').innerHTML = iceUnits + ' Einheiten &agrave; 1,5h = ' + iceHours + 'h';
+
+  // Calculate
+  var room = priceRoom * persons * nights;
+  var mealCost = priceMeal * persons * meals;
+  var snackCost = priceSnack * persons * days;
+  var iceCost = priceIce * iceHours;
+  var busCost = priceBus;
+
+  var accom = room + mealCost + snackCost;
+  var ops = iceCost + busCost;
+  var total = accom + ops;
+
+  // Display
+  document.getElementById('valRoom').textContent = fmt(room);
+  document.getElementById('valMeals').textContent = fmt(mealCost);
+  document.getElementById('valSnacks').textContent = fmt(snackCost);
+  document.getElementById('totalAccom').textContent = fmt(accom);
+
+  document.getElementById('valIce').textContent = fmt(iceCost);
+  document.getElementById('totalIce').textContent = fmt(iceCost);
+
+  document.getElementById('valBus').textContent = fmt(busCost);
+  document.getElementById('totalTransport').textContent = fmt(busCost);
+
+  document.getElementById('sumAccom').textContent = fmt(accom);
+  document.getElementById('sumOps').textContent = fmt(ops);
+  document.getElementById('sumTotal').textContent = fmt(total);
+  document.getElementById('sumPP').textContent = fmt(total / persons) + ' pro Person';
+}
+recalc();
 
 // Internal gate
 (function() {

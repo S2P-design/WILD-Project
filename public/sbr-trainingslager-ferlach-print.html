@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U17 Trainingslager Ferlach — Wochenplan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'League';
+    src: url('/fonts/League-200ExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Titillium Web', -apple-system, Helvetica, sans-serif;
+    background: #fff;
+    color: #1a1a1a;
+    padding: 40px 48px 60px;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  .container { max-width: 720px; margin: 0 auto; }
+
+  /* ── HEADER ── */
+  .header { margin-bottom: 32px; padding-bottom: 20px; border-bottom: 2px solid #005243; }
+  .header-org {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 3px;
+    text-transform: uppercase; color: #005243;
+    margin-bottom: 6px;
+  }
+  .header h1 {
+    font-family: 'League', 'Titillium Web', sans-serif;
+    font-size: 30px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    color: #1a1a1a; margin-bottom: 4px;
+  }
+  .header h1 .green { color: #005243; }
+  .header-info {
+    font-size: 14px; color: #555; line-height: 1.6;
+  }
+  .header-info strong { color: #1a1a1a; }
+
+  /* ── INFO GRID ── */
+  .info-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin-bottom: 32px;
+  }
+  .info-box {
+    padding: 10px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    text-align: center;
+  }
+  .info-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 2px;
+    text-transform: uppercase; color: #999;
+    margin-bottom: 2px;
+  }
+  .info-val { font-size: 14px; font-weight: 700; color: #005243; }
+
+  /* ── DAY ── */
+  .day { margin-bottom: 24px; page-break-inside: avoid; }
+  .day-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 10px 14px;
+    background: #f5f8f7;
+    border: 1px solid #e0e0e0;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+  }
+  .day-header.tournament { background: #fdf2f2; border-color: #f0d0d0; }
+  .day-name {
+    font-family: 'League', 'Titillium Web', sans-serif;
+    font-size: 17px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    color: #1a1a1a;
+  }
+  .day-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 1px;
+    color: #005243;
+  }
+  .day-header.tournament .day-date { color: #E4032E; }
+  .day-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 1.5px;
+    text-transform: uppercase; font-weight: 600;
+    padding: 3px 8px; border-radius: 3px;
+  }
+  .badge-training { color: #005243; background: rgba(0,82,67,0.08); }
+  .badge-travel { color: #a36800; background: rgba(212,133,10,0.08); }
+  .badge-tournament { color: #E4032E; background: rgba(228,3,46,0.06); }
+
+  .day-body {
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+  }
+  .day-header.tournament + .day-body { border-color: #f0d0d0; }
+
+  /* ── SLOT ── */
+  .slot {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 16px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: baseline;
+  }
+  .slot:last-child { border-bottom: none; }
+
+  .slot-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    color: #005243;
+    white-space: nowrap;
+  }
+  .slot.ice .slot-time { color: #0277bd; }
+  .slot.gym .slot-time { color: #bf360c; }
+  .slot.team .slot-time { color: #6a1b9a; }
+  .slot.food .slot-time { color: #2e7d32; }
+  .slot.rest .slot-time { color: #757575; }
+  .slot.travel .slot-time { color: #e65100; }
+  .slot.tournament .slot-time { color: #E4032E; }
+
+  .slot-title {
+    font-size: 13px; font-weight: 600;
+    color: #1a1a1a;
+  }
+  .slot-detail {
+    font-size: 11px; color: #888;
+    margin-top: 1px;
+  }
+
+  .slot-tbd {
+    padding: 14px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 1px;
+    color: #999;
+  }
+  .slot-tbd .red { color: #E4032E; }
+
+  /* ── KALKULATION ── */
+  .calc-section { margin-top: 36px; page-break-before: always; }
+  .calc-title {
+    font-family: 'League', 'Titillium Web', sans-serif;
+    font-size: 24px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    color: #1a1a1a; margin-bottom: 4px;
+  }
+  .calc-title .green { color: #005243; }
+  .calc-sub { font-size: 12px; color: #999; margin-bottom: 20px; }
+
+  .calc-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+  .calc-table thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 2px;
+    text-transform: uppercase; color: #005243;
+    text-align: left; padding: 8px 10px;
+    background: #f5f8f7;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .calc-table thead th:last-child { text-align: right; }
+  .calc-table thead th.right { text-align: right; }
+  .calc-table tbody td {
+    font-size: 13px; padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+  }
+  .calc-table tbody td:last-child {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600; color: #1a1a1a;
+  }
+  .calc-table tbody td.right {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .calc-table tbody td .detail { font-size: 11px; color: #999; }
+  .calc-table tfoot td {
+    font-size: 14px; font-weight: 700;
+    padding: 12px 10px;
+    border-top: 2px solid #005243;
+    color: #005243;
+  }
+  .calc-table tfoot td:last-child {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+  }
+
+  .calc-summary-row {
+    display: flex; justify-content: space-between;
+    padding: 12px 14px;
+    background: #f5f8f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-top: 12px;
+  }
+  .calc-summary-row.total {
+    background: #005243;
+    border-color: #005243;
+    color: white;
+  }
+  .calc-summary-row .label { font-size: 14px; font-weight: 600; }
+  .calc-summary-row .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px; font-weight: 700;
+  }
+  .calc-summary-row.total .value { font-size: 18px; }
+  .calc-pp {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: #999;
+    margin-top: 8px; letter-spacing: 0.5px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 40px; padding-top: 16px;
+    border-top: 1px solid #e0e0e0;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 2px;
+    color: #ccc; text-transform: uppercase;
+  }
+  .footer .green { color: #005243; }
+
+  /* ── TOOLBAR (screen only) ── */
+  .toolbar {
+    position: fixed; top: 20px; right: 24px;
+    z-index: 200; display: flex; gap: 8px;
+  }
+  .toolbar button {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 16px; border-radius: 6px;
+    cursor: pointer; border: 1px solid #e0e0e0;
+    background: white; color: #005243;
+    transition: all 0.2s;
+  }
+  .toolbar button:hover { background: #f5f8f7; border-color: #005243; }
+
+  @media print {
+    body { padding: 20px 24px; }
+    .toolbar { display: none !important; }
+    .day { page-break-inside: avoid; }
+    .calc-section { page-break-before: always; }
+  }
+
+  /* ── EDITABLE ── */
+  [contenteditable="true"] {
+    outline: none;
+    border-radius: 3px;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  [contenteditable="true"]:hover { background: rgba(0,82,67,0.04); }
+  [contenteditable="true"]:focus {
+    background: rgba(0,82,67,0.06);
+    box-shadow: 0 0 0 2px rgba(0,82,67,0.15);
+  }
+
+  .save-indicator {
+    position: fixed; bottom: 20px; right: 24px; z-index: 300;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 8px 16px; border-radius: 6px;
+    background: #005243; color: white;
+    opacity: 0; transform: translateY(8px);
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  .save-indicator.show { opacity: 1; transform: translateY(0); }
+
+  @media print {
+    [contenteditable="true"]:hover,
+    [contenteditable="true"]:focus { background: none; box-shadow: none; }
+    .save-indicator { display: none !important; }
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 24px 16px; }
+    .info-grid { grid-template-columns: repeat(2, 1fr); }
+    .slot { grid-template-columns: 100px 1fr; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="window.print()">PDF / Drucken</button>
+  <button onclick="window.location.href='/sbr-trainingslager-ferlach.html#internal'">Interaktive Version</button>
+</div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="header-org" contenteditable="true" data-field="print-org">Starbulls Rosenheim e.V. &middot; Nachwuchs &middot; U17</div>
+    <h1 contenteditable="true" data-field="print-title">Trainingslager <span class="green">Ferlach</span> &mdash; K&auml;rnten</h1>
+    <div class="header-info" contenteditable="true" data-field="print-info">
+      <strong>10. &mdash; 16. August 2026</strong> &middot; 7 Tage &middot; 4 Eiseinheiten &middot; 4 Gym-Sessions &middot; Turnier (Fr&ndash;So)
+    </div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-box"><div class="info-label" contenteditable="true" data-field="print-il1">Team</div><div class="info-val" contenteditable="true" data-field="print-iv1">U17</div></div>
+    <div class="info-box"><div class="info-label" contenteditable="true" data-field="print-il2">Eisfl&auml;che</div><div class="info-val" contenteditable="true" data-field="print-iv2">Arena 2</div></div>
+    <div class="info-box"><div class="info-label" contenteditable="true" data-field="print-il3">Turnier</div><div class="info-val" contenteditable="true" data-field="print-iv3">Fr &mdash; So</div></div>
+    <div class="info-box"><div class="info-label" contenteditable="true" data-field="print-il4">Head Coach</div><div class="info-val" contenteditable="true" data-field="print-iv4">Wild</div></div>
+  </div>
+
+  <!-- ══════ MONTAG ══════ -->
+  <div class="day">
+    <div class="day-header">
+      <div><span class="day-name" contenteditable="true" data-field="p-d1-name">Montag</span> <span class="day-date" contenteditable="true" data-field="p-d1-date">&mdash; 10. August 2026</span></div>
+      <span class="day-badge badge-travel" contenteditable="true" data-field="p-d1-badge">Anreise</span>
+    </div>
+    <div class="day-body">
+      <div class="slot travel"><div class="slot-time" contenteditable="true" data-field="p-d1s1-t">08:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d1s1-n">Abfahrt Stadion</div><div class="slot-detail" contenteditable="true" data-field="p-d1s1-d">ROFA-Stadion Rosenheim &rarr; Ferlach (~3h)</div></div></div>
+      <div class="slot travel"><div class="slot-time" contenteditable="true" data-field="p-d1s2-t">11:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d1s2-n">Check-In Hotel</div><div class="slot-detail" contenteditable="true" data-field="p-d1s2-d">Zimmereinteilung &middot; Einweisung &middot; Treffpunkt besprechen</div></div></div>
+      <div class="slot food"><div class="slot-time" contenteditable="true" data-field="p-d1s3-t">11:30 &ndash; 12:15</div><div><div class="slot-title" contenteditable="true" data-field="p-d1s3-n">Mittagessen</div><div class="slot-detail" contenteditable="true" data-field="p-d1s3-d">Hotel-Restaurant &middot; Kohlenhydratreich vor erster Eiseinheit</div></div></div>
+      <div class="slot rest"><div class="slot-time" contenteditable="true" data-field="p-d1s4-t">12:15 &ndash; 12:45</div><div><div class="slot-title" contenteditable="true" data-field="p-d1s4-n">Video-Briefing</div><div class="slot-detail" contenteditable="true" data-field="p-d1s4-d">Taktische Schwerpunkte f&uuml;r die Woche &middot; Erwartungen &middot; Verhaltenskodex</div></div></div>
+      <div class="slot ice"><div class="slot-time" contenteditable="true" data-field="p-d1s5-t">13:00 &ndash; 14:30</div><div><div class="slot-title" contenteditable="true" data-field="p-d1s5-n">Eistraining I</div><div class="slot-detail" contenteditable="true" data-field="p-d1s5-d">Eis-Arena 2 &middot; Skating &middot; Puck Control &middot; Systemeinf&uuml;hrung 5v5</div></div></div>
+      <div class="slot gym"><div class="slot-time" contenteditable="true" data-field="p-d1s6-t">15:00 &ndash; 16:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d1s6-n">Gym &mdash; Regeneration &amp; Mobility</div><div class="slot-detail" contenteditable="true" data-field="p-d1s6-d">Leichtes Programm &middot; Foam Rolling &middot; Stretching &middot; Core Activation</div></div></div>
+      <div class="slot food"><div class="slot-time" contenteditable="true" data-field="p-d1s7-t">16:30 &ndash; 17:30</div><div><div class="slot-title" contenteditable="true" data-field="p-d1s7-n">Abendessen</div><div class="slot-detail" contenteditable="true" data-field="p-d1s7-d">Hotel-Restaurant</div></div></div>
+      <div class="slot team"><div class="slot-time" contenteditable="true" data-field="p-d1s8-t">18:00 &ndash; 22:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d1s8-n">Team Event</div><div class="slot-detail" contenteditable="true" data-field="p-d1s8-d">Kennenlernabend &middot; Teambuilding &middot; Nachtruhe ab 22:00</div></div></div>
+    </div>
+  </div>
+
+  <!-- ══════ DIENSTAG ══════ -->
+  <div class="day">
+    <div class="day-header">
+      <div><span class="day-name" contenteditable="true" data-field="p-d2-name">Dienstag</span> <span class="day-date" contenteditable="true" data-field="p-d2-date">&mdash; 11. August 2026</span></div>
+      <span class="day-badge badge-training" contenteditable="true" data-field="p-d2-badge">Training</span>
+    </div>
+    <div class="day-body">
+      <div class="slot food"><div class="slot-time" contenteditable="true" data-field="p-d2s1-t">08:00 &ndash; 09:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d2s1-n">Fr&uuml;hst&uuml;ck</div><div class="slot-detail" contenteditable="true" data-field="p-d2s1-d">Hotel-Restaurant &middot; Protein + Kohlenhydrate &middot; Hydration</div></div></div>
+      <div class="slot gym"><div class="slot-time" contenteditable="true" data-field="p-d2s2-t">09:30 &ndash; 10:30</div><div><div class="slot-title" contenteditable="true" data-field="p-d2s2-n">Gym &mdash; Kraft &amp; Explosivit&auml;t</div><div class="slot-detail" contenteditable="true" data-field="p-d2s2-d">Unterk&ouml;rper-Fokus &middot; Squats &middot; Box Jumps &middot; Lateral Agility</div></div></div>
+      <div class="slot ice"><div class="slot-time" contenteditable="true" data-field="p-d2s3-t">11:30 &ndash; 13:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d2s3-n">Eistraining II</div><div class="slot-detail" contenteditable="true" data-field="p-d2s3-d">Eis-Arena 2 &middot; Breakout-System &middot; Powerplay-Aufbau &middot; Forechecking</div></div></div>
+      <div class="slot food"><div class="slot-time" contenteditable="true" data-field="p-d2s4-t">13:30 &ndash; 14:30</div><div><div class="slot-title" contenteditable="true" data-field="p-d2s4-n">Mittagessen</div><div class="slot-detail" contenteditable="true" data-field="p-d2s4-d">Hotel-Restaurant &middot; Recovery-Meal</div></div></div>
+      <div class="slot rest"><div class="slot-time" contenteditable="true" data-field="p-d2s5-t">14:30 &ndash; 15:30</div><div><div class="slot-title" contenteditable="true" data-field="p-d2s5-n">Zimmerruhe</div><div class="slot-detail" contenteditable="true" data-field="p-d2s5-d">Regeneration &middot; Trainingstagebuch &middot; Mental Reset</div></div></div>
+      <div class="slot team"><div class="slot-time" contenteditable="true" data-field="p-d2s6-t">15:30 &ndash; 22:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d2s6-n">Team Event</div><div class="slot-detail" contenteditable="true" data-field="p-d2s6-d">Outdoor-Aktivit&auml;t &middot; Abendessen 17:30 &middot; Nachtruhe 22:00</div></div></div>
+    </div>
+  </div>
+
+  <!-- ══════ MITTWOCH ══════ -->
+  <div class="day">
+    <div class="day-header">
+      <div><span class="day-name" contenteditable="true" data-field="p-d3-name">Mittwoch</span> <span class="day-date" contenteditable="true" data-field="p-d3-date">&mdash; 12. August 2026</span></div>
+      <span class="day-badge badge-training" contenteditable="true" data-field="p-d3-badge">Training</span>
+    </div>
+    <div class="day-body">
+      <div class="slot food"><div class="slot-time" contenteditable="true" data-field="p-d3s1-t">08:00 &ndash; 09:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d3s1-n">Fr&uuml;hst&uuml;ck</div><div class="slot-detail" contenteditable="true" data-field="p-d3s1-d">Hotel-Restaurant</div></div></div>
+      <div class="slot gym"><div class="slot-time" contenteditable="true" data-field="p-d3s2-t">09:00 &ndash; 10:30</div><div><div class="slot-title" contenteditable="true" data-field="p-d3s2-n">Gym &mdash; Athletik &amp; Conditioning</div><div class="slot-detail" contenteditable="true" data-field="p-d3s2-d">Oberk&ouml;rper-Fokus &middot; Push/Pull &middot; Med-Ball &middot; Core &middot; Sprints</div></div></div>
+      <div class="slot ice"><div class="slot-time" contenteditable="true" data-field="p-d3s3-t">11:30 &ndash; 13:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d3s3-n">Eistraining III</div><div class="slot-detail" contenteditable="true" data-field="p-d3s3-d">Eis-Arena 2 &middot; Penalty Kill &middot; Defensive Zone Coverage &middot; Scrimmage</div></div></div>
+      <div class="slot food"><div class="slot-time" contenteditable="true" data-field="p-d3s4-t">13:30 &ndash; 14:30</div><div><div class="slot-title" contenteditable="true" data-field="p-d3s4-n">Mittagessen</div><div class="slot-detail" contenteditable="true" data-field="p-d3s4-d">Hotel-Restaurant &middot; Recovery-Meal</div></div></div>
+      <div class="slot rest"><div class="slot-time" contenteditable="true" data-field="p-d3s5-t">14:30 &ndash; 15:30</div><div><div class="slot-title" contenteditable="true" data-field="p-d3s5-n">Zimmerruhe</div><div class="slot-detail" contenteditable="true" data-field="p-d3s5-d">Regeneration &middot; Video-Review &middot; Journaling</div></div></div>
+      <div class="slot team"><div class="slot-time" contenteditable="true" data-field="p-d3s6-t">15:30 &ndash; 22:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d3s6-n">Team Event</div><div class="slot-detail" contenteditable="true" data-field="p-d3s6-d">Wanderung / Badesee &middot; Abendessen 17:30 &middot; Filmabend &middot; Nachtruhe 22:00</div></div></div>
+    </div>
+  </div>
+
+  <!-- ══════ DONNERSTAG ══════ -->
+  <div class="day">
+    <div class="day-header">
+      <div><span class="day-name" contenteditable="true" data-field="p-d4-name">Donnerstag</span> <span class="day-date" contenteditable="true" data-field="p-d4-date">&mdash; 13. August 2026</span></div>
+      <span class="day-badge badge-training" contenteditable="true" data-field="p-d4-badge">Training</span>
+    </div>
+    <div class="day-body">
+      <div class="slot food"><div class="slot-time" contenteditable="true" data-field="p-d4s1-t">08:00 &ndash; 09:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d4s1-n">Fr&uuml;hst&uuml;ck</div><div class="slot-detail" contenteditable="true" data-field="p-d4s1-d">Hotel-Restaurant</div></div></div>
+      <div class="slot gym"><div class="slot-time" contenteditable="true" data-field="p-d4s2-t">09:00 &ndash; 10:30</div><div><div class="slot-title" contenteditable="true" data-field="p-d4s2-n">Gym &mdash; Game-Day Activation</div><div class="slot-detail" contenteditable="true" data-field="p-d4s2-d">Leichtes Ganzk&ouml;rper-Programm &middot; Mobilisation &middot; Pre-Game Vorbereitung</div></div></div>
+      <div class="slot ice"><div class="slot-time" contenteditable="true" data-field="p-d4s3-t">11:30 &ndash; 13:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d4s3-n">Eistraining IV &mdash; Turniervorbereitung</div><div class="slot-detail" contenteditable="true" data-field="p-d4s3-d">Eis-Arena 2 &middot; Line-Combinations &middot; Special Teams &middot; Pre-Game Skate</div></div></div>
+      <div class="slot food"><div class="slot-time" contenteditable="true" data-field="p-d4s4-t">13:30 &ndash; 14:30</div><div><div class="slot-title" contenteditable="true" data-field="p-d4s4-n">Mittagessen</div><div class="slot-detail" contenteditable="true" data-field="p-d4s4-d">Hotel-Restaurant &middot; Pre-Tournament Nutrition</div></div></div>
+      <div class="slot rest"><div class="slot-time" contenteditable="true" data-field="p-d4s5-t">14:30 &ndash; 15:30</div><div><div class="slot-title" contenteditable="true" data-field="p-d4s5-n">Video-Briefing &mdash; Turnier</div><div class="slot-detail" contenteditable="true" data-field="p-d4s5-d">Gegneranalyse &middot; Turnierformat &middot; Lineup &middot; Spielplan</div></div></div>
+      <div class="slot team"><div class="slot-time" contenteditable="true" data-field="p-d4s6-t">15:30 &ndash; 22:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d4s6-n">Team Event</div><div class="slot-detail" contenteditable="true" data-field="p-d4s6-d">Lockerer Abend &middot; Abendessen 17:30 &middot; Fr&uuml;here Nachtruhe 21:30</div></div></div>
+    </div>
+  </div>
+
+  <!-- ══════ FREITAG ══════ -->
+  <div class="day">
+    <div class="day-header tournament">
+      <div><span class="day-name" contenteditable="true" data-field="p-d5-name">Freitag</span> <span class="day-date" contenteditable="true" data-field="p-d5-date">&mdash; 14. August 2026</span></div>
+      <span class="day-badge badge-tournament" contenteditable="true" data-field="p-d5-badge">Turnier Tag 1</span>
+    </div>
+    <div class="day-body">
+      <div class="slot food"><div class="slot-time" contenteditable="true" data-field="p-d5s1-t">08:00 &ndash; 09:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d5s1-n">Fr&uuml;hst&uuml;ck</div><div class="slot-detail" contenteditable="true" data-field="p-d5s1-d">Game-Day Nutrition &middot; Leicht &amp; energiereich</div></div></div>
+      <div class="slot-tbd" contenteditable="true" data-field="p-d5-tbd">Turnierplan folgt &mdash; Spielzeiten werden vom Veranstalter bekanntgegeben</div>
+    </div>
+  </div>
+
+  <!-- ══════ SAMSTAG ══════ -->
+  <div class="day">
+    <div class="day-header tournament">
+      <div><span class="day-name" contenteditable="true" data-field="p-d6-name">Samstag</span> <span class="day-date" contenteditable="true" data-field="p-d6-date">&mdash; 15. August 2026</span></div>
+      <span class="day-badge badge-tournament" contenteditable="true" data-field="p-d6-badge">Turnier Tag 2</span>
+    </div>
+    <div class="day-body">
+      <div class="slot food"><div class="slot-time" contenteditable="true" data-field="p-d6s1-t">08:00 &ndash; 09:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d6s1-n">Fr&uuml;hst&uuml;ck</div><div class="slot-detail" contenteditable="true" data-field="p-d6s1-d">Game-Day Nutrition</div></div></div>
+      <div class="slot-tbd" contenteditable="true" data-field="p-d6-tbd">Turnierplan folgt &mdash; Spielzeiten abh&auml;ngig von Vorrundenergebnissen</div>
+    </div>
+  </div>
+
+  <!-- ══════ SONNTAG ══════ -->
+  <div class="day">
+    <div class="day-header tournament">
+      <div><span class="day-name" contenteditable="true" data-field="p-d7-name">Sonntag</span> <span class="day-date" contenteditable="true" data-field="p-d7-date">&mdash; 16. August 2026</span></div>
+      <span class="day-badge badge-tournament" contenteditable="true" data-field="p-d7-badge">Turnier Tag 3 &amp; Abreise</span>
+    </div>
+    <div class="day-body">
+      <div class="slot food"><div class="slot-time" contenteditable="true" data-field="p-d7s1-t">08:00 &ndash; 09:00</div><div><div class="slot-title" contenteditable="true" data-field="p-d7s1-n">Fr&uuml;hst&uuml;ck &amp; Check-Out</div><div class="slot-detail" contenteditable="true" data-field="p-d7s1-d">Zimmer r&auml;umen &middot; Gep&auml;ck verladen &middot; Hotel-Check-Out</div></div></div>
+      <div class="slot-tbd" contenteditable="true" data-field="p-d7-tbd">Finale / Platzierungsspiele &mdash; Spielzeiten TBD</div>
+      <div class="slot travel"><div class="slot-time" contenteditable="true" data-field="p-d7s2-t">nach Turnier</div><div><div class="slot-title" contenteditable="true" data-field="p-d7s2-n">R&uuml;ckreise Rosenheim</div><div class="slot-detail" contenteditable="true" data-field="p-d7s2-d">Ferlach &rarr; ROFA-Stadion (~3h) &middot; Ankunft abh&auml;ngig von Spielplan</div></div></div>
+    </div>
+  </div>
+
+  <!-- ══════ KALKULATION ══════ -->
+  <div class="calc-section">
+    <div class="calc-title" contenteditable="true" data-field="p-calc-title">Kosten<span class="green">kalkulation</span></div>
+    <div class="calc-sub" contenteditable="true" data-field="p-calc-sub">Basis: 22 Personen &middot; 6 N&auml;chte &middot; 7 Tage &middot; 4 Eiseinheiten &agrave; 1,5h</div>
+
+    <table class="calc-table">
+      <thead>
+        <tr>
+          <th>Position</th>
+          <th>Berechnung</th>
+          <th class="right">Betrag</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td contenteditable="true" data-field="p-cr1-pos"><strong>Zimmer inkl. Fr&uuml;hst&uuml;ck</strong><br><span class="detail">60,00 &euro; / Person / Nacht</span></td>
+          <td class="right" contenteditable="true" data-field="p-cr1-calc">22 &times; 6 &times; 60,00 &euro;</td>
+          <td contenteditable="true" data-field="p-cr1-val">7.920,00 &euro;</td>
+        </tr>
+        <tr>
+          <td contenteditable="true" data-field="p-cr2-pos"><strong>Mittag- &amp; Abendessen</strong><br><span class="detail">25,00 &euro; / Person / Mahlzeit &middot; 13 Mahlzeiten (Mo&ndash;Sa 2&times;, So 1&times;)</span></td>
+          <td class="right" contenteditable="true" data-field="p-cr2-calc">22 &times; 13 &times; 25,00 &euro;</td>
+          <td contenteditable="true" data-field="p-cr2-val">7.150,00 &euro;</td>
+        </tr>
+        <tr>
+          <td contenteditable="true" data-field="p-cr3-pos"><strong>Snacks &amp; Getr&auml;nke</strong><br><span class="detail">5,00 &euro; / Person / Tag</span></td>
+          <td class="right" contenteditable="true" data-field="p-cr3-calc">22 &times; 7 &times; 5,00 &euro;</td>
+          <td contenteditable="true" data-field="p-cr3-val">770,00 &euro;</td>
+        </tr>
+        <tr>
+          <td contenteditable="true" data-field="p-cr4-pos"><strong>Eiszeit</strong><br><span class="detail">190,00 &euro; / Stunde &middot; 4 Einheiten &agrave; 1,5h = 6h</span></td>
+          <td class="right" contenteditable="true" data-field="p-cr4-calc">6 &times; 190,00 &euro;</td>
+          <td contenteditable="true" data-field="p-cr4-val">1.140,00 &euro;</td>
+        </tr>
+        <tr>
+          <td contenteditable="true" data-field="p-cr5-pos"><strong>Busanreise (1 Woche)</strong><br><span class="detail">Rosenheim &harr; Ferlach &middot; Hin &amp; R&uuml;ck + Standzeit &middot; Pauschal</span></td>
+          <td class="right" contenteditable="true" data-field="p-cr5-calc">pauschal</td>
+          <td contenteditable="true" data-field="p-cr5-val">3.500,00 &euro;</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="calc-summary-row">
+      <span class="label" contenteditable="true" data-field="p-sum1-l">Unterkunft &amp; Verpflegung</span>
+      <span class="value" contenteditable="true" data-field="p-sum1-v">15.840,00 &euro;</span>
+    </div>
+    <div class="calc-summary-row">
+      <span class="label" contenteditable="true" data-field="p-sum2-l">Eis &amp; Transport</span>
+      <span class="value" contenteditable="true" data-field="p-sum2-v">4.640,00 &euro;</span>
+    </div>
+    <div class="calc-summary-row total">
+      <span class="label" contenteditable="true" data-field="p-sum3-l">Gesamtkosten</span>
+      <span class="value" contenteditable="true" data-field="p-sum3-v">20.480,00 &euro;</span>
+    </div>
+    <div class="calc-pp" contenteditable="true" data-field="p-calc-pp">Pro Person: 930,91 &euro;</div>
+  </div>
+
+  <div class="footer" contenteditable="true" data-field="p-footer">
+    Starbulls <span class="green">Nachwuchs</span> &middot; U17 Trainingslager Ferlach &middot; August 2026 &middot; Stand 15. April 2026
+  </div>
+
+</div>
+
+<div class="save-indicator" id="saveInd">Gespeichert</div>
+
+<script>
+(function(){
+  var KEY = 'sbr-print-ferlach-';
+
+  function saveAll(){
+    document.querySelectorAll('[data-field]').forEach(function(el){
+      localStorage.setItem(KEY + el.getAttribute('data-field'), el.innerHTML);
+    });
+    showSave();
+  }
+
+  function loadAll(){
+    document.querySelectorAll('[data-field]').forEach(function(el){
+      var v = localStorage.getItem(KEY + el.getAttribute('data-field'));
+      if(v !== null) el.innerHTML = v;
+    });
+  }
+
+  function showSave(){
+    var ind = document.getElementById('saveInd');
+    ind.classList.add('show');
+    clearTimeout(window._saveTimer);
+    window._saveTimer = setTimeout(function(){ ind.classList.remove('show'); }, 1800);
+  }
+
+  // Auto-save on blur
+  document.addEventListener('focusout', function(e){
+    if(e.target && e.target.hasAttribute && e.target.hasAttribute('data-field')){
+      saveAll();
+    }
+  });
+
+  // Load on init
+  loadAll();
+})();
+</script>
+</body>
+</html>
