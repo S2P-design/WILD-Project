@@ -167,7 +167,7 @@
 <body>
 
 <div class="toolbar">
-  <button onclick="copyEmail()">Kopieren</button>
+  <button onclick="copyForOutlook()">Fuer Outlook kopieren</button>
   <button onclick="window.print()">PDF / Drucken</button>
   <button onclick="window.location.href='/sbr-trainingslager-ferlach.html#internal'">Wochenplan</button>
 </div>
@@ -275,21 +275,90 @@
   loadAll();
 })();
 
-function copyEmail(){
+function copyForOutlook(){
+  // Build clean HTML email body for Outlook paste
   var body = document.querySelector('.email-body');
-  var text = body.innerText;
-  var subject = document.querySelector('[data-field="email-subject"]').innerText;
-  var full = 'Betreff: ' + subject + '\n\n' + text;
-  navigator.clipboard.writeText(full).then(function(){
+  var els = body.querySelectorAll('[data-field]');
+  var html = '';
+  var plain = '';
+
+  // Greeting
+  var greeting = body.querySelector('[data-field="email-greeting"]');
+  html += '<p style="font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#333;">' + greeting.innerText + '</p>';
+  plain += greeting.innerText + '\n\n';
+
+  // Paragraph 1
+  var p1 = body.querySelector('[data-field="email-p1"]');
+  html += '<p style="font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#333;">' + p1.innerText + '</p>';
+  plain += p1.innerText + '\n\n';
+
+  // Detail boxes
+  var boxes = body.querySelectorAll('.detail-box');
+  boxes.forEach(function(box){
+    var title = box.querySelector('h3').innerText;
+    html += '<p style="font-family:Calibri,Arial,sans-serif;font-size:11pt;font-weight:bold;color:#005243;margin:16px 0 6px;">' + title + '</p>';
+    html += '<table style="border-collapse:collapse;width:100%;margin-bottom:12px;">';
+    plain += '--- ' + title + ' ---\n';
+    box.querySelectorAll('.detail-row').forEach(function(row){
+      var key = row.querySelector('.detail-key').innerText;
+      var val = row.querySelector('.detail-value').innerText;
+      html += '<tr><td style="font-family:Calibri,Arial,sans-serif;font-size:10pt;color:#888;padding:4px 12px 4px 0;vertical-align:top;width:140px;">' + key + '</td>';
+      html += '<td style="font-family:Calibri,Arial,sans-serif;font-size:10pt;color:#333;padding:4px 0;">' + val + '</td></tr>';
+      plain += key + ': ' + val + '\n';
+    });
+    html += '</table>';
+    plain += '\n';
+  });
+
+  // Remaining paragraphs
+  ['email-p2','email-p3','email-p4'].forEach(function(f){
+    var el = body.querySelector('[data-field="'+f+'"]');
+    if(el){
+      html += '<p style="font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#333;">' + el.innerText + '</p>';
+      plain += el.innerText + '\n\n';
+    }
+  });
+
+  // Sign-off
+  var signoff = body.querySelector('[data-field="email-signoff"]');
+  var name = body.querySelector('[data-field="email-name"]');
+  var role = body.querySelector('[data-field="email-role"]');
+  html += '<p style="font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#333;margin-top:20px;">' + signoff.innerText + '</p>';
+  html += '<p style="font-family:Calibri,Arial,sans-serif;font-size:11pt;font-weight:bold;color:#1a1a1a;">' + name.innerText + '</p>';
+  html += '<p style="font-family:Calibri,Arial,sans-serif;font-size:9pt;color:#888;">' + role.innerText + '</p>';
+  plain += signoff.innerText + '\n' + name.innerText + '\n' + role.innerText;
+
+  // Copy as rich text (HTML) for Outlook
+  var blob = new Blob([html], {type: 'text/html'});
+  var blobPlain = new Blob([plain], {type: 'text/plain'});
+  var item = new ClipboardItem({
+    'text/html': blob,
+    'text/plain': blobPlain
+  });
+  navigator.clipboard.write([item]).then(function(){
     var ind = document.getElementById('saveInd');
-    ind.textContent = 'Kopiert!';
+    ind.textContent = 'Fuer Outlook kopiert!';
     ind.classList.add('show');
     clearTimeout(window._saveTimer);
     window._saveTimer = setTimeout(function(){
       ind.classList.remove('show');
       ind.textContent = 'Gespeichert';
-    }, 2000);
+    }, 2500);
   });
+
+  // Show subject as overlay so user can copy it for Outlook subject line
+  var subj = document.querySelector('[data-field="email-subject"]').innerText;
+  var overlay = document.getElementById('subjectOverlay');
+  if(!overlay){
+    overlay = document.createElement('div');
+    overlay.id = 'subjectOverlay';
+    overlay.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border:1px solid #e0e0e0;border-radius:10px;padding:24px 32px;box-shadow:0 12px 40px rgba(0,0,0,0.12);z-index:999;text-align:center;max-width:500px;';
+    document.body.appendChild(overlay);
+  }
+  overlay.innerHTML = '<div style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#005243;margin-bottom:8px;">Betreff fuer Outlook</div>'
+    + '<div style="font-family:Calibri,sans-serif;font-size:14px;font-weight:600;color:#1a1a1a;padding:10px 14px;background:#f5f8f7;border-radius:6px;cursor:pointer;user-select:all;" onclick="navigator.clipboard.writeText(this.innerText)">' + subj + '</div>'
+    + '<div style="font-size:11px;color:#999;margin-top:10px;">Klick zum Kopieren &middot; Email-Body bereits in Zwischenablage</div>'
+    + '<button onclick="this.parentElement.remove()" style="margin-top:14px;font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border:1px solid #e0e0e0;border-radius:5px;background:white;color:#005243;cursor:pointer;">Schliessen</button>';
 }
 </script>
 </body>
