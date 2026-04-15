@@ -144,10 +144,10 @@
   /* ── TIME SLOT ── */
   .slot {
     display: grid;
-    grid-template-columns: 120px 36px 1fr;
-    align-items: center;
-    gap: 0;
-    padding: 12px 22px;
+    grid-template-columns: 130px 1fr;
+    align-items: baseline;
+    gap: 16px;
+    padding: 10px 22px;
     border-bottom: 1px solid rgba(255,255,255,0.025);
     transition: background 0.15s;
   }
@@ -156,17 +156,13 @@
 
   .slot-time {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; font-weight: 500;
+    font-size: 11px; font-weight: 500;
     color: var(--green-bright);
     letter-spacing: 0.5px;
     white-space: nowrap;
   }
 
-  .slot-icon {
-    font-size: 14px;
-    text-align: center;
-    opacity: 0.6;
-  }
+  .slot-icon { display: none; }
 
   .slot-info { min-width: 0; }
   .slot-title {
@@ -546,7 +542,7 @@
     <div class="day-body">
       <div class="slot travel">
         <div class="slot-time">08:00</div>
-        <div class="slot-icon">&#128652;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Abfahrt Stadion</div>
           <div class="slot-detail">ROFA-Stadion Rosenheim &rarr; Ferlach (~3h)</div>
@@ -554,7 +550,7 @@
       </div>
       <div class="slot travel">
         <div class="slot-time">11:00</div>
-        <div class="slot-icon">&#127976;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Check-In Hotel</div>
           <div class="slot-detail">Zimmereinteilung &middot; Einweisung &middot; Treffpunkt besprechen</div>
@@ -562,7 +558,7 @@
       </div>
       <div class="slot food">
         <div class="slot-time">11:30 &ndash; 12:15</div>
-        <div class="slot-icon">&#127860;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Mittagessen</div>
           <div class="slot-detail">Hotel-Restaurant &middot; Kohlenhydratreich vor erster Eiseinheit</div>
@@ -570,7 +566,7 @@
       </div>
       <div class="slot rest">
         <div class="slot-time">12:15 &ndash; 12:45</div>
-        <div class="slot-icon">&#128221;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Video-Briefing</div>
           <div class="slot-detail">Taktische Schwerpunkte f&uuml;r die Woche &middot; Erwartungen &middot; Verhaltenskodex</div>
@@ -578,7 +574,7 @@
       </div>
       <div class="slot ice">
         <div class="slot-time">13:00 &ndash; 14:30</div>
-        <div class="slot-icon">&#9918;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Eistraining I</div>
           <div class="slot-detail">Eis-Arena 2 &middot; Skating &middot; Puck Control &middot; Systemeinf&uuml;hrung 5v5</div>
@@ -586,7 +582,7 @@
       </div>
       <div class="slot gym">
         <div class="slot-time">15:00 &ndash; 16:00</div>
-        <div class="slot-icon">&#127947;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Gym &mdash; Regeneration &amp; Mobility</div>
           <div class="slot-detail">Leichtes Programm nach Anreise &middot; Foam Rolling &middot; Stretching &middot; Core Activation</div>
@@ -594,7 +590,7 @@
       </div>
       <div class="slot food">
         <div class="slot-time">16:30 &ndash; 17:30</div>
-        <div class="slot-icon">&#127860;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Abendessen</div>
           <div class="slot-detail">Hotel-Restaurant</div>
@@ -602,7 +598,7 @@
       </div>
       <div class="slot team">
         <div class="slot-time">18:00 &ndash; 22:00</div>
-        <div class="slot-icon">&#127918;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Team Event</div>
           <div class="slot-detail">Kennenlernabend &middot; Teambuilding &middot; Kartenspiele / Quiz &middot; Nachtruhe ab 22:00</div>
@@ -625,7 +621,7 @@
     <div class="day-body">
       <div class="slot food">
         <div class="slot-time">08:00 &ndash; 09:00</div>
-        <div class="slot-icon">&#9749;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Fr&uuml;hst&uuml;ck</div>
           <div class="slot-detail">Hotel-Restaurant &middot; Protein + Kohlenhydrate &middot; Hydration</div>
@@ -633,7 +629,7 @@
       </div>
       <div class="slot gym">
         <div class="slot-time">09:30 &ndash; 10:30</div>
-        <div class="slot-icon">&#127947;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Gym &mdash; Kraft &amp; Explosivit&auml;t</div>
           <div class="slot-detail">Unterk&ouml;rper-Fokus &middot; Squats &middot; Box Jumps &middot; Lateral Agility</div>
@@ -641,7 +637,7 @@
       </div>
       <div class="slot ice">
         <div class="slot-time">11:30 &ndash; 13:00</div>
-        <div class="slot-icon">&#9918;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Eistraining II</div>
           <div class="slot-detail">Eis-Arena 2 &middot; Breakout-System &middot; Powerplay-Aufbau &middot; Forechecking</div>
@@ -649,7 +645,7 @@
       </div>
       <div class="slot food">
         <div class="slot-time">13:30 &ndash; 14:30</div>
-        <div class="slot-icon">&#127860;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Mittagessen</div>
           <div class="slot-detail">Hotel-Restaurant &middot; Recovery-Meal</div>
@@ -657,7 +653,7 @@
       </div>
       <div class="slot rest">
         <div class="slot-time">14:30 &ndash; 15:30</div>
-        <div class="slot-icon">&#128564;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Zimmerruhe</div>
           <div class="slot-detail">Regeneration &middot; Eintrag Trainingstagebuch &middot; Mental Reset</div>
@@ -665,7 +661,7 @@
       </div>
       <div class="slot team">
         <div class="slot-time">15:30 &ndash; 22:00</div>
-        <div class="slot-icon">&#9917;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Team Event</div>
           <div class="slot-detail">Outdoor-Aktivit&auml;t &middot; Mannschaftssport &middot; Abendessen 17:30 &middot; Nachtruhe 22:00</div>
@@ -688,7 +684,7 @@
     <div class="day-body">
       <div class="slot food">
         <div class="slot-time">08:00 &ndash; 09:00</div>
-        <div class="slot-icon">&#9749;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Fr&uuml;hst&uuml;ck</div>
           <div class="slot-detail">Hotel-Restaurant</div>
@@ -696,7 +692,7 @@
       </div>
       <div class="slot gym">
         <div class="slot-time">09:00 &ndash; 10:30</div>
-        <div class="slot-icon">&#127947;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Gym &mdash; Athletik &amp; Conditioning</div>
           <div class="slot-detail">Oberk&ouml;rper-Fokus &middot; Push/Pull &middot; Med-Ball &middot; Core &middot; Sprints</div>
@@ -704,7 +700,7 @@
       </div>
       <div class="slot ice">
         <div class="slot-time">11:30 &ndash; 13:00</div>
-        <div class="slot-icon">&#9918;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Eistraining III</div>
           <div class="slot-detail">Eis-Arena 2 &middot; Penalty Kill &middot; Defensive Zone Coverage &middot; Battles &middot; Scrimmage</div>
@@ -712,7 +708,7 @@
       </div>
       <div class="slot food">
         <div class="slot-time">13:30 &ndash; 14:30</div>
-        <div class="slot-icon">&#127860;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Mittagessen</div>
           <div class="slot-detail">Hotel-Restaurant &middot; Recovery-Meal</div>
@@ -720,7 +716,7 @@
       </div>
       <div class="slot rest">
         <div class="slot-time">14:30 &ndash; 15:30</div>
-        <div class="slot-icon">&#128564;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Zimmerruhe</div>
           <div class="slot-detail">Regeneration &middot; Video-Review Eistraining &middot; Journaling</div>
@@ -728,7 +724,7 @@
       </div>
       <div class="slot team">
         <div class="slot-time">15:30 &ndash; 22:00</div>
-        <div class="slot-icon">&#127754;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Team Event</div>
           <div class="slot-detail">Wanderung / Badesee &middot; Abendessen 17:30 &middot; Filmabend &middot; Nachtruhe 22:00</div>
@@ -751,7 +747,7 @@
     <div class="day-body">
       <div class="slot food">
         <div class="slot-time">08:00 &ndash; 09:00</div>
-        <div class="slot-icon">&#9749;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Fr&uuml;hst&uuml;ck</div>
           <div class="slot-detail">Hotel-Restaurant</div>
@@ -759,7 +755,7 @@
       </div>
       <div class="slot gym">
         <div class="slot-time">09:00 &ndash; 10:30</div>
-        <div class="slot-icon">&#127947;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Gym &mdash; Game-Day Activation</div>
           <div class="slot-detail">Leichtes Ganzkörper-Programm &middot; Reaktivierung &middot; Mobilisation &middot; Pre-Game Vorbereitung</div>
@@ -767,7 +763,7 @@
       </div>
       <div class="slot ice">
         <div class="slot-time">11:30 &ndash; 13:00</div>
-        <div class="slot-icon">&#9918;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Eistraining IV &mdash; Turniervorbereitung</div>
           <div class="slot-detail">Eis-Arena 2 &middot; Line-Combinations &middot; Special Teams &middot; Pre-Game Skate &middot; Shootout-&Uuml;bungen</div>
@@ -775,7 +771,7 @@
       </div>
       <div class="slot food">
         <div class="slot-time">13:30 &ndash; 14:30</div>
-        <div class="slot-icon">&#127860;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Mittagessen</div>
           <div class="slot-detail">Hotel-Restaurant &middot; Pre-Tournament Nutrition</div>
@@ -783,7 +779,7 @@
       </div>
       <div class="slot rest">
         <div class="slot-time">14:30 &ndash; 15:30</div>
-        <div class="slot-icon">&#128221;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Video-Briefing &mdash; Turnier</div>
           <div class="slot-detail">Gegneranalyse &middot; Turnierformat &middot; Lineup &middot; Spielplan</div>
@@ -791,7 +787,7 @@
       </div>
       <div class="slot team">
         <div class="slot-time">15:30 &ndash; 22:00</div>
-        <div class="slot-icon">&#127918;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Team Event &mdash; Pre-Tournament</div>
           <div class="slot-detail">Lockerer Abend &middot; Team-Besprechung &middot; Abendessen 17:30 &middot; Fr&uuml;here Nachtruhe 21:30</div>
@@ -814,7 +810,7 @@
     <div class="day-body">
       <div class="slot food">
         <div class="slot-time">08:00 &ndash; 09:00</div>
-        <div class="slot-icon">&#9749;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Fr&uuml;hst&uuml;ck</div>
           <div class="slot-detail">Game-Day Nutrition &middot; Leicht &amp; energiereich</div>
@@ -840,7 +836,7 @@
     <div class="day-body">
       <div class="slot food">
         <div class="slot-time">08:00 &ndash; 09:00</div>
-        <div class="slot-icon">&#9749;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Fr&uuml;hst&uuml;ck</div>
           <div class="slot-detail">Game-Day Nutrition</div>
@@ -866,7 +862,7 @@
     <div class="day-body">
       <div class="slot food">
         <div class="slot-time">08:00 &ndash; 09:00</div>
-        <div class="slot-icon">&#9749;</div>
+        
         <div class="slot-info">
           <div class="slot-title">Fr&uuml;hst&uuml;ck &amp; Check-Out</div>
           <div class="slot-detail">Zimmer r&auml;umen &middot; Gep&auml;ck verladen &middot; Hotel-Check-Out</div>
@@ -877,7 +873,7 @@
       </div>
       <div class="slot travel">
         <div class="slot-time">nach Turnier</div>
-        <div class="slot-icon">&#128652;</div>
+        
         <div class="slot-info">
           <div class="slot-title">R&uuml;ckreise Rosenheim</div>
           <div class="slot-detail">Ferlach &rarr; ROFA-Stadion (~3h) &middot; Ankunft abh&auml;ngig von Spielplan</div>
