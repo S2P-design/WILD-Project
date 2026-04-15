@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trainingslager Ferlach — U17 Starbulls</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23005243'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='13' fill='%23F2F5F4'>U17</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Titillium+Web:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #005243;
+    --green-bright: #00785f;
+    --red: #E4032E;
+    --dark: #0A0A0A;
+    --surface: #111;
+    --border: rgba(255,255,255,0.06);
+    --light: #F2F5F4;
+    --muted: rgba(255,255,255,0.35);
+    --text: rgba(255,255,255,0.7);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--light);
+    font-family: 'Titillium Web', -apple-system, sans-serif;
+    min-height: 100vh;
+    padding: 48px 24px 80px;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .container { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+
+  /* ── HEADER ── */
+  .header { margin-bottom: 40px; }
+  .header-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--green-bright);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .header-meta .dot { color: var(--muted); }
+  .header h1 {
+    font-family: 'League Gothic', sans-serif;
+    font-size: clamp(36px, 7vw, 56px);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 1.05;
+    letter-spacing: 1px;
+  }
+  .header h1 .green { color: var(--green-bright); }
+  .header h1 .red { color: var(--red); }
+  .header-sub {
+    font-size: 15px; color: var(--text);
+    margin-top: 8px; line-height: 1.5;
+  }
+  .header-sub strong { color: var(--light); font-weight: 600; }
+
+  /* ── INFO STRIP ── */
+  .info-strip {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .info-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1.5px;
+    padding: 8px 16px;
+    border: 1px solid rgba(0,82,67,0.2);
+    background: rgba(0,82,67,0.05);
+    border-radius: 8px;
+    color: var(--green-bright);
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .info-pill .val { color: var(--light); font-weight: 600; }
+
+  /* ── DAY CARD ── */
+  .day-card {
+    margin-bottom: 24px;
+    background: rgba(255,255,255,0.015);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .day-card:hover { border-color: rgba(0,82,67,0.15); }
+  .day-card.tournament { border-color: rgba(228,3,46,0.15); }
+
+  .day-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px;
+    background: rgba(0,82,67,0.06);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .day-card.tournament .day-header { background: rgba(228,3,46,0.06); }
+
+  .day-label {
+    font-family: 'League Gothic', sans-serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--light);
+  }
+  .day-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 1.5px;
+    color: var(--green-bright);
+  }
+  .day-card.tournament .day-date { color: var(--red); }
+
+  .day-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 1.5px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .badge-training { color: var(--green-bright); border: 1px solid rgba(0,82,67,0.25); background: rgba(0,82,67,0.08); }
+  .badge-travel { color: #d4850a; border: 1px solid rgba(212,133,10,0.25); background: rgba(212,133,10,0.06); }
+  .badge-tournament { color: var(--red); border: 1px solid rgba(228,3,46,0.25); background: rgba(228,3,46,0.06); }
+
+  .day-body { padding: 6px 0; }
+
+  /* ── TIME SLOT ── */
+  .slot {
+    display: grid;
+    grid-template-columns: 120px 36px 1fr;
+    align-items: center;
+    gap: 0;
+    padding: 12px 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.025);
+    transition: background 0.15s;
+  }
+  .slot:last-child { border-bottom: none; }
+  .slot:hover { background: rgba(0,82,67,0.03); }
+
+  .slot-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 500;
+    color: var(--green-bright);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .slot-icon {
+    font-size: 14px;
+    text-align: center;
+    opacity: 0.6;
+  }
+
+  .slot-info { min-width: 0; }
+  .slot-title {
+    font-size: 14px; font-weight: 600;
+    color: var(--light);
+    line-height: 1.3;
+  }
+  .slot-detail {
+    font-size: 12px; color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  /* Slot type indicators */
+  .slot.ice .slot-time { color: #4fc3f7; }
+  .slot.gym .slot-time { color: #ff8a65; }
+  .slot.team .slot-time { color: #ce93d8; }
+  .slot.food .slot-time { color: #a5d6a7; }
+  .slot.rest .slot-time { color: var(--muted); }
+  .slot.travel .slot-time { color: #d4850a; }
+  .slot.tournament .slot-time { color: var(--red); }
+
+  /* ── TBD SLOT ── */
+  .slot-tbd {
+    padding: 20px 22px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .slot-tbd .red { color: var(--red); }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    margin-top: 32px; margin-bottom: 40px;
+    padding: 16px 20px;
+    background: rgba(255,255,255,0.015);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .legend-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1px;
+    display: flex; align-items: center; gap: 6px;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 2px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 48px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.1);
+    text-transform: uppercase;
+  }
+  .footer .green { color: var(--green-bright); }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    position: fixed; top: 20px; right: 24px;
+    z-index: 200; border: none; background: transparent;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 400;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.35);
+    transition: all 0.3s; padding: 4px 0;
+  }
+  .theme-toggle:hover { color: var(--green-bright); }
+
+  /* ── PRINT ── */
+  .print-btn {
+    position: fixed; top: 20px; right: 90px;
+    z-index: 200; border: 1px solid rgba(0,82,67,0.2);
+    background: rgba(0,82,67,0.05);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 400;
+    letter-spacing: 2px;
+    color: var(--green-bright);
+    padding: 5px 12px; border-radius: 4px;
+    transition: all 0.3s;
+  }
+  .print-btn:hover { background: rgba(0,82,67,0.12); }
+
+  /* ══════ AWAY MODE ══════ */
+  body.light {
+    background: #e8ebe9;
+    color: #1a1a2e;
+  }
+  body.light::before {
+    background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 1px);
+  }
+  body.light .header-meta { color: var(--green); }
+  body.light .header h1 { color: #1a1a2e; }
+  body.light .header-sub { color: rgba(0,0,0,0.55); }
+  body.light .header-sub strong { color: #1a1a2e; }
+
+  body.light .info-pill {
+    background: rgba(0,82,67,0.04); border-color: rgba(0,82,67,0.12);
+    color: var(--green);
+  }
+  body.light .info-pill .val { color: #1a1a2e; }
+
+  body.light .day-card {
+    background: rgba(255,255,255,0.5);
+    border-color: rgba(255,255,255,0.7);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  }
+  body.light .day-card:hover { border-color: rgba(0,82,67,0.2); }
+  body.light .day-card.tournament { border-color: rgba(228,3,46,0.15); }
+
+  body.light .day-header {
+    background: rgba(0,82,67,0.04);
+    border-bottom-color: rgba(0,0,0,0.05);
+  }
+  body.light .day-card.tournament .day-header { background: rgba(228,3,46,0.04); }
+  body.light .day-label { color: #1a1a2e; }
+  body.light .day-date { color: var(--green); }
+  body.light .day-card.tournament .day-date { color: var(--red); }
+
+  body.light .slot { border-bottom-color: rgba(0,0,0,0.04); }
+  body.light .slot:hover { background: rgba(0,82,67,0.03); }
+  body.light .slot-title { color: #1a1a2e; }
+  body.light .slot-detail { color: rgba(0,0,0,0.4); }
+  body.light .slot-time { color: var(--green); }
+  body.light .slot.ice .slot-time { color: #0277bd; }
+  body.light .slot.gym .slot-time { color: #d84315; }
+  body.light .slot.team .slot-time { color: #7b1fa2; }
+  body.light .slot.food .slot-time { color: #2e7d32; }
+  body.light .slot.rest .slot-time { color: rgba(0,0,0,0.3); }
+  body.light .slot.travel .slot-time { color: #e65100; }
+  body.light .slot.tournament .slot-time { color: var(--red); }
+
+  body.light .slot-tbd { color: rgba(0,0,0,0.3); }
+
+  body.light .legend {
+    background: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.7);
+    backdrop-filter: blur(12px);
+  }
+  body.light .legend-item { color: rgba(0,0,0,0.4); }
+
+  body.light .footer { border-top-color: rgba(0,0,0,0.06); color: rgba(0,0,0,0.12); }
+  body.light .theme-toggle { color: rgba(0,0,0,0.3); }
+  body.light .theme-toggle:hover { color: var(--green); }
+  body.light .print-btn { color: var(--green); background: rgba(0,82,67,0.04); border-color: rgba(0,82,67,0.12); }
+
+  /* ── PRINT STYLES ── */
+  @media print {
+    body { background: white !important; color: #111 !important; padding: 20px !important; }
+    body::before { display: none; }
+    .theme-toggle, .print-btn { display: none !important; }
+    .day-card { break-inside: avoid; border: 1px solid #ddd !important; background: white !important; }
+    .day-header { background: #f5f5f5 !important; }
+    .slot-time { color: #005243 !important; }
+    .slot-title { color: #111 !important; }
+    .slot-detail { color: #666 !important; }
+    .legend { background: #fafafa !important; border-color: #eee !important; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    body { padding: 32px 14px 60px; }
+    .slot { grid-template-columns: 90px 28px 1fr; padding: 10px 14px; }
+    .slot-time { font-size: 10px; }
+    .slot-title { font-size: 13px; }
+    .info-strip { gap: 6px; }
+    .info-pill { font-size: 8px; padding: 6px 10px; }
+    .day-header { padding: 14px 16px; }
+    .day-label { font-size: 18px; }
+    .theme-toggle { top: 14px; right: 14px; }
+    .print-btn { top: 14px; right: 70px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle"><span id="themeLabel">HOME</span></button>
+<button class="print-btn" onclick="window.print()">PDF</button>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-meta">
+      Starbulls Rosenheim <span class="dot">&middot;</span> Nachwuchs <span class="dot">&middot;</span> U17
+    </div>
+    <h1>TRAININGSLAGER<br><span class="green">FERLACH</span> <span style="color:var(--muted);font-size:0.6em;">&mdash;</span> <span class="red">K&Auml;RNTEN</span></h1>
+    <p class="header-sub">
+      <strong>10. &mdash; 16. August 2026</strong> &middot; 7 Tage &middot; 4 Eiseinheiten &middot; 4 Gym-Sessions &middot; Turnier (Fr&ndash;So)
+    </p>
+  </div>
+
+  <!-- INFO STRIP -->
+  <div class="info-strip">
+    <div class="info-pill">Team <span class="val">U17</span></div>
+    <div class="info-pill">Eis <span class="val">Eis-Arena 2</span></div>
+    <div class="info-pill">Turnier <span class="val">Fr &mdash; So</span></div>
+    <div class="info-pill">Head Coach <span class="val">Wild</span></div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MONTAG
+       ══════════════════════════════════════ -->
+  <div class="day-card">
+    <div class="day-header" onclick="this.parentElement.querySelector('.day-body').classList.toggle('collapsed')">
+      <div>
+        <div class="day-label">Montag</div>
+        <div class="day-date">10. August 2026</div>
+      </div>
+      <span class="day-badge badge-travel">Anreise</span>
+    </div>
+    <div class="day-body">
+      <div class="slot travel">
+        <div class="slot-time">08:00</div>
+        <div class="slot-icon">&#128652;</div>
+        <div class="slot-info">
+          <div class="slot-title">Abfahrt Stadion</div>
+          <div class="slot-detail">ROFA-Stadion Rosenheim &rarr; Ferlach (~3h)</div>
+        </div>
+      </div>
+      <div class="slot travel">
+        <div class="slot-time">11:00</div>
+        <div class="slot-icon">&#127976;</div>
+        <div class="slot-info">
+          <div class="slot-title">Check-In Hotel</div>
+          <div class="slot-detail">Zimmereinteilung &middot; Einweisung &middot; Treffpunkt besprechen</div>
+        </div>
+      </div>
+      <div class="slot food">
+        <div class="slot-time">11:30 &ndash; 12:15</div>
+        <div class="slot-icon">&#127860;</div>
+        <div class="slot-info">
+          <div class="slot-title">Mittagessen</div>
+          <div class="slot-detail">Hotel-Restaurant &middot; Kohlenhydratreich vor erster Eiseinheit</div>
+        </div>
+      </div>
+      <div class="slot rest">
+        <div class="slot-time">12:15 &ndash; 12:45</div>
+        <div class="slot-icon">&#128221;</div>
+        <div class="slot-info">
+          <div class="slot-title">Video-Briefing</div>
+          <div class="slot-detail">Taktische Schwerpunkte f&uuml;r die Woche &middot; Erwartungen &middot; Verhaltenskodex</div>
+        </div>
+      </div>
+      <div class="slot ice">
+        <div class="slot-time">13:00 &ndash; 14:30</div>
+        <div class="slot-icon">&#9918;</div>
+        <div class="slot-info">
+          <div class="slot-title">Eistraining I</div>
+          <div class="slot-detail">Eis-Arena 2 &middot; Skating &middot; Puck Control &middot; Systemeinf&uuml;hrung 5v5</div>
+        </div>
+      </div>
+      <div class="slot gym">
+        <div class="slot-time">15:00 &ndash; 16:00</div>
+        <div class="slot-icon">&#127947;</div>
+        <div class="slot-info">
+          <div class="slot-title">Gym &mdash; Regeneration &amp; Mobility</div>
+          <div class="slot-detail">Leichtes Programm nach Anreise &middot; Foam Rolling &middot; Stretching &middot; Core Activation</div>
+        </div>
+      </div>
+      <div class="slot food">
+        <div class="slot-time">16:30 &ndash; 17:30</div>
+        <div class="slot-icon">&#127860;</div>
+        <div class="slot-info">
+          <div class="slot-title">Abendessen</div>
+          <div class="slot-detail">Hotel-Restaurant</div>
+        </div>
+      </div>
+      <div class="slot team">
+        <div class="slot-time">18:00 &ndash; 22:00</div>
+        <div class="slot-icon">&#127918;</div>
+        <div class="slot-info">
+          <div class="slot-title">Team Event</div>
+          <div class="slot-detail">Kennenlernabend &middot; Teambuilding &middot; Kartenspiele / Quiz &middot; Nachtruhe ab 22:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       DIENSTAG
+       ══════════════════════════════════════ -->
+  <div class="day-card">
+    <div class="day-header" onclick="this.parentElement.querySelector('.day-body').classList.toggle('collapsed')">
+      <div>
+        <div class="day-label">Dienstag</div>
+        <div class="day-date">11. August 2026</div>
+      </div>
+      <span class="day-badge badge-training">Training</span>
+    </div>
+    <div class="day-body">
+      <div class="slot food">
+        <div class="slot-time">08:00 &ndash; 09:00</div>
+        <div class="slot-icon">&#9749;</div>
+        <div class="slot-info">
+          <div class="slot-title">Fr&uuml;hst&uuml;ck</div>
+          <div class="slot-detail">Hotel-Restaurant &middot; Protein + Kohlenhydrate &middot; Hydration</div>
+        </div>
+      </div>
+      <div class="slot gym">
+        <div class="slot-time">09:30 &ndash; 10:30</div>
+        <div class="slot-icon">&#127947;</div>
+        <div class="slot-info">
+          <div class="slot-title">Gym &mdash; Kraft &amp; Explosivit&auml;t</div>
+          <div class="slot-detail">Unterk&ouml;rper-Fokus &middot; Squats &middot; Box Jumps &middot; Lateral Agility</div>
+        </div>
+      </div>
+      <div class="slot ice">
+        <div class="slot-time">11:30 &ndash; 13:00</div>
+        <div class="slot-icon">&#9918;</div>
+        <div class="slot-info">
+          <div class="slot-title">Eistraining II</div>
+          <div class="slot-detail">Eis-Arena 2 &middot; Breakout-System &middot; Powerplay-Aufbau &middot; Forechecking</div>
+        </div>
+      </div>
+      <div class="slot food">
+        <div class="slot-time">13:30 &ndash; 14:30</div>
+        <div class="slot-icon">&#127860;</div>
+        <div class="slot-info">
+          <div class="slot-title">Mittagessen</div>
+          <div class="slot-detail">Hotel-Restaurant &middot; Recovery-Meal</div>
+        </div>
+      </div>
+      <div class="slot rest">
+        <div class="slot-time">14:30 &ndash; 15:30</div>
+        <div class="slot-icon">&#128564;</div>
+        <div class="slot-info">
+          <div class="slot-title">Zimmerruhe</div>
+          <div class="slot-detail">Regeneration &middot; Eintrag Trainingstagebuch &middot; Mental Reset</div>
+        </div>
+      </div>
+      <div class="slot team">
+        <div class="slot-time">15:30 &ndash; 22:00</div>
+        <div class="slot-icon">&#9917;</div>
+        <div class="slot-info">
+          <div class="slot-title">Team Event</div>
+          <div class="slot-detail">Outdoor-Aktivit&auml;t &middot; Mannschaftssport &middot; Abendessen 17:30 &middot; Nachtruhe 22:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MITTWOCH
+       ══════════════════════════════════════ -->
+  <div class="day-card">
+    <div class="day-header" onclick="this.parentElement.querySelector('.day-body').classList.toggle('collapsed')">
+      <div>
+        <div class="day-label">Mittwoch</div>
+        <div class="day-date">12. August 2026</div>
+      </div>
+      <span class="day-badge badge-training">Training</span>
+    </div>
+    <div class="day-body">
+      <div class="slot food">
+        <div class="slot-time">08:00 &ndash; 09:00</div>
+        <div class="slot-icon">&#9749;</div>
+        <div class="slot-info">
+          <div class="slot-title">Fr&uuml;hst&uuml;ck</div>
+          <div class="slot-detail">Hotel-Restaurant</div>
+        </div>
+      </div>
+      <div class="slot gym">
+        <div class="slot-time">09:00 &ndash; 10:30</div>
+        <div class="slot-icon">&#127947;</div>
+        <div class="slot-info">
+          <div class="slot-title">Gym &mdash; Athletik &amp; Conditioning</div>
+          <div class="slot-detail">Oberk&ouml;rper-Fokus &middot; Push/Pull &middot; Med-Ball &middot; Core &middot; Sprints</div>
+        </div>
+      </div>
+      <div class="slot ice">
+        <div class="slot-time">11:30 &ndash; 13:00</div>
+        <div class="slot-icon">&#9918;</div>
+        <div class="slot-info">
+          <div class="slot-title">Eistraining III</div>
+          <div class="slot-detail">Eis-Arena 2 &middot; Penalty Kill &middot; Defensive Zone Coverage &middot; Battles &middot; Scrimmage</div>
+        </div>
+      </div>
+      <div class="slot food">
+        <div class="slot-time">13:30 &ndash; 14:30</div>
+        <div class="slot-icon">&#127860;</div>
+        <div class="slot-info">
+          <div class="slot-title">Mittagessen</div>
+          <div class="slot-detail">Hotel-Restaurant &middot; Recovery-Meal</div>
+        </div>
+      </div>
+      <div class="slot rest">
+        <div class="slot-time">14:30 &ndash; 15:30</div>
+        <div class="slot-icon">&#128564;</div>
+        <div class="slot-info">
+          <div class="slot-title">Zimmerruhe</div>
+          <div class="slot-detail">Regeneration &middot; Video-Review Eistraining &middot; Journaling</div>
+        </div>
+      </div>
+      <div class="slot team">
+        <div class="slot-time">15:30 &ndash; 22:00</div>
+        <div class="slot-icon">&#127754;</div>
+        <div class="slot-info">
+          <div class="slot-title">Team Event</div>
+          <div class="slot-detail">Wanderung / Badesee &middot; Abendessen 17:30 &middot; Filmabend &middot; Nachtruhe 22:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       DONNERSTAG
+       ══════════════════════════════════════ -->
+  <div class="day-card">
+    <div class="day-header" onclick="this.parentElement.querySelector('.day-body').classList.toggle('collapsed')">
+      <div>
+        <div class="day-label">Donnerstag</div>
+        <div class="day-date">13. August 2026</div>
+      </div>
+      <span class="day-badge badge-training">Training</span>
+    </div>
+    <div class="day-body">
+      <div class="slot food">
+        <div class="slot-time">08:00 &ndash; 09:00</div>
+        <div class="slot-icon">&#9749;</div>
+        <div class="slot-info">
+          <div class="slot-title">Fr&uuml;hst&uuml;ck</div>
+          <div class="slot-detail">Hotel-Restaurant</div>
+        </div>
+      </div>
+      <div class="slot gym">
+        <div class="slot-time">09:00 &ndash; 10:30</div>
+        <div class="slot-icon">&#127947;</div>
+        <div class="slot-info">
+          <div class="slot-title">Gym &mdash; Game-Day Activation</div>
+          <div class="slot-detail">Leichtes Ganzkörper-Programm &middot; Reaktivierung &middot; Mobilisation &middot; Pre-Game Vorbereitung</div>
+        </div>
+      </div>
+      <div class="slot ice">
+        <div class="slot-time">11:30 &ndash; 13:00</div>
+        <div class="slot-icon">&#9918;</div>
+        <div class="slot-info">
+          <div class="slot-title">Eistraining IV &mdash; Turniervorbereitung</div>
+          <div class="slot-detail">Eis-Arena 2 &middot; Line-Combinations &middot; Special Teams &middot; Pre-Game Skate &middot; Shootout-&Uuml;bungen</div>
+        </div>
+      </div>
+      <div class="slot food">
+        <div class="slot-time">13:30 &ndash; 14:30</div>
+        <div class="slot-icon">&#127860;</div>
+        <div class="slot-info">
+          <div class="slot-title">Mittagessen</div>
+          <div class="slot-detail">Hotel-Restaurant &middot; Pre-Tournament Nutrition</div>
+        </div>
+      </div>
+      <div class="slot rest">
+        <div class="slot-time">14:30 &ndash; 15:30</div>
+        <div class="slot-icon">&#128221;</div>
+        <div class="slot-info">
+          <div class="slot-title">Video-Briefing &mdash; Turnier</div>
+          <div class="slot-detail">Gegneranalyse &middot; Turnierformat &middot; Lineup &middot; Spielplan</div>
+        </div>
+      </div>
+      <div class="slot team">
+        <div class="slot-time">15:30 &ndash; 22:00</div>
+        <div class="slot-icon">&#127918;</div>
+        <div class="slot-info">
+          <div class="slot-title">Team Event &mdash; Pre-Tournament</div>
+          <div class="slot-detail">Lockerer Abend &middot; Team-Besprechung &middot; Abendessen 17:30 &middot; Fr&uuml;here Nachtruhe 21:30</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       FREITAG
+       ══════════════════════════════════════ -->
+  <div class="day-card tournament">
+    <div class="day-header" onclick="this.parentElement.querySelector('.day-body').classList.toggle('collapsed')">
+      <div>
+        <div class="day-label">Freitag</div>
+        <div class="day-date">14. August 2026</div>
+      </div>
+      <span class="day-badge badge-tournament">Turnier Tag 1</span>
+    </div>
+    <div class="day-body">
+      <div class="slot food">
+        <div class="slot-time">08:00 &ndash; 09:00</div>
+        <div class="slot-icon">&#9749;</div>
+        <div class="slot-info">
+          <div class="slot-title">Fr&uuml;hst&uuml;ck</div>
+          <div class="slot-detail">Game-Day Nutrition &middot; Leicht &amp; energiereich</div>
+        </div>
+      </div>
+      <div class="slot-tbd">
+        <span class="red">&#9670;</span> &ensp; Turnierplan folgt &mdash; Spielzeiten werden vom Veranstalter bekanntgegeben
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SAMSTAG
+       ══════════════════════════════════════ -->
+  <div class="day-card tournament">
+    <div class="day-header" onclick="this.parentElement.querySelector('.day-body').classList.toggle('collapsed')">
+      <div>
+        <div class="day-label">Samstag</div>
+        <div class="day-date">15. August 2026</div>
+      </div>
+      <span class="day-badge badge-tournament">Turnier Tag 2</span>
+    </div>
+    <div class="day-body">
+      <div class="slot food">
+        <div class="slot-time">08:00 &ndash; 09:00</div>
+        <div class="slot-icon">&#9749;</div>
+        <div class="slot-info">
+          <div class="slot-title">Fr&uuml;hst&uuml;ck</div>
+          <div class="slot-detail">Game-Day Nutrition</div>
+        </div>
+      </div>
+      <div class="slot-tbd">
+        <span class="red">&#9670;</span> &ensp; Turnierplan folgt &mdash; Spielzeiten abh&auml;ngig von Vorrundenergebnissen
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SONNTAG
+       ══════════════════════════════════════ -->
+  <div class="day-card tournament">
+    <div class="day-header" onclick="this.parentElement.querySelector('.day-body').classList.toggle('collapsed')">
+      <div>
+        <div class="day-label">Sonntag</div>
+        <div class="day-date">16. August 2026</div>
+      </div>
+      <span class="day-badge badge-tournament">Turnier Tag 3 &amp; Abreise</span>
+    </div>
+    <div class="day-body">
+      <div class="slot food">
+        <div class="slot-time">08:00 &ndash; 09:00</div>
+        <div class="slot-icon">&#9749;</div>
+        <div class="slot-info">
+          <div class="slot-title">Fr&uuml;hst&uuml;ck &amp; Check-Out</div>
+          <div class="slot-detail">Zimmer r&auml;umen &middot; Gep&auml;ck verladen &middot; Hotel-Check-Out</div>
+        </div>
+      </div>
+      <div class="slot-tbd">
+        <span class="red">&#9670;</span> &ensp; Finale / Platzierungsspiele &mdash; Spielzeiten TBD
+      </div>
+      <div class="slot travel">
+        <div class="slot-time">nach Turnier</div>
+        <div class="slot-icon">&#128652;</div>
+        <div class="slot-info">
+          <div class="slot-title">R&uuml;ckreise Rosenheim</div>
+          <div class="slot-detail">Ferlach &rarr; ROFA-Stadion (~3h) &middot; Ankunft abh&auml;ngig von Spielplan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7;"></div> Eis</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ff8a65;"></div> Gym</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a5d6a7;"></div> Essen</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ce93d8;"></div> Team</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--muted);"></div> Ruhe</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d4850a;"></div> Reise</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red);"></div> Turnier</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Starbulls <span class="green">Nachwuchs</span> &middot; U17 Trainingslager Ferlach &middot; August 2026
+  </div>
+
+</div>
+
+<script>
+// Theme toggle — syncs with SBR workspace
+(function() {
+  var toggle = document.getElementById('themeToggle');
+  var label = document.getElementById('themeLabel');
+  var saved = localStorage.getItem('sbr-theme');
+  if (saved === 'away') { document.body.classList.add('light'); label.textContent = 'AWAY'; }
+  else { label.textContent = 'HOME'; }
+
+  toggle.addEventListener('click', function() {
+    document.body.classList.toggle('light');
+    var isAway = document.body.classList.contains('light');
+    label.textContent = isAway ? 'AWAY' : 'HOME';
+    localStorage.setItem('sbr-theme', isAway ? 'away' : 'home');
+  });
+})();
+
+// Internal gate
+(function() {
+  var ok = document.referrer.indexOf('wildproject.pro') !== -1
+        || document.referrer.indexOf('localhost') !== -1
+        || window.location.hash === '#internal';
+  // Allow direct access for now (shared with team)
+})();
+</script>
+</body>
+</html>
