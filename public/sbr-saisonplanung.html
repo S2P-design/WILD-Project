@@ -7,29 +7,21 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23005243'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='13' fill='%23F2F5F4'>SBR</text></svg>">
 <meta name="theme-color" content="#0A0A0A">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=League+Gothic&family=Titillium+Web:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
   @font-face { font-family:'League 200'; src:url('/League-200ExtraBold.otf') format('opentype'); font-weight:800; font-display:swap; }
 
   * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
-
   :root {
-    --black:#0A0A0A; --surface:#0e0e0e; --border:#1c1c1c; --muted:#555; --text:#888;
-    --light:#ccc; --white:#F2F5F4;
+    --black:#0A0A0A; --border:#1c1c1c; --muted:#555; --light:#ccc; --white:#F2F5F4;
     --green:#005243; --green-bright:#00785f;
-    --green-20:rgba(0,82,67,0.20); --green-10:rgba(0,82,67,0.10); --green-05:rgba(0,82,67,0.05);
+    --green-20:rgba(0,82,67,0.20); --green-05:rgba(0,82,67,0.05);
     --red:#E4032E; --red-20:rgba(228,3,46,0.20);
-    --off:rgba(255,180,60,0.8); --off-bg:rgba(255,180,60,0.06);
-    --pre:rgba(228,3,46,0.8); --pre-bg:rgba(228,3,46,0.05);
-    --in:rgba(0,180,120,0.8); --in-bg:rgba(0,82,67,0.05);
   }
 
   body {
     font-family:'Titillium Web',-apple-system,sans-serif;
-    background-color:var(--black); background-image:url('/sbr-bg.png');
-    background-size:cover; background-position:center; background-attachment:fixed;
+    background:var(--black) url('/sbr-bg.png') center/cover fixed;
     color:var(--white); min-height:100vh;
     display:flex; justify-content:center; padding:40px 24px 80px;
     -webkit-font-smoothing:antialiased;
@@ -38,349 +30,180 @@
   body.light { background-image:url('/sbr-bg-away.png'); color:#1a1a2e; }
   body.light::before { background:rgba(232,235,233,0.88); }
 
-  .container { max-width:800px; width:100%; position:relative; z-index:1; }
+  .c { max-width:800px; width:100%; position:relative; z-index:1; }
 
-  /* ── HEADER ── */
-  .header { text-align:center; margin-bottom:24px; }
-  .header-logo { width:48px; height:auto; margin:0 auto 12px; filter:drop-shadow(0 2px 12px rgba(0,82,67,0.25)); }
-  .header-title {
-    font-family:'League 200','League Gothic',sans-serif;
-    font-size:clamp(20px,4vw,28px); font-weight:800; letter-spacing:1px;
-    color:var(--white); text-transform:uppercase;
-  }
-  .header-title .green { color:var(--green-bright); }
-  body.light .header-title { color:#1a1a2e; }
+  /* ── Header ── */
+  .hdr { text-align:center; margin-bottom:20px; }
+  .hdr img { width:48px; margin:0 auto 10px; filter:drop-shadow(0 2px 12px rgba(0,82,67,0.25)); }
+  .hdr h1 { font-family:'League 200','League Gothic',sans-serif; font-size:24px; font-weight:800; letter-spacing:1px; text-transform:uppercase; }
+  .hdr h1 .g { color:var(--green-bright); }
+  body.light .hdr h1 { color:#1a1a2e; }
 
-  /* ── CONTROLS ── */
-  .controls {
-    display:flex; gap:10px; justify-content:center; align-items:center;
-    margin-bottom:24px; flex-wrap:wrap;
-  }
-  .team-select, .season-input {
+  /* ── Controls ── */
+  .ctrl { display:flex; gap:10px; justify-content:center; margin-bottom:20px; flex-wrap:wrap; }
+  .sel {
     font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600;
     background:rgba(0,82,67,0.06); border:1px solid rgba(0,82,67,0.2);
     border-radius:8px; padding:8px 14px; color:var(--green-bright);
     outline:none; cursor:pointer; letter-spacing:1px;
   }
-  .team-select { min-width:140px; }
-  .team-select:focus, .season-input:focus { border-color:var(--green-bright); }
-  body.light .team-select, body.light .season-input { background:rgba(0,82,67,0.04); color:var(--green); border-color:rgba(0,82,67,0.15); }
+  .sel:focus { border-color:var(--green-bright); }
+  body.light .sel { background:rgba(0,82,67,0.04); color:var(--green); border-color:rgba(0,82,67,0.15); }
 
-  /* ── BREADCRUMB ── */
-  .breadcrumb {
+  /* ── Breadcrumb ── */
+  .bc {
     font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:1.5px;
-    color:var(--muted); margin-bottom:16px; display:flex; gap:6px; align-items:center;
+    color:var(--muted); margin-bottom:14px; display:flex; gap:6px; align-items:center;
   }
-  .breadcrumb span { cursor:pointer; transition:color 0.2s; }
-  .breadcrumb span:hover { color:var(--green-bright); }
-  .breadcrumb .sep { color:var(--border); cursor:default; }
-  .breadcrumb .current { color:var(--light); cursor:default; }
-  body.light .breadcrumb .current { color:#1a1a2e; }
+  .bc span { cursor:pointer; transition:color 0.2s; }
+  .bc span:hover { color:var(--green-bright); }
+  .bc .sep { color:var(--border); cursor:default; }
+  .bc .cur { color:var(--light); cursor:default; }
 
-  /* ── THEME TOGGLE ── */
-  .theme-toggle {
-    position:fixed; top:20px; right:24px; z-index:200;
-    border:none; background:transparent; cursor:pointer;
-    font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px;
-    color:rgba(255,255,255,0.35); transition:all 0.3s; padding:4px 0;
-  }
-  .theme-toggle:hover { color:var(--green-bright); }
-  body.light .theme-toggle { color:rgba(0,0,0,0.3); }
+  /* ── Theme + Nav ── */
+  .fix { position:fixed; z-index:200; border:none; background:transparent; cursor:pointer;
+    font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px; color:rgba(255,255,255,0.35); transition:all 0.3s; }
+  .fix:hover { color:var(--green-bright); }
+  .fix.r { top:20px; right:24px; }
+  .fix.l { top:20px; left:24px; text-decoration:none; font-size:9px; letter-spacing:1px; color:var(--muted); }
+  body.light .fix { color:rgba(0,0,0,0.3); }
 
-  /* ── BACK BUTTON ── */
-  .back-btn {
-    position:fixed; top:20px; left:24px; z-index:200;
-    border:none; background:transparent; cursor:pointer;
-    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:1px;
-    color:var(--muted); transition:color 0.2s; text-decoration:none;
-  }
-  .back-btn:hover { color:var(--green-bright); }
-
-  /* ── MONTH GRID ── */
-  .month-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:20px; }
-  .month-card {
+  /* ── Month Cards ── */
+  .mg { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:20px; }
+  .mc {
     border:1px solid var(--border); border-radius:12px; padding:14px;
-    cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden;
+    cursor:pointer; transition:all 0.2s; overflow:hidden;
   }
-  .month-card:hover { border-color:rgba(0,82,67,0.3); transform:translateY(-2px); }
-  .month-card.off { background:var(--off-bg); }
-  .month-card.pre { background:var(--pre-bg); }
-  .month-card.in { background:var(--in-bg); }
-  .month-name {
-    font-family:'League 200','League Gothic',sans-serif;
-    font-size:18px; font-weight:800; color:var(--light); text-transform:uppercase;
-  }
-  .month-season {
-    font-family:'JetBrains Mono',monospace; font-size:7px; letter-spacing:1.5px;
-    color:var(--muted); margin-bottom:8px;
-  }
-  .month-card.off .month-season { color:var(--off); }
-  .month-card.pre .month-season { color:var(--pre); }
-  .month-card.in .month-season { color:var(--in); }
-  .month-stats { display:flex; gap:8px; margin-top:8px; }
-  .month-stat {
-    font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--muted);
-    display:flex; align-items:center; gap:3px;
-  }
-  .month-stat .num { color:var(--light); font-weight:700; font-size:14px; }
-  .month-stat .lbl { font-size:7px; letter-spacing:0.5px; }
-  body.light .month-card { background:rgba(255,255,255,0.6); border-color:rgba(0,0,0,0.06); }
-  body.light .month-card.off { background:rgba(255,180,60,0.08); }
-  body.light .month-card.pre { background:rgba(228,3,46,0.06); }
-  body.light .month-card.in { background:rgba(0,82,67,0.06); }
-  body.light .month-name { color:#1a1a2e; }
-  body.light .month-stat .num { color:#1a1a2e; }
+  .mc:hover { border-color:rgba(0,82,67,0.3); transform:translateY(-2px); }
+  .mc.off { background:rgba(255,180,60,0.05); }
+  .mc.pre { background:rgba(228,3,46,0.04); }
+  .mc.in { background:rgba(0,82,67,0.04); }
+  .mc-s { font-family:'JetBrains Mono',monospace; font-size:7px; letter-spacing:1.5px; color:var(--muted); margin-bottom:4px; }
+  .mc.off .mc-s { color:rgba(255,180,60,0.8); }
+  .mc.pre .mc-s { color:rgba(228,3,46,0.8); }
+  .mc.in .mc-s { color:rgba(0,180,120,0.8); }
+  .mc-n { font-family:'League 200','League Gothic',sans-serif; font-size:18px; font-weight:800; color:var(--light); text-transform:uppercase; }
+  .mc-d { display:flex; gap:10px; margin-top:8px; font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--muted); }
+  .mc-d b { color:var(--light); font-size:14px; font-weight:700; }
+  body.light .mc { background:rgba(255,255,255,0.6); border-color:rgba(0,0,0,0.06); }
+  body.light .mc-n, body.light .mc-d b { color:#1a1a2e; }
 
-  /* ── SUMMARY BAR ── */
-  .summary-bar {
-    display:flex; gap:8px; margin-bottom:24px;
-  }
-  .summary-item {
-    flex:1; text-align:center; padding:10px 8px;
-    border:1px solid var(--border); border-radius:8px;
-    background:rgba(255,255,255,0.015);
-  }
-  .summary-item.hl { background:rgba(0,82,67,0.1); border-color:var(--green-bright); }
-  .summary-lbl { font-family:'JetBrains Mono',monospace; font-size:7px; letter-spacing:1.5px; color:var(--muted); display:block; }
-  .summary-val { font-family:'League 200','Titillium Web',sans-serif; font-size:20px; font-weight:800; color:var(--light); display:block; margin-top:2px; }
-  .summary-item.hl .summary-val { color:var(--green-bright); }
-  body.light .summary-item { background:rgba(255,255,255,0.5); border-color:rgba(0,0,0,0.06); }
-  body.light .summary-val { color:#1a1a2e; }
-  body.light .summary-item.hl { background:rgba(0,82,67,0.06); border-color:var(--green); }
-  body.light .summary-item.hl .summary-val { color:var(--green); }
+  /* ── Summary ── */
+  .sum { display:flex; gap:8px; margin-bottom:20px; }
+  .sum-i { flex:1; text-align:center; padding:10px; border:1px solid var(--border); border-radius:8px; }
+  .sum-i.hl { background:rgba(0,82,67,0.1); border-color:var(--green-bright); }
+  .sum-l { font-family:'JetBrains Mono',monospace; font-size:7px; letter-spacing:1.5px; color:var(--muted); }
+  .sum-v { font-family:'League 200',sans-serif; font-size:20px; font-weight:800; color:var(--light); margin-top:2px; }
+  .sum-i.hl .sum-v { color:var(--green-bright); }
+  body.light .sum-i { background:rgba(255,255,255,0.5); border-color:rgba(0,0,0,0.06); }
+  body.light .sum-v { color:#1a1a2e; }
 
-  /* ── WEEK GRID ── */
-  .week-grid { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
-  .week-card {
-    display:grid; grid-template-columns:60px 1fr 80px 80px 60px;
-    align-items:center; gap:8px; padding:12px 16px;
-    border:1px solid var(--border); border-radius:10px;
-    cursor:pointer; transition:all 0.2s;
-    background:rgba(255,255,255,0.015);
+  /* ── Calendar ── */
+  .cg { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-bottom:20px; }
+  .ch { font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1px; color:var(--muted); text-align:center; padding:6px 0; }
+  .cd {
+    border:1px solid var(--border); border-radius:8px; padding:8px 4px;
+    text-align:center; cursor:pointer; transition:all 0.15s; min-height:56px;
   }
-  .week-card:hover { border-color:rgba(0,82,67,0.3); }
-  .week-kw { font-family:'League 200','League Gothic',sans-serif; font-size:16px; font-weight:800; color:var(--green-bright); }
-  .week-dates { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); }
-  .week-val { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--light); text-align:center; }
-  .week-val-lbl { font-family:'JetBrains Mono',monospace; font-size:7px; color:var(--muted); text-align:center; letter-spacing:1px; }
-  .week-arrow { color:var(--muted); text-align:right; font-size:14px; }
-  body.light .week-card { background:rgba(255,255,255,0.5); border-color:rgba(0,0,0,0.06); }
+  .cd:hover { border-color:rgba(0,82,67,0.3); }
+  .cd.e { border:none; cursor:default; }
+  .cd.today { box-shadow:inset 0 0 0 1px var(--green-bright); }
+  .cd-n { font-family:'League 200',sans-serif; font-size:16px; font-weight:800; color:var(--light); }
+  .badge { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:6px; letter-spacing:0.5px; padding:1px 4px; border-radius:3px; margin-top:3px; }
+  .badge.t { color:var(--green-bright); border:1px solid var(--green-20); background:var(--green-05); }
+  .badge.s { color:var(--red); border:1px solid var(--red-20); background:rgba(228,3,46,0.05); }
+  .badge.ev { color:#ff9800; border:1px solid rgba(255,152,0,0.3); background:rgba(255,152,0,0.05); }
+  .cd.ferien { background:rgba(100,180,255,0.06); border-color:rgba(100,180,255,0.15); }
+  .cd.iihf { background:rgba(255,152,0,0.06); border-color:rgba(255,152,0,0.15); }
+  .cd-brk { font-family:'JetBrains Mono',monospace; font-size:5px; letter-spacing:0.5px; color:rgba(100,180,255,0.7); margin-top:2px; line-height:1.2; }
+  .cd-brk.iihf { color:rgba(255,152,0,0.8); }
+  body.light .cd { background:rgba(255,255,255,0.4); border-color:rgba(0,0,0,0.06); }
+  body.light .cd.ferien { background:rgba(100,180,255,0.08); border-color:rgba(100,180,255,0.2); }
+  body.light .cd.iihf { background:rgba(255,152,0,0.08); border-color:rgba(255,152,0,0.2); }
+  body.light .cd-n { color:#1a1a2e; }
 
-  /* ── DAY GRID ── */
-  .day-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:20px; }
-  .day-card {
-    border:1px solid var(--border); border-radius:10px; padding:12px 10px;
-    cursor:pointer; transition:all 0.2s; text-align:center; min-height:100px;
+  /* ── Day Detail ── */
+  .dd { border:1px solid var(--border); border-radius:14px; padding:20px; background:rgba(255,255,255,0.015); margin-bottom:16px; }
+  .dd-title { font-family:'League 200',sans-serif; font-size:20px; font-weight:800; color:var(--light); margin-bottom:16px; }
+  .dd-type { display:flex; gap:6px; margin-bottom:16px; }
+  .dd-type-btn {
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:1px;
+    padding:6px 14px; border-radius:6px; cursor:pointer; transition:all 0.2s;
+    border:1px solid var(--border); background:transparent; color:var(--muted);
   }
-  .day-card:hover { border-color:rgba(0,82,67,0.3); }
-  .day-card.today { border-color:var(--green-bright); }
-  .day-weekday { font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1.5px; color:var(--muted); }
-  .day-num { font-family:'League 200','League Gothic',sans-serif; font-size:22px; font-weight:800; color:var(--light); margin:4px 0; }
-  .day-badge {
-    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:7px; letter-spacing:1px;
-    padding:2px 6px; border-radius:3px; margin-top:4px;
-  }
-  .day-badge.train { color:var(--green-bright); border:1px solid var(--green-20); background:var(--green-05); }
-  .day-badge.game { color:var(--red); border:1px solid var(--red-20); background:rgba(228,3,46,0.05); }
-  .day-badge.free { color:var(--muted); border:1px solid var(--border); }
-  body.light .day-card { background:rgba(255,255,255,0.5); border-color:rgba(0,0,0,0.06); }
-  body.light .day-num { color:#1a1a2e; }
+  .dd-type-btn.active.t { color:var(--green-bright); border-color:var(--green-bright); background:rgba(0,82,67,0.1); }
+  .dd-type-btn.active.s { color:var(--red); border-color:var(--red); background:rgba(228,3,46,0.06); }
+  .dd-type-btn.active.ev { color:#ff9800; border-color:#ff9800; background:rgba(255,152,0,0.06); }
+  .dd-type-btn.active.f { color:var(--muted); border-color:var(--muted); background:rgba(255,255,255,0.03); }
+  body.light .dd { background:rgba(255,255,255,0.5); border-color:rgba(0,0,0,0.06); }
 
-  /* ── SESSION DETAIL ── */
-  .session-panel {
-    border:1px solid var(--border); border-radius:14px; padding:20px;
-    background:rgba(255,255,255,0.015);
-  }
-  .session-row { display:flex; gap:12px; margin-bottom:12px; align-items:center; }
-  .session-label {
-    font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1.5px;
-    color:var(--muted); min-width:70px; text-transform:uppercase;
-  }
-  .session-input {
+  /* ── Session Editor ── */
+  .se { margin-top:16px; }
+  .se-row { display:flex; gap:12px; margin-bottom:10px; align-items:center; }
+  .se-lbl { font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1.5px; color:var(--muted); min-width:60px; text-transform:uppercase; }
+  .se-inp {
     flex:1; background:rgba(0,82,67,0.04); border:1px solid rgba(0,82,67,0.12);
     border-radius:6px; padding:8px 12px; color:var(--light);
     font-family:'Titillium Web',sans-serif; font-size:13px; outline:none;
-    transition:border-color 0.2s;
   }
-  .session-input:focus { border-color:var(--green-bright); }
-  .session-select {
-    background:rgba(0,82,67,0.06); border:1px solid rgba(0,82,67,0.15);
-    border-radius:6px; padding:8px 12px; color:var(--green-bright);
-    font-family:'JetBrains Mono',monospace; font-size:11px; outline:none; cursor:pointer;
-  }
-  .session-textarea {
-    width:100%; min-height:80px; resize:vertical;
-    background:rgba(0,82,67,0.04); border:1px solid rgba(0,82,67,0.12);
-    border-radius:6px; padding:10px 12px; color:var(--light);
-    font-family:'Titillium Web',sans-serif; font-size:13px; outline:none;
-  }
-  .session-textarea:focus { border-color:var(--green-bright); }
-  body.light .session-panel { background:rgba(255,255,255,0.5); border-color:rgba(0,0,0,0.06); }
-  body.light .session-input, body.light .session-textarea { background:rgba(0,82,67,0.03); color:#1a1a2e; border-color:rgba(0,82,67,0.1); }
-  body.light .session-select { background:rgba(0,82,67,0.04); color:var(--green); }
+  .se-inp:focus { border-color:var(--green-bright); }
+  .se-ta { width:100%; min-height:70px; resize:vertical; }
+  body.light .se-inp { background:rgba(0,82,67,0.03); color:#1a1a2e; }
 
-  /* ── CALENDAR SELECT ── */
-  .cal-grid {
-    display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-bottom:16px;
+  /* ── Sessions List ── */
+  .sl { margin-top:16px; }
+  .sl-item {
+    display:flex; gap:12px; align-items:flex-start; padding:12px;
+    border:1px solid var(--border); border-radius:10px; margin-bottom:8px;
+    cursor:pointer; transition:all 0.2s;
   }
-  .cal-header {
-    font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1px;
-    color:var(--muted); text-align:center; padding:6px 0;
+  .sl-item:hover { border-color:rgba(0,82,67,0.3); }
+  .sl-time { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--green-bright); font-weight:600; min-width:90px; }
+  .sl-info { flex:1; }
+  .sl-fokus { font-size:13px; color:var(--light); font-weight:600; }
+  .sl-ort { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); margin-top:2px; }
+  .sl-add {
+    display:flex; align-items:center; justify-content:center; padding:10px;
+    border:1px dashed rgba(0,82,67,0.2); border-radius:10px; cursor:pointer;
+    font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--green-bright);
+    letter-spacing:1px; transition:all 0.2s;
   }
-  .cal-day {
-    border:1px solid var(--border); border-radius:8px; padding:8px 4px;
-    text-align:center; cursor:pointer; transition:all 0.15s; min-height:60px;
-  }
-  .cal-day:hover { border-color:rgba(0,82,67,0.3); }
-  .cal-day.empty { border:none; cursor:default; }
-  .cal-day.selected { border-color:var(--green-bright); background:rgba(0,82,67,0.15); }
-  .cal-day.today { box-shadow:inset 0 0 0 1px var(--green-bright); }
-  .cal-day-num { font-family:'League 200','League Gothic',sans-serif; font-size:16px; font-weight:800; color:var(--light); }
-  .cal-day.selected .cal-day-num { color:var(--green-bright); }
-  .cal-day .day-badge { font-size:6px; margin-top:2px; }
-  body.light .cal-day { background:rgba(255,255,255,0.4); border-color:rgba(0,0,0,0.06); }
-  body.light .cal-day.selected { background:rgba(0,82,67,0.1); border-color:var(--green); }
-  body.light .cal-day-num { color:#1a1a2e; }
-  body.light .cal-day.selected .cal-day-num { color:var(--green); }
+  .sl-add:hover { border-color:var(--green-bright); background:rgba(0,82,67,0.05); }
 
-  /* Floating action bar */
-  .select-bar {
+  /* ── Mail Bar ── */
+  .mail-bar {
     position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
-    display:flex; gap:10px; align-items:center;
+    display:none; gap:10px; align-items:center;
     padding:10px 20px; border-radius:12px; z-index:100;
     background:var(--green); border:1px solid var(--green-bright);
     box-shadow:0 8px 32px rgba(0,0,0,0.4);
     font-family:'JetBrains Mono',monospace; font-size:10px; color:white;
-    transition:opacity 0.3s, transform 0.3s;
   }
-  .select-bar.hidden { opacity:0; transform:translateX(-50%) translateY(20px); pointer-events:none; }
-  .select-bar-count { font-weight:700; font-size:14px; margin-right:4px; }
-  .select-bar-btn {
+  .mail-bar.show { display:flex; }
+  .mail-btn {
     padding:6px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.3);
     background:rgba(255,255,255,0.1); color:white; cursor:pointer;
-    font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:600;
-    letter-spacing:1px; transition:background 0.2s;
+    font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:600; letter-spacing:1px;
   }
-  .select-bar-btn:hover { background:rgba(255,255,255,0.2); }
-  .select-bar-clear {
-    background:none; border:none; color:rgba(255,255,255,0.5); cursor:pointer;
-    font-size:14px; padding:0 4px; transition:color 0.2s;
-  }
-  .select-bar-clear:hover { color:white; }
+  .mail-btn:hover { background:rgba(255,255,255,0.2); }
+  .mail-x { background:none; border:none; color:rgba(255,255,255,0.5); cursor:pointer; font-size:14px; }
 
-  /* ── EXPORT BUTTONS ── */
-  .export-bar { display:flex; gap:8px; justify-content:flex-end; margin-bottom:16px; }
-  .export-btn {
-    font-family:'JetBrains Mono',monospace; font-size:8px; font-weight:600;
-    letter-spacing:1.5px; text-transform:uppercase;
-    padding:6px 14px; border:1px solid rgba(0,82,67,0.2); border-radius:6px;
-    background:rgba(0,82,67,0.06); color:var(--green-bright);
-    cursor:pointer; transition:all 0.2s;
-  }
-  .export-btn:hover { background:rgba(0,82,67,0.15); border-color:var(--green-bright); }
-  body.light .export-btn { background:rgba(0,82,67,0.04); color:var(--green); border-color:rgba(0,82,67,0.12); }
-  /* ── PRINT BUTTON (in-view) ── */
-  .print-view-btn {
-    font-family:'JetBrains Mono',monospace; font-size:8px; font-weight:600;
-    letter-spacing:1.5px; text-transform:uppercase;
-    padding:6px 14px; border:1px solid rgba(0,82,67,0.2); border-radius:6px;
-    background:rgba(0,82,67,0.06); color:var(--green-bright);
-    cursor:pointer; transition:all 0.2s; float:right; margin-bottom:12px;
-  }
-  .print-view-btn:hover { background:rgba(0,82,67,0.15); border-color:var(--green-bright); }
-  body.light .print-view-btn { background:rgba(0,82,67,0.04); color:var(--green); }
-
-  /* ── PRINT HEADER (only visible in print) ── */
-  .print-header { display:none; }
-
-  @media print {
-    .theme-toggle,.back-btn,.export-bar,.controls,.select-bar,.print-view-btn { display:none !important; }
-    body { background:white !important; color:#111 !important; padding:20px !important; }
-    body::before { display:none; }
-    .container { max-width:100%; }
-
-    .print-header {
-      display:block !important; text-align:center; margin-bottom:16px;
-      font-family:'League 200','League Gothic',sans-serif; font-size:18px;
-      font-weight:800; color:#111; text-transform:uppercase;
-    }
-    .print-header .green { color:var(--green); }
-    .print-header .sub {
-      font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:400;
-      letter-spacing:2px; color:#888; margin-top:4px;
-    }
-
-    .breadcrumb { color:#888 !important; margin-bottom:12px !important; }
-    .breadcrumb .current { color:#111 !important; }
-    .breadcrumb .sep { color:#ccc !important; }
-
-    /* Month grid */
-    .month-card { border:1px solid #ddd !important; background:#f9f9f9 !important; break-inside:avoid; }
-    .month-card.off { background:#fff8f0 !important; }
-    .month-card.pre { background:#fff5f5 !important; }
-    .month-card.in { background:#f0faf5 !important; }
-    .month-name { color:#111 !important; }
-    .month-stat .num { color:#111 !important; }
-    .month-season { color:#888 !important; }
-    .summary-item { border:1px solid #ddd !important; background:#f5f5f5 !important; }
-    .summary-val { color:#111 !important; }
-    .summary-item.hl { background:#e8f5e9 !important; }
-    .summary-item.hl .summary-val { color:var(--green) !important; }
-    .month-grid { grid-template-columns:repeat(4,1fr); gap:8px; }
-
-    /* Calendar grid */
-    .cal-day { border:1px solid #ddd !important; background:white !important; }
-    .cal-day.selected { background:#e8f5e9 !important; border-color:var(--green) !important; }
-    .cal-day-num { color:#111 !important; }
-    .cal-header { color:#888 !important; }
-
-    /* Week cards */
-    .week-card { border:1px solid #ddd !important; background:#f9f9f9 !important; break-inside:avoid; }
-    .week-kw { color:var(--green) !important; }
-    .week-val { color:#111 !important; }
-    .week-arrow { display:none !important; }
-
-    /* Day cards */
-    .day-card { border:1px solid #ddd !important; background:white !important; break-inside:avoid; }
-    .day-num { color:#111 !important; }
-
-    /* Session */
-    .session-panel { border:1px solid #ddd !important; background:white !important; }
-    .session-input,.session-textarea,.session-select { border:1px solid #ddd !important; background:#f9f9f9 !important; color:#111 !important; }
-
-    .header { margin-bottom:8px; }
-    .header-logo { width:32px; }
-    .header-title { color:#111 !important; font-size:16px !important; }
-    .header-title .green { color:var(--green) !important; }
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width:600px) {
-    .month-grid { grid-template-columns:repeat(2,1fr); }
-    .day-grid { grid-template-columns:repeat(4,1fr); }
-    .week-card { grid-template-columns:50px 1fr 60px 60px; }
-    .week-arrow { display:none; }
-  }
-
-  @keyframes fadeUp { to { opacity:1; transform:none; } }
+  @media (max-width:600px) { .mg { grid-template-columns:repeat(2,1fr); } .cg { gap:2px; } }
 </style>
 </head>
 <body>
 
-<a href="/sbr-workspace.html#internal" class="back-btn">&larr; WORKSPACE</a>
-<button class="theme-toggle" id="themeToggle"><span id="themeLabel">HOME</span></button>
+<a href="/sbr-workspace.html#internal" class="fix l">&larr; WORKSPACE</a>
+<button class="fix r" id="themeToggle"><span id="themeLabel">HOME</span></button>
 
-<div class="container">
-
-  <!-- HEADER -->
-  <div class="header">
-    <img src="/sbr-logo-bw.png" alt="SBR" class="header-logo">
-    <div class="header-title">SAISON<span class="green">PLANUNG</span></div>
+<div class="c">
+  <div class="hdr">
+    <img src="/sbr-logo-bw.png" alt="SBR">
+    <h1>SAISON<span class="g">PLANUNG</span></h1>
   </div>
 
-  <!-- CONTROLS -->
-  <div class="controls">
-    <select class="team-select" id="teamSelect" onchange="switchTeam()">
+  <div class="ctrl">
+    <select class="sel" id="team" onchange="changeTeam()">
       <option value="U20">U20</option>
       <option value="U17" selected>U17</option>
       <option value="U15">U15</option>
@@ -390,553 +213,309 @@
       <option value="U7">U7</option>
       <option value="Laufschule">Laufschule</option>
     </select>
-    <input type="text" class="season-input" id="seasonInput" value="2026/27" style="width:90px; text-align:center;">
+    <input type="text" class="sel" id="saison" value="2026/27" style="width:90px;text-align:center;">
   </div>
 
-  <!-- EXPORT -->
-  <div class="export-bar">
-    <button class="export-btn" onclick="exportCSV()">&#x2913; EXCEL / CSV</button>
-    <button class="export-btn" onclick="window.print()">&#x2399; PDF / DRUCKEN</button>
-  </div>
-
-  <!-- BREADCRUMB -->
-  <div class="breadcrumb" id="breadcrumb">
-    <span class="current" id="bcTeam">U17</span>
-  </div>
-
-  <!-- PRINT HEADER -->
-  <div class="print-header">
-    STARBULLS <span class="green">NACHWUCHS</span> &mdash; SAISONPLANUNG
-    <div class="sub" id="printSub"></div>
-  </div>
-
-  <!-- VIEW CONTAINER -->
-  <div id="viewContainer"></div>
-
+  <div class="bc" id="bc"><span class="cur">U17</span></div>
+  <div id="view"></div>
 </div>
 
-<!-- Floating Select Bar -->
-<div class="select-bar hidden" id="selectBar">
-  <span><span class="select-bar-count" id="selCount">0</span> Tage ausgew&auml;hlt</span>
-  <button class="select-bar-btn" onclick="mailSelected()">&#x2709; AN RICK SENDEN</button>
-  <button class="select-bar-clear" onclick="clearSelection()" title="Auswahl l&ouml;schen">&times;</button>
+<!-- Mail Bar -->
+<div class="mail-bar" id="mailBar">
+  <span><b id="selCnt">0</b> Tage</span>
+  <button class="mail-btn" onclick="mailSelected()">&#x2709; MAIL SENDEN</button>
+  <button class="mail-x" onclick="clearSel()">&times;</button>
 </div>
 
 <script>
-// ══════ CONFIG ══════
-const TEAMS = ['U20','U17','U15','U13','U11','U9','U7','Laufschule'];
-const MONTH_NAMES = ['Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez','Jan','Feb','Mar','Apr'];
-const MONTH_FULL = ['Mai','Juni','Juli','August','September','Oktober','November','Dezember','Januar','Februar','M\u00e4rz','April'];
-const MONTH_NUMS = [5,6,7,8,9,10,11,12,1,2,3,4]; // actual month numbers
-const SEASON_MAP = ['off','off','off','pre','in','in','in','in','in','in','in','in'];
-const WEEKDAYS = ['Mo','Di','Mi','Do','Fr','Sa','So'];
-const STORAGE = 'sbr-sp-';
+const MN = ['Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez','Jan','Feb','M\u00e4r','Apr'];
+const MF = ['Mai','Juni','Juli','August','September','Oktober','November','Dezember','Januar','Februar','M\u00e4rz','April'];
+const MM = [5,6,7,8,9,10,11,12,1,2,3,4];
+const SM = ['off','off','off','pre','in','in','in','in','in','in','in','in'];
+const SL = {'off':'OFF-SEASON','pre':'PRE-SEASON','in':'IN-SEASON'};
+const WD = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+const PFX = 'sbr-sp2-';
 
-let currentTeam = 'U17';
-let currentView = 'months'; // months | weeks | days | session
-let currentMonth = null; // 0-11 index into MONTH_NAMES
-let currentWeek = null; // {kw, start, days[]}
-let currentDay = null; // {date, weekday}
+let team, mi, dayStr, sessionIdx;
+let sel = new Set();
 
-// ══════ THEME ══════
-(function() {
-  const toggle = document.getElementById('themeToggle');
-  const label = document.getElementById('themeLabel');
-  const saved = localStorage.getItem('sbr-theme');
-  if (saved === 'away') { document.body.classList.add('light'); label.textContent = 'AWAY'; }
-  else { label.textContent = 'HOME'; }
-  toggle.addEventListener('click', () => {
-    document.body.classList.toggle('light');
-    const isAway = document.body.classList.contains('light');
-    label.textContent = isAway ? 'AWAY' : 'HOME';
-    localStorage.setItem('sbr-theme', isAway ? 'away' : 'home');
-  });
+// ── Ferien Bayern + IIHF Breaks 2026/27 ──
+const BREAKS = [
+  // Sommerferien 2026
+  {start:'2026-08-03',end:'2026-09-14',label:'Sommerferien',type:'ferien'},
+  // Herbstferien 2026
+  {start:'2026-11-02',end:'2026-11-06',label:'Herbstferien',type:'ferien'},
+  // Buß- und Bettag
+  {start:'2026-11-18',end:'2026-11-18',label:'Bu\u00df- u. Bettag',type:'ferien'},
+  // Weihnachtsferien 2026/27
+  {start:'2026-12-24',end:'2027-01-08',label:'Weihnachtsferien',type:'ferien'},
+  // Frühjahrsferien 2027
+  {start:'2027-02-08',end:'2027-02-12',label:'Fr\u00fchjahrsferien',type:'ferien'},
+  // Osterferien 2027
+  {start:'2027-03-22',end:'2027-04-02',label:'Osterferien',type:'ferien'},
+  // IIHF Breaks (typische Fenster — anpassen wenn offizielle Termine kommen)
+  {start:'2026-11-09',end:'2026-11-15',label:'IIHF Break Nov',type:'iihf'},
+  {start:'2027-02-01',end:'2027-02-07',label:'IIHF Break Feb',type:'iihf'},
+  {start:'2027-04-12',end:'2027-04-25',label:'IIHF U18 WM',type:'iihf'},
+];
+
+function getBreak(dstr) {
+  for (const b of BREAKS) {
+    if (dstr >= b.start && dstr <= b.end) return b;
+  }
+  return null;
+}
+
+// ── Storage ──
+function g(k,fb) { try { const r=localStorage.getItem(PFX+k); return r?JSON.parse(r):fb; } catch(e){return fb;} }
+function s(k,v) { localStorage.setItem(PFX+k,JSON.stringify(v)); }
+function mKey(t,m) { return t+'-m'+m; }
+function dKey(t,d) { return t+'-d-'+d; }
+function getMD(t,m) { return g(mKey(t,m),{train:0,game:0}); }
+function setMD(t,m,v) { s(mKey(t,m),v); }
+function getDay(t,d) { return g(dKey(t,d),{type:'free',sessions:[]}); }
+function setDay(t,d,v) { s(dKey(t,d),v); }
+
+// ── Helpers ──
+function yr(m) { return m<8?2026:2027; }
+function ds(d) { return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function fd(d) { return d.getDate()+'.'+(d.getMonth()+1)+'.'; }
+function isToday(d) { const t=new Date(); return d.getDate()===t.getDate()&&d.getMonth()===t.getMonth()&&d.getFullYear()===t.getFullYear(); }
+
+// ── Theme ──
+(function(){
+  const t=document.getElementById('themeToggle'),l=document.getElementById('themeLabel');
+  if(localStorage.getItem('sbr-theme')==='away'){document.body.classList.add('light');l.textContent='AWAY';}
+  t.addEventListener('click',()=>{document.body.classList.toggle('light');const a=document.body.classList.contains('light');l.textContent=a?'AWAY':'HOME';localStorage.setItem('sbr-theme',a?'away':'home');});
 })();
 
-// ══════ DATA ══════
-function getKey(team, path) { return STORAGE + team + '-' + path; }
-
-function getData(team, path, fallback) {
-  const raw = localStorage.getItem(getKey(team, path));
-  if (raw === null) return fallback;
-  try { return JSON.parse(raw); } catch(e) { return fallback; }
+// ── Render ──
+function nav(view,p1,p2,p3) {
+  mi=p1; dayStr=p2; sessionIdx=p3;
+  const v=document.getElementById('view');
+  const bc=document.getElementById('bc');
+  if(view==='months') { renderMonths(v); bc.innerHTML='<span class="cur">'+team+'</span>'; }
+  else if(view==='cal') { renderCal(v); bc.innerHTML='<span onclick="nav(\'months\')">'+team+'</span><span class="sep">/</span><span class="cur">'+MF[mi]+'</span>'; }
+  else if(view==='day') { renderDay(v); bc.innerHTML='<span onclick="nav(\'months\')">'+team+'</span><span class="sep">/</span><span onclick="nav(\'cal\','+mi+')">'+MF[mi]+'</span><span class="sep">/</span><span class="cur">'+dayStr.split('-')[2]+'. '+MF[mi]+'</span>'; }
+  else if(view==='session') { renderSession(v); const dd=new Date(dayStr); bc.innerHTML='<span onclick="nav(\'months\')">'+team+'</span><span class="sep">/</span><span onclick="nav(\'cal\','+mi+')">'+MF[mi]+'</span><span class="sep">/</span><span onclick="nav(\'day\','+mi+',\''+dayStr+'\')">'+dd.getDate()+'.'+MF[mi]+'</span><span class="sep">/</span><span class="cur">Session '+(sessionIdx+1)+'</span>'; }
 }
 
-function setData(team, path, val) {
-  localStorage.setItem(getKey(team, path), JSON.stringify(val));
+function changeTeam() {
+  team=document.getElementById('team').value;
+  localStorage.setItem(PFX+'lastTeam',team);
+  sel.clear(); updateMailBar();
+  nav('months');
 }
 
-function getMonthData(team, mi) {
-  return getData(team, 'month-' + mi, { train: 0, game: 0 });
-}
-
-function setMonthData(team, mi, data) {
-  setData(team, 'month-' + mi, data);
-}
-
-function getWeekSessions(team, mi, kw) {
-  return getData(team, 'week-' + mi + '-' + kw, {});
-}
-
-function setWeekSessions(team, mi, kw, data) {
-  setData(team, 'week-' + mi + '-' + kw, data);
-}
-
-function getSession(team, dateStr) {
-  return getData(team, 'session-' + dateStr, { type: 'free', time: '', ort: '', fokus: '', notizen: '' });
-}
-
-function setSession(team, dateStr, data) {
-  setData(team, 'session-' + dateStr, data);
-}
-
-// ══════ HELPERS ══════
-function getSaisonYear(mi) {
-  // Mai-Dec = 2026, Jan-Apr = 2027
-  return mi < 8 ? 2026 : 2027;
-}
-
-function getWeeksInMonth(mi) {
-  const year = getSaisonYear(mi);
-  const month = MONTH_NUMS[mi] - 1; // JS month 0-indexed
-  const first = new Date(year, month, 1);
-  const last = new Date(year, month + 1, 0);
-  const weeks = [];
-  let d = new Date(first);
-  // Go to Monday of first week
-  while (d.getDay() !== 1) d.setDate(d.getDate() - 1);
-
-  while (d <= last || d.getDay() !== 1) {
-    const weekStart = new Date(d);
-    const days = [];
-    for (let i = 0; i < 7; i++) {
-      days.push(new Date(d));
-      d.setDate(d.getDate() + 1);
-    }
-    // Only include week if it overlaps with the month
-    const hasOverlap = days.some(day => day.getMonth() === month);
-    if (hasOverlap) {
-      const kw = getISOWeek(weekStart);
-      weeks.push({ kw, start: weekStart, days });
-    }
-    if (d > last && d.getDay() === 1) break;
-  }
-  return weeks;
-}
-
-function getISOWeek(d) {
-  const date = new Date(d.getTime());
-  date.setHours(0, 0, 0, 0);
-  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
-  const week1 = new Date(date.getFullYear(), 0, 4);
-  return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
-}
-
-function fmtDate(d) {
-  return d.getDate() + '.' + (d.getMonth() + 1) + '.';
-}
-
-function dateStr(d) {
-  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-}
-
-function isToday(d) {
-  const t = new Date();
-  return d.getDate() === t.getDate() && d.getMonth() === t.getMonth() && d.getFullYear() === t.getFullYear();
-}
-
-// ══════ RENDER ══════
-function switchTeam() {
-  saveCurrentView();
-  currentTeam = document.getElementById('teamSelect').value;
-  currentView = 'months';
-  render();
-}
-
-function saveCurrentView() {
-  // Auto-save happens on individual inputs
-}
-
-function render() {
-  const vc = document.getElementById('viewContainer');
-  updateBreadcrumb();
-  if (currentView === 'months') renderMonths(vc);
-  else if (currentView === 'weeks') renderWeeks(vc);
-  else if (currentView === 'days') renderDays(vc);
-  else if (currentView === 'session') renderSession(vc);
-}
-
-function updateBreadcrumb() {
-  const bc = document.getElementById('breadcrumb');
-  document.getElementById('bcTeam').textContent = currentTeam;
-  let html = '<span onclick="goTo(\'months\')">' + currentTeam + '</span>';
-  if (currentView !== 'months' && currentMonth !== null) {
-    html += '<span class="sep">/</span><span onclick="goTo(\'weeks\')">' + MONTH_FULL[currentMonth] + '</span>';
-  }
-  if ((currentView === 'days' || currentView === 'session') && currentWeek) {
-    html += '<span class="sep">/</span><span onclick="goTo(\'days\')">KW ' + currentWeek.kw + '</span>';
-  }
-  if (currentView === 'session' && currentDay) {
-    html += '<span class="sep">/</span><span class="current">' + WEEKDAYS[currentDay.weekday] + ' ' + fmtDate(currentDay.date) + '</span>';
-  }
-  if (currentView === 'months') html = '<span class="current">' + currentTeam + '</span>';
-  bc.innerHTML = html;
-}
-
-function goTo(view) {
-  currentView = view;
-  render();
-}
-
-// ── MONTHS VIEW ──
-function renderMonths(vc) {
-  let totalTrain = 0, totalGame = 0;
-  let cards = '';
-  MONTH_NAMES.forEach((name, i) => {
-    const d = getMonthData(currentTeam, i);
-    totalTrain += (parseInt(d.train) || 0);
-    totalGame += (parseInt(d.game) || 0);
-    const season = SEASON_MAP[i];
-    const seasonLabel = season === 'off' ? 'OFF-SEASON' : season === 'pre' ? 'PRE-SEASON' : 'IN-SEASON';
-    cards += '<div class="month-card ' + season + '" onclick="openMonth(' + i + ')">' +
-      '<div class="month-season">' + seasonLabel + '</div>' +
-      '<div class="month-name">' + name + '</div>' +
-      '<div class="month-stats">' +
-        '<div class="month-stat"><span class="num" contenteditable="true" data-mi="' + i + '" data-type="train" onfocus="this.select()" onblur="saveMonthStat(this)">' + (d.train||0) + '</span><span class="lbl">T</span></div>' +
-        '<div class="month-stat"><span class="num" contenteditable="true" data-mi="' + i + '" data-type="game" onfocus="this.select()" onblur="saveMonthStat(this)">' + (d.game||0) + '</span><span class="lbl">S</span></div>' +
-        '<div class="month-stat"><span class="num" style="color:var(--muted);font-size:11px;">' + ((parseInt(d.train)||0)+(parseInt(d.game)||0)) + '</span></div>' +
-      '</div>' +
+// ── MONTHS ──
+function renderMonths(v) {
+  let tt=0,tg=0,html='<div class="mg">';
+  MN.forEach((n,i)=>{
+    const d=getMD(team,i), t=parseInt(d.train)||0, gm=parseInt(d.game)||0;
+    tt+=t; tg+=gm;
+    html+='<div class="mc '+SM[i]+'" onclick="nav(\'cal\','+i+')">'+
+      '<div class="mc-s">'+SL[SM[i]]+'</div>'+
+      '<div class="mc-n">'+n+'</div>'+
+      '<div class="mc-d"><span><b>'+t+'</b> T</span><span><b>'+gm+'</b> S</span><span style="color:var(--muted);">'+(t+gm)+'</span></div>'+
     '</div>';
   });
-
-  const total = totalTrain + totalGame;
-  document.getElementById('printSub').textContent = currentTeam + ' \u2014 Saison ' + document.getElementById('seasonInput').value + ' \u2014 Monats\u00fcbersicht';
-  vc.innerHTML =
-    '<button class="print-view-btn" onclick="window.print()">&#x2399; DRUCKEN</button>' +
-    '<div class="month-grid">' + cards + '</div>' +
-    '<div class="summary-bar">' +
-      '<div class="summary-item"><span class="summary-lbl">TRAININGSTAGE</span><span class="summary-val" id="sumTrain">' + totalTrain + '</span></div>' +
-      '<div class="summary-item"><span class="summary-lbl">SPIELTAGE</span><span class="summary-val" id="sumGame">' + totalGame + '</span></div>' +
-      '<div class="summary-item hl"><span class="summary-lbl">GESAMT / 365</span><span class="summary-val" id="sumAll">' + total + ' / 365</span></div>' +
-    '</div>';
+  html+='</div><div class="sum">'+
+    '<div class="sum-i"><div class="sum-l">TRAINING</div><div class="sum-v">'+tt+'</div></div>'+
+    '<div class="sum-i"><div class="sum-l">SPIELE</div><div class="sum-v">'+tg+'</div></div>'+
+    '<div class="sum-i hl"><div class="sum-l">GESAMT</div><div class="sum-v">'+(tt+tg)+' / 365</div></div>'+
+  '</div>';
+  v.innerHTML=html;
 }
 
-function saveMonthStat(el) {
-  const mi = parseInt(el.dataset.mi);
-  const type = el.dataset.type;
-  const val = parseInt(el.textContent) || 0;
-  el.textContent = val;
-  const d = getMonthData(currentTeam, mi);
-  d[type] = val;
-  setMonthData(currentTeam, mi, d);
-  // Don't re-render full view, just update summary
-  let tt = 0, tg = 0;
-  for (let i = 0; i < 12; i++) {
-    const md = getMonthData(currentTeam, i);
-    tt += (parseInt(md.train)||0);
-    tg += (parseInt(md.game)||0);
+// ── CALENDAR ──
+function renderCal(v) {
+  const y=yr(mi), m=MM[mi]-1;
+  const first=new Date(y,m,1), last=new Date(y,m+1,0);
+  const pad=(first.getDay()+6)%7;
+
+  let html='<div class="cg">';
+  WD.forEach(w=>{html+='<div class="ch">'+w+'</div>';});
+  for(let i=0;i<pad;i++) html+='<div class="cd e"></div>';
+
+  for(let d=1;d<=last.getDate();d++) {
+    const dt=new Date(y,m,d), dstr=ds(dt);
+    const day=getDay(team,dstr);
+    const brk=getBreak(dstr);
+    const today=isToday(dt)?' today':'';
+    const brkCls=brk?(brk.type==='ferien'?' ferien':' iihf'):'';
+    let badge='';
+    if(day.type==='train') badge='<div class="badge t">T</div>';
+    else if(day.type==='game') badge='<div class="badge s">S</div>';
+    else if(day.type==='event') badge='<div class="badge ev">E</div>';
+    const brkLabel=brk?'<div class="cd-brk '+(brk.type==='iihf'?'iihf':'')+'">'+brk.label+'</div>':'';
+    const sCount=day.sessions&&day.sessions.length?'<div style="font-family:\'JetBrains Mono\',monospace;font-size:7px;color:var(--muted);margin-top:1px;">'+day.sessions.length+'x</div>':'';
+    html+='<div class="cd'+today+brkCls+'" data-ds="'+dstr+'" onclick="clickDay(event,\''+dstr+'\')" ondblclick="nav(\'day\','+mi+',\''+dstr+'\')">'+
+      '<div class="cd-n">'+d+'</div>'+badge+brkLabel+sCount+'</div>';
   }
-  const st = document.getElementById('sumTrain'); if (st) st.textContent = tt;
-  const sg = document.getElementById('sumGame'); if (sg) sg.textContent = tg;
-  const sa = document.getElementById('sumAll'); if (sa) sa.textContent = (tt+tg) + ' / 365';
-  // Update the total in the card
-  const card = el.closest('.month-card');
-  if (card) {
-    const nums = card.querySelectorAll('.month-stat .num');
-    if (nums.length >= 3) {
-      const t = parseInt(nums[0].textContent)||0;
-      const g = parseInt(nums[1].textContent)||0;
-      nums[2].textContent = t + g;
-    }
-  }
-}
+  html+='</div>';
 
-function openMonth(mi) {
-  currentMonth = mi;
-  currentView = 'weeks';
-  render();
-}
-
-// ── WEEKS VIEW (Calendar Grid) ──
-let selectedDates = new Set();
-
-function renderWeeks(vc) {
-  const weeks = getWeeksInMonth(currentMonth);
-  currentWeeksList = weeks;
-  const year = getSaisonYear(currentMonth);
-  const month = MONTH_NUMS[currentMonth] - 1;
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  const startPad = (firstDay.getDay() + 6) % 7;
-
-  document.getElementById('printSub').textContent = currentTeam + ' \u2014 ' + MONTH_FULL[currentMonth] + ' ' + year;
-
-  let html = '<button class="print-view-btn" onclick="window.print()">&#x2399; DRUCKEN</button>';
-  html += '<div class="cal-grid">';
-  WEEKDAYS.forEach(w => { html += '<div class="cal-header">' + w + '</div>'; });
-
-  // Empty padding
-  for (let i = 0; i < startPad; i++) html += '<div class="cal-day empty"></div>';
-
-  // Days
-  for (let d = 1; d <= lastDay.getDate(); d++) {
-    const date = new Date(year, month, d);
-    const ds = dateStr(date);
-    const s = getSession(currentTeam, ds);
-    const sel = selectedDates.has(ds) ? ' selected' : '';
-    const today = isToday(date) ? ' today' : '';
-    const badge = s.type === 'train' ? '<div class="day-badge train">T</div>' :
-                  s.type === 'game' ? '<div class="day-badge game">S</div>' :
-                  s.type === 'event' ? '<div class="day-badge game">E</div>' : '';
-    html += '<div class="cal-day' + sel + today + '" data-ds="' + ds + '" onclick="toggleDay(this,\'' + ds + '\')" ondblclick="openDayDirect(\'' + ds + '\')">' +
-      '<div class="cal-day-num">' + d + '</div>' + badge +
-    '</div>';
-  }
-  html += '</div>';
-
-  // Week list below calendar
-  html += '<div class="week-grid" style="margin-top:12px;">';
-  weeks.forEach(w => {
-    let wTrain = 0, wGame = 0;
-    w.days.forEach(dd => {
-      const s = getSession(currentTeam, dateStr(dd));
-      if (s.type === 'train') wTrain++;
-      else if (s.type === 'game') wGame++;
-    });
-    const range = fmtDate(w.days[0]) + ' \u2013 ' + fmtDate(w.days[6]);
-    html += '<div class="week-card" onclick="openWeek(' + currentMonth + ',' + w.kw + ')">' +
-      '<div class="week-kw">KW ' + w.kw + '</div>' +
-      '<div class="week-dates">' + range + '</div>' +
-      '<div class="week-val">' + wTrain + '</div>' +
-      '<div class="week-val">' + wGame + '</div>' +
-      '<div class="week-arrow">&rarr;</div>' +
-    '</div>';
+  // Legend
+  html+='<div style="display:flex;gap:14px;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:8px;color:var(--muted);margin-top:-8px;margin-bottom:16px;">';
+  html+='<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(100,180,255,0.15);border:1px solid rgba(100,180,255,0.3);vertical-align:middle;margin-right:3px;"></span>Ferien</span>';
+  html+='<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(255,152,0,0.12);border:1px solid rgba(255,152,0,0.3);vertical-align:middle;margin-right:3px;"></span>IIHF Break</span>';
+  html+='<span>Klick = Ausw\u00e4hlen &middot; Doppelklick = Bearbeiten</span>';
+  html+='</div>';
+  v.innerHTML=html;
+  // Re-apply selection highlights
+  sel.forEach(dstr=>{
+    const el=document.querySelector('[data-ds="'+dstr+'"]');
+    if(el) el.style.borderColor='var(--green-bright)';
   });
-  html += '</div>';
-
-  vc.innerHTML = html;
-  updateSelectBar();
 }
 
-let currentWeeksList = [];
-
-function toggleDay(el, ds) {
-  if (selectedDates.has(ds)) {
-    selectedDates.delete(ds);
-    el.classList.remove('selected');
-  } else {
-    selectedDates.add(ds);
-    el.classList.add('selected');
-  }
-  updateSelectBar();
+let clickTimer=null;
+function clickDay(e,dstr) {
+  if(clickTimer) { clearTimeout(clickTimer); clickTimer=null; return; }
+  clickTimer=setTimeout(()=>{
+    clickTimer=null;
+    if(sel.has(dstr)) sel.delete(dstr); else sel.add(dstr);
+    const el=document.querySelector('[data-ds="'+dstr+'"]');
+    if(el) el.style.borderColor=sel.has(dstr)?'var(--green-bright)':'';
+    updateMailBar();
+  },250);
 }
 
-function openDayDirect(ds) {
-  // Doppelklick öffnet Session-Detail
-  const date = new Date(ds);
-  const month = MONTH_NUMS[currentMonth] - 1;
-  const weeks = getWeeksInMonth(currentMonth);
-  for (const w of weeks) {
-    for (let i = 0; i < w.days.length; i++) {
-      if (dateStr(w.days[i]) === ds) {
-        currentWeek = w;
-        currentDay = { date: w.days[i], weekday: i };
-        currentView = 'session';
-        render();
-        return;
-      }
-    }
-  }
+function updateMailBar() {
+  const bar=document.getElementById('mailBar');
+  document.getElementById('selCnt').textContent=sel.size;
+  bar.classList.toggle('show',sel.size>0);
 }
-
-function updateSelectBar() {
-  const bar = document.getElementById('selectBar');
-  const count = document.getElementById('selCount');
-  if (selectedDates.size > 0) {
-    bar.classList.remove('hidden');
-    count.textContent = selectedDates.size;
-  } else {
-    bar.classList.add('hidden');
-  }
-}
-
-function clearSelection() {
-  selectedDates.clear();
-  document.querySelectorAll('.cal-day.selected').forEach(el => el.classList.remove('selected'));
-  updateSelectBar();
-}
+function clearSel() { sel.clear(); updateMailBar(); document.querySelectorAll('.cd').forEach(el=>el.style.borderColor=''); }
 
 function mailSelected() {
-  const team = currentTeam;
-  const season = document.getElementById('seasonInput').value;
-  const sorted = Array.from(selectedDates).sort();
-  let body = 'Hallo Rick,\n\nanbei die ausgewählten Tage für ' + team + ' (Saison ' + season + '):\n\n';
-
-  sorted.forEach(ds => {
-    const d = new Date(ds);
-    const dayIdx = (d.getDay() + 6) % 7;
-    const s = getSession(team, ds);
-    const typ = s.type === 'train' ? 'Training' : s.type === 'game' ? 'Spiel' : s.type === 'event' ? 'Event' : 'Frei';
-    let line = WEEKDAYS[dayIdx] + ' ' + d.getDate() + '.' + (d.getMonth()+1) + '.' + d.getFullYear() + ' — ' + typ;
-    if (s.time) line += ' | ' + s.time;
-    if (s.ort) line += ' | ' + s.ort;
-    if (s.fokus) line += ' | ' + s.fokus;
-    body += line + '\n';
-  });
-
-  body += '\nViele Grüße\nRené';
-
-  const subject = encodeURIComponent(team + ' Saisonplanung ' + season + ' — ' + sorted.length + ' Tage');
-  const mailBody = encodeURIComponent(body);
-  window.location.href = 'mailto:?subject=' + subject + '&body=' + mailBody;
-}
-
-function openWeek(mi, kw) {
-  currentMonth = mi;
-  currentWeek = currentWeeksList.find(w => w.kw === kw);
-  currentView = 'days';
-  render();
-}
-
-// ── DAYS VIEW ──
-function renderDays(vc) {
-  if (!currentWeek) return;
-  document.getElementById('printSub').textContent = currentTeam + ' \u2014 KW ' + currentWeek.kw + ' \u2014 ' + fmtDate(currentWeek.days[0]) + ' \u2013 ' + fmtDate(currentWeek.days[6]) + getSaisonYear(currentMonth);
-  let html = '<button class="print-view-btn" onclick="window.print()">&#x2399; DRUCKEN</button><div class="day-grid">';
-  currentWeek.days.forEach((d, i) => {
-    const ds = dateStr(d);
-    const s = getSession(currentTeam, ds);
-    const today = isToday(d) ? ' today' : '';
-    const typeBadge = s.type === 'train' ? '<div class="day-badge train">TRAINING</div>' :
-                      s.type === 'game' ? '<div class="day-badge game">SPIEL</div>' :
-                      '<div class="day-badge free">FREI</div>';
-    const timeInfo = s.time ? '<div style="font-family:\'JetBrains Mono\',monospace;font-size:8px;color:var(--muted);margin-top:4px;">' + s.time + '</div>' : '';
-    html += '<div class="day-card' + today + '" onclick="openSession(' + i + ')">' +
-      '<div class="day-weekday">' + WEEKDAYS[i] + '</div>' +
-      '<div class="day-num">' + d.getDate() + '</div>' +
-      typeBadge + timeInfo +
-    '</div>';
-  });
-  html += '</div>';
-  vc.innerHTML = html;
-}
-
-function openSession(dayIndex) {
-  currentDay = { date: currentWeek.days[dayIndex], weekday: dayIndex };
-  currentView = 'session';
-  render();
-}
-
-// ── SESSION VIEW ──
-function renderSession(vc) {
-  if (!currentDay) return;
-  const ds = dateStr(currentDay.date);
-  const s = getSession(currentTeam, ds);
-  const dayLabel = WEEKDAYS[currentDay.weekday] + ', ' + currentDay.date.getDate() + '. ' + MONTH_FULL[currentMonth] + ' ' + getSaisonYear(currentMonth);
-  document.getElementById('printSub').textContent = currentTeam + ' \u2014 ' + dayLabel;
-
-  vc.innerHTML =
-    '<button class="print-view-btn" onclick="window.print()">&#x2399; DRUCKEN</button>' +
-    '<div style="font-family:\'League 200\',\'League Gothic\',sans-serif;font-size:20px;font-weight:800;color:var(--light);margin-bottom:16px;">' + dayLabel + '</div>' +
-    '<div class="session-panel">' +
-      '<div class="session-row">' +
-        '<span class="session-label">Typ</span>' +
-        '<select class="session-select" id="sType" onchange="saveSession()">' +
-          '<option value="free"' + (s.type==='free'?' selected':'') + '>Frei</option>' +
-          '<option value="train"' + (s.type==='train'?' selected':'') + '>Training</option>' +
-          '<option value="game"' + (s.type==='game'?' selected':'') + '>Spiel</option>' +
-          '<option value="event"' + (s.type==='event'?' selected':'') + '>Event</option>' +
-        '</select>' +
-      '</div>' +
-      '<div class="session-row">' +
-        '<span class="session-label">Uhrzeit</span>' +
-        '<input type="text" class="session-input" id="sTime" value="' + (s.time||'') + '" placeholder="z.B. 17:00 \u2013 19:00" onblur="saveSession()">' +
-      '</div>' +
-      '<div class="session-row">' +
-        '<span class="session-label">Ort</span>' +
-        '<input type="text" class="session-input" id="sOrt" value="' + (s.ort||'') + '" placeholder="z.B. ROFA Stadion" onblur="saveSession()">' +
-      '</div>' +
-      '<div class="session-row">' +
-        '<span class="session-label">Fokus</span>' +
-        '<input type="text" class="session-input" id="sFokus" value="' + (s.fokus||'') + '" placeholder="z.B. Powerplay, Skating, Taktik" onblur="saveSession()">' +
-      '</div>' +
-      '<div style="margin-top:4px;">' +
-        '<span class="session-label" style="display:block;margin-bottom:6px;">Notizen</span>' +
-        '<textarea class="session-textarea" id="sNotizen" placeholder="Notizen..." onblur="saveSession()">' + (s.notizen||'') + '</textarea>' +
-      '</div>' +
-    '</div>';
-}
-
-function saveSession() {
-  if (!currentDay) return;
-  const ds = dateStr(currentDay.date);
-  const data = {
-    type: document.getElementById('sType').value,
-    time: document.getElementById('sTime').value,
-    ort: document.getElementById('sOrt').value,
-    fokus: document.getElementById('sFokus').value,
-    notizen: document.getElementById('sNotizen').value
-  };
-  setSession(currentTeam, ds, data);
-}
-
-// ══════ EXPORT CSV ══════
-function exportCSV() {
-  const team = currentTeam;
-  const season = document.getElementById('seasonInput').value;
-  const sep = ';';
-  let csv = 'Saisonplanung ' + team + ' ' + season + '\n\n';
-  csv += 'Monat' + sep + 'Season' + sep + 'Trainingstage' + sep + 'Spieltage' + sep + 'Gesamt\n';
-  let tt = 0, tg = 0;
-  MONTH_FULL.forEach((name, i) => {
-    const d = getMonthData(team, i);
-    const t = parseInt(d.train)||0;
-    const g = parseInt(d.game)||0;
-    tt += t; tg += g;
-    const s = SEASON_MAP[i] === 'off' ? 'Off-Season' : SEASON_MAP[i] === 'pre' ? 'Pre-Season' : 'In-Season';
-    csv += name + sep + s + sep + t + sep + g + sep + (t+g) + '\n';
-  });
-  csv += '\nGesamt' + sep + sep + tt + sep + tg + sep + (tt+tg) + '\n';
-
-  // Sessions detail
-  csv += '\n\nSession-Details\n';
-  csv += 'Datum' + sep + 'Wochentag' + sep + 'Typ' + sep + 'Uhrzeit' + sep + 'Ort' + sep + 'Fokus' + sep + 'Notizen\n';
-  MONTH_NAMES.forEach((name, mi) => {
-    const weeks = getWeeksInMonth(mi);
-    weeks.forEach(w => {
-      w.days.forEach((d, di) => {
-        const ds = dateStr(d);
-        const s = getSession(team, ds);
-        if (s.type !== 'free') {
-          const typ = s.type === 'train' ? 'Training' : s.type === 'game' ? 'Spiel' : 'Event';
-          csv += fmtDate(d) + getSaisonYear(mi) + sep + WEEKDAYS[di] + sep + typ + sep + (s.time||'') + sep + (s.ort||'').replace(/;/g,',') + sep + (s.fokus||'').replace(/;/g,',') + sep + (s.notizen||'').replace(/[\n;]/g,' ') + '\n';
-        }
-      });
+  const sorted=Array.from(sel).sort();
+  let body='Hallo,\n\nanbei die Tages\u00fcbersicht f\u00fcr '+team+':\n\n';
+  sorted.forEach(dstr=>{
+    const d=new Date(dstr), di=(d.getDay()+6)%7;
+    const day=getDay(team,dstr);
+    const typ=day.type==='train'?'Training':day.type==='game'?'Spiel':day.type==='event'?'Event':'Frei';
+    let line=WD[di]+' '+fd(d)+d.getFullYear()+' \u2014 '+typ;
+    if(day.sessions) day.sessions.forEach((s,i)=>{
+      line+='\n   Session '+(i+1)+': '+(s.time||'?')+' | '+(s.ort||'?')+' | '+(s.fokus||'');
     });
+    body+=line+'\n\n';
   });
-
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'Saisonplanung_' + team + '_' + season.replace('/','-') + '.csv';
-  a.click();
-  URL.revokeObjectURL(url);
+  body+='Viele Gr\u00fc\u00dfe\nRen\u00e9';
+  window.location.href='mailto:?subject='+encodeURIComponent(team+' Saisonplanung \u2014 '+sorted.length+' Tage')+'&body='+encodeURIComponent(body);
 }
 
-// ══════ INIT ══════
-const savedTeam = localStorage.getItem('sbr-sp-lastTeam');
-if (savedTeam && TEAMS.includes(savedTeam)) {
-  currentTeam = savedTeam;
-  document.getElementById('teamSelect').value = currentTeam;
+// ── DAY DETAIL ──
+function renderDay(v) {
+  const d=new Date(dayStr), di=(d.getDay()+6)%7;
+  const day=getDay(team,dayStr);
+  const label=WD[di]+', '+d.getDate()+'. '+MF[mi]+' '+yr(mi);
+  const brk=getBreak(dayStr);
+  const types=['free','train','game','event'];
+  const tLabels=['FREI','TRAINING','SPIEL','EVENT'];
+  const tCls=['f','t','s','ev'];
+
+  let html='<div class="dd"><div class="dd-title">'+label+'</div>';
+  if(brk) html+='<div style="font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:1px;padding:6px 10px;border-radius:6px;margin-bottom:12px;display:inline-block;'+(brk.type==='iihf'?'color:rgba(255,152,0,0.9);background:rgba(255,152,0,0.08);border:1px solid rgba(255,152,0,0.2);':'color:rgba(100,180,255,0.9);background:rgba(100,180,255,0.08);border:1px solid rgba(100,180,255,0.2);')+'">'+brk.label+'</div>';
+  html+='<div class="dd-type">';
+  types.forEach((t,i)=>{
+    const active=day.type===t?' active '+tCls[i]:'';
+    html+='<div class="dd-type-btn'+active+'" onclick="setDayType(\''+t+'\')">'+tLabels[i]+'</div>';
+  });
+  html+='</div>';
+
+  // Sessions list
+  if(day.type!=='free') {
+    html+='<div class="sl">';
+    if(!day.sessions) day.sessions=[];
+    if(day.sessions.length===0) day.sessions.push({time:'',ort:'',fokus:'',notizen:''});
+    day.sessions.forEach((ses,i)=>{
+      html+='<div class="sl-item" onclick="nav(\'session\','+mi+',\''+dayStr+'\','+i+')">'+
+        '<div class="sl-time">'+(ses.time||'Uhrzeit?')+'</div>'+
+        '<div class="sl-info"><div class="sl-fokus">'+(ses.fokus||'Session '+(i+1))+'</div><div class="sl-ort">'+(ses.ort||'Ort?')+'</div></div>'+
+      '</div>';
+    });
+    html+='<div class="sl-add" onclick="addSession()">+ SESSION HINZUF\u00dcGEN</div>';
+    html+='</div>';
+  }
+  html+='</div>';
+  v.innerHTML=html;
+
+  // Auto-count for month summary
+  recount();
 }
 
-render();
+function setDayType(type) {
+  const day=getDay(team,dayStr);
+  day.type=type;
+  if(type!=='free'&&(!day.sessions||!day.sessions.length)) day.sessions=[{time:'',ort:'',fokus:'',notizen:''}];
+  setDay(team,dayStr,day);
+  nav('day',mi,dayStr);
+}
 
-// Save last team on change
-document.getElementById('teamSelect').addEventListener('change', () => {
-  localStorage.setItem('sbr-sp-lastTeam', currentTeam);
-});
+function addSession() {
+  const day=getDay(team,dayStr);
+  if(!day.sessions) day.sessions=[];
+  day.sessions.push({time:'',ort:'',fokus:'',notizen:''});
+  setDay(team,dayStr,day);
+  nav('day',mi,dayStr);
+}
+
+function recount() {
+  // Recount training/game days for current month from stored day data
+  const y=yr(mi), m=MM[mi]-1;
+  const last=new Date(y,m+1,0);
+  let t=0,gm=0;
+  for(let d=1;d<=last.getDate();d++) {
+    const dt=new Date(y,m,d);
+    const day=getDay(team,ds(dt));
+    if(day.type==='train') t++;
+    else if(day.type==='game') gm++;
+  }
+  setMD(team,mi,{train:t,game:gm});
+}
+
+// ── SESSION EDITOR ──
+function renderSession(v) {
+  const day=getDay(team,dayStr);
+  const ses=day.sessions[sessionIdx]||{time:'',ort:'',fokus:'',notizen:''};
+  const d=new Date(dayStr);
+  const label='Session '+(sessionIdx+1)+' \u2014 '+d.getDate()+'. '+MF[mi]+' '+yr(mi);
+
+  v.innerHTML='<div class="dd"><div class="dd-title">'+label+'</div>'+
+    '<div class="se">'+
+      '<div class="se-row"><span class="se-lbl">ZEIT</span><input class="se-inp" id="sTime" value="'+(ses.time||'')+'" placeholder="z.B. 17:00 \u2013 19:00" onblur="saveSes()"></div>'+
+      '<div class="se-row"><span class="se-lbl">ORT</span><input class="se-inp" id="sOrt" value="'+(ses.ort||'')+'" placeholder="z.B. ROFA Stadion" onblur="saveSes()"></div>'+
+      '<div class="se-row"><span class="se-lbl">FOKUS</span><input class="se-inp" id="sFokus" value="'+(ses.fokus||'')+'" placeholder="z.B. Powerplay, Skating, Taktik" onblur="saveSes()"></div>'+
+      '<div style="margin-top:4px;"><span class="se-lbl" style="display:block;margin-bottom:6px;">NOTIZEN</span><textarea class="se-inp se-ta" id="sNot" placeholder="Notizen..." onblur="saveSes()">'+(ses.notizen||'')+'</textarea></div>'+
+      '<div style="margin-top:12px;text-align:right;"><button class="dd-type-btn" style="color:var(--red);border-color:var(--red);" onclick="delSes()">SESSION L\u00d6SCHEN</button></div>'+
+    '</div></div>';
+}
+
+function saveSes() {
+  const day=getDay(team,dayStr);
+  if(!day.sessions[sessionIdx]) return;
+  day.sessions[sessionIdx]={
+    time:document.getElementById('sTime').value,
+    ort:document.getElementById('sOrt').value,
+    fokus:document.getElementById('sFokus').value,
+    notizen:document.getElementById('sNot').value
+  };
+  setDay(team,dayStr,day);
+}
+
+function delSes() {
+  const day=getDay(team,dayStr);
+  day.sessions.splice(sessionIdx,1);
+  if(!day.sessions.length) day.type='free';
+  setDay(team,dayStr,day);
+  recount();
+  nav('day',mi,dayStr);
+}
+
+// ── INIT ──
+team=localStorage.getItem(PFX+'lastTeam')||'U17';
+document.getElementById('team').value=team;
+nav('months');
 </script>
 </body>
 </html>
