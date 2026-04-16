@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Saisonplanung — Starbulls Nachwuchs</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23005243'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='13' fill='%23F2F5F4'>SBR</text></svg>">
+<meta name="theme-color" content="#0A0A0A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=League+Gothic&family=Titillium+Web:wght@200;300;400;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+  @font-face { font-family:'League 200'; src:url('/League-200ExtraBold.otf') format('opentype'); font-weight:800; font-display:swap; }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  :root {
+    --black:#0A0A0A; --surface:#0e0e0e; --border:#1c1c1c; --muted:#555; --text:#888;
+    --light:#ccc; --white:#F2F5F4;
+    --green:#005243; --green-bright:#00785f;
+    --green-20:rgba(0,82,67,0.20); --green-10:rgba(0,82,67,0.10); --green-05:rgba(0,82,67,0.05);
+    --red:#E4032E; --red-20:rgba(228,3,46,0.20);
+    --off:rgba(255,180,60,0.8); --off-bg:rgba(255,180,60,0.06);
+    --pre:rgba(228,3,46,0.8); --pre-bg:rgba(228,3,46,0.05);
+    --in:rgba(0,180,120,0.8); --in-bg:rgba(0,82,67,0.05);
+  }
+
+  body {
+    font-family:'Titillium Web',-apple-system,sans-serif;
+    background-color:var(--black); background-image:url('/sbr-bg.png');
+    background-size:cover; background-position:center; background-attachment:fixed;
+    color:var(--white); min-height:100vh;
+    display:flex; justify-content:center; padding:40px 24px 80px;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before { content:''; position:fixed; inset:0; background:rgba(10,10,10,0.82); pointer-events:none; z-index:0; }
+  body.light { background-image:url('/sbr-bg-away.png'); color:#1a1a2e; }
+  body.light::before { background:rgba(232,235,233,0.88); }
+
+  .container { max-width:800px; width:100%; position:relative; z-index:1; }
+
+  /* ── HEADER ── */
+  .header { text-align:center; margin-bottom:24px; }
+  .header-logo { width:48px; height:auto; margin:0 auto 12px; filter:drop-shadow(0 2px 12px rgba(0,82,67,0.25)); }
+  .header-title {
+    font-family:'League 200','League Gothic',sans-serif;
+    font-size:clamp(20px,4vw,28px); font-weight:800; letter-spacing:1px;
+    color:var(--white); text-transform:uppercase;
+  }
+  .header-title .green { color:var(--green-bright); }
+  body.light .header-title { color:#1a1a2e; }
+
+  /* ── CONTROLS ── */
+  .controls {
+    display:flex; gap:10px; justify-content:center; align-items:center;
+    margin-bottom:24px; flex-wrap:wrap;
+  }
+  .team-select, .season-input {
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600;
+    background:rgba(0,82,67,0.06); border:1px solid rgba(0,82,67,0.2);
+    border-radius:8px; padding:8px 14px; color:var(--green-bright);
+    outline:none; cursor:pointer; letter-spacing:1px;
+  }
+  .team-select { min-width:140px; }
+  .team-select:focus, .season-input:focus { border-color:var(--green-bright); }
+  body.light .team-select, body.light .season-input { background:rgba(0,82,67,0.04); color:var(--green); border-color:rgba(0,82,67,0.15); }
+
+  /* ── BREADCRUMB ── */
+  .breadcrumb {
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:1.5px;
+    color:var(--muted); margin-bottom:16px; display:flex; gap:6px; align-items:center;
+  }
+  .breadcrumb span { cursor:pointer; transition:color 0.2s; }
+  .breadcrumb span:hover { color:var(--green-bright); }
+  .breadcrumb .sep { color:var(--border); cursor:default; }
+  .breadcrumb .current { color:var(--light); cursor:default; }
+  body.light .breadcrumb .current { color:#1a1a2e; }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    position:fixed; top:20px; right:24px; z-index:200;
+    border:none; background:transparent; cursor:pointer;
+    font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px;
+    color:rgba(255,255,255,0.35); transition:all 0.3s; padding:4px 0;
+  }
+  .theme-toggle:hover { color:var(--green-bright); }
+  body.light .theme-toggle { color:rgba(0,0,0,0.3); }
+
+  /* ── BACK BUTTON ── */
+  .back-btn {
+    position:fixed; top:20px; left:24px; z-index:200;
+    border:none; background:transparent; cursor:pointer;
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:1px;
+    color:var(--muted); transition:color 0.2s; text-decoration:none;
+  }
+  .back-btn:hover { color:var(--green-bright); }
+
+  /* ── MONTH GRID ── */
+  .month-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:20px; }
+  .month-card {
+    border:1px solid var(--border); border-radius:12px; padding:14px;
+    cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden;
+  }
+  .month-card:hover { border-color:rgba(0,82,67,0.3); transform:translateY(-2px); }
+  .month-card.off { background:var(--off-bg); }
+  .month-card.pre { background:var(--pre-bg); }
+  .month-card.in { background:var(--in-bg); }
+  .month-name {
+    font-family:'League 200','League Gothic',sans-serif;
+    font-size:18px; font-weight:800; color:var(--light); text-transform:uppercase;
+  }
+  .month-season {
+    font-family:'JetBrains Mono',monospace; font-size:7px; letter-spacing:1.5px;
+    color:var(--muted); margin-bottom:8px;
+  }
+  .month-card.off .month-season { color:var(--off); }
+  .month-card.pre .month-season { color:var(--pre); }
+  .month-card.in .month-season { color:var(--in); }
+  .month-stats { display:flex; gap:8px; margin-top:8px; }
+  .month-stat {
+    font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--muted);
+    display:flex; align-items:center; gap:3px;
+  }
+  .month-stat .num { color:var(--light); font-weight:700; font-size:14px; }
+  .month-stat .lbl { font-size:7px; letter-spacing:0.5px; }
+  body.light .month-card { background:rgba(255,255,255,0.6); border-color:rgba(0,0,0,0.06); }
+  body.light .month-card.off { background:rgba(255,180,60,0.08); }
+  body.light .month-card.pre { background:rgba(228,3,46,0.06); }
+  body.light .month-card.in { background:rgba(0,82,67,0.06); }
+  body.light .month-name { color:#1a1a2e; }
+  body.light .month-stat .num { color:#1a1a2e; }
+
+  /* ── SUMMARY BAR ── */
+  .summary-bar {
+    display:flex; gap:8px; margin-bottom:24px;
+  }
+  .summary-item {
+    flex:1; text-align:center; padding:10px 8px;
+    border:1px solid var(--border); border-radius:8px;
+    background:rgba(255,255,255,0.015);
+  }
+  .summary-item.hl { background:rgba(0,82,67,0.1); border-color:var(--green-bright); }
+  .summary-lbl { font-family:'JetBrains Mono',monospace; font-size:7px; letter-spacing:1.5px; color:var(--muted); display:block; }
+  .summary-val { font-family:'League 200','Titillium Web',sans-serif; font-size:20px; font-weight:800; color:var(--light); display:block; margin-top:2px; }
+  .summary-item.hl .summary-val { color:var(--green-bright); }
+  body.light .summary-item { background:rgba(255,255,255,0.5); border-color:rgba(0,0,0,0.06); }
+  body.light .summary-val { color:#1a1a2e; }
+  body.light .summary-item.hl { background:rgba(0,82,67,0.06); border-color:var(--green); }
+  body.light .summary-item.hl .summary-val { color:var(--green); }
+
+  /* ── WEEK GRID ── */
+  .week-grid { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
+  .week-card {
+    display:grid; grid-template-columns:60px 1fr 80px 80px 60px;
+    align-items:center; gap:8px; padding:12px 16px;
+    border:1px solid var(--border); border-radius:10px;
+    cursor:pointer; transition:all 0.2s;
+    background:rgba(255,255,255,0.015);
+  }
+  .week-card:hover { border-color:rgba(0,82,67,0.3); }
+  .week-kw { font-family:'League 200','League Gothic',sans-serif; font-size:16px; font-weight:800; color:var(--green-bright); }
+  .week-dates { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); }
+  .week-val { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--light); text-align:center; }
+  .week-val-lbl { font-family:'JetBrains Mono',monospace; font-size:7px; color:var(--muted); text-align:center; letter-spacing:1px; }
+  .week-arrow { color:var(--muted); text-align:right; font-size:14px; }
+  body.light .week-card { background:rgba(255,255,255,0.5); border-color:rgba(0,0,0,0.06); }
+
+  /* ── DAY GRID ── */
+  .day-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:20px; }
+  .day-card {
+    border:1px solid var(--border); border-radius:10px; padding:12px 10px;
+    cursor:pointer; transition:all 0.2s; text-align:center; min-height:100px;
+  }
+  .day-card:hover { border-color:rgba(0,82,67,0.3); }
+  .day-card.today { border-color:var(--green-bright); }
+  .day-weekday { font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1.5px; color:var(--muted); }
+  .day-num { font-family:'League 200','League Gothic',sans-serif; font-size:22px; font-weight:800; color:var(--light); margin:4px 0; }
+  .day-badge {
+    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:7px; letter-spacing:1px;
+    padding:2px 6px; border-radius:3px; margin-top:4px;
+  }
+  .day-badge.train { color:var(--green-bright); border:1px solid var(--green-20); background:var(--green-05); }
+  .day-badge.game { color:var(--red); border:1px solid var(--red-20); background:rgba(228,3,46,0.05); }
+  .day-badge.free { color:var(--muted); border:1px solid var(--border); }
+  body.light .day-card { background:rgba(255,255,255,0.5); border-color:rgba(0,0,0,0.06); }
+  body.light .day-num { color:#1a1a2e; }
+
+  /* ── SESSION DETAIL ── */
+  .session-panel {
+    border:1px solid var(--border); border-radius:14px; padding:20px;
+    background:rgba(255,255,255,0.015);
+  }
+  .session-row { display:flex; gap:12px; margin-bottom:12px; align-items:center; }
+  .session-label {
+    font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1.5px;
+    color:var(--muted); min-width:70px; text-transform:uppercase;
+  }
+  .session-input {
+    flex:1; background:rgba(0,82,67,0.04); border:1px solid rgba(0,82,67,0.12);
+    border-radius:6px; padding:8px 12px; color:var(--light);
+    font-family:'Titillium Web',sans-serif; font-size:13px; outline:none;
+    transition:border-color 0.2s;
+  }
+  .session-input:focus { border-color:var(--green-bright); }
+  .session-select {
+    background:rgba(0,82,67,0.06); border:1px solid rgba(0,82,67,0.15);
+    border-radius:6px; padding:8px 12px; color:var(--green-bright);
+    font-family:'JetBrains Mono',monospace; font-size:11px; outline:none; cursor:pointer;
+  }
+  .session-textarea {
+    width:100%; min-height:80px; resize:vertical;
+    background:rgba(0,82,67,0.04); border:1px solid rgba(0,82,67,0.12);
+    border-radius:6px; padding:10px 12px; color:var(--light);
+    font-family:'Titillium Web',sans-serif; font-size:13px; outline:none;
+  }
+  .session-textarea:focus { border-color:var(--green-bright); }
+  body.light .session-panel { background:rgba(255,255,255,0.5); border-color:rgba(0,0,0,0.06); }
+  body.light .session-input, body.light .session-textarea { background:rgba(0,82,67,0.03); color:#1a1a2e; border-color:rgba(0,82,67,0.1); }
+  body.light .session-select { background:rgba(0,82,67,0.04); color:var(--green); }
+
+  /* ── EXPORT BUTTONS ── */
+  .export-bar { display:flex; gap:8px; justify-content:flex-end; margin-bottom:16px; }
+  .export-btn {
+    font-family:'JetBrains Mono',monospace; font-size:8px; font-weight:600;
+    letter-spacing:1.5px; text-transform:uppercase;
+    padding:6px 14px; border:1px solid rgba(0,82,67,0.2); border-radius:6px;
+    background:rgba(0,82,67,0.06); color:var(--green-bright);
+    cursor:pointer; transition:all 0.2s;
+  }
+  .export-btn:hover { background:rgba(0,82,67,0.15); border-color:var(--green-bright); }
+  body.light .export-btn { background:rgba(0,82,67,0.04); color:var(--green); border-color:rgba(0,82,67,0.12); }
+  @media print {
+    .theme-toggle,.back-btn,.export-bar,.controls,.breadcrumb { display:none !important; }
+    body { background:white !important; color:#111 !important; padding:20px !important; }
+    body::before { display:none; }
+    .month-card { border:1px solid #ddd !important; background:#f9f9f9 !important; break-inside:avoid; }
+    .month-name { color:#111 !important; }
+    .month-stat .num { color:#111 !important; }
+    .summary-item { border:1px solid #ddd !important; background:#f5f5f5 !important; }
+    .summary-val { color:#111 !important; }
+    .header-title { color:#111 !important; }
+    .header-title .green { color:var(--green) !important; }
+    .container { max-width:100%; }
+    .month-grid { grid-template-columns:repeat(4,1fr); gap:8px; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:600px) {
+    .month-grid { grid-template-columns:repeat(2,1fr); }
+    .day-grid { grid-template-columns:repeat(4,1fr); }
+    .week-card { grid-template-columns:50px 1fr 60px 60px; }
+    .week-arrow { display:none; }
+  }
+
+  @keyframes fadeUp { to { opacity:1; transform:none; } }
+</style>
+</head>
+<body>
+
+<a href="/sbr-workspace.html#internal" class="back-btn">&larr; WORKSPACE</a>
+<button class="theme-toggle" id="themeToggle"><span id="themeLabel">HOME</span></button>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="/sbr-logo-bw.png" alt="SBR" class="header-logo">
+    <div class="header-title">SAISON<span class="green">PLANUNG</span></div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <select class="team-select" id="teamSelect" onchange="switchTeam()">
+      <option value="U20">U20</option>
+      <option value="U17" selected>U17</option>
+      <option value="U15">U15</option>
+      <option value="U13">U13</option>
+      <option value="U11">U11</option>
+      <option value="U9">U9</option>
+      <option value="U7">U7</option>
+      <option value="Laufschule">Laufschule</option>
+    </select>
+    <input type="text" class="season-input" id="seasonInput" value="2026/27" style="width:90px; text-align:center;">
+  </div>
+
+  <!-- EXPORT -->
+  <div class="export-bar">
+    <button class="export-btn" onclick="exportCSV()">&#x2913; EXCEL / CSV</button>
+    <button class="export-btn" onclick="window.print()">&#x2399; PDF / DRUCKEN</button>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb" id="breadcrumb">
+    <span class="current" id="bcTeam">U17</span>
+  </div>
+
+  <!-- VIEW CONTAINER -->
+  <div id="viewContainer"></div>
+
+</div>
+
+<script>
+// ══════ CONFIG ══════
+const TEAMS = ['U20','U17','U15','U13','U11','U9','U7','Laufschule'];
+const MONTH_NAMES = ['Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez','Jan','Feb','Mar','Apr'];
+const MONTH_FULL = ['Mai','Juni','Juli','August','September','Oktober','November','Dezember','Januar','Februar','M\u00e4rz','April'];
+const MONTH_NUMS = [5,6,7,8,9,10,11,12,1,2,3,4]; // actual month numbers
+const SEASON_MAP = ['off','off','off','pre','in','in','in','in','in','in','in','in'];
+const WEEKDAYS = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+const STORAGE = 'sbr-sp-';
+
+let currentTeam = 'U17';
+let currentView = 'months'; // months | weeks | days | session
+let currentMonth = null; // 0-11 index into MONTH_NAMES
+let currentWeek = null; // {kw, start, days[]}
+let currentDay = null; // {date, weekday}
+
+// ══════ THEME ══════
+(function() {
+  const toggle = document.getElementById('themeToggle');
+  const label = document.getElementById('themeLabel');
+  const saved = localStorage.getItem('sbr-theme');
+  if (saved === 'away') { document.body.classList.add('light'); label.textContent = 'AWAY'; }
+  else { label.textContent = 'HOME'; }
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    const isAway = document.body.classList.contains('light');
+    label.textContent = isAway ? 'AWAY' : 'HOME';
+    localStorage.setItem('sbr-theme', isAway ? 'away' : 'home');
+  });
+})();
+
+// ══════ DATA ══════
+function getKey(team, path) { return STORAGE + team + '-' + path; }
+
+function getData(team, path, fallback) {
+  const raw = localStorage.getItem(getKey(team, path));
+  if (raw === null) return fallback;
+  try { return JSON.parse(raw); } catch(e) { return fallback; }
+}
+
+function setData(team, path, val) {
+  localStorage.setItem(getKey(team, path), JSON.stringify(val));
+}
+
+function getMonthData(team, mi) {
+  return getData(team, 'month-' + mi, { train: 0, game: 0 });
+}
+
+function setMonthData(team, mi, data) {
+  setData(team, 'month-' + mi, data);
+}
+
+function getWeekSessions(team, mi, kw) {
+  return getData(team, 'week-' + mi + '-' + kw, {});
+}
+
+function setWeekSessions(team, mi, kw, data) {
+  setData(team, 'week-' + mi + '-' + kw, data);
+}
+
+function getSession(team, dateStr) {
+  return getData(team, 'session-' + dateStr, { type: 'free', time: '', ort: '', fokus: '', notizen: '' });
+}
+
+function setSession(team, dateStr, data) {
+  setData(team, 'session-' + dateStr, data);
+}
+
+// ══════ HELPERS ══════
+function getSaisonYear(mi) {
+  // Mai-Dec = 2026, Jan-Apr = 2027
+  return mi < 8 ? 2026 : 2027;
+}
+
+function getWeeksInMonth(mi) {
+  const year = getSaisonYear(mi);
+  const month = MONTH_NUMS[mi] - 1; // JS month 0-indexed
+  const first = new Date(year, month, 1);
+  const last = new Date(year, month + 1, 0);
+  const weeks = [];
+  let d = new Date(first);
+  // Go to Monday of first week
+  while (d.getDay() !== 1) d.setDate(d.getDate() - 1);
+
+  while (d <= last || d.getDay() !== 1) {
+    const weekStart = new Date(d);
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      days.push(new Date(d));
+      d.setDate(d.getDate() + 1);
+    }
+    // Only include week if it overlaps with the month
+    const hasOverlap = days.some(day => day.getMonth() === month);
+    if (hasOverlap) {
+      const kw = getISOWeek(weekStart);
+      weeks.push({ kw, start: weekStart, days });
+    }
+    if (d > last && d.getDay() === 1) break;
+  }
+  return weeks;
+}
+
+function getISOWeek(d) {
+  const date = new Date(d.getTime());
+  date.setHours(0, 0, 0, 0);
+  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+  const week1 = new Date(date.getFullYear(), 0, 4);
+  return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+}
+
+function fmtDate(d) {
+  return d.getDate() + '.' + (d.getMonth() + 1) + '.';
+}
+
+function dateStr(d) {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function isToday(d) {
+  const t = new Date();
+  return d.getDate() === t.getDate() && d.getMonth() === t.getMonth() && d.getFullYear() === t.getFullYear();
+}
+
+// ══════ RENDER ══════
+function switchTeam() {
+  saveCurrentView();
+  currentTeam = document.getElementById('teamSelect').value;
+  currentView = 'months';
+  render();
+}
+
+function saveCurrentView() {
+  // Auto-save happens on individual inputs
+}
+
+function render() {
+  const vc = document.getElementById('viewContainer');
+  updateBreadcrumb();
+  if (currentView === 'months') renderMonths(vc);
+  else if (currentView === 'weeks') renderWeeks(vc);
+  else if (currentView === 'days') renderDays(vc);
+  else if (currentView === 'session') renderSession(vc);
+}
+
+function updateBreadcrumb() {
+  const bc = document.getElementById('breadcrumb');
+  document.getElementById('bcTeam').textContent = currentTeam;
+  let html = '<span onclick="goTo(\'months\')">' + currentTeam + '</span>';
+  if (currentView !== 'months' && currentMonth !== null) {
+    html += '<span class="sep">/</span><span onclick="goTo(\'weeks\')">' + MONTH_FULL[currentMonth] + '</span>';
+  }
+  if ((currentView === 'days' || currentView === 'session') && currentWeek) {
+    html += '<span class="sep">/</span><span onclick="goTo(\'days\')">KW ' + currentWeek.kw + '</span>';
+  }
+  if (currentView === 'session' && currentDay) {
+    html += '<span class="sep">/</span><span class="current">' + WEEKDAYS[currentDay.weekday] + ' ' + fmtDate(currentDay.date) + '</span>';
+  }
+  if (currentView === 'months') html = '<span class="current">' + currentTeam + '</span>';
+  bc.innerHTML = html;
+}
+
+function goTo(view) {
+  currentView = view;
+  render();
+}
+
+// ── MONTHS VIEW ──
+function renderMonths(vc) {
+  let totalTrain = 0, totalGame = 0;
+  let cards = '';
+  MONTH_NAMES.forEach((name, i) => {
+    const d = getMonthData(currentTeam, i);
+    totalTrain += (parseInt(d.train) || 0);
+    totalGame += (parseInt(d.game) || 0);
+    const season = SEASON_MAP[i];
+    const seasonLabel = season === 'off' ? 'OFF-SEASON' : season === 'pre' ? 'PRE-SEASON' : 'IN-SEASON';
+    cards += '<div class="month-card ' + season + '" onclick="openMonth(' + i + ')">' +
+      '<div class="month-season">' + seasonLabel + '</div>' +
+      '<div class="month-name">' + name + '</div>' +
+      '<div class="month-stats">' +
+        '<div class="month-stat"><span class="num" contenteditable="true" data-mi="' + i + '" data-type="train" onfocus="this.select()" onblur="saveMonthStat(this)">' + (d.train||0) + '</span><span class="lbl">T</span></div>' +
+        '<div class="month-stat"><span class="num" contenteditable="true" data-mi="' + i + '" data-type="game" onfocus="this.select()" onblur="saveMonthStat(this)">' + (d.game||0) + '</span><span class="lbl">S</span></div>' +
+        '<div class="month-stat"><span class="num" style="color:var(--muted);font-size:11px;">' + ((parseInt(d.train)||0)+(parseInt(d.game)||0)) + '</span></div>' +
+      '</div>' +
+    '</div>';
+  });
+
+  const total = totalTrain + totalGame;
+  vc.innerHTML =
+    '<div class="month-grid">' + cards + '</div>' +
+    '<div class="summary-bar">' +
+      '<div class="summary-item"><span class="summary-lbl">TRAININGSTAGE</span><span class="summary-val" id="sumTrain">' + totalTrain + '</span></div>' +
+      '<div class="summary-item"><span class="summary-lbl">SPIELTAGE</span><span class="summary-val" id="sumGame">' + totalGame + '</span></div>' +
+      '<div class="summary-item hl"><span class="summary-lbl">GESAMT / 365</span><span class="summary-val" id="sumAll">' + total + ' / 365</span></div>' +
+    '</div>';
+}
+
+function saveMonthStat(el) {
+  const mi = parseInt(el.dataset.mi);
+  const type = el.dataset.type;
+  const val = parseInt(el.textContent) || 0;
+  el.textContent = val;
+  const d = getMonthData(currentTeam, mi);
+  d[type] = val;
+  setMonthData(currentTeam, mi, d);
+  // Don't re-render full view, just update summary
+  let tt = 0, tg = 0;
+  for (let i = 0; i < 12; i++) {
+    const md = getMonthData(currentTeam, i);
+    tt += (parseInt(md.train)||0);
+    tg += (parseInt(md.game)||0);
+  }
+  const st = document.getElementById('sumTrain'); if (st) st.textContent = tt;
+  const sg = document.getElementById('sumGame'); if (sg) sg.textContent = tg;
+  const sa = document.getElementById('sumAll'); if (sa) sa.textContent = (tt+tg) + ' / 365';
+  // Update the total in the card
+  const card = el.closest('.month-card');
+  if (card) {
+    const nums = card.querySelectorAll('.month-stat .num');
+    if (nums.length >= 3) {
+      const t = parseInt(nums[0].textContent)||0;
+      const g = parseInt(nums[1].textContent)||0;
+      nums[2].textContent = t + g;
+    }
+  }
+}
+
+function openMonth(mi) {
+  currentMonth = mi;
+  currentView = 'weeks';
+  render();
+}
+
+// ── WEEKS VIEW ──
+function renderWeeks(vc) {
+  const weeks = getWeeksInMonth(currentMonth);
+  let html = '<div class="week-grid">';
+  html += '<div class="week-card" style="cursor:default;background:transparent;border:none;padding:4px 16px;">' +
+    '<div class="week-kw" style="font-size:9px;color:var(--muted);">KW</div>' +
+    '<div class="week-dates" style="color:var(--muted);">ZEITRAUM</div>' +
+    '<div class="week-val-lbl">TRAIN</div>' +
+    '<div class="week-val-lbl">SPIEL</div>' +
+    '<div></div>' +
+  '</div>';
+
+  weeks.forEach(w => {
+    const sessions = getWeekSessions(currentTeam, currentMonth, w.kw);
+    let wTrain = 0, wGame = 0;
+    w.days.forEach(d => {
+      const s = getSession(currentTeam, dateStr(d));
+      if (s.type === 'train') wTrain++;
+      else if (s.type === 'game') wGame++;
+    });
+    const range = fmtDate(w.days[0]) + ' \u2013 ' + fmtDate(w.days[6]);
+    html += '<div class="week-card" onclick="openWeek(' + currentMonth + ',' + w.kw + ')">' +
+      '<div class="week-kw">KW ' + w.kw + '</div>' +
+      '<div class="week-dates">' + range + '</div>' +
+      '<div class="week-val">' + wTrain + '</div>' +
+      '<div class="week-val">' + wGame + '</div>' +
+      '<div class="week-arrow">&rarr;</div>' +
+    '</div>';
+  });
+  html += '</div>';
+  vc.innerHTML = html;
+
+  // Store weeks for later reference
+  currentWeeksList = weeks;
+}
+
+let currentWeeksList = [];
+
+function openWeek(mi, kw) {
+  currentMonth = mi;
+  currentWeek = currentWeeksList.find(w => w.kw === kw);
+  currentView = 'days';
+  render();
+}
+
+// ── DAYS VIEW ──
+function renderDays(vc) {
+  if (!currentWeek) return;
+  let html = '<div class="day-grid">';
+  currentWeek.days.forEach((d, i) => {
+    const ds = dateStr(d);
+    const s = getSession(currentTeam, ds);
+    const today = isToday(d) ? ' today' : '';
+    const typeBadge = s.type === 'train' ? '<div class="day-badge train">TRAINING</div>' :
+                      s.type === 'game' ? '<div class="day-badge game">SPIEL</div>' :
+                      '<div class="day-badge free">FREI</div>';
+    const timeInfo = s.time ? '<div style="font-family:\'JetBrains Mono\',monospace;font-size:8px;color:var(--muted);margin-top:4px;">' + s.time + '</div>' : '';
+    html += '<div class="day-card' + today + '" onclick="openSession(' + i + ')">' +
+      '<div class="day-weekday">' + WEEKDAYS[i] + '</div>' +
+      '<div class="day-num">' + d.getDate() + '</div>' +
+      typeBadge + timeInfo +
+    '</div>';
+  });
+  html += '</div>';
+  vc.innerHTML = html;
+}
+
+function openSession(dayIndex) {
+  currentDay = { date: currentWeek.days[dayIndex], weekday: dayIndex };
+  currentView = 'session';
+  render();
+}
+
+// ── SESSION VIEW ──
+function renderSession(vc) {
+  if (!currentDay) return;
+  const ds = dateStr(currentDay.date);
+  const s = getSession(currentTeam, ds);
+  const dayLabel = WEEKDAYS[currentDay.weekday] + ', ' + currentDay.date.getDate() + '. ' + MONTH_FULL[currentMonth] + ' ' + getSaisonYear(currentMonth);
+
+  vc.innerHTML =
+    '<div style="font-family:\'League 200\',\'League Gothic\',sans-serif;font-size:20px;font-weight:800;color:var(--light);margin-bottom:16px;">' + dayLabel + '</div>' +
+    '<div class="session-panel">' +
+      '<div class="session-row">' +
+        '<span class="session-label">Typ</span>' +
+        '<select class="session-select" id="sType" onchange="saveSession()">' +
+          '<option value="free"' + (s.type==='free'?' selected':'') + '>Frei</option>' +
+          '<option value="train"' + (s.type==='train'?' selected':'') + '>Training</option>' +
+          '<option value="game"' + (s.type==='game'?' selected':'') + '>Spiel</option>' +
+          '<option value="event"' + (s.type==='event'?' selected':'') + '>Event</option>' +
+        '</select>' +
+      '</div>' +
+      '<div class="session-row">' +
+        '<span class="session-label">Uhrzeit</span>' +
+        '<input type="text" class="session-input" id="sTime" value="' + (s.time||'') + '" placeholder="z.B. 17:00 \u2013 19:00" onblur="saveSession()">' +
+      '</div>' +
+      '<div class="session-row">' +
+        '<span class="session-label">Ort</span>' +
+        '<input type="text" class="session-input" id="sOrt" value="' + (s.ort||'') + '" placeholder="z.B. ROFA Stadion" onblur="saveSession()">' +
+      '</div>' +
+      '<div class="session-row">' +
+        '<span class="session-label">Fokus</span>' +
+        '<input type="text" class="session-input" id="sFokus" value="' + (s.fokus||'') + '" placeholder="z.B. Powerplay, Skating, Taktik" onblur="saveSession()">' +
+      '</div>' +
+      '<div style="margin-top:4px;">' +
+        '<span class="session-label" style="display:block;margin-bottom:6px;">Notizen</span>' +
+        '<textarea class="session-textarea" id="sNotizen" placeholder="Notizen..." onblur="saveSession()">' + (s.notizen||'') + '</textarea>' +
+      '</div>' +
+    '</div>';
+}
+
+function saveSession() {
+  if (!currentDay) return;
+  const ds = dateStr(currentDay.date);
+  const data = {
+    type: document.getElementById('sType').value,
+    time: document.getElementById('sTime').value,
+    ort: document.getElementById('sOrt').value,
+    fokus: document.getElementById('sFokus').value,
+    notizen: document.getElementById('sNotizen').value
+  };
+  setSession(currentTeam, ds, data);
+}
+
+// ══════ EXPORT CSV ══════
+function exportCSV() {
+  const team = currentTeam;
+  const season = document.getElementById('seasonInput').value;
+  const sep = ';';
+  let csv = 'Saisonplanung ' + team + ' ' + season + '\n\n';
+  csv += 'Monat' + sep + 'Season' + sep + 'Trainingstage' + sep + 'Spieltage' + sep + 'Gesamt\n';
+  let tt = 0, tg = 0;
+  MONTH_FULL.forEach((name, i) => {
+    const d = getMonthData(team, i);
+    const t = parseInt(d.train)||0;
+    const g = parseInt(d.game)||0;
+    tt += t; tg += g;
+    const s = SEASON_MAP[i] === 'off' ? 'Off-Season' : SEASON_MAP[i] === 'pre' ? 'Pre-Season' : 'In-Season';
+    csv += name + sep + s + sep + t + sep + g + sep + (t+g) + '\n';
+  });
+  csv += '\nGesamt' + sep + sep + tt + sep + tg + sep + (tt+tg) + '\n';
+
+  // Sessions detail
+  csv += '\n\nSession-Details\n';
+  csv += 'Datum' + sep + 'Wochentag' + sep + 'Typ' + sep + 'Uhrzeit' + sep + 'Ort' + sep + 'Fokus' + sep + 'Notizen\n';
+  MONTH_NAMES.forEach((name, mi) => {
+    const weeks = getWeeksInMonth(mi);
+    weeks.forEach(w => {
+      w.days.forEach((d, di) => {
+        const ds = dateStr(d);
+        const s = getSession(team, ds);
+        if (s.type !== 'free') {
+          const typ = s.type === 'train' ? 'Training' : s.type === 'game' ? 'Spiel' : 'Event';
+          csv += fmtDate(d) + getSaisonYear(mi) + sep + WEEKDAYS[di] + sep + typ + sep + (s.time||'') + sep + (s.ort||'').replace(/;/g,',') + sep + (s.fokus||'').replace(/;/g,',') + sep + (s.notizen||'').replace(/[\n;]/g,' ') + '\n';
+        }
+      });
+    });
+  });
+
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Saisonplanung_' + team + '_' + season.replace('/','-') + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ══════ INIT ══════
+const savedTeam = localStorage.getItem('sbr-sp-lastTeam');
+if (savedTeam && TEAMS.includes(savedTeam)) {
+  currentTeam = savedTeam;
+  document.getElementById('teamSelect').value = currentTeam;
+}
+
+render();
+
+// Save last team on change
+document.getElementById('teamSelect').addEventListener('change', () => {
+  localStorage.setItem('sbr-sp-lastTeam', currentTeam);
+});
+</script>
+</body>
+</html>
