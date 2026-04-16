@@ -188,6 +188,40 @@
   .mail-btn:hover { background:rgba(255,255,255,0.2); }
   .mail-x { background:none; border:none; color:rgba(255,255,255,0.5); cursor:pointer; font-size:14px; }
 
+  /* ── Export Print View ── */
+  #exportView { display:none; }
+  @media print {
+    body { background:white !important; color:#111 !important; padding:0 !important; display:block !important; }
+    body::before { display:none !important; }
+    .c, .fix, .mail-bar { display:none !important; }
+    #exportView {
+      display:block !important; max-width:100%; padding:24px;
+      font-family:'Titillium Web',sans-serif; color:#111;
+    }
+    .exp-hdr { text-align:center; margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid #005243; }
+    .exp-hdr img { width:40px; margin-bottom:8px; }
+    .exp-hdr h2 { font-family:'League Gothic',sans-serif; font-size:22px; font-weight:800; text-transform:uppercase; letter-spacing:1px; }
+    .exp-hdr h2 .g { color:#005243; }
+    .exp-hdr .exp-sub { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; color:#888; margin-top:4px; }
+    .exp-table { width:100%; border-collapse:collapse; font-size:12px; margin-bottom:16px; }
+    .exp-table th {
+      font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px;
+      text-transform:uppercase; color:#005243; padding:8px 10px; text-align:left;
+      border-bottom:2px solid #005243; background:#f5f8f7;
+    }
+    .exp-table td { padding:8px 10px; border-bottom:1px solid #e8e8e8; vertical-align:top; }
+    .exp-table tr.train td:first-child { border-left:3px solid #005243; }
+    .exp-table tr.game td:first-child { border-left:3px solid #E4032E; }
+    .exp-table tr.event td:first-child { border-left:3px solid #ff9800; }
+    .exp-table .typ-train { color:#005243; font-weight:600; }
+    .exp-table .typ-game { color:#E4032E; font-weight:600; }
+    .exp-table .typ-event { color:#ff9800; font-weight:600; }
+    .exp-table .brk-tag { font-family:'JetBrains Mono',monospace; font-size:7px; letter-spacing:0.5px; padding:1px 4px; border-radius:2px; margin-left:6px; }
+    .exp-table .brk-ferien { color:#1976d2; background:#e3f2fd; }
+    .exp-table .brk-iihf { color:#e65100; background:#fff3e0; }
+    .exp-foot { font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1.5px; color:#999; text-align:center; margin-top:24px; }
+  }
+
   @media (max-width:600px) { .mg { grid-template-columns:repeat(2,1fr); } .cg { gap:2px; } }
 </style>
 </head>
@@ -220,12 +254,17 @@
   <div id="view"></div>
 </div>
 
-<!-- Mail Bar -->
+<!-- Export Bar -->
 <div class="mail-bar" id="mailBar">
   <span><b id="selCnt">0</b> Tage</span>
-  <button class="mail-btn" onclick="mailSelected()">&#x2709; MAIL SENDEN</button>
+  <button class="mail-btn" onclick="exportCSV()">&#x2913; CSV</button>
+  <button class="mail-btn" onclick="exportPDF()">&#x2399; PDF</button>
+  <button class="mail-btn" onclick="mailSelected()">&#x2709; MAIL</button>
   <button class="mail-x" onclick="clearSel()">&times;</button>
 </div>
+
+<!-- Hidden Print Export View -->
+<div id="exportView"></div>
 
 <script>
 const MN = ['Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez','Jan','Feb','M\u00e4r','Apr'];
@@ -387,21 +426,101 @@ function updateMailBar() {
 }
 function clearSel() { sel.clear(); updateMailBar(); document.querySelectorAll('.cd').forEach(el=>el.style.borderColor=''); }
 
-function mailSelected() {
+// ── Shared: build sorted export data ──
+function getExportRows() {
   const sorted=Array.from(sel).sort();
-  let body='Hallo,\n\nanbei die Tages\u00fcbersicht f\u00fcr '+team+':\n\n';
-  sorted.forEach(dstr=>{
+  return sorted.map(dstr=>{
     const d=new Date(dstr), di=(d.getDay()+6)%7;
     const day=getDay(team,dstr);
+    const brk=getBreak(dstr);
     const typ=day.type==='train'?'Training':day.type==='game'?'Spiel':day.type==='event'?'Event':'Frei';
-    let line=WD[di]+' '+fd(d)+d.getFullYear()+' \u2014 '+typ;
-    if(day.sessions) day.sessions.forEach((s,i)=>{
-      line+='\n   Session '+(i+1)+': '+(s.time||'?')+' | '+(s.ort||'?')+' | '+(s.fokus||'');
-    });
-    body+=line+'\n\n';
+    const sessions=(day.sessions||[]).map((s,i)=>({nr:i+1,time:s.time||'',ort:s.ort||'',fokus:s.fokus||'',notizen:s.notizen||''}));
+    return {dstr,date:d,di,day,typ,brk,sessions,weekday:WD[di],dateStr:fd(d)+d.getFullYear()};
   });
-  body+='Viele Gr\u00fc\u00dfe\nRen\u00e9';
-  window.location.href='mailto:?subject='+encodeURIComponent(team+' Saisonplanung \u2014 '+sorted.length+' Tage')+'&body='+encodeURIComponent(body);
+}
+
+// ── CSV EXPORT ──
+function exportCSV() {
+  const rows=getExportRows();
+  const saison=document.getElementById('saison').value;
+  const sep=';';
+  let csv='Starbulls Nachwuchs | Saisonplanung '+team+' '+saison+'\n\n';
+  csv+='Datum'+sep+'Wochentag'+sep+'Typ'+sep+'Ferien/Break'+sep+'Session'+sep+'Zeit'+sep+'Ort'+sep+'Fokus'+sep+'Notizen\n';
+  rows.forEach(r=>{
+    const brkLabel=r.brk?r.brk.label:'';
+    if(r.sessions.length) {
+      r.sessions.forEach(s=>{
+        csv+=r.dateStr+sep+r.weekday+sep+r.typ+sep+brkLabel+sep+s.nr+sep+s.time+sep+s.ort.replace(/;/g,',')+sep+s.fokus.replace(/;/g,',')+sep+s.notizen.replace(/[\n;]/g,' ')+'\n';
+      });
+    } else {
+      csv+=r.dateStr+sep+r.weekday+sep+r.typ+sep+brkLabel+sep+sep+sep+sep+sep+'\n';
+    }
+  });
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='SBR_Saisonplan_'+team+'_'+saison.replace('/','-')+'.csv';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+// ── PDF EXPORT ──
+function exportPDF() {
+  const rows=getExportRows();
+  const saison=document.getElementById('saison').value;
+  const now=new Date();
+  const ev=document.getElementById('exportView');
+
+  let html='<div class="exp-hdr">';
+  html+='<img src="/sbr-logo-bw.png" alt="SBR">';
+  html+='<h2>SAISON<span class="g">PLANUNG</span></h2>';
+  html+='<div class="exp-sub">'+team+' &mdash; SAISON '+saison+' &mdash; '+rows.length+' TAGE</div>';
+  html+='</div>';
+
+  html+='<table class="exp-table"><thead><tr>';
+  html+='<th>DATUM</th><th>TAG</th><th>TYP</th><th>ZEIT</th><th>ORT</th><th>FOKUS</th>';
+  html+='</tr></thead><tbody>';
+
+  rows.forEach(r=>{
+    const cls=r.day.type==='train'?'train':r.day.type==='game'?'game':r.day.type==='event'?'event':'';
+    const typCls=r.day.type==='train'?'typ-train':r.day.type==='game'?'typ-game':'typ-event';
+    const brkTag=r.brk?'<span class="brk-tag '+(r.brk.type==='iihf'?'brk-iihf':'brk-ferien')+'">'+r.brk.label+'</span>':'';
+    if(r.sessions.length) {
+      r.sessions.forEach((s,i)=>{
+        html+='<tr class="'+cls+'">';
+        if(i===0) html+='<td rowspan="'+r.sessions.length+'">'+r.dateStr+brkTag+'</td><td rowspan="'+r.sessions.length+'">'+r.weekday+'</td><td rowspan="'+r.sessions.length+'" class="'+typCls+'">'+r.typ+'</td>';
+        html+='<td>'+s.time+'</td><td>'+s.ort+'</td><td>'+s.fokus+'</td></tr>';
+      });
+    } else {
+      html+='<tr class="'+cls+'"><td>'+r.dateStr+brkTag+'</td><td>'+r.weekday+'</td><td class="'+typCls+'">'+r.typ+'</td><td></td><td></td><td></td></tr>';
+    }
+  });
+
+  html+='</tbody></table>';
+  html+='<div class="exp-foot">STARBULLS NACHWUCHS &mdash; ERSTELLT AM '+now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear()+'</div>';
+
+  ev.innerHTML=html;
+  setTimeout(()=>window.print(),100);
+}
+
+// ── MAIL EXPORT ──
+function mailSelected() {
+  const rows=getExportRows();
+  const saison=document.getElementById('saison').value;
+  let body='Starbulls Nachwuchs | Saisonplanung\n'+team+' \u2014 Saison '+saison+'\n';
+  body+='\u2500'.repeat(40)+'\n\n';
+  rows.forEach(r=>{
+    const brkInfo=r.brk?' ['+r.brk.label+']':'';
+    body+=r.weekday+' '+r.dateStr+' \u2014 '+r.typ+brkInfo+'\n';
+    r.sessions.forEach(s=>{
+      body+='   \u25B8 '+(s.time||'?')+' | '+(s.ort||'?');
+      if(s.fokus) body+=' | '+s.fokus;
+      body+='\n';
+    });
+    body+='\n';
+  });
+  body+='\u2500'.repeat(40)+'\nViele Gr\u00fc\u00dfe\nRen\u00e9 Wild\nStarbulls Rosenheim Nachwuchs';
+  const subject='Starbulls Nachwuchs | '+team+' Saisonplan '+saison+' \u2014 '+rows.length+' Tage';
+  window.location.href='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
 }
 
 // ── DAY DETAIL ──
