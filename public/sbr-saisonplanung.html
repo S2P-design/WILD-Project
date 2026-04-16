@@ -336,7 +336,6 @@ function nav(view,p1,p2,p3) {
   if(view==='months') { renderMonths(v); bc.innerHTML='<span class="cur">'+team+'</span>'; }
   else if(view==='cal') { renderCal(v); bc.innerHTML='<span onclick="nav(\'months\')">'+team+'</span><span class="sep">/</span><span class="cur">'+MF[mi]+'</span>'; }
   else if(view==='day') { renderDay(v); bc.innerHTML='<span onclick="nav(\'months\')">'+team+'</span><span class="sep">/</span><span onclick="nav(\'cal\','+mi+')">'+MF[mi]+'</span><span class="sep">/</span><span class="cur">'+dayStr.split('-')[2]+'. '+MF[mi]+'</span>'; }
-  else if(view==='session') { renderSession(v); const dd=new Date(dayStr); bc.innerHTML='<span onclick="nav(\'months\')">'+team+'</span><span class="sep">/</span><span onclick="nav(\'cal\','+mi+')">'+MF[mi]+'</span><span class="sep">/</span><span onclick="nav(\'day\','+mi+',\''+dayStr+'\')">'+dd.getDate()+'.'+MF[mi]+'</span><span class="sep">/</span><span class="cur">Session '+(sessionIdx+1)+'</span>'; }
 }
 
 function changeTeam() {
@@ -427,6 +426,8 @@ function updateMailBar() {
 function clearSel() { sel.clear(); updateMailBar(); document.querySelectorAll('.cd').forEach(el=>el.style.borderColor=''); }
 
 // ── Shared: build sorted export data ──
+function MONTH_IDX(d) { const m=d.getMonth(); return [null,null,null,null,null,0,1,2,3,4,5,6,7,8,9,10,11][m+5]||0; }
+
 function getExportRows() {
   const sorted=Array.from(sel).sort();
   return sorted.map(dstr=>{
@@ -445,15 +446,15 @@ function exportCSV() {
   const saison=document.getElementById('saison').value;
   const sep=';';
   let csv='Starbulls Nachwuchs | Saisonplanung '+team+' '+saison+'\n\n';
-  csv+='Datum'+sep+'Wochentag'+sep+'Typ'+sep+'Ferien/Break'+sep+'Session'+sep+'Zeit'+sep+'Ort'+sep+'Fokus'+sep+'Notizen\n';
+  csv+='Datum'+sep+'Wochentag'+sep+'Typ'+sep+'Ferien/Break'+sep+'Beschreibung\n';
   rows.forEach(r=>{
     const brkLabel=r.brk?r.brk.label:'';
     if(r.sessions.length) {
       r.sessions.forEach(s=>{
-        csv+=r.dateStr+sep+r.weekday+sep+r.typ+sep+brkLabel+sep+s.nr+sep+s.time+sep+s.ort.replace(/;/g,',')+sep+s.fokus.replace(/;/g,',')+sep+s.notizen.replace(/[\n;]/g,' ')+'\n';
+        csv+=r.dateStr+sep+r.weekday+sep+r.typ+sep+brkLabel+sep+(s.beschreibung||'').replace(/[;\n]/g,' ')+'\n';
       });
     } else {
-      csv+=r.dateStr+sep+r.weekday+sep+r.typ+sep+brkLabel+sep+sep+sep+sep+sep+'\n';
+      csv+=r.dateStr+sep+r.weekday+sep+r.typ+sep+brkLabel+sep+'\n';
     }
   });
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
@@ -470,32 +471,38 @@ function exportPDF() {
   const now=new Date();
   const ev=document.getElementById('exportView');
 
-  let html='<div class="exp-hdr">';
-  html+='<img src="/sbr-logo-bw.png" alt="SBR">';
-  html+='<h2>SAISON<span class="g">PLANUNG</span></h2>';
-  html+='<div class="exp-sub">'+team+' &mdash; SAISON '+saison+' &mdash; '+rows.length+' TAGE</div>';
-  html+='</div>';
-
-  html+='<table class="exp-table"><thead><tr>';
-  html+='<th>DATUM</th><th>TAG</th><th>TYP</th><th>ZEIT</th><th>ORT</th><th>FOKUS</th>';
-  html+='</tr></thead><tbody>';
-
+  // Group by month
+  const byMonth={};
   rows.forEach(r=>{
-    const cls=r.day.type==='train'?'train':r.day.type==='game'?'game':r.day.type==='event'?'event':'';
-    const typCls=r.day.type==='train'?'typ-train':r.day.type==='game'?'typ-game':'typ-event';
-    const brkTag=r.brk?'<span class="brk-tag '+(r.brk.type==='iihf'?'brk-iihf':'brk-ferien')+'">'+r.brk.label+'</span>':'';
-    if(r.sessions.length) {
-      r.sessions.forEach((s,i)=>{
-        html+='<tr class="'+cls+'">';
-        if(i===0) html+='<td rowspan="'+r.sessions.length+'">'+r.dateStr+brkTag+'</td><td rowspan="'+r.sessions.length+'">'+r.weekday+'</td><td rowspan="'+r.sessions.length+'" class="'+typCls+'">'+r.typ+'</td>';
-        html+='<td>'+s.time+'</td><td>'+s.ort+'</td><td>'+s.fokus+'</td></tr>';
-      });
-    } else {
-      html+='<tr class="'+cls+'"><td>'+r.dateStr+brkTag+'</td><td>'+r.weekday+'</td><td class="'+typCls+'">'+r.typ+'</td><td></td><td></td><td></td></tr>';
-    }
+    const mKey=r.date.getFullYear()+'-'+String(r.date.getMonth()+1).padStart(2,'0');
+    if(!byMonth[mKey]) byMonth[mKey]={label:MF[MONTH_IDX(r.date)]+' '+r.date.getFullYear(),rows:[]};
+    byMonth[mKey].rows.push(r);
   });
 
-  html+='</tbody></table>';
+  let html='';
+  Object.values(byMonth).forEach(grp=>{
+    html+='<div class="exp-hdr">';
+    html+='<img src="/sbr-logo-bw.png" alt="SBR">';
+    html+='<h2>MONATS<span class="g">PLAN</span></h2>';
+    html+='<div class="exp-sub">'+team+' &mdash; '+grp.label+' &mdash; SAISON '+saison+'</div>';
+    html+='</div>';
+
+    html+='<table class="exp-table"><thead><tr>';
+    html+='<th>DATUM</th><th>TAG</th><th>TYP</th><th>BESCHREIBUNG</th>';
+    html+='</tr></thead><tbody>';
+
+    grp.rows.forEach(r=>{
+      const cls=r.day.type;
+      const typCls='typ-'+cls;
+      const brkTag=r.brk?'<span class="brk-tag '+(r.brk.type==='iihf'?'brk-iihf':'brk-ferien')+'">'+r.brk.label+'</span>':'';
+      const sesDesc=r.sessions.filter(s=>s.beschreibung).map(s=>s.beschreibung).join('<br>');
+      html+='<tr class="'+cls+'"><td>'+r.dateStr+brkTag+'</td><td>'+r.weekday+'</td><td class="'+typCls+'">'+r.typ+'</td><td>'+sesDesc+'</td></tr>';
+    });
+
+    html+='</tbody></table>';
+    html+='<div style="height:24px;"></div>';
+  });
+
   html+='<div class="exp-foot">STARBULLS NACHWUCHS &mdash; ERSTELLT AM '+now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear()+'</div>';
 
   ev.innerHTML=html;
@@ -512,9 +519,7 @@ function mailSelected() {
     const brkInfo=r.brk?' ['+r.brk.label+']':'';
     body+=r.weekday+' '+r.dateStr+' \u2014 '+r.typ+brkInfo+'\n';
     r.sessions.forEach(s=>{
-      body+='   \u25B8 '+(s.time||'?')+' | '+(s.ort||'?');
-      if(s.fokus) body+=' | '+s.fokus;
-      body+='\n';
+      if(s.beschreibung) body+='   \u25B8 '+s.beschreibung+'\n';
     });
     body+='\n';
   });
@@ -546,14 +551,17 @@ function renderDay(v) {
   if(day.type!=='free') {
     html+='<div class="sl">';
     if(!day.sessions) day.sessions=[];
-    if(day.sessions.length===0) day.sessions.push({time:'',ort:'',fokus:'',notizen:''});
+    if(day.sessions.length===0) day.sessions.push({beschreibung:''});
     day.sessions.forEach((ses,i)=>{
-      html+='<div class="sl-item" onclick="nav(\'session\','+mi+',\''+dayStr+'\','+i+')">'+
-        '<div class="sl-time">'+(ses.time||'Uhrzeit?')+'</div>'+
-        '<div class="sl-info"><div class="sl-fokus">'+(ses.fokus||'Session '+(i+1))+'</div><div class="sl-ort">'+(ses.ort||'Ort?')+'</div></div>'+
+      html+='<div class="sl-item" style="cursor:default;flex-direction:column;gap:6px;">'+
+        '<div style="display:flex;gap:8px;align-items:center;width:100%;">'+
+          '<span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:var(--green-bright);font-weight:700;min-width:16px;">'+(i+1)+'</span>'+
+          '<input class="se-inp" value="'+(ses.beschreibung||'').replace(/"/g,'&quot;')+'" placeholder="z.B. 17:00 Eistraining ROFA Stadion \u2014 Powerplay" oninput="saveSesInline('+i+',this.value)" style="flex:1;">'+
+          '<button class="mail-x" onclick="delSesInline('+i+')" title="Entfernen" style="color:var(--red);font-size:16px;">&times;</button>'+
+        '</div>'+
       '</div>';
     });
-    html+='<div class="sl-add" onclick="addSession()">+ SESSION HINZUF\u00dcGEN</div>';
+    html+='<div class="sl-add" onclick="addSession()">+</div>';
     html+='</div>';
   }
   html+='</div>';
@@ -566,7 +574,7 @@ function renderDay(v) {
 function setDayType(type) {
   const day=getDay(team,dayStr);
   day.type=type;
-  if(type!=='free'&&(!day.sessions||!day.sessions.length)) day.sessions=[{time:'',ort:'',fokus:'',notizen:''}];
+  if(type!=='free'&&(!day.sessions||!day.sessions.length)) day.sessions=[{beschreibung:''}];
   setDay(team,dayStr,day);
   nav('day',mi,dayStr);
 }
@@ -574,8 +582,24 @@ function setDayType(type) {
 function addSession() {
   const day=getDay(team,dayStr);
   if(!day.sessions) day.sessions=[];
-  day.sessions.push({time:'',ort:'',fokus:'',notizen:''});
+  day.sessions.push({beschreibung:''});
   setDay(team,dayStr,day);
+  nav('day',mi,dayStr);
+}
+
+function saveSesInline(idx,val) {
+  const day=getDay(team,dayStr);
+  if(!day.sessions[idx]) return;
+  day.sessions[idx].beschreibung=val;
+  setDay(team,dayStr,day);
+}
+
+function delSesInline(idx) {
+  const day=getDay(team,dayStr);
+  day.sessions.splice(idx,1);
+  if(!day.sessions.length) day.type='free';
+  setDay(team,dayStr,day);
+  recount();
   nav('day',mi,dayStr);
 }
 
@@ -593,43 +617,6 @@ function recount() {
   setMD(team,mi,{train:t,game:gm});
 }
 
-// ── SESSION EDITOR ──
-function renderSession(v) {
-  const day=getDay(team,dayStr);
-  const ses=day.sessions[sessionIdx]||{time:'',ort:'',fokus:'',notizen:''};
-  const d=new Date(dayStr);
-  const label='Session '+(sessionIdx+1)+' \u2014 '+d.getDate()+'. '+MF[mi]+' '+yr(mi);
-
-  v.innerHTML='<div class="dd"><div class="dd-title">'+label+'</div>'+
-    '<div class="se">'+
-      '<div class="se-row"><span class="se-lbl">ZEIT</span><input class="se-inp" id="sTime" value="'+(ses.time||'')+'" placeholder="z.B. 17:00 \u2013 19:00" onblur="saveSes()"></div>'+
-      '<div class="se-row"><span class="se-lbl">ORT</span><input class="se-inp" id="sOrt" value="'+(ses.ort||'')+'" placeholder="z.B. ROFA Stadion" onblur="saveSes()"></div>'+
-      '<div class="se-row"><span class="se-lbl">FOKUS</span><input class="se-inp" id="sFokus" value="'+(ses.fokus||'')+'" placeholder="z.B. Powerplay, Skating, Taktik" onblur="saveSes()"></div>'+
-      '<div style="margin-top:4px;"><span class="se-lbl" style="display:block;margin-bottom:6px;">NOTIZEN</span><textarea class="se-inp se-ta" id="sNot" placeholder="Notizen..." onblur="saveSes()">'+(ses.notizen||'')+'</textarea></div>'+
-      '<div style="margin-top:12px;text-align:right;"><button class="dd-type-btn" style="color:var(--red);border-color:var(--red);" onclick="delSes()">SESSION L\u00d6SCHEN</button></div>'+
-    '</div></div>';
-}
-
-function saveSes() {
-  const day=getDay(team,dayStr);
-  if(!day.sessions[sessionIdx]) return;
-  day.sessions[sessionIdx]={
-    time:document.getElementById('sTime').value,
-    ort:document.getElementById('sOrt').value,
-    fokus:document.getElementById('sFokus').value,
-    notizen:document.getElementById('sNot').value
-  };
-  setDay(team,dayStr,day);
-}
-
-function delSes() {
-  const day=getDay(team,dayStr);
-  day.sessions.splice(sessionIdx,1);
-  if(!day.sessions.length) day.type='free';
-  setDay(team,dayStr,day);
-  recount();
-  nav('day',mi,dayStr);
-}
 
 // ── INIT ──
 team=localStorage.getItem(PFX+'lastTeam')||'U17';
