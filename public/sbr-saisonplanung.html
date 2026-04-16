@@ -219,6 +219,55 @@
   body.light .session-input, body.light .session-textarea { background:rgba(0,82,67,0.03); color:#1a1a2e; border-color:rgba(0,82,67,0.1); }
   body.light .session-select { background:rgba(0,82,67,0.04); color:var(--green); }
 
+  /* ── CALENDAR SELECT ── */
+  .cal-grid {
+    display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-bottom:16px;
+  }
+  .cal-header {
+    font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1px;
+    color:var(--muted); text-align:center; padding:6px 0;
+  }
+  .cal-day {
+    border:1px solid var(--border); border-radius:8px; padding:8px 4px;
+    text-align:center; cursor:pointer; transition:all 0.15s; min-height:60px;
+  }
+  .cal-day:hover { border-color:rgba(0,82,67,0.3); }
+  .cal-day.empty { border:none; cursor:default; }
+  .cal-day.selected { border-color:var(--green-bright); background:rgba(0,82,67,0.15); }
+  .cal-day.today { box-shadow:inset 0 0 0 1px var(--green-bright); }
+  .cal-day-num { font-family:'League 200','League Gothic',sans-serif; font-size:16px; font-weight:800; color:var(--light); }
+  .cal-day.selected .cal-day-num { color:var(--green-bright); }
+  .cal-day .day-badge { font-size:6px; margin-top:2px; }
+  body.light .cal-day { background:rgba(255,255,255,0.4); border-color:rgba(0,0,0,0.06); }
+  body.light .cal-day.selected { background:rgba(0,82,67,0.1); border-color:var(--green); }
+  body.light .cal-day-num { color:#1a1a2e; }
+  body.light .cal-day.selected .cal-day-num { color:var(--green); }
+
+  /* Floating action bar */
+  .select-bar {
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    display:flex; gap:10px; align-items:center;
+    padding:10px 20px; border-radius:12px; z-index:100;
+    background:var(--green); border:1px solid var(--green-bright);
+    box-shadow:0 8px 32px rgba(0,0,0,0.4);
+    font-family:'JetBrains Mono',monospace; font-size:10px; color:white;
+    transition:opacity 0.3s, transform 0.3s;
+  }
+  .select-bar.hidden { opacity:0; transform:translateX(-50%) translateY(20px); pointer-events:none; }
+  .select-bar-count { font-weight:700; font-size:14px; margin-right:4px; }
+  .select-bar-btn {
+    padding:6px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.3);
+    background:rgba(255,255,255,0.1); color:white; cursor:pointer;
+    font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:600;
+    letter-spacing:1px; transition:background 0.2s;
+  }
+  .select-bar-btn:hover { background:rgba(255,255,255,0.2); }
+  .select-bar-clear {
+    background:none; border:none; color:rgba(255,255,255,0.5); cursor:pointer;
+    font-size:14px; padding:0 4px; transition:color 0.2s;
+  }
+  .select-bar-clear:hover { color:white; }
+
   /* ── EXPORT BUTTONS ── */
   .export-bar { display:flex; gap:8px; justify-content:flex-end; margin-bottom:16px; }
   .export-btn {
@@ -230,19 +279,79 @@
   }
   .export-btn:hover { background:rgba(0,82,67,0.15); border-color:var(--green-bright); }
   body.light .export-btn { background:rgba(0,82,67,0.04); color:var(--green); border-color:rgba(0,82,67,0.12); }
+  /* ── PRINT BUTTON (in-view) ── */
+  .print-view-btn {
+    font-family:'JetBrains Mono',monospace; font-size:8px; font-weight:600;
+    letter-spacing:1.5px; text-transform:uppercase;
+    padding:6px 14px; border:1px solid rgba(0,82,67,0.2); border-radius:6px;
+    background:rgba(0,82,67,0.06); color:var(--green-bright);
+    cursor:pointer; transition:all 0.2s; float:right; margin-bottom:12px;
+  }
+  .print-view-btn:hover { background:rgba(0,82,67,0.15); border-color:var(--green-bright); }
+  body.light .print-view-btn { background:rgba(0,82,67,0.04); color:var(--green); }
+
+  /* ── PRINT HEADER (only visible in print) ── */
+  .print-header { display:none; }
+
   @media print {
-    .theme-toggle,.back-btn,.export-bar,.controls,.breadcrumb { display:none !important; }
+    .theme-toggle,.back-btn,.export-bar,.controls,.select-bar,.print-view-btn { display:none !important; }
     body { background:white !important; color:#111 !important; padding:20px !important; }
     body::before { display:none; }
+    .container { max-width:100%; }
+
+    .print-header {
+      display:block !important; text-align:center; margin-bottom:16px;
+      font-family:'League 200','League Gothic',sans-serif; font-size:18px;
+      font-weight:800; color:#111; text-transform:uppercase;
+    }
+    .print-header .green { color:var(--green); }
+    .print-header .sub {
+      font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:400;
+      letter-spacing:2px; color:#888; margin-top:4px;
+    }
+
+    .breadcrumb { color:#888 !important; margin-bottom:12px !important; }
+    .breadcrumb .current { color:#111 !important; }
+    .breadcrumb .sep { color:#ccc !important; }
+
+    /* Month grid */
     .month-card { border:1px solid #ddd !important; background:#f9f9f9 !important; break-inside:avoid; }
+    .month-card.off { background:#fff8f0 !important; }
+    .month-card.pre { background:#fff5f5 !important; }
+    .month-card.in { background:#f0faf5 !important; }
     .month-name { color:#111 !important; }
     .month-stat .num { color:#111 !important; }
+    .month-season { color:#888 !important; }
     .summary-item { border:1px solid #ddd !important; background:#f5f5f5 !important; }
     .summary-val { color:#111 !important; }
-    .header-title { color:#111 !important; }
-    .header-title .green { color:var(--green) !important; }
-    .container { max-width:100%; }
+    .summary-item.hl { background:#e8f5e9 !important; }
+    .summary-item.hl .summary-val { color:var(--green) !important; }
     .month-grid { grid-template-columns:repeat(4,1fr); gap:8px; }
+
+    /* Calendar grid */
+    .cal-day { border:1px solid #ddd !important; background:white !important; }
+    .cal-day.selected { background:#e8f5e9 !important; border-color:var(--green) !important; }
+    .cal-day-num { color:#111 !important; }
+    .cal-header { color:#888 !important; }
+
+    /* Week cards */
+    .week-card { border:1px solid #ddd !important; background:#f9f9f9 !important; break-inside:avoid; }
+    .week-kw { color:var(--green) !important; }
+    .week-val { color:#111 !important; }
+    .week-arrow { display:none !important; }
+
+    /* Day cards */
+    .day-card { border:1px solid #ddd !important; background:white !important; break-inside:avoid; }
+    .day-num { color:#111 !important; }
+
+    /* Session */
+    .session-panel { border:1px solid #ddd !important; background:white !important; }
+    .session-input,.session-textarea,.session-select { border:1px solid #ddd !important; background:#f9f9f9 !important; color:#111 !important; }
+
+    .header { margin-bottom:8px; }
+    .header-logo { width:32px; }
+    .header-title { color:#111 !important; font-size:16px !important; }
+    .header-title .green { color:var(--green) !important; }
   }
 
   /* ── RESPONSIVE ── */
@@ -295,9 +404,22 @@
     <span class="current" id="bcTeam">U17</span>
   </div>
 
+  <!-- PRINT HEADER -->
+  <div class="print-header">
+    STARBULLS <span class="green">NACHWUCHS</span> &mdash; SAISONPLANUNG
+    <div class="sub" id="printSub"></div>
+  </div>
+
   <!-- VIEW CONTAINER -->
   <div id="viewContainer"></div>
 
+</div>
+
+<!-- Floating Select Bar -->
+<div class="select-bar hidden" id="selectBar">
+  <span><span class="select-bar-count" id="selCount">0</span> Tage ausgew&auml;hlt</span>
+  <button class="select-bar-btn" onclick="mailSelected()">&#x2709; AN RICK SENDEN</button>
+  <button class="select-bar-clear" onclick="clearSelection()" title="Auswahl l&ouml;schen">&times;</button>
 </div>
 
 <script>
@@ -488,7 +610,9 @@ function renderMonths(vc) {
   });
 
   const total = totalTrain + totalGame;
+  document.getElementById('printSub').textContent = currentTeam + ' \u2014 Saison ' + document.getElementById('seasonInput').value + ' \u2014 Monats\u00fcbersicht';
   vc.innerHTML =
+    '<button class="print-view-btn" onclick="window.print()">&#x2399; DRUCKEN</button>' +
     '<div class="month-grid">' + cards + '</div>' +
     '<div class="summary-bar">' +
       '<div class="summary-item"><span class="summary-lbl">TRAININGSTAGE</span><span class="summary-val" id="sumTrain">' + totalTrain + '</span></div>' +
@@ -533,23 +657,49 @@ function openMonth(mi) {
   render();
 }
 
-// ── WEEKS VIEW ──
+// ── WEEKS VIEW (Calendar Grid) ──
+let selectedDates = new Set();
+
 function renderWeeks(vc) {
   const weeks = getWeeksInMonth(currentMonth);
-  let html = '<div class="week-grid">';
-  html += '<div class="week-card" style="cursor:default;background:transparent;border:none;padding:4px 16px;">' +
-    '<div class="week-kw" style="font-size:9px;color:var(--muted);">KW</div>' +
-    '<div class="week-dates" style="color:var(--muted);">ZEITRAUM</div>' +
-    '<div class="week-val-lbl">TRAIN</div>' +
-    '<div class="week-val-lbl">SPIEL</div>' +
-    '<div></div>' +
-  '</div>';
+  currentWeeksList = weeks;
+  const year = getSaisonYear(currentMonth);
+  const month = MONTH_NUMS[currentMonth] - 1;
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const startPad = (firstDay.getDay() + 6) % 7;
 
+  document.getElementById('printSub').textContent = currentTeam + ' \u2014 ' + MONTH_FULL[currentMonth] + ' ' + year;
+
+  let html = '<button class="print-view-btn" onclick="window.print()">&#x2399; DRUCKEN</button>';
+  html += '<div class="cal-grid">';
+  WEEKDAYS.forEach(w => { html += '<div class="cal-header">' + w + '</div>'; });
+
+  // Empty padding
+  for (let i = 0; i < startPad; i++) html += '<div class="cal-day empty"></div>';
+
+  // Days
+  for (let d = 1; d <= lastDay.getDate(); d++) {
+    const date = new Date(year, month, d);
+    const ds = dateStr(date);
+    const s = getSession(currentTeam, ds);
+    const sel = selectedDates.has(ds) ? ' selected' : '';
+    const today = isToday(date) ? ' today' : '';
+    const badge = s.type === 'train' ? '<div class="day-badge train">T</div>' :
+                  s.type === 'game' ? '<div class="day-badge game">S</div>' :
+                  s.type === 'event' ? '<div class="day-badge game">E</div>' : '';
+    html += '<div class="cal-day' + sel + today + '" data-ds="' + ds + '" onclick="toggleDay(this,\'' + ds + '\')" ondblclick="openDayDirect(\'' + ds + '\')">' +
+      '<div class="cal-day-num">' + d + '</div>' + badge +
+    '</div>';
+  }
+  html += '</div>';
+
+  // Week list below calendar
+  html += '<div class="week-grid" style="margin-top:12px;">';
   weeks.forEach(w => {
-    const sessions = getWeekSessions(currentTeam, currentMonth, w.kw);
     let wTrain = 0, wGame = 0;
-    w.days.forEach(d => {
-      const s = getSession(currentTeam, dateStr(d));
+    w.days.forEach(dd => {
+      const s = getSession(currentTeam, dateStr(dd));
       if (s.type === 'train') wTrain++;
       else if (s.type === 'game') wGame++;
     });
@@ -563,13 +713,83 @@ function renderWeeks(vc) {
     '</div>';
   });
   html += '</div>';
-  vc.innerHTML = html;
 
-  // Store weeks for later reference
-  currentWeeksList = weeks;
+  vc.innerHTML = html;
+  updateSelectBar();
 }
 
 let currentWeeksList = [];
+
+function toggleDay(el, ds) {
+  if (selectedDates.has(ds)) {
+    selectedDates.delete(ds);
+    el.classList.remove('selected');
+  } else {
+    selectedDates.add(ds);
+    el.classList.add('selected');
+  }
+  updateSelectBar();
+}
+
+function openDayDirect(ds) {
+  // Doppelklick öffnet Session-Detail
+  const date = new Date(ds);
+  const month = MONTH_NUMS[currentMonth] - 1;
+  const weeks = getWeeksInMonth(currentMonth);
+  for (const w of weeks) {
+    for (let i = 0; i < w.days.length; i++) {
+      if (dateStr(w.days[i]) === ds) {
+        currentWeek = w;
+        currentDay = { date: w.days[i], weekday: i };
+        currentView = 'session';
+        render();
+        return;
+      }
+    }
+  }
+}
+
+function updateSelectBar() {
+  const bar = document.getElementById('selectBar');
+  const count = document.getElementById('selCount');
+  if (selectedDates.size > 0) {
+    bar.classList.remove('hidden');
+    count.textContent = selectedDates.size;
+  } else {
+    bar.classList.add('hidden');
+  }
+}
+
+function clearSelection() {
+  selectedDates.clear();
+  document.querySelectorAll('.cal-day.selected').forEach(el => el.classList.remove('selected'));
+  updateSelectBar();
+}
+
+function mailSelected() {
+  const team = currentTeam;
+  const season = document.getElementById('seasonInput').value;
+  const sorted = Array.from(selectedDates).sort();
+  let body = 'Hallo Rick,\n\nanbei die ausgewählten Tage für ' + team + ' (Saison ' + season + '):\n\n';
+
+  sorted.forEach(ds => {
+    const d = new Date(ds);
+    const dayIdx = (d.getDay() + 6) % 7;
+    const s = getSession(team, ds);
+    const typ = s.type === 'train' ? 'Training' : s.type === 'game' ? 'Spiel' : s.type === 'event' ? 'Event' : 'Frei';
+    let line = WEEKDAYS[dayIdx] + ' ' + d.getDate() + '.' + (d.getMonth()+1) + '.' + d.getFullYear() + ' — ' + typ;
+    if (s.time) line += ' | ' + s.time;
+    if (s.ort) line += ' | ' + s.ort;
+    if (s.fokus) line += ' | ' + s.fokus;
+    body += line + '\n';
+  });
+
+  body += '\nViele Grüße\nRené';
+
+  const subject = encodeURIComponent(team + ' Saisonplanung ' + season + ' — ' + sorted.length + ' Tage');
+  const mailBody = encodeURIComponent(body);
+  window.location.href = 'mailto:?subject=' + subject + '&body=' + mailBody;
+}
 
 function openWeek(mi, kw) {
   currentMonth = mi;
@@ -581,7 +801,8 @@ function openWeek(mi, kw) {
 // ── DAYS VIEW ──
 function renderDays(vc) {
   if (!currentWeek) return;
-  let html = '<div class="day-grid">';
+  document.getElementById('printSub').textContent = currentTeam + ' \u2014 KW ' + currentWeek.kw + ' \u2014 ' + fmtDate(currentWeek.days[0]) + ' \u2013 ' + fmtDate(currentWeek.days[6]) + getSaisonYear(currentMonth);
+  let html = '<button class="print-view-btn" onclick="window.print()">&#x2399; DRUCKEN</button><div class="day-grid">';
   currentWeek.days.forEach((d, i) => {
     const ds = dateStr(d);
     const s = getSession(currentTeam, ds);
@@ -612,8 +833,10 @@ function renderSession(vc) {
   const ds = dateStr(currentDay.date);
   const s = getSession(currentTeam, ds);
   const dayLabel = WEEKDAYS[currentDay.weekday] + ', ' + currentDay.date.getDate() + '. ' + MONTH_FULL[currentMonth] + ' ' + getSaisonYear(currentMonth);
+  document.getElementById('printSub').textContent = currentTeam + ' \u2014 ' + dayLabel;
 
   vc.innerHTML =
+    '<button class="print-view-btn" onclick="window.print()">&#x2399; DRUCKEN</button>' +
     '<div style="font-family:\'League 200\',\'League Gothic\',sans-serif;font-size:20px;font-weight:800;color:var(--light);margin-bottom:16px;">' + dayLabel + '</div>' +
     '<div class="session-panel">' +
       '<div class="session-row">' +
