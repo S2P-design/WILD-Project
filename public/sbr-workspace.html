@@ -78,7 +78,7 @@
     align-items: start;
   }
   .workspace-col { display: flex; flex-direction: column; min-width: 0; }
-  .full-width { max-width: 520px; margin: 0 auto; }
+  .full-width { max-width: 720px; margin: 0 auto; }
 
   /* ── LOGIN GATE ── */
   .login-gate {
@@ -164,11 +164,12 @@
   }
   .header-headline {
     font-family: 'League 200', 'League Gothic', sans-serif;
-    font-size: clamp(36px, 8vw, 56px);
+    font-size: clamp(22px, 4vw, 32px);
     font-weight: 400; line-height: 1.05;
     letter-spacing: 1px; color: var(--white);
     text-transform: uppercase;
     margin: 12px 0 0;
+    white-space: nowrap;
     opacity: 0; animation: fadeUp 0.7s ease 0.35s forwards;
   }
   .header-headline .green { color: var(--green-bright); }
@@ -208,14 +209,12 @@
   /* ── STATUS BAR ── */
   .status-bar {
     display: flex; justify-content: center;
-    gap: 8px; flex-wrap: wrap;
-    margin-bottom: 40px;
-    opacity: 0; animation: fadeUp 0.7s ease 0.8s forwards;
-    padding: 8px 20px;
+    gap: 6px; flex-wrap: wrap;
+    padding: 10px 20px;
     border-top: 1px solid rgba(255,255,255,0.06);
     border-bottom: 1px solid rgba(255,255,255,0.06);
-    background: transparent;
-    max-width: 600px; margin-left: auto; margin-right: auto;
+    max-width: 700px; margin: 0 auto 16px;
+    opacity: 0; animation: fadeUp 0.7s ease 0.8s forwards;
   }
   .status-item {
     font-family: 'JetBrains Mono', monospace;
@@ -229,6 +228,167 @@
     background: rgba(255,255,255,0.08);
     align-self: center;
   }
+
+  /* ── TRAININGSPLANUNG TABS ── */
+  .tp-tabs {
+    display: flex; gap: 6px; margin-bottom: 16px;
+  }
+  .tp-tab {
+    flex: 1; border: 1px solid var(--border); background: rgba(255,255,255,0.015);
+    border-radius: 8px; padding: 10px 8px; cursor: pointer;
+    text-align: center; transition: all 0.2s;
+  }
+  .tp-tab:hover { border-color: rgba(0,82,67,0.3); }
+  .tp-tab.active { background: rgba(0,82,67,0.1); border-color: var(--green-bright); }
+  .tp-tab-label {
+    display: block; font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 2px; color: var(--muted);
+  }
+  .tp-tab.active .tp-tab-label { color: var(--green-bright); }
+  .tp-tab-sub {
+    display: block; font-family: 'League', 'Titillium Web', sans-serif;
+    font-size: 16px; font-weight: 800; color: var(--light); margin-top: 2px;
+  }
+  body.light .tp-tab { background: rgba(255,255,255,0.5); border-color: rgba(0,0,0,0.06); }
+  body.light .tp-tab.active { background: rgba(0,82,67,0.06); border-color: var(--green); }
+  body.light .tp-tab.active .tp-tab-label { color: var(--green); }
+  body.light .tp-tab-sub { color: #1a1a2e; }
+
+  /* Matrix table */
+  .tp-matrix { font-size: 11px; }
+  .tp-matrix th { font-size: 7px; padding: 6px 2px; text-align: center; min-width: 28px; }
+  .tp-matrix td { text-align: center; padding: 6px 2px; min-width: 28px; }
+  .tp-matrix td:first-child { text-align: left; font-weight: 600; min-width: 70px; padding-left: 10px; }
+  .tp-matrix th:first-child { text-align: left; padding-left: 10px; }
+  .tp-matrix .tm { color: var(--light); cursor: text; }
+  .tp-matrix .tm:focus { background: rgba(0,82,67,0.15); outline: none; }
+  .tp-matrix .tm-sum { color: var(--green-bright); font-weight: 700; }
+  .tp-matrix .tm-col { color: var(--muted); font-weight: 600; }
+  .tp-matrix .tm-total { color: var(--green-bright); font-weight: 800; font-size: 13px; }
+  .tp-matrix thead .tp-off { color: rgba(255,180,60,0.8); }
+  .tp-matrix thead .tp-pre { color: rgba(228,3,46,0.8); }
+  .tp-matrix thead .tp-in { color: rgba(0,180,120,0.8); }
+  .tp-matrix thead .tp-ges { color: var(--green-bright); font-weight: 700; }
+  .tp-matrix tfoot td { border-top: 1px solid rgba(0,82,67,0.15); }
+
+  /* Season background colors on data cells */
+  .tp-matrix tbody td:nth-child(2),
+  .tp-matrix tbody td:nth-child(3),
+  .tp-matrix tbody td:nth-child(4) { background: rgba(255,180,60,0.04); }
+  .tp-matrix tbody td:nth-child(5) { background: rgba(228,3,46,0.04); }
+  .tp-matrix tbody td:nth-child(6),
+  .tp-matrix tbody td:nth-child(7),
+  .tp-matrix tbody td:nth-child(8),
+  .tp-matrix tbody td:nth-child(9),
+  .tp-matrix tbody td:nth-child(10),
+  .tp-matrix tbody td:nth-child(11),
+  .tp-matrix tbody td:nth-child(12),
+  .tp-matrix tbody td:nth-child(13) { background: rgba(0,180,120,0.04); }
+
+  .tp-matrix tfoot td:nth-child(2),
+  .tp-matrix tfoot td:nth-child(3),
+  .tp-matrix tfoot td:nth-child(4) { background: rgba(255,180,60,0.06); }
+  .tp-matrix tfoot td:nth-child(5) { background: rgba(228,3,46,0.06); }
+  .tp-matrix tfoot td:nth-child(6),
+  .tp-matrix tfoot td:nth-child(7),
+  .tp-matrix tfoot td:nth-child(8),
+  .tp-matrix tfoot td:nth-child(9),
+  .tp-matrix tfoot td:nth-child(10),
+  .tp-matrix tfoot td:nth-child(11),
+  .tp-matrix tfoot td:nth-child(12),
+  .tp-matrix tfoot td:nth-child(13) { background: rgba(0,180,120,0.06); }
+
+  body.light .tp-matrix .tm { color: #1a1a2e; }
+  body.light .tp-matrix .tm:focus { background: rgba(0,82,67,0.08) !important; }
+  body.light .tp-matrix .tm-sum { color: var(--green); }
+  body.light .tp-matrix .tm-col { color: rgba(0,0,0,0.4); }
+  body.light .tp-matrix .tm-total { color: var(--green); }
+  body.light .tp-matrix tbody td:nth-child(2),
+  body.light .tp-matrix tbody td:nth-child(3),
+  body.light .tp-matrix tbody td:nth-child(4) { background: rgba(255,180,60,0.06); }
+  body.light .tp-matrix tbody td:nth-child(5) { background: rgba(228,3,46,0.05); }
+  body.light .tp-matrix tbody td:nth-child(6),
+  body.light .tp-matrix tbody td:nth-child(7),
+  body.light .tp-matrix tbody td:nth-child(8),
+  body.light .tp-matrix tbody td:nth-child(9),
+  body.light .tp-matrix tbody td:nth-child(10),
+  body.light .tp-matrix tbody td:nth-child(11),
+  body.light .tp-matrix tbody td:nth-child(12),
+  body.light .tp-matrix tbody td:nth-child(13) { background: rgba(0,82,67,0.04); }
+
+  .tp-panel table tfoot td {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    padding: 10px 12px; border-top: 1px solid rgba(0,82,67,0.15);
+  }
+  .te-sum { color: var(--green-bright); font-weight: 700; }
+
+  .tp-total {
+    display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;
+  }
+  .tp-total-item {
+    flex: 1; min-width: 80px; text-align: center;
+    padding: 10px 8px; border: 1px solid var(--border);
+    border-radius: 8px; background: rgba(255,255,255,0.015);
+  }
+  .tp-total-item.highlight {
+    background: rgba(0,82,67,0.1); border-color: var(--green-bright);
+  }
+  .tp-total-label {
+    display: block; font-family: 'JetBrains Mono', monospace;
+    font-size: 7px; letter-spacing: 1.5px; color: var(--muted);
+  }
+  .tp-total-val {
+    display: block; font-family: 'League', 'Titillium Web', sans-serif;
+    font-size: 20px; font-weight: 800; color: var(--light); margin-top: 2px;
+  }
+  .tp-total-item.highlight .tp-total-val { color: var(--green-bright); }
+  body.light .tp-total-item { background: rgba(255,255,255,0.5); border-color: rgba(0,0,0,0.06); }
+  body.light .tp-total-item.highlight { background: rgba(0,82,67,0.06); border-color: var(--green); }
+  body.light .tp-total-val { color: #1a1a2e; }
+  body.light .tp-total-item.highlight .tp-total-val { color: var(--green); }
+
+  /* Countdown strip */
+  .countdown-strip {
+    display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+    margin-bottom: 40px; padding: 0 20px;
+    max-width: 700px; margin-left: auto; margin-right: auto;
+    opacity: 0; animation: fadeUp 0.7s ease 1s forwards;
+  }
+  .cd-card {
+    flex: 1; min-width: 140px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.015);
+    text-align: center;
+  }
+  .cd-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 6px;
+  }
+  .cd-value {
+    font-family: 'League', 'Titillium Web', sans-serif;
+    font-size: 22px; font-weight: 800; color: var(--light);
+    line-height: 1;
+  }
+  .cd-value .cd-unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 400; letter-spacing: 1px;
+    color: var(--muted); margin-left: 3px;
+  }
+  .cd-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; color: var(--muted); margin-top: 4px; letter-spacing: 0.5px;
+  }
+  .cd-card.active .cd-value { color: var(--green-bright); }
+  body.light .cd-card { background: rgba(255,255,255,0.5); border-color: rgba(0,0,0,0.04); }
+  body.light .cd-label { color: rgba(0,0,0,0.35); }
+  body.light .cd-value { color: #1a1a2e; }
+  body.light .cd-value .cd-unit { color: rgba(0,0,0,0.3); }
+  body.light .cd-date { color: rgba(0,0,0,0.3); }
+  body.light .cd-card.active .cd-value { color: var(--green); }
 
   /* ── SECTIONS ── */
   .section {
@@ -754,9 +914,11 @@
     <div class="header-meta">
       <a href="#sec-guideline" class="meta-pill">GUIDELINE</a>
       <a href="#sec-kader" class="meta-pill">KADER</a>
-      <a href="#sec-training" class="meta-pill">TRAINING</a>
-      <a href="#sec-camp" class="meta-pill">CAMP</a>
+      <a href="#sec-camp" class="meta-pill">EVENTS</a>
+      <a href="#sec-training" class="meta-pill">TRAININGSTAGE</a>
+      <a href="#sec-staff" class="meta-pill">STAFF</a>
       <a href="#sec-marketing" class="meta-pill">MARKETING</a>
+      <a href="#sec-wohnen" class="meta-pill">WOHNEN</a>
     </div>
   </div>
 
@@ -769,11 +931,28 @@
     <div class="status-divider"></div>
     <div class="status-item">SAISON <span class="val">2026/27</span></div>
     <div class="status-divider"></div>
-    <div class="status-item">KADER <span class="val">205 + 18</span></div>
+    <div class="status-item">KADER <span class="val" id="statusKader">&mdash;</span></div>
     <div class="status-divider"></div>
     <div class="status-item" id="dateDisplay"></div>
     <div class="status-divider"></div>
     <div class="status-item"><span class="val" id="statusTime">&middot;&middot;&middot;</span></div>
+  </div>
+  <div class="countdown-strip">
+    <div class="cd-card" id="cdSommer">
+      <div class="cd-label">Sommertraining</div>
+      <div class="cd-value"><span id="cdSommerVal">&mdash;</span><span class="cd-unit">TAGE</span></div>
+      <div class="cd-date">04. Mai 2026</div>
+    </div>
+    <div class="cd-card" id="cdCamp">
+      <div class="cd-label">Sommer Camp</div>
+      <div class="cd-value"><span id="cdCampVal">&mdash;</span><span class="cd-unit">TAGE</span></div>
+      <div class="cd-date">31. Juli 2026</div>
+    </div>
+    <div class="cd-card" id="cdEis">
+      <div class="cd-label">Eistraining</div>
+      <div class="cd-value"><span id="cdEisVal">&mdash;</span><span class="cd-unit">TAGE</span></div>
+      <div class="cd-date">03. August 2026</div>
+    </div>
   </div>
   </div>
 
@@ -885,54 +1064,145 @@
 
       </div></div>
 
-      <!-- ══════ SOMMER CAMP ══════ -->
+      <!-- ══════ EVENTS ══════ -->
       <div class="section" id="sec-camp">
-        <div class="section-label" onclick="toggleSection(this)">Sommer Camp 2026 <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-label" onclick="toggleSection(this)">Events <span class="section-toggle">&blacktriangledown;</span></div>
         <div class="section-body">
 
-        <div class="stat-grid" style="margin-bottom:12px;">
-          <div class="stat-card">
-            <div class="stat-label">DATUM</div>
-            <div class="stat-value" style="font-size:1.4rem;" contenteditable="true" data-field="camp-datum">31.07&ndash;02.08</div>
-            <div class="stat-desc" contenteditable="true" data-field="camp-ort">ROFA-Stadion Rosenheim</div>
+        <a href="/sbr-sommer-camp.html#internal" class="link-card" target="_blank" style="border-color:var(--green-20);">
+          <div class="link-icon" style="color:var(--red);">SC</div>
+          <div class="link-text">
+            <div class="link-title">Sommer Camp 2026 <span class="badge badge-wip">31.07&ndash;02.08</span></div>
+            <div class="link-desc">ROFA-Stadion &middot; U9&ndash;U15 &middot; 3 Tage</div>
           </div>
-          <div class="stat-card">
-            <div class="stat-label">STATUS</div>
-            <div class="stat-value" style="font-size:1.4rem; color:var(--red);" contenteditable="true" data-field="camp-status">PLANUNG</div>
-            <div class="stat-desc" contenteditable="true" data-field="camp-anmeldung">Online-Anmeldung: Ende April</div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="#" class="link-card">
+          <div class="link-icon" style="color:#4fc3f7;">KD</div>
+          <div class="link-text">
+            <div class="link-title">Kidsday <span class="badge badge-pending">PLANUNG</span></div>
+            <div class="link-desc">Schnuppertag f&uuml;r Eishockey-Neulinge</div>
           </div>
-        </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="#" class="link-card">
+          <div class="link-icon" style="color:#f48fb1;">GD</div>
+          <div class="link-text">
+            <div class="link-title">Girlsday <span class="badge badge-pending">PLANUNG</span></div>
+            <div class="link-desc">M&auml;dchen aufs Eis &middot; Schnupperevent</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="#" class="link-card">
+          <div class="link-icon" style="color:#a5d6a7;">ST</div>
+          <div class="link-text">
+            <div class="link-title">Sporttag <span class="badge badge-pending">PLANUNG</span></div>
+            <div class="link-desc">Schul- &amp; Vereinskooperation</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="#" class="link-card">
+          <div class="link-icon" style="color:var(--red);">GE</div>
+          <div class="link-text">
+            <div class="link-title">U20 Game Events <span class="badge badge-pending">PLANUNG</span></div>
+            <div class="link-desc">Heimspiel-Events &middot; Fan-Aktionen &middot; Rahmenprogramm</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <a href="#" class="link-card">
+          <div class="link-icon" style="color:#ffcc80;">CH</div>
+          <div class="link-text">
+            <div class="link-title">Charity <span class="badge badge-pending">PLANUNG</span></div>
+            <div class="link-desc">Benefiz-Aktionen &amp; soziales Engagement</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
 
       </div></div>
 
       <!-- ══════ PRE-SEASON ══════ -->
       <div class="section">
-        <div class="section-label" onclick="toggleSection(this)">Pre-Season <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-label" onclick="toggleSection(this)">Pre-Season Planung <span class="section-toggle">&blacktriangledown;</span></div>
         <div class="section-body">
 
+        <!-- U20 -->
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px; color:var(--green-bright); padding:8px 6px 6px;">U20</div>
+        <a href="#" class="link-card">
+          <div class="link-icon" style="color:var(--red);">TL</div>
+          <div class="link-text">
+            <div class="link-title">Trainingslager U20 <span class="badge badge-pending">PLANUNG</span></div>
+            <div class="link-desc">Ort &amp; Termin offen</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <!-- U17 -->
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px; color:var(--green-bright); padding:16px 6px 6px;">U17</div>
         <a href="/sbr-trainingslager-ferlach.html#internal" class="link-card" target="_blank" style="border-color:var(--green-20);">
           <div class="link-icon" style="color:var(--red);">TL</div>
           <div class="link-text">
             <div class="link-title">Trainingslager Ferlach <span class="badge badge-wip">AUG 2026</span></div>
-            <div class="link-desc">U17 &mdash; 10.&ndash;16. August &middot; K&auml;rnten &middot; Wochenplan</div>
+            <div class="link-desc">10.&ndash;16. August &middot; K&auml;rnten &middot; Wochenplan &amp; Kalkulation</div>
           </div>
           <div class="link-arrow">&rarr;</div>
         </a>
 
+        <!-- U15 -->
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px; color:var(--green-bright); padding:16px 6px 6px;">U15</div>
         <a href="#" class="link-card">
-          <div class="link-icon">U17</div>
+          <div class="link-icon" style="color:#ce93d8;">PT</div>
           <div class="link-text">
-            <div class="link-title">Pre-Season U17</div>
-            <div class="link-desc">Kooperation Bad Aibling</div>
+            <div class="link-title">Powertage U15 <span class="badge badge-pending">PLANUNG</span></div>
+            <div class="link-desc">Termin &amp; Programm offen</div>
           </div>
           <div class="link-arrow">&rarr;</div>
         </a>
 
+        <!-- U13 -->
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px; color:var(--green-bright); padding:16px 6px 6px;">U13</div>
         <a href="#" class="link-card">
-          <div class="link-icon">U20</div>
+          <div class="link-icon" style="color:#ce93d8;">PT</div>
           <div class="link-text">
-            <div class="link-title">Pre-Season U20</div>
-            <div class="link-desc">Prospect Miesbach &mdash; Schweden 2024, 2025</div>
+            <div class="link-title">Powertage U13 <span class="badge badge-pending">PLANUNG</span></div>
+            <div class="link-desc">Termin &amp; Programm offen</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <!-- U11 -->
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px; color:var(--green-bright); padding:16px 6px 6px;">U11</div>
+        <a href="#" class="link-card">
+          <div class="link-icon" style="color:#ce93d8;">PT</div>
+          <div class="link-text">
+            <div class="link-title">Powertage U11 <span class="badge badge-pending">PLANUNG</span></div>
+            <div class="link-desc">Termin &amp; Programm offen</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <!-- U9 -->
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px; color:var(--green-bright); padding:16px 6px 6px;">U9</div>
+        <a href="#" class="link-card">
+          <div class="link-icon" style="color:#ce93d8;">PT</div>
+          <div class="link-text">
+            <div class="link-title">Powertage U9 <span class="badge badge-pending">PLANUNG</span></div>
+            <div class="link-desc">Termin &amp; Programm offen</div>
+          </div>
+          <div class="link-arrow">&rarr;</div>
+        </a>
+
+        <!-- Laufschule -->
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:2px; color:var(--green-bright); padding:16px 6px 6px;">LAUFSCHULE</div>
+        <a href="#" class="link-card">
+          <div class="link-icon">LS</div>
+          <div class="link-text">
+            <div class="link-title">Pre-Season Laufschule <span class="badge badge-pending">PLANUNG</span></div>
+            <div class="link-desc">Termin &amp; Programm offen</div>
           </div>
           <div class="link-arrow">&rarr;</div>
         </a>
@@ -1046,28 +1316,32 @@
         <div class="stat-grid" style="margin-bottom:16px;">
           <div class="stat-card">
             <div class="stat-label">FELDSPIELER</div>
-            <div class="stat-value" contenteditable="true" data-field="kader-feld">205<span class="unit">/226</span></div>
-            <div class="stat-desc">Aktuelle / maximale Kapazit&auml;t</div>
+            <div class="stat-value" id="kaderFeldSum">0</div>
           </div>
           <div class="stat-card">
             <div class="stat-label">TORH&Uuml;TER</div>
-            <div class="stat-value" contenteditable="true" data-field="kader-tw">18<span class="unit">/21</span></div>
-            <div class="stat-desc">Aktuelle / maximale Kapazit&auml;t</div>
+            <div class="stat-value" id="kaderTwSum">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">GESAMT</div>
+            <div class="stat-value" id="kaderGesamtSum">0</div>
           </div>
         </div>
 
         <table class="staff-table" id="kaderTable">
           <thead>
-            <tr><th>TEAM</th><th>KADER</th><th>KOOPERATION</th></tr>
+            <tr><th>TEAM</th><th>FELDSPIELER</th><th>TORH&Uuml;TER</th><th>GESAMT</th><th>KOOPERATION</th></tr>
           </thead>
           <tbody>
-            <tr><td contenteditable="true">U20</td><td contenteditable="true">&mdash;</td><td contenteditable="true">Bayernliga + Prospect (Miesbach)</td></tr>
-            <tr><td contenteditable="true">U17</td><td contenteditable="true">&mdash;</td><td contenteditable="true">Kooperation Bad Aibling</td></tr>
-            <tr><td contenteditable="true">U15</td><td contenteditable="true">&mdash;</td><td contenteditable="true">SPG Trostberg (F&ouml;rderlizenz)</td></tr>
-            <tr><td contenteditable="true">U13</td><td contenteditable="true">&mdash;</td><td contenteditable="true">2 Mannschaften</td></tr>
-            <tr><td contenteditable="true">U11</td><td contenteditable="true">&mdash;</td><td contenteditable="true">1. + 2. Mannschaft</td></tr>
-            <tr><td contenteditable="true">U9</td><td contenteditable="true">&mdash;</td><td contenteditable="true">1. + 2. Mannschaft</td></tr>
-            <tr><td contenteditable="true">U7</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td></tr>
+            <tr><td contenteditable="true">U20</td><td contenteditable="true" class="kf">0</td><td contenteditable="true" class="kt">0</td><td class="kg">0</td><td contenteditable="true">Bayernliga + Prospect (Miesbach)</td></tr>
+            <tr><td contenteditable="true">U17</td><td contenteditable="true" class="kf">0</td><td contenteditable="true" class="kt">0</td><td class="kg">0</td><td contenteditable="true">Kooperation Bad Aibling</td></tr>
+            <tr><td contenteditable="true">U15</td><td contenteditable="true" class="kf">0</td><td contenteditable="true" class="kt">0</td><td class="kg">0</td><td contenteditable="true">SPG Trostberg (F&ouml;rderlizenz)</td></tr>
+            <tr><td contenteditable="true">U13</td><td contenteditable="true" class="kf">0</td><td contenteditable="true" class="kt">0</td><td class="kg">0</td><td contenteditable="true">2 Mannschaften</td></tr>
+            <tr><td contenteditable="true">U11</td><td contenteditable="true" class="kf">0</td><td contenteditable="true" class="kt">0</td><td class="kg">0</td><td contenteditable="true">1. + 2. Mannschaft</td></tr>
+            <tr><td contenteditable="true">U9</td><td contenteditable="true" class="kf">0</td><td contenteditable="true" class="kt">0</td><td class="kg">0</td><td contenteditable="true">1. + 2. Mannschaft</td></tr>
+            <tr><td contenteditable="true">U7</td><td contenteditable="true" class="kf">0</td><td contenteditable="true" class="kt">0</td><td class="kg">0</td><td contenteditable="true">&mdash;</td></tr>
+            <tr><td contenteditable="true">Laufschule</td><td contenteditable="true" class="kf">0</td><td contenteditable="true" class="kt">0</td><td class="kg">0</td><td contenteditable="true">&mdash;</td></tr>
+            <tr><td contenteditable="true">Breitensport</td><td contenteditable="true" class="kf">0</td><td contenteditable="true" class="kt">0</td><td class="kg">0</td><td contenteditable="true">&mdash;</td></tr>
           </tbody>
         </table>
 
@@ -1101,9 +1375,11 @@
             <tr><td contenteditable="true">U17</td><td contenteditable="true">Wild</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td></tr>
             <tr><td contenteditable="true">U15</td><td contenteditable="true">Bergmann</td><td contenteditable="true">Kornberger</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td></tr>
             <tr><td contenteditable="true">U13</td><td contenteditable="true">B&ouml;hm</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td></tr>
-            <tr><td contenteditable="true">U11/U9</td><td contenteditable="true">Sch&auml;dler</td><td contenteditable="true">Kolb</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td></tr>
+            <tr><td contenteditable="true">U11</td><td contenteditable="true">Sch&auml;dler</td><td contenteditable="true">Kolb</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td></tr>
+            <tr><td contenteditable="true">U9</td><td contenteditable="true">Sch&auml;dler</td><td contenteditable="true">Kolb</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td></tr>
             <tr><td contenteditable="true">U7</td><td contenteditable="true">Bergmann</td><td contenteditable="true">Wild, Schneider</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td></tr>
             <tr><td contenteditable="true">Laufschule</td><td contenteditable="true">Schneider</td><td contenteditable="true">Isa, Waldner</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td></tr>
+            <tr><td contenteditable="true">Breitensport</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td><td contenteditable="true">&mdash;</td></tr>
             <tr><td contenteditable="true">TW U17-20</td><td contenteditable="true">Tarvainen</td><td contenteditable="true">&mdash;</td><td colspan="2"></td></tr>
             <tr><td contenteditable="true">TW U11-15</td><td contenteditable="true">Klimesch</td><td contenteditable="true">&mdash;</td><td colspan="2"></td></tr>
             <tr><td contenteditable="true">Athletik</td><td contenteditable="true">Schillhuber</td><td contenteditable="true">Dorsch</td><td colspan="2"></td></tr>
@@ -1116,42 +1392,100 @@
           <div style="font-size:12px; color:var(--light);" contenteditable="true">Markus Wallner &mdash; Assistent</div>
         </div>
 
-        <button class="save-btn" onclick="saveAllData()">&#x2713; Alles speichern</button>
-
       </div></div>
 
-      <!-- ══════ TRAININGSPLANUNG ══════ -->
+      <!-- ══════ TRAININGSTAGE & SPIELTAGE ══════ -->
       <div class="section" id="sec-training">
-        <div class="section-label" onclick="toggleSection(this)">Trainingsplanung <span class="section-toggle">&blacktriangledown;</span></div>
+        <div class="section-label" onclick="toggleSection(this)">Trainingstage &amp; Spieltage <span class="section-toggle">&blacktriangledown;</span></div>
         <div class="section-body">
 
-        <div class="stat-grid" style="margin-bottom:12px;">
-          <div class="stat-card">
-            <div class="stat-label">OFF-SEASON</div>
-            <div class="stat-value" style="font-size:1.1rem;" contenteditable="true" data-field="training-off">MAI&ndash;JUL</div>
-            <div class="stat-desc">Anfang Mai &ndash; Ende Juli</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">PRE-SEASON</div>
-            <div class="stat-value" style="font-size:1.1rem;" contenteditable="true" data-field="training-pre">AUG</div>
-            <div class="stat-desc">August</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">IN-SEASON</div>
-            <div class="stat-value" style="font-size:1.1rem;" contenteditable="true" data-field="training-in">SEP&ndash;APR</div>
-            <div class="stat-desc">September &ndash; April</div>
+        <!-- Toggle: Trainingstage / Spieltage -->
+        <div class="tp-tabs" style="margin-bottom:16px;">
+          <button class="tp-tab active" id="tabTrain" onclick="switchDayType('train')">
+            <span class="tp-tab-label">TRAININGSTAGE</span>
+            <span class="tp-tab-sub" id="tabTrainSum">0</span>
+          </button>
+          <button class="tp-tab" id="tabGame" onclick="switchDayType('game')">
+            <span class="tp-tab-label">SPIELTAGE</span>
+            <span class="tp-tab-sub" id="tabGameSum">0</span>
+          </button>
+          <div class="tp-tab active" style="cursor:default; border-color:var(--green-bright);">
+            <span class="tp-tab-label">GESAMT / 365</span>
+            <span class="tp-tab-sub" id="tabAllDays">0</span>
           </div>
         </div>
-        <table class="staff-table" id="trainingTable">
-          <thead><tr><th>TEAM</th><th>EINHEITEN</th><th>ORT</th></tr></thead>
+
+        <!-- TRAININGSTAGE Matrix -->
+        <div id="panelTrain" style="overflow-x:auto;">
+        <table class="staff-table tp-matrix" id="trainingMatrix">
+          <thead>
+            <tr>
+              <th>TEAM</th>
+              <th class="tp-off">MAI</th><th class="tp-off">JUN</th><th class="tp-off">JUL</th>
+              <th class="tp-pre">AUG</th>
+              <th class="tp-in">SEP</th><th class="tp-in">OKT</th><th class="tp-in">NOV</th><th class="tp-in">DEZ</th>
+              <th class="tp-in">JAN</th><th class="tp-in">FEB</th><th class="tp-in">MAR</th><th class="tp-in">APR</th>
+              <th class="tp-ges">GES.</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td contenteditable="true">U20/U17</td><td contenteditable="true">60</td><td contenteditable="true">ROFA Stadion</td></tr>
-            <tr><td contenteditable="true">U15</td><td contenteditable="true">40</td><td contenteditable="true">Crossfit Rosenheim</td></tr>
-            <tr><td contenteditable="true">U13</td><td contenteditable="true">30</td><td contenteditable="true">Fliegerhalle Bad Aibling</td></tr>
-            <tr><td contenteditable="true">U11/U9</td><td contenteditable="true">25&ndash;30</td><td contenteditable="true">Sportplatz 60er</td></tr>
-            <tr><td contenteditable="true">U7</td><td contenteditable="true">10</td><td contenteditable="true">TBD</td></tr>
+            <tr><td>U20</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td class="tm-sum">0</td></tr>
+            <tr><td>U17</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td class="tm-sum">0</td></tr>
+            <tr><td>U15</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td class="tm-sum">0</td></tr>
+            <tr><td>U13</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td class="tm-sum">0</td></tr>
+            <tr><td>U11</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td class="tm-sum">0</td></tr>
+            <tr><td>U9</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td class="tm-sum">0</td></tr>
+            <tr><td>U7</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td class="tm-sum">0</td></tr>
+            <tr><td>Laufschule</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td contenteditable="true" class="tm">0</td><td class="tm-sum">0</td></tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td style="color:var(--green-bright);">GESAMT</td>
+              <td class="tm-col" id="colMai">0</td><td class="tm-col" id="colJun">0</td><td class="tm-col" id="colJul">0</td>
+              <td class="tm-col" id="colAug">0</td>
+              <td class="tm-col" id="colSep">0</td><td class="tm-col" id="colOkt">0</td><td class="tm-col" id="colNov">0</td><td class="tm-col" id="colDez">0</td>
+              <td class="tm-col" id="colJan">0</td><td class="tm-col" id="colFeb">0</td><td class="tm-col" id="colMar">0</td><td class="tm-col" id="colApr">0</td>
+              <td class="tm-total" id="colTotal">0</td>
+            </tr>
+          </tfoot>
         </table>
+        </div>
+
+        <!-- SPIELTAGE Matrix -->
+        <div id="panelGame" style="overflow-x:auto; display:none;">
+        <table class="staff-table tp-matrix" id="gameMatrix">
+          <thead>
+            <tr>
+              <th>TEAM</th>
+              <th class="tp-off">MAI</th><th class="tp-off">JUN</th><th class="tp-off">JUL</th>
+              <th class="tp-pre">AUG</th>
+              <th class="tp-in">SEP</th><th class="tp-in">OKT</th><th class="tp-in">NOV</th><th class="tp-in">DEZ</th>
+              <th class="tp-in">JAN</th><th class="tp-in">FEB</th><th class="tp-in">MAR</th><th class="tp-in">APR</th>
+              <th class="tp-ges">GES.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>U20</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td class="gm-sum">0</td></tr>
+            <tr><td>U17</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td class="gm-sum">0</td></tr>
+            <tr><td>U15</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td class="gm-sum">0</td></tr>
+            <tr><td>U13</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td class="gm-sum">0</td></tr>
+            <tr><td>U11</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td class="gm-sum">0</td></tr>
+            <tr><td>U9</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td class="gm-sum">0</td></tr>
+            <tr><td>U7</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td class="gm-sum">0</td></tr>
+            <tr><td>Laufschule</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td contenteditable="true" class="gm">0</td><td class="gm-sum">0</td></tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td style="color:var(--red);">GESAMT</td>
+              <td class="tm-col" id="gcolMai">0</td><td class="tm-col" id="gcolJun">0</td><td class="tm-col" id="gcolJul">0</td>
+              <td class="tm-col" id="gcolAug">0</td>
+              <td class="tm-col" id="gcolSep">0</td><td class="tm-col" id="gcolOkt">0</td><td class="tm-col" id="gcolNov">0</td><td class="tm-col" id="gcolDez">0</td>
+              <td class="tm-col" id="gcolJan">0</td><td class="tm-col" id="gcolFeb">0</td><td class="tm-col" id="gcolMar">0</td><td class="tm-col" id="gcolApr">0</td>
+              <td class="tm-total" id="gcolTotal">0</td>
+            </tr>
+          </tfoot>
+        </table>
+        </div>
 
       </div></div>
 
@@ -1225,29 +1559,6 @@
 
       </div></div>
 
-      <!-- ══════ TODO ══════ -->
-      <div class="section">
-        <div class="section-label" onclick="toggleSection(this)">To Do <span class="section-toggle">&blacktriangledown;</span></div>
-        <div class="section-body">
-        <div class="todo-widget">
-          <div class="todo-add-row">
-            <input type="text" class="todo-input" id="sbrTodoInput" placeholder="Neue Aufgabe...">
-            <button class="todo-add-btn" onclick="addTodo()">+</button>
-          </div>
-          <ul class="todo-list" id="sbrTodoList"></ul>
-          <div class="todo-count" id="sbrTodoCount"></div>
-        </div>
-      </div></div>
-
-      <!-- ══════ NOTES ══════ -->
-      <div class="section">
-        <div class="section-label" onclick="toggleSection(this)">Notes <span class="section-toggle">&blacktriangledown;</span></div>
-        <div class="section-body">
-        <div class="notes-widget">
-          <textarea class="notes-area" id="sbrNotes" placeholder="Notizen hier..."></textarea>
-          <div class="notes-footer"><span id="notesStatus">Gespeichert</span></div>
-        </div>
-      </div></div>
 
     </div><!-- /right col -->
 
@@ -1361,83 +1672,140 @@ function loadChecklist() {
 }
 loadChecklist();
 
-// ══════ TODO ══════
-let todos = JSON.parse(localStorage.getItem('sbr-todos') || '[]');
-function renderTodos() {
-  const list = document.getElementById('sbrTodoList');
-  list.innerHTML = todos.map((t, i) => `
-    <li class="todo-item ${t.done ? 'done' : ''}" onclick="toggleTodo(${i})">
-      <span class="todo-check">&check;</span>
-      <span class="todo-text">${t.text}</span>
-      <span class="todo-del" onclick="event.stopPropagation(); delTodo(${i})">&times;</span>
-    </li>
-  `).join('');
-  const done = todos.filter(t => t.done).length;
-  document.getElementById('sbrTodoCount').textContent = `${done}/${todos.length} ERLEDIGT`;
+// ══════ KADER AUTO-SUM ══════
+function updateKaderSums() {
+  let f=0, t=0;
+  document.querySelectorAll('#kaderTable tbody tr').forEach(row => {
+    const feld = parseInt(row.querySelector('.kf')?.textContent)||0;
+    const tw = parseInt(row.querySelector('.kt')?.textContent)||0;
+    const gesamt = row.querySelector('.kg');
+    if (gesamt) gesamt.textContent = feld + tw;
+    f += feld;
+    t += tw;
+  });
+  document.getElementById('kaderFeldSum').textContent = f;
+  document.getElementById('kaderTwSum').textContent = t;
+  document.getElementById('kaderGesamtSum').textContent = f + t;
+  // Status-Bar Kader
+  const sk = document.getElementById('statusKader');
+  if (sk) sk.textContent = f + ' + ' + t + ' TW = ' + (f+t);
 }
-function addTodo() {
-  const input = document.getElementById('sbrTodoInput');
-  if (!input.value.trim()) return;
-  todos.push({ text: input.value.trim(), done: false });
-  input.value = '';
-  localStorage.setItem('sbr-todos', JSON.stringify(todos));
-  renderTodos();
-}
-function toggleTodo(i) {
-  todos[i].done = !todos[i].done;
-  localStorage.setItem('sbr-todos', JSON.stringify(todos));
-  renderTodos();
-}
-function delTodo(i) {
-  todos.splice(i, 1);
-  localStorage.setItem('sbr-todos', JSON.stringify(todos));
-  renderTodos();
-}
-document.getElementById('sbrTodoInput').addEventListener('keydown', e => { if (e.key === 'Enter') addTodo(); });
-renderTodos();
 
-// ══════ NOTES ══════
-const notesArea = document.getElementById('sbrNotes');
-notesArea.value = localStorage.getItem('sbr-notes') || '';
-let saveTimer;
-notesArea.addEventListener('input', () => {
-  document.getElementById('notesStatus').textContent = 'Speichert...';
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    localStorage.setItem('sbr-notes', notesArea.value);
-    document.getElementById('notesStatus').textContent = 'Gespeichert';
-  }, 500);
+// ══════ COUNTDOWNS ══════
+function updateCountdowns() {
+  const now = new Date();
+  const events = [
+    { valId: 'cdSommerVal', cardId: 'cdSommer', date: new Date(2026, 4, 4) },
+    { valId: 'cdCampVal', cardId: 'cdCamp', date: new Date(2026, 6, 31) },
+    { valId: 'cdEisVal', cardId: 'cdEis', date: new Date(2026, 7, 3) }
+  ];
+  events.forEach(e => {
+    const val = document.getElementById(e.valId);
+    const card = document.getElementById(e.cardId);
+    if (!val || !card) return;
+    const diff = Math.ceil((e.date - now) / 86400000);
+    if (diff > 0) {
+      val.textContent = diff;
+    } else {
+      val.textContent = diff === 0 ? 'HEUTE' : 'LÄUFT';
+      val.nextElementSibling.textContent = '';
+      card.classList.add('active');
+    }
+  });
+}
+updateCountdowns();
+document.getElementById('kaderTable').addEventListener('input', function() { updateKaderSums(); });
+updateKaderSums();
+
+// ══════ TRAININGSTAGE & SPIELTAGE ══════
+const MONTHS = ['Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez','Jan','Feb','Mar','Apr'];
+
+function calcMatrix(tableId, cellClass, sumClass, colPrefix) {
+  const table = document.getElementById(tableId);
+  if (!table) return 0;
+  const colSums = new Array(12).fill(0);
+  let total = 0;
+  table.querySelectorAll('tbody tr').forEach(row => {
+    const cells = row.querySelectorAll('.' + cellClass);
+    let rowSum = 0;
+    cells.forEach((td, i) => {
+      const v = parseInt(td.textContent) || 0;
+      rowSum += v;
+      colSums[i] += v;
+    });
+    const sc = row.querySelector('.' + sumClass);
+    if (sc) sc.textContent = rowSum;
+    total += rowSum;
+  });
+  MONTHS.forEach((m, i) => {
+    const el = document.getElementById(colPrefix + m);
+    if (el) el.textContent = colSums[i];
+  });
+  const totalEl = document.getElementById(colPrefix + 'Total');
+  if (totalEl) totalEl.textContent = total;
+  return total;
+}
+
+function updateAllMatrices() {
+  const train = calcMatrix('trainingMatrix', 'tm', 'tm-sum', 'col');
+  const game = calcMatrix('gameMatrix', 'gm', 'gm-sum', 'gcol');
+  document.getElementById('tabTrainSum').textContent = train;
+  document.getElementById('tabGameSum').textContent = game;
+  const all = train + game;
+  document.getElementById('tabAllDays').textContent = all + ' / 365';
+}
+
+function switchDayType(type) {
+  document.getElementById('panelTrain').style.display = type === 'train' ? 'block' : 'none';
+  document.getElementById('panelGame').style.display = type === 'game' ? 'block' : 'none';
+  document.getElementById('tabTrain').classList.toggle('active', type === 'train');
+  document.getElementById('tabGame').classList.toggle('active', type === 'game');
+}
+
+['trainingMatrix','gameMatrix'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', updateAllMatrices);
 });
+updateAllMatrices();
 
 // ══════ EDITABLE DATA — SAVE / LOAD ══════
 const STORAGE_PREFIX = 'sbr-edit-';
 
-// Save a single table by ID
+// Save a single table by ID — keyed by first column (team name)
 function saveTable(tableId) {
   const table = document.getElementById(tableId);
   if (!table) return;
-  const data = [];
+  const data = {};
   table.querySelectorAll('tbody tr').forEach(row => {
+    const tds = row.querySelectorAll('td');
+    if (!tds.length) return;
+    const key = tds[0].textContent.trim();
     const cells = [];
-    row.querySelectorAll('td').forEach(td => cells.push(td.innerHTML));
-    data.push(cells);
+    tds.forEach(td => cells.push(td.innerHTML));
+    data[key] = cells;
   });
   localStorage.setItem(STORAGE_PREFIX + tableId, JSON.stringify(data));
 }
 
-// Load a single table by ID
+// Load a single table by ID — matches by first column
 function loadTable(tableId) {
   const raw = localStorage.getItem(STORAGE_PREFIX + tableId);
   if (!raw) return;
-  const data = JSON.parse(raw);
-  const table = document.getElementById(tableId);
-  if (!table) return;
-  const rows = table.querySelectorAll('tbody tr');
-  data.forEach((cells, i) => {
-    if (!rows[i]) return;
-    const tds = rows[i].querySelectorAll('td');
-    cells.forEach((html, j) => { if (tds[j]) tds[j].innerHTML = html; });
-  });
+  try {
+    const data = JSON.parse(raw);
+    // Migrate old array format to new keyed format
+    if (Array.isArray(data)) { localStorage.removeItem(STORAGE_PREFIX + tableId); return; }
+    const table = document.getElementById(tableId);
+    if (!table) return;
+    table.querySelectorAll('tbody tr').forEach(row => {
+      const tds = row.querySelectorAll('td');
+      if (!tds.length) return;
+      const key = tds[0].textContent.trim();
+      if (data[key]) {
+        data[key].forEach((html, j) => { if (tds[j]) tds[j].innerHTML = html; });
+      }
+    });
+  } catch(e) { localStorage.removeItem(STORAGE_PREFIX + tableId); }
 }
 
 // Save all data-field elements
@@ -1478,7 +1846,8 @@ function loadKoordination() {
 function saveAllData() {
   saveTable('staffTable');
   saveTable('kaderTable');
-  saveTable('trainingTable');
+  saveTable('trainingMatrix');
+  saveTable('gameMatrix');
   saveFields();
   saveKoordination();
   showSaveIndicator();
@@ -1488,9 +1857,12 @@ function saveAllData() {
 function loadAllData() {
   loadTable('staffTable');
   loadTable('kaderTable');
-  loadTable('trainingTable');
+  loadTable('trainingMatrix');
+  loadTable('gameMatrix');
   loadFields();
   loadKoordination();
+  updateKaderSums();
+  updateAllMatrices();
 }
 
 // Visual save feedback
