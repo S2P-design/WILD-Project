@@ -359,7 +359,7 @@
 
   .calc-row {
     display: grid;
-    grid-template-columns: 1fr 100px 80px 60px 100px;
+    grid-template-columns: 1fr 90px 20px 70px 20px 100px;
     align-items: center;
     padding: 12px 22px;
     border-bottom: 1px solid rgba(255,255,255,0.025);
@@ -490,11 +490,64 @@
   body.light .calc-summary-row.highlight .calc-summary-label { color: rgba(255,255,255,0.6); }
   body.light .calc-summary-sub { color: rgba(255,255,255,0.4); }
 
+  /* Einnahmen card accent */
+  .calc-card.income .calc-card-header { background: rgba(0,180,120,0.08); }
+  .calc-card.income .calc-val { color: #4caf50; }
+  .calc-card.income .calc-card-header .total { color: #4caf50; }
+  body.light .calc-card.income .calc-card-header { background: rgba(0,180,120,0.06); }
+  body.light .calc-card.income .calc-val { color: #2e7d32; }
+  body.light .calc-card.income .calc-card-header .total { color: #2e7d32; }
+
+  /* Einnahmen rows — simpler 3-col layout for label + input + value */
+  .calc-row.income-row { grid-template-columns: 1fr 120px 120px; }
+
+  /* Editable labels */
+  .calc-label-edit {
+    background: none; border: none; border-bottom: 1px dashed rgba(255,255,255,0.1);
+    color: var(--light); font-family: 'Titillium Web', sans-serif;
+    font-size: 13px; font-weight: 500;
+    padding: 2px 0; width: 100%; outline: none;
+    transition: border-color 0.2s;
+  }
+  .calc-label-edit:focus { border-bottom-color: var(--green-bright); }
+  .calc-label-edit::placeholder { color: var(--muted); font-style: italic; }
+  body.light .calc-label-edit { color: #1a1a2e; border-bottom-color: rgba(0,0,0,0.08); }
+  body.light .calc-label-edit:focus { border-bottom-color: var(--green); }
+
+  /* Save button */
+  .save-btn {
+    position: fixed; top: 20px; right: 90px;
+    z-index: 200; border: 1px solid rgba(0,82,67,0.3); background: rgba(0,82,67,0.15);
+    border-radius: 6px; cursor: pointer; padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--green-bright); transition: all 0.3s;
+  }
+  .save-btn:hover { background: rgba(0,82,67,0.3); border-color: var(--green-bright); }
+  .save-btn.saved { background: var(--green); color: white; border-color: var(--green); }
+  body.light .save-btn { background: rgba(0,82,67,0.06); border-color: rgba(0,82,67,0.15); color: var(--green); }
+  body.light .save-btn:hover { background: rgba(0,82,67,0.12); }
+  body.light .save-btn.saved { background: var(--green); color: white; }
+
+  /* Summary income/saldo styling */
+  .calc-summary-row.income-highlight {
+    background: rgba(0,180,120,0.08);
+    border-bottom: 1px solid rgba(0,180,120,0.12);
+  }
+  .calc-summary-row.income-highlight .calc-summary-val { color: #4caf50; }
+  .calc-summary-row.income-highlight .calc-summary-label { color: var(--muted); }
+  body.light .calc-summary-row.income-highlight { background: rgba(0,180,120,0.05); }
+  body.light .calc-summary-row.income-highlight .calc-summary-val { color: #2e7d32; }
+
+  .calc-summary-row.saldo .calc-summary-val { font-size: 15px; }
+  .calc-summary-row.saldo.positive .calc-summary-val { color: #4caf50; }
+  .calc-summary-row.saldo.negative .calc-summary-val { color: var(--red); }
+
   /* ── PRINT STYLES ── */
   @media print {
     body { background: white !important; color: #111 !important; padding: 20px !important; }
     body::before { display: none; }
-    .theme-toggle, .print-btn { display: none !important; }
+    .theme-toggle, .print-btn, .save-btn { display: none !important; }
     .day-card { break-inside: avoid; border: 1px solid #ddd !important; background: white !important; }
     .day-header { background: #f5f5f5 !important; }
     .slot-time { color: #005243 !important; }
@@ -520,6 +573,7 @@
 </head>
 <body>
 
+<button class="save-btn" id="saveBtn" onclick="saveAll()">Speichern</button>
 <button class="theme-toggle" id="themeToggle"><span id="themeLabel">HOME</span></button>
 <button class="print-btn" onclick="window.print()">PDF</button>
 
@@ -919,20 +973,16 @@
     <!-- PARAMETER -->
     <div class="calc-params">
       <div class="calc-param">
-        <span class="calc-param-label">Personen</span>
-        <input type="number" class="calc-input" id="pPersons" value="22" min="1" max="50" onchange="recalc()">
+        <span class="calc-param-label">Spieler</span>
+        <input type="number" class="calc-input" id="pPlayers" value="19" min="1" max="40" onchange="saveAll()">
       </div>
       <div class="calc-param">
-        <span class="calc-param-label">N&auml;chte</span>
-        <input type="number" class="calc-input" id="pNights" value="6" min="1" max="14" onchange="recalc()">
+        <span class="calc-param-label">Staff</span>
+        <input type="number" class="calc-input" id="pStaff" value="3" min="0" max="15" onchange="saveAll()">
       </div>
-      <div class="calc-param">
-        <span class="calc-param-label">Tage</span>
-        <input type="number" class="calc-input" id="pDays" value="7" min="1" max="14" onchange="recalc()">
-      </div>
-      <div class="calc-param">
-        <span class="calc-param-label">Eis-Einheiten</span>
-        <input type="number" class="calc-input" id="pIce" value="4" min="0" max="14" onchange="recalc()">
+      <div class="calc-param" style="opacity:0.5; pointer-events:none;">
+        <span class="calc-param-label">Gesamt</span>
+        <span class="calc-input" id="pTotal" style="text-align:center; min-width:40px;">22</span>
       </div>
     </div>
 
@@ -945,30 +995,33 @@
       <div class="calc-row">
         <div>
           <div class="label">Zimmer (inkl. Fr&uuml;hst&uuml;ck)</div>
-          <div class="detail">Pro Person / Pro Nacht</div>
+          <div class="detail">Pro Nacht &times; N&auml;chte &times; <span class="auto-pers"></span> Pers.</div>
         </div>
-        <input type="number" class="calc-input" id="priceRoom" value="60" step="0.5" onchange="recalc()">
-        <div class="calc-unit">&times; Pers. &times; N&auml;chte</div>
+        <input type="number" class="calc-input" id="priceRoom" value="40" step="0.5" onchange="saveAll()">
+        <div class="calc-unit">&times;</div>
+        <input type="number" class="calc-input" id="qtyRoom" value="6" step="1" onchange="saveAll()">
         <div class="calc-unit">=</div>
         <div class="calc-val" id="valRoom">&mdash;</div>
       </div>
       <div class="calc-row">
         <div>
           <div class="label">Mittag- &amp; Abendessen</div>
-          <div class="detail">Pro Person / Pro Mahlzeit &middot; 2&times; t&auml;glich (Mo&ndash;Sa) + 1&times; So</div>
+          <div class="detail">Pro Mahlzeit &times; Mahlzeiten/Pers. &times; <span class="auto-pers"></span> Pers.</div>
         </div>
-        <input type="number" class="calc-input" id="priceMeal" value="25" step="0.5" onchange="recalc()">
-        <div class="calc-unit">&times; Pers. &times; Meals</div>
+        <input type="number" class="calc-input" id="priceMeal" value="15" step="0.5" onchange="saveAll()">
+        <div class="calc-unit">&times;</div>
+        <input type="number" class="calc-input" id="qtyMeals" value="13" step="1" onchange="saveAll()">
         <div class="calc-unit">=</div>
         <div class="calc-val" id="valMeals">&mdash;</div>
       </div>
       <div class="calc-row">
         <div>
           <div class="label">Snacks &amp; Getr&auml;nke</div>
-          <div class="detail">Pro Person / Pro Tag</div>
+          <div class="detail">Pro Tag &times; Tage &times; <span class="auto-pers"></span> Pers.</div>
         </div>
-        <input type="number" class="calc-input" id="priceSnack" value="5" step="0.5" onchange="recalc()">
-        <div class="calc-unit">&times; Pers. &times; Tage</div>
+        <input type="number" class="calc-input" id="priceSnack" value="5" step="0.5" onchange="saveAll()">
+        <div class="calc-unit">&times;</div>
+        <input type="number" class="calc-input" id="qtySnacks" value="7" step="1" onchange="saveAll()">
         <div class="calc-unit">=</div>
         <div class="calc-val" id="valSnacks">&mdash;</div>
       </div>
@@ -983,12 +1036,45 @@
       <div class="calc-row">
         <div>
           <div class="label">Eiszeit</div>
-          <div class="detail">Pro Stunde &middot; <span id="iceHoursInfo">4 Einheiten &agrave; 1,5h = 6h</span></div>
+          <div class="detail">Pro Stunde &times; Stunden gesamt</div>
         </div>
-        <input type="number" class="calc-input" id="priceIce" value="190" step="5" onchange="recalc()">
-        <div class="calc-unit">&times; <span id="iceHoursVal">6</span>h</div>
+        <input type="number" class="calc-input" id="priceIce" value="190" step="5" onchange="saveAll()">
+        <div class="calc-unit">&times;</div>
+        <input type="number" class="calc-input" id="qtyIce" value="6" step="0.5" onchange="saveAll()">
         <div class="calc-unit">=</div>
         <div class="calc-val" id="valIce">&mdash;</div>
+      </div>
+    </div>
+
+    <!-- EVENTS & TEAMBUILDING -->
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <span>Events &amp; Teambuilding</span>
+        <span class="total" id="totalEvents">&mdash;</span>
+      </div>
+      <div class="calc-row income-row">
+        <div>
+          <input type="text" class="calc-label-edit" id="labelEvent1" placeholder="z.B. Golfen" value="Event 1" oninput="saveAll()">
+          <div class="detail">Pauschal</div>
+        </div>
+        <input type="number" class="calc-input" id="priceEvent1" value="0" step="10" onchange="saveAll()">
+        <div class="calc-val" id="valEvent1">&mdash;</div>
+      </div>
+      <div class="calc-row income-row">
+        <div>
+          <input type="text" class="calc-label-edit" id="labelEvent2" placeholder="z.B. Paintball" value="Event 2" oninput="saveAll()">
+          <div class="detail">Pauschal</div>
+        </div>
+        <input type="number" class="calc-input" id="priceEvent2" value="0" step="10" onchange="saveAll()">
+        <div class="calc-val" id="valEvent2">&mdash;</div>
+      </div>
+      <div class="calc-row income-row">
+        <div>
+          <input type="text" class="calc-label-edit" id="labelEvent3" placeholder="z.B. Wanderung" value="Event 3" oninput="saveAll()">
+          <div class="detail">Pauschal</div>
+        </div>
+        <input type="number" class="calc-input" id="priceEvent3" value="0" step="10" onchange="saveAll()">
+        <div class="calc-val" id="valEvent3">&mdash;</div>
       </div>
     </div>
 
@@ -1001,12 +1087,53 @@
       <div class="calc-row">
         <div>
           <div class="label">Busanreise (1 Woche)</div>
-          <div class="detail">Rosenheim &harr; Ferlach &middot; Hin- &amp; R&uuml;ckreise + Standzeit &middot; Pauschal</div>
+          <div class="detail">Rosenheim &harr; Ferlach &middot; Hin- &amp; R&uuml;ckreise + Standzeit</div>
         </div>
-        <input type="number" class="calc-input" id="priceBus" value="3500" step="50" onchange="recalc()">
+        <input type="number" class="calc-input" id="priceBus" value="3500" step="50" onchange="saveAll()">
+        <div class="calc-unit"></div>
+        <div class="calc-unit" style="visibility:hidden;"></div>
         <div class="calc-unit">pauschal</div>
-        <div class="calc-unit">=</div>
         <div class="calc-val" id="valBus">&mdash;</div>
+      </div>
+    </div>
+
+    <!-- EINNAHMEN -->
+    <div class="calc-card income">
+      <div class="calc-card-header">
+        <span>Einnahmen</span>
+        <span class="total" id="totalIncome">&mdash;</span>
+      </div>
+      <div class="calc-row income-row">
+        <div>
+          <input type="text" class="calc-label-edit" id="labelSponsor1" placeholder="Sponsor 1" value="Sponsor 1" oninput="saveAll()">
+          <div class="detail">Pauschal</div>
+        </div>
+        <input type="number" class="calc-input" id="priceSponsor1" value="0" step="50" onchange="saveAll()">
+        <div class="calc-val" id="valSponsor1">&mdash;</div>
+      </div>
+      <div class="calc-row income-row">
+        <div>
+          <input type="text" class="calc-label-edit" id="labelSponsor2" placeholder="Sponsor 2" value="Sponsor 2" oninput="saveAll()">
+          <div class="detail">Pauschal</div>
+        </div>
+        <input type="number" class="calc-input" id="priceSponsor2" value="0" step="50" onchange="saveAll()">
+        <div class="calc-val" id="valSponsor2">&mdash;</div>
+      </div>
+      <div class="calc-row income-row">
+        <div>
+          <input type="text" class="calc-label-edit" id="labelSponsor3" placeholder="Sponsor 3" value="Sponsor 3" oninput="saveAll()">
+          <div class="detail">Pauschal</div>
+        </div>
+        <input type="number" class="calc-input" id="priceSponsor3" value="0" step="50" onchange="saveAll()">
+        <div class="calc-val" id="valSponsor3">&mdash;</div>
+      </div>
+      <div class="calc-row income-row">
+        <div>
+          <input type="text" class="calc-label-edit" id="labelClub" placeholder="Vereinszuschuss" value="Vereinszuschuss" oninput="saveAll()">
+          <div class="detail">Pauschal</div>
+        </div>
+        <input type="number" class="calc-input" id="priceClub" value="0" step="50" onchange="saveAll()">
+        <div class="calc-val" id="valClub">&mdash;</div>
       </div>
     </div>
 
@@ -1017,16 +1144,32 @@
         <div class="calc-summary-val" id="sumAccom">&mdash;</div>
       </div>
       <div class="calc-summary-row">
-        <div class="calc-summary-label">Eis &amp; Transport</div>
-        <div class="calc-summary-val" id="sumOps">&mdash;</div>
+        <div class="calc-summary-label">Eiszeit</div>
+        <div class="calc-summary-val" id="sumIce">&mdash;</div>
+      </div>
+      <div class="calc-summary-row">
+        <div class="calc-summary-label">Events &amp; Teambuilding</div>
+        <div class="calc-summary-val" id="sumEvents">&mdash;</div>
+      </div>
+      <div class="calc-summary-row">
+        <div class="calc-summary-label">Transport</div>
+        <div class="calc-summary-val" id="sumTransport">&mdash;</div>
+      </div>
+      <div class="calc-summary-row">
+        <div class="calc-summary-label">Gesamtkosten</div>
+        <div class="calc-summary-val" id="sumTotal">&mdash;</div>
+      </div>
+      <div class="calc-summary-row income-highlight">
+        <div class="calc-summary-label">abzgl. Sponsoren &amp; Zusch&uuml;sse</div>
+        <div class="calc-summary-val" id="sumSponsors">&mdash;</div>
       </div>
       <div class="calc-summary-row highlight">
         <div>
-          <div class="calc-summary-label">Gesamtkosten</div>
+          <div class="calc-summary-label">Preis pro Spieler</div>
         </div>
         <div style="display:flex;align-items:baseline;gap:12px;">
-          <div class="calc-summary-val" id="sumTotal">&mdash;</div>
-          <div class="calc-summary-sub" id="sumPP">&mdash;</div>
+          <div class="calc-summary-val" id="sumPlayerPrice">&mdash;</div>
+          <div class="calc-summary-sub" id="sumPlayerInfo">&mdash;</div>
         </div>
       </div>
     </div>
@@ -1057,40 +1200,88 @@
 })();
 
 // ══════ KALKULATION ══════
+var STORAGE_KEY = 'sbr-tl-ferlach-calc';
+
+// All input IDs to persist
+var SAVE_IDS = [
+  'pPlayers','pStaff',
+  'priceRoom','priceMeal','priceSnack','priceIce','priceBus',
+  'qtyRoom','qtyMeals','qtySnacks','qtyIce',
+  'priceEvent1','priceEvent2','priceEvent3',
+  'labelEvent1','labelEvent2','labelEvent3',
+  'priceSponsor1','priceSponsor2','priceSponsor3','priceClub',
+  'labelSponsor1','labelSponsor2','labelSponsor3','labelClub'
+];
+
+function saveAll() {
+  var data = {};
+  SAVE_IDS.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) data[id] = el.value;
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  var btn = document.getElementById('saveBtn');
+  btn.textContent = '\u2713 Gespeichert';
+  btn.classList.add('saved');
+  clearTimeout(btn._t);
+  btn._t = setTimeout(function(){ btn.textContent = 'Speichern'; btn.classList.remove('saved'); }, 1500);
+  recalc();
+}
+
+function loadAll() {
+  var raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+  try {
+    var data = JSON.parse(raw);
+    SAVE_IDS.forEach(function(id) {
+      if (data[id] !== undefined) {
+        var el = document.getElementById(id);
+        if (el) el.value = data[id];
+      }
+    });
+  } catch(e) {}
+}
+
 function fmt(n) { return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' \u20AC'; }
 
 function recalc() {
-  var persons = parseInt(document.getElementById('pPersons').value) || 22;
-  var nights = parseInt(document.getElementById('pNights').value) || 6;
-  var days = parseInt(document.getElementById('pDays').value) || 7;
-  var iceUnits = parseInt(document.getElementById('pIce').value) || 4;
+  var players = parseInt(document.getElementById('pPlayers').value) || 19;
+  var staff = parseInt(document.getElementById('pStaff').value) || 3;
+  var persons = players + staff;
+  document.getElementById('pTotal').textContent = persons;
 
-  var priceRoom = parseFloat(document.getElementById('priceRoom').value) || 60;
-  var priceMeal = parseFloat(document.getElementById('priceMeal').value) || 25;
-  var priceSnack = parseFloat(document.getElementById('priceSnack').value) || 5;
-  var priceIce = parseFloat(document.getElementById('priceIce').value) || 190;
-  var priceBus = parseFloat(document.getElementById('priceBus').value) || 3500;
+  var priceRoom = parseFloat(document.getElementById('priceRoom').value) || 0;
+  var priceMeal = parseFloat(document.getElementById('priceMeal').value) || 0;
+  var priceSnack = parseFloat(document.getElementById('priceSnack').value) || 0;
+  var priceIce = parseFloat(document.getElementById('priceIce').value) || 0;
+  var priceBus = parseFloat(document.getElementById('priceBus').value) || 0;
 
-  // Meals: 2 per day for (days-1) + 1 for last day (lunch before departure)
-  var meals = (days - 1) * 2 + 1;
+  var qtyRoom = parseFloat(document.getElementById('qtyRoom').value) || 0;
+  var qtyMeals = parseFloat(document.getElementById('qtyMeals').value) || 0;
+  var qtySnacks = parseFloat(document.getElementById('qtySnacks').value) || 0;
+  var qtyIce = parseFloat(document.getElementById('qtyIce').value) || 0;
 
-  // Ice hours: 1.5h per unit
-  var iceHours = iceUnits * 1.5;
-  document.getElementById('iceHoursVal').textContent = iceHours;
-  document.getElementById('iceHoursInfo').innerHTML = iceUnits + ' Einheiten &agrave; 1,5h = ' + iceHours + 'h';
+  // Update auto-pers labels
+  var persSpans = document.querySelectorAll('.auto-pers');
+  for (var i = 0; i < persSpans.length; i++) persSpans[i].textContent = persons;
+
+  // Events
+  var event1 = parseFloat(document.getElementById('priceEvent1').value) || 0;
+  var event2 = parseFloat(document.getElementById('priceEvent2').value) || 0;
+  var event3 = parseFloat(document.getElementById('priceEvent3').value) || 0;
+  var eventTotal = event1 + event2 + event3;
 
   // Calculate
-  var room = priceRoom * persons * nights;
-  var mealCost = priceMeal * persons * meals;
-  var snackCost = priceSnack * persons * days;
-  var iceCost = priceIce * iceHours;
+  var room = priceRoom * qtyRoom * persons;
+  var mealCost = priceMeal * qtyMeals * persons;
+  var snackCost = priceSnack * qtySnacks * persons;
+  var iceCost = priceIce * qtyIce;
   var busCost = priceBus;
 
   var accom = room + mealCost + snackCost;
-  var ops = iceCost + busCost;
-  var total = accom + ops;
+  var total = accom + iceCost + eventTotal + busCost;
 
-  // Display
+  // Display Ausgaben
   document.getElementById('valRoom').textContent = fmt(room);
   document.getElementById('valMeals').textContent = fmt(mealCost);
   document.getElementById('valSnacks').textContent = fmt(snackCost);
@@ -1099,14 +1290,43 @@ function recalc() {
   document.getElementById('valIce').textContent = fmt(iceCost);
   document.getElementById('totalIce').textContent = fmt(iceCost);
 
+  document.getElementById('valEvent1').textContent = fmt(event1);
+  document.getElementById('valEvent2').textContent = fmt(event2);
+  document.getElementById('valEvent3').textContent = fmt(event3);
+  document.getElementById('totalEvents').textContent = fmt(eventTotal);
+
   document.getElementById('valBus').textContent = fmt(busCost);
   document.getElementById('totalTransport').textContent = fmt(busCost);
 
+  // Einnahmen
+  var sponsor1 = parseFloat(document.getElementById('priceSponsor1').value) || 0;
+  var sponsor2 = parseFloat(document.getElementById('priceSponsor2').value) || 0;
+  var sponsor3 = parseFloat(document.getElementById('priceSponsor3').value) || 0;
+  var clubGrant = parseFloat(document.getElementById('priceClub').value) || 0;
+  var sponsorTotal = sponsor1 + sponsor2 + sponsor3 + clubGrant;
+  var incomeTotal = sponsorTotal;
+
+  document.getElementById('valSponsor1').textContent = fmt(sponsor1);
+  document.getElementById('valSponsor2').textContent = fmt(sponsor2);
+  document.getElementById('valSponsor3').textContent = fmt(sponsor3);
+  document.getElementById('valClub').textContent = fmt(clubGrant);
+  document.getElementById('totalIncome').textContent = fmt(incomeTotal);
+
+  // Summary
   document.getElementById('sumAccom').textContent = fmt(accom);
-  document.getElementById('sumOps').textContent = fmt(ops);
+  document.getElementById('sumIce').textContent = fmt(iceCost);
+  document.getElementById('sumEvents').textContent = fmt(eventTotal);
+  document.getElementById('sumTransport').textContent = fmt(busCost);
   document.getElementById('sumTotal').textContent = fmt(total);
-  document.getElementById('sumPP').textContent = fmt(total / persons) + ' pro Person';
+
+  document.getElementById('sumSponsors').textContent = fmt(sponsorTotal);
+
+  var rest = total - sponsorTotal;
+  var playerPrice = rest > 0 ? rest / players : 0;
+  document.getElementById('sumPlayerPrice').textContent = fmt(playerPrice);
+  document.getElementById('sumPlayerInfo').textContent = 'bei ' + players + ' Spielern';
 }
+loadAll();
 recalc();
 
 // Internal gate
