@@ -1,220 +1,63 @@
 
 <div class="hero">
+  <img src="/basecamp/brand/logos/wp-monogram-orange.png" alt="Wild Project" class="hero-logo" />
   <h1>
-    <span class="hero-line-1">René <span class="hero-name-wild">WILD</span></span>
-    <span class="hero-line-2">
-      <span class="hero-x" aria-hidden="true">
-        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-          <g class="x-rotor">
-            <line class="x-stroke x-stroke-1" x1="10" y1="10" x2="30" y2="30"/>
-            <line class="x-stroke x-stroke-2" x1="30" y1="10" x2="10" y2="30"/>
-          </g>
-          <circle class="x-center" cx="20" cy="20" r="0.9"/>
-        </svg>
-      </span>
-      <span class="hero-sub-tag">
-        <span class="hero-sub-bracket">[</span><span class="hero-aka-wild">WILD</span>&nbsp;<span class="hero-aka-project">PROJECT</span><span class="hero-sub-bracket">]</span>
-      </span>
-    </span>
+    <span class="hero-name-wild">WILD</span> PROJECT
   </h1>
-  <p class="hero-role"><span class="t-de">Nachwuchseishockeytrainer in Rosenheim</span><span class="t-en">Youth ice hockey coach in Rosenheim</span></p>
-  <p class="hero-coords">
-    <span class="hero-coord-dot" aria-hidden="true"></span><span class="hero-coords-text">47.8504° N · 12.1321° E</span>
-  </p>
   <div class="scroll-hint"><span>Scroll</span></div>
 </div>
 
 <style>
   .hero {
     display: flex; flex-direction: column;
+    align-items: center;
     justify-content: flex-start;
-    padding: 0 3rem 24px;
-    padding-top: 45vh;
-    min-height: 100vh;
+    padding: 0 3rem 40px;
+    padding-top: 22vh;
+    min-height: 62vh;
     position: relative;
+    text-align: center;
+    background: #F5F5F3;
+    z-index: 1;
+  }
+  .hero-logo {
+    width: 3cm;
+    height: auto;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: heroFadeUp 0.7s ease 0.2s forwards;
   }
   .hero h1 {
     font-size: clamp(2.5rem, 7vw, 5.5rem);
     font-weight: 700;
     letter-spacing: -2px;
     line-height: 1.0;
-    color: var(--white);
-    margin-bottom: 14px;
+    color: #1a1a1a;
+    margin: 0 0 14px;
     opacity: 0;
     transform: translateY(20px);
-    animation: heroFadeUp 0.8s ease 0.3s forwards;
+    animation: heroFadeUp 0.8s ease 0.5s forwards;
   }
-  .hero h1 .hero-line-1 { display: block; }
-  .hero h1 .hero-line-2 {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 12px;
-    font-size: 0.22em;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 1;
-  }
-  .hero h1 .hero-name-wild { color: var(--orange); }
-  .hero h1 .hero-x {
-    display: inline-block;
-    width: 0.7em;
-    height: 0.7em;
-    margin-right: 0.12em;
-    margin-left: -0.05em;
-    vertical-align: 0.05em;
-  }
-  .hero h1 .hero-x svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-  .x-rotor {
-    transform-origin: 20px 20px;
-  }
-  .x-stroke {
-    stroke: rgba(252,80,0,0.7);
-    stroke-width: 2.2;
-    stroke-linecap: round;
-    fill: none;
-    stroke-dasharray: 32;
-    stroke-dashoffset: 32;
-  }
-  .x-stroke-1 { animation: xDraw 0.5s cubic-bezier(.5,.1,.2,1) 1.0s forwards; }
-  .x-stroke-2 { animation: xDraw 0.5s cubic-bezier(.5,.1,.2,1) 1.2s forwards; }
-  @keyframes xDraw { to { stroke-dashoffset: 0; } }
-  .x-center {
-    fill: var(--orange);
-    opacity: 0;
-    animation: xCenterIn 0.4s ease 1.7s forwards;
-  }
-  @keyframes xCenterIn { to { opacity: 0.85; } }
-  :global(body.light) .x-stroke { stroke: rgba(252,80,0,0.7); }
-  @media (prefers-reduced-motion: reduce) {
-    .x-stroke { stroke-dashoffset: 0; }
-    .x-center { opacity: 0.85; }
-  }
-  .hero h1 .hero-sub-tag {
-    display: inline-flex;
-    align-items: center;
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 1em;
-    font-weight: 500;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.55);
-    padding: 6px 10px;
-    border: 1px solid rgba(255,255,255,0.18);
-    line-height: 1;
-    white-space: nowrap;
-  }
-  .hero h1 .hero-sub-bracket {
-    color: var(--orange);
-    margin: 0 4px;
-    font-weight: 400;
-  }
-  .hero h1 .hero-aka-wild,
-  .hero h1 .hero-aka-project {
-    color: inherit;
-  }
-  :global(body.light) .hero h1 .hero-sub-tag {
-    color: rgba(0,0,0,0.65);
-    border-color: rgba(0,0,0,0.18);
-  }
-  :global(body.light) .hero h1 .hero-x { color: rgba(0,0,0,0.4); }
-  .hero-aka {
-    font-size: clamp(1rem, 2.5vw, 1.4rem);
-    font-weight: 300;
-    color: rgba(255,255,255,0.4);
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-    opacity: 0;
-    transform: translateY(15px);
-    animation: heroFadeUp 0.7s ease 0.6s forwards;
-  }
-  .hero-aka strong {
-    font-weight: 600;
-  }
-  .hero-aka-wild { color: var(--orange); }
-  .hero-aka-project { color: var(--white); }
-  :global(body.light) .hero-aka-project { color: #1a1a1a; }
-  .hero-role {
-    font-size: clamp(0.65rem, 1.5vw, 0.85rem);
-    font-weight: 300;
-    color: rgba(255,255,255,0.25);
-    letter-spacing: 0.5px;
-    margin-bottom: 0;
-    opacity: 0;
-    transform: translateY(12px);
-    animation: heroFadeUp 0.7s ease 0.8s forwards;
-  }
-
-  /* ── COORDINATES ─────────────────────── */
-  .hero-coords {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 11px;
-    font-weight: 300;
-    letter-spacing: 1.5px;
-    color: rgba(255,255,255,0.42);
-    font-variant-numeric: tabular-nums;
-    margin: 6px 0 0;
-    opacity: 0;
-    transform: translateY(8px);
-    animation: heroFadeUp 0.6s ease 1.2s forwards;
-  }
-  .hero-coord-dot {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--orange);
-    box-shadow: 0 0 0 0 rgba(252,80,0,0.55);
-    animation: heroCoordPulse 2.4s ease-in-out 2.2s infinite;
-    flex-shrink: 0;
-  }
-  @keyframes heroCoordPulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(252,80,0,0.55); transform: scale(1); }
-    50%      { box-shadow: 0 0 0 5px rgba(252,80,0,0); transform: scale(1.2); }
-  }
-  .hero-coords-text {
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 1.5px solid var(--orange);
-    width: 0;
-    vertical-align: middle;
-    animation:
-      heroCoordTyping 1.8s steps(23) 1.8s forwards,
-      heroCoordCursor 0.55s step-end 1.8s 8 forwards;
-  }
-  @keyframes heroCoordTyping {
-    to { width: 20em; }
-  }
-  @keyframes heroCoordCursor {
-    0%, 49% { border-color: var(--orange); }
-    50%, 100% { border-color: transparent; }
-  }
+  .hero-name-wild { color: var(--orange); }
 
   /* ── SCROLL INDICATOR ──────────────── */
   .scroll-hint {
     margin-top: 24px;
     display: flex; flex-direction: column; align-items: center; gap: 6px;
     opacity: 0;
-    animation: hintFadeIn 0.6s ease 2.8s forwards;
+    animation: hintFadeIn 0.6s ease 1.4s forwards;
   }
   .scroll-hint span {
     font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
-    color: rgba(255,255,255,0.2);
+    color: rgba(0,0,0,0.35);
     font-weight: 400;
   }
   .scroll-hint::after {
     content: '';
     width: 1px; height: 24px;
     background: linear-gradient(to bottom, var(--orange), transparent);
-    animation: scrollPulse 2s ease-in-out 3s infinite;
+    animation: scrollPulse 2s ease-in-out 1.8s infinite;
   }
 
   @keyframes heroFadeUp { to { opacity: 1; transform: translateY(0); } }
@@ -224,21 +67,11 @@
     50% { opacity: 0.8; transform: scaleY(1.3); }
   }
 
-  /* ── Light Mode ── */
-  :global(body.light) .hero h1 { color: #1a1a1a; }
-  :global(body.light) .hero-aka { color: rgba(0,0,0,0.5); }
-  :global(body.light) .hero-aka strong { color: #1a1a1a; font-weight: 700; }
-  :global(body.light) .hero-role { color: rgba(0,0,0,0.35); }
-  :global(body.light) .hero-coords { color: rgba(0,0,0,0.5); }
-  :global(body.light) .scroll-hint span { color: rgba(0,0,0,0.2); }
-  :global(body.light) .scroll-hint::after { background: linear-gradient(to bottom, var(--orange), transparent); }
-
   @media (max-width: 700px) {
     .hero {
-      padding: 0 1.25rem 0;
-      min-height: 100svh;
-      justify-content: flex-start;
-      padding-top: 62vh;
+      padding: 0 1.25rem 32px;
+      min-height: 56vh;
+      padding-top: 28vh;
     }
     .hero h1 {
       letter-spacing: -1.5px;
@@ -246,34 +79,11 @@
       margin-bottom: 10px;
       line-height: 0.95;
     }
-    .hero h1 .hero-line-2 { font-size: 0.32em; margin-top: 10px; gap: 5px; }
-    .hero h1 .hero-x { width: 0.8em; height: 0.8em; margin-right: 0.1em; }
-    .hero h1 .hero-sub-tag {
-      font-size: 0.95em;
-      letter-spacing: 2.2px;
-      padding: 5px 8px;
-    }
-    .hero-aka {
-      margin-bottom: 6px;
-      font-size: 0.95rem;
-      letter-spacing: 0.5px;
-    }
-    .hero-role {
-      font-size: 0.7rem;
-      margin-bottom: 0;
-      letter-spacing: 0.3px;
-    }
-    .hero-coords { font-size: 9px; letter-spacing: 1.2px; gap: 6px; margin-top: 4px; }
-    .hero-coord-dot { width: 5px; height: 5px; }
     .scroll-hint { margin-top: 40px; opacity: 1; animation: none; }
     .scroll-hint::after { animation: scrollPulse 2s ease-in-out infinite; }
-
   }
   @media (max-width: 400px) {
-    .hero { padding-top: 60vh; }
+    .hero { padding-top: 26vh; }
     .hero h1 { letter-spacing: -1px; font-size: 2.2rem; }
-    .hero-aka { font-size: 0.85rem; }
-    .hero-role { font-size: 0.65rem; }
-    .hero-coords { font-size: 8.5px; letter-spacing: 1px; }
   }
 </style>
