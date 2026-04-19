@@ -100,152 +100,6 @@ import CookieBanner from '../components/CookieBanner.astro';
     width: 100%;
   }
 
-  /* ── CTA ROW ─────────────────────── */
-  .cta-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    padding: 28px 0 4px;
-    opacity: 0;
-    transform: translateY(8px);
-    animation: ctaIn 0.6s ease 2.4s forwards;
-  }
-  @keyframes ctaIn { to { opacity: 1; transform: none; } }
-  .cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 24px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 0;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
-    will-change: transform;
-  }
-  .cta-arrow {
-    display: inline-block;
-    transition: transform 0.25s ease;
-  }
-  .cta:hover .cta-arrow { transform: translateX(3px); }
-  .cta-primary {
-    background: var(--orange);
-    color: #fff;
-    box-shadow: 0 6px 24px rgba(252,80,0,0.25);
-  }
-  .cta-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(252,80,0,0.35);
-  }
-  .cta-ghost {
-    background: transparent;
-    color: rgba(255,255,255,0.85);
-    border: 1px solid rgba(255,255,255,0.18);
-  }
-  .cta-ghost:hover {
-    color: var(--orange);
-    border-color: rgba(252,80,0,0.4);
-    transform: translateY(-2px);
-  }
-  :global(body.light) .cta-ghost {
-    color: rgba(0,0,0,0.7);
-    border-color: rgba(0,0,0,0.15);
-  }
-  :global(body.light) .cta-ghost:hover {
-    color: var(--orange);
-    border-color: rgba(252,80,0,0.4);
-  }
-
-  @keyframes fadeIn { to { opacity: 1; } }
-
-
-  /* ── ABOUT TOGGLE ────────────────── */
-  .about-toggle {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 0;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    cursor: pointer;
-    user-select: none;
-    transition: opacity 0.2s;
-  }
-  .about-toggle:hover { opacity: 1; }
-  .about-toggle:hover .about-toggle-label { color: var(--white); }
-  .about-toggle:hover .about-toggle-icon { border-color: var(--orange); color: var(--orange); transform: scale(1.1); }
-  .about-toggle-label {
-    font-size: 11px; font-weight: 500;
-    letter-spacing: 3px; text-transform: uppercase;
-    color: var(--orange);
-    transition: color 0.3s;
-  }
-  .about-toggle-icon {
-    width: 28px; height: 28px;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 50%;
-    color: var(--grey-mid);
-    font-size: 16px; font-weight: 300;
-    transition: all 0.3s;
-  }
-  .about-toggle.open .about-toggle-icon {
-    transform: rotate(45deg);
-    border-color: var(--orange);
-    color: var(--orange);
-  }
-  .about-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease, opacity 0.4s ease;
-    opacity: 0;
-  }
-  .about-body.open {
-    max-height: 600px;
-    opacity: 1;
-  }
-  .about-body-inner {
-    padding: 8px 0 28px;
-  }
-  .about-text {
-    font-size: 14px;
-    color: var(--grey-mid);
-    line-height: 1.8;
-    font-weight: 300;
-  }
-  .about-text + .about-text {
-    margin-top: 12px;
-  }
-  .about-footnote {
-    margin-top: 28px;
-    font-size: 11px;
-    color: rgba(255,255,255,0.35);
-    letter-spacing: 0.5px;
-  }
-  .about-footnote a {
-    color: inherit;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255,255,255,0.15);
-    padding-bottom: 1px;
-    transition: color 0.2s, border-color 0.2s;
-  }
-  .about-footnote a:hover {
-    color: var(--orange);
-    border-bottom-color: var(--orange);
-  }
-
-  /* ── LINKTREE ────────────────────── */
-  .links-section {
-    margin-top: 12px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    padding-top: 24px;
-  }
-  .links-label {
-    font-size: 11px; font-weight: 500;
-    letter-spacing: 3px; text-transform: uppercase;
-    color: var(--orange);
-    margin-bottom: 16px;
-  }
-
   /* ── PROJEKTE SECTION ────────────── */
   .projects-section {
     margin-top: 80px;
@@ -430,22 +284,6 @@ import CookieBanner from '../components/CookieBanner.astro';
       rgba(80,80,80,0.95) 82%,
       rgba(40,40,40,1) 100%);
   }
-  :global(body.light) .about-toggle {
-    border-top-color: rgba(0,0,0,0.08);
-  }
-  :global(body.light) .about-toggle-label { color: var(--orange); }
-  :global(body.light) .about-toggle:hover .about-toggle-label { color: #1a1a1a; }
-  :global(body.light) .about-toggle-icon {
-    border-color: rgba(0,0,0,0.12);
-    color: rgba(0,0,0,0.35);
-  }
-  :global(body.light) .about-text { color: rgba(0,0,0,0.55); }
-  :global(body.light) .about-footnote { color: rgba(0,0,0,0.4); }
-  :global(body.light) .about-footnote a { border-bottom-color: rgba(0,0,0,0.2); }
-  :global(body.light) .links-section {
-    border-top-color: rgba(0,0,0,0.06);
-  }
-  :global(body.light) .links-label { color: var(--orange); }
   :global(body.light) .project {
     border-color: rgba(0,0,0,0.1);
     background: rgba(0,0,0,0.015);
@@ -457,50 +295,10 @@ import CookieBanner from '../components/CookieBanner.astro';
   :global(body.light) .project-num { color: rgba(0,0,0,0.55); }
   :global(body.light) .project-title { color: #1a1a1a; }
   :global(body.light) .project-desc { color: rgba(0,0,0,0.6); }
-  :global(body.light) .contact-pill {
-    color: rgba(0,0,0,0.45);
-    border-color: rgba(0,0,0,0.08);
-  }
-  :global(body.light) .contact-pill:hover {
-    color: #1a1a1a;
-    border-color: rgba(252,80,0,0.25);
-    background: rgba(252,80,0,0.04);
-  }
-  :global(body.light) .contact-pill::before,
-  :global(body.light) .contact-pill::after {
-    background: linear-gradient(90deg, transparent, var(--orange), transparent);
-  }
 
   /* ── RESPONSIVE ──────────────────── */
   @media (max-width: 700px) {
     .lower { padding: 0 1.25rem 40px; max-width: 100%; }
-
-    /* CTA stack full-width */
-    .cta-row {
-      flex-direction: column;
-      flex-wrap: nowrap;
-      gap: 10px;
-      padding: 22px 0 6px;
-    }
-    .cta {
-      width: 100%;
-      justify-content: center;
-      padding: 14px 18px;
-      font-size: 11px;
-      letter-spacing: 1.2px;
-    }
-    .cta-primary { box-shadow: 0 4px 18px rgba(252,80,0,0.22); }
-
-    /* About */
-    .about-toggle { padding: 14px 0; }
-    .about-toggle-label { font-size: 10px; letter-spacing: 2.5px; }
-    .about-toggle-icon { width: 20px; height: 20px; font-size: 12px; }
-    .about-text { font-size: 12px; line-height: 1.55; }
-    .about-footnote { font-size: 10px; margin-top: 22px; }
-
-    /* Links */
-    .links-section { margin-top: 4px; padding-top: 14px; }
-    .links-label { margin-bottom: 8px; font-size: 9px; letter-spacing: 2px; }
 
     /* Projekte (mobile) */
     .projects-section { margin-top: 56px; }
@@ -513,12 +311,10 @@ import CookieBanner from '../components/CookieBanner.astro';
     .project-title { letter-spacing: -1px; margin-bottom: 12px; }
     .project-desc { font-size: 13.5px; margin-bottom: 18px; line-height: 1.55; }
     .project-link { font-size: 10px; letter-spacing: 1.5px; }
-
   }
 
   @media (max-width: 380px) {
     .lower { padding: 0 1rem 36px; }
-    .cta { font-size: 10px; padding: 13px 14px; }
   }
 </style>
 
