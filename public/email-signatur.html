@@ -6,8 +6,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <style>
   body { font-family: -apple-system, sans-serif; background: #f0f0f0; padding: 40px 24px; margin: 0; }
-  .page-title { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #999; text-align: center; margin-bottom: 32px; }
   .preview-wrap { max-width: 640px; margin: 0 auto 48px; }
+  .preview-wrap:first-of-type { margin-top: 8px; }
   .preview-label {
     font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
     color: #aaa; margin-bottom: 10px; padding-left: 4px;
@@ -38,8 +38,6 @@
 </head>
 <body>
 
-<p class="page-title">E-Mail Signatur — Wild Project</p>
-
 <!-- ═══════════════════════════════════════════ -->
 <!-- LIGHT MODE PREVIEW                         -->
 <!-- ═══════════════════════════════════════════ -->
@@ -48,10 +46,9 @@
   <div class="preview-box light">
 
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; line-height: 1.5; border-collapse: collapse;">
-  <tr><td style="font-size: 14px; color: #1a1a1a;">
-    Servus,<br>René
+  <tr><td style="font-family: Menlo, Consolas, 'Courier New', monospace; font-size: 11px; color: #999; letter-spacing: 0.3px; padding-bottom: 10px;">
+    // René Wild
   </td></tr>
-  <tr><td style="font-size: 12px; line-height: 12px;">&nbsp;</td></tr>
   <tr><td>
     <div style="width: 20px; height: 1px; background-color: #FC5000;"></div>
   </td></tr>
@@ -73,10 +70,9 @@
   <div class="preview-box dark">
 
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; line-height: 1.5; border-collapse: collapse;">
-  <tr><td style="font-size: 14px; color: #F5F5F3;">
-    Servus,<br>René
+  <tr><td style="font-family: Menlo, Consolas, 'Courier New', monospace; font-size: 11px; color: #777; letter-spacing: 0.3px; padding-bottom: 10px;">
+    // René Wild
   </td></tr>
-  <tr><td style="font-size: 12px; line-height: 12px;">&nbsp;</td></tr>
   <tr><td>
     <div style="width: 20px; height: 1px; background-color: #FC5000;"></div>
   </td></tr>
@@ -99,7 +95,7 @@
 
 <style>
   @media (prefers-color-scheme: dark) {
-    .sig-name { color: #F5F5F3 !important; }
+    .sig-marker { color: #777 !important; }
     .sig-link { color: #aaa !important; }
     .sig-line td { background-color: #FC5000 !important; }
   }
@@ -108,11 +104,11 @@
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; line-height: 1.5; border-collapse: collapse; background: transparent;">
   <tr>
     <td>
-      <span class="sig-name" style="font-size: 14px; color: #1a1a1a;">Servus,<br>René</span>
+      <span class="sig-marker" style="font-family: Menlo, Consolas, 'Courier New', monospace; font-size: 11px; color: #999; letter-spacing: 0.3px;">// René Wild</span>
     </td>
   </tr>
   <tr>
-    <td style="font-size: 12px; line-height: 12px;">&nbsp;</td>
+    <td style="font-size: 10px; line-height: 10px;">&nbsp;</td>
   </tr>
   <tr class="sig-line">
     <td style="font-size: 0; line-height: 0;"><table cellpadding="0" cellspacing="0" border="0"><tr><td style="width: 20px; height: 1px; background-color: #FC5000; font-size: 0; line-height: 0;"></td></tr></table></td>
