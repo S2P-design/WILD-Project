@@ -10,8 +10,8 @@ import CookieBanner from '../components/CookieBanner.astro';
 ---
 
 <Layout
-  title="René Wild — Eishockeytrainer & Development Coach | Wild Project"
-  description="René Wild — Development Coach der Starbulls Rosenheim, Host des Shift2Pro Podcasts und Ästhetik Junkie. 30+ Jahre Eishockey, ganzheitliche Spielerentwicklung und Coaching aus Rosenheim."
+  title="René Wild — Wild Project"
+  description="Ich bin René Wild. Arbeite im Eishockey-Nachwuchs in Rosenheim. Schreibe manchmal, fotografiere manchmal, starte gerade einen Podcast."
   path="/"
 >
   <div class="page-bg"></div>
@@ -33,23 +33,24 @@ import CookieBanner from '../components/CookieBanner.astro';
       <div class="about-body" id="aboutBody">
         <div class="about-body-inner">
           <p class="about-text">
-            <span class="t-de">Ich bin René Wild — professioneller Nachwuchs-Eishockeytrainer, stolzer Papa und bekennender Ästhetik Junkie. Als Development Coach der Starbulls Rosenheim begleite ich täglich die Entwicklung junger Talente.</span>
-            <span class="t-en">Hey, I'm René Wild — a professional youth hockey coach, proud dad and self-confessed aesthetics junkie. As Development Coach for the Starbulls Rosenheim, I get to work with the next generation of players every single day, helping them grow on and off the ice.</span>
+            Ich bin René Wild.<br>
+            Arbeite im Eishockey-Nachwuchs in Rosenheim.<br>
+            Schreibe manchmal, fotografiere manchmal,<br>
+            starte gerade einen Podcast.
           </p>
-          <p class="about-text">
-            <span class="t-de">Heute verbinde ich Coaching, Consulting und eigene Projekte zu einem ganzheitlichen Ansatz, der Spieler, Teams und Organisationen nachhaltig weiterbringt.</span>
-            <span class="t-en">Today, I bring coaching, consulting and my own creative projects together into one holistic approach — designed to move players, teams and organizations forward, and built to last.</span>
+          <p class="about-text">Hier findest du, was ich gerade mache:</p>
+          <ul class="about-list">
+            <li>Shift2Pro (Podcast, in Arbeit)</li>
+            <li>Fotografie (Unsplash)</li>
+            <li>Starbulls Rosenheim</li>
+            <li>Kontakt: <a href="mailto:rene@wildproject.pro">rene@wildproject.pro</a></li>
+          </ul>
+          <p class="about-signoff">
+            Servus,<br>René
           </p>
-          <div class="about-stats">
-            <div class="stat">
-              <div class="stat-number">30+</div>
-              <div class="stat-label"><span class="t-de">Jahre Erfahrung</span><span class="t-en">Years experience</span></div>
-            </div>
-            <a href="https://www.eliteprospects.com/staff/45114/rene-wild" target="_blank" rel="noopener" class="stat stat-link">
-              <div class="stat-number">EP</div>
-              <div class="stat-label">Elite Prospects</div>
-            </a>
-          </div>
+          <p class="about-footnote">
+            <a href="https://www.eliteprospects.com/staff/45114/rene-wild" target="_blank" rel="noopener">Profil auf Elite Prospects &rarr;</a>
+          </p>
         </div>
       </div>
 
@@ -324,28 +325,59 @@ import CookieBanner from '../components/CookieBanner.astro';
   .about-text + .about-text {
     margin-top: 12px;
   }
-  .about-stats {
-    display: flex; gap: 24px; margin-top: 20px;
+  .about-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0 0;
+    font-size: 14px;
+    color: var(--grey-mid);
+    line-height: 1.8;
+    font-weight: 300;
   }
-  .stat {
-    padding: 14px 18px;
-    background: rgba(255,255,255,0.04);
-    backdrop-filter: blur(4px);
-    transition: all 0.3s;
+  .about-list li {
+    padding-left: 1.25em;
+    position: relative;
   }
-  .stat:hover {
-    background: rgba(252,80,0,0.08);
-    transform: translateY(-2px);
+  .about-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: rgba(255,255,255,0.35);
   }
-  .stat-link { text-decoration: none; color: inherit; }
-  .stat-number {
-    font-size: 20px; font-weight: 700;
+  .about-list a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(255,255,255,0.2);
+    transition: text-decoration-color 0.2s, color 0.2s;
+  }
+  .about-list a:hover {
     color: var(--orange);
-    margin-bottom: 2px;
+    text-decoration-color: var(--orange);
   }
-  .stat-label {
-    font-size: 9px; color: var(--grey-mid);
-    letter-spacing: 1px; text-transform: uppercase;
+  .about-signoff {
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--grey-mid);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+  .about-footnote {
+    margin-top: 28px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.5px;
+  }
+  .about-footnote a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    padding-bottom: 1px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .about-footnote a:hover {
+    color: var(--orange);
+    border-bottom-color: var(--orange);
   }
 
   /* ── LINKTREE ────────────────────── */
@@ -580,16 +612,12 @@ import CookieBanner from '../components/CookieBanner.astro';
     color: rgba(0,0,0,0.35);
   }
   :global(body.light) .about-text { color: rgba(0,0,0,0.55); }
-  :global(body.light) .stat {
-    background: rgba(0,0,0,0.03);
-    border: 1px solid rgba(0,0,0,0.05);
-  }
-  :global(body.light) .stat:hover {
-    background: rgba(252,80,0,0.05);
-    border-color: rgba(252,80,0,0.12);
-  }
-  :global(body.light) .stat-number { color: var(--orange); }
-  :global(body.light) .stat-label { color: rgba(0,0,0,0.4); }
+  :global(body.light) .about-list { color: rgba(0,0,0,0.55); }
+  :global(body.light) .about-list li::before { color: rgba(0,0,0,0.35); }
+  :global(body.light) .about-list a { text-decoration-color: rgba(0,0,0,0.2); }
+  :global(body.light) .about-signoff { color: rgba(0,0,0,0.55); }
+  :global(body.light) .about-footnote { color: rgba(0,0,0,0.4); }
+  :global(body.light) .about-footnote a { border-bottom-color: rgba(0,0,0,0.2); }
   :global(body.light) .links-section {
     border-top-color: rgba(0,0,0,0.06);
   }
@@ -643,10 +671,9 @@ import CookieBanner from '../components/CookieBanner.astro';
     .about-toggle-label { font-size: 10px; letter-spacing: 2.5px; }
     .about-toggle-icon { width: 20px; height: 20px; font-size: 12px; }
     .about-text { font-size: 12px; line-height: 1.55; }
-    .about-stats { flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-    .stat { flex: 1 1 calc(50% - 4px); padding: 12px 10px; }
-    .stat-number { font-size: 18px; }
-    .stat-label { font-size: 8px; letter-spacing: 1px; }
+    .about-list { font-size: 12px; line-height: 1.55; margin-top: 10px; }
+    .about-signoff { font-size: 12px; line-height: 1.55; margin-top: 16px; }
+    .about-footnote { font-size: 10px; margin-top: 22px; }
 
     /* Links */
     .links-section { margin-top: 4px; padding-top: 14px; }
@@ -691,7 +718,6 @@ import CookieBanner from '../components/CookieBanner.astro';
   @media (max-width: 380px) {
     .lower { padding: 0 1rem 36px; }
     .cta { font-size: 10px; padding: 13px 14px; }
-    .stat { flex: 1 1 100%; }
   }
 </style>
 

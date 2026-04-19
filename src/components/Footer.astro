@@ -1,17 +1,7 @@
 ---
-interface Props {
-  tagline?: string;
-  taglineSteps?: number;
-  taglineWidthEm?: number;
-}
-const {
-  tagline = 'LIVE BY DESIGN, NOT BY DEFAULT.',
-  taglineSteps = 32,
-  taglineWidthEm = 25.5,
-} = Astro.props;
 ---
 
-<footer class="footer" style={`--tg-steps:${taglineSteps};--tg-width:${taglineWidthEm}em;`}>
+<footer class="footer">
   <div class="footer-inner">
     <div class="footer-left">
       <p class="copyright">&copy; 2026 Wild Project — René Wild</p>
@@ -27,7 +17,6 @@ const {
     </div>
     <div class="footer-right">
       <img src="/wp-logo.png" alt="WP" class="footer-logo">
-      <p class="footer-tagline">{tagline}</p>
       <p class="footer-coords"><span class="coord-dot" aria-hidden="true"></span>47.8561° N &nbsp; 12.1289° E</p>
     </div>
   </div>
@@ -89,23 +78,6 @@ const {
     margin-bottom: 2px;
   }
   .footer-logo:hover { opacity: 0.9; }
-  .footer-tagline {
-    font-size: 9px;
-    font-weight: 400;
-    letter-spacing: 2px;
-    color: rgba(255,255,255,0.4);
-    overflow: hidden;
-    border-right: 2px solid var(--orange);
-    white-space: nowrap;
-    width: 0;
-    animation: typing 2.5s steps(var(--tg-steps, 32)) 0.5s forwards, blink 0.6s step-end infinite 0.5s;
-  }
-  @keyframes typing {
-    to { width: var(--tg-width, 25.5em); }
-  }
-  @keyframes blink {
-    50% { border-color: transparent; }
-  }
   .footer-coords {
     display: inline-flex;
     align-items: center;
@@ -139,7 +111,6 @@ const {
   }
   :global(body.light) .copyright,
   :global(body.light) .footer-links a,
-  :global(body.light) .footer-tagline,
   :global(body.light) .footer-coords {
     color: rgba(255,255,255,0.55) !important;
   }
@@ -148,7 +119,6 @@ const {
   :global(body.light) .footer-links a { color: rgba(0,0,0,0.55); }
   :global(body.light) .footer-links a:hover { color: var(--orange); }
   :global(body.light) .footer-links .sep { color: rgba(0,0,0,0.25); }
-  :global(body.light) .footer-tagline { color: rgba(0,0,0,0.5); border-right-color: var(--orange); }
   :global(body.light) .footer-coords { color: rgba(0,0,0,0.55); }
 
   /* ── Mobile ── */
@@ -165,11 +135,6 @@ const {
     .copyright { font-size: 9px; }
     .footer-links { font-size: 9px; }
     .footer-links .sep { margin: 0 4px; }
-    .footer-tagline {
-      font-size: 8px;
-      letter-spacing: 1.5px;
-      animation: typing 2.5s steps(32) 0.5s forwards, blink 0.6s step-end infinite 0.5s;
-    }
     .footer-coords { font-size: 9px; }
     .footer-logo { width: 26px; height: 26px; }
   }
