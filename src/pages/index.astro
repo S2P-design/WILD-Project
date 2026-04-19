@@ -11,7 +11,7 @@ import CookieBanner from '../components/CookieBanner.astro';
 
 <Layout
   title="René Wild — Wild Project"
-  description="Ich bin René Wild. Arbeite im Eishockey-Nachwuchs in Rosenheim. Schreibe manchmal, fotografiere manchmal, starte gerade einen Podcast."
+  description="Ich bin René Wild, Papa und Nachwuchseishockeytrainer in Rosenheim. Für mich ist wichtig, wo die Spieler von morgen herkommen."
   path="/"
 >
   <div class="page-bg"></div>
@@ -33,18 +33,24 @@ import CookieBanner from '../components/CookieBanner.astro';
       <div class="about-body" id="aboutBody">
         <div class="about-body-inner">
           <p class="about-text">
-            Ich bin René Wild.<br>
-            Arbeite im Eishockey-Nachwuchs in Rosenheim.<br>
-            Schreibe manchmal, fotografiere manchmal,<br>
-            starte gerade einen Podcast.
+            Ich bin René Wild, stolzer Papa und Nachwuchseishockeytrainer in
+            Rosenheim. Ich mache das mit Leidenschaft, weil mir wichtig ist,
+            wo die Spieler von morgen herkommen.
           </p>
-          <p class="about-text">Hier findest du, was ich gerade mache:</p>
-          <ul class="about-list">
-            <li>Shift2Pro (Podcast, in Arbeit)</li>
-            <li>Fotografie (Unsplash)</li>
-            <li>Starbulls Rosenheim</li>
-            <li>Kontakt: <a href="mailto:rene@wildproject.pro">rene@wildproject.pro</a></li>
-          </ul>
+          <p class="about-text">
+            Neben dem Eishockey bin ich am liebsten draußen: fotografieren,
+            fliegenfischen, Tennis, Golf — alles Dinge, die mir Freude
+            bereiten und bei denen ich besser werden möchte. Ähnlich ist es
+            mit meiner Arbeit. Sie soll aussehen, als hätte sich jemand
+            Gedanken gemacht, und am Ende muss sie vor allem mir selbst
+            gefallen. Ich bin ehrgeizig, manchmal zu perfektionistisch.
+          </p>
+          <p class="about-text">
+            Wild Project ist meine Plattform neben dem Trainerdasein. Hier
+            finden Projekte Platz, die mir Freude machen und mich als
+            Unternehmer begleiten. Den Anfang macht Shift2Pro — ein Podcast
+            mit Menschen, die etwas bewegen und weitergeben wollen.
+          </p>
           <p class="about-signoff">
             Servus,<br>René
           </p>
@@ -325,36 +331,6 @@ import CookieBanner from '../components/CookieBanner.astro';
   .about-text + .about-text {
     margin-top: 12px;
   }
-  .about-list {
-    list-style: none;
-    padding: 0;
-    margin: 12px 0 0 0;
-    font-size: 14px;
-    color: var(--grey-mid);
-    line-height: 1.8;
-    font-weight: 300;
-  }
-  .about-list li {
-    padding-left: 1.25em;
-    position: relative;
-  }
-  .about-list li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: rgba(255,255,255,0.35);
-  }
-  .about-list a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-color: rgba(255,255,255,0.2);
-    transition: text-decoration-color 0.2s, color 0.2s;
-  }
-  .about-list a:hover {
-    color: var(--orange);
-    text-decoration-color: var(--orange);
-  }
   .about-signoff {
     margin-top: 20px;
     font-size: 14px;
@@ -612,9 +588,6 @@ import CookieBanner from '../components/CookieBanner.astro';
     color: rgba(0,0,0,0.35);
   }
   :global(body.light) .about-text { color: rgba(0,0,0,0.55); }
-  :global(body.light) .about-list { color: rgba(0,0,0,0.55); }
-  :global(body.light) .about-list li::before { color: rgba(0,0,0,0.35); }
-  :global(body.light) .about-list a { text-decoration-color: rgba(0,0,0,0.2); }
   :global(body.light) .about-signoff { color: rgba(0,0,0,0.55); }
   :global(body.light) .about-footnote { color: rgba(0,0,0,0.4); }
   :global(body.light) .about-footnote a { border-bottom-color: rgba(0,0,0,0.2); }
@@ -671,7 +644,6 @@ import CookieBanner from '../components/CookieBanner.astro';
     .about-toggle-label { font-size: 10px; letter-spacing: 2.5px; }
     .about-toggle-icon { width: 20px; height: 20px; font-size: 12px; }
     .about-text { font-size: 12px; line-height: 1.55; }
-    .about-list { font-size: 12px; line-height: 1.55; margin-top: 10px; }
     .about-signoff { font-size: 12px; line-height: 1.55; margin-top: 16px; }
     .about-footnote { font-size: 10px; margin-top: 22px; }
 
