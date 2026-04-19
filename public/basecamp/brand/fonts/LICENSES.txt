@@ -30,7 +30,7 @@ JETBRAINS MONO       (400, 600)
 CAVEAT               (400, 500)
   Foundry: Impallari Type
   License: SIL OFL 1.1
-  USE: Personal Notes, "Bleib wild." Tagline
+  USE: Personal Notes, "Servus." Tagline
 
 HOMEMADE APPLE       (400)
   Foundry: Font Diner
