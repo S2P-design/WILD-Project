@@ -8,26 +8,26 @@ import LegalLayout from '../layouts/LegalLayout.astro';
   pageTitle="Kontakt"
   intro="Kurz, direkt, fertig."
 >
-  <h2><span class="t-de">Nachricht senden</span><span class="t-en">Send a message</span></h2>
-  <p><span class="t-de">Kein Account, kein Login — einfach ausfüllen. Dein Mail-Programm öffnet sich mit der fertigen Nachricht.</span><span class="t-en">No account, no login — just fill in the form. Your mail app opens with the message ready to send.</span></p>
+  <h2>Nachricht senden</h2>
+  <p>Kein Account, kein Login — einfach ausfüllen. Dein Mail-Programm öffnet sich mit der fertigen Nachricht.</p>
 
   <form class="contact-form" id="contactForm" onsubmit="return sendMail()">
     <div class="form-field">
-      <label for="name"><span class="t-de">Name</span><span class="t-en">Name</span></label>
-      <input type="text" id="name" required autocomplete="name">
+      <label for="name">Name</label>
+      <input type="text" id="name" required autocomplete="name" placeholder="Dein Name">
     </div>
     <div class="form-field">
-      <label for="email"><span class="t-de">E-Mail</span><span class="t-en">Email</span></label>
-      <input type="email" id="email" required autocomplete="email">
+      <label for="email">E-Mail</label>
+      <input type="email" id="email" required autocomplete="email" placeholder="Deine E-Mail-Adresse">
     </div>
     <div class="form-field">
-      <label for="message"><span class="t-de">Nachricht</span><span class="t-en">Message</span></label>
-      <textarea id="message" rows="5" required></textarea>
+      <label for="message">Nachricht</label>
+      <textarea id="message" rows="5" required placeholder="Was liegt an?"></textarea>
     </div>
-    <button type="submit" class="form-btn"><span class="t-de">Mail öffnen</span><span class="t-en">Open mail</span></button>
+    <button type="submit" class="form-btn">Mail öffnen</button>
   </form>
 
-  <h2><span class="t-de">Oder direkt</span><span class="t-en">Or directly</span></h2>
+  <h2>Oder direkt</h2>
   <p>E-Mail: <a href="mailto:rene@wildproject.pro">rene@wildproject.pro</a></p>
 
   <script is:inline>
@@ -35,28 +35,11 @@ import LegalLayout from '../layouts/LegalLayout.astro';
       var name = document.getElementById('name').value.trim();
       var email = document.getElementById('email').value.trim();
       var msg = document.getElementById('message').value.trim();
-      var lang = document.documentElement.getAttribute('data-lang');
-      var subject, body;
-      if (lang === 'en') {
-        subject = encodeURIComponent('Contact request from ' + name);
-        body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + msg);
-      } else {
-        subject = encodeURIComponent('Kontaktanfrage von ' + name);
-        body = encodeURIComponent('Name: ' + name + '\nE-Mail: ' + email + '\n\n' + msg);
-      }
+      var subject = encodeURIComponent('Kontaktanfrage von ' + name);
+      var body = encodeURIComponent('Name: ' + name + '\nE-Mail: ' + email + '\n\n' + msg);
       window.location.href = 'mailto:rene@wildproject.pro?subject=' + subject + '&body=' + body;
       return false;
     }
-    // Set placeholders based on language
-    (function() {
-      var lang = document.documentElement.getAttribute('data-lang') || 'de';
-      var ph = lang === 'en'
-        ? { name: 'Your name', email: 'Your email address', message: 'What\'s on your mind?' }
-        : { name: 'Dein Name', email: 'Deine E-Mail-Adresse', message: 'Was liegt an?' };
-      document.getElementById('name').placeholder = ph.name;
-      document.getElementById('email').placeholder = ph.email;
-      document.getElementById('message').placeholder = ph.message;
-    })();
   </script>
 
 </LegalLayout>

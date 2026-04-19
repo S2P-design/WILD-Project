@@ -90,16 +90,7 @@ const websiteLd = {
 
   <script is:inline>
     if (localStorage.getItem('wp_theme') === 'light') document.documentElement.className = 'light-pre';
-    (function() {
-      var l = localStorage.getItem('wp_lang');
-      if (l !== 'de' && l !== 'en') l = 'de';
-      document.documentElement.setAttribute('data-lang', l);
-      document.documentElement.lang = l;
-    })();
   </script>
-  <style is:inline>
-    html[data-lang="de"] .t-en, html[data-lang="en"] .t-de { display: none !important; }
-  </style>
 
 {isHome && (
     <>

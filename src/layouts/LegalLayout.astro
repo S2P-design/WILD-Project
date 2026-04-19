@@ -18,17 +18,6 @@ const { title, description, pageTitle, intro } = Astro.props;
   <meta name="description" content={description}>
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
-  <script is:inline>
-    (function() {
-      var l = localStorage.getItem('wp_lang');
-      if (l !== 'de' && l !== 'en') l = 'de';
-      document.documentElement.setAttribute('data-lang', l);
-      document.documentElement.lang = l;
-    })();
-  </script>
-  <style is:inline>
-    html[data-lang="de"] .t-en, html[data-lang="en"] .t-de { display: none !important; }
-  </style>
 </head>
 <body>
 
@@ -39,18 +28,7 @@ const { title, description, pageTitle, intro } = Astro.props;
 
 <div class="page">
   <h1 class="page-title">{pageTitle}<span>.</span></h1>
-  <p class="page-intro">{intro}</p>
-
-  <p class="lang-note" id="langNoteEn" style="display:none">
-    <span class="lang-note-dot" aria-hidden="true"></span>
-    This page is provided in German for legal reasons.
-  </p>
-  <script is:inline>
-    if (localStorage.getItem('wp_lang') === 'en') {
-      var n = document.getElementById('langNoteEn');
-      if (n) n.style.display = 'inline-flex';
-    }
-  </script>
+  {intro && <p class="page-intro">{intro}</p>}
 
   <slot />
 

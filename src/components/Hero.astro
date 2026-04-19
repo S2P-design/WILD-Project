@@ -47,11 +47,6 @@
     opacity: 0;
     animation: hintFadeIn 0.6s ease 1.4s forwards;
   }
-  .scroll-hint span {
-    font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
-    color: rgba(0,0,0,0.35);
-    font-weight: 400;
-  }
   .scroll-hint::after {
     content: '';
     width: 1px; height: 24px;
@@ -68,9 +63,8 @@
 
   @media (max-width: 700px) {
     .hero {
-      padding: 0 1.25rem 32px;
+      padding: 28vh 1.25rem 32px;
       min-height: 56vh;
-      padding-top: 28vh;
     }
     .hero h1 {
       letter-spacing: -1.5px;
