@@ -23,6 +23,7 @@ import CookieBanner from '../components/CookieBanner.astro';
         <div class="projects-head">
           <span class="projects-eyebrow-line"></span>
           <span class="projects-eyebrow">Projekte</span>
+          <span class="projects-eyebrow-line"></span>
         </div>
 
         <article class="project">
@@ -247,11 +248,13 @@ import CookieBanner from '../components/CookieBanner.astro';
 
   /* ── PROJEKTE SECTION ────────────── */
   .projects-section {
-    margin-top: 24px;
+    margin-top: 80px;
+    text-align: center;
   }
   .projects-head {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 14px;
     margin-bottom: 20px;
     opacity: 0;
@@ -284,6 +287,7 @@ import CookieBanner from '../components/CookieBanner.astro';
     transform: translateY(20px);
     animation: projectsFadeUp 1s ease 0.6s forwards;
     overflow: hidden;
+    text-align: center;
   }
   .project::before,
   .project::after {
@@ -305,6 +309,7 @@ import CookieBanner from '../components/CookieBanner.astro';
   .project-meta {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 14px;
     margin-bottom: 18px;
     font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -357,7 +362,7 @@ import CookieBanner from '../components/CookieBanner.astro';
     color: var(--grey-mid);
     font-weight: 300;
     max-width: 540px;
-    margin: 0 0 24px;
+    margin: 0 auto 24px;
   }
   .project-link {
     display: inline-flex;
@@ -498,7 +503,7 @@ import CookieBanner from '../components/CookieBanner.astro';
     .links-label { margin-bottom: 8px; font-size: 9px; letter-spacing: 2px; }
 
     /* Projekte (mobile) */
-    .projects-section { margin-top: 18px; }
+    .projects-section { margin-top: 56px; }
     .projects-head { margin-bottom: 16px; gap: 12px; }
     .projects-eyebrow-line { width: 24px; }
     .projects-eyebrow { font-size: 9px; letter-spacing: 2.5px; }
