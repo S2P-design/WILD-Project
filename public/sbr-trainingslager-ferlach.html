@@ -989,20 +989,71 @@
     <!-- UNTERKUNFT -->
     <div class="calc-card">
       <div class="calc-card-header">
-        <span>Unterkunft &amp; Verpflegung</span>
+        <span>Hotel &amp; Verpflegung</span>
         <span class="total" id="totalAccom">&mdash;</span>
       </div>
+
+      <!-- Zentrale N&auml;chte-Eingabe -->
+      <div class="calc-row" style="background:rgba(0,120,95,0.06); border-left:2px solid var(--green-bright);">
+        <div>
+          <div class="label">N&auml;chte im Hotel</div>
+          <div class="detail">Gilt f&uuml;r alle Zimmertypen &amp; Fr&uuml;hst&uuml;ck</div>
+        </div>
+        <div class="calc-unit" style="visibility:hidden;"></div>
+        <div class="calc-unit">=</div>
+        <input type="number" class="calc-input" id="qtyNights" value="6" step="1" min="1" onchange="saveAll()">
+        <div class="calc-unit">N&auml;chte</div>
+        <div class="calc-val" style="visibility:hidden;">&mdash;</div>
+      </div>
+
       <div class="calc-row">
         <div>
-          <div class="label">Zimmer (inkl. Fr&uuml;hst&uuml;ck)</div>
-          <div class="detail">Pro Nacht &times; N&auml;chte &times; <span class="auto-pers"></span> Pers.</div>
+          <div class="label">Einzelzimmer</div>
+          <div class="detail">&euro;/Nacht &times; N&auml;chte &times; Staff</div>
         </div>
-        <input type="number" class="calc-input" id="priceRoom" value="40" step="0.5" onchange="saveAll()">
+        <input type="number" class="calc-input" id="priceSingle" value="55" step="0.5" onchange="saveAll()">
         <div class="calc-unit">&times;</div>
-        <input type="number" class="calc-input" id="qtyRoom" value="6" step="1" onchange="saveAll()">
-        <div class="calc-unit">=</div>
-        <div class="calc-val" id="valRoom">&mdash;</div>
+        <input type="number" class="calc-input" id="occSingle" value="3" step="1" min="0" onchange="saveAll()">
+        <div class="calc-unit">Pers.</div>
+        <div class="calc-val" id="valSingle">&mdash;</div>
       </div>
+
+      <div class="calc-row">
+        <div>
+          <div class="label">Doppelzimmer</div>
+          <div class="detail">&euro;/Nacht &amp; Person &times; N&auml;chte &times; Pers.</div>
+        </div>
+        <input type="number" class="calc-input" id="priceDouble" value="45" step="0.5" onchange="saveAll()">
+        <div class="calc-unit">&times;</div>
+        <input type="number" class="calc-input" id="occDouble" value="0" step="1" min="0" onchange="saveAll()">
+        <div class="calc-unit">Pers.</div>
+        <div class="calc-val" id="valDouble">&mdash;</div>
+      </div>
+
+      <div class="calc-row">
+        <div>
+          <div class="label">Dreibettzimmer</div>
+          <div class="detail">&euro;/Nacht &amp; Person &times; N&auml;chte &times; Spieler</div>
+        </div>
+        <input type="number" class="calc-input" id="priceTriple" value="40" step="0.5" onchange="saveAll()">
+        <div class="calc-unit">&times;</div>
+        <input type="number" class="calc-input" id="occTriple" value="19" step="1" min="0" onchange="saveAll()">
+        <div class="calc-unit">Pers.</div>
+        <div class="calc-val" id="valTriple">&mdash;</div>
+      </div>
+
+      <div class="calc-row">
+        <div>
+          <div class="label">Fr&uuml;hst&uuml;cksbuffet</div>
+          <div class="detail">&euro;/Person &amp; Nacht &times; N&auml;chte &times; <span class="auto-pers"></span> Pers.</div>
+        </div>
+        <input type="number" class="calc-input" id="priceBreakfast" value="12" step="0.5" onchange="saveAll()">
+        <div class="calc-unit">&times;</div>
+        <div class="calc-unit" style="visibility:hidden;"></div>
+        <div class="calc-unit" style="visibility:hidden;"></div>
+        <div class="calc-val" id="valBreakfast">&mdash;</div>
+      </div>
+
       <div class="calc-row">
         <div>
           <div class="label">Mittag- &amp; Abendessen</div>
@@ -1014,6 +1065,7 @@
         <div class="calc-unit">=</div>
         <div class="calc-val" id="valMeals">&mdash;</div>
       </div>
+
       <div class="calc-row">
         <div>
           <div class="label">Snacks &amp; Getr&auml;nke</div>
@@ -1205,8 +1257,11 @@ var STORAGE_KEY = 'sbr-tl-ferlach-calc';
 // All input IDs to persist
 var SAVE_IDS = [
   'pPlayers','pStaff',
-  'priceRoom','priceMeal','priceSnack','priceIce','priceBus',
-  'qtyRoom','qtyMeals','qtySnacks','qtyIce',
+  'qtyNights',
+  'priceSingle','priceDouble','priceTriple','priceBreakfast',
+  'occSingle','occDouble','occTriple',
+  'priceMeal','priceSnack','priceIce','priceBus',
+  'qtyMeals','qtySnacks','qtyIce',
   'priceEvent1','priceEvent2','priceEvent3',
   'labelEvent1','labelEvent2','labelEvent3',
   'priceSponsor1','priceSponsor2','priceSponsor3','priceClub',
@@ -1250,13 +1305,20 @@ function recalc() {
   var persons = players + staff;
   document.getElementById('pTotal').textContent = persons;
 
-  var priceRoom = parseFloat(document.getElementById('priceRoom').value) || 0;
+  var qtyNights = parseFloat(document.getElementById('qtyNights').value) || 0;
+  var priceSingle = parseFloat(document.getElementById('priceSingle').value) || 0;
+  var priceDouble = parseFloat(document.getElementById('priceDouble').value) || 0;
+  var priceTriple = parseFloat(document.getElementById('priceTriple').value) || 0;
+  var priceBreakfast = parseFloat(document.getElementById('priceBreakfast').value) || 0;
+  var occSingle = parseInt(document.getElementById('occSingle').value) || 0;
+  var occDouble = parseInt(document.getElementById('occDouble').value) || 0;
+  var occTriple = parseInt(document.getElementById('occTriple').value) || 0;
+
   var priceMeal = parseFloat(document.getElementById('priceMeal').value) || 0;
   var priceSnack = parseFloat(document.getElementById('priceSnack').value) || 0;
   var priceIce = parseFloat(document.getElementById('priceIce').value) || 0;
   var priceBus = parseFloat(document.getElementById('priceBus').value) || 0;
 
-  var qtyRoom = parseFloat(document.getElementById('qtyRoom').value) || 0;
   var qtyMeals = parseFloat(document.getElementById('qtyMeals').value) || 0;
   var qtySnacks = parseFloat(document.getElementById('qtySnacks').value) || 0;
   var qtyIce = parseFloat(document.getElementById('qtyIce').value) || 0;
@@ -1271,8 +1333,14 @@ function recalc() {
   var event3 = parseFloat(document.getElementById('priceEvent3').value) || 0;
   var eventTotal = event1 + event2 + event3;
 
-  // Calculate
-  var room = priceRoom * qtyRoom * persons;
+  // Calculate - Hotel split by room type + breakfast
+  var valSingle = priceSingle * qtyNights * occSingle;
+  var valDouble = priceDouble * qtyNights * occDouble;
+  var valTriple = priceTriple * qtyNights * occTriple;
+  var occTotal = occSingle + occDouble + occTriple;
+  var valBreakfast = priceBreakfast * qtyNights * occTotal;
+  var room = valSingle + valDouble + valTriple + valBreakfast;
+
   var mealCost = priceMeal * qtyMeals * persons;
   var snackCost = priceSnack * qtySnacks * persons;
   var iceCost = priceIce * qtyIce;
@@ -1282,7 +1350,10 @@ function recalc() {
   var total = accom + iceCost + eventTotal + busCost;
 
   // Display Ausgaben
-  document.getElementById('valRoom').textContent = fmt(room);
+  document.getElementById('valSingle').textContent = fmt(valSingle);
+  document.getElementById('valDouble').textContent = fmt(valDouble);
+  document.getElementById('valTriple').textContent = fmt(valTriple);
+  document.getElementById('valBreakfast').textContent = fmt(valBreakfast);
   document.getElementById('valMeals').textContent = fmt(mealCost);
   document.getElementById('valSnacks').textContent = fmt(snackCost);
   document.getElementById('totalAccom').textContent = fmt(accom);
