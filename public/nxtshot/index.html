@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NXTSHOT Sports — Driving Talents, Shaping Champions</title>
+<meta name="description" content="Elite hockey management. 31 NHL clients. 37 drafted players. Represented across 5 offices worldwide.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #000;
+    --bg-2: #0a0a0a;
+    --bg-3: #111;
+    --line: rgba(255,255,255,0.08);
+    --line-2: rgba(255,255,255,0.14);
+    --text: #fff;
+    --muted: #8b9199;
+    --soft: #d4d4d4;
+    --ice: #38BDF8;
+    --ice-deep: #0EA5E9;
+    --ice-glow: rgba(56,189,248,0.25);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', -apple-system, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+
+  .wrap { max-width: 1440px; margin: 0 auto; padding: 0 48px; }
+
+  /* ── Utility Typography ── */
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .display {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+  .accent-ice { color: var(--ice); }
+  .serif-italic {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* ═══════ NAV ═══════ */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 22px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo img { height: 36px; width: auto; }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    align-items: center;
+  }
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--soft);
+    text-transform: uppercase;
+    transition: color 0.25s;
+  }
+  .nav-links a:hover { color: var(--ice); }
+  .nav-cta {
+    padding: 10px 20px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text);
+    transition: all 0.25s;
+  }
+  .nav-cta:hover {
+    background: var(--ice);
+    color: var(--bg);
+    border-color: var(--ice);
+  }
+
+  /* Language toggle */
+  .lang-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    overflow: hidden;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+  }
+  .lang-toggle button {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-transform: uppercase;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    font-weight: inherit;
+  }
+  .lang-toggle button.active {
+    background: var(--ice);
+    color: var(--bg);
+  }
+  .lang-toggle button:hover:not(.active) { color: var(--text); }
+
+  /* ═══════ HERO ═══════ */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 160px 48px 80px;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 70% 40%, rgba(56,189,248,0.08) 0%, transparent 60%), var(--bg);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    right: -8%;
+    width: 60vmin;
+    height: 60vmin;
+    background: radial-gradient(circle, var(--ice-glow) 0%, transparent 70%);
+    filter: blur(60px);
+    z-index: 1;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 80px 80px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.25);
+    border-radius: 999px;
+    margin-bottom: 28px;
+  }
+  .hero-badge .dot {
+    width: 6px; height: 6px;
+    background: var(--ice);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--ice);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .hero-badge .mono { font-size: 10px; color: var(--ice); letter-spacing: 2.5px; }
+
+  .hero h1 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: clamp(64px, 11vw, 180px);
+    line-height: 0.85;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+  }
+  .hero h1 .stroke {
+    -webkit-text-stroke: 1.5px var(--ice);
+    color: transparent;
+    font-style: italic;
+  }
+  .hero h1 .ice { color: var(--ice); }
+
+  .hero-sub {
+    max-width: 560px;
+    font-size: 18px;
+    color: var(--soft);
+    margin-bottom: 48px;
+    line-height: 1.55;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 100px;
+  }
+  .btn-primary {
+    padding: 16px 28px;
+    background: var(--ice);
+    color: var(--bg);
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    transition: all 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn-primary:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(56,189,248,0.3);
+  }
+  .btn-secondary {
+    padding: 16px 28px;
+    border: 1px solid var(--line-2);
+    color: var(--text);
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    transition: all 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn-secondary:hover {
+    border-color: var(--ice);
+    color: var(--ice);
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 32px;
+    max-width: 1100px;
+  }
+  .hero-stats .stat {
+    padding-right: 24px;
+    border-right: 1px solid var(--line);
+  }
+  .hero-stats .stat:last-child { border-right: none; }
+  .hero-stats .stat .num {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .hero-stats .stat .num .ice { color: var(--ice); }
+  .hero-stats .stat .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    opacity: 0.6;
+    z-index: 3;
+  }
+  .hero-scroll::after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+  }
+
+  /* ═══════ SECTION BASE ═══════ */
+  section {
+    padding: 140px 0;
+    position: relative;
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--ice);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--ice);
+  }
+
+  /* ═══════ MANIFESTO ═══════ */
+  .manifesto {
+    background: var(--bg);
+    padding-top: 80px;
+  }
+  .manifesto-headline {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: clamp(40px, 5.2vw, 84px);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    max-width: 1100px;
+    margin-bottom: 56px;
+  }
+  .manifesto-headline .stroke {
+    -webkit-text-stroke: 1.2px var(--soft);
+    color: transparent;
+  }
+  .manifesto-headline .ice { color: var(--ice); }
+  .manifesto-headline .serif {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: -0.02em;
+  }
+  .manifesto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+  .manifesto-col h4 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .manifesto-col p {
+    font-size: 15px;
+    color: var(--soft);
+    line-height: 1.65;
+  }
+  .manifesto-col .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ice);
+    letter-spacing: 2.5px;
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  /* ═══════ SERVICES ═══════ */
+  .services {
+    background: var(--bg-2);
+    border-top: 1px solid var(--line);
+  }
+  .services-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 80px;
+    gap: 40px;
+  }
+  .services-head h2 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: clamp(48px, 7vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    flex: 1;
+  }
+  .services-head h2 .ice { color: var(--ice); }
+  .services-head .meta {
+    max-width: 360px;
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+    padding-bottom: 12px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .service-card {
+    background: var(--bg-2);
+    padding: 56px 48px 48px;
+    position: relative;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background 0.3s;
+    cursor: pointer;
+  }
+  .service-card:hover {
+    background: var(--bg-3);
+  }
+  .service-card .s-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--ice);
+    margin-bottom: 28px;
+  }
+  .service-card h3 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 52px;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .service-card p {
+    font-size: 15px;
+    color: var(--soft);
+    max-width: 420px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  .service-card .s-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.7;
+    transition: all 0.25s;
+  }
+  .service-card:hover .s-link { color: var(--ice); opacity: 1; }
+
+  /* ═══════ ROSTER ═══════ */
+  .roster {
+    background: var(--bg);
+    padding-bottom: 120px;
+  }
+  .roster-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 72px;
+    gap: 40px;
+  }
+  .roster-head h2 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: clamp(48px, 7vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    flex: 1;
+  }
+  .roster-head h2 .ice { color: var(--ice); }
+  .roster-head .side {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .roster-head .side .count { color: var(--ice); font-weight: 700; }
+
+  .roster-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .player-card {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: var(--bg-3);
+    cursor: pointer;
+  }
+  .player-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.5s;
+    filter: grayscale(0.2) brightness(0.9);
+  }
+  .player-card:hover img {
+    transform: scale(1.05);
+    filter: grayscale(0) brightness(1);
+  }
+  .player-card .pc-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.4) 65%, rgba(0,0,0,0.95) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px;
+    pointer-events: none;
+  }
+  .player-card .pc-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .player-card .pc-tag {
+    background: var(--ice);
+    color: var(--bg);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 5px 10px;
+    font-weight: 700;
+  }
+  .player-card .pc-num {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+    line-height: 1;
+  }
+  .player-card .pc-bottom .team {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--ice);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .player-card .pc-bottom .name {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  .player-card .pc-bottom .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 6px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Placeholder card (no photo) */
+  .placeholder-card {
+    background:
+      radial-gradient(circle at 50% 35%, rgba(56,189,248,0.12) 0%, transparent 60%),
+      linear-gradient(180deg, #0a1420 0%, #050b13 100%);
+    position: relative;
+  }
+  .placeholder-card .pc-overlay {
+    background: none !important;
+  }
+  .placeholder-card .placeholder-glyph {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 200px;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: rgba(56,189,248,0.18);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .placeholder-card .pc-bottom {
+    position: relative;
+    z-index: 1;
+  }
+  .placeholder-card:hover .placeholder-glyph {
+    color: rgba(56,189,248,0.32);
+    transition: color 0.4s;
+  }
+
+  /* More-on-request card */
+  .more-card {
+    background: linear-gradient(135deg, var(--bg-3) 0%, #050a10 100%);
+    border: 1px solid rgba(56,189,248,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .more-card:hover {
+    border-color: var(--ice);
+    background: linear-gradient(135deg, #0a1420 0%, #050a10 100%);
+  }
+  .more-card .more-inner { color: #fff; }
+  .more-card .mc-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--ice);
+    margin-bottom: 16px;
+  }
+  .more-card .mc-title {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .more-card .mc-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 22px;
+    text-transform: uppercase;
+  }
+  .more-card .mc-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--ice);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--ice);
+    padding-bottom: 4px;
+    transition: all 0.2s;
+  }
+  .more-card .mc-link:hover { color: #fff; border-color: #fff; }
+
+  .roster-foot {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .roster-foot .ledger {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+  .roster-foot .ledger .ice { color: var(--ice); font-weight: 700; }
+  .roster-foot .view-all {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: var(--text);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.25s;
+  }
+  .roster-foot .view-all:hover { color: var(--ice); }
+
+  /* ═══════ REACH ═══════ */
+  .reach {
+    background: var(--bg-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .reach-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .reach h2 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: clamp(48px, 6vw, 100px);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .reach h2 .stroke {
+    -webkit-text-stroke: 1.2px var(--ice);
+    color: transparent;
+  }
+  .reach .reach-body {
+    color: var(--soft);
+    font-size: 16px;
+    line-height: 1.65;
+    max-width: 480px;
+    margin-bottom: 36px;
+  }
+  .reach-cities {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .reach-city {
+    background: var(--bg-2);
+    padding: 28px 24px;
+    transition: background 0.3s;
+  }
+  .reach-city:hover { background: var(--bg-3); }
+  .reach-city .code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--ice);
+    margin-bottom: 10px;
+  }
+  .reach-city .city-name {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .reach-city .country {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+  }
+  .reach-city.hq {
+    background: var(--ice);
+    color: var(--bg);
+  }
+  .reach-city.hq .code { color: rgba(0,0,0,0.55); }
+  .reach-city.hq .country { color: rgba(0,0,0,0.6); }
+  .reach-city.hq:hover { background: #fff; }
+
+  /* ═══════ FOUNDER ═══════ */
+  .founder {
+    background: var(--bg);
+    padding: 160px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .founder::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 60vmin;
+    height: 60vmin;
+    background: radial-gradient(circle, var(--ice-glow) 0%, transparent 70%);
+    filter: blur(80px);
+    opacity: 0.35;
+  }
+  .founder-inner {
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    gap: 80px;
+    align-items: stretch;
+    position: relative;
+    z-index: 2;
+  }
+  .founder-visual {
+    aspect-ratio: 4/5;
+    position: relative;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(56,189,248,0.18) 0%, transparent 60%),
+      linear-gradient(180deg, #0a1420 0%, #020608 100%);
+    border: 1px solid rgba(56,189,248,0.18);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 32px;
+  }
+  .founder-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+  .founder-visual .fv-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    position: relative;
+    z-index: 2;
+  }
+  .founder-visual .fv-logo img {
+    width: 70%;
+    height: auto;
+    opacity: 0.95;
+    filter: drop-shadow(0 0 32px rgba(56,189,248,0.4));
+  }
+  .founder-visual .fv-stats {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 20px;
+    border-top: 1px solid rgba(56,189,248,0.2);
+    padding-top: 16px;
+  }
+  .founder-visual .fv-stat .num {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--ice);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .founder-visual .fv-stat .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .founder-visual .fv-tag {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    background: var(--bg);
+    color: #fff;
+    padding: 8px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    border-left: 2px solid var(--ice);
+    z-index: 3;
+  }
+  .founder-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(28px, 3.2vw, 48px);
+    line-height: 1.25;
+    color: var(--text);
+    margin-bottom: 36px;
+    letter-spacing: -0.015em;
+  }
+  .founder-quote::before {
+    content: '"';
+    font-size: 120px;
+    color: var(--ice);
+    line-height: 0.8;
+    display: block;
+    margin-bottom: -20px;
+    opacity: 0.5;
+  }
+  .founder-attribution {
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .founder-attribution .name-block {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .founder-attribution .role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .founder-attribution .since {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-align: right;
+  }
+  .founder-attribution .since .big {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    color: var(--ice);
+    letter-spacing: -0.02em;
+  }
+
+  /* ═══════ PRESS LOGOS ═══════ */
+  .press {
+    background: var(--bg);
+    padding: 80px 0 60px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .press-label {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+  .press-label .ice { color: var(--ice); }
+  .press-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .press-logo {
+    text-align: center;
+    padding: 24px 16px;
+    border-right: 1px solid var(--line);
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    color: var(--soft);
+    text-transform: uppercase;
+    opacity: 0.6;
+    transition: all 0.3s;
+    line-height: 1.1;
+  }
+  .press-logo:last-child { border-right: none; }
+  .press-logo:hover {
+    opacity: 1;
+    color: var(--ice);
+  }
+  .press-logo .small {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 4px;
+  }
+  .press-logo .serif {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* ═══════ TESTIMONIALS ═══════ */
+  .testimonials {
+    background: var(--bg-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .testi-head {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .testi-head h2 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: clamp(48px, 6.5vw, 110px);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .testi-head h2 .stroke {
+    -webkit-text-stroke: 1.2px var(--ice);
+    color: transparent;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+    text-transform: none;
+    letter-spacing: -0.03em;
+  }
+  .testi-head p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .testi-card {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 320px;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .testi-card::before {
+    content: '"';
+    position: absolute;
+    top: 12px;
+    right: 24px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 96px;
+    line-height: 1;
+    color: var(--ice);
+    opacity: 0.3;
+  }
+  .testi-card:hover {
+    border-color: var(--ice);
+    background: var(--bg-3);
+  }
+  .testi-card .quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.45;
+    color: var(--text);
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 2;
+  }
+  .testi-card .person {
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+  }
+  .testi-card .person .name {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .testi-card .person .role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--ice);
+    text-transform: uppercase;
+  }
+
+  /* ═══════ NEWS ═══════ */
+  .news {
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+  }
+  .news-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 60px;
+    gap: 40px;
+  }
+  .news-head h2 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: clamp(48px, 7vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    flex: 1;
+  }
+  .news-head h2 .ice { color: var(--ice); }
+  .news-head .all-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: var(--text);
+    text-transform: uppercase;
+    padding-bottom: 12px;
+    transition: color 0.25s;
+  }
+  .news-head .all-link:hover { color: var(--ice); }
+  .news-head .all-link .arr { margin-left: 8px; }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .news-card {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+    cursor: pointer;
+    min-height: 320px;
+    justify-content: space-between;
+  }
+  .news-card:hover {
+    border-color: var(--ice);
+    transform: translateY(-2px);
+  }
+  .news-card .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .news-card .meta .cat {
+    color: var(--ice);
+    font-weight: 700;
+  }
+  .news-card h3 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+  .news-card p {
+    font-size: 14px;
+    color: var(--soft);
+    line-height: 1.55;
+    margin-bottom: 24px;
+  }
+  .news-card .read {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--text);
+    text-transform: uppercase;
+    margin-top: auto;
+    transition: color 0.2s;
+  }
+  .news-card:hover .read { color: var(--ice); }
+  .news-card .read .arr { margin-left: 6px; }
+
+  @media (max-width: 960px) {
+    .press-strip { grid-template-columns: repeat(3, 1fr); }
+    .press-logo:nth-child(3) { border-right: none; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .news-grid { grid-template-columns: 1fr; }
+    .news-head { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ═══════ CONTACT CTA ═══════ */
+  .contact {
+    background: var(--bg-2);
+    border-top: 1px solid var(--line);
+    padding: 140px 0 120px;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vmin;
+    height: 80vmin;
+    background: radial-gradient(circle, var(--ice-glow) 0%, transparent 70%);
+    filter: blur(80px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .contact-inner {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+  .contact .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--ice);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .contact h2 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: clamp(56px, 9vw, 160px);
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+  }
+  .contact h2 .stroke {
+    -webkit-text-stroke: 1.5px var(--ice);
+    color: transparent;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+    text-transform: none;
+    letter-spacing: -0.03em;
+  }
+  .contact h2 .ice { color: var(--ice); }
+  .contact p {
+    max-width: 560px;
+    margin: 0 auto 48px;
+    font-size: 17px;
+    color: var(--soft);
+    line-height: 1.6;
+  }
+  .contact-actions {
+    display: inline-flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .contact-actions .email {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: clamp(20px, 2.2vw, 32px);
+    letter-spacing: -0.02em;
+    color: var(--text);
+    padding: 20px 36px;
+    border: 1px solid var(--line-2);
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .contact-actions .email:hover {
+    background: var(--ice);
+    color: var(--bg);
+    border-color: var(--ice);
+  }
+  .contact-actions .email .arr {
+    font-weight: 800;
+    transition: transform 0.3s;
+  }
+  .contact-actions .email:hover .arr { transform: translateX(6px); }
+
+  /* ═══════ FOOTER ═══════ */
+  footer {
+    background: var(--bg);
+    padding: 80px 0 40px;
+    border-top: 1px solid var(--line);
+  }
+  .foot-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 64px;
+  }
+  .foot-brand img { height: 44px; margin-bottom: 24px; }
+  .foot-brand p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 320px;
+  }
+  .foot-col h5 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--ice);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .foot-col ul { list-style: none; }
+  .foot-col ul li {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--soft);
+  }
+  .foot-col ul li a:hover { color: var(--ice); }
+
+  .foot-bottom {
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .foot-bottom .socials {
+    display: flex;
+    gap: 20px;
+  }
+  .foot-bottom .socials a { transition: color 0.2s; }
+  .foot-bottom .socials a:hover { color: var(--ice); }
+
+  /* ═══════ RESPONSIVE ═══════ */
+  @media (max-width: 960px) {
+    .wrap { padding: 0 24px; }
+    .nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 120px 24px 60px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; gap: 24px 0; }
+    .hero-stats .stat:nth-child(2) { border-right: none; }
+    section { padding: 80px 0; }
+    .manifesto-grid { grid-template-columns: 1fr; gap: 32px; }
+    .services-head,
+    .roster-head { flex-direction: column; align-items: flex-start; }
+    .services-grid { grid-template-columns: 1fr; }
+    .roster-grid { grid-template-columns: 1fr 1fr; }
+    .reach-inner { grid-template-columns: 1fr; gap: 48px; }
+    .founder-inner { grid-template-columns: 1fr; gap: 48px; }
+    .foot-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 600px) {
+    .roster-grid { grid-template-columns: 1fr; }
+    .reach-cities { grid-template-columns: 1fr; }
+    .foot-top { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ NAV ═══════ -->
+<nav class="nav">
+  <a href="#top" class="nav-logo"><img src="assets/logo-white.png" alt="NXTSHOT Sports"></a>
+  <div class="nav-links">
+    <a href="#services" data-en="Services" data-de="Leistungen">Services</a>
+    <a href="#roster" data-en="Roster" data-de="Roster">Roster</a>
+    <a href="#reach" data-en="Global" data-de="Standorte">Global</a>
+    <a href="#founder" data-en="Team" data-de="Team">Team</a>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" data-lang="en" class="active" onclick="setLang('en')">EN</button>
+      <button type="button" data-lang="de" onclick="setLang('de')">DE</button>
+    </div>
+    <a href="#contact" class="nav-cta" data-en="Get in Touch" data-de="Kontakt">Get in Touch</a>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="dot"></div>
+      <div class="mono" data-en="EST. 2018 · ELITE HOCKEY MANAGEMENT" data-de="GEGR. 2018 · ELITE HOCKEY-MANAGEMENT">EST. 2018 · ELITE HOCKEY MANAGEMENT</div>
+    </div>
+
+    <h1 data-en="Driving <span class='stroke'>talents</span>.<br>Shaping <span class='ice'>champions</span>." data-de="Talente <span class='stroke'>fördern</span>.<br>Champions <span class='ice'>formen</span>.">
+      Driving <span class="stroke">talents</span>.<br>
+      Shaping <span class="ice">champions</span>.
+    </h1>
+
+    <p class="hero-sub" data-en="NXTSHOT Sports is an exclusive hockey management firm. We represent a selected roster of players across the NHL, KHL and top European leagues — from draft preparation to contract negotiation and holistic career development." data-de="NXTSHOT Sports ist eine exklusive Hockey-Management-Firma. Wir vertreten ein ausgewähltes Roster von Spielern in der NHL, KHL und in europäischen Top-Ligen — von der Draft-Vorbereitung über die Vertragsverhandlung bis zur ganzheitlichen Karriereplanung.">
+      NXTSHOT Sports is an exclusive hockey management firm.
+      We represent a selected roster of players across the NHL, KHL and top European leagues —
+      from draft preparation to contract negotiation and holistic career development.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#roster" class="btn-primary" data-en="View Our Roster <span>→</span>" data-de="Unser Roster <span>→</span>">View Our Roster <span>→</span></a>
+      <a href="#services" class="btn-secondary" data-en="What We Do" data-de="Was wir machen">What We Do</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="num"><span class="ice">31</span></div>
+        <div class="label" data-en="NHL Clients" data-de="NHL-Klienten">NHL Clients</div>
+      </div>
+      <div class="stat">
+        <div class="num">37</div>
+        <div class="label" data-en="Drafted Players" data-de="Gedraftete Spieler">Drafted Players</div>
+      </div>
+      <div class="stat">
+        <div class="num">5</div>
+        <div class="label" data-en="Global Offices" data-de="Standorte weltweit">Global Offices</div>
+      </div>
+      <div class="stat">
+        <div class="num">6Y+</div>
+        <div class="label" data-en="In The Game" data-de="Jahre im Geschäft">In The Game</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" data-en="SCROLL" data-de="SCROLL">SCROLL</div>
+</section>
+
+<!-- ═══════ MANIFESTO ═══════ -->
+<section class="manifesto" id="manifesto">
+  <div class="wrap">
+    <div class="section-label" data-en="01 — WHO WE ARE" data-de="01 — WER WIR SIND">01 — WHO WE ARE</div>
+
+    <div class="manifesto-headline" data-en="We don't chase volume. We <span class='serif ice'>build careers</span> — one player, one contract, <span class='stroke'>one decade</span> at a time." data-de="Wir jagen keine Masse. Wir <span class='serif ice'>bauen Karrieren</span> — ein Spieler, ein Vertrag, <span class='stroke'>ein Jahrzehnt</span> nach dem anderen.">
+      We don't chase volume. We <span class="serif ice">build careers</span>
+      — one player, one contract, <span class="stroke">one decade</span> at a time.
+    </div>
+
+    <div class="manifesto-grid">
+      <div class="manifesto-col">
+        <span class="num" data-en="— 01 / TRUST" data-de="— 01 / VERTRAUEN">— 01 / TRUST</span>
+        <h4 data-en="Long Game" data-de="Langfristig">Long Game</h4>
+        <p data-en="Hockey careers don't happen in a season. We sign fewer players and invest deeper — in their game, their brand, and the decisions that shape a decade on the ice." data-de="Hockey-Karrieren entstehen nicht in einer Saison. Wir signen weniger Spieler und investieren tiefer — in ihr Spiel, ihre Marke und die Entscheidungen, die ein Jahrzehnt auf dem Eis prägen.">
+          Hockey careers don't happen in a season. We sign fewer players and invest deeper —
+          in their game, their brand, and the decisions that shape a decade on the ice.
+        </p>
+      </div>
+      <div class="manifesto-col">
+        <span class="num" data-en="— 02 / ACCESS" data-de="— 02 / ZUGANG">— 02 / ACCESS</span>
+        <h4 data-en="Pro-Grade Network" data-de="Pro-Netzwerk">Pro-Grade Network</h4>
+        <p data-en="Five offices across North America and Europe. Direct relationships with NHL GMs, European clubs, strength coaches, agencies and legal partners. Our players never wait for a callback." data-de="Fünf Standorte in Nordamerika und Europa. Direkte Beziehungen zu NHL-GMs, europäischen Clubs, Athletiktrainern, Agenturen und Rechtspartnern. Unsere Spieler warten nie auf einen Rückruf.">
+          Five offices across North America and Europe. Direct relationships
+          with NHL GMs, European clubs, strength coaches, agencies and legal partners.
+          Our players never wait for a callback.
+        </p>
+      </div>
+      <div class="manifesto-col">
+        <span class="num" data-en="— 03 / EXECUTION" data-de="— 03 / UMSETZUNG">— 03 / EXECUTION</span>
+        <h4 data-en="Zero Theatre" data-de="Keine Show">Zero Theatre</h4>
+        <p data-en="No pageantry, no inflated promises. Clear deals, honest timelines, hard-fought numbers. We let the contracts speak — and the careers prove it." data-de="Keine Inszenierung, keine aufgeblasenen Versprechen. Klare Deals, ehrliche Zeitpläne, hart verhandelte Zahlen. Die Verträge sprechen — und die Karrieren beweisen es.">
+          No pageantry, no inflated promises. Clear deals, honest timelines,
+          hard-fought numbers. We let the contracts speak — and the careers prove it.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PRESS / TRUSTED BY ═══════ -->
+<section class="press">
+  <div class="wrap">
+    <div class="press-label" data-en="AS SEEN IN — TRUSTED ACROSS <span class='ice'>NORTH AMERICA &amp; EUROPE</span>" data-de="ERWÄHNT IN — VERTRAUT IN <span class='ice'>NORDAMERIKA &amp; EUROPA</span>">AS SEEN IN — TRUSTED ACROSS <span class="ice">NORTH AMERICA &amp; EUROPE</span></div>
+    <div class="press-strip">
+      <div class="press-logo">NHL<span class="small">·com</span></div>
+      <div class="press-logo">The <span class="serif">Athletic</span></div>
+      <div class="press-logo">SPORT<span class="small">BILD</span></div>
+      <div class="press-logo">Hockey<span class="small">News</span></div>
+      <div class="press-logo">ESPN</div>
+      <div class="press-logo">EuroHockey<span class="small">·com</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ SERVICES ═══════ -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="section-label" data-en="02 — SERVICES" data-de="02 — LEISTUNGEN">02 — SERVICES</div>
+
+    <div class="services-head">
+      <h2 data-en="What <span class='ice'>we do.</span>" data-de="Was <span class='ice'>wir machen.</span>">What <span class="ice">we do.</span></h2>
+      <div class="meta" data-en="Four pillars. Every client gets all of them. This isn't a menu — it's how we move players from prospect to prime." data-de="Vier Säulen. Jeder Klient bekommt alle. Das ist keine Menükarte — so bringen wir Spieler vom Prospect bis in die Primezeit.">
+        Four pillars. Every client gets all of them. This isn't a menu —
+        it's how we move players from prospect to prime.
+      </div>
+    </div>
+
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div>
+          <div class="s-num" data-en="01 / CONTRACTS" data-de="01 / VERTRÄGE">01 / CONTRACTS</div>
+          <h3 data-en="Contract<br>Negotiation" data-de="Vertrags-<br>verhandlung">Contract<br>Negotiation</h3>
+          <p data-en="NHL ELCs, extensions, arbitration, European top-league deals. We don't just negotiate — we structure contracts that compound over a career: term, NMC/NTC, bonuses, exit leverage." data-de="NHL-Einstiegsverträge, Verlängerungen, Arbitration, europäische Top-Liga-Deals. Wir verhandeln nicht nur — wir strukturieren Verträge, die über eine Karriere wachsen: Laufzeit, NMC/NTC, Boni, Exit-Hebel.">
+            NHL ELCs, extensions, arbitration, European top-league deals.
+            We don't just negotiate — we structure contracts that compound over a career:
+            term, NMC/NTC, bonuses, exit leverage.
+          </p>
+        </div>
+        <div class="s-link" data-en="Case studies <span>→</span>" data-de="Fallstudien <span>→</span>">Case studies <span>→</span></div>
+      </div>
+
+      <div class="service-card">
+        <div>
+          <div class="s-num" data-en="02 / DRAFT" data-de="02 / DRAFT">02 / DRAFT</div>
+          <h3 data-en="NHL Draft<br>Preparation" data-de="NHL Draft<br>Vorbereitung">NHL Draft<br>Preparation</h3>
+          <p data-en="Combine readiness, team interviews, media training, agent selection, advisory support through CHL / NCAA / European pathways. 37 drafted players. We know the room." data-de="Combine-Vorbereitung, Team-Interviews, Medientraining, Agentenauswahl, Beratung durch CHL / NCAA / europäische Wege. 37 gedraftete Spieler. Wir kennen den Raum.">
+            Combine readiness, team interviews, media training, agent selection,
+            advisory support through CHL / NCAA / European pathways.
+            37 drafted players. We know the room.
+          </p>
+        </div>
+        <div class="s-link" data-en="Draft track record <span>→</span>" data-de="Draft-Bilanz <span>→</span>">Draft track record <span>→</span></div>
+      </div>
+
+      <div class="service-card">
+        <div>
+          <div class="s-num" data-en="03 / DEVELOPMENT" data-de="03 / ENTWICKLUNG">03 / DEVELOPMENT</div>
+          <h3 data-en="Player<br>Development" data-de="Spieler-<br>entwicklung">Player<br>Development</h3>
+          <p data-en="Off-season plans with tier-one trainers. Video analysis, load management, nutrition, sport psychology. Our players show up to camp faster, leaner, and mentally ready to compete." data-de="Off-Season-Pläne mit Top-Trainern. Videoanalyse, Belastungssteuerung, Ernährung, Sportpsychologie. Unsere Spieler kommen schneller, fitter und mental bereit ins Camp.">
+            Off-season plans with tier-one trainers. Video analysis, load management,
+            nutrition, sport psychology. Our players show up to camp faster, leaner,
+            and mentally ready to compete.
+          </p>
+        </div>
+        <div class="s-link" data-en="How we train <span>→</span>" data-de="So trainieren wir <span>→</span>">How we train <span>→</span></div>
+      </div>
+
+      <div class="service-card">
+        <div>
+          <div class="s-num" data-en="04 / BRAND" data-de="04 / MARKE">04 / BRAND</div>
+          <h3 data-en="Branding &amp;<br>Off-Ice" data-de="Branding &amp;<br>Off-Ice">Branding &amp;<br>Off-Ice</h3>
+          <p data-en="Endorsements, content, media strategy, financial partners, legal, insurance, post-career planning. Everything off the ice that determines how a player lives on the ice — and after." data-de="Sponsoring, Content, Medienstrategie, Finanzpartner, Recht, Versicherung, Karriereplanung danach. Alles abseits des Eises, das mitentscheidet, wie ein Spieler auf dem Eis lebt — und danach.">
+            Endorsements, content, media strategy, financial partners, legal, insurance,
+            post-career planning. Everything off the ice that determines
+            how a player lives on the ice — and after.
+          </p>
+        </div>
+        <div class="s-link" data-en="Partnerships <span>→</span>" data-de="Partnerschaften <span>→</span>">Partnerships <span>→</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ ROSTER ═══════ -->
+<section class="roster" id="roster">
+  <div class="wrap">
+    <div class="section-label" data-en="03 — OUR ROSTER" data-de="03 — UNSER ROSTER">03 — OUR ROSTER</div>
+
+    <div class="roster-head">
+      <h2 data-en="The <span class='ice'>roster.</span>" data-de="Das <span class='ice'>Roster.</span>">The <span class="ice">roster.</span></h2>
+      <div class="side">
+        <span class="count" data-en="ACTIVE · 2025/26" data-de="AKTIV · 2025/26">ACTIVE · 2025/26</span><br>
+        <span data-en="Featured clients — full list by request" data-de="Ausgewählte Klienten — komplette Liste auf Anfrage">Featured clients — full list by request</span>
+      </div>
+    </div>
+
+    <div class="roster-grid">
+
+      <article class="player-card">
+        <img src="assets/player-rossi.jpg" alt="Marco Rossi">
+        <div class="pc-overlay">
+          <div class="pc-top">
+            <div class="pc-tag">NHL</div>
+            <div class="pc-num">23</div>
+          </div>
+          <div class="pc-bottom">
+            <div class="team" data-en="Vancouver Canucks · Center" data-de="Vancouver Canucks · Center">Vancouver Canucks · Center</div>
+            <div class="name">Marco<br>Rossi</div>
+            <div class="meta" data-en="9th Overall · 2020 NHL Draft" data-de="9. Pick · NHL Draft 2020">9th Overall · 2020 NHL Draft</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="player-card">
+        <img src="assets/player-kasper.jpg" alt="Marco Kasper">
+        <div class="pc-overlay">
+          <div class="pc-top">
+            <div class="pc-tag">NHL</div>
+            <div class="pc-num">91</div>
+          </div>
+          <div class="pc-bottom">
+            <div class="team" data-en="Detroit Red Wings · Center" data-de="Detroit Red Wings · Center">Detroit Red Wings · Center</div>
+            <div class="name">Marco<br>Kasper</div>
+            <div class="meta" data-en="8th Overall · 2022 NHL Draft" data-de="8. Pick · NHL Draft 2022">8th Overall · 2022 NHL Draft</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="player-card placeholder-card">
+        <div class="pc-overlay" style="background: linear-gradient(180deg, rgba(56,189,248,0.05) 0%, rgba(0,0,0,0.6) 100%);">
+          <div class="pc-top">
+            <div class="pc-tag">NHL</div>
+            <div class="pc-num">G</div>
+          </div>
+          <div class="placeholder-glyph">DC</div>
+          <div class="pc-bottom">
+            <div class="team" data-en="Anaheim Ducks · Goaltender" data-de="Anaheim Ducks · Torhüter">Anaheim Ducks · Goaltender</div>
+            <div class="name">Damian<br>Clara</div>
+            <div class="meta" data-en="6'6&quot; · Loan: Oulun Kärpät (FIN)" data-de="2,00 m · Leihe: Oulun Kärpät (FIN)">6'6&quot; · Loan: Oulun Kärpät (FIN)</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="player-card">
+        <img src="assets/player-raffl.jpg" alt="Michael Raffl">
+        <div class="pc-overlay">
+          <div class="pc-top">
+            <div class="pc-tag">NL · CH</div>
+            <div class="pc-num">15</div>
+          </div>
+          <div class="pc-bottom">
+            <div class="team" data-en="Lausanne HC · Forward" data-de="Lausanne HC · Stürmer">Lausanne HC · Forward</div>
+            <div class="name">Michael<br>Raffl</div>
+            <div class="meta" data-en="500+ NHL games · Philadelphia · Dallas" data-de="500+ NHL-Spiele · Philadelphia · Dallas">500+ NHL games · Philadelphia · Dallas</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="player-card placeholder-card">
+        <div class="pc-overlay" style="background: linear-gradient(180deg, rgba(56,189,248,0.05) 0%, rgba(0,0,0,0.6) 100%);">
+          <div class="pc-top">
+            <div class="pc-tag">NL · CH</div>
+            <div class="pc-num">29</div>
+          </div>
+          <div class="placeholder-glyph">TB</div>
+          <div class="pc-bottom">
+            <div class="team" data-en="Lausanne HC · Forward" data-de="Lausanne HC · Stürmer">Lausanne HC · Forward</div>
+            <div class="name">Tim<br>Bozon</div>
+            <div class="meta" data-en="Former Habs prospect · Comeback story" data-de="Ex-Canadiens-Prospect · Comeback-Story">Former Habs prospect · Comeback story</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="player-card more-card">
+        <div class="more-inner">
+          <div class="mc-tag" data-en="+25 MORE CLIENTS" data-de="+25 WEITERE KLIENTEN">+25 MORE CLIENTS</div>
+          <div class="mc-title" data-en="Full roster<br>on request." data-de="Komplettes Roster<br>auf Anfrage.">Full roster<br>on request.</div>
+          <div class="mc-meta" data-en="NHL · KHL · NL · ICE · OHL · NCAA" data-de="NHL · KHL · NL · ICE · OHL · NCAA">NHL · KHL · NL · ICE · OHL · NCAA</div>
+          <a href="#contact" class="mc-link" data-en="Request list →" data-de="Liste anfragen →">Request list →</a>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="roster-foot">
+      <div class="ledger" data-en="<span class='ice'>31 ACTIVE</span> IN NHL · <span class='ice'>37</span> DRAFTED · <span class='ice'>60+</span> PRO CONTRACTS NEGOTIATED" data-de="<span class='ice'>31 AKTIV</span> IN NHL · <span class='ice'>37</span> GEDRAFTET · <span class='ice'>60+</span> PROFI-VERTRÄGE VERHANDELT">
+        <span class="ice">31 ACTIVE</span> IN NHL · <span class="ice">37</span> DRAFTED · <span class="ice">60+</span> PRO CONTRACTS NEGOTIATED
+      </div>
+      <a href="#" class="view-all" data-en="View full roster <span>→</span>" data-de="Komplettes Roster <span>→</span>">View full roster <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ TESTIMONIALS ═══════ -->
+<section class="testimonials" id="voices">
+  <div class="wrap">
+    <div class="testi-head">
+      <h2 data-en="In their <span class='stroke'>own words.</span>" data-de="In <span class='stroke'>ihren Worten.</span>">In their <span class="stroke">own words.</span></h2>
+      <p data-en="Players · Parents · Clubs · Scouts" data-de="Spieler · Eltern · Vereine · Scouts">Players · Parents · Clubs · Scouts</p>
+    </div>
+
+    <div class="testi-grid">
+
+      <div class="testi-card">
+        <div class="quote" data-en="They didn't just get me a contract — they built the plan that got me to camp ready. The numbers were one thing. The trust was everything." data-de="Sie haben mir nicht nur einen Vertrag besorgt — sie haben den Plan gebaut, der mich vorbereitet ins Camp brachte. Die Zahlen waren das eine. Das Vertrauen war alles.">
+          They didn't just get me a contract — they built the plan that got me to camp ready. The numbers were one thing. The trust was everything.
+        </div>
+        <div class="person">
+          <div class="name">Pro Player</div>
+          <div class="role" data-en="NHL · Active Client" data-de="NHL · Aktiver Klient">NHL · Active Client</div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="quote" data-en="As parents, what mattered to us was honesty. NXTSHOT told us what was realistic — and what wasn't. That's why we signed. Years later, still the right call." data-de="Als Eltern war uns Ehrlichkeit wichtig. NXTSHOT hat uns gesagt, was realistisch war — und was nicht. Deshalb haben wir unterschrieben. Jahre später noch immer die richtige Entscheidung.">
+          As parents, what mattered to us was honesty. NXTSHOT told us what was realistic — and what wasn't. That's why we signed. Years later, still the right call.
+        </div>
+        <div class="person">
+          <div class="name" data-en="Player Family" data-de="Spielerfamilie">Player Family</div>
+          <div class="role" data-en="Draft Class · 2022" data-de="Draft-Jahrgang · 2022">Draft Class · 2022</div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="quote" data-en="Negotiating with NXTSHOT, you know you're across the table from someone who knows the cap, the room, and the player. Fair, hard, professional." data-de="Wenn du mit NXTSHOT verhandelst, sitzt am anderen Ende jemand, der den Cap kennt, das Geschäft kennt und den Spieler kennt. Fair, hart, professionell.">
+          Negotiating with NXTSHOT, you know you're across the table from someone who knows the cap, the room, and the player. Fair, hard, professional.
+        </div>
+        <div class="person">
+          <div class="name" data-en="European Club Director" data-de="Europäischer Sportdirektor">European Club Director</div>
+          <div class="role" data-en="Top League · CH/AT/DE" data-de="Top-Liga · CH/AT/DE">Top League · CH/AT/DE</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ REACH ═══════ -->
+<section class="reach" id="reach">
+  <div class="wrap reach-inner">
+    <div>
+      <div class="section-label" data-en="04 — GLOBAL REACH" data-de="04 — GLOBAL">04 — GLOBAL REACH</div>
+      <h2 data-en="Five offices.<br><span class='stroke'>One roster.</span>" data-de="Fünf Standorte.<br><span class='stroke'>Ein Roster.</span>">
+        Five offices.<br>
+        <span class="stroke">One roster.</span>
+      </h2>
+      <p class="reach-body" data-en="From the Swiss headquarters in Sursee to offices in North America, we're always one phone call from the room where your contract gets signed." data-de="Vom Schweizer Hauptsitz in Sursee bis zu unseren Büros in Nordamerika sind wir immer nur einen Anruf entfernt von dem Raum, in dem dein Vertrag unterschrieben wird.">
+        From the Swiss headquarters in Sursee to offices in North America,
+        we're always one phone call from the room where your contract gets signed.
+      </p>
+      <a href="#contact" class="btn-secondary" style="display:inline-flex;" data-en="Talk to us →" data-de="Sprich mit uns →">Talk to us →</a>
+    </div>
+
+    <div class="reach-cities">
+      <div class="reach-city hq">
+        <div class="code">HQ · 47°N 08°E</div>
+        <div class="city-name">Sursee</div>
+        <div class="country">Switzerland</div>
+      </div>
+      <div class="reach-city">
+        <div class="code">DE · 48°N 11°E</div>
+        <div class="city-name">München</div>
+        <div class="country">Germany</div>
+      </div>
+      <div class="reach-city">
+        <div class="code">AT · 46°N 14°E</div>
+        <div class="city-name">Klagenfurt</div>
+        <div class="country">Austria</div>
+      </div>
+      <div class="reach-city">
+        <div class="code">US · 40°N 74°W</div>
+        <div class="city-name">New York</div>
+        <div class="country">United States</div>
+      </div>
+      <div class="reach-city" style="grid-column: span 2;">
+        <div class="code">CA · 43°N 79°W</div>
+        <div class="city-name">Toronto</div>
+        <div class="country">Canada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOUNDER ═══════ -->
+<section class="founder" id="founder">
+  <div class="wrap">
+    <div class="section-label" data-en="05 — FOUNDER" data-de="05 — GRÜNDER">05 — FOUNDER</div>
+    <div class="founder-inner">
+      <div class="founder-visual">
+        <div class="fv-tag">FOUNDER · SINCE 2018</div>
+        <div class="fv-logo">
+          <img src="assets/logo-white.png" alt="NXTSHOT">
+        </div>
+        <div class="fv-stats">
+          <div class="fv-stat">
+            <div class="num">31</div>
+            <div class="label" data-en="NHL Clients" data-de="NHL-Klienten">NHL Clients</div>
+          </div>
+          <div class="fv-stat">
+            <div class="num">37</div>
+            <div class="label" data-en="Drafted" data-de="Gedraftet">Drafted</div>
+          </div>
+          <div class="fv-stat">
+            <div class="num">5</div>
+            <div class="label" data-en="Offices" data-de="Standorte">Offices</div>
+          </div>
+          <div class="fv-stat">
+            <div class="num">2018</div>
+            <div class="label" data-en="Founded" data-de="Gegründet">Founded</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="founder-text">
+        <blockquote class="founder-quote" data-en="Every player we sign gets the same call at 2 AM if he needs it — and a contract that holds up ten years later. That's what this firm is built on." data-de="Jeder Spieler, den wir signen, bekommt denselben Anruf um 2 Uhr morgens, wenn er ihn braucht — und einen Vertrag, der zehn Jahre später noch hält. Darauf ist diese Firma gebaut.">
+          Every player we sign gets the same call at 2 AM if he needs it —
+          and a contract that holds up ten years later.
+          That's what this firm is built on.
+        </blockquote>
+        <div class="founder-attribution">
+          <div>
+            <div class="name-block">Patrick</div>
+            <div class="role" data-en="Founder &amp; Managing Partner" data-de="Gründer &amp; Geschäftsführer">Founder &amp; Managing Partner</div>
+          </div>
+          <div class="since">
+            <div class="big">2018</div>
+            <div data-en="FOUNDED" data-de="GEGRÜNDET">FOUNDED</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ NEWS ═══════ -->
+<section class="news" id="news">
+  <div class="wrap">
+    <div class="section-label">06 — LATEST</div>
+
+    <div class="news-head">
+      <h2 data-en="From the <span class='ice'>desk.</span>" data-de="Vom <span class='ice'>Schreibtisch.</span>">From the <span class="ice">desk.</span></h2>
+      <a href="#" class="all-link" data-en="All news <span class='arr'>→</span>" data-de="Alle News <span class='arr'>→</span>">All news <span class="arr">→</span></a>
+    </div>
+
+    <div class="news-grid">
+
+      <article class="news-card">
+        <div>
+          <div class="meta">
+            <span class="cat" data-en="DRAFT" data-de="DRAFT">DRAFT</span>
+            <span data-en="JUN 28 · 2025" data-de="28. JUN · 2025">JUN 28 · 2025</span>
+          </div>
+          <h3 data-en="Two NXTSHOT players selected at 2025 NHL Draft." data-de="Zwei NXTSHOT-Spieler beim NHL Draft 2025 ausgewählt.">Two NXTSHOT players selected at 2025 NHL Draft.</h3>
+          <p data-en="Los Angeles, CA — Another strong year for our prospect group. Both selections went in the first three rounds, continuing the firm's draft track record." data-de="Los Angeles, CA — Ein weiteres starkes Jahr für unsere Prospect-Gruppe. Beide Picks fielen in den ersten drei Runden und setzen die Draft-Bilanz fort.">
+            Los Angeles, CA — Another strong year for our prospect group. Both selections went in the first three rounds, continuing the firm's draft track record.
+          </p>
+        </div>
+        <div class="read" data-en="Read story <span class='arr'>→</span>" data-de="Story lesen <span class='arr'>→</span>">Read story <span class="arr">→</span></div>
+      </article>
+
+      <article class="news-card">
+        <div>
+          <div class="meta">
+            <span class="cat" data-en="CONTRACT" data-de="VERTRAG">CONTRACT</span>
+            <span data-en="MAY 14 · 2025" data-de="14. MAI · 2025">MAY 14 · 2025</span>
+          </div>
+          <h3 data-en="Multi-year extension signed in the NHL." data-de="Mehrjährige Vertragsverlängerung in der NHL unterzeichnet.">Multi-year extension signed in the NHL.</h3>
+          <p data-en="A long negotiation closed on terms that reflect the player's role and trajectory — with structure designed to protect upside through the next CBA window." data-de="Eine lange Verhandlung mit Konditionen abgeschlossen, die Rolle und Entwicklung des Spielers widerspiegeln — strukturiert, um Upside durch das nächste CBA-Fenster zu sichern.">
+            A long negotiation closed on terms that reflect the player's role and trajectory — with structure designed to protect upside through the next CBA window.
+          </p>
+        </div>
+        <div class="read" data-en="Read story <span class='arr'>→</span>" data-de="Story lesen <span class='arr'>→</span>">Read story <span class="arr">→</span></div>
+      </article>
+
+      <article class="news-card">
+        <div>
+          <div class="meta">
+            <span class="cat" data-en="OFFICE" data-de="STANDORT">OFFICE</span>
+            <span data-en="MAR 09 · 2025" data-de="09. MÄR · 2025">MAR 09 · 2025</span>
+          </div>
+          <h3 data-en="Toronto office expanded for North American operations." data-de="Toronto-Standort für Nordamerika-Geschäft ausgebaut.">Toronto office expanded for North American operations.</h3>
+          <p data-en="New space, new senior hire, closer to the OHL pipeline. The fifth NXTSHOT office is now fully operational — with a focus on draft-eligible talent." data-de="Neues Büro, neue Senior-Position, näher an der OHL-Pipeline. Der fünfte NXTSHOT-Standort ist jetzt voll betriebsbereit — mit Fokus auf draft-berechtigte Talente.">
+            New space, new senior hire, closer to the OHL pipeline. The fifth NXTSHOT office is now fully operational — with a focus on draft-eligible talent.
+          </p>
+        </div>
+        <div class="read" data-en="Read story <span class='arr'>→</span>" data-de="Story lesen <span class='arr'>→</span>">Read story <span class="arr">→</span></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CONTACT ═══════ -->
+<section class="contact" id="contact">
+  <div class="wrap contact-inner">
+    <div class="kicker" data-en="— BY REFERRAL · BY CONVERSATION —" data-de="— AUF EMPFEHLUNG · IM GESPRÄCH —">— BY REFERRAL · BY CONVERSATION —</div>
+
+    <h2 data-en="Let's talk <span class='stroke'>hockey.</span>" data-de="Reden wir <span class='stroke'>Hockey.</span>">
+      Let's talk <span class="stroke">hockey.</span>
+    </h2>
+
+    <p data-en="We work with a small roster. If you're a player, parent, club or agency with something serious to discuss — the door is open." data-de="Wir arbeiten mit einem kleinen Roster. Spieler, Eltern, Clubs oder Agenturen mit etwas Ernsthaftem zu besprechen — die Tür steht offen.">
+      We work with a small roster. If you're a player, parent, club or agency
+      with something serious to discuss — the door is open.
+    </p>
+
+    <div class="contact-actions">
+      <a href="mailto:patrick@nxtshotsports.com" class="email">
+        patrick@nxtshotsports.com <span class="arr">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <img src="assets/logo-white.png" alt="NXTSHOT Sports">
+        <p data-en="Elite hockey management. Founded in Switzerland. Trusted from NHL rinks to European top leagues." data-de="Elite Hockey-Management. Gegründet in der Schweiz. Vertraut von NHL-Stadien bis in europäische Top-Ligen.">Elite hockey management. Founded in Switzerland. Trusted from NHL rinks to European top leagues.</p>
+      </div>
+      <div class="foot-col">
+        <h5 data-en="Company" data-de="Unternehmen">Company</h5>
+        <ul>
+          <li><a href="#manifesto" data-en="Who We Are" data-de="Wer wir sind">Who We Are</a></li>
+          <li><a href="#services" data-en="Services" data-de="Leistungen">Services</a></li>
+          <li><a href="#roster" data-en="Roster" data-de="Roster">Roster</a></li>
+          <li><a href="#founder" data-en="Team" data-de="Team">Team</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5 data-en="Offices" data-de="Standorte">Offices</h5>
+        <ul>
+          <li data-en="Sursee, Switzerland" data-de="Sursee, Schweiz">Sursee, Switzerland</li>
+          <li data-en="München, Germany" data-de="München, Deutschland">München, Germany</li>
+          <li data-en="Klagenfurt, Austria" data-de="Klagenfurt, Österreich">Klagenfurt, Austria</li>
+          <li data-en="New York, USA" data-de="New York, USA">New York, USA</li>
+          <li data-en="Toronto, Canada" data-de="Toronto, Kanada">Toronto, Canada</li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5 data-en="Contact" data-de="Kontakt">Contact</h5>
+        <ul>
+          <li><a href="mailto:patrick@nxtshotsports.com">patrick@nxtshotsports.com</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <div data-en="© 2026 NXTSHOT SPORTS · ALL RIGHTS RESERVED" data-de="© 2026 NXTSHOT SPORTS · ALLE RECHTE VORBEHALTEN">© 2026 NXTSHOT SPORTS · ALL RIGHTS RESERVED</div>
+      <div class="socials">
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+        <a href="#">Twitter/X</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Language toggle (DE / EN)
+  function setLang(lang) {
+    document.querySelectorAll('[data-' + lang + ']').forEach(function(el) {
+      var content = el.getAttribute('data-' + lang);
+      if (content !== null) el.innerHTML = content;
+    });
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-toggle button').forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+    try { localStorage.setItem('nxtshot-lang', lang); } catch (e) {}
+  }
+  // Restore saved language on load
+  (function() {
+    var saved = 'en';
+    try { saved = localStorage.getItem('nxtshot-lang') || 'en'; } catch (e) {}
+    if (saved === 'de') setLang('de');
+  })();
+</script>
+
+</body>
+</html>
