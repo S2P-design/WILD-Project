@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social-Media-Kampagne — Starbulls Sommer Camp 2026</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700;900&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --green: #005243;
+    --red: #E4032E;
+    --bg: #F2F5F4;
+    --dark: #1a1a1a;
+    --text: #444;
+    --muted: #888;
+    --border: #dde1e0;
+  }
+
+  body {
+    font-family: 'Titillium Web', -apple-system, Helvetica, sans-serif;
+    background: #fff;
+    color: var(--text);
+    line-height: 1.7;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .badge-entwurf {
+    position: fixed;
+    top: 28px;
+    right: -38px;
+    background: var(--red);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    padding: 6px 52px;
+    transform: rotate(45deg);
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .print-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 12px 24px;
+    cursor: pointer;
+    border-radius: 4px;
+    z-index: 100;
+    transition: background 0.2s;
+  }
+  .print-btn:hover { background: #003d32; }
+
+  .header-bar {
+    background: var(--green);
+    margin: 0 -40px;
+    padding: 48px 40px 40px;
+    margin-bottom: 40px;
+  }
+  .header-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 12px;
+  }
+  .header-title {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.15;
+  }
+  .header-subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 10px;
+    font-weight: 300;
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  h2 {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--dark);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+  .sec-line {
+    width: 32px;
+    height: 3px;
+    background: var(--red);
+    margin-bottom: 20px;
+  }
+  h3 {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 24px 0 8px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  h3:first-of-type { border-top: none; padding-top: 0; }
+  p { margin-bottom: 12px; font-size: 14px; }
+  p strong { color: var(--dark); }
+
+  ul { list-style: none; padding: 0; margin: 0 0 16px; }
+  ul li {
+    font-size: 14px;
+    line-height: 1.8;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 2px;
+  }
+  ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 6px;
+    height: 6px;
+    border-radius: 1px;
+    background: var(--green);
+    opacity: 0.4;
+  }
+  ul li strong { color: var(--dark); }
+
+  .eckdaten-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+  }
+  .eckdaten-table td {
+    font-size: 14px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .eckdaten-table td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--green);
+    font-weight: 600;
+    width: 200px;
+    white-space: nowrap;
+  }
+  .eckdaten-table td:last-child {
+    color: var(--dark);
+    font-weight: 400;
+  }
+
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  .summary-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--green);
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--green);
+    background: var(--bg);
+  }
+  .summary-table td {
+    font-size: 14px;
+    color: var(--text);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .summary-table td strong { color: var(--dark); }
+
+  /* Post Card */
+  .post-card {
+    background: var(--bg);
+    border-left: 3px solid var(--green);
+    padding: 24px 28px 20px;
+    margin: 16px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .post-card.conversion { border-left-color: var(--red); }
+  .post-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  .post-title {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--dark);
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .post-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .post-row {
+    font-size: 13px;
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+  .post-row .row-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: var(--green);
+    font-weight: 600;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* Caption Quote */
+  .caption {
+    background: #fff;
+    border-left: 2px solid var(--green);
+    padding: 12px 16px;
+    margin: 8px 0 12px;
+    font-size: 14px;
+    color: var(--dark);
+    line-height: 1.5;
+    font-style: normal;
+  }
+  .caption .line { display: block; }
+
+  /* Story Frame */
+  .story-set {
+    background: var(--bg);
+    padding: 24px 28px;
+    margin: 16px 0;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .story-set-title {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+  .frame {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .frame-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: var(--red);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .frame-meta {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 6px;
+  }
+  .frame-text {
+    color: var(--dark);
+    line-height: 1.5;
+  }
+
+  /* Hashtag Box */
+  .hashtag-box {
+    background: var(--dark);
+    color: #f0f0f0;
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 8px 0 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    letter-spacing: 0.3px;
+    word-spacing: 4px;
+    overflow-wrap: break-word;
+  }
+  .hashtag-box .hash-title {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--red);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  /* Info / Highlight boxes */
+  .info-box {
+    background: var(--bg);
+    padding: 20px 24px;
+    border-radius: 4px;
+    margin: 16px 0;
+    border: 1px solid var(--border);
+  }
+  .info-box p { margin-bottom: 8px; }
+  .info-box p:last-child { margin-bottom: 0; }
+
+  .highlight-box {
+    background: rgba(228,3,46,0.04);
+    border-left: 3px solid var(--red);
+    padding: 18px 24px;
+    margin: 16px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .highlight-box p { margin-bottom: 8px; }
+  .highlight-box p:last-child { margin-bottom: 0; }
+
+  .voice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .voice-col {
+    padding: 16px 20px;
+    border-radius: 4px;
+  }
+  .voice-col.yes {
+    background: rgba(0,82,67,0.06);
+    border-left: 3px solid var(--green);
+  }
+  .voice-col.no {
+    background: rgba(228,3,46,0.04);
+    border-left: 3px solid var(--red);
+  }
+  .voice-col-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .voice-col.yes .voice-col-label { color: var(--green); }
+  .voice-col.no .voice-col-label { color: var(--red); }
+  .voice-col p { font-size: 13px; line-height: 1.6; margin: 0; color: var(--dark); }
+
+  /* Phase Card */
+  .phase-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--green);
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    border-radius: 0 4px 4px 0;
+  }
+  .phase-card .ph-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  .phase-card .ph-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .phase-card .ph-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .phase-card .ph-goal { font-size: 13px; color: var(--text); }
+
+  /* Footer */
+  .doc-footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .doc-footer-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+
+  /* Print */
+  @media print {
+    body { padding: 20px; max-width: 100%; font-size: 12px; }
+    .header-bar { margin: 0 -20px; padding: 32px 20px 28px; }
+    .badge-entwurf { position: absolute; }
+    .print-btn { display: none; }
+    .post-card, .story-set, .phase-card, .voice-grid, .hashtag-box { break-inside: avoid; }
+    .section { break-inside: avoid-page; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 0 20px 60px; }
+    .header-bar { margin: 0 -20px; padding: 32px 20px 28px; }
+    .voice-grid { grid-template-columns: 1fr; }
+    .eckdaten-table td:first-child { width: 130px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="badge-entwurf">ENTWURF</div>
+<button class="print-btn" onclick="window.print()">DRUCKEN / PDF</button>
+
+<!-- ═══════ HEADER ═══════ -->
+<div class="header-bar">
+  <img src="/sbr-logo-bw.png" alt="Starbulls Rosenheim" style="width:40px;height:auto;opacity:0.35;margin-bottom:12px;">
+  <div class="header-label">SOCIAL-MEDIA-KAMPAGNE</div>
+  <div class="header-title">Bewerbung Sommer Camp 2026<br>&mdash; Instagram &amp; TikTok</div>
+  <div class="header-subtitle">Vollst&auml;ndiger Kampagnen-Plan &middot; Kan&auml;le @starbulls_nachwuchs &middot; Stand: April 2026</div>
+</div>
+
+<!-- ═══════ 1. ECKDATEN ═══════ -->
+<div class="section">
+  <div class="section-number">01</div>
+  <h2>Eckdaten</h2>
+  <div class="sec-line"></div>
+
+  <table class="eckdaten-table">
+    <tr><td>CAMP</td><td>31. Juli &ndash; 2. August 2026 &middot; ROFA-Stadion Rosenheim</td></tr>
+    <tr><td>KAN&Auml;LE</td><td>Instagram + TikTok &middot; @starbulls_nachwuchs</td></tr>
+    <tr><td>LANDINGPAGE</td><td>wildproject.pro/sbr-sommer-camp.html</td></tr>
+    <tr><td>VORLAUF</td><td>14 Wochen ab 21.04.2026</td></tr>
+    <tr><td>PRIM&Auml;RZIEL</td><td>Camp ausverkaufen &mdash; 88 Pl&auml;tze (Hager 30+6 &middot; Reichel 24+4 &middot; Grubauer 24+4)</td></tr>
+    <tr><td>SEKUND&Auml;RZIEL</td><td>Marke &bdquo;Starbulls Nachwuchs&ldquo; als ernsthafte Ausbildungsadresse positionieren</td></tr>
+    <tr><td>DEADLINE</td><td><strong>3. Juli 2026</strong> &mdash; kostenlose Stornofrist endet</td></tr>
+    <tr><td>KPIs</td><td>Anmeldungen/Woche &middot; Story-Replies &middot; Profil-Klicks &middot; DM-Anfragen</td></tr>
+  </table>
+</div>
+
+<!-- ═══════ 2. TONALIT&Auml;T &amp; CI ═══════ -->
+<div class="section">
+  <div class="section-number">02</div>
+  <h2>Tonalit&auml;t &amp; CI</h2>
+  <div class="sec-line"></div>
+
+  <div class="highlight-box">
+    <p><strong>Hockey-nativ. Direkt. Tempo.</strong></p>
+    <p>Wir reden wie auf der Bank, nicht wie in einer Pressemappe. Kurze S&auml;tze. Aktive Sprache. Spieler-Perspektive zuerst, Eltern lesen automatisch mit.</p>
+  </div>
+
+  <div class="voice-grid">
+    <div class="voice-col yes">
+      <div class="voice-col-label">VOKABULAR JA</div>
+      <p>Edges &middot; Stickhandling &middot; Reps &middot; Compete &middot; Battle &middot; Crash the Net &middot; Backcheck &middot; D-Zone &middot; Open Ice &middot; One-Timer &middot; Snipe &middot; Off-Ice</p>
+    </div>
+    <div class="voice-col no">
+      <div class="voice-col-label">VOKABULAR NEIN</div>
+      <p>&bdquo;einmalige Chance&ldquo; &middot; &bdquo;erlebnisreich&ldquo; &middot; &bdquo;rundum gelungen&ldquo; &middot; &bdquo;qualitativ hochwertig&ldquo; &middot; &bdquo;mit Herzblut&ldquo;</p>
+    </div>
+  </div>
+
+  <h3>Caption-Regeln</h3>
+  <ul>
+    <li>Captions max. <strong>4 Zeilen</strong> f&uuml;r den ersten Block (vor dem &bdquo;mehr anzeigen&ldquo;)</li>
+    <li><strong>Hook in den ersten 1,5 Sek.</strong> &mdash; Frage, Zahl oder harter Cut</li>
+    <li>Keine Floskeln, keine Buzzwords, keine Heldengeschichten</li>
+    <li>Hockey-Realsound (Pucks, Kufen, Coach-Stimme) schl&auml;gt Trending Audio</li>
+    <li>Ein Gedanke pro Post. Nicht alles auf einmal sagen wollen.</li>
+  </ul>
+
+  <h3>Visuelle CI (verbindlich)</h3>
+  <table class="eckdaten-table">
+    <tr><td>PRIM&Auml;RFARBE</td><td>Starbulls Green &mdash; #005243</td></tr>
+    <tr><td>AKZENTFARBE</td><td>Starbulls Red &mdash; #E4032E</td></tr>
+    <tr><td>HELLTON</td><td>#F2F5F4</td></tr>
+    <tr><td>HEADLINES</td><td>League Gothic</td></tr>
+    <tr><td>BODY</td><td>Titillium Web</td></tr>
+    <tr><td>BILDSPRACHE</td><td>Eishockey-Authentizit&auml;t &mdash; echte Trainingsmomente, Schwei&szlig;, Tempo, Detail. Keine Stock-Posen.</td></tr>
+  </table>
+</div>
+
+<!-- ═══════ 3. KAMPAGNEN-PHASEN ═══════ -->
+<div class="section">
+  <div class="section-number">03</div>
+  <h2>Kampagnen-Phasen</h2>
+  <div class="sec-line"></div>
+
+  <div class="phase-card">
+    <div class="ph-label">PHASE 01 &middot; LAUNCH</div>
+    <div class="ph-title">Save-the-Date &amp; Trainerteam</div>
+    <div class="ph-meta">22.04. &ndash; 10.05.2026 &middot; 3 Wochen</div>
+    <div class="ph-goal">Awareness aufbauen, erste Anmeldungen einsammeln, Trainerteam vorstellen.</div>
+  </div>
+
+  <div class="phase-card">
+    <div class="ph-label">PHASE 02 &middot; SUBSTANZ</div>
+    <div class="ph-title">Inhalte zeigen &mdash; warum dieses Camp</div>
+    <div class="ph-meta">11.05. &ndash; 14.06.2026 &middot; 5 Wochen</div>
+    <div class="ph-goal">Drill Drops, Goalie- &amp; Off-Ice-Spotlight, Camp-Paket, Q&amp;A &mdash; was lernt mein Kind konkret.</div>
+  </div>
+
+  <div class="phase-card">
+    <div class="ph-label">PHASE 03 &middot; CONVERSION</div>
+    <div class="ph-title">Druck auf Stornofrist</div>
+    <div class="ph-meta">15.06. &ndash; 03.07.2026 &middot; 3 Wochen</div>
+    <div class="ph-goal">Restplatz-Counter, FAQ, Reminder zur kostenlosen Stornofrist am 3. Juli.</div>
+  </div>
+
+  <div class="phase-card">
+    <div class="ph-label">PHASE 04 &middot; LAST CALL</div>
+    <div class="ph-title">Restpl&auml;tze &amp; Hype</div>
+    <div class="ph-meta">04.07. &ndash; 30.07.2026 &middot; 4 Wochen</div>
+    <div class="ph-goal">Letzte Pl&auml;tze, Packliste, Anreise, Countdown.</div>
+  </div>
+
+  <div class="phase-card" style="border-left-color: var(--red);">
+    <div class="ph-label">PHASE 05 &middot; LIVE &amp; RECAP</div>
+    <div class="ph-title">Camp dokumentieren</div>
+    <div class="ph-meta">31.07. &ndash; 07.08.2026 &middot; 1 Woche</div>
+    <div class="ph-goal">Daily Stories, Daily Reels, Recap-Reel als Hauptwerbung f&uuml;r Camp 2027.</div>
+  </div>
+</div>
+
+<!-- ═══════ 4. CONTENT-PILLARS ═══════ -->
+<div class="section">
+  <div class="section-number">04</div>
+  <h2>Content-Pillars</h2>
+  <div class="sec-line"></div>
+
+  <table class="summary-table">
+    <thead>
+      <tr><th>PILLAR</th><th>WAS WIR ZEIGEN</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Coaches</strong></td><td>Wer trainiert dein Kind? Kurzportr&auml;ts, Trainings&shy;philosophie.</td></tr>
+      <tr><td><strong>Inhalt</strong></td><td>&bdquo;Basics, Wiederholungen, Details&ldquo; &mdash; konkrete Drills, was die Spieler lernen.</td></tr>
+      <tr><td><strong>Ablauf</strong></td><td>Tagesstruktur, Athletik, Eis, Pause, Freibad.</td></tr>
+      <tr><td><strong>Drumherum</strong></td><td>Camp-Paket, VIP-Mittagessen, &Uuml;berraschungs&shy;gast.</td></tr>
+      <tr><td><strong>Stimmen</strong></td><td>Eltern- &amp; Spieler-Statements vom Camp 2025.</td></tr>
+      <tr><td><strong>Service</strong></td><td>Anmeldung, Zahlung, Packliste, Anreise, FAQ.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════ 5. INSTAGRAM-BEITR&Auml;GE ═══════ -->
+<div class="section">
+  <div class="section-number">05</div>
+  <h2>Instagram-Beitr&auml;ge &mdash; 22 Posts mit fertigen Captions</h2>
+  <div class="sec-line"></div>
+
+  <h3>Phase 1 &mdash; Launch (22.04. &ndash; 10.05.)</h3>
+
+  <div class="post-card">
+    <div class="post-label">P1 &middot; FEED REEL + STORY</div>
+    <div class="post-title">Save-the-Date</div>
+    <div class="post-meta">9:16 &middot; 6 Sek. &middot; Eis-Sound + Snipe-Sound &rarr; Logo-Cut &rarr; Datum</div>
+    <div class="post-row"><span class="row-label">Hook (Sek. 0&ndash;1,5)</span>Text-Overlay: &bdquo;3 Tage. 88 Pl&auml;tze. Go.&ldquo;</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">31.07. &ndash; 02.08. ROFA-Stadion.</span>
+      <span class="line">Eis. Athletik. Reps.</span>
+      <span class="line">U9&ndash;U15. Anmeldung offen.</span>
+      <span class="line">Link in Bio.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET A (siehe &sect;7)</div>
+    <div class="post-row"><span class="row-label">CTA</span>Link in Bio</div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-label">P2 &middot; FEED CAROUSEL</div>
+    <div class="post-title">Coaches (5 Slides)</div>
+    <div class="post-meta">1:1 oder 4:5 &middot; 5 Slides</div>
+    <div class="post-row"><span class="row-label">Slides</span>
+      <ul style="margin-top:4px;">
+        <li>Slide 1: &bdquo;Coaches.&ldquo; (League Gothic, fett)</li>
+        <li>Slide 2: Ren&eacute; Wild &mdash; Head Coach (Foto + 1 Zeile, kein CV)</li>
+        <li>Slide 3: Rick B&ouml;hm &middot; Matthias Bergmann &middot; Thomas Sch&auml;dler</li>
+        <li>Slide 4: Goalies &rarr; Kai Klimesch &middot; Off-Ice &rarr; Florian Schillhuber &amp; Thomas Dorsch</li>
+        <li>Slide 5: &bdquo;3 Gruppen. 3 Levels. Eigener Goalie-Coach.&ldquo; + CTA</li>
+      </ul>
+    </div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Mit denen geht dein Kid aufs Eis.</span>
+      <span class="line">Keine Studenten, keine L&uuml;ckenf&uuml;ller. Coaches, die Hockey leben.</span>
+      <span class="line">Anmeldung: Link in Bio.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET B (Coaches)</div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-label">P3 &middot; REEL</div>
+    <div class="post-title">Drei Gruppen, drei Namen</div>
+    <div class="post-meta">9:16 &middot; 12 Sek.</div>
+    <div class="post-row"><span class="row-label">Schnitt</span>Eigene Trainings-Cuts mit Namens-Overlay: Hager &rarr; Reichel &rarr; Grubauer (kein NHL-Material wegen Rechten)</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Hager. Reichel. Grubauer.</span>
+      <span class="line">3 Gruppen. 3 Levels. Getrennt trainiert.</span>
+      <span class="line">Welche Gruppe ist deine?</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET A</div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-label">P4 &middot; STORY-REIHE</div>
+    <div class="post-title">F&uuml;r wen das Camp ist (3 Frames)</div>
+    <div class="post-row"><span class="row-label">Frame 1</span>&bdquo;Vereinsspieler U9&ndash;U15.&ldquo;</div>
+    <div class="post-row"><span class="row-label">Frame 2</span>&bdquo;Du willst Reps, nicht Animation? Bist hier richtig.&ldquo;</div>
+    <div class="post-row"><span class="row-label">Frame 3</span>&bdquo;Anmeldung &rarr; Link in Bio.&ldquo;</div>
+  </div>
+
+  <h3>Phase 2 &mdash; Substanz (11.05. &ndash; 14.06.)</h3>
+
+  <div class="post-card">
+    <div class="post-label">P5 &middot; REEL</div>
+    <div class="post-title">Drill Drop #1</div>
+    <div class="post-meta">9:16 &middot; 15 Sek. &middot; Real-Sound, Coach im Training-Modus, kein Voice-Over</div>
+    <div class="post-row"><span class="row-label">Hook</span>&bdquo;Das &uuml;bst du am Tag 1.&ldquo; (Text-Overlay)</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Drill Drop #1: Edges.</span>
+      <span class="line">Klein. Wiederholt. Sauber.</span>
+      <span class="line">Genau das machen wir auf dem Camp.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET B</div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-label">P6 &middot; FEED CAROUSEL</div>
+    <div class="post-title">So sieht ein Camp-Tag aus (6 Slides)</div>
+    <div class="post-meta">Slide pro Tagesteil (08:00 &rarr; 16:00) &middot; Service-Post zum Speichern</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Wann f&auml;hrst du, wann bist du wieder da?</span>
+      <span class="line">Hier ist dein Tag. Speichern.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET D (Service)</div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-label">P7 &middot; REEL</div>
+    <div class="post-title">Goalie-Talk mit Kai</div>
+    <div class="post-meta">9:16 &middot; 30 Sek. &middot; ungeschnitten</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Goalies. Eigener Coach. Eigenes Eis.</span>
+      <span class="line">Kai sagt, was 3 Tage bringen.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET C (Goalie)</div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-label">P8 &middot; REEL</div>
+    <div class="post-title">Off-Ice &mdash; was bringt's?</div>
+    <div class="post-meta">9:16 &middot; 20 Sek. &middot; Athletik-Snippets: Spr&uuml;nge, Sprints, Stickhandling-Boards</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Off-Ice ist kein Bonus.</span>
+      <span class="line">Off-Ice ist, warum du auf dem Eis schneller wirst.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET B</div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-label">P9 &middot; REEL</div>
+    <div class="post-title">Was im Bag liegt</div>
+    <div class="post-meta">9:16 &middot; 8 Sek. &middot; schneller Cut, Hand zieht Items aus dem Bag</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Trikot. Stutzen. Cap. Bottle. Bag.</span>
+      <span class="line">Drin. Ohne Sternchen.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET A</div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-label">P10 &middot; REEL</div>
+    <div class="post-title">Drill Drop #2</div>
+    <div class="post-meta">Format wie P5 &middot; anderer Drill</div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-label">P11 &middot; REEL</div>
+    <div class="post-title">Stimme aus 2025</div>
+    <div class="post-meta">9:16 &middot; 20&ndash;30 Sek. &middot; Spieler oder Eltern, kein Drehbuch</div>
+    <div class="post-row"><span class="row-label">Hook</span>&bdquo;Was war's?&ldquo; &mdash; Antwort sofort</div>
+    <div class="post-row"><em>Falls keine 2025-Aufnahmen vorhanden &rarr; skippen.</em></div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-label">P12 &middot; STORY-REEL</div>
+    <div class="post-title">Lunch in der VIP-Lounge</div>
+    <div class="post-meta">9:16 &middot; 6 Sek.</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Mittag in der VIP-Lounge.</span>
+      <span class="line">Kein Pausenbrot-Camp.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET A</div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-label">P13 &middot; REEL</div>
+    <div class="post-title">Drill Drop #3</div>
+    <div class="post-meta">Format wie P5 &middot; anderer Drill</div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-label">P14 &middot; STORY-AKTION</div>
+    <div class="post-title">Ask Us Anything</div>
+    <div class="post-meta">Frage-Sticker &middot; Highlight &bdquo;Camp FAQ&ldquo; anlegen</div>
+    <div class="post-row"><span class="row-label">Vorbereitung</span>Standard-Fragen vorbereiten: Gr&ouml;&szlig;en, Anreise, Verpflegung, Goalie-Setup, Stornierung</div>
+  </div>
+
+  <h3>Phase 3 &mdash; Conversion (15.06. &ndash; 03.07.)</h3>
+
+  <div class="post-card conversion">
+    <div class="post-label">P15 &middot; STATIC FEED + STORY</div>
+    <div class="post-title">Spot-Check &mdash; wie viele Pl&auml;tze noch?</div>
+    <div class="post-meta">W&ouml;chentlich aktualisiert</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Stand heute:</span>
+      <span class="line">Hager X &middot; Reichel X &middot; Grubauer X.</span>
+      <span class="line">Wer noch will, kennt den Link.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET D</div>
+  </div>
+
+  <div class="post-card conversion">
+    <div class="post-label">P16 &middot; FEED + STORY</div>
+    <div class="post-title">3. Juli &mdash; danach wird's teuer</div>
+    <div class="post-meta">Reminder Stornofrist</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">3. Juli = letzter Tag f&uuml;r free Cancel.</span>
+      <span class="line">Danach: voller Preis.</span>
+      <span class="line">Entscheide jetzt, nicht sp&auml;ter.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET A</div>
+  </div>
+
+  <div class="post-card conversion">
+    <div class="post-label">P17 &middot; FEED CAROUSEL</div>
+    <div class="post-title">FAQ &mdash; alles was Eltern fragen (8 Slides)</div>
+    <div class="post-meta">Anmeldung &middot; Zahlung &middot; Versicherung &middot; Packliste &middot; Goalie-Setup &middot; Essen &middot; Aufsicht &middot; Kontakt</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Bookmark this.</span>
+      <span class="line">Alles was ihr vorm Camp wissen wollt &mdash; auf 8 Slides.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET D</div>
+  </div>
+
+  <div class="post-card conversion">
+    <div class="post-label">P18 &middot; REEL</div>
+    <div class="post-title">Was du nach 3 Tagen mitnimmst</div>
+    <div class="post-meta">9:16 &middot; 25 Sek.</div>
+    <div class="post-row"><span class="row-label">Hook</span>&bdquo;3 Tage. Was bleibt?&ldquo;</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Bessere Edges. Sauberer Pass. Mehr Compete.</span>
+      <span class="line">Keine Versprechen. Reps machen den Unterschied.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET B</div>
+  </div>
+
+  <h3>Phase 4 &mdash; Last Call (04.07. &ndash; 30.07.)</h3>
+
+  <div class="post-card conversion">
+    <div class="post-label">P19 &middot; REEL + STORY</div>
+    <div class="post-title">Last Call</div>
+    <div class="post-meta">Nur posten wenn ehrlich knapp &mdash; sonst skippen</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Letzte Pl&auml;tze.</span>
+      <span class="line">Nicht warten. Anmelden.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET A</div>
+  </div>
+
+  <div class="post-card conversion">
+    <div class="post-label">P20 &middot; FEED CAROUSEL</div>
+    <div class="post-title">Packliste (9 Slides &mdash; 1 Item pro Slide)</div>
+    <div class="post-meta">Save-Post f&uuml;r Eltern und Spieler</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">Pack das ein. Vergiss nichts.</span>
+      <span class="line">Slide 9 vergisst jeder.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET D</div>
+  </div>
+
+  <div class="post-card conversion">
+    <div class="post-label">P21 &middot; STORY-REIHE</div>
+    <div class="post-title">So findest du uns (5 Frames)</div>
+    <div class="post-meta">Adresse &rarr; Parkplatz &rarr; Eingang &rarr; Ansprechpartner &rarr; &bdquo;bis gleich&ldquo;</div>
+    <div class="post-row"><span class="row-label">Sticker</span>Standort-Sticker einsetzen</div>
+  </div>
+
+  <div class="post-card conversion">
+    <div class="post-label">P22 &middot; REEL</div>
+    <div class="post-title">&Uuml;bermorgen (48h vorher)</div>
+    <div class="post-meta">9:16 &middot; 8 Sek. &middot; Eismaschine, leere Kabine, gestapelte Trikots, Sound = Kufen aufs Eis</div>
+    <div class="post-row"><span class="row-label">Caption</span></div>
+    <div class="caption">
+      <span class="line">&Uuml;bermorgen.</span>
+      <span class="line">Bring saubere Kufen.</span>
+    </div>
+    <div class="post-row"><span class="row-label">Hashtag-Set</span>SET A</div>
+  </div>
+
+  <h3>Phase 5 &mdash; Live &amp; Recap (31.07. &ndash; 07.08.)</h3>
+
+  <div class="info-box">
+    <p><strong>T&auml;gliche Stories:</strong> Eis, Athletik, Mittagessen, Freibad, &Uuml;berraschungsgast.</p>
+    <p><strong>Daily Reels:</strong> 1 pro Tag, max. 30 Sek., echte Momente.</p>
+    <p><strong>Recap-Reel</strong> (am 04.&ndash;05.08.) &mdash; wird die Hauptwerbung f&uuml;r Camp 2027.</p>
+  </div>
+</div>
+
+<!-- ═══════ 6. STORIES ═══════ -->
+<div class="section">
+  <div class="section-number">06</div>
+  <h2>Stories &mdash; fertige Templates</h2>
+  <div class="sec-line"></div>
+
+  <div class="highlight-box">
+    <p>Stories sind das Arbeitspferd der Kampagne. <strong>Hier passieren die Anmeldungen</strong> (Link-Sticker direkt zur Anmeldung). Frequenz siehe &sect;9.</p>
+  </div>
+
+  <div class="story-set">
+    <div class="story-set-title">SET 1 &mdash; Save-the-Date (Phase 1)</div>
+    <div class="frame">
+      <div class="frame-label">FRAME 1</div>
+      <div class="frame-meta">Hintergrund: Eis-Closeup, dunkel</div>
+      <div class="frame-text"><strong>3 TAGE.</strong><br>31.07.&ndash;02.08.<br>Sommer Camp 2026.</div>
+    </div>
+    <div class="frame">
+      <div class="frame-label">FRAME 2</div>
+      <div class="frame-meta">Trainerteam-Foto, leicht abgedunkelt</div>
+      <div class="frame-text">Coaches: Ren&eacute; Wild, Rick B&ouml;hm, Matthias Bergmann, Thomas Sch&auml;dler, Kai Klimesch (G), Florian Schillhuber &amp; Thomas Dorsch (Off-Ice).</div>
+    </div>
+    <div class="frame">
+      <div class="frame-label">FRAME 3</div>
+      <div class="frame-meta">Solid Green Background &middot; Link-Sticker zur Anmeldung</div>
+      <div class="frame-text">Anmeldung l&auml;uft.<br>Link-Sticker &rarr; tippen.</div>
+    </div>
+  </div>
+
+  <div class="story-set">
+    <div class="story-set-title">SET 2 &mdash; Drei Gruppen erkl&auml;rt</div>
+    <div class="frame">
+      <div class="frame-label">FRAME 1</div>
+      <div class="frame-text">Welche Gruppe ist deine?</div>
+    </div>
+    <div class="frame">
+      <div class="frame-label">FRAME 2</div>
+      <div class="frame-meta">Quiz-Sticker</div>
+      <div class="frame-text"><em>Quiz:</em> Jahrgang 2016 oder j&uuml;nger &rarr; ?<br>A) Hager &middot; B) Reichel &middot; C) Grubauer<br><strong>Antwort: A</strong></div>
+    </div>
+    <div class="frame">
+      <div class="frame-label">FRAME 3</div>
+      <div class="frame-text">Hager &rarr; 2016 &amp; j&uuml;nger<br>Reichel &rarr; 2014 &amp; j&uuml;nger<br>Grubauer &rarr; 2012 &amp; j&uuml;nger</div>
+    </div>
+    <div class="frame">
+      <div class="frame-label">FRAME 4</div>
+      <div class="frame-meta">Link-Sticker</div>
+      <div class="frame-text">Anmelden &rarr; Link tippen.</div>
+    </div>
+  </div>
+
+  <div class="story-set">
+    <div class="story-set-title">SET 3 &mdash; Coach-Take (w&ouml;chentlich)</div>
+    <div class="frame">
+      <div class="frame-label">FRAME 1</div>
+      <div class="frame-meta">Coach-Selfie, Eis im Hintergrund</div>
+      <div class="frame-text"><em>Coach-Take der Woche:</em><br>&bdquo;Warum Edges der wichtigste Skill bis U13 ist.&ldquo;<br>&mdash; Rick</div>
+    </div>
+    <div class="frame">
+      <div class="frame-label">FRAME 2&ndash;3</div>
+      <div class="frame-text">15-Sek-Clip mit Coach</div>
+    </div>
+    <div class="frame">
+      <div class="frame-label">FRAME 4</div>
+      <div class="frame-meta">Frage-Sticker</div>
+      <div class="frame-text">Was wollt ihr im Camp lernen?</div>
+    </div>
+  </div>
+
+  <div class="story-set">
+    <div class="story-set-title">SET 4 &mdash; Ask Us Anything (Phase 2)</div>
+    <div class="frame">
+      <div class="frame-label">FRAME 1</div>
+      <div class="frame-meta">Frage-Sticker</div>
+      <div class="frame-text">Frag uns alles zum Camp.<br>Antworten kommen &uuml;ber die Stories.</div>
+    </div>
+    <div class="frame">
+      <div class="frame-label">FRAMES 2&ndash;8</div>
+      <div class="frame-text">Screenshot der Frage + Coach-Antwort als Talking-Head 10&ndash;15 Sek.<br><em>Standardthemen vorbereiten:</em> Gr&ouml;&szlig;en, Anreise, Verpflegung, Goalie-Setup, Stornierung, Versicherung, Tagesablauf.</div>
+    </div>
+    <div class="frame">
+      <div class="frame-label">HIGHLIGHT</div>
+      <div class="frame-text">Highlight &bdquo;Camp FAQ&ldquo; anlegen &mdash; alle Antworten gespeichert.</div>
+    </div>
+  </div>
+
+  <div class="story-set">
+    <div class="story-set-title">SET 5 &mdash; Restplatz-Update (w&ouml;chentlich, Phase 3+4)</div>
+    <div class="frame">
+      <div class="frame-label">FRAME 1</div>
+      <div class="frame-meta">Branded-Template, Green Background</div>
+      <div class="frame-text"><strong>Restpl&auml;tze &mdash; Stand [Datum]:</strong><br>Hager: X<br>Reichel: X<br>Grubauer: X</div>
+    </div>
+    <div class="frame">
+      <div class="frame-label">FRAME 2</div>
+      <div class="frame-meta">Link-Sticker</div>
+      <div class="frame-text">Pl&auml;tze schnappen &rarr; Link tippen.</div>
+    </div>
+  </div>
+
+  <div class="story-set">
+    <div class="story-set-title">SET 6 &mdash; Countdown (letzte 7 Tage)</div>
+    <div class="frame">
+      <div class="frame-label">T&Auml;GLICH 1 FRAME</div>
+      <div class="frame-meta">mit Countdown-Sticker</div>
+      <div class="frame-text">
+        Tag &minus;7: &bdquo;Eine Woche.&ldquo;<br>
+        Tag &minus;3: &bdquo;72h.&ldquo;<br>
+        Tag &minus;1: &bdquo;Morgen.&ldquo;<br>
+        Tag 0: &bdquo;Heute. Bring saubere Kufen.&ldquo;
+      </div>
+    </div>
+  </div>
+
+  <div class="story-set">
+    <div class="story-set-title">SET 7 &mdash; Live w&auml;hrend Camp (Phase 5)</div>
+    <div class="frame">
+      <div class="frame-label">PRO TAG MIND. 8&ndash;12 FRAMES</div>
+      <div class="frame-text">
+        &bull; Anreise-Setup (Aufmachen, Ausr&uuml;stung)<br>
+        &bull; 1 Drill on-ice (10 Sek.)<br>
+        &bull; 1 Off-Ice-Snippet<br>
+        &bull; Mittagessen-Frame<br>
+        &bull; Stimmungs-Frame (Spieler lachend, Kabine)<br>
+        &bull; Coach-Take (15 Sek., was lief heute)<br>
+        &bull; Ank&uuml;ndigung morgen<br>
+        &bull; Link-Sticker zu &bdquo;2027 schon vormerken&ldquo; (am letzten Tag)
+      </div>
+    </div>
+    <div class="frame">
+      <div class="frame-label">HIGHLIGHTS</div>
+      <div class="frame-text">Pro Tag anlegen: &bdquo;Tag 1&ldquo;, &bdquo;Tag 2&ldquo;, &bdquo;Tag 3&ldquo; &mdash; bleibt nach Camp sichtbar als Beweis f&uuml;rs n&auml;chste Jahr.</div>
+    </div>
+  </div>
+
+  <h3>Story-Sticker-Strategie</h3>
+  <table class="summary-table">
+    <thead>
+      <tr><th>STICKER</th><th>WANN</th><th>ZWECK</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Link-Sticker</strong></td><td>Jeder Conversion-Story</td><td>Direkt zur Anmeldung</td></tr>
+      <tr><td><strong>Frage-Sticker</strong></td><td>Phase 2 + Camp-Live</td><td>Engagement, Insights</td></tr>
+      <tr><td><strong>Quiz-Sticker</strong></td><td>Phase 1+2</td><td>Algorithmus-Boost</td></tr>
+      <tr><td><strong>Umfrage</strong></td><td>&bdquo;Welche Gruppe?&ldquo;, &bdquo;Goalie oder Skater?&ldquo;</td><td>Reichweite</td></tr>
+      <tr><td><strong>Countdown</strong></td><td>Letzte 7 Tage</td><td>Erinnerung automatisch</td></tr>
+      <tr><td><strong>Standort</strong></td><td>Service-Stories</td><td>Lokale Discovery</td></tr>
+      <tr><td><strong>Erw&auml;hnung</strong></td><td>Trainer, Sponsoren</td><td>Reichweite &uuml;ber Repost</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════ 7. HASHTAGS ═══════ -->
+<div class="section">
+  <div class="section-number">07</div>
+  <h2>Hashtags &mdash; fertige Sets zum Copy-Paste</h2>
+  <div class="sec-line"></div>
+
+  <div class="highlight-box">
+    <p><strong>Logik:</strong> Instagram &rarr; 12&ndash;18 Hashtags ist der Sweet Spot (zu viele = Spam-Signal). TikTok &rarr; 3&ndash;5, lieber stark als breit. Mischung aus <strong>Marken / Region / Sport / Nische / Reichweiten-Tags</strong>.</p>
+  </div>
+
+  <div class="hashtag-box">
+    <span class="hash-title">SET A &mdash; Standard-Mix (80 % aller Feed-Posts)</span>
+    #starbulls #starbullsnachwuchs #starbullsrosenheim
+    #eishockey #icehockey #hockey
+    #eishockeycamp #hockeycamp #sommercamp2026
+    #nachwuchseishockey #youthhockey #hockeykids
+    #rosenheim #oberbayern #chiemgau
+    #DEL2 #hockeylife #hockeyfamily
+  </div>
+
+  <div class="hashtag-box">
+    <span class="hash-title">SET B &mdash; Coaches &amp; Trainings-Posts (Drill Drops, Off-Ice)</span>
+    #starbullsnachwuchs #eishockeycamp #hockeycamp
+    #hockeytraining #hockeydrills #playerdevelopment
+    #icehockeytraining #hockeyskills #powerskating
+    #eishockey #icehockey #hockeylife
+    #nachwuchseishockey #youthhockey
+    #rosenheim #DEL2
+  </div>
+
+  <div class="hashtag-box">
+    <span class="hash-title">SET C &mdash; Goalie-spezifisch</span>
+    #starbullsnachwuchs #goalietraining #goalielife
+    #torhüter #goaliesoftheworld #goaliecoach
+    #eishockey #icehockey #hockeycamp
+    #nachwuchseishockey #youthhockey
+    #rosenheim #DEL2
+  </div>
+
+  <div class="hashtag-box">
+    <span class="hash-title">SET D &mdash; Service &amp; FAQ-Posts (lokale Reichweite st&auml;rker)</span>
+    #starbullsnachwuchs #starbullsrosenheim
+    #rosenheim #oberbayern #chiemgau #bayern
+    #eishockey #eishockeycamp #sommercamp2026
+    #nachwuchseishockey #hockeykids #hockeyfamily
+    #sommerferien2026 #ferienprogramm
+  </div>
+
+  <div class="hashtag-box">
+    <span class="hash-title">SET E &mdash; TikTok (max. 5, hart fokussiert)</span>
+    #eishockey #starbulls #hockeycamp #rosenheim #youthhockey
+  </div>
+
+  <h3>Story-Hashtags (im Sticker, max. 1&ndash;2)</h3>
+  <ul>
+    <li>Standard: <code>#starbullsnachwuchs</code></li>
+    <li>Recap-Stories: <code>#sbrcamp2026</code></li>
+  </ul>
+
+  <h3>Eigene Kampagnen-Hashtags (durchg&auml;ngig nutzen)</h3>
+  <ul>
+    <li><strong>#sbrcamp2026</strong> &mdash; Hauptkampagnen-Tag, in JEDEM Post</li>
+    <li><strong>#repsmachendenunterschied</strong> &mdash; Sub-Claim, optional in Drill-Posts</li>
+  </ul>
+
+  <h3>Tags (kein Hashtag, sondern @-Mention!)</h3>
+  <ul>
+    <li><strong>@starbulls_rosenheim</strong> (Hauptverein)</li>
+    <li><strong>@wildproject.pro</strong> (Ren&eacute; Wild / Wild Projects)</li>
+    <li><strong>@bauerhockey_de</strong> und <strong>@schannerhockey</strong> (Sponsoren) &mdash; wenn deren Material im Bild ist</li>
+    <li><strong>@rofastadion</strong> (falls Account aktiv)</li>
+  </ul>
+</div>
+
+<!-- ═══════ 8. TIKTOK ═══════ -->
+<div class="section">
+  <div class="section-number">08</div>
+  <h2>TikTok-Anpassungen</h2>
+  <div class="sec-line"></div>
+
+  <p>Auf TikTok funktionieren die gleichen Reels &mdash; aber <strong>mit zus&auml;tzlichem Hook in den ersten 1,5 Sek.</strong>:</p>
+  <ul>
+    <li>Text-Overlay: harte Frage oder Zahl (&bdquo;3 Tage. 88 Pl&auml;tze. Fertig.&ldquo;)</li>
+    <li>Native Sounds (Trending Audio sparsam, Eishockey-Realsound bevorzugt)</li>
+    <li>Captions k&uuml;rzer, Hashtags reduziert auf 3&ndash;5 (SET E)</li>
+  </ul>
+
+  <h3>TikTok-spezifische Formate</h3>
+  <ul>
+    <li><strong>POV-Clip:</strong> &bdquo;POV: erste Eiseinheit beim Sommer Camp&ldquo;</li>
+    <li><strong>Coach-Talk:</strong> 30 Sek. ungeschnitten, Coach erkl&auml;rt einen Drill</li>
+    <li><strong>Tagesvlog</strong> w&auml;hrend Phase 5 (1 pro Tag)</li>
+  </ul>
+</div>
+
+<!-- ═══════ 9. POSTING-FREQUENZ ═══════ -->
+<div class="section">
+  <div class="section-number">09</div>
+  <h2>Posting-Frequenz</h2>
+  <div class="sec-line"></div>
+
+  <table class="summary-table">
+    <thead>
+      <tr><th>PHASE</th><th>POSTS / WOCHE</th><th>STORIES / WOCHE</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>1 &mdash; Launch</strong></td><td>2 Feed + 1 Reel</td><td>5&ndash;7</td></tr>
+      <tr><td><strong>2 &mdash; Substanz</strong></td><td>2&ndash;3 Feed/Reel</td><td>5&ndash;7</td></tr>
+      <tr><td><strong>3 &mdash; Conversion</strong></td><td>3 Feed/Reel</td><td>7&ndash;10</td></tr>
+      <tr><td><strong>4 &mdash; Last Call</strong></td><td>3 Feed/Reel</td><td>10+</td></tr>
+      <tr><td><strong>5 &mdash; Live</strong></td><td>1 Reel/Tag</td><td>10+/Tag</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════ 10. VISUALS ═══════ -->
+<div class="section">
+  <div class="section-number">10</div>
+  <h2>Visuals &mdash; was produziert werden muss</h2>
+  <div class="sec-line"></div>
+
+  <h3>Pflicht (f&uuml;r Phase 1 startklar bis 30. April)</h3>
+  <ul>
+    <li>Key Visual &bdquo;Save the Date&ldquo; (9:16 + 1:1 + 4:5)</li>
+    <li>Trainer-Portr&auml;ts (alle 7 Coaches, einheitlich)</li>
+    <li>Logo-Variante &bdquo;Sommer Camp 2026&ldquo; (Green/Red auf wei&szlig; + invers)</li>
+    <li>Camp-Paket-Foto (Flatlay: Trikot, Cap, Bag, Stutzen, Trinkflasche)</li>
+  </ul>
+
+  <h3>Im Camp 2025 archiviert &mdash; sichten und nutzen</h3>
+  <ul>
+    <li>Trainings-Action</li>
+    <li>Mittagessen VIP-Lounge</li>
+    <li>Freibad</li>
+    <li>Q&amp;A-Setup</li>
+  </ul>
+
+  <h3>W&auml;hrend Camp 2026 zu produzieren (Phase 5)</h3>
+  <ul>
+    <li>1 fester Fotograf f&uuml;r Tag 1+2</li>
+    <li>1 Reel-Schnitt-Person, die abends schneidet (Daily-Output)</li>
+  </ul>
+</div>
+
+<!-- ═══════ 11. VERANTWORTLICHKEITEN ═══════ -->
+<div class="section">
+  <div class="section-number">11</div>
+  <h2>Verantwortlichkeiten (offen &mdash; bitte zuweisen)</h2>
+  <div class="sec-line"></div>
+
+  <ul>
+    <li>Wer schreibt finale Captions?</li>
+    <li>Wer produziert Visuals (intern / Wild Projects / Externer)?</li>
+    <li>Wer postet &amp; moderiert DMs/Kommentare?</li>
+    <li>Wer pflegt den Restplatz-Counter w&ouml;chentlich?</li>
+    <li>Wer betreut Phase 5 vor Ort?</li>
+  </ul>
+</div>
+
+<!-- ═══════ 12. N&Auml;CHSTE SCHRITTE ═══════ -->
+<div class="section">
+  <div class="section-number">12</div>
+  <h2>N&auml;chste Schritte</h2>
+  <div class="sec-line"></div>
+
+  <ul>
+    <li>Visuals Phase 1 produzieren (Save-the-Date + Trainer-Portr&auml;ts) &mdash; bis <strong>30. April</strong></li>
+    <li>Posting-Kalender in Notion/Sheet anlegen mit den 22 Posts</li>
+    <li>Bestehende Bilder aus Camp 2025 sichten (<code>Bilder/</code>-Ordner)</li>
+    <li>Erste Posts P1 + P2 f&uuml;r <strong>22. April</strong> scheduln</li>
+  </ul>
+</div>
+
+<!-- ═══════ FOOTER ═══════ -->
+<div class="doc-footer">
+  <div class="doc-footer-text">STARBULLS ROSENHEIM E.V. &middot; SOMMER CAMP 2026 &middot; SOCIAL-MEDIA-KAMPAGNE &middot; VERTRAULICH</div>
+</div>
+
+</body>
+</html>
