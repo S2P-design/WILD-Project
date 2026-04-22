@@ -4,6 +4,7 @@
   <h1>
     <span class="hero-word-wild">WILD</span> <span class="hero-word-project">PROJECT</span>
   </h1>
+  <img src="/brand-assets/rene-wild.jpg" alt="René Wild" class="hero-profile" />
 </div>
 
 <style>
@@ -25,6 +26,23 @@
     opacity: 0;
     transform: translateY(-48px);
     animation: heroFromTop 0.8s cubic-bezier(.5,.1,.2,1) 0.2s forwards;
+  }
+  .hero-profile {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 28%;
+    margin-top: 28px;
+    border: 2px solid var(--orange);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroFromBottom 0.9s cubic-bezier(.5,.1,.2,1) 1.4s forwards;
+    background: #F5F5F3;
+  }
+  @keyframes heroFromBottom {
+    to { opacity: 1; transform: translateY(0); }
   }
   .hero h1 {
     font-size: clamp(2.5rem, 7vw, 5.5rem);
