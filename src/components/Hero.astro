@@ -239,6 +239,34 @@
     .hero-word-wild { transform: translateX(-50px); }
     .hero-word-project { transform: translateX(50px); }
     .hero-logo { transform: translateY(-32px); }
+
+    /* Meta-Block: aus absolut → in den Fluss, zentriert */
+    .hero-meta {
+      position: static;
+      margin: 24px auto 6px;
+      text-align: center;
+      font-size: 9px;
+      letter-spacing: 1.1px;
+      line-height: 1.7;
+      transform: translateY(8px);
+      animation-name: heroMetaFadeMobile;
+    }
+    .hero-meta-name {
+      font-size: 10px;
+      letter-spacing: 2.2px;
+      margin-bottom: 6px;
+    }
+    .hero-meta-name::after {
+      margin: 5px auto 0;
+    }
+    .hero-meta-line {
+      justify-content: center;
+      gap: 8px;
+    }
+    .hero-meta-line .city { min-width: 0; }
+  }
+  @keyframes heroMetaFadeMobile {
+    to { opacity: 1; transform: translateY(0); }
   }
   @media (max-width: 400px) {
     .hero { padding-top: 26vh; }
