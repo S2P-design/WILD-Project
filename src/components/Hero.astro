@@ -7,6 +7,19 @@
   <div class="hero-profile">
     <img src="/brand-assets/rene-wild.jpg" alt="René Wild" />
   </div>
+
+  <div class="hero-meta" aria-label="Standorte">
+    <div class="hero-meta-name">René Wild</div>
+    <div class="hero-meta-line">
+      <span class="city">Rosenheim</span>
+      <span class="coord">47.8561°N · 12.1289°E</span>
+    </div>
+    <div class="hero-meta-line">
+      <span class="city">Klagenfurt</span>
+      <span class="coord">46.6248°N · 14.3057°E</span>
+    </div>
+  </div>
+
   <div class="hero-divider" aria-hidden="true"><span></span></div>
 </div>
 
@@ -70,6 +83,57 @@
   }
   @keyframes heroFromBottom {
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Hero-Meta: Name + Koordinaten links unten ── */
+  .hero-meta {
+    position: absolute;
+    bottom: 28px;
+    left: 32px;
+    text-align: left;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    line-height: 1.7;
+    color: rgba(0,0,0,0.55);
+    opacity: 0;
+    transform: translateX(-12px);
+    animation: heroMetaFade 1s cubic-bezier(.5,.1,.2,1) 1.6s forwards;
+  }
+  .hero-meta-name {
+    color: var(--orange);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .hero-meta-name::after {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--orange);
+    opacity: 0.5;
+    margin-top: 5px;
+  }
+  .hero-meta-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-meta-line .city {
+    color: rgba(0,0,0,0.75);
+    font-weight: 500;
+    text-transform: uppercase;
+    min-width: 78px;
+  }
+  .hero-meta-line .coord {
+    color: rgba(0,0,0,0.45);
+  }
+  @keyframes heroMetaFade {
+    to { opacity: 1; transform: translateX(0); }
   }
 
   /* ── Hero-Divider: orange Linie weiß↔schwarz, animiert ── */
