@@ -1,0 +1,84 @@
+{
+  "version": 2,
+  "tokens": {
+    "colors": {
+      "brand": {
+        "orange": {
+          "value": "#FC5000",
+          "variable": "--orange"
+        },
+        "horizon-petrol": {
+          "value": "#00354F",
+          "variable": "--petrol"
+        }
+      },
+      "surface": {
+        "black": {
+          "value": "#050505",
+          "variable": "--black"
+        },
+        "dark": {
+          "value": "#0E0E0E",
+          "variable": "--dark"
+        },
+        "charcoal": {
+          "value": "#1A1A1A",
+          "variable": "--charcoal"
+        }
+      },
+      "text": {
+        "white": {
+          "value": "#F5F5F3",
+          "variable": "--white"
+        },
+        "silver": {
+          "value": "#E4E4E4",
+          "variable": "--silver"
+        }
+      },
+      "muted": {
+        "grey-light": {
+          "value": "#BBB",
+          "variable": "--grey-light"
+        },
+        "grey-mid": {
+          "value": "#777",
+          "variable": "--grey-mid"
+        },
+        "grey-dark": {
+          "value": "#444",
+          "variable": "--grey-dark"
+        }
+      }
+    },
+    "typography": {
+      "font-poppins": {
+        "value": "Poppins, -apple-system, sans-serif"
+      },
+      "font-bebas-neue": {
+        "value": "'Bebas Neue', sans-serif"
+      },
+      "font-caveat": {
+        "value": "Caveat, cursive"
+      },
+      "font-jetbrains-mono": {
+        "value": "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace"
+      },
+      "weight-light": {
+        "value": "300"
+      },
+      "weight-regular": {
+        "value": "400"
+      },
+      "weight-semibold": {
+        "value": "600"
+      },
+      "weight-bold": {
+        "value": "700"
+      },
+      "leading-body": {
+        "value": "1.6"
+      }
+    }
+  }
+}
