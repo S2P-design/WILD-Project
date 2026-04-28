@@ -757,6 +757,7 @@
 <div class="controls">
   <button class="ctrl-btn" id="editBtn">EDIT</button>
   <button class="ctrl-btn danger" id="resetBtn">RESET</button>
+  <button class="ctrl-btn" id="exportBtn">EXPORT</button>
   <button class="ctrl-btn" id="presentBtn">PRESENT</button>
   <button class="ctrl-btn" onclick="window.print()">PDF</button>
 </div>
@@ -2581,6 +2582,20 @@
 
   // restore on load
   loadEdits();
+})();
+
+// ── Export ──
+(function() {
+  document.getElementById('exportBtn').addEventListener('click', function() {
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Starbulls_Guideline_Web.html';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
 })();
 </script>
 </body></html>
