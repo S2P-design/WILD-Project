@@ -2,6 +2,19 @@
 ---
 
 <footer class="footer">
+  <div class="footer-coords" aria-label="Standorte">
+    <span class="footer-coord footer-coord-left">
+      <span class="fc-city">Rosenheim</span>
+      <span class="fc-sep">·</span>
+      <span class="fc-val">47.8561°N · 12.1289°E</span>
+    </span>
+    <span class="footer-coord footer-coord-right">
+      <span class="fc-val">46.6248°N · 14.3057°E</span>
+      <span class="fc-sep">·</span>
+      <span class="fc-city">Klagenfurt</span>
+    </span>
+  </div>
+
   <div class="footer-inner">
     <div class="footer-left">
       <p class="copyright">&copy; 2026 Wild Project</p>
@@ -28,6 +41,38 @@
     font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     font-variant-numeric: tabular-nums;
   }
+
+  /* ── Coordinates row (Rosenheim ↔ Klagenfurt) ── */
+  .footer-coords {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 26px;
+    font-size: 9px;
+    letter-spacing: 1.4px;
+    color: rgba(255,255,255,0.32);
+  }
+  .footer-coord {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .footer-coord .fc-city {
+    color: rgba(255,255,255,0.55);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .footer-coord .fc-sep {
+    color: var(--orange);
+    opacity: 0.55;
+  }
+  .footer-coord .fc-val {
+    color: rgba(255,255,255,0.32);
+  }
+  .footer-coord-right { text-align: right; }
+
   .footer-inner {
     display: flex;
     justify-content: space-between;
@@ -71,6 +116,15 @@
 
   @media (max-width: 700px) {
     .footer { padding: 22px 1.25rem 32px; }
+    .footer-coords {
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 20px;
+      font-size: 8.5px;
+      letter-spacing: 1.2px;
+    }
+    .footer-coord-right { text-align: center; }
     .footer-inner {
       flex-direction: column-reverse;
       align-items: center;
