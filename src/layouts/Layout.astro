@@ -10,7 +10,7 @@ interface Props {
   type?: 'website' | 'article';
 }
 
-const SITE = 'https://wildproject.pro';
+const SITE = 'https://www.wildproject.pro';
 const {
   title,
   description,
@@ -22,16 +22,33 @@ const {
 const canonical = SITE + (path.endsWith('/') || path.includes('.') ? path : path + '/');
 const ogImage = image.startsWith('http') ? image : SITE + image;
 
-// JSON-LD: Person + WebSite — only emit on the homepage
+// JSON-LD: Person + WebSite + PodcastSeries — only emit on the homepage
 const isHome = path === '/' || path === '';
 const personLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'René Wild',
+  givenName: 'René',
+  familyName: 'Wild',
   alternateName: 'Wild Project',
   url: SITE,
   image: SITE + '/wp-logo.png',
   jobTitle: 'Eishockeytrainer',
+  description,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Rosenheim',
+    addressRegion: 'Bayern',
+    addressCountry: 'DE',
+  },
+  knowsAbout: [
+    'Eishockey',
+    'Spielerentwicklung',
+    'Nachwuchstraining',
+    'Eishockey-Coaching',
+    'Sportmedien',
+    'Podcast-Produktion',
+  ],
   worksFor: {
     '@type': 'SportsOrganization',
     name: 'Starbulls Rosenheim e.V.',
@@ -39,10 +56,10 @@ const personLd = {
   },
   sameAs: [
     'https://www.shift2pro.com',
+    'https://www.linkedin.com/in/ren%C3%A9-wild-95428b314',
     'https://unsplash.com/de/@wild_projects',
   ],
   email: 'mailto:rene@wildproject.pro',
-  description,
 };
 const websiteLd = {
   '@context': 'https://schema.org',
@@ -50,6 +67,24 @@ const websiteLd = {
   name: 'Wild Project — René Wild',
   url: SITE,
   inLanguage: 'de-DE',
+  publisher: {
+    '@type': 'Person',
+    name: 'René Wild',
+  },
+};
+const podcastLd = {
+  '@context': 'https://schema.org',
+  '@type': 'PodcastSeries',
+  name: 'Shift2Pro',
+  url: 'https://www.shift2pro.com',
+  inLanguage: 'de',
+  description:
+    'Shift2Pro — Eishockey-Entwicklung neu gedacht. Von der Laufschule bis zum Profi. Gespräche mit Menschen, die etwas bewegen und weitergeben wollen.',
+  author: {
+    '@type': 'Person',
+    name: 'René Wild',
+    url: SITE,
+  },
 };
 ---
 
@@ -96,6 +131,7 @@ const websiteLd = {
     <>
       <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
       <script type="application/ld+json" set:html={JSON.stringify(websiteLd)} />
+      <script type="application/ld+json" set:html={JSON.stringify(podcastLd)} />
     </>
   )}
 </head>

@@ -1,0 +1,63 @@
+# robots.txt — wildproject.pro
+# Wild Project — René Wild
+
+User-agent: *
+Allow: /
+
+# Workspace, internal tools & non-public HTMLs
+Disallow: /workspace.html
+Disallow: /plan.html
+Disallow: /planner.html
+Disallow: /journal.html
+Disallow: /notebook.html
+Disallow: /players.html
+Disallow: /season.html
+Disallow: /merch.html
+Disallow: /links.html
+Disallow: /visitenkarte.html
+Disallow: /wallpaper.html
+Disallow: /email-signatur.html
+Disallow: /whatsapp-assets.html
+Disallow: /brand-guide.html
+Disallow: /print-hockey.html
+
+# Card / Basecamp / Camp / Nxtshot / TheFlea (private spaces)
+Disallow: /card
+Disallow: /basecamp
+Disallow: /camp-catering-briefing.html
+Disallow: /camp-docs
+Disallow: /camp-img
+Disallow: /nxtshot
+Disallow: /theflea
+
+# Shift2Pro internals (live unter shift2pro.com)
+Disallow: /s2p-brand-guide.html
+Disallow: /s2p-buchkonzept.html
+Disallow: /s2p-cover-mockup.html
+Disallow: /s2p-masterplan.html
+Disallow: /s2p-sponsoring-deck.html
+Disallow: /s2p-workspace.html
+
+# Starbulls Rosenheim internals (interne Coach-Dokumente)
+Disallow: /sbr-bg-away.png
+Disallow: /sbr-bg.png
+Disallow: /sbr-logo-bw.png
+Disallow: /sbr-email-bus-ferlach.html
+Disallow: /sbr-nachwuchs-guideline.html
+Disallow: /sbr-nachwuchs-jahresplanung.html
+Disallow: /sbr-saisonplanung.html
+Disallow: /sbr-sommer-camp.html
+Disallow: /sbr-trainingslager-ferlach-print.html
+Disallow: /sbr-trainingslager-ferlach.html
+Disallow: /sbr-wohnen.html
+Disallow: /sbr-workspace.html
+
+# Service worker & manifests
+Disallow: /sw.js
+Disallow: /wp-backup.js
+Disallow: /wp-i18n.js
+Disallow: /wp-status.js
+Disallow: /wp-shell.css
+Disallow: /retune.manifest.json
+
+Sitemap: https://www.wildproject.pro/sitemap-index.xml
